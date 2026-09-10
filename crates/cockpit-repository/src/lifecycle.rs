@@ -34,7 +34,7 @@ pub fn start_work_item_with_options(
     // is still awaiting closure.  All ordinary starts must pass the same
     // repository entry gate as `work-item new`.
     let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
-    validate_start_entry(root, !recovery_continuation)?;
+    validate_start_entry(root, !recovery_continuation, recovery_continuation)?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
@@ -206,7 +206,7 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    validate_start_entry(root, true)?;
+    validate_start_entry(root, true, false)?;
     ensure_no_unclosed_archived_work_items(root)?;
     scaffold_work_item_internal(root, work_item_id, mode)
 }

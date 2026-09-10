@@ -1385,7 +1385,11 @@ pub fn apply_migration(
     Ok(receipt)
 }
 
-fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(), ObserverError> {
+fn validate_start_entry(
+    root: &Path,
+    reject_unclosed_archives: bool,
+    allow_recovery_base_drift: bool,
+) -> Result<(), ObserverError> {
     let readiness = repository_readiness(root)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -1407,10 +1411,11 @@ fn validate_start_entry(root: &Path, reject_unclosed_archives: bool) -> Result<(
     if readiness.current_branch.is_none() {
         failures.push("start requires a named branch; HEAD is detached".into());
     }
-    if readiness
-        .blockers
-        .iter()
-        .any(|blocker| blocker == "base_revision_not_synchronized")
+    if !allow_recovery_base_drift
+        && readiness
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "base_revision_not_synchronized")
     {
         let default = readiness
             .default_remote
