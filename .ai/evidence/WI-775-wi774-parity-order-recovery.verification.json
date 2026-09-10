@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
-  "createdAt": "2026-09-10T04:43:48Z",
+  "contractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "createdAt": "2026-09-10T05:04:25Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 299921,
-      "executionElapsedMs": 299524,
+      "elapsedMs": 236230,
+      "executionElapsedMs": 235835,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 299921,
-    "executionElapsedMs": 299524,
+    "elapsedMs": 236230,
+    "executionElapsedMs": 235835,
     "filesHashed": 10,
     "filesRead": 12,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 299524,
+      "executionElapsedMs": 235835,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:251f2567dbc0ed1eb1154017a4a554122063d86da270a12b85fe045e426c26fb",
+        "outputDigest": "sha256:1ead6947745bc4e9587993ddf9f35af30dd90773b2743bf03bfded860100b1b4",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.89",
     "workItemId": "WI-775-wi774-parity-order-recovery"
   },
-  "receiptDigest": "sha256:cf9ab142eb6b88704e25c1cd631fbf27bede04daaa8e3600221170253971e609",
+  "receiptDigest": "sha256:4471a32e550aa1b4b62fe0aa7979b6f5f968620e93cb6b8fbaddbc190eee6085",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
   "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
