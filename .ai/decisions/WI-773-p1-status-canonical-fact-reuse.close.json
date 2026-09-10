@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
+      "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-10T03:52:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove and, only if beneficial, implement request-scoped reuse of canonical finalization receipt facts in status historical projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+  },
+  "finalReportDigest": "sha256:f2b9a0a93ac54966222e6e7d693d4fd2c70e45b458dadb0e2b51b6f9e39a8f78",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:6c03052e8a8d0c1717a7d270a605159ea5cc24ad00dcd3c46993452b1e4e21fb",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-773-p1-status-canonical-fact-reuse.finalize.308053f58465bd212e3edb34f296a7628cb59422d0c3ccc2af112e3c75168201.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-10T03:52:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "PR #756 was reviewed, all hosted checks passed, main was fast-forward synchronized to merge commit 0aeb9113, and the exact WI-773 branch and worktree were removed after Runtime finalization verification. The candidate performance optimization was declined by its pre-registered threshold; this Work Item closes the experiment evidence without a production behavior change.",
+    "resumeCondition": "Continue the remaining performance optimization initiative only in separately authorized Work Items after the current cleanup checkpoint."
+  },
+  "timestamp": "2026-09-10T03:51:37Z",
+  "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+}
