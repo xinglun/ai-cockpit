@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-790-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-790-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-790-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-790-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Run the repository closed-Work-Item projection and bounded recovery registration in a documentation-only Work Item, verify current parity and documentation gates, and complete reviewed PR merge, exact finalization, cleanup, and close."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-790-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-790-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
