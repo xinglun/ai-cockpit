@@ -1,0 +1,82 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-779-abandoned-finalization-repair.contract.json",
+    ".ai/work-items/active/WI-779-abandoned-finalization-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T08:50:46Z",
+  "checkpointContractDigest": "sha256:6e1ed00ee1d7327c9472fba820f4a2988c61a6d886acce0d573e399d57b1a4aa",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "createdAt": "2026-09-10T08:49:47Z",
+  "intentAlignment": {
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/pull/760",
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "docs/reference/commands.md"
+    ],
+    "reason": "WI-779 ports only the independently verified Runtime abandoned-finalization semantics and its bounded tests/docs from the failed PR #760 attempt; it starts from current main and leaves all immutable historical records untouched.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T08:50:32Z",
+  "preflightContractDigest": "sha256:6e1ed00ee1d7327c9472fba820f4a2988c61a6d886acce0d573e399d57b1a4aa",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/resource_finalization.rs"
+      ],
+      "expected": "An explicitly closed unmerged PR with exactly unmerged_pull_request, no merge commit, and removed branch/worktree is accepted as abandoned terminal failure.",
+      "required": true,
+      "scenario": "valid abandoned unmerged cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run protocol and repository finalization tests plus a Runtime-bound lifecycle fixture."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "Merged or unknown PR state, a merge commit, missing or extra failure codes, or retained resources cannot be classified as abandoned.",
+      "required": true,
+      "scenario": "invalid abandoned receipt remains fail-closed",
+      "status": "unverified",
+      "verificationPlan": "Run negative protocol, repository, CLI, and documentation promotion fixtures."
+    },
+    {
+      "evidence": [
+        "docs/reference/agent-workflow.md",
+        "docs/reference/commands.md",
+        "docs/reference/reference-parity.md"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese lifecycle and parity documentation distinguish abandoned failure from merged success.",
+      "required": true,
+      "scenario": "tri-language terminal projection",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance, parity, governance integrity, and status consistency checks."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json",
+        ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.contract.json",
+        ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
+        ".ai/work-items/archive/WI-778-wi776-doc-promotion.contract.json"
+      ],
+      "expected": "WI-774, WI-775, WI-776, WI-778, and closed PR #760 history are not rewritten or revived.",
+      "required": true,
+      "scenario": "immutable history preservation",
+      "status": "unverified",
+      "verificationPlan": "Compare immutable predecessor paths and inspect the final Work Item diff against recorded base."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T08:52:13.662336+00:00",
+  "workItemId": "WI-779-abandoned-finalization-repair"
+}
