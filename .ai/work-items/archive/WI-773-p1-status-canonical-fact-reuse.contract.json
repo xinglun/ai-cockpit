@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "The candidate reuses canonical receipt facts only within one immutable status observation and never crosses repository, Work Item, request, or pre/post mutation boundaries.",
+    "Canonical receipt read, parse, digest, error precedence, evidence binding, decision output, exit code, and deterministic ordering remain equivalent to baseline on clean, changed, malformed, missing, symlink, stale, forked, and path-anomalous fixtures.",
+    "A focused measurement demonstrates the duplicate work and a paired baseline/candidate benchmark records raw order, first measurement, one independent OS-cache warmup, at least 20 warm independent CLI samples, nearest-rank p50/p95, unavailable p99 below 100 warm samples, environment comparability, and unavailable metrics with reasons rather than zeros.",
+    "The candidate is accepted only if the pre-registered status improvement threshold is met and non-target scenario budgets remain within Contract; otherwise it is declined and the experiment evidence is retained without production behavior change.",
+    "Declared focused tests, cargo fmt, cargo clippy --locked --all-targets --all-features -- -D warnings, cargo test --locked --workspace, and Runtime verification complete successfully.",
+    "Before candidate execution, accept only if the measured large-history status path improves warm independent-CLI p50 and p95 by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
+    "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
+    "The three-language reference-parity index records WI-773 with its current active status, Work Item links, verification evidence, and declined-candidate boundary without claiming an accepted production performance change."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5a24d4c0df865ece469822dbdc0dcc36eda07d85",
+  "createdAt": "2026-09-10T02:02:39Z",
+  "goal": "Prove and, only if beneficial, implement request-scoped reuse of canonical finalization receipt facts in status historical projection.",
+  "intent": "Reduce request-scoped duplicate canonical finalization receipt reads and parsing on the measured large-history status path while preserving Calibrated Human-Agent Trust.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Resident MCP cache; PhysicalSingleFlightCoordinator integration; IncrementalMerkle reuse; large-file streaming; polling changes; parallel I/O; in-process Git; PGO; public protocol/schema changes; governance rule weakening; cross-request or cross-repository caches; unrelated refactors."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a56c943fd875310e33a509b80f2a50a5b2de28e188b4255071744bc2443708f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-773-p1-status-canonical-fact-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/756",
+    "worktree": "/private/tmp/ai-cockpit-wi-773-p1-status-canonical-fact-reuse"
+  },
+  "risk": "normal",
+  "scope": [
+    "Production and focused test changes limited to status historical finalization projection",
+    " its request-scoped fact representation",
+    " and directly related performance evidence and Work Item documentation.",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.md",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.zh-CN.md",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.ja.md",
+    "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-baseline.json",
+    "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-candidate.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+}

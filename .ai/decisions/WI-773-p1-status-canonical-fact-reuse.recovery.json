@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-owner",
+  "decidedAt": "2026-09-10T02:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:26f6a75d34a26937c1db00979762befd38583caa722d4135415e336da91aff2b",
+  "predecessorEventsDigest": "sha256:9e17aa349487284c7bd288c90df2a7673f122b3ad6228322335b77711e470b8a",
+  "predecessorOutcomeDigest": "sha256:16a06a42ee3e9e8520f7678d4b69411faacb61421b5e82c79620d24c156bde6f",
+  "predecessorSummaryDigest": "sha256:7a283dacdabd65e56d45c4206bd06333e48aa79d1d5ba3f3dc81ecec8fd2b4ab",
+  "predecessorWorkItemId": "WI-773-p1-status-canonical-fact-reuse",
+  "reason": "Retry after binding the reviewed PR finalization context and reconcile the prior verification receipt to the current Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun non-red preflight and fresh verification with the bound finalize-plan context",
+  "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+}

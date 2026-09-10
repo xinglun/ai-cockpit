@@ -1,0 +1,140 @@
+{
+  "acceptanceResults": [
+    "The candidate reuses canonical receipt facts only within one immutable status observation and never crosses repository, Work Item, request, or pre/post mutation boundaries.",
+    "Canonical receipt read, parse, digest, error precedence, evidence binding, decision output, exit code, and deterministic ordering remain equivalent to baseline on clean, changed, malformed, missing, symlink, stale, forked, and path-anomalous fixtures.",
+    "A focused measurement demonstrates the duplicate work and a paired baseline/candidate benchmark records raw order, first measurement, one independent OS-cache warmup, at least 20 warm independent CLI samples, nearest-rank p50/p95, unavailable p99 below 100 warm samples, environment comparability, and unavailable metrics with reasons rather than zeros.",
+    "The candidate is accepted only if the pre-registered status improvement threshold is met and non-target scenario budgets remain within Contract; otherwise it is declined and the experiment evidence is retained without production behavior change.",
+    "Declared focused tests, cargo fmt, cargo clippy --locked --all-targets --all-features -- -D warnings, cargo test --locked --workspace, and Runtime verification complete successfully.",
+    "Before candidate execution, accept only if the measured large-history status path improves warm independent-CLI p50 and p95 by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
+    "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
+    "The three-language reference-parity index records WI-773 with its current active status, Work Item links, verification evidence, and declined-candidate boundary without claiming an accepted production performance change."
+  ],
+  "createdAt": "2026-09-10T03:36:20Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cdf39825eb470a736dfec9cdb619a2f051c240f1ba8ceaa5505cb1809ae8094e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
+      "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove and, only if beneficial, implement request-scoped reuse of canonical finalization receipt facts in status historical projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+  },
+  "taskReportDigest": "sha256:95742eae476dd8e4ea8040546a1e9f9c42b7738941db98bb040b705dc802da51",
+  "taskReportMarkdownDigest": "sha256:1265d5f7ff83d86ce986ffd2e900f11ff20c545eecc008cbc2bff7dfca72d08a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+}

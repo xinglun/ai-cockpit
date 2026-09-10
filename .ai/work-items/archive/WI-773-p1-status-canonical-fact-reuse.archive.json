@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T03:36:35Z",
+  "files": {
+    "contractDigest": "sha256:c41585e29dc7c914978d7e83aa0f9dffc5b5f689d2f955bfde5d8cc6e4279800",
+    "contractPath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json",
+    "eventsDigest": "sha256:073259a47a73e2769db68e3ac0a97f5fc910f94ec0f5f1cca5f0fc05056f2e10",
+    "eventsPath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.events.jsonl",
+    "outcomeDigest": "sha256:645bfaf836b87cb0b5a96f550f9ece5cf7022e77356253af95696a10860af041",
+    "outcomePath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.outcome.json",
+    "summaryDigest": "sha256:dd599f0d01da9a23b36c5b4f48d5fd01d6180de06434fdf91c58f78a63d887bc",
+    "summaryPath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.summary.json",
+    "taskReportDigest": "sha256:95742eae476dd8e4ea8040546a1e9f9c42b7738941db98bb040b705dc802da51",
+    "taskReportMarkdownDigest": "sha256:1265d5f7ff83d86ce986ffd2e900f11ff20c545eecc008cbc2bff7dfca72d08a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+}
