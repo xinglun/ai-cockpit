@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-776 — WI-775 archive-evidence recovery"
 description: "Complete the bounded recovery after WI-775 archive evidence became stale between verification and archive."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization-for-successor-after-governed-archive-failure
 workItemId: WI-776-wi775-archive-evidence-recovery
 lastVerifiedBy: WI-776-wi775-archive-evidence-recovery
+terminalArchive: .ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json
+terminalVerification: .ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-776-wi775-archive-evidence-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json
 ---
 
 [简体中文](WI-776-wi775-archive-evidence-recovery.zh-CN.md) · [日本語](WI-776-wi775-archive-evidence-recovery.ja.md)
