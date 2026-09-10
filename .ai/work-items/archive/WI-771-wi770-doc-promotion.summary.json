@@ -49,14 +49,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T01:09:31Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T01:24:34Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:48a7f30d297869380e004207fdb1e11c7788fbc4000c944c765dcca5ab4f2838",
   "workItemId": "WI-771-wi770-doc-promotion"
 }

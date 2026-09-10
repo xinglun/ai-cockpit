@@ -1,0 +1,26 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
+    ".ai/work-items/active/WI-771-wi770-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-771-wi770-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.task-report.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.task-report.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T01:28:04Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
+  "predecessorWorkItemId": "WI-771-wi770-doc-promotion",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-10T01:28:04Z",
+  "workItemId": "WI-772-wi771-doc-promotion-recovery"
+}
