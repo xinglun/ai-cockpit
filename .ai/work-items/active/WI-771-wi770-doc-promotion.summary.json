@@ -1,0 +1,62 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-10T01:09:31Z",
+  "checkpointContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:06643be6ccb74da4ffc2c2b444b3bce700b0a1aca387fb87b540943875ab1781",
+      "recorded": true,
+      "recordedAt": "2026-09-10T01:09:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-771-wi770-doc-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:710fe56f48c6d64157064bd7a735c6db9360ba4cbc917f724a18f580ca81d821",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:06643be6ccb74da4ffc2c2b444b3bce700b0a1aca387fb87b540943875ab1781",
+      "previousContractHash": "sha256:06643be6ccb74da4ffc2c2b444b3bce700b0a1aca387fb87b540943875ab1781",
+      "reason": "Runtime observer status refresh changed the repository-bound generated observer snapshot; bind that generated artifact explicitly without widening the documentation promotion behavior scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T01:10:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-771-wi770-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+  "createdAt": "2026-09-10T01:06:16Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T01:12:14Z",
+  "preflightContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T01:09:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:48a7f30d297869380e004207fdb1e11c7788fbc4000c944c765dcca5ab4f2838",
+  "workItemId": "WI-771-wi770-doc-promotion"
+}

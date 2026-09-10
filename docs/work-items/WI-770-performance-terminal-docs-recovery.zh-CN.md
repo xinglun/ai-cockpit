@@ -4,9 +4,13 @@ title: "WI-770——WI-769 性能终态文档恢复"
 description: "完成 WI-769 的有界恢复后继项，不改变性能行为或前置证据。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-770-performance-terminal-docs-recovery
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-770-performance-terminal-docs-recovery
+terminalArchive: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json
+terminalVerification: .ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-770-performance-terminal-docs-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-770-performance-terminal-docs-recovery.close.json
 ---
 
 [English](WI-770-performance-terminal-docs-recovery.md) · [日本語](WI-770-performance-terminal-docs-recovery.ja.md)

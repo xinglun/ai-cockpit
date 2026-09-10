@@ -4,9 +4,13 @@ title: "WI-770 — WI-769 performance terminal documentation recovery"
 description: "Complete the bounded recovery successor for WI-769 without changing performance behavior or predecessor evidence."
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-770-performance-terminal-docs-recovery
-status: in_progress
+status: implemented
 authority: human:repository-owner
 lastVerifiedBy: WI-770-performance-terminal-docs-recovery
+terminalArchive: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json
+terminalVerification: .ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-770-performance-terminal-docs-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-770-performance-terminal-docs-recovery.close.json
 ---
 
 [简体中文](WI-770-performance-terminal-docs-recovery.zh-CN.md) · [日本語](WI-770-performance-terminal-docs-recovery.ja.md)
