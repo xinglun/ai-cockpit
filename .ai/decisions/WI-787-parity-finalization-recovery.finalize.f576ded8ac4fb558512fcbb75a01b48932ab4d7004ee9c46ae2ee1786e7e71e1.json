@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:5b0b3676837c46cd1a412463e4103a6404f9b66ccbe75b81b4e9cfabe1e6f775",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorized-post-merge-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "0a77ad7f093ae41b0ef96d827391a3b05640d1af",
+      "name": "codex/wi-787-parity-finalization-recovery",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:fe912442ceae608a1e931fcc7b5a376ca474106f5c8f637b6dce948c6a290590",
+    "operationId": "github-pr-767-wi-787-resources-deleted-20260910",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "4981bb18a2bbbc2dfb435da2fd6c6ef41f2128cb",
+      "headRevision": "0a77ad7f093ae41b0ef96d827391a3b05640d1af",
+      "mergeCommit": "e1adec9fd116f17a21f37dd7baf1884dc830d120",
+      "number": 767,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/767"
+    },
+    "reason": "After PR #767 was verified merged, the exact remote branch codex/wi-787-parity-finalization-recovery and clean dedicated worktree were removed; Runtime cleanup postconditions were checked before close.",
+    "receiptId": "ai-cockpit-WI-787-parity-finalization-recovery-resources-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-787-parity-finalization-recovery",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/767",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-10T17:36:00Z",
+    "workItemId": "WI-787-parity-finalization-recovery",
+    "worktree": {
+      "branch": "codex/wi-787-parity-finalization-recovery",
+      "headRevision": "0a77ad7f093ae41b0ef96d827391a3b05640d1af",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery",
+      "worktreeId": "WI-787-parity-finalization-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "ai-cockpit-WI-787-parity-finalization-recovery-resources-deleted"
+}
