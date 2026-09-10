@@ -1,0 +1,16 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T18:17:33Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T18:17:40Z",
+  "preflightContractDigest": "sha256:4a2c92adbd25836a5251e0ea34256713750be2315fa9237f0a75c5e80f0f7900",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:801da5c39f2a2ff8579c507b5eaffa869f0e4af455306aa25f4364d0e3b131c3",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-10T18:17:33Z",
+  "workItemId": "WI-791-doc-promotion"
+}

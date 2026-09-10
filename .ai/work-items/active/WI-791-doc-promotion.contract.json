@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Target projections pass documentation, parity, status, reference, and governance integrity checks; WI-791 own parity registration precedes its evidence records; no stale projection remains after close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1b2f13fe63662070ebf449bf83cee54d4487bc51",
+  "createdAt": "2026-09-10T18:17:33Z",
+  "goal": "Bring WI-787 and WI-785 tri-language work-item and reference-parity projections into current main with truthful recovery bindings, then complete governed documentation acceptance.",
+  "intent": "Recover and promote the closed-work-item documentation projections required by the current governance audit.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust production behavior",
+    " release versioning",
+    " tag creation",
+    " and changes to immutable historical governance records."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:801da5c39f2a2ff8579c507b5eaffa869f0e4af455306aa25f4364d0e3b131c3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-791-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-791-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-787-parity-finalization-recovery.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.ja.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.ja.md",
+    "docs/work-items/WI-791-doc-promotion.md",
+    "docs/work-items/WI-791-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-791-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-791-doc-promotion"
+}
