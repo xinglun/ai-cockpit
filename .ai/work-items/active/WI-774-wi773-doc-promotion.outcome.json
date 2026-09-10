@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "The closed WI-773 projection passes tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-773-p1-status-canonical-fact-reuse --check.",
+    "The English, Simplified Chinese, and Japanese Work Item and reference-parity records use matching terminal status, archive, verification, finalization, close, and PR bindings.",
+    "The change is documentation-only, preserves immutable Contract, evidence, Outcome, finalization, close, and benchmark fixture bytes, and changes no production behavior.",
+    "The declared documentation acceptance and status consistency checks pass, followed by Runtime verification.",
+    "The three-language WI-774 Work Item pages and existing reference-parity pages register this documentation-promotion Work Item with matching prearchive status and terminal bindings after close, without adding production behavior or changing historical evidence."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6fcc7f2faefe1f6adce73cfa7bdc53e1c957affa77d4be24901c38643b68b344",
+  "evidenceRefs": [
+    ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:aa18535a9d6c170dc57de6bd50a677a4e6823951f0749eb18feb9d6a01ef4575",
+      "workItemId": "WI-774-wi773-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-774-wi773-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-774-wi773-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the closed WI-773 Work Item terminally discoverable in English, Simplified Chinese, and Japanese documentation without changing production behavior or historical evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-774-wi773-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-774-wi773-doc-promotion"
+  },
+  "taskReportDigest": "sha256:f9497367a062dd883c62d9cc66da31146e3a755f83b353295772cfff6ff3333b",
+  "taskReportMarkdownDigest": "sha256:f6331c9c4a3a48aa7b9909d33d867bbd66c8a821f1aaacee5c20520bb42317cd",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-774-wi773-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-774-wi773-doc-promotion"
+}
