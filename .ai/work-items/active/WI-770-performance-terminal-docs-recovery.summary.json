@@ -5,7 +5,7 @@
     ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-10T00:28:29Z",
-  "checkpointContractDigest": "sha256:fb13df5695ed58db282e8fe52f4fca539acd2f26435a60689ee1034449cfee27",
+  "checkpointContractDigest": "sha256:ad95f1bde2bf26d3603f3355df032e78dc5e5d72d65ef9c681ff108ec60f27e2",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -83,25 +83,27 @@
       "workItemId": "WI-770-performance-terminal-docs-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:efd345e8458ef5157902a4387381a6b853e7af49a0d6f7f3bcab7743d813297d",
+  "checkpointRepositorySnapshotDigest": "sha256:f2b72d6ae3a11b80d2d73ce66a22541cf013596c7861f4f3601bd3d4afd3a9ab",
   "createdAt": "2026-09-10T00:22:56Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
   "predecessorWorkItemId": "WI-769-performance-terminal-docs",
-  "preflightAt": "2026-09-10T00:34:28Z",
-  "preflightContractDigest": "sha256:dc5346bb31c8381d9d131f9a3fd7dfc4db45e90aecf535eba5ac1924826de400",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightAt": "2026-09-10T00:49:10Z",
+  "preflightContractDigest": "sha256:ad95f1bde2bf26d3603f3355df032e78dc5e5d72d65ef9c681ff108ec60f27e2",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:f2b72d6ae3a11b80d2d73ce66a22541cf013596c7861f4f3601bd3d4afd3a9ab",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-10T00:28:29Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:dc5346bb31c8381d9d131f9a3fd7dfc4db45e90aecf535eba5ac1924826de400",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-10T00:33:51Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:f3fd83ff1b092ab9299990b289e6d7f28672d7f0a8934f539a186a6118edad6a",
   "workItemId": "WI-770-performance-terminal-docs-recovery"
 }
