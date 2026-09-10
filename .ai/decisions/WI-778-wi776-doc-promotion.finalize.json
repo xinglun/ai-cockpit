@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+    "name": "codex/wi-778-wi776-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:955f5cdcef61fa833b7c749f9978b12a8fd482c95212bd52863e704976f978bb",
+  "operationId": "operation-WI-778-wi776-doc-promotion-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1f1ad854403bc339c0c9a0a6b66f042d550d9898",
+    "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+    "mergeCommit": "ca6d512f646a1f082220ef087261c34b41d1066d",
+    "number": 761,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/761"
+  },
+  "reason": "Reviewed PR #761 passed all hosted checks and merged; retain the exact branch and clean dedicated worktree until the append-only cleanup transition authorized by the repository owner.",
+  "receiptId": "ai-cockpit-WI-778-wi776-doc-promotion-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-778-wi776-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/761",
+    "worktree": "/private/tmp/ai-cockpit-wi-778-wi776-doc-promotion"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T08:38:11Z",
+  "workItemId": "WI-778-wi776-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-778-wi776-doc-promotion",
+    "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+    "path": "/private/tmp/ai-cockpit-wi-778-wi776-doc-promotion",
+    "worktreeId": "WI-778-wi776-doc-promotion"
+  }
+}
