@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-for-successor-after-governed-archive-failure",
+  "decidedAt": "2026-09-10T05:08:11Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.archive.json",
+    ".ai/evidence/WI-775-wi774-parity-order-recovery.verification.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.json",
+    "https://github.com/xinglun/ai-cockpit/pull/758"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "predecessorEventsDigest": "sha256:adae4a3ca45a17cec11dd1ed92abb54d2303f70c5d410a76a689a72c5dddc7e6",
+  "predecessorOutcomeDigest": "sha256:f80d2aed583290072b6a96d02f82a239c61c76981f6cc8606ebd40874b119835",
+  "predecessorSummaryDigest": "sha256:aff3c88531509f72b93f9988ea97bee17aaa68f2bcb7edbe0d85823f6d45c6f2",
+  "predecessorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "reason": "WI-775 was archived after a commit advanced the repository snapshot between its final verification and archive, so Runtime correctly classified its otherwise passing verification as stale. Preserve WI-775, PR #758, and the stale archive immutably; WI-776 redelivers the same bounded documentation and governance recovery scope from the latest default lineage without changing production behavior.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-776 with a dedicated branch and reviewed PR, bind the exact resource context before verification, run fresh preflight and verification, finish and archive before committing Runtime-generated terminal records, then finalize, finalize-verify, close, synchronize main, and run promote_closed_work_item.py --check-all; close WI-775 as superseded without rewriting its failed archive or PR.",
+  "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-776-wi775-archive-evidence-recovery",
+  "workItemId": "WI-775-wi774-parity-order-recovery"
+}

@@ -1,0 +1,50 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
+    ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-774-wi773-doc-promotion.verification.json",
+    ".ai/evidence/WI-775-wi774-parity-order-recovery.verification.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.summary.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.md",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.archive.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.contract.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.outcome.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.summary.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.md"
+  ],
+  "checkpointAt": "2026-09-10T05:22:55Z",
+  "checkpointContractDigest": "sha256:a5ec1bc5b2fef9814989b2eadba54bfd03a80e2568aea3ffb326b5fd804d3778",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+  "createdAt": "2026-09-10T05:14:49Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "predecessorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "preflightAt": "2026-09-10T05:38:34Z",
+  "preflightContractDigest": "sha256:a5ec1bc5b2fef9814989b2eadba54bfd03a80e2568aea3ffb326b5fd804d3778",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T05:38:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-776-wi775-archive-evidence-recovery"
+}

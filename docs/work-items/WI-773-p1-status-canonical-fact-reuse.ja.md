@@ -7,6 +7,10 @@ status: implemented
 authority: authorized
 workItemId: WI-773-p1-status-canonical-fact-reuse
 lastVerifiedBy: WI-773-p1-status-canonical-fact-reuse
+terminalArchive: .ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json
+terminalVerification: .ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json
+terminalFinalization: .ai/decisions/WI-773-p1-status-canonical-fact-reuse.finalize.308053f58465bd212e3edb34f296a7628cb59422d0c3ccc2af112e3c75168201.json
+terminalDecision: .ai/decisions/WI-773-p1-status-canonical-fact-reuse.close.json
 ---
 
 # WI-773 — P1 status canonical fact 再利用

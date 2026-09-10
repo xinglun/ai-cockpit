@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-for-successor-after-hosted-quality-failure",
+  "decidedAt": "2026-09-10T04:20:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json",
+    ".ai/evidence/WI-774-wi773-doc-promotion.verification.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34436206898"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
+  "predecessorEventsDigest": "sha256:5bd908d71777a6fbb687a507f15228142e9c072397cc91a3517626c97e384e3b",
+  "predecessorOutcomeDigest": "sha256:ccc869995f8aeca9a35fafe460247fa9a55a1aafe1df6f4dbb03f3145d9f50da",
+  "predecessorSummaryDigest": "sha256:820ea260c14a8585d2b7f0f39f0bce8b352403093fc1315a1a4b9834489ba650",
+  "predecessorWorkItemId": "WI-774-wi773-doc-promotion",
+  "reason": "WI-774 PR #757 is preserved as an immutable failed delivery because hosted docs governance found that parity registration and verification evidence were introduced in the same commit, making the archived prearchive registration stale. WI-775 will redeliver the bounded documentation projection from the latest default branch with parity registration committed before fresh verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-775 with a parity-first commit, fresh verification evidence, reviewed hosted checks, merge, finalization, close, and exact cleanup; then close WI-774 as superseded without rewriting its failed PR evidence.",
+  "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "workItemId": "WI-774-wi773-doc-promotion"
+}
