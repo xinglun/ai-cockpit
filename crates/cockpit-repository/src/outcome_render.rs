@@ -511,10 +511,6 @@ fn push_reason_for_unknown(keys: &mut Vec<String>, unknown: &str) {
         "authorization_insufficient"
     } else if unknown.contains("scope") || unknown.contains("out_of_range") {
         "scope_out_of_range"
-    } else if unknown == "resource_finalization_pending"
-        || unknown == "user_visible_benefit_not_declared"
-    {
-        return;
     } else {
         return;
     };

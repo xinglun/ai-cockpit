@@ -1214,19 +1214,18 @@ fn finish_work_item_internal(
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&canonical_root, work_item_id)?;
     let result = finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime);
-    if let Err(error) = &result {
-        if let Err(persist_error) =
+    if let Err(error) = &result
+        && let Err(persist_error) =
             persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error)
-        {
-            return Err(ObserverError::State {
-                path: canonical_root
-                    .join(".ai/work-items/active")
-                    .join(format!("{work_item_id}.outcome.json")),
-                message: format!(
-                    "lifecycle gate failed: {error}; blocked Outcome persistence failed: {persist_error}"
-                ),
-            });
-        }
+    {
+        return Err(ObserverError::State {
+            path: canonical_root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.outcome.json")),
+            message: format!(
+                "lifecycle gate failed: {error}; blocked Outcome persistence failed: {persist_error}"
+            ),
+        });
     }
     result
 }
