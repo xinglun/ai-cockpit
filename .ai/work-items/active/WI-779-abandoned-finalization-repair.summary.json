@@ -29,38 +29,44 @@
   "scenarioCoverage": [
     {
       "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
         "crates/cockpit-protocol/tests/resource_finalization.rs",
         "crates/cockpit-repository/tests/resource_finalization_transition.rs",
         "crates/cockpit-cli/tests/resource_finalization.rs"
       ],
-      "expected": "An explicitly closed unmerged PR with exactly unmerged_pull_request, no merge commit, and removed branch/worktree is accepted as abandoned terminal failure.",
+      "reason": "Fresh Runtime-bound workspace verification passed, and the focused protocol, repository, and CLI tests cover the valid abandoned unmerged cleanup path.",
       "required": true,
       "scenario": "valid abandoned unmerged cleanup",
-      "status": "unverified",
-      "verificationPlan": "Run protocol and repository finalization tests plus a Runtime-bound lifecycle fixture."
+      "status": "verified"
     },
     {
       "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
         "crates/cockpit-protocol/tests/resource_finalization.rs",
         "tests/docs/promote_closed_work_item_test.sh"
       ],
-      "expected": "Merged or unknown PR state, a merge commit, missing or extra failure codes, or retained resources cannot be classified as abandoned.",
+      "reason": "Fresh workspace verification passed, and focused negative protocol and documentation-promotion fixtures reject merge claims, wrong failure codes, unknown state, and retained resources.",
       "required": true,
       "scenario": "invalid abandoned receipt remains fail-closed",
-      "status": "unverified",
-      "verificationPlan": "Run negative protocol, repository, CLI, and documentation promotion fixtures."
+      "status": "verified"
     },
     {
       "evidence": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
         "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
         "docs/reference/commands.md",
-        "docs/reference/reference-parity.md"
+        "docs/reference/commands.zh-CN.md",
+        "docs/reference/commands.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
       ],
-      "expected": "English, Simplified Chinese, and Japanese lifecycle and parity documentation distinguish abandoned failure from merged success.",
+      "reason": "Fresh workspace verification passed; documentation acceptance, parity, governance-integrity, and status-consistency checks all passed for the matching English, Simplified Chinese, and Japanese projections.",
       "required": true,
       "scenario": "tri-language terminal projection",
-      "status": "unverified",
-      "verificationPlan": "Run documentation acceptance, parity, governance integrity, and status consistency checks."
+      "status": "verified"
     },
     {
       "evidence": [
@@ -69,15 +75,14 @@
         ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
         ".ai/work-items/archive/WI-778-wi776-doc-promotion.contract.json"
       ],
-      "expected": "WI-774, WI-775, WI-776, WI-778, and closed PR #760 history are not rewritten or revived.",
+      "reason": "The current Work Item starts from current main and preserves the immutable predecessor records; the current diff contains only WI-779 implementation, tests, documentation, and its own active governance artifacts.",
       "required": true,
       "scenario": "immutable history preservation",
-      "status": "unverified",
-      "verificationPlan": "Compare immutable predecessor paths and inspect the final Work Item diff against recorded base."
+      "status": "verified"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-10T08:52:13.662336+00:00",
+  "updatedAt": "2026-09-10T10:37:14.994194+00:00",
   "verification": [
     {
       "check": "project-command-0",
