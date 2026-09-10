@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:30c135b3169619f7bddb9405e500e1441b124908d809f1ca83a1b3db66c9d3b0",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "repository-owner",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+      "name": "codex/wi-778-wi776-doc-promotion",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:955f5cdcef61fa833b7c749f9978b12a8fd482c95212bd52863e704976f978bb",
+    "operationId": "operation-WI-778-wi776-doc-promotion-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "1f1ad854403bc339c0c9a0a6b66f042d550d9898",
+      "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+      "mergeCommit": "ca6d512f646a1f082220ef087261c34b41d1066d",
+      "number": 761,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/761"
+    },
+    "reason": "Exact merged WI-778 branch, remote branch, and dedicated worktree were removed after finalization verification; append cleanup transition before close.",
+    "receiptId": "ai-cockpit-WI-778-wi776-doc-promotion-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-778-wi776-doc-promotion",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/761",
+      "worktree": "/private/tmp/ai-cockpit-wi-778-wi776-doc-promotion"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-10T08:40:00Z",
+    "workItemId": "WI-778-wi776-doc-promotion",
+    "worktree": {
+      "branch": "codex/wi-778-wi776-doc-promotion",
+      "headRevision": "7bdba7735a03f7067463517cacb7a6505b932c08",
+      "path": "/private/tmp/ai-cockpit-wi-778-wi776-doc-promotion",
+      "worktreeId": "WI-778-wi776-doc-promotion"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "WI-778-wi776-doc-promotion-resources-deleted"
+}
