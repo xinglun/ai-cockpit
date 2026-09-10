@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-in-current-request",
+  "decidedAt": "2026-09-10T01:26:23Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-771-wi770-doc-promotion.events.jsonl",
+    ".ai/evidence/WI-771-wi770-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/755"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/commands.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
+  "predecessorEventsDigest": "sha256:dc6bbc690242294c5c1fdd75e148dfe991de30ae973612d602b0bca3d07dbad0",
+  "predecessorOutcomeDigest": "sha256:5ef7c7c9b3ee34c7559a31736cfb5e346cfc0dc077cb19ecc8f64d59cfe1111c",
+  "predecessorSummaryDigest": "sha256:5c625bc6d90642e818df6eb2334d573b5c083e1b09969a40359e80800b08a0f3",
+  "predecessorWorkItemId": "WI-771-wi770-doc-promotion",
+  "reason": "PR #755 was merged before WI-771 finish and archive, so its verification snapshot is stale against the merged main. Preserve the immutable WI-771 archive and evidence, and continue through a bounded successor that verifies the already-merged documentation projection from the current default branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Verify the merged documentation projection from the latest default branch with fresh evidence, then complete finish, archive, provider finalization, finalize-verify, close, post-close promotion, and exact cleanup while leaving performance implementation deferred.",
+  "runtimeDigest": "sha256:63f9b1b193c4c42080bb84112b0323f3b7d005b701386467accde8fc7d484dca",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-772-wi771-doc-promotion-recovery",
+  "workItemId": "WI-771-wi770-doc-promotion"
+}
