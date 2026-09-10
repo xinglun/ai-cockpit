@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T15:06:22Z",
+  "files": {
+    "contractDigest": "sha256:693c0b657690800ffd85334d56b3dad3d49422d27f4ea2afae6b3db2d4f7b285",
+    "contractPath": ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json",
+    "eventsDigest": "sha256:305d3fe6ea650c4fda82692e280e733327e181525c11b75d47547e695c5fda40",
+    "eventsPath": ".ai/work-items/archive/WI-782-finalization-head-recovery.events.jsonl",
+    "outcomeDigest": "sha256:af3d2e41fee282b709edd434b04b41a6792e114f4ef73edca4ca0e48fa300595",
+    "outcomePath": ".ai/work-items/archive/WI-782-finalization-head-recovery.outcome.json",
+    "summaryDigest": "sha256:8915bab6b026bead6e6c094a7453d4e72fdbe5aadbba72480dc340353bf1d871",
+    "summaryPath": ".ai/work-items/archive/WI-782-finalization-head-recovery.summary.json",
+    "taskReportDigest": "sha256:34f75e966ac8cc50a54c8011d1b6594ce27e2e8ce351ce35df4a15a7b7ef5b59",
+    "taskReportMarkdownDigest": "sha256:bed18918de0b33f0ee2e13b569cee5f872ca8c3293c27e98ebec530ab2787706",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-782-finalization-head-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-782-finalization-head-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-782-finalization-head-recovery"
+}

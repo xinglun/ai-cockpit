@@ -1,0 +1,64 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-10T15:00:39Z",
+  "checkpointContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:2678ee94e26be7f5a04381491bc4632dda66089201d6243c4b6e9124c5e2d3db",
+      "recorded": true,
+      "recordedAt": "2026-09-10T15:00:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-782-finalization-head-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2678ee94e26be7f5a04381491bc4632dda66089201d6243c4b6e9124c5e2d3db",
+      "previousContractHash": "sha256:2678ee94e26be7f5a04381491bc4632dda66089201d6243c4b6e9124c5e2d3db",
+      "reason": "Finalize-plan bound the successor to the real PR, branch, worktree, and GitHub provider; revalidate the checkpoint against this exact resource context before verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T15:01:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-782-finalization-head-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+  "createdAt": "2026-09-10T14:47:15Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
+  "predecessorWorkItemId": "WI-781-trust-diagnostics",
+  "preflightAt": "2026-09-10T15:06:04Z",
+  "preflightContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-781-trust-diagnostics.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T15:06:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-782-finalization-head-recovery"
+}
