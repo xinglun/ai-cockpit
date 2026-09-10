@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-in-current-request",
+  "decidedAt": "2026-09-10T00:03:40Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-769-performance-terminal-docs.archive.json",
+    ".ai/work-items/archive/WI-769-performance-terminal-docs.contract.json",
+    ".ai/work-items/archive/WI-769-performance-terminal-docs.summary.json",
+    ".ai/work-items/archive/WI-769-performance-terminal-docs.outcome.json",
+    ".ai/work-items/archive/WI-769-performance-terminal-docs.events.jsonl",
+    ".ai/evidence/WI-769-performance-terminal-docs.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/753"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/commands.md:recovery"
+  ],
+  "predecessorContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
+  "predecessorEventsDigest": "sha256:921c09fc27f68b30cbbcbeaacf4dbc0c6eaf2dee95bb60ce8165a5d59167474a",
+  "predecessorOutcomeDigest": "sha256:64c7eee33de550b3b308fd1aa67ffdc7f38012fae8b49d9dc698e99bca946aca",
+  "predecessorSummaryDigest": "sha256:bbfbd262bbfbe1fe17d82fb1a4d86e9dc1353a9f61682cc22ea0f1d4b9e59a12",
+  "predecessorWorkItemId": "WI-769-performance-terminal-docs",
+  "reason": "The verification command passed, but archive ran before the new verification evidence was committed. This is an immutable failed delivery, so continue through a bounded recovery successor, preserve the yellow archive attempt, commit fresh evidence before archive, and do not rewrite predecessor or other agent records.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record the successor recovery receipt, bind WI-770 to the same reviewed PR #753 and current scope, commit the fresh verification and lifecycle evidence before archive, then finish, archive, finalize, finalize-verify, and close the successor.",
+  "runtimeDigest": "sha256:63f9b1b193c4c42080bb84112b0323f3b7d005b701386467accde8fc7d484dca",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-770-performance-terminal-docs-recovery",
+  "workItemId": "WI-769-performance-terminal-docs"
+}

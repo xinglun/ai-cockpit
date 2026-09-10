@@ -4,9 +4,9 @@ title: "WI-769 — performance terminal-state documentation correction"
 description: "三言語の performance Work Item report に残る古い terminal-state prose を、evidence と Runtime behavior を変えずに修正します。"
 audience: [maintainer, reviewer, adopter]
 workItemId: WI-769-performance-terminal-docs
-status: in_progress
+status: recovered
 authority: human:repository-owner
-lastVerifiedBy: WI-769-performance-terminal-docs
+lastVerifiedBy: WI-770-performance-terminal-docs-recovery
 ---
 
 [English](WI-769-performance-terminal-docs.md) · [简体中文](WI-769-performance-terminal-docs.zh-CN.md)
@@ -43,5 +43,7 @@ user-visible benefit claim を作りません。
 
 ## Current state
 
-Runtime lifecycle と terminal evidence は WI-769 Contract の下に記録されます。review 済み PR と close が
-完了するまで、このページは `in_progress` のままです。
+WI-769 は immutable な recovered predecessor です。review 済みの PR #753 は merge 済みであり、新しい
+successor WI-770 が fresh recovery verification と terminal closure を担当します。そのため本ページは
+`recovered` ですが、successor は自身の Runtime evidence、finalization、close が完了するまで
+verification-pending です。

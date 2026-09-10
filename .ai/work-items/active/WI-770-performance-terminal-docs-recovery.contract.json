@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "English, Simplified Chinese, and Japanese terminal-documentation projections make the same recovered-predecessor correction, bind the successor verifier, and contain no contradictory in-progress claim for WI-769; the parity ledgers use the matching recovered state and evidence links.",
+    "Predecessor archive, Contract, Summary, Outcome, Events, verification evidence, and recovery decision bytes remain unchanged; only the bounded documentation projection and Runtime-generated WI-770 lifecycle records may change.",
+    "Measured performance decisions, unavailable metrics, user_visible_benefit_not_declared, repository isolation, authorization boundaries, and recovery semantics are preserved; this Work Item changes no Runtime or performance behavior.",
+    "Documentation acceptance, parity, status consistency, Runtime verification, archive, finalization, finalization revalidation, close, and post-close promotion checks pass with fresh evidence committed before archive.",
+    "The successor has matching English, Simplified Chinese, and Japanese Work Item pages and matching parity rows, with terminal evidence paths added only after the Runtime generates them.",
+    "The Runtime-generated observer snapshot may be refreshed and must remain repository-bound; no other agents' state is included."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "1081196d6c5308ff3fd339bf2bdd4c6084940240",
+  "createdAt": "2026-09-10T00:22:56Z",
+  "goal": "Complete the bounded WI-769 recovery successor from the latest merged main: bind the reviewed PR #753 and current documentation scope, verify the merged tri-language correction and preserved recovery evidence, record fresh verification before archive, then finalize, finalize-verify, close, and promote the terminal documentation projection.",
+  "intent": "Continue the immutable WI-769 terminal-documentation correction through a fresh successor lifecycle after an archive-before-evidence ordering failure, preserving predecessor evidence and governance boundaries.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "tests/**",
+    "Runtime implementation",
+    "performance behavior",
+    "predecessor archive/evidence/contract/summary/outcome/event bytes",
+    "other agents' Work Items",
+    " branches",
+    " worktrees",
+    " PRs",
+    " evidence",
+    "governance rules and global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
+  "predecessorWorkItemId": "WI-769-performance-terminal-docs",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:efd345e8458ef5157902a4387381a6b853e7af49a0d6f7f3bcab7743d813297d",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation_parity"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-770-performance-terminal-docs-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-770-performance-terminal-docs-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-769-performance-terminal-docs.md",
+    "docs/work-items/WI-769-performance-terminal-docs.zh-CN.md",
+    "docs/work-items/WI-769-performance-terminal-docs.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
+    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json",
+    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json",
+    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.outcome.json",
+    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.events.jsonl",
+    ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json",
+    ".ai/decisions/WI-770-performance-terminal-docs-recovery.finalize.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.archive.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.outcome.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.events.jsonl",
+    "docs/work-items/WI-770-performance-terminal-docs-recovery.md",
+    "docs/work-items/WI-770-performance-terminal-docs-recovery.zh-CN.md",
+    "docs/work-items/WI-770-performance-terminal-docs-recovery.ja.md",
+    ".ai/decisions/WI-770-performance-terminal-docs-recovery.close.json",
+    ".ai/decisions/observer-snapshot.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-770-performance-terminal-docs-recovery"
+}
