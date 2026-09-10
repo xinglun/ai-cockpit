@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "The helper promotes exactly the six WI-776 documentation projections from its immutable closed evidence, and the three languages bind the archive, verification, finalization, and close paths.",
+    "The immutable WI-774, WI-775, and WI-776 governance records and evidence bytes remain unchanged.",
+    "The WI-776-specific promotion check and promote_closed_work_item.py --check-all pass after the projection.",
+    "Documentation acceptance, parity status, Work Item status consistency, and the declared workspace verification pass.",
+    "This Work Item has its own tri-language pages and parity row registered before verification, and changes no production behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1f1ad854403bc339c0c9a0a6b66f042d550d9898",
+  "createdAt": "2026-09-10T08:13:33Z",
+  "goal": "Complete the narrow post-close documentation promotion for WI-776 from synchronized main, preserve all immutable Work Item records, and leave the repository documentation gate current.",
+  "intent": "Promote the verified closed WI-776 documentation and parity projections to terminal evidence-backed state so the repository post-close documentation gate can close without changing governance facts or production behavior.",
+  "mode": "docs",
+  "outOfScope": [
+    "Runtime source and product behavior",
+    "governance rule implementation",
+    "performance implementation or measurement",
+    "immutable WI-774",
+    " WI-775",
+    " and WI-776 Contract",
+    " evidence",
+    " archive",
+    " finalization",
+    " and close records",
+    "release publication and unrelated documentation projections"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-778-wi776-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/761",
+    "worktree": "/private/tmp/ai-cockpit-wi-778-wi776-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.md",
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.zh-CN.md",
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-778-wi776-doc-promotion.md",
+    "docs/work-items/WI-778-wi776-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-778-wi776-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-778-wi776-doc-promotion"
+}

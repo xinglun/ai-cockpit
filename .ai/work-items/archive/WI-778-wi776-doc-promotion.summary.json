@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-778-wi776-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-778-wi776-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T08:13:51Z",
+  "checkpointContractDigest": "sha256:68df81ca3f4d712e7737c3a01a979569d807a7c83b7d1842d6e5d397316caffd",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "createdAt": "2026-09-10T08:13:33Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-776-wi775-archive-evidence-recovery.md",
+      "docs/reference/reference-parity.md",
+      ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json",
+      ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json",
+      ".ai/decisions/WI-776-wi775-archive-evidence-recovery.finalize.json",
+      ".ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json"
+    ],
+    "reason": "The narrow documentation Work Item exists to project the already verified and closed WI-776 records into the three-language Work Item pages and parity tables; it does not alter Runtime behavior or immutable governance bytes.",
+    "state": "resolved"
+  },
+  "mode": "docs",
+  "preflightAt": "2026-09-10T08:27:13Z",
+  "preflightContractDigest": "sha256:68df81ca3f4d712e7737c3a01a979569d807a7c83b7d1842d6e5d397316caffd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T08:27:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-778-wi776-doc-promotion"
+}

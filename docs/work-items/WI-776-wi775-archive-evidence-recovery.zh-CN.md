@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-776——WI-775 archive-evidence recovery"
 description: "完成 WI-775 在 verification 与 archive 之间产生 stale evidence 后的有界恢复。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization-for-successor-after-governed-archive-failure
 workItemId: WI-776-wi775-archive-evidence-recovery
 lastVerifiedBy: WI-776-wi775-archive-evidence-recovery
+terminalArchive: .ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.contract.json
+terminalVerification: .ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-776-wi775-archive-evidence-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json
 ---
 
 [English](WI-776-wi775-archive-evidence-recovery.md) · [日本語](WI-776-wi775-archive-evidence-recovery.ja.md)
