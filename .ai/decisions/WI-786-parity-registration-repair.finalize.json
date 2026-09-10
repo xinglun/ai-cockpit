@@ -1,0 +1,58 @@
+{
+  "actor": "github:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "reviewed-pr-hosted-checks",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "7f666a56b2a91ed6bbd247f6857a71eaaec8561b",
+    "name": "codex/wi-786-parity-registration-repair",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:b81ef3713dd43931d14dc0e2e2098542f5f4c1da3fda06439149232921e270f3",
+  "operationId": "github-pr-766-parity-registration-repair-merge-observation-20260911",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "77132bee2af3acbfd12d8e2583b81264f20bdb70",
+    "headRevision": "7f666a56b2a91ed6bbd247f6857a71eaaec8561b",
+    "mergeCommit": "ad8b2e99bb4c3b3be2936f9b98fcf1e25c7952fc",
+    "number": 766,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/766"
+  },
+  "reason": "Reviewed PR #766 passed all hosted checks and merged as ad8b2e99bb4c3b3be2936f9b98fcf1e25c7952fc; retain the exact feature branch and clean worktree until Runtime cleanup evidence is recorded.",
+  "receiptId": "ai-cockpit-WI-786-parity-registration-repair-merge-observation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-786-parity-registration-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/766",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-786-parity-registration-repair"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-11T00:00:00Z",
+  "workItemId": "WI-786-parity-registration-repair",
+  "worktree": {
+    "branch": "codex/wi-786-parity-registration-repair",
+    "headRevision": "7f666a56b2a91ed6bbd247f6857a71eaaec8561b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-786-parity-registration-repair",
+    "worktreeId": "WI-786-parity-registration-repair"
+  }
+}
