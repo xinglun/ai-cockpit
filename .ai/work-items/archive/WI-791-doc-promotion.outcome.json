@@ -62,7 +62,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-791-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-791-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -100,7 +100,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-791-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-791-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Bring WI-787 and WI-785 tri-language work-item and reference-parity projections into current main with truthful recovery bindings, then complete governed documentation acceptance."
@@ -109,7 +109,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-791-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-791-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -119,7 +119,7 @@
     "status": "verified",
     "workItemId": "WI-791-doc-promotion"
   },
-  "taskReportDigest": "sha256:a5a4b2e4bd92ca62f98d31c0d79a76bd88af5535f1869cc450740d77e1c43746",
+  "taskReportDigest": "sha256:0a6f92b4ba1d0dd05c76b0c87a354ccc365017a4e69c860a4119f08c8e314a39",
   "taskReportMarkdownDigest": "sha256:73468defc605e9c8b1f2712cc8b69d207122a5cbb50b1aebd4ca8a591f4effd7",
   "unknowns": [
     "user_visible_benefit_not_declared"
