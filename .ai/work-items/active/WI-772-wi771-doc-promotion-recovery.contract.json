@@ -34,17 +34,23 @@
     "decision"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-772-wi771-doc-promotion-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "local",
+    "pullRequest": "not-requested",
     "worktree": "/private/tmp/ai-cockpit-wi-772-wi771-doc-promotion-recovery"
   },
   "risk": "normal",
   "scope": [
     "Current Runtime-bound recovery evidence",
-    ".ai/decisions/observer-snapshot.json"
+    ".ai/decisions/observer-snapshot.json",
+    "docs/work-items/WI-771-wi770-doc-promotion.md",
+    "docs/work-items/WI-771-wi770-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-771-wi770-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

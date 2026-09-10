@@ -37,6 +37,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-772-wi771-doc-promotion-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f9ce71ec741515f3a698207e6e6b22edaa4733266e8dd8db77de5bf48a20248f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7dd794a00b3584e730d2792482fb9005f4e6ea8795da50f1678fb9fc96c1f30f",
+      "previousContractHash": "sha256:f697780e2e7f906efe4cefc4196478c151db7a60eb3e824d6ecff9b94e42ae5c",
+      "reason": "Bind the six WI-771 predecessor documentation projections for explicit recovered-state projection after immutable recovery.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T01:35:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2c1dba1be26d8f2b70f85164de2f09995d850d0f9f00d378815ac320887150c5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-772-wi771-doc-promotion-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
@@ -44,10 +64,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
   "predecessorWorkItemId": "WI-771-wi770-doc-promotion",
-  "preflightAt": "2026-09-10T01:30:38Z",
-  "preflightContractDigest": "sha256:f697780e2e7f906efe4cefc4196478c151db7a60eb3e824d6ecff9b94e42ae5c",
+  "preflightAt": "2026-09-10T01:37:12Z",
+  "preflightContractDigest": "sha256:8d0b905d261ef2a1f3ac4b9a3bedc5ee176fdc2c213e96cec1836b411599eb5a",
   "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+  "preflightRepositorySnapshotDigest": "sha256:10543cf47f177006efbc4ffdc623401f55cbefffa433272b27f138b0e893118d",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
@@ -55,9 +75,9 @@
   "state": "checkpointed",
   "updatedAt": "2026-09-10T01:29:52Z",
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:f697780e2e7f906efe4cefc4196478c151db7a60eb3e824d6ecff9b94e42ae5c",
+    "contractHash": "sha256:f9ce71ec741515f3a698207e6e6b22edaa4733266e8dd8db77de5bf48a20248f",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-10T01:30:19Z"
+    "recordedAt": "2026-09-10T01:35:21Z"
   },
   "workItemId": "WI-772-wi771-doc-promotion-recovery"
 }
