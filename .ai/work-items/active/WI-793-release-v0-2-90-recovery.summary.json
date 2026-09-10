@@ -4,8 +4,44 @@
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-10T20:04:46Z",
-  "checkpointContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+  "checkpointContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+      "recorded": true,
+      "recordedAt": "2026-09-10T20:04:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-793-release-v0-2-90-recovery"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+      "previousContractHash": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+      "reason": "The reviewed PR binding added the exact branch, worktree, provider, base, and PR context after the previous verification cycle. Record this append-only amendment boundary and require a fresh preflight and verification against the bound release candidate.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T20:29:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-793-release-v0-2-90-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
   "createdAt": "2026-09-10T19:59:48Z",
   "intentAlignment": {
@@ -17,8 +53,8 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T20:12:55Z",
-  "preflightContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+  "preflightAt": "2026-09-10T20:33:16Z",
+  "preflightContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
   "preflightState": "green",
@@ -93,6 +129,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:30b0579d471cbdb9b8612fb04c47f00cae5288b5f021678c2ea83b4a17088d6e",
+  "verificationRecoveryReconciled": "sha256:723a6e98cd9f3ec72571e67b0c9b8f7ed85bb296be52270f04385a16a207e2a9",
   "workItemId": "WI-793-release-v0-2-90-recovery"
 }
