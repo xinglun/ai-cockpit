@@ -96,14 +96,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T00:28:29Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T00:49:38Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f3fd83ff1b092ab9299990b289e6d7f28672d7f0a8934f539a186a6118edad6a",
   "workItemId": "WI-770-performance-terminal-docs-recovery"
 }

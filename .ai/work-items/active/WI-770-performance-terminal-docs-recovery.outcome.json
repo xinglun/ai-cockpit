@@ -1,0 +1,152 @@
+{
+  "acceptanceResults": [
+    "English, Simplified Chinese, and Japanese terminal-documentation projections make the same recovered-predecessor correction, bind the successor verifier, and contain no contradictory in-progress claim for WI-769; the parity ledgers use the matching recovered state and evidence links.",
+    "Predecessor archive, Contract, Summary, Outcome, Events, verification evidence, and recovery decision bytes remain unchanged; only the bounded documentation projection and Runtime-generated WI-770 lifecycle records may change.",
+    "Measured performance decisions, unavailable metrics, user_visible_benefit_not_declared, repository isolation, authorization boundaries, and recovery semantics are preserved; this Work Item changes no Runtime or performance behavior.",
+    "Documentation acceptance, parity, status consistency, Runtime verification, archive, finalization, finalization revalidation, close, and post-close promotion checks pass with fresh evidence committed before archive.",
+    "The successor has matching English, Simplified Chinese, and Japanese Work Item pages and matching parity rows, with terminal evidence paths added only after the Runtime generates them.",
+    "The Runtime-generated observer snapshot may be refreshed and must remain repository-bound; no other agents' state is included."
+  ],
+  "createdAt": "2026-09-10T00:49:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f3fd83ff1b092ab9299990b289e6d7f28672d7f0a8934f539a186a6118edad6a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f2b72d6ae3a11b80d2d73ce66a22541cf013596c7861f4f3601bd3d4afd3a9ab",
+      "workItemId": "WI-770-performance-terminal-docs-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-769-performance-terminal-docs.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the bounded WI-769 recovery successor from the latest merged main: bind the reviewed PR #753 and current documentation scope, verify the merged tri-language correction and preserved recovery evidence, record fresh verification before archive, then finalize, finalize-verify, close, and promote the terminal documentation projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-770-performance-terminal-docs-recovery"
+  },
+  "taskReportDigest": "sha256:f8b981316dc10a0aa94a930f4bb56bdcb0c2ac86027e3723a7809e03b9de3a1b",
+  "taskReportMarkdownDigest": "sha256:3883d816962c84d51afbac34be8f74e8e8ec2ec0b77664513d009fca06d86e6f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-770-performance-terminal-docs-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-770-performance-terminal-docs-recovery"
+}
