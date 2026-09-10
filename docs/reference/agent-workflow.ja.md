@@ -152,8 +152,11 @@ commit すると receipt は stale になります。現在の Work Item で再�
 
 新しい Work Item は `close` の前に provider 側の branch と worktree の cleanup を
 完了しなければなりません。`retained`、`blocked`、`unknown` の finalization result は
-terminal success ではありません。Runtime は legacy library entry point と Runtime-bound
-CLI の両方でこの順序を拒否します。旧 Runtime が作った immutable な履歴については、
+terminal success ではありません。明示的に close された未 merge の失敗 delivery は、
+failure code が `unmerged_pull_request`、branch と worktree が削除済みで、merge commit
+を claim しない場合に限り `abandoned` を使えます。これは merge 済みの成功ではなく、
+失敗の terminal record です。Runtime は legacy library entry point と Runtime-bound
+CLI の両方で条件を満たさない順序を拒否します。旧 Runtime が作った immutable な履歴については、
 `work-item finalize` が close 後に identity-bound な deleted transition を 1 件だけ
 append できます。これは限定された reconciliation であり、closed root digest を束縛し、
 元の close bytes を保持し、PR の merge、branch の削除、worktree の除去を証明しなければ

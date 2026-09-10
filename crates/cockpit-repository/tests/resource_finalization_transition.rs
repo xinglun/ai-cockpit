@@ -131,6 +131,27 @@ fn blocked(repository_id: &str, context: &ResourceFinalizationContext, contract:
     })
 }
 
+fn abandoned(
+    repository_id: &str,
+    context: &ResourceFinalizationContext,
+    contract: &Digest,
+) -> Value {
+    let mut receipt = blocked(repository_id, context, contract);
+    receipt["receiptId"] = "abandoned-1".into();
+    receipt["operationId"] = "abandoned-operation-1".into();
+    receipt["after"] = json!({
+        "pullRequest": "unmerged",
+        "branch": "deleted",
+        "worktree": "removed"
+    });
+    receipt["result"] = json!({
+        "disposition": "abandoned",
+        "failureCodes": ["unmerged_pull_request"],
+        "unknownCodes": []
+    });
+    receipt
+}
+
 fn transition(previous: &Value, sequence: u64, deleted: bool) -> Value {
     let previous_receipt: cockpit_protocol::ResourceFinalizationReceipt =
         serde_json::from_value(previous.clone()).unwrap();
@@ -695,6 +716,39 @@ fn close_rejects_retained_finalization_before_writing_decision() {
             .join(format!(".ai/decisions/{ID}.close.json"))
             .exists()
     );
+}
+
+#[test]
+fn abandoned_unmerged_cleanup_can_be_verified_and_closed_without_merge_claim() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let receipt = abandoned(&repository_id, &context, &contract);
+    let input = write_input(&directory, "abandoned.json", &receipt);
+    let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect("abandoned cleanup receipt should be recorded");
+    assert_eq!(recorded["disposition"], "abandoned");
+
+    let verified = verify_resource_finalization(directory.path(), ID, &runtime())
+        .expect("abandoned cleanup receipt should be verified");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["disposition"], "abandoned");
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        ID,
+        &HumanDecision {
+            decision: "superseded_failed_delivery".into(),
+            actor: "human:test".into(),
+            authority_source: "test".into(),
+            reason: "unmerged failed delivery was explicitly closed and cleaned".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-08-23T00:10:00Z".into(),
+            resume_condition: None,
+        },
+        &runtime(),
+    )
+    .expect("abandoned cleanup should be a truthful terminal close");
 }
 
 #[test]
