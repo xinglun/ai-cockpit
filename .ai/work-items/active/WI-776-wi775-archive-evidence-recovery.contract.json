@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "WI-775 PR #758, stale archive, failed verification state, recovery decision, and all predecessor bytes remain immutable and linked.",
+    "English, Simplified Chinese, and Japanese WI-775/WI-776 documentation and reference-parity projections match Runtime state without claiming WI-776 terminal evidence before close.",
+    "Parity registration is committed before fresh WI-776 verification evidence, and hosted quality passes on the exact reviewed PR head.",
+    "WI-776 changes documentation and governance projection only; no product Runtime, authorization, machine contract, exit-code, performance, or historical evidence behavior changes.",
+    "WI-776 completes start, preflight, checkpoint, verify, finish, archive, finalize, finalize-verify, close, exact cleanup, synchronized main, and promote_closed_work_item.py --check-all."
+  ],
+  "authority": "authorized",
+  "baseRevision": "884876d806404457c7ababe4e2b63b3845c7f9d1",
+  "createdAt": "2026-09-10T05:14:49Z",
+  "goal": "Complete the bounded WI-775 governance recovery from the latest remote default lineage, preserving all predecessor bytes and producing a clean evidence-bound terminal lifecycle.",
+  "intent": "Redeliver the WI-775 archive-evidence recovery after preserving its immutable stale archive, with parity registration before fresh verification and no production behavior change.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source and tests",
+    "performance implementation",
+    "WI-775 archived Contract",
+    " Summary",
+    " Outcome",
+    " Events",
+    " archive",
+    " and verification bytes",
+    "WI-774 and WI-773 historical records",
+    "other agents branches and worktrees",
+    "release publication and global Agent/MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "predecessorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-776-wi775-archive-evidence-recovery-final",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-776-wi775-archive-evidence-recovery-final"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.md",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.ja.md",
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.md",
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.zh-CN.md",
+    "docs/work-items/WI-776-wi775-archive-evidence-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-776-wi775-archive-evidence-recovery"
+}

@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "WI-774 PR #757, its hosted governance failure, recovery decision, archive, evidence, and exact failure reason remain immutable and linked.",
+    "The English, Simplified Chinese, and Japanese WI-773, WI-774, and WI-775 documentation and reference-parity projections use matching governed status and evidence bindings without inventing terminal evidence.",
+    "WI-775 commits parity registration before fresh verification evidence, and hosted quality passes on the exact reviewed PR head.",
+    "The successor changes documentation and governance projection only; no product Runtime, authorization, machine contract, exit-code, performance, or historical evidence behavior changes.",
+    "The Work Item completes the full Runtime lifecycle and exact branch/worktree cleanup, followed by promote_closed_work_item.py --check-all."
+  ],
+  "authority": "explicit user authorization for successor after hosted quality failure",
+  "baseRevision": "884876d806404457c7ababe4e2b63b3845c7f9d1",
+  "createdAt": "2026-09-10T04:32:18Z",
+  "goal": "Preserve WI-774 evidence and complete a clean, parity-first WI-775 documentation successor from the latest remote default branch without changing production behavior or performance implementation.",
+  "intent": "Redeliver the WI-774 documentation projection after preserving its immutable hosted governance failure, with parity registration committed before fresh verification evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product Runtime behavior",
+    "source code",
+    "governance rule implementation",
+    "performance implementation",
+    "unrelated Work Items",
+    "other agents branches and worktrees"
+  ],
+  "predecessorContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
+  "predecessorWorkItemId": "WI-774-wi773-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23ae35e8daf6faa7906d06893627a391e89ec10a178d5548cb193c019a73326e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-775-wi774-parity-order-recovery-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/758",
+    "worktree": "/private/tmp/ai-cockpit-wi-775-wi774-parity-order-recovery-final"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
+    ".ai/evidence/WI-774-wi773-doc-promotion.verification.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.json",
+    ".ai/work-items/archive/WI-774-wi773-doc-promotion.task-report.md",
+    ".ai/work-items/active/WI-775-wi774-parity-order-recovery.contract.json",
+    ".ai/work-items/active/WI-775-wi774-parity-order-recovery.summary.json",
+    ".ai/evidence/WI-775-wi774-parity-order-recovery.verification.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.archive.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.contract.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.outcome.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.summary.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.json",
+    ".ai/work-items/archive/WI-775-wi774-parity-order-recovery.task-report.md",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.md",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.zh-CN.md",
+    "docs/work-items/WI-773-p1-status-canonical-fact-reuse.ja.md",
+    "docs/work-items/WI-774-wi773-doc-promotion.md",
+    "docs/work-items/WI-774-wi773-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-774-wi773-doc-promotion.ja.md",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.md",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.zh-CN.md",
+    "docs/work-items/WI-775-wi774-parity-order-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-775-wi774-parity-order-recovery"
+}
