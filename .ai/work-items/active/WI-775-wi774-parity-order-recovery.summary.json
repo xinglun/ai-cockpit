@@ -16,16 +16,52 @@
   "checkpointAt": "2026-09-10T04:35:21Z",
   "checkpointContractDigest": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
+      "recorded": true,
+      "recordedAt": "2026-09-10T04:35:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-775-wi774-parity-order-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
+      "previousContractHash": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
+      "reason": "Exact reviewed PR #758 resource context was bound after an earlier local verification; append the authorized Contract revalidation, preserve the earlier evidence immutably, and require fresh preflight and verification under the final branch/worktree/PR identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T04:48:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-775-wi774-parity-order-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
   "createdAt": "2026-09-10T04:32:18Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
   "predecessorWorkItemId": "WI-774-wi773-doc-promotion",
-  "preflightAt": "2026-09-10T04:44:10Z",
-  "preflightContractDigest": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
-  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightAt": "2026-09-10T04:47:35Z",
+  "preflightContractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "preflightDecisionDigest": "sha256:7126955f6dc2eaad8cae4523f48163217fcb59867057f7706248b553a7c5f02e",
   "preflightRepositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -37,6 +73,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-10T04:48:20Z"
+  },
   "verificationRecoveryReconciled": "sha256:881304b8ac494cfab7182a1df55bd3d630e5de7eb3eff93c17c2a181bdfb3a6e",
   "workItemId": "WI-775-wi774-parity-order-recovery"
 }
