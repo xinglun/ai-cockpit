@@ -4,9 +4,9 @@
     ".ai/work-items/active/WI-779-abandoned-finalization-repair.summary.json"
   ],
   "checkpointAt": "2026-09-10T08:50:46Z",
-  "checkpointContractDigest": "sha256:6e1ed00ee1d7327c9472fba820f4a2988c61a6d886acce0d573e399d57b1a4aa",
+  "checkpointContractDigest": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "checkpointRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
   "createdAt": "2026-09-10T08:49:47Z",
   "intentAlignment": {
     "evidence": [
@@ -19,10 +19,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T08:50:32Z",
-  "preflightContractDigest": "sha256:6e1ed00ee1d7327c9472fba820f4a2988c61a6d886acce0d573e399d57b1a4aa",
+  "preflightAt": "2026-09-10T09:08:30Z",
+  "preflightContractDigest": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
+  "preflightRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -78,5 +78,12 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-09-10T08:52:13.662336+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:38afd4fcb51e2edec66e6753481485cbea54728153a2f64f5f0c19ccc1f70661",
   "workItemId": "WI-779-abandoned-finalization-repair"
 }
