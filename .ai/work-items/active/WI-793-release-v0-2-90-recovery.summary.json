@@ -17,11 +17,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T20:04:42Z",
+  "preflightAt": "2026-09-10T20:12:55Z",
   "preflightContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -87,5 +87,12 @@
   ],
   "state": "checkpointed",
   "updatedAt": "2026-09-10T20:04:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:30b0579d471cbdb9b8612fb04c47f00cae5288b5f021678c2ea83b4a17088d6e",
   "workItemId": "WI-793-release-v0-2-90-recovery"
 }
