@@ -1,0 +1,59 @@
+{
+  "actor": "github:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-successor-pre-merge-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f37281a5c27f7725e1608304f99d87fd54522143",
+    "name": "codex/wi-781-trust-diagnostics",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:85982de0abe6528803cf882d707ecdc9dcb5b444e605c4c9e6fdc02b3d6477b5",
+  "operationId": "github-pr-763-parity-recovery-pre-merge-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bf0a8513b59826f27fe127f74b9dde466776a52b",
+    "headRevision": "f37281a5c27f7725e1608304f99d87fd54522143",
+    "number": 763,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/763"
+  },
+  "reason": "WI-783 is the explicit successor for the immutable WI-782 recovery; the post-archive parity projection is complete, and the corrected PR branch is clean and unmerged while provider review and hosted checks are pending.",
+  "receiptId": "ai-cockpit-WI-783-parity-finalization-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:28f34ac8e88f33df4ec9b8cc86133f0679ae9e38f8d610edceb618c879bd9bd8",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T15:24:30Z",
+  "workItemId": "WI-783-parity-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-781-trust-diagnostics",
+    "headRevision": "f37281a5c27f7725e1608304f99d87fd54522143",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics",
+    "worktreeId": "WI-783-parity-finalization-recovery"
+  }
+}
