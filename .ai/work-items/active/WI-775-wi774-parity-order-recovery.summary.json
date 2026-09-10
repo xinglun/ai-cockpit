@@ -16,20 +16,27 @@
   "checkpointAt": "2026-09-10T04:35:21Z",
   "checkpointContractDigest": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:aa18535a9d6c170dc57de6bd50a677a4e6823951f0749eb18feb9d6a01ef4575",
+  "checkpointRepositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
   "createdAt": "2026-09-10T04:32:18Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
   "predecessorWorkItemId": "WI-774-wi773-doc-promotion",
-  "preflightAt": "2026-09-10T04:35:07Z",
+  "preflightAt": "2026-09-10T04:44:10Z",
   "preflightContractDigest": "sha256:6ab189224ab318404375f8417af0f83e558dd066819811e3407510933687606e",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:aa18535a9d6c170dc57de6bd50a677a4e6823951f0749eb18feb9d6a01ef4575",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:966157023e9ee92a64cd177ca5df9d798a69d073de5e4a9c00c060ed8adc6f05",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-10T04:35:21Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:881304b8ac494cfab7182a1df55bd3d630e5de7eb3eff93c17c2a181bdfb3a6e",
   "workItemId": "WI-775-wi774-parity-order-recovery"
 }
