@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T01:29:52Z",
-  "checkpointContractDigest": "sha256:7dd794a00b3584e730d2792482fb9005f4e6ea8795da50f1678fb9fc96c1f30f",
+  "checkpointContractDigest": "sha256:7e153769b08e24fedecb6e9998d789e5689f44fdac0cc4ab07584addd6e72e75",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -79,25 +79,27 @@
       "workItemId": "WI-772-wi771-doc-promotion-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
+  "checkpointRepositorySnapshotDigest": "sha256:ef9514cf8aed4e08079575e4b982a64ccf44cfe65caf398b4112be9cad7473c0",
   "createdAt": "2026-09-10T01:28:04Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
   "predecessorWorkItemId": "WI-771-wi770-doc-promotion",
-  "preflightAt": "2026-09-10T01:40:42Z",
+  "preflightAt": "2026-09-10T01:41:27Z",
   "preflightContractDigest": "sha256:7e153769b08e24fedecb6e9998d789e5689f44fdac0cc4ab07584addd6e72e75",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:ef9514cf8aed4e08079575e4b982a64ccf44cfe65caf398b4112be9cad7473c0",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-10T01:29:52Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:7e153769b08e24fedecb6e9998d789e5689f44fdac0cc4ab07584addd6e72e75",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-10T01:40:32Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:676cf1419b0c489a55921acea778cf7aff3e46335c38cb4df4dc09e29df604cc",
   "workItemId": "WI-772-wi771-doc-promotion-recovery"
 }
