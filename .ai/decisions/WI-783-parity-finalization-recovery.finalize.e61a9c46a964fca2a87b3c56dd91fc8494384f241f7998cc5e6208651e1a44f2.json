@@ -1,0 +1,65 @@
+{
+  "governanceAppendRevision": "50d69a69c3d62a381586e987b6eef438666a899f",
+  "predecessorReceiptDigest": "sha256:16fcf00f86a505c978711be8984dbbf59cf0b7d1427bae096c59479db66cee34",
+  "receipt": {
+    "actor": "github:xinglun",
+    "after": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "authoritySource": "explicit-user-authorized-post-merge-observation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "unmerged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "50d69a69c3d62a381586e987b6eef438666a899f",
+      "name": "codex/wi-781-trust-diagnostics",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:85982de0abe6528803cf882d707ecdc9dcb5b444e605c4c9e6fdc02b3d6477b5",
+    "operationId": "github-pr-763-parity-recovery-merge-observed-20260910",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "bf0a8513b59826f27fe127f74b9dde466776a52b",
+      "headRevision": "50d69a69c3d62a381586e987b6eef438666a899f",
+      "mergeCommit": "e28df1de0d6d5c4febb30cf42997223e8093eb81",
+      "number": 763,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/763"
+    },
+    "reason": "PR #763 was merged by the verified GitHub identity xinglun as e28df1de; retain the exact clean branch and worktree until the final cleanup transition.",
+    "receiptId": "ai-cockpit-WI-783-parity-finalization-recovery-merge-observed",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-781-trust-diagnostics",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+    },
+    "result": {
+      "disposition": "retained",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:28f34ac8e88f33df4ec9b8cc86133f0679ae9e38f8d610edceb618c879bd9bd8",
+    "runtimeVersion": "0.2.89",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-10T15:29:53Z",
+    "workItemId": "WI-783-parity-finalization-recovery",
+    "worktree": {
+      "branch": "codex/wi-781-trust-diagnostics",
+      "headRevision": "50d69a69c3d62a381586e987b6eef438666a899f",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics",
+      "worktreeId": "WI-783-parity-finalization-recovery"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "ai-cockpit-WI-783-parity-finalization-recovery-merge-observed"
+}
