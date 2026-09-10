@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-787-parity-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/767",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery"
   },
   "risk": "normal",
@@ -44,7 +44,8 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-787-parity-finalization-recovery.md",
     "docs/work-items/WI-787-parity-finalization-recovery.zh-CN.md",
-    "docs/work-items/WI-787-parity-finalization-recovery.ja.md"
+    "docs/work-items/WI-787-parity-finalization-recovery.ja.md",
+    ".ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json"
   ],
   "sources": [],
   "state": "implementation_active",
