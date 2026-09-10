@@ -58,8 +58,10 @@ metadata guard は read 中に bytes と全ての観測可能 metadata を変更
 ではありません。filesystem notification、persistent index、layered Merkle tree、production
 integration、release behavior、performance benchmark は scope 外です。
 
-この文書は final PR、merge、green governance outcome を主張しません。Runtime verification receipt、
-hosted review、archive、close、final documentation promotion が引き続き必要です。
+この文書は前置の historical record として、単独の green terminal outcome を主張しません。WI-712 が
+append-only recovery、review 済み PR の reconciliation、finalization、close、documentation promotion
+を完了しており、関連記録は下の recovery boundary にあります。前置 bytes は immutable のままで、
+この Work Item は引き続き production performance benefit を主張しません。
 
 ## Merge 後の recovery boundary
 

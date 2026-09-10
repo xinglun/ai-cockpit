@@ -101,6 +101,9 @@ memory are explicitly unavailable on this platform; none are represented as
 zero. The current benchmark also cannot measure host CPU contention, which is
 why the adverse round40 run remains separately classified.
 
-This Work Item is `in_progress` pending Runtime verification, hosted PR review,
-merge, archive, close, and documentation promotion. No PR or final governance
-decision is claimed yet.
+This Work Item is `closed`. Runtime verification, reviewed PR delivery, merge,
+archive, close, and documentation promotion are recorded by the terminal paths
+in the front matter. The accepted request-scoped index and its measured status
+result remain bounded to the documented observation; resident MCP and the
+unavailable resource metrics remain unclaimed. The explicit
+`user_visible_benefit_not_declared` unknown is preserved.

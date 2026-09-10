@@ -69,9 +69,11 @@ claim. Filesystem notifications, persistent indexes, a layered Merkle tree,
 production integration, release behavior, and performance benchmarking are
 out of scope.
 
-This report does not claim a final PR, merge, or green governance outcome. The
-Runtime verification receipt, hosted review, archive, close, and final
-documentation promotion remain required.
+This predecessor report intentionally does not claim a standalone green
+terminal outcome. WI-712 completed the append-only recovery, reviewed PR
+reconciliation, finalization, close, and documentation promotion; those
+records are linked in the recovery boundary below. The predecessor bytes remain
+immutable, and this Work Item still makes no production performance claim.
 
 ## Post-merge recovery boundary
 

@@ -96,5 +96,7 @@ call-graph evidence は definition、test reference、production caller を区�
 clean fixture であり、Rust production code は変更していません。既存の governance gate、authorization、evidence semantics、
 recovery behavior は弱めていません。
 
-Runtime verification、review 済み PR delivery、archive、close、documentation promotion が終わるまで、この Work Item は
-`in_progress` です。production performance benefit は主張せず、見送り判断と unknown は measurement summary に bind されています。
+この Work Item は `closed` です。Runtime verification、review 済み PR delivery、archive、close、documentation
+promotion は front matter の terminal path に記録されています。production performance benefit は主張しません。
+測定した path に production caller がなかったため coordinator 統合は見送り、見送り判断と unknown は measurement
+summary に bind されています。

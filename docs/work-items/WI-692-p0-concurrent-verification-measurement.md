@@ -130,7 +130,8 @@ The measurement is repository-bound, uses an external executable, keeps the
 fixture clean, and makes no Rust production change. Existing governance gates,
 authorization, evidence semantics, and recovery behavior are not weakened.
 
-This Work Item remains `in_progress` until Runtime verification, reviewed PR
-delivery, archive, close, and documentation promotion complete. No production
-performance benefit is claimed; the decline and all unknowns are evidence-bound
-in the measurement summary.
+This Work Item is `closed`. Runtime verification, reviewed PR delivery, archive,
+close, and documentation promotion are recorded by the terminal paths in the
+front matter. No production performance benefit is claimed: the coordinator
+integration is declined because the measured path had no production caller,
+and the decline plus all unknowns remain bound in the measurement summary.
