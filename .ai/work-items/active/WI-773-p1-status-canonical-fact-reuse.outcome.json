@@ -8,14 +8,16 @@
     "Before candidate execution, accept only if the measured large-history status path improves warm independent-CLI p50 and p95 by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent.",
     "The pre-registered status threshold is binding for this Work Item: warm independent-CLI p50 and p95 must each improve by at least 5% versus the paired baseline; non-target scenario p95 must not regress by more than 20% or 20 ms, whichever is larger, and governance outputs remain equivalent."
   ],
-  "decisionState": "red",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ba827b2dcc795a26445b31d63859a778ee84dd26d5c9c9156871533bc8d51115",
   "evidenceRefs": [
     ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -23,11 +25,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -37,10 +38,8 @@
       "repositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
       "workItemId": "WI-773-p1-status-canonical-fact-reuse"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -61,15 +60,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -88,7 +79,7 @@
             ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -98,10 +89,18 @@
             ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -122,16 +121,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
+  "taskReportDigest": "sha256:727e0a3995a3c6cce0228ffed3ac9c101d5f205face9105b68fad9ee9ea998ee",
+  "taskReportMarkdownDigest": "sha256:0cfff5f5b810ea49b07fe05e414c20d69fdb8148091cb1c0b76e355ae4f099e5",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-773-p1-status-canonical-fact-reuse.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-773-p1-status-canonical-fact-reuse"
 }

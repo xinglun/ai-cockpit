@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:7986ec966f4a14e874c7a61b5810d867c959b3e5fcf5bf262a73ed55bff08331",
-  "createdAt": "2026-09-10T02:33:47Z",
+  "contractDigest": "sha256:26f6a75d34a26937c1db00979762befd38583caa722d4135415e336da91aff2b",
+  "createdAt": "2026-09-10T02:49:47Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 211674,
-      "executionElapsedMs": 211094,
+      "elapsedMs": 207729,
+      "executionElapsedMs": 207260,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 211674,
-    "executionElapsedMs": 211094,
-    "filesHashed": 20,
-    "filesRead": 22,
+    "elapsedMs": 207729,
+    "executionElapsedMs": 207260,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,13 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "docs/work-items/WI-773-p1-status-canonical-fact-reuse.ja.md",
-        "docs/work-items/WI-773-p1-status-canonical-fact-reuse.md",
-        "docs/work-items/WI-773-p1-status-canonical-fact-reuse.zh-CN.md",
-        "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-baseline.json",
-        "tests/performance/fixtures/WI-773-status-canonical-fact-reuse-candidate.json"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "5a24d4c0df865ece469822dbdc0dcc36eda07d85",
       "dependencyConfidence": "unknown",
@@ -50,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 211094,
+      "executionElapsedMs": 207260,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -82,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:752a76a6b66b29bbd41fa3f59efbcf81e2812d4e7c6fa5e5c5e92146da9110ca",
+        "outputDigest": "sha256:773ae31b6ef35e4a2310c62584be6eca581a73a4423b7837ce40653b6cccd5f2",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -98,7 +92,7 @@
     "runtimeVersion": "0.2.89",
     "workItemId": "WI-773-p1-status-canonical-fact-reuse"
   },
-  "receiptDigest": "sha256:c70873015b27cca71df2076ea71d3c356d6bd154d7031ad835330377d8a9c025",
+  "receiptDigest": "sha256:63fe75f0d8104fa615fd5966b957ccd64e1d6c5e8cbf330163580c092b35cd5a",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:a84c7d53269759b1751c25b48be506459dc73c047131590cad24c6e2c78871ff",
   "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
