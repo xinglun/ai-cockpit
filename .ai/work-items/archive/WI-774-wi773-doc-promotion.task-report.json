@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-774-wi773-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-774-wi773-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -48,7 +48,7 @@
           ".ai/evidence/WI-774-wi773-doc-promotion.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-774-wi773-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Make the closed WI-773 Work Item terminally discoverable in English, Simplified Chinese, and Japanese documentation without changing production behavior or historical evidence."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-774-wi773-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-774-wi773-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

@@ -61,7 +61,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:aa18535a9d6c170dc57de6bd50a677a4e6823951f0749eb18feb9d6a01ef4575",
   "createdAt": "2026-09-10T03:53:27Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-774-wi773-doc-promotion.contract.json",
@@ -72,23 +71,20 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-10T04:10:21Z",
   "preflightContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:aa18535a9d6c170dc57de6bd50a677a4e6823951f0749eb18feb9d6a01ef4575",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T04:07:08Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T04:10:49Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:6fcc7f2faefe1f6adce73cfa7bdc53e1c957affa77d4be24901c38643b68b344",
   "workItemId": "WI-774-wi773-doc-promotion"
 }
