@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-recovery",
+  "decidedAt": "2026-09-10T16:58:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-786-parity-registration-repair.archive.json",
+    ".ai/work-items/archive/WI-786-parity-registration-repair.contract.json",
+    ".ai/work-items/archive/WI-786-parity-registration-repair.summary.json",
+    ".ai/work-items/archive/WI-786-parity-registration-repair.outcome.json",
+    ".ai/decisions/WI-786-parity-registration-repair.finalize.json",
+    "https://github.com/xinglun/ai-cockpit/pull/766"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f0e83a7828ab8a2c41cd47047d833b93aa779343520c4413f81be0eba87424c9",
+  "predecessorEventsDigest": "sha256:e4c426259c102a0a1022412ce0b49506a1cd8b823f6ee1c7836331251e8f6311",
+  "predecessorOutcomeDigest": "sha256:abc09cc8dd711aeb34c1e308f54a9c547b70d8718a1fcccd88fadf609a9104b7",
+  "predecessorSummaryDigest": "sha256:bc1fe445706a039eaa0e9535498339efe3b4f578974f96caef3d93f66b8b5c73",
+  "predecessorWorkItemId": "WI-786-parity-registration-repair",
+  "reason": "WI-786 was archived with a valid implementation and verification history, but its first current-Runtime finalization receipt was recorded after merge as retained instead of preserving the required pre-merge blocked root and ordered merge/cleanup transitions. Preserve every WI-786 byte and complete the finalization boundary through an explicit successor without rewriting the merged PR or historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-787 must bind its own exact reviewed PR context before verification, complete its own verified archive, provider finalization, exact cleanup, finalize-verify, and structured close; only then may WI-786 be superseded and closed through the documented recovery path.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-787-parity-finalization-recovery",
+  "workItemId": "WI-786-parity-registration-repair"
+}
