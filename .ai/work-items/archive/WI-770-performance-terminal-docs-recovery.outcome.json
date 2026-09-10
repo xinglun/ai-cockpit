@@ -46,24 +46,24 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+            ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-769-performance-terminal-docs.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+            ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+            ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json"
         }
       ],
       "evidence": [
@@ -119,7 +119,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+            ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json"
           ],
           "inference": false,
           "text": "Complete the bounded WI-769 recovery successor from the latest merged main: bind the reviewed PR #753 and current documentation scope, verify the merged tri-language correction and preserved recovery evidence, record fresh verification before archive, then finalize, finalize-verify, close, and promote the terminal documentation projection."
@@ -128,7 +128,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json"
+            ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -138,8 +138,8 @@
     "status": "verified",
     "workItemId": "WI-770-performance-terminal-docs-recovery"
   },
-  "taskReportDigest": "sha256:f8b981316dc10a0aa94a930f4bb56bdcb0c2ac86027e3723a7809e03b9de3a1b",
-  "taskReportMarkdownDigest": "sha256:3883d816962c84d51afbac34be8f74e8e8ec2ec0b77664513d009fca06d86e6f",
+  "taskReportDigest": "sha256:8892dbcdbc21a6be0b2856b291bd62b366ed2bbbf86924631f32a5dd7118f2b9",
+  "taskReportMarkdownDigest": "sha256:4090be0a3a179acf5cc947f15b8bceb18cc46875f5f6710e81793af1f921aafb",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

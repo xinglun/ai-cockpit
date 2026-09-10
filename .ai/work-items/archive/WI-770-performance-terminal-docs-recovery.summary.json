@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
-    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json",
-    ".ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json"
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json",
+    ".ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-10T00:28:29Z",
   "checkpointContractDigest": "sha256:ad95f1bde2bf26d3603f3355df032e78dc5e5d72d65ef9c681ff108ec60f27e2",

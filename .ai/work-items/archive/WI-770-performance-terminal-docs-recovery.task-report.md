@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/WI-769-performance-terminal-docs.recovery.json
-- Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.contract.json
-- Changed path: .ai/work-items/active/WI-770-performance-terminal-docs-recovery.summary.json
+- Changed path: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.contract.json
+- Changed path: .ai/work-items/archive/WI-770-performance-terminal-docs-recovery.summary.json
 
 ## Findings
 
