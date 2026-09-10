@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-785-wi784-doc-promotion.recovery.json",
+    ".ai/work-items/active/WI-786-parity-registration-repair.contract.json",
+    ".ai/work-items/active/WI-786-parity-registration-repair.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T16:31:33Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "predecessorWorkItemId": "WI-785-wi784-doc-promotion",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-785-wi784-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-10T16:32:13Z",
+  "workItemId": "WI-786-parity-registration-repair"
+}

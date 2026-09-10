@@ -1,0 +1,31 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-successor-recovery",
+  "decidedAt": "2026-09-11T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/765"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "predecessorEventsDigest": "sha256:4c047bdbabbb3c99d7d97ae563750ee933728a6af4019a81d22d67e39381d409",
+  "predecessorOutcomeDigest": "sha256:8823a2e3cddc8e870d5a9510c4e59ee4ff8e601dc61deb190d44fc9587fff9bb",
+  "predecessorSummaryDigest": "sha256:bf004585df0c88c61fd8474d4ff40f9f11e918ac6ff23079cd9ef36f0a0823eb",
+  "predecessorWorkItemId": "WI-785-wi784-doc-promotion",
+  "reason": "The hosted docs governance gate found that recovered parity rows must bind the actual hashed recovery decision and verification evidence paths. Preserve WI-785 immutable archive/evidence and repair only the bounded tri-language parity registration in a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Repair the recovered parity rows, run the full docs and repository gates, then complete the successor PR lifecycle without rewriting WI-785 bytes.",
+  "runtimeDigest": "sha256:1ad4641884479ee6a20a7d27706e41617df8781bf2068c90fd5367fcc98c13cc",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-786-parity-registration-repair",
+  "workItemId": "WI-785-wi784-doc-promotion"
+}

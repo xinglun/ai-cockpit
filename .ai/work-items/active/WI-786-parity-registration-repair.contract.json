@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "All three reference-parity documents bind the hashed recovery decision paths and verification evidence required for WI-781, WI-782, and WI-784.",
+    "English, Simplified Chinese, and Japanese rows remain semantically equivalent and preserve WI-783 terminal and WI-785 recovery facts.",
+    "WI-786 own planning pages and parity registration remain bounded and are deterministically promotable after verified close.",
+    "The repository parity-status, documentation, and full workspace checks pass without rewriting immutable evidence.",
+    "The Work Item uses the Runtime-supported verification evidence class and a reviewed PR before archive and close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "77132bee2af3acbfd12d8e2583b81264f20bdb70",
+  "createdAt": "2026-09-10T16:31:33Z",
+  "goal": "Produce a Runtime-valid successor PR whose recovered parity rows bind actual decision and evidence paths and whose docs gates pass without rewriting historical records.",
+  "intent": "Repair the bounded tri-language reference-parity projection after the hosted governance gate identified missing hashed recovery-decision and verification bindings, while preserving all predecessor bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime source",
+    " product behavior",
+    " release versioning",
+    " provider release resources",
+    " immutable WI-785 archive/evidence/outcome/event bytes",
+    " immutable WI-784 archive/evidence/outcome/event bytes",
+    " and unrelated documentation"
+  ],
+  "predecessorContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "predecessorWorkItemId": "WI-785-wi784-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-785-wi784-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3ca9f2e3d5d65e477665fbdcf2b6c479416bc97e901902b296d9598ace327cde",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-786-parity-registration-repair",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-786-parity-registration-repair"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-786-parity-registration-repair.md",
+    "docs/work-items/WI-786-parity-registration-repair.zh-CN.md",
+    "docs/work-items/WI-786-parity-registration-repair.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-786-parity-registration-repair"
+}
