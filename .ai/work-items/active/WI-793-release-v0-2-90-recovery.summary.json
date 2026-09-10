@@ -1,0 +1,88 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T19:59:48Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+      "docs/work-items/WI-793-release-v0-2-90-recovery.md"
+    ],
+    "reason": "The successor Contract is explicitly bounded to the authorized v0.2.90 release, the WI-792 recovery receipt, the latest origin/main base, and the declared publication/adopter/closure evidence; no unrelated Rust or Runtime behavior is in scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T20:04:28Z",
+  "preflightContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "preflightRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".ai/evidence/WI-793-release-v0-2-90-recovery.verification.json",
+        ".ai/evidence/external/v0.2.90/release-manifest.json"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, current tri-language projections, the reviewed merge commit, annotated v0.2.90 tag, public manifest, and published binary identity agree.",
+      "required": true,
+      "scenario": "reviewed source produces one v0.2.90 identity",
+      "status": "unverified",
+      "verificationPlan": "Run source checks before the PR, bind the tag only to synchronized merged main after hosted checks pass, then validate the public manifest and downloaded binary identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-793-release-v0-2-90-recovery.verification.json",
+        "docs/work-items/WI-793-release-v0-2-90-recovery.md"
+      ],
+      "expected": "Hosted route, quality, behavioral, Windows runtime, and task-completion checks pass for the exact reviewed head before merge.",
+      "required": true,
+      "scenario": "reviewed PR passes the integrated release gate",
+      "status": "unverified",
+      "verificationPlan": "Push the dedicated branch, create one PR, inspect every required hosted check, and merge only the reviewed green head."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+      ],
+      "expected": "The downloaded v0.2.90 public archive passes version, manifest, checksum, Runtime identity, root isolation, and temporary-root cleanup checks without using the workspace binary.",
+      "required": true,
+      "scenario": "public release artifact passes isolated adopter installation",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter harness against the downloaded Release artifact with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots, then retain the receipt and manifests."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+      ],
+      "expected": "An isolated adopter upgrades from the previous public v0.2.89 archive to v0.2.90, preserves governed history, records same-schema compatibility, and cleans all temporary roots.",
+      "required": true,
+      "scenario": "v0.2.89 to v0.2.90 preserves the N-1 boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the public upgrade harness with immutable v0.2.89 and v0.2.90 Release artifacts and compare the retained history digest."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-793-release-v0-2-90-recovery.contract.json",
+        ".ai/decisions/WI-793-release-v0-2-90-recovery.finalize.json",
+        ".ai/decisions/WI-793-release-v0-2-90-recovery.close.json"
+      ],
+      "expected": "The Work Item archive, finalization, close, exact branch/worktree cleanup, synchronized main, and post-close promotion check all bind the reviewed merged source and release evidence.",
+      "required": true,
+      "scenario": "governed release closure is bound to the merged source",
+      "status": "unverified",
+      "verificationPlan": "Complete finish and archive before merge, record provider finalization after merge and cleanup, close with explicit authorization, synchronize main, and run the closed-work-item promotion check."
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-09-10T20:04:28.535071+00:00",
+  "workItemId": "WI-793-release-v0-2-90-recovery"
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "lastVerifiedBy": "WI-792-release-v0-2-90",
+  "lastVerifiedBy": "WI-793-release-v0-2-90-recovery",
   "referenceCommit": "a9224aed77b5c317b53c4551a9eec306d91ee330",
   "rustBaselineCommit": "446ec82c0e8c0b55094c4654f9e6a098bb75f179",
   "runtimeVersion": "0.2.90",

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-792-release-v0-2-90
+lastVerifiedBy: WI-793-release-v0-2-90-recovery
 capabilityClaims:
   - reference_parity
 ---
