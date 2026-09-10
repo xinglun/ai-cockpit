@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "English, Simplified Chinese, and Japanese Work Item pages are semantically equivalent and bind the actual WI-783 archive, verification, finalization head, and close receipt.",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repository> --work-item WI-783-parity-finalization-recovery --check passes without rewriting terminal evidence.",
+    "python3 tests/docs/documentation_acceptance.sh --repo <repository> passes.",
+    "The three terminal documentation paths use the closed Work Item ID and are the files checked by the promotion helper.",
+    "The three reference-parity rows are rewritten only to the deterministic terminal projection derived by the closed WI-783 evidence and retain all predecessor recovery facts.",
+    "The three WI-784 planning pages and parity rows are registered in the bounded pre-close shape and can be deterministically promoted after WI-784 closes."
+  ],
+  "authority": "explicit-user-authorized-documentation-promotion",
+  "baseRevision": "3cf77dda3a3c18ac25c9c0a7448a5ba15c0a5aee",
+  "createdAt": "2026-09-10T15:47:44Z",
+  "goal": "Add evidence-bound English, Simplified Chinese, and Japanese WI-783 documentation and pass closed Work Item promotion and documentation acceptance.",
+  "intent": "Promote the closed WI-783 terminal evidence into the required tri-language Work Item documentation projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " governance evidence bytes",
+    " prior Work Item archives",
+    " release versioning",
+    " provider resources",
+    " and unrelated documentation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:96168cbd3192b55302fc3c185e42abd1375e2af0e7eeca9978223a50b401c012",
+  "requiredEvidenceClasses": [
+    ".ai/evidence/WI-783-parity-finalization-recovery.verification.json",
+    ".ai/decisions/WI-783-parity-finalization-recovery.finalize.8597e352cfd9a104610fa75ac7b065e1b3ea4127cace3108edaf1f72bf0c558d.json",
+    ".ai/decisions/WI-783-parity-finalization-recovery.close.json"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-784-wi783-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-784-wi783-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-783-wi783-doc-promotion.md",
+    "docs/work-items/WI-783-wi783-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-783-wi783-doc-promotion.ja.md",
+    "docs/work-items/WI-783-parity-finalization-recovery.md",
+    "docs/work-items/WI-783-parity-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-783-parity-finalization-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-784-wi783-doc-promotion.md",
+    "docs/work-items/WI-784-wi783-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-784-wi783-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-784-wi783-doc-promotion"
+}
