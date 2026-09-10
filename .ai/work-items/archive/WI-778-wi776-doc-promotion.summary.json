@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-778-wi776-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-778-wi776-doc-promotion.summary.json"
+    ".ai/work-items/archive/WI-778-wi776-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-778-wi776-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-10T08:13:51Z",
-  "checkpointContractDigest": "sha256:cc845341d06b27619ca428c57b8f3f5afc1e3c938077e0790bfa771b4d2d413c",
+  "checkpointContractDigest": "sha256:68df81ca3f4d712e7737c3a01a979569d807a7c83b7d1842d6e5d397316caffd",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:8c6bcef6c56202683a43fe127e3facb44af13882ba716900e0bdfe42782bf608",
+  "checkpointRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
   "createdAt": "2026-09-10T08:13:33Z",
   "intentAlignment": {
     "evidence": [
@@ -21,14 +21,20 @@
     "state": "resolved"
   },
   "mode": "docs",
-  "preflightAt": "2026-09-10T08:22:47Z",
+  "preflightAt": "2026-09-10T08:27:13Z",
   "preflightContractDigest": "sha256:68df81ca3f4d712e7737c3a01a979569d807a7c83b7d1842d6e5d397316caffd",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T08:16:49.560880+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T08:27:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-778-wi776-doc-promotion"
 }
