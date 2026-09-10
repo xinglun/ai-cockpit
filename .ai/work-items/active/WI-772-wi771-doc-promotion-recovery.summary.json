@@ -92,14 +92,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T01:29:52Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T01:41:42Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:676cf1419b0c489a55921acea778cf7aff3e46335c38cb4df4dc09e29df604cc",
   "workItemId": "WI-772-wi771-doc-promotion-recovery"
 }
