@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorized continuation to repair stale verification after binding PR #771",
+  "decidedAt": "2026-09-10T20:27:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-793-release-v0-2-90-recovery.verification.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json",
+    "docs/reference/collaboration-scenario-matrix.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
+  "predecessorSummaryDigest": "sha256:1b09aadced86a3121cfa316acae8af24f7b8399ae7f418cfba912a1b2c4378b3",
+  "predecessorWorkItemId": "WI-793-release-v0-2-90-recovery",
+  "reason": "The reviewed PR binding intentionally changed the Contract digest after the prior verification. Runtime correctly marked the prior receipt contradictory and required an explicit bounded retry before a fresh verification. Preserve the predecessor receipt and rerun preflight and verification against the bound PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight and fresh verification against PR #771, then continue finish, archive, hosted checks, merge, release publication, adopter acceptance, finalization, close, and exact cleanup.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-793-release-v0-2-90-recovery"
+}

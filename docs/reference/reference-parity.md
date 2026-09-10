@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-768-release-v0-2-89
+lastVerifiedBy: WI-793-release-v0-2-90-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -41,9 +41,9 @@ for the rebaseline receipt and procedure.
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `54e243e5099d46ac5eefb6dfe419d6e6e3841b2b`
-and the reviewed Runtime `ai-cockpit v0.2.89` with binary digest
-`sha256:e79ac0e2b36e3c0c5e976052aba62a1224d210bfc16b9f106b3dcc987c23dc2f`.
+The current snapshot uses Rust baseline `446ec82c0e8c0b55094c4654f9e6a098bb75f179`
+and the reviewed Runtime `ai-cockpit v0.2.90` with binary digest
+`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1004,3 +1004,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-786-parity-registration-repair — recovered parity-registration repair | In progress → Implemented after verified close | [Work Item](../work-items/WI-786-parity-registration-repair.md); bounded successor for parity decision/evidence path repair; immutable archive `.ai/work-items/archive/WI-786-parity-registration-repair.contract.json`; verification `.ai/evidence/WI-786-parity-registration-repair.verification.json`; retained finalization `.ai/decisions/WI-786-parity-registration-repair.finalize.json`; successor recovery `.ai/decisions/WI-786-parity-registration-repair.recovery.json` and applied candidate `.ai/decisions/WI-786-parity-registration-repair.recovery.96b7c5cd733a2b74247c4c2520191ba28e86d0a8c3b7ea4793821dec2df42c24.json`; close `.ai/decisions/WI-786-parity-registration-repair.close.json`; WI-787 owns finalization and close. |
 | WI-787-parity-finalization-recovery — WI-786 finalization recovery successor | Implemented | [Work Item](../work-items/WI-787-parity-finalization-recovery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-787-parity-finalization-recovery.contract.json`; verification `.ai/evidence/WI-787-parity-finalization-recovery.verification.json`; finalization `.ai/decisions/WI-787-parity-finalization-recovery.finalize.f576ded8ac4fb558512fcbb75a01b48932ab4d7004ee9c46ae2ee1786e7e71e1.json`; close `.ai/decisions/WI-787-parity-finalization-recovery.close.json`. |
 | WI-791-doc-promotion — documentation promotion for WI-785 and WI-787 | In progress → Implemented after verified close | [Work Item](../work-items/WI-791-doc-promotion.md); archive `.ai/work-items/archive/WI-791-doc-promotion.contract.json`; verification `.ai/evidence/WI-791-doc-promotion.verification.json`; finalization `.ai/decisions/WI-791-doc-promotion.finalize.json`; close `.ai/decisions/WI-791-doc-promotion.close.json`. |
+| WI-793-release-v0-2-90-recovery — v0.2.90 release successor after immutable WI-792 retry evidence | In progress → Implemented after verified close | [Work Item](../work-items/WI-793-release-v0-2-90-recovery.md); successor recovery `.ai/decisions/WI-792-release-v0-2-90.recovery.88faee80db2c48aaba414d296e69c4a5a2f9a1e65e8901db63b7d698ecc81028.json`; source version consistency, hosted PR checks, annotated tag/public Release identity, downloaded-artifact adopter acceptance, and governed release closure remain pending verification. Planned terminal paths: `.ai/work-items/archive/WI-793-release-v0-2-90-recovery.contract.json`; `.ai/evidence/WI-793-release-v0-2-90-recovery.verification.json`; `.ai/decisions/WI-793-release-v0-2-90-recovery.finalize.json`; `.ai/decisions/WI-793-release-v0-2-90-recovery.close.json`. |

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "successor",
+  "workItemId": "WI-792-release-v0-2-90",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-792-release-v0-2-90",
+  "predecessorContractDigest": "sha256:0ff060f59056227866a7f23670fd1848402b8f38bfc212526363221bfc057e42",
+  "predecessorSummaryDigest": "sha256:e4607a0a8703ca55009f4c446d9c7a0b3e93e167974aa85d8b3fff38598f2d58",
+  "predecessorOutcomeDigest": "sha256:187876c6f155b2e71ed4f4aa7a14309730122b02f418e695f8b2911f5b5b1916",
+  "predecessorEventsDigest": "sha256:8ab95604b3a4223f3c67796e9ca16e336421b129cdf0ee5874b19ef8c40b49e1",
+  "successorWorkItemId": "WI-793-release-v0-2-90-recovery",
+  "runtimeVersion": "0.2.87",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-release-recovery",
+  "reason": "The predecessor retry chain contains two immutable retry receipts with the same future-dated decidedAt. Runtime correctly rejects consuming the current retry because the older stale candidate is ordered at or after the valid candidate. Preserve all predecessor bytes and continue the authorized v0.2.90 release through a strictly bound successor with a new isolated branch and Work Item.",
+  "evidenceRefs": [
+    ".ai/decisions/WI-792-release-v0-2-90.recovery.json",
+    ".ai/decisions/WI-792-release-v0-2-90.recovery.a5328d58a7ab1fe30b32ba6b2871a2d2d890225557bdaacd5101847936607f86.json",
+    ".ai/evidence/WI-792-release-v0-2-90.verification.json",
+    ".ai/work-items/active/WI-792-release-v0-2-90.outcome.json",
+    ".ai/work-items/active/WI-792-release-v0-2-90.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md#Recovery",
+    "docs/reference/repository-workflow.md#Recovery"
+  ],
+  "decidedAt": "2026-09-10T19:44:02Z",
+  "resumeCondition": "Start the successor from the latest remote default branch, bind the reviewed v0.2.90 source and release scope, pass hosted checks, publish only from synchronized merged main, complete public installation and N-1 upgrade acceptance, then finalize and close the successor without rewriting predecessor evidence."
+}
