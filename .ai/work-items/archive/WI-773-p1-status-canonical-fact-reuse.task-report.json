@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-773-p1-status-canonical-fact-reuse.summary.json"
+          ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
         ],
         "inference": false,
         "text": "Prove and, only if beneficial, implement request-scoped reuse of canonical finalization receipt facts in status historical projection."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-773-p1-status-canonical-fact-reuse.contract.json"
+          ".ai/work-items/archive/WI-773-p1-status-canonical-fact-reuse.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
