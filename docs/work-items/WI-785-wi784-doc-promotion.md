@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-785 — WI-784 documentation-promotion recovery"
 description: "Complete the WI-783 terminal documentation projection through the Runtime-valid WI-784 successor."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-successor-recovery
 workItemId: WI-785-wi784-doc-promotion
 lastVerifiedBy: WI-785-wi784-doc-promotion

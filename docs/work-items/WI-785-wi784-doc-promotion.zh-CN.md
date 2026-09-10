@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-785 — WI-784 文档投影恢复"
 description: "通过 Runtime 有效的 WI-784 successor 完成 WI-783 终态文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-successor-recovery
 workItemId: WI-785-wi784-doc-promotion
 lastVerifiedBy: WI-785-wi784-doc-promotion

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-787 — WI-786 finalization recovery"
 description: "Complete the Runtime-governed finalization boundary for the merged WI-786 successor delivery."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized-successor-recovery
 workItemId: WI-787-parity-finalization-recovery
 lastVerifiedBy: WI-787-parity-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-787-parity-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-787-parity-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-787-parity-finalization-recovery.finalize.f576ded8ac4fb558512fcbb75a01b48932ab4d7004ee9c46ae2ee1786e7e71e1.json
+terminalDecision: .ai/decisions/WI-787-parity-finalization-recovery.close.json
 ---
 
 [简体中文](WI-787-parity-finalization-recovery.zh-CN.md) · [日本語](WI-787-parity-finalization-recovery.ja.md)
