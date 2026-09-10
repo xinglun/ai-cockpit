@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:d18a9b433aef9ae567a4e32b12e2c4339002f2d8055d1bbedd4a5af298d21c9a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The explicit user authorization permits bounded continuation to collect and validate the release evidence; this decision does not assert that source checks, hosted checks, public Release assets, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-10T19:12:32Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
+  "schemaVersion": 1,
+  "workItemId": "WI-792-release-v0-2-90"
+}

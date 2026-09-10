@@ -21,7 +21,71 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b35e780afcb7ed608155016cd249dc5a10a59673b6350d605f58c28f4cf2eadd",
   "requiredEvidenceClasses": [
-    "verification"
+    "verification",
+    "governance",
+    "release publication",
+    "adopter acceptance"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "reviewed source produces one v0.2.90 identity",
+      "expected": "Cargo metadata, Cargo.lock, current tri-language projections, the reviewed merge commit, annotated v0.2.90 tag, public manifest, and published binary identity agree.",
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".ai/evidence/WI-792-release-v0-2-90.verification.json",
+        ".ai/evidence/external/v0.2.90/release-manifest.json"
+      ],
+      "verificationPlan": "Run source checks before the PR, bind the tag only to synchronized merged main after hosted checks pass, then validate the public manifest and downloaded binary identity.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "reviewed PR passes the integrated release gate",
+      "expected": "Hosted route, quality, behavioral, Windows runtime, and task-completion checks pass for the exact reviewed head before merge.",
+      "evidence": [
+        ".ai/evidence/WI-792-release-v0-2-90.verification.json",
+        "docs/work-items/WI-792-release-v0-2-90.md"
+      ],
+      "verificationPlan": "Push the dedicated branch, create one PR, inspect every required hosted check, and merge only the reviewed green head.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "public release artifact passes isolated adopter installation",
+      "expected": "The downloaded v0.2.90 public archive passes version, manifest, checksum, Runtime identity, root isolation, and temporary-root cleanup checks without using the workspace binary.",
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+      ],
+      "verificationPlan": "Run the public adopter harness against the downloaded Release artifact with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots, then retain the receipt and manifests.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "v0.2.89 to v0.2.90 preserves the N-1 boundary",
+      "expected": "An isolated adopter upgrades from the previous public v0.2.89 archive to v0.2.90, preserves governed history, records same-schema compatibility, and cleans all temporary roots.",
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+      ],
+      "verificationPlan": "Run the public upgrade harness with immutable v0.2.89 and v0.2.90 Release artifacts and compare the retained history digest.",
+      "required": true,
+      "status": "unverified"
+    },
+    {
+      "scenario": "governed release closure is bound to the merged source",
+      "expected": "The Work Item archive, finalization, close, exact branch/worktree cleanup, synchronized main, and post-close promotion check all bind the reviewed merged source and release evidence.",
+      "evidence": [
+        ".ai/work-items/archive/WI-792-release-v0-2-90.contract.json",
+        ".ai/decisions/WI-792-release-v0-2-90.finalize.json",
+        ".ai/decisions/WI-792-release-v0-2-90.close.json"
+      ],
+      "verificationPlan": "Complete finish and archive before merge, record provider finalization after merge and cleanup, close with explicit authorization, synchronize main, and run the closed-work-item promotion check.",
+      "required": true,
+      "status": "unverified"
+    }
   ],
   "resourceContext": {
     "baseBranch": "unknown",

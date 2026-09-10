@@ -1,32 +1,147 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T19:05:37Z",
-  "checkpointContractDigest": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+  "checkpointContractDigest": "sha256:d18a9b433aef9ae567a4e32b12e2c4339002f2d8055d1bbedd4a5af298d21c9a",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+      "recorded": true,
+      "recordedAt": "2026-09-10T19:05:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-792-release-v0-2-90"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:d18a9b433aef9ae567a4e32b12e2c4339002f2d8055d1bbedd4a5af298d21c9a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+      "previousContractHash": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+      "reason": "Add the required high-risk release scenarioCoverage and evidence classes for source identity, hosted gate, public adopter installation, N-1 upgrade, and governed closure; preserve the immutable before-edit checkpoint and require fresh verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T19:11:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-792-release-v0-2-90"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
   "createdAt": "2026-09-10T18:49:34Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
+    "contractDigest": "sha256:d18a9b433aef9ae567a4e32b12e2c4339002f2d8055d1bbedd4a5af298d21c9a",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
     "reason": "The explicit user authorization permits bounded continuation to collect and validate the release evidence; this decision does not assert that source checks, hosted checks, public Release assets, or adopter acceptance have passed.",
-    "recordedAt": "2026-09-10T19:04:56Z",
+    "recordedAt": "2026-09-10T19:12:32Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
     "schemaVersion": 1,
     "workItemId": "WI-792-release-v0-2-90"
   },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-792-release-v0-2-90.contract.json",
+      "docs/work-items/WI-792-release-v0-2-90.md"
+    ],
+    "reason": "The current release Contract remains bounded to publishing the next patch from the integrated trust-diagnostics result; it does not add product or Runtime behavior and explicitly requires hosted, public-artifact, N-1, and governed-closure evidence before completion.",
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T19:05:31Z",
-  "preflightContractDigest": "sha256:4d8c776217b6a412bbb6f099ece8cd30191829a9930e61be17252fcd11fa52b5",
-  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-10T19:16:15Z",
+  "preflightContractDigest": "sha256:d18a9b433aef9ae567a4e32b12e2c4339002f2d8055d1bbedd4a5af298d21c9a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f4f6db2b4451cec3ca1a5420dfeb897125f2f37ecf152d5b769627c384abd8b5",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".ai/evidence/WI-792-release-v0-2-90.verification.json",
+        ".ai/evidence/external/v0.2.90/release-manifest.json"
+      ],
+      "expected": "Cargo metadata, Cargo.lock, current tri-language projections, the reviewed merge commit, annotated v0.2.90 tag, public manifest, and published binary identity agree.",
+      "required": true,
+      "scenario": "reviewed source produces one v0.2.90 identity",
+      "status": "unverified",
+      "verificationPlan": "Run source checks before the PR, bind the tag only to synchronized merged main after hosted checks pass, then validate the public manifest and downloaded binary identity."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-792-release-v0-2-90.verification.json",
+        "docs/work-items/WI-792-release-v0-2-90.md"
+      ],
+      "expected": "Hosted route, quality, behavioral, Windows runtime, and task-completion checks pass for the exact reviewed head before merge.",
+      "required": true,
+      "scenario": "reviewed PR passes the integrated release gate",
+      "status": "unverified",
+      "verificationPlan": "Push the dedicated branch, create one PR, inspect every required hosted check, and merge only the reviewed green head."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+      ],
+      "expected": "The downloaded v0.2.90 public archive passes version, manifest, checksum, Runtime identity, root isolation, and temporary-root cleanup checks without using the workspace binary.",
+      "required": true,
+      "scenario": "public release artifact passes isolated adopter installation",
+      "status": "unverified",
+      "verificationPlan": "Run the public adopter harness against the downloaded Release artifact with isolated HOME, XDG_CONFIG_HOME, TMPDIR, and CARGO_HOME roots, then retain the receipt and manifests."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+      ],
+      "expected": "An isolated adopter upgrades from the previous public v0.2.89 archive to v0.2.90, preserves governed history, records same-schema compatibility, and cleans all temporary roots.",
+      "required": true,
+      "scenario": "v0.2.89 to v0.2.90 preserves the N-1 boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the public upgrade harness with immutable v0.2.89 and v0.2.90 Release artifacts and compare the retained history digest."
+    },
+    {
+      "evidence": [
+        ".ai/work-items/archive/WI-792-release-v0-2-90.contract.json",
+        ".ai/decisions/WI-792-release-v0-2-90.finalize.json",
+        ".ai/decisions/WI-792-release-v0-2-90.close.json"
+      ],
+      "expected": "The Work Item archive, finalization, close, exact branch/worktree cleanup, synchronized main, and post-close promotion check all bind the reviewed merged source and release evidence.",
+      "required": true,
+      "scenario": "governed release closure is bound to the merged source",
+      "status": "unverified",
+      "verificationPlan": "Complete finish and archive before merge, record provider finalization after merge and cleanup, close with explicit authorization, synchronize main, and run the closed-work-item promotion check."
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-10T19:05:37Z",
+  "updatedAt": "2026-09-10T19:17:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:04eaf98f49500c04f0b2c3d90a5192bb1679442732926f3b84df39284e0e9828",
   "workItemId": "WI-792-release-v0-2-90"
 }
