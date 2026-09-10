@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T15:48:32Z",
-  "checkpointContractDigest": "sha256:64228b4de8d9c804089fc6fa12fdc05a61b3dbce7962d410ab8a2e5972520135",
+  "checkpointContractDigest": "sha256:9e09ea1121e96a0d615a74841f94458eb04b697cd5a4d7f1d0ae3c1495c812f1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -61,16 +61,19 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e604979e79b81472497b3506f1ac80d750f77ad3f00b03ebcf5e1fc06faabed3",
   "createdAt": "2026-09-10T15:47:44Z",
+  "failedGate": "finish.preflight",
   "mode": "implementation",
-  "preflightAt": "2026-09-10T15:58:32Z",
-  "preflightContractDigest": "sha256:64228b4de8d9c804089fc6fa12fdc05a61b3dbce7962d410ab8a2e5972520135",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-10T16:00:11Z",
+  "preflightContractDigest": "sha256:9e09ea1121e96a0d615a74841f94458eb04b697cd5a4d7f1d0ae3c1495c812f1",
   "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
   "preflightRepositorySnapshotDigest": "sha256:e604979e79b81472497b3506f1ac80d750f77ad3f00b03ebcf5e1fc06faabed3",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
-  "updatedAt": "2026-09-10T15:48:32Z",
+  "updatedAt": "2026-09-10T16:00:16Z",
   "verification": [
     {
       "check": "project-command-0",

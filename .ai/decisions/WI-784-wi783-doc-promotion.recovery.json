@@ -1,0 +1,30 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-successor-recovery",
+  "decidedAt": "2026-09-10T16:05:14Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-784-wi783-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.outcome.json",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.summary.json",
+    "https://github.com/xinglun/ai-cockpit/pull/764"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9e09ea1121e96a0d615a74841f94458eb04b697cd5a4d7f1d0ae3c1495c812f1",
+  "predecessorEventsDigest": "sha256:6e7af6d106479b42270bbd94f08ecd6bfce217ec208228eacb9f98709aba53bb",
+  "predecessorOutcomeDigest": "sha256:ec499e7315d2462074149242fa36ebe68e16a32e2aa19fde19cbf1ab91015ea7",
+  "predecessorSummaryDigest": "sha256:476523797df81406323f14e5d6901d82e5db334ebd71e296477bb764cbe7f386",
+  "predecessorWorkItemId": "WI-784-wi783-doc-promotion",
+  "reason": "WI-784 reached a truthful finish.preflight stop because its initial Contract used descriptive authority text and file paths in requiredEvidenceClasses, which the Runtime correctly treats as missing supported evidence. Preserve the failed attempt and PR #764 immutably, then continue the bounded documentation promotion in a successor with Runtime-valid Contract fields.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start and verify WI-785 with authority=authorized and requiredEvidenceClasses=[verification]; do not claim WI-784 completed.",
+  "runtimeDigest": "sha256:1ad4641884479ee6a20a7d27706e41617df8781bf2068c90fd5367fcc98c13cc",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-785-wi784-doc-promotion",
+  "workItemId": "WI-784-wi783-doc-promotion"
+}

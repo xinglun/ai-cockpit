@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-784 — WI-783 terminal documentation promotion"
 description: "Promote the closed WI-783 evidence into a bounded, tri-language documentation projection."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-784-wi783-doc-promotion
 lastVerifiedBy: WI-784-wi783-doc-promotion
@@ -38,6 +38,8 @@ The declared documentation checks are:
 
 `bash tests/docs/documentation_acceptance.sh --repo <repo>`
 
-The terminal projection is derived from the immutable WI-784 archive,
-verification, finalization, and close records; those fields are intentionally
-absent until the Runtime closes this Work Item.
+The attempt stopped truthfully at `finish.preflight` because its initial
+Contract used Runtime-invalid authority and evidence-class values. The
+attempt remains immutable and is continued by WI-785; WI-784 is not claimed as
+completed. The recovery boundary is
+`.ai/decisions/WI-784-wi783-doc-promotion.recovery.json`.

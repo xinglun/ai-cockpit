@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-784 — WI-783 terminal documentation promotion"
 description: "WI-783 の close 済み証拠を bounded な三言語ドキュメント投影へ昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-784-wi783-doc-promotion
 lastVerifiedBy: WI-784-wi783-doc-promotion
@@ -37,6 +37,7 @@ WI-783 の不変レコードは変更しない。
 
 `bash tests/docs/documentation_acceptance.sh --repo <repo>`
 
-terminal projection は WI-784 の不変 archive、verification、finalization、close
-レコードから導出する。Runtime がこの Work Item を close するまでは、これらの
-terminal field は意図的に存在しない。
+この試行は初期 Contract の authority と evidence class が Runtime-invalid だった
+ため、`finish.preflight` で停止した。試行は不変に保持し、WI-785 が継続する。
+WI-784 の完了は主張しない。Recovery boundary は
+`.ai/decisions/WI-784-wi783-doc-promotion.recovery.json` である。

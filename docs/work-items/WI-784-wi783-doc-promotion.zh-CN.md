@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-784 — WI-783 终态文档投影"
 description: "将 WI-783 的已关闭证据投影为有界的三语言文档记录。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-784-wi783-doc-promotion
 lastVerifiedBy: WI-784-wi783-doc-promotion
@@ -37,5 +37,7 @@ WI-781、WI-782 或 WI-783 的不可变记录。
 
 `bash tests/docs/documentation_acceptance.sh --repo <repo>`
 
-终态投影由 WI-784 不可变的 archive、verification、finalization 和 close
-记录派生；在 Runtime 关闭本 Work Item 前，这些终态字段应保持缺失。
+该尝试因初始 Contract 使用 Runtime 不接受的 authority 和 evidence class 值，
+在 `finish.preflight` 处真实停止。尝试保持不可变，由 WI-785 继续；不宣称
+WI-784 已完成。Recovery 边界为
+`.ai/decisions/WI-784-wi783-doc-promotion.recovery.json`。
