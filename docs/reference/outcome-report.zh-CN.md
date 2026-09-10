@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: outcome-dialog-acceptance
+lastVerifiedBy: WI-781-trust-diagnostics
 capabilityClaims:
   - human_outcome_handoff
 ---
@@ -51,17 +51,22 @@ stderr，人工也可以用 `ai-cockpit work-item outcome --repo <repository> --
 
 当前展示版本将默认的人工 `work-item outcome` 视图从完整审计报告改为上述四段式摘要，减少普通任务阅读空栏目，同时保留验证、生命周期、决定、阻断项、不确定性和证据引用。
 完整报告通过 `--view full` 保留；MCP `work_item_outcome` 接受 `view: "summary"`（默认）或 `view: "full"`。
-机器 JSON、验证规则、退出码、授权语义和持久化证据均不变。顶层 `finish`、`archive`、`close` 为保留生命周期错误和审计上下文，继续在 stderr 输出完整 handoff；`--json` 仍会抑制该人工通道。
+机器 JSON 的既有字段、验证规则、退出码、授权语义和持久化证据保持兼容；新增的原因和 finalization 字段是可选的，旧记录可以缺少。顶层 `finish`、`archive`、`close` 为保留生命周期错误和审计上下文，继续在 stderr 输出完整 handoff；`--json` 仍会抑制该人工通道。
 
 状态标记是决策信号，不是发布授权：
 
 - `🟢` 已有验证证据；继续前先审阅证据。
 - `🟡` 部分完成、未就绪或未知；需要修复或调查。
-- `🔴` 必需控制失败，或权限/范围无效；必须停止并恢复。
+- `🔴` 必需控制失败；先检查展示的具体原因投影，解决实际缺口前必须停止。
 
 空数据不会被当作正面事实。风险发现会在证据不足时显示为 `未记录` 或 `未评估`；
 只有有明确证据支持的声明，才能说在指定检查范围内未发现风险。其他空章节显示为 `未记录`。
 报告不会通过推断补全治理决定；绿色结果也不授权合并、发布、公开或安全性声明。
+
+红色标记本身不是证据诊断。Runtime 从既有的 failed gate、unknowns、治理控制
+发现、范围/授权规则和证据状态派生稳定原因键，区分验证失败、证据无效或过期、
+验收证据缺失、意图未对齐、范围或授权缺口以及无法确定的原因。摘要和完整报告
+共用这套投影；CLI/MCP 的人工交接在 `en`、`zh`、`ja` 中保持相同语义。
 
 报告刻意分开四个维度：
 
@@ -108,15 +113,21 @@ v2 envelope 的 `createdAt` 和 retention 的 `createdAt` 必须是 RFC3339 时�
 `historicalStatus: "superseded"` 并显示黄色历史标记。这表示原始 evidence
 被保留，未作为当前结果重新验证；它不是红色失败，也不是绿色授权。
 
-对于绑定 resource context 的普通 archived Work Item，如果 provider
-finalization receipt 缺失或无效，Outcome 会加入稳定 unknown
-`resource_finalization_pending`，不得显示为 green/verified。该 receipt
-属于独立的 provider-side 边界，不等同于 repository verification。
-archived Work Item 在有效的显式 close decision 之前也不是终态。人类 handoff
-会明确剩余顺序：清理精确的 branch/worktree、记录 finalization、运行
-`finalize-verify`，然后 `close`；没有外部资源的项只需要经过审阅并记录人工
-`close` 决定。机器 status projection 会把这个缺口标记为阻塞并输出对应
-`safeActions`，Agent 不能静默进入下一个 Work Item。
+对于绑定 resource context 的普通 archived Work Item，finalization 会依据
+Runtime 的 receipt 校验器和资源观察进行投影。receipt 缺失、记录损坏、身份不匹配、
+清理待完成、资源按计划保留和删除已验证都有不同状态与动作。事实缺失或无效时
+只要求检查或重新观察，绝不会建议重复删除；保留状态不会变成删除建议；删除已
+验证也只留下 Runtime 的 close 决定。人工文案不是授权来源。archived Work Item
+仍须等 Runtime 接受 finalization 且显式 close decision 有效后才是终态。
+
+Outcome 组装在一个请求级观察边界内获取 repository snapshot 及相关生命周期、
+决定、证据和 finalization 记录。组装期间发现确定性变化时最多重试一次；持续变化
+会明确返回 unknown/失败。纯渲染函数不执行 I/O，也不会把旧上下文延长到执行或持久化阶段。
+
+`ai-cockpit diagnose` 报告 Runtime 内部主路径的 identity、Git/snapshot、read/hash、
+parse、governance 和 projection/serialization 阶段，并报告实际范围内的读取/哈希
+字节数及 Git 调用次数。不支持的子进程计数会标记为 unavailable 而不是零；基准工具
+自身的开销与 Runtime 测量分开。
 
 CLI 直接输出优先使用 `AI_COCKPIT_LANGUAGE`，其次使用进程 locale。Agent 对话应
 使用用户当前语言。JSON 字段名和枚举值在不同语言之间保持稳定。

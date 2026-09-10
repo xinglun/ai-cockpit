@@ -13,6 +13,64 @@
     "9": "every human-decision question names subject/impact/recovery condition",
     "10": "summary may omit detail but not a blocker/key-unknown/required decision"
   },
+  "executableCheckRegistry": {
+    "human_report_reason_projection": {
+      "inputFacts": ["OutcomeV2.failedGate", "OutcomeV2.unknowns", "GovernanceControlsReport.findings"],
+      "expectedSemantics": {
+        "description": "Summary and full human reports name the same evidence, acceptance, intent, scope, authorization, and finalization gaps without treating a red marker as a reason.",
+        "semanticTokens": ["acceptance_gap", "intent_gap", "verification_not_invalidated"]
+      },
+      "test": "crates/cockpit-repository/tests/outcome_report.rs::human_renderer_names_acceptance_and_intent_gaps_without_invalidating_verification"
+    },
+    "human_report_entrypoint_parity": {
+      "inputFacts": ["OutcomeV2", "localized human handoff"],
+      "expectedSemantics": {
+        "description": "CLI and MCP human handoffs preserve the same reason, unknown, authorization scope, and consequence semantics in every supported language.",
+        "semanticTokens": ["outcome_marker", "verification_state", "acceptance_gap", "intent_gap", "next_action"]
+      },
+      "test": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome"
+    },
+    "human_report_summary_retains_blocker": {
+      "inputFacts": ["OutcomeV2.unknowns", "OutcomeV2.failedGate", "OutcomeV2.recoveryCondition"],
+      "expectedSemantics": {
+        "description": "Summary compression does not drop a non-empty blocker, key unknown, or required human decision.",
+        "semanticTokens": ["acceptance_gap", "intent_gap", "failed_gate", "recovery_condition", "unknown_benefit"]
+      },
+      "test": "crates/cockpit-repository/src/outcome_render.rs::render_tests::human_renderer_preserves_blockers_and_unknowns_in_summary"
+    },
+    "finalization_action_matches_state": {
+      "inputFacts": ["ResourceFinalizationReceipt", "resource observation", "recovery evidence"],
+      "expectedSemantics": {
+        "description": "Missing, invalid, mismatched, retained, and verified-cleaned resources produce distinct recovery guidance; human text never grants the Runtime operation.",
+        "semanticTokens": ["finalization_state_action", "no_unsupported_delete", "close_decision_is_not_authorization"]
+      },
+      "test": "crates/cockpit-repository/src/outcome_render.rs::render_tests::finalization_recovery_actions_follow_classified_facts"
+    },
+    "no_history_handoff": {
+      "inputFacts": ["Contract", "Summary", "status", "Outcome", "verification evidence"],
+      "expectedSemantics": {
+        "description": "A fresh session reconstructs target, scope, state, evidence, applicable authorization, blockers, and legal next step from Runtime records only.",
+        "semanticTokens": ["objective", "scope", "completion", "evidence", "authorization_applicability", "block_reason", "legal_next_step"]
+      },
+      "test": "crates/cockpit-cli/tests/collaboration_handoff.rs::new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history"
+    },
+    "observation_boundary_bounded_retry": {
+      "inputFacts": ["ObservationContext", "assembly facts before/after"],
+      "expectedSemantics": {
+        "description": "Concurrent relevant-record changes cause a bounded retry; persistent change returns explicit unknown/failure and never a stitched result.",
+        "semanticTokens": ["bounded_retry", "explicit_unknown"]
+      },
+      "test": "crates/cockpit-repository/src/outcome_render.rs::render_tests::outcome_assembly_retries_once_after_deterministic_record_change"
+    },
+    "runtime_phase_diagnostics": {
+      "inputFacts": ["PerformanceDiagnosis.phases", "PerformanceDiagnosis.counters", "runtime identity"],
+      "expectedSemantics": {
+        "description": "The Runtime exposes non-empty primary-path phase timings and actual read/hash/Git counters while unsupported process counts remain explicitly unavailable.",
+        "semanticTokens": ["identity", "git_snapshot", "read_hash", "parse", "governance", "projection_serialization", "read_bytes", "hashed_bytes", "git_calls", "child_processes_unavailable"]
+      },
+      "test": "crates/cockpit-repository/tests/intelligence.rs::capability_and_diagnosis_are_snapshot_bound_and_parallel_check_fails_closed"
+    }
+  },
   "scenarios": [
     {
       "id": "SCN-001",
@@ -108,6 +166,7 @@
         "keyMessage": "verification evidence is not a valid current receipt"
       },
       "invariantsExercised": [1, 4],
+      "executableChecks": ["human_report_reason_projection", "observation_boundary_bounded_retry"],
       "notes": "Any Contract edit after verify invalidates the prior evidence binding, even an edit unrelated to the verified content. Recovery is a fresh `verify`, not an override."
     },
     {
@@ -140,6 +199,7 @@
         "keyMessage": "identity-mismatched or malformed evidence"
       },
       "invariantsExercised": [4],
+      "executableChecks": ["human_report_reason_projection"],
       "notes": "An evidence file existing on disk is never itself sufficient; identity and freshness are checked every time."
     },
     {
@@ -220,6 +280,7 @@
         "keyMessage": "acceptance_evidence_missing, intent_alignment_missing"
       },
       "invariantsExercised": [2, 10],
+      "executableChecks": ["human_report_reason_projection", "human_report_summary_retains_blocker"],
       "notes": "Recovery: `work-item controls --input <json with acceptanceEvidence[] and intentAlignment{state,reason,evidence[]}>`, then re-verify (any Contract-adjacent write invalidates prior evidence, see SCN-006)."
     },
     {
@@ -265,7 +326,7 @@
       "expected": {
         "result": "rejected",
         "decisionState": null,
-        "keyMessage": "run finalize-plan before finish"
+        "keyMessage": "finish requires a non-provisional resource finalization plan; run finalize-plan before finish"
       },
       "invariantsExercised": [7],
       "notes": "finalize-plan requires a real branch, worktree, base branch/remote, provider, and pull request reference (a 'pending:' sentinel still counts as provisional and is rejected)."
@@ -300,6 +361,7 @@
         "keyMessage": "close requires finalize-verify to accept a Deleted receipt plus an explicit --human-decision"
       },
       "invariantsExercised": [1, 7],
+      "executableChecks": ["finalization_action_matches_state"],
       "notes": "A Retained finalization receipt is an intermediate observation and never authorizes close on its own."
     },
     {
@@ -348,6 +410,7 @@
         "keyMessage": "goal/scope, done/pending, valid evidence and scope, recorded authorizations and open decisions, and blocking reason are all derivable from Contract/Summary/Outcome/decision records"
       },
       "invariantsExercised": [8],
+      "executableChecks": ["no_history_handoff"],
       "notes": "Any fact that cannot be recovered this way must be surfaced as an explicit gap, not inferred from the new Agent's own habits or a specific model's phrasing."
     },
     {
@@ -380,7 +443,8 @@
         "keyMessage": "same field order, marker, and status semantics; structuredContent.outcome remains the stable OutcomeV2 object"
       },
       "invariantsExercised": [5],
-      "notes": "No automated cross-entry-point equality check exists yet in this repository as of WI-679/680; this scenario is documented, not verified by a test harness."
+      "executableChecks": ["human_report_entrypoint_parity"],
+      "notes": "The executable check compares machine Outcome equality and semantic human-report lines for the same controlled facts; natural-language wording is not required to be byte-identical."
     },
     {
       "id": "SCN-024",
@@ -396,6 +460,7 @@
         "keyMessage": "labels/headings localize; decision-state colors, evidence, and Contract-owned acceptance/intent/scope text do not"
       },
       "invariantsExercised": [6],
+      "executableChecks": ["human_report_entrypoint_parity"],
       "notes": "Contract source text is never machine-translated; only Runtime-generated presentation text is localized."
     },
     {
@@ -431,6 +496,7 @@
         "keyMessage": "goal/scope, done/pending state, current evidence bindings, authorization, unknown benefit, and the persisted finish.governance recovery condition are reconstructed without transcript input"
       },
       "invariantsExercised": [3, 4, 7, 8, 10],
+      "executableChecks": ["no_history_handoff", "runtime_phase_diagnostics"],
       "notes": "The test uses only temporary controlled-repository records and explicitly reads the persisted Outcome rather than treating the transient failed command's presentation as completion. It does not recruit, interview, or evaluate external participants."
     }
   ]

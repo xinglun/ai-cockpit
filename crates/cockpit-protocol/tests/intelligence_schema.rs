@@ -2,10 +2,10 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     AdopterCapabilityState, CapabilityConfidence, CapabilityOwnership, CapabilityTruth,
     CapabilityTruthRegistry, FactOrigin, HumanBenefitReport, ImplementationApproach, OutcomeState,
-    OutcomeV2, ProjectCapabilityDeclaration, ProjectGovernanceProjection, ProjectProfilePolicy,
-    ProjectSuccessCriteriaDeclaration, TaskOutcomeReport, TraceableDerivation, TraceableFact,
-    TruthState, WorkItemCompatibility, WorkItemIntelligence, WorkItemStatusIndex,
-    WorkItemStatusIndexEntry,
+    OutcomeV2, PerformanceDiagnosis, ProjectCapabilityDeclaration, ProjectGovernanceProjection,
+    ProjectProfilePolicy, ProjectSuccessCriteriaDeclaration, TaskOutcomeReport,
+    TraceableDerivation, TraceableFact, TruthState, WorkItemCompatibility, WorkItemIntelligence,
+    WorkItemStatusIndex, WorkItemStatusIndexEntry,
 };
 
 #[test]
@@ -132,10 +132,41 @@ fn v2_records_round_trip_with_explicit_unknowns_and_provenance() {
         recovery_condition: None,
         recovery_decision: None,
         historical_status: None,
+        governance_reasons: Vec::new(),
+        finalization: None,
     };
     let value = serde_json::to_value(&outcome).expect("encode");
     assert_eq!(value["humanBenefitReport"]["state"], "unknown");
     assert_eq!(value["unknowns"][0], "user_visible_benefit_not_declared");
+    let decoded: OutcomeV2 = serde_json::from_value(value).expect("legacy-compatible decode");
+    assert!(decoded.governance_reasons.is_empty());
+    assert!(decoded.finalization.is_none());
+}
+
+#[test]
+fn legacy_performance_diagnosis_without_measurement_scope_remains_readable() {
+    let legacy = serde_json::json!({
+        "schemaVersion": 1,
+        "repositoryId": "sha256:repo",
+        "workItemId": null,
+        "state": "known",
+        "cost": {
+            "snapshotGitCalls": 1,
+            "snapshotFilesRead": 0,
+            "snapshotFilesHashed": 0,
+            "verificationRuns": 0,
+            "verificationNodesExecuted": 0,
+            "verificationNodesReused": 0,
+            "elapsedMs": 1
+        },
+        "bottlenecks": [],
+        "unknowns": [],
+        "evidenceRefs": []
+    });
+    let diagnosis: PerformanceDiagnosis =
+        serde_json::from_value(legacy).expect("legacy diagnosis remains readable");
+    assert_eq!(diagnosis.measurement_scope, "legacy_record_scope_unknown");
+    assert!(diagnosis.phases.is_empty());
 }
 
 #[test]

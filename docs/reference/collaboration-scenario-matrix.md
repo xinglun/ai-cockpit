@@ -5,7 +5,7 @@ description: "A state/transition-derived scenario matrix for collaboration-langu
 audience: [adopter, contributor, maintainer, reviewer]
 status: current
 authority: canonical
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # Collaboration scenario matrix
@@ -78,9 +78,10 @@ extended, never renumbered, by future Work Items). A representative sample:
 ## Known limitations
 
 This matrix remains a hand-curated semantic index rather than a complete
-automated test suite. WI-753 adds one executable controlled-repository check
-for the state/option/Runtime consistency boundary, including interruption and
-resume. WI-756 adds one bounded handoff-reconstruction check that reads only
-Runtime records and preserves an explicit block. Neither check claims
-exhaustive Cartesian coverage of every invariant or state; future Work Items
-may add bounded checks without renumbering scenarios.
+automated test suite. Its JSON source now includes an executable check registry:
+each bound scenario names its input facts, expected semantics, and test entry
+point. WI-781 adds direct human-report semantic parity, finalization-action
+classification, bounded Outcome assembly retry, and staged Runtime diagnostics;
+unsupported process counts remain explicitly unavailable. None of these checks
+claims exhaustive Cartesian coverage of every invariant or state; future Work
+Items may add bounded checks without renumbering scenarios.

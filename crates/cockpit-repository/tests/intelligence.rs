@@ -281,6 +281,29 @@ fn capability_and_diagnosis_are_snapshot_bound_and_parallel_check_fails_closed()
     assert!(!registry.capabilities.is_empty() || registry.capabilities.is_empty());
     let diagnosis = performance_diagnosis(directory.path(), None).expect("diagnosis");
     assert_eq!(diagnosis.state, cockpit_protocol::DiagnosisState::Unknown);
+    let phase_names = diagnosis
+        .phases
+        .iter()
+        .map(|phase| phase.name.as_str())
+        .collect::<Vec<_>>();
+    assert!(phase_names.contains(&"identity"));
+    assert!(phase_names.contains(&"git_snapshot"));
+    assert!(phase_names.contains(&"projection_serialization"));
+    assert!(phase_names.contains(&"runtime_total"));
+    assert!(
+        diagnosis
+            .phases
+            .iter()
+            .filter(|phase| phase.name != "runtime_total")
+            .all(|phase| phase.parent.as_deref() == Some("runtime_total"))
+    );
+    assert_eq!(diagnosis.counters.child_processes, None);
+    assert!(
+        diagnosis
+            .unknowns
+            .contains(&"child_process_count_unavailable_runtime_internal".into())
+    );
+    assert!(diagnosis.counters.read_bytes.is_some());
     start_work_item_with_options(
         directory.path(),
         "WI-79",

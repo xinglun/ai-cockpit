@@ -141,6 +141,8 @@ fn render_fixture_view_language(
         recovery_condition: None,
         recovery_decision: None,
         historical_status,
+        governance_reasons: Vec::new(),
+        finalization: None,
     };
     let input = outcome_render_input_from_outcome(directory.path(), outcome);
     render_human_outcome_with_view(&input, language, view)
@@ -481,7 +483,73 @@ fn human_renderer_keeps_partial_missing_and_stale_verification_distinct() {
     assert!(stale.contains("Outcome: 🔴 Verification status unknown — WI-STALE"));
     assert!(stale.contains("evidence_snapshot_stale"));
     assert!(stale.contains("identity_mismatch"));
-    assert!(stale.contains("Verification evidence is invalid or does not match"));
+    assert!(stale.contains("Verification evidence is expired"));
+    assert!(stale.contains("Verification evidence identity does not match"));
+    assert!(!stale.contains("Verification evidence is invalid or does not match"));
+}
+
+#[test]
+fn human_renderer_names_acceptance_and_intent_gaps_without_invalidating_verification() {
+    let directory = repository();
+    let id = "WI-VALID-VERIFICATION-GAPS";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "show the actual governance gap",
+        "verification remains valid while acceptance and intent evidence are incomplete",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec![
+                "A1: acceptance evidence is recorded".into(),
+                "A2: intent alignment is recorded".into(),
+            ],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    preflight_work_item(
+        directory.path(),
+        &directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json")),
+    )
+    .expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.89",
+        &Digest::sha256_bytes(b"valid-verification"),
+    )
+    .expect("verification");
+
+    let input =
+        cockpit_repository::outcome_render_input(directory.path(), id).expect("assembled outcome");
+    for language in ["en", "zh", "ja"] {
+        for view in [OutcomeRenderView::Summary, OutcomeRenderView::Full] {
+            let text = render_human_outcome_with_view(&input, language, view);
+            assert!(
+                !text.contains("Verification evidence is invalid or does not match"),
+                "{language}/{view:?}: {text}"
+            );
+            assert!(
+                text.contains("acceptance") || text.contains("验收") || text.contains("受入れ"),
+                "{language}/{view:?} omitted acceptance gap: {text}"
+            );
+            assert!(
+                text.contains("intent") || text.contains("意图") || text.contains("intent"),
+                "{language}/{view:?} omitted intent gap: {text}"
+            );
+        }
+    }
+    let summary = render_human_outcome_with_view(&input, "en", OutcomeRenderView::Summary);
+    assert!(
+        summary.contains("Complete the acceptance-evidence mapping"),
+        "{summary}"
+    );
+    assert!(!summary.contains("verify again"), "{summary}");
 }
 
 #[test]

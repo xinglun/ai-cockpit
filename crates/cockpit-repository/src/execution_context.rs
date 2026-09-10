@@ -1079,6 +1079,7 @@ impl ObservationContext {
         let current_snapshot_digest = snapshot_digest(&current_snapshot)?;
         let current_repository_id = repository_id(&self.root);
         let current_configuration_digest = governance_configuration_digest(&self.root)?;
+        let current_policy_digest = governance_policy_digest(&self.root)?;
         if current_repository_id != self.repository_id {
             return Err(ObserverError::State {
                 path: self.root.join(".ai/cockpit.toml"),
@@ -1091,6 +1092,12 @@ impl ObservationContext {
                 message: "observation phase governance configuration changed".into(),
             });
         }
+        if current_policy_digest != self.policy_digest {
+            return Err(ObserverError::State {
+                path: self.root.join(".ai/policy.json"),
+                message: "observation phase governance policy changed".into(),
+            });
+        }
         if let (Some(path), Some(expected)) = (&self.contract_path, &self.contract_digest) {
             let current = contract_identity_digest(path)?;
             if &current != expected {
@@ -1098,6 +1105,15 @@ impl ObservationContext {
                     path: path.clone(),
                     message: "observation phase Contract identity changed".into(),
                 });
+            }
+            if let Some(expected_model) = &self.contract_model_digest {
+                let current_model = contract_model_digest(path)?;
+                if &current_model != expected_model {
+                    return Err(ObserverError::State {
+                        path: path.clone(),
+                        message: "observation Contract model changed".into(),
+                    });
+                }
             }
         }
         if current_snapshot_digest != self.snapshot_digest {
@@ -1320,7 +1336,7 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_digest: Option<Digest>,
     ) -> Result<ObservationContext, ObserverError> {
-        self.observe_phase_with_bindings(phase, runtime, contract_digest, None, None)
+        self.observe_phase_with_bindings(phase, runtime, contract_digest, None, None, true)
     }
 
     pub fn observe_phase_with_contract(
@@ -1348,6 +1364,36 @@ impl RepositoryExecutionContext {
             Some(contract_digest),
             Some(contract_model_digest),
             Some(contract_path),
+            true,
+        )
+    }
+
+    pub(crate) fn observe_phase_with_contract_uncached(
+        &self,
+        phase: ObservationPhase,
+        runtime: Option<&RuntimeContext>,
+        contract_path: &Path,
+    ) -> Result<ObservationContext, ObserverError> {
+        let contract_path =
+            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
+                path: contract_path.to_path_buf(),
+                source,
+            })?;
+        if !contract_path.starts_with(&self.root) {
+            return Err(ObserverError::State {
+                path: contract_path,
+                message: "observation Contract escapes repository root".into(),
+            });
+        }
+        let contract_digest = contract_identity_digest(&contract_path)?;
+        let contract_model_digest = contract_model_digest(&contract_path)?;
+        self.observe_phase_with_bindings(
+            phase,
+            runtime,
+            Some(contract_digest),
+            Some(contract_model_digest),
+            Some(contract_path),
+            false,
         )
     }
 
@@ -1358,8 +1404,13 @@ impl RepositoryExecutionContext {
         contract_digest: Option<Digest>,
         contract_model_digest: Option<Digest>,
         contract_path: Option<PathBuf>,
+        use_persistent_cache: bool,
     ) -> Result<ObservationContext, ObserverError> {
-        let observation = self.observe()?.clone();
+        let observation = if use_persistent_cache {
+            self.observe()?.clone()
+        } else {
+            self.observe_uncached()?.clone()
+        };
         let captured_snapshot_digest = snapshot_digest(&self.snapshot)?;
         let project_governance =
             observe_project_governance(&self.root, &self.repository_id, &captured_snapshot_digest)?;
@@ -1382,6 +1433,28 @@ impl RepositoryExecutionContext {
         };
         context.validate_current()?;
         Ok(context)
+    }
+
+    fn observe_uncached(&self) -> Result<&RepositoryObservation, ObserverError> {
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let _guard = self
+            .observation_guard
+            .lock()
+            .map_err(|_| ObserverError::State {
+                path: self.root.join(".ai"),
+                message: "repository observation mutex was poisoned".into(),
+            })?;
+        if let Some(observation) = self.observation.get() {
+            return Ok(observation);
+        }
+        let observation = observe(&self.root, &self.snapshot)?;
+        let _ = self.observation.set(observation);
+        self.observation.get().ok_or_else(|| ObserverError::State {
+            path: self.root.join(".ai"),
+            message: "repository observation was not initialized".into(),
+        })
     }
 }
 

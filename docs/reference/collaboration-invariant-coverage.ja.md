@@ -5,7 +5,7 @@ description: "十の協作言語意味論的不変量を既存の自動テスト
 audience: [maintainer, reviewer, contributor]
 status: current
 authority: canonical
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # 協作不変量カバレッジ
@@ -39,12 +39,12 @@ PR #677 でマージ済み)を使用したためであり——これは実在�
 | 2 | 空の記録 ≠ リスクなし | **はい** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields` | リスク/テスト弱体化の節が空の Outcome をレンダリングし、人間向けテキストがデータの欠如から「リスクは見つからなかった」等の肯定的な結論を述べないことを断言する。 |
 | 3 | 未知の事実は表現層で補完できない | **はい(部分的)** | `crates/cockpit-core/tests/adversarial_v2.rs::multilingual_adversarial_corpus_binds_wording_as_data` | `tests/adversarial/manifest.json` の意味論的ケース(現在15件)を `evaluate()` に通し、評価結果が言い回しではなくケースのデータに束縛されていることを断言する。このマニフェストに収録済みの敵対的言い回しのみを対象とし、網羅的ではない。 |
 | 4 | 歴史的記録は根拠なく現在の合格/失敗になってはならない | **はい** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_preserves_historical_and_superseded_distinctions`、`::archived_report_tamper_is_red_and_not_reprojected_as_verified` | `runtime_historical` 記録がその歴史的な文言を保持すること(現在の失敗向けの「Repair the missing evidence」という文言が出ないこと)、および改ざんされたアーカイブ済みレポートが赤としてレンダリングされ、静かに検証済みとして再投影されないことを断言する。 |
-| 5 | 同一の事実が CLI/MCP/要約/完全なレポートで一致する | **はい** | `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome`(WI-682、PR #679 で追加) | CLI 側では実際の `ai-cockpit` バイナリをサブプロセスとして起動し、MCP 側ではプロセス内で `cockpit_mcp::handle_request_for_repo()` を呼び出し、同一のリポジトリ fixture と同一の Work Item に対して、CLI の `work-item outcome --json` 出力と MCP `work_item_outcome` ツールの `structuredContent.outcome` が完全に等しいことを断言する(被測バイナリと完全に一致する `RuntimeContext` を使用)。これは、以前の `crates/cockpit-mcp/tests/rpc.rs::*_with_cli_parity` 系のテスト(二つのプロセス内呼び出しを比較するのみ)が提供できていなかった、真にプロセスをまたいだ検査である。 |
+| 5 | 同一の事実が CLI/MCP/要約/完全なレポートで一致する | **はい** | `crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome`(WI-781 で拡張) | CLI 側では実際の `ai-cockpit` バイナリをサブプロセスとして起動し、MCP 側ではプロセス内で `cockpit_mcp::handle_request_for_repo()` を呼び出し、同一のリポジトリ fixture と同一の Work Item に対して、機械 `OutcomeV2` は完全一致させ、人間向けの原因、未知項、授権範囲、結果の行は英語、簡体字中国語、日本語で意味論的に一致することを断言する。完全一致にできる機械メッセージと、自然言語の不変条件を分けて検査する。 |
 | 6 | 言語を変更しても事実/授権範囲/結果は変わらない | **はい** | `crates/cockpit-cli/tests/outcome_handoff.rs::default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json`;`crates/cockpit-core/tests/adversarial_v2.rs::multilingual_adversarial_corpus_binds_wording_as_data` | CLI テストは `AI_COCKPIT_LANGUAGE=en/zh-CN/ja` を順に設定して実バイナリを起動し、機械可読な stdout JSON フィールドが言語間でバイト単位で同一であり、人間向けの stderr テキストのみが局所化されることを断言する。敵対的コーパステストはさらに、各意味論的ケースについて各言語5種の言い回しバリアントが同一に評価されることを検査する。 |
 | 7 | 表示される次の一歩が現在の Runtime 状態/方針と一致する | **はい(有界)** | `crates/cockpit-repository/tests/scenario_matrix_next_action.rs`(WI-741、PR #713); `crates/cockpit-cli/tests/collaboration_consistency.rs::displayed_option_state_and_runtime_transition_stay_consistent_through_resume`(WI-753) | WI-741 は表示された次アクションを実観測の場景行列に束縛する。WI-753 はさらに、表示された人による決定の選択肢と checkpoint、中断、再開を通した各 Runtime 遷移が一致することを断言する。カバレッジは有界であり、全状態に対する汎用的な判定器ではない。 |
-| 8 | 既存授権が適用されるかはルールと記録で決まり、セッション切替で変わらない | **はい(有界)** | `crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse`; `crates/cockpit-cli/tests/collaboration_handoff.rs::new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history`(WI-756) | preflight テストは、身元束縛とスナップショットが一致する間だけ決定を再利用でき、古い再利用は拒否されることを示す。WI-756 は、新しいサブプロセスの再構築が記録済みの授権と永続化された停止境界を持ち越し、新しい決定を作らないことを追加で検査する。すべての呼び出し元身元の遷移をシミュレートするものではない。 |
+| 8 | 既存授権が適用されるかはルールと記録で決まり、セッション切替で変わらない | **はい(有界)** | `crates/cockpit-repository/tests/preflight_review.rs::bound_human_review_receipt_allows_checkpoint_but_not_stale_reuse`; `crates/cockpit-cli/tests/collaboration_handoff.rs::new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history`(WI-781 で拡張) | preflight テストは、身元束縛とスナップショットが一致する間だけ決定を再利用でき、古い再利用は拒否されることを示す。交接の再構築は、宣言された授権だけでなく preflight、fresh evidence、governance control、findings から `applicable` を導出するため、Contract の authority フィールドを読むだけでは適用性を証明できない。すべての呼び出し元身元の遷移をシミュレートするものではない。 |
 | 9 | 人による決定を要するすべての問いは対象/影響/復旧条件を明示する | **はい** | `crates/cockpit-repository/tests/contract_preflight.rs::assert_human_decision_request_is_complete`(`::scaffold_preflight_is_not_ready_and_records_human_review_requirements` と `::high_risk_scenario_coverage_stops_at_preflight_for_human_review` から呼び出される。WI-710、PR #702 で追加) | `what_happened`、`why_it_matters`、`question`、`resume_condition`、`options`、`recommended_option`、`recommendation_reason` がすべて非空であること、`recommended_option` が提示された選択肢のいずれかを指すこと、各選択肢の `id`/`label`/`effect` が非空であることを、独立して発生する二つの実際の `needs_human_confirmation` シナリオに対して検査する。 |
-| 10 | 要約は詳細を省略できるが阻断/重要な未知項/必要な決定を隠せない | **はい(部分的)** | `crates/cockpit-repository/tests/outcome_report.rs::human_renderer_does_not_infer_risk_absence_or_test_strength_from_empty_fields`(同ファイル内の隣接する断言) | 「空は肯定的結論ではない」という半分は直接カバーしている。*記入済みの*阻断/未知項/決定が要約の圧縮で失われないことを専門に断言するテストは、第1項のライフサイクルテストで副次的にカバーされている以外には見つからなかった。 |
+| 10 | 要約は詳細を省略できるが阻断/重要な未知項/必要な決定を隠せない | **はい** | `crates/cockpit-repository/src/outcome_render.rs::tests::human_renderer_preserves_blockers_and_unknowns_in_summary`; `crates/cockpit-repository/tests/outcome_report.rs::default_summary_is_four_part_and_full_view_retains_audit_sections` | 記入済みの受入れ/intent の阻断、failed gate、復旧条件、未宣言の効果、人間の次のアクションが summary に残ることを直接断言する。統合テストは四部構成の summary と完全な監査ビューも検証する。 |
 
 ## 本表の読み方
 
@@ -56,6 +56,8 @@ PR #677 でマージ済み)を使用したためであり——これは実在�
 
 不変量7は名指しされたゼロカバレッジの欠落ではない。WI-741 と WI-753 が
 実観測の Runtime 状態に結び付いた有界の実行可能なチェックを提供する。
-WI-756 はさらに、Runtime 記録だけから第5節の引き継ぎを再構築する有界の
-チェックを追加した。いずれも、すべての状態、選択肢、呼び出し元身元の組合せ
-に対する汎用的な判定器ではない。
+WI-781 はさらに、シナリオ ID と実行可能なチェックレジストリの対応付け、人間向け
+意味論のパリティ、終結アクション分類、有界の Outcome 組み立てチェック、段階的な
+Runtime 診断を追加した。サポートされない子プロセス数は利用不能として扱い、推定
+していない。いずれも、すべての状態、選択肢、呼び出し元身元の組合せに対する汎用的
+な判定器ではない。

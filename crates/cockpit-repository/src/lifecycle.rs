@@ -1215,7 +1215,18 @@ fn finish_work_item_internal(
     let _lifecycle_lock = acquire_lifecycle_lock(&canonical_root, work_item_id)?;
     let result = finish_work_item_internal_unlocked(&canonical_root, work_item_id, current_runtime);
     if let Err(error) = &result {
-        let _ = persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error);
+        if let Err(persist_error) =
+            persist_blocked_lifecycle_outcome(&canonical_root, work_item_id, error)
+        {
+            return Err(ObserverError::State {
+                path: canonical_root
+                    .join(".ai/work-items/active")
+                    .join(format!("{work_item_id}.outcome.json")),
+                message: format!(
+                    "lifecycle gate failed: {error}; blocked Outcome persistence failed: {persist_error}"
+                ),
+            });
+        }
     }
     result
 }
@@ -1250,12 +1261,6 @@ fn finish_work_item_internal_unlocked(
         return Err(ObserverError::State {
             path: summary_path.clone(),
             message: "finish requires exactly one checkpoint".into(),
-        });
-    }
-    if summary["preflightState"] != serde_json::json!("green") {
-        return Err(ObserverError::State {
-            path: summary_path.clone(),
-            message: "finish requires a green preflight result after verification".into(),
         });
     }
     let contract_path = active.join(format!("{work_item_id}.contract.json"));
@@ -1356,6 +1361,12 @@ fn finish_work_item_internal_unlocked(
         return Err(ObserverError::State {
             path: evidence_path,
             message: "verification evidence is not a valid current receipt".into(),
+        });
+    }
+    if summary["preflightState"] != serde_json::json!("green") {
+        return Err(ObserverError::State {
+            path: summary_path.clone(),
+            message: "finish requires a green preflight result after verification".into(),
         });
     }
     if contract.checkpoint_policy.is_some() {
@@ -1489,6 +1500,8 @@ fn finish_work_item_internal_unlocked(
         recovery_condition: None,
         recovery_decision: None,
         historical_status: None,
+        governance_reasons: Vec::new(),
+        finalization: None,
     };
     let mut outcome = serde_json::to_value(&outcome_v2).map_err(|error| ObserverError::State {
         path: active.join(format!("{work_item_id}.outcome.json")),

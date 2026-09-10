@@ -52,6 +52,7 @@ import time
 
 from runtime_benchmark_stats import summarize
 from runtime_benchmark_scenarios import scenario_matrix_entry
+from runtime_benchmark_support import filesystem_metadata
 
 
 binary = pathlib.Path(sys.argv[1])
@@ -151,40 +152,59 @@ def repository_metadata():
     }
 
 
-def filesystem_metadata():
-    if platform.system() == "Darwin":
-        command = ["stat", "-f", "%T", str(repo)]
-    elif platform.system() == "Linux":
-        command = ["stat", "-f", "-c", "%T", str(repo)]
-    else:
-        return {"available": False, "type": None, "reason": "platform_filesystem_type_unsupported"}
-    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, check=False, timeout=30)
-    value = result.stdout.decode("utf-8", "replace").strip()
-    if result.returncode != 0 or not value or value in {"/", "?", "unknown"}:
-        return {"available": False, "type": None, "reason": "filesystem_type_unavailable"}
-    return {"available": True, "type": value}
-
-
 def unavailable(reason):
     return {"available": False, "reason": reason}
 
 
-def phase_metrics():
+def diagnosis_phase(diagnosis, *names):
+    phases = diagnosis.get("phases", []) if isinstance(diagnosis, dict) else []
+    selected = [phase for phase in phases if phase.get("name") in names]
+    if not selected:
+        return unavailable("runtime_diagnosis_phase_missing")
+    elapsed_values = [phase.get("elapsedNs") for phase in selected]
+    if any(not isinstance(value, int) or isinstance(value, bool) or value < 0 for value in elapsed_values):
+        return unavailable("runtime_diagnosis_phase_elapsed_missing_or_invalid")
+    parents = sorted({phase.get("parent") for phase in selected if phase.get("parent")})
+    measurements = sorted({phase.get("measurement") for phase in selected if phase.get("measurement")})
+    if len(measurements) != 1:
+        return unavailable("runtime_diagnosis_phase_measurement_scope_ambiguous")
+    elapsed_ns = sum(elapsed_values)
     return {
-        "processStartupAndRuntimeIdentity": unavailable("runtime_does_not_expose_phase_timing"),
-        "gitSnapshot": unavailable("runtime_does_not_expose_git_counters"),
-        "fileReadHashParse": unavailable("runtime_does_not_expose_io_counters"),
-        "evidenceAndGovernance": unavailable("runtime_does_not_expose_phase_timing"),
-        "schedulingSubprocessCapture": unavailable("runtime_does_not_expose_internal_process_timing"),
-        "outcomeProjectionSerialization": unavailable("runtime_does_not_expose_phase_timing"),
+        "available": True,
+        "value": elapsed_ns / 1_000_000,
+        "unit": "ms",
+        "elapsedNs": elapsed_ns,
+        "measurement": measurements[0],
+        "phaseNames": [phase["name"] for phase in selected],
+        "parentScopes": parents,
+        "overlapWarning": bool(parents),
     }
 
 
-def resource_metrics():
+def phase_metrics(diagnosis):
     return {
-        "actualReadBytes": unavailable("runtime_does_not_expose_io_counters"),
-        "actualHashedBytes": unavailable("runtime_does_not_expose_io_counters"),
-        "gitCalls": unavailable("runtime_does_not_expose_git_counters"),
+        "processStartupAndRuntimeIdentity": diagnosis_phase(diagnosis, "identity"),
+        "gitSnapshot": diagnosis_phase(diagnosis, "git_snapshot"),
+        "fileReadHashParse": diagnosis_phase(diagnosis, "read_hash", "parse"),
+        "evidenceAndGovernance": diagnosis_phase(diagnosis, "governance"),
+        "schedulingSubprocessCapture": unavailable("runtime_does_not_expose_internal_process_timing"),
+        "outcomeProjectionSerialization": diagnosis_phase(diagnosis, "projection_serialization"),
+    }
+
+
+def diagnosis_counter(diagnosis, key):
+    counters = diagnosis.get("counters", {}) if isinstance(diagnosis, dict) else {}
+    value = counters.get(key)
+    if value is None:
+        return unavailable(f"runtime_diagnosis_counter_unavailable:{key}")
+    return {"available": True, "value": value, "scope": "runtime_internal"}
+
+
+def resource_metrics(diagnosis):
+    return {
+        "actualReadBytes": diagnosis_counter(diagnosis, "readBytes"),
+        "actualHashedBytes": diagnosis_counter(diagnosis, "hashedBytes"),
+        "gitCalls": diagnosis_counter(diagnosis, "gitCalls"),
         "runtimeChildProcesses": unavailable("runtime_does_not_expose_process_tree"),
         "peakMemoryBytes": unavailable("platform_metric_unavailable"),
         "processesSpawned": {
@@ -232,7 +252,7 @@ probes = [
     {"name": "status", "kind": "repository_identity", "elapsedMs": round(status_elapsed, 3)},
 ]
 repository = repository_metadata()
-filesystem = filesystem_metadata()
+filesystem = filesystem_metadata(repo)
 comparison_material = {
     "system": platform.system(),
     "release": platform.release(),
@@ -281,9 +301,13 @@ for name in scenario_names:
 samples = []
 for name, args in (("inspect", ["inspect"]), ("status", ["status"]), ("doctor", ["doctor"]), ("observe", ["observe"])):
     samples.append(measure(name, args))
+diagnose_args = ["diagnose"]
 if work_item:
     samples.append(measure("work-item-status", ["work-item", "status", "--id", work_item]))
-    samples.append(measure("diagnose", ["diagnose", "--work-item", work_item]))
+    diagnose_args.extend(["--work-item", work_item])
+samples.append(measure("diagnose", diagnose_args))
+
+runtime_diagnosis, _ = execute(diagnose_args, parse_json=True)
 
 if budgets_path:
     try:
@@ -322,8 +346,8 @@ document = {
         "repository": repository,
         "dataScale": {"trackedFileCount": repository["trackedFileCount"], "trackedBytes": repository["trackedBytes"]},
     },
-    "phaseMetrics": phase_metrics(),
-    "resourceMetrics": resource_metrics(),
+    "phaseMetrics": phase_metrics(runtime_diagnosis),
+    "resourceMetrics": resource_metrics(runtime_diagnosis),
     "cacheInvalidationReasons": unavailable("runtime_does_not_expose_cache_invalidation_events"),
     "scenario": scenario,
     "scenarioMatrix": scenario_matrix,

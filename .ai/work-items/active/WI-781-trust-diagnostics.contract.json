@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "红色治理结果按实际 failedGate、未知项、策略结果和证据状态表达，验证通过但 acceptanceEvidence 或 intentAlignment 缺口不再被描述为验证证据无效，真实无效/身份不匹配/过期/不足/范围/授权原因仍可区分且中日英与摘要/完整报告含义一致。",
+    "finalization 保留具体错误分类、资源观察和恢复条件；资源已删除或 receipt 缺失/无效时不重复建议删除，身份不匹配要求核对绑定，可靠事实不足时显示未知和观察步骤，有效清理或保留安排时动作与 Runtime 允许动作一致，且不把人类建议当授权。",
+    "协作场景 ID、输入事实、预期语义和可执行检查直接绑定；CLI/MCP 和摘要/完整报告的人类输出按语义不变量一致，无聊天历史可恢复目标范围状态证据授权和合法下一步，过期/不适用授权不被当作有效，A/B 反例进入长期回归。",
+    "性能诊断提供主路径分阶段耗时、可靠读/哈希字节、Git 调用和子进程计数及明确 unavailable 原因，计时嵌套关系和工具自身开销可区分，macOS/Linux 文件系统识别有成功/失败测试，普通仓库和大量历史 Work Item 测量可追溯且不承诺未验证提升。",
+    "Outcome、生命周期、人工决定和 finalization 事实在可验证组装边界内获得；相关记录变化、损坏或身份变化导致有界重试/明确未知或失败，无变化稳定一致，渲染纯函数不执行 I/O，不跨执行/持久化延长旧上下文，也不引入全局仓库缓存。",
+    "完成 Rust 格式、静态检查、完整测试、跨入口多语言验收、场景绑定、无聊天历史交接、历史兼容和性能测量，并保留全部原始证据；不重写既有历史记录。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "07902f2d10b1b284fa14fc0141650f223084c89b",
+  "createdAt": "2026-09-10T11:59:52Z",
+  "goal": "完成评审确认的五项剩余问题（Outcome 原因表达、finalization 恢复动作、协作语义验收、性能诊断、Outcome 事实组装一致性）的实现、集成验收和回归证据；发布范围另由后续发布 Work Item 负责。",
+  "intent": "消除 Outcome 与 finalization 交接中的交流失真，建立事实一致性边界和可诊断的主路径性能证据，保持 Calibrated Human-Agent Trust。",
+  "mode": "implementation",
+  "outOfScope": [
+    "版本号、发布标签、GitHub Release、发布资产和发布后采用验收；修改或删除既有历史 Work Item、决策、证据、归档及标签；弱化或删除治理检查；跨仓库或全局配置；未经证据支持的性能提升承诺；新用户/外部参与者招募"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4eaa45e2da535ecb4247d2627be726b01303b1e18b6a1e1cb65f08a7b7f768cc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-repository/tests",
+    "crates/cockpit-protocol/tests",
+    "tests/performance",
+    "tests/docs",
+    "docs/reference",
+    "docs/superpowers/specs",
+    "docs/superpowers/plans",
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-protocol/tests/**",
+    "tests/performance/**",
+    "tests/docs/**",
+    "docs/reference/**",
+    "docs/superpowers/specs/**",
+    "docs/superpowers/plans/**",
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/src/lifecycle.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-781-trust-diagnostics"
+}

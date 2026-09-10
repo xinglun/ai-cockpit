@@ -3473,6 +3473,29 @@ pub struct OutcomeV2 {
     /// identity-bound decision while its original evidence bytes were kept.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub historical_status: Option<String>,
+    /// Stable, evidence-derived governance reason keys used by both machine
+    /// consumers and the human renderer.  Empty on legacy projections that
+    /// predate the reason projection.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub governance_reasons: Vec<String>,
+    /// Finalization is an observation, not an authorization.  The optional
+    /// field keeps older Outcome records readable while allowing callers to
+    /// distinguish a missing receipt, identity mismatch, retained resources,
+    /// and an actually verified cleanup disposition.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub finalization: Option<OutcomeFinalizationProjection>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeFinalizationProjection {
+    pub state: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub error_code: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub disposition: Option<String>,
+    pub action: String,
+    pub reliable: bool,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are
@@ -3649,6 +3672,10 @@ pub enum DiagnosisState {
     Unknown,
 }
 
+fn default_measurement_scope() -> String {
+    "legacy_record_scope_unknown".into()
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct PerformanceDiagnosis {
@@ -3660,6 +3687,41 @@ pub struct PerformanceDiagnosis {
     pub bottlenecks: Vec<String>,
     pub unknowns: Vec<String>,
     pub evidence_refs: Vec<String>,
+    /// Runtime-internal phase measurements.  The parent relation describes
+    /// nesting; callers must not add overlapping phases as if they were
+    /// independent wall-clock intervals.
+    #[serde(default)]
+    pub phases: Vec<PerformancePhase>,
+    #[serde(default)]
+    pub counters: PerformanceCounters,
+    /// Older diagnostic records did not declare whether timings were
+    /// Runtime-internal or harness wall-clock measurements. Preserve their
+    /// readability without inventing a scope for those historical bytes.
+    #[serde(default = "default_measurement_scope")]
+    pub measurement_scope: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformancePhase {
+    pub name: String,
+    pub elapsed_ns: u128,
+    pub measurement: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub parent: Option<String>,
+}
+
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PerformanceCounters {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub read_bytes: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub hashed_bytes: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub git_calls: Option<usize>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub child_processes: Option<usize>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

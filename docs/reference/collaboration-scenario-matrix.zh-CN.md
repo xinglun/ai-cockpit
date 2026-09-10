@@ -5,7 +5,7 @@ description: "由状态与转换生成的协作语言场景矩阵，明确区分
 audience: [adopter, contributor, maintainer, reviewer]
 status: current
 authority: canonical
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # 协作场景矩阵
@@ -70,8 +70,9 @@ WI-679 合并后再补充直接链接),依据本仓库
 
 ## 已知局限
 
-本矩阵仍是人工整理的语义索引，而不是完整的自动化测试套件。WI-753 增加了
-一个针对状态/选项/Runtime 一致性边界的受控仓库可执行检查，包含中断与恢复；
-WI-756 增加了一个只读取 Runtime 记录并保留明确阻断的有界交接重建检查。二者
-都不宣称覆盖每个不变量或状态组合的完整笛卡尔积；未来 Work Item 可以继续增
-加有界检查，但不得重新编号已有场景。
+本矩阵仍是人工整理的语义索引，而不是完整的自动化测试套件。其 JSON 来源现已
+包含可执行检查注册表：每个绑定场景都指明输入事实、预期语义和测试入口。WI-781
+增加了人类报告语义对齐、finalization 动作分类、有界 Outcome 组装重试和分阶段
+Runtime 诊断；不支持的进程计数明确保持 unavailable。任何检查都不宣称覆盖每个
+不变量或状态组合的完整笛卡尔积；未来 Work Item 可以继续增加有界检查，但不得
+重新编号已有场景。

@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: outcome-dialog-acceptance
+lastVerifiedBy: WI-781-trust-diagnostics
 capabilityClaims:
   - human_outcome_handoff
 ---
@@ -55,13 +55,13 @@ summary では判断に関係しない空の章を省略します。blocker、�
 
 今回の presentation release では、人間向け `work-item outcome` の既定 view を完全な audit report から上記の四つの summary へ変更しました。通常のタスクで空の章を読む負担を減らしつつ、検証、ライフサイクル、判断、blocker、不確実性、evidence 参照を残します。
 完全な report は `--view full` で表示でき、MCP `work_item_outcome` は `view: "summary"`（既定）または `view: "full"` を受け付けます。
-machine JSON、検証ルール、exit code、権限 semantics、永続化された evidence は変更しません。top-level の `finish`、`archive`、`close` は lifecycle error と audit context のため stderr に完全な handoff を表示し続け、`--json` は従来どおり人間向け channel を抑止します。
+既存の machine JSON fields、検証ルール、exit code、権限 semantics、永続化された evidence は互換性を保ちます。reason と finalization の fields は optional で、古い record にはなくても構いません。top-level の `finish`、`archive`、`close` は lifecycle error と audit context のため stderr に完全な handoff を表示し続け、`--json` は従来どおり人間向け channel を抑止します。
 
 状態マーカーは判断のシグナルであり、リリース承認ではありません。
 
 - `🟢` 検証証拠が存在します。続行前に証拠を確認してください。
 - `🟡` 部分完了、未準備、または不明です。修復または調査が必要です。
-- `🔴` 必須の制御、権限、または範囲が無効です。停止して復旧してください。
+- `🔴` 必須の制御が失敗しています。表示された具体的な理由投影を確認し、実際の欠落を解消するまで停止してください。
 
 空のデータを肯定的な事実として扱いません。証拠が足りない場合、リスク所見は
 `未記録` または `未評価` と表示します。指定された検査範囲でリスクが見つからなかったと
@@ -81,6 +81,12 @@ release、公開、安全性を承認するものではありません。
 
 テスト弱化の表示は検査範囲に限定します。弱化ルールが発動していないことは、参照された検査範囲で
 発動が記録されなかったことだけを示し、テストが弱化されていない証明ではありません。
+
+赤いマーカー自体は evidence の診断ではありません。Runtime は既存の failed gate、
+unknown、ガバナンス制御の所見、scope/権限ルール、evidence の状態から安定した
+reason key を導出し、検証失敗、evidence の無効/期限切れ、受入れ evidence の不足、
+intent の不一致、scope/権限の不足、原因不明を区別します。summary と full report
+は同じ投影を使い、CLI/MCP の人間向け handoff は `en`、`zh`、`ja` で同じ意味を保ちます。
 
 緑のマーカーは、Runtime が `evidenceSchemaVersion=2` の検証証拠を読み取り、現在の Work Item
 と repository に結び付いており、鮮度と digest が有効だと確認した場合だけ表示します。
@@ -117,16 +123,24 @@ predecessor に明示的な `supersede` recovery decision がある場合、Outc
 これは元の evidence を保持し、現在の結果として再検証していないことを示します。
 赤い失敗でも緑の認可でもありません。
 
-resource context を持つ通常の archived Work Item で provider finalization
-receipt が欠落または無効な場合、Outcome は stable unknown
-`resource_finalization_pending` を追加し、green/verified にはなりません。
-この receipt は repository verification とは別の provider-side 境界です。
-archived Work Item は明示的な close decision が有効になるまで terminal ではありません。
-Human handoff は、対象の branch/worktree を cleanup し、finalization を記録し、
-`finalize-verify` を実行してから `close` する順序を示します。外部 resource がない
-item は review 済みの人間の `close` 判断だけが必要です。machine status projection
-はこの gap を blocker として示し、対応する `safeActions` を返すため、Agent が
-静かに次の Work Item へ進むことはできません。
+resource context を持つ通常の archived Work Item の finalization は、Runtime の
+receipt validator と resource observation から投影されます。receipt の欠落、記録の
+破損、identity 不一致、cleanup 待ち、plan による resource 保持、削除確認済みは
+それぞれ異なる状態と action になります。事実が欠落または無効な場合は確認または
+再観測だけを案内し、削除を繰り返す提案はしません。保持状態は削除案にならず、
+削除確認済みでも Runtime の close 判断だけが残ります。人間向け文言は権限の出所では
+ありません。archived Work Item は Runtime が finalization を受理し、明示的な close
+decision が有効になるまで terminal ではありません。
+
+Outcome の組立ては一つの request-scoped observation boundary で repository snapshot と
+関連する lifecycle、decision、evidence、finalization 記録を取得します。組立て中の
+決定的な変更は最大一回だけ再試行し、継続する変更は明示的な unknown/失敗として返します。
+pure renderer は I/O を行わず、execution や persistence の段階へ古い context を延長しません。
+
+`ai-cockpit diagnose` は identity、Git/snapshot、read/hash、parse、governance、
+projection/serialization の Runtime 内部主経路を段階別に報告し、実際に読んだ/ハッシュ
+した bytes と Git 呼び出し数を示します。未対応の process 数はゼロではなく unavailable
+として示し、benchmark tool 自身の overhead は Runtime 測定と分離します。
 
 CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
 の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum

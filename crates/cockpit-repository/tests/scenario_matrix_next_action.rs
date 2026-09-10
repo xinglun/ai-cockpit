@@ -12,6 +12,7 @@ use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item, preflight_work_item,
     record_verification, scaffold_work_item, start_work_item_with_options,
 };
+use serde_json::Value;
 use std::{fs, process::Command};
 
 fn repository() -> tempfile::TempDir {
@@ -40,6 +41,31 @@ fn state_message(error: cockpit_repository::ObserverError) -> String {
     }
 }
 
+fn scenario_matrix() -> Value {
+    let matrix_path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../docs/reference/collaboration-scenario-matrix.json"
+    );
+    serde_json::from_slice(&fs::read(matrix_path).expect("read scenario matrix"))
+        .expect("scenario matrix JSON")
+}
+
+fn expected_key_message(id: &str) -> String {
+    scenario_matrix()["scenarios"]
+        .as_array()
+        .expect("scenarios array")
+        .iter()
+        .find(|entry| entry["id"] == id)
+        .unwrap_or_else(|| panic!("{id} missing from collaboration-scenario-matrix.json"))["expected"]["keyMessage"]
+        .as_str()
+        .unwrap_or_else(|| panic!("{id} expected.keyMessage is not a string"))
+        .to_owned()
+}
+
+fn repository_root() -> std::path::PathBuf {
+    std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
+}
+
 /// SCN-001: checkpoint attempted before start on a not_ready scaffold.
 #[test]
 fn scn_001_checkpoint_before_start_matches_scenario_matrix_key_message() {
@@ -50,7 +76,7 @@ fn scn_001_checkpoint_before_start_matches_scenario_matrix_key_message() {
         checkpoint_work_item(directory.path(), "WI-SCN-001").expect_err("checkpoint must reject");
     assert_eq!(
         state_message(error),
-        "checkpoint is invalid from state \"not_ready\"; expected implementation_active",
+        expected_key_message("SCN-001"),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-001 expected.keyMessage exactly"
     );
 }
@@ -78,7 +104,7 @@ fn scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_messag
     .expect_err("start must reject a dirty worktree");
     let message = state_message(error);
     assert!(
-        message.contains("non-governance changes were present before start"),
+        message.contains(&expected_key_message("SCN-002")),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-002 expected.keyMessage substring, got {message:?}"
     );
     assert!(
@@ -123,7 +149,7 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
     let error = finish_work_item(directory.path(), id).expect_err("finish must reject");
     assert_eq!(
         state_message(error),
-        "finish requires a non-provisional resource finalization plan; run finalize-plan before finish",
+        expected_key_message("SCN-016"),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-016 expected.keyMessage exactly"
     );
 }
@@ -133,13 +159,7 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
 /// drift away from the document it is meant to keep honest.
 #[test]
 fn scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix() {
-    let matrix_path = concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/../../docs/reference/collaboration-scenario-matrix.json"
-    );
-    let matrix: serde_json::Value =
-        serde_json::from_slice(&fs::read(matrix_path).expect("read scenario matrix"))
-            .expect("scenario matrix JSON");
+    let matrix = scenario_matrix();
     let scenarios = matrix["scenarios"].as_array().expect("scenarios array");
     for id in ["SCN-001", "SCN-002", "SCN-016"] {
         let scenario = scenarios
@@ -159,4 +179,86 @@ fn scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix() {
             "{id} must still declare invariant 7 in invariantsExercised"
         );
     }
+}
+
+#[test]
+fn executable_scenario_checks_bind_facts_semantics_and_tests_without_duplicate_answers() {
+    let matrix = scenario_matrix();
+    let registry = matrix["executableCheckRegistry"]
+        .as_object()
+        .expect("executable check registry");
+    let known = [
+        "human_report_reason_projection",
+        "human_report_entrypoint_parity",
+        "human_report_summary_retains_blocker",
+        "finalization_action_matches_state",
+        "no_history_handoff",
+        "observation_boundary_bounded_retry",
+        "runtime_phase_diagnostics",
+    ];
+    let mut referenced = std::collections::BTreeSet::new();
+    for id in known {
+        let check = registry.get(id).unwrap_or_else(|| panic!("{id} missing"));
+        assert!(
+            check["inputFacts"]
+                .as_array()
+                .is_some_and(|facts| !facts.is_empty())
+        );
+        let semantics = check["expectedSemantics"]
+            .as_object()
+            .unwrap_or_else(|| panic!("{id} expectedSemantics must be structured"));
+        assert!(
+            semantics["description"]
+                .as_str()
+                .is_some_and(|text| !text.is_empty())
+        );
+        let tokens = semantics["semanticTokens"]
+            .as_array()
+            .unwrap_or_else(|| panic!("{id} semanticTokens must be an array"));
+        assert!(
+            !tokens.is_empty(),
+            "{id} must bind at least one semantic token"
+        );
+        assert!(
+            tokens
+                .iter()
+                .all(|token| token.as_str().is_some_and(|value| !value.is_empty()))
+        );
+        let test_ref = check["test"]
+            .as_str()
+            .filter(|text| !text.is_empty())
+            .unwrap_or_else(|| panic!("{id} test reference is missing"));
+        let (path, _) = test_ref
+            .split_once("::")
+            .unwrap_or_else(|| panic!("{id} test reference is not path-qualified"));
+        let function = test_ref
+            .rsplit("::")
+            .next()
+            .unwrap_or_else(|| panic!("{id} test function is missing"));
+        let source = fs::read_to_string(repository_root().join(path))
+            .unwrap_or_else(|error| panic!("{id} test source {path} unreadable: {error}"));
+        assert!(
+            source.contains(&format!("fn {function}")),
+            "{id} test reference must resolve to a Rust function: {test_ref}"
+        );
+    }
+    for scenario in matrix["scenarios"].as_array().expect("scenarios array") {
+        let Some(checks) = scenario.get("executableChecks") else {
+            continue;
+        };
+        for check in checks.as_array().expect("executableChecks array") {
+            let id = check.as_str().expect("check id");
+            referenced.insert(id.to_owned());
+            assert!(
+                registry.contains_key(id),
+                "scenario references unknown check {id}"
+            );
+            assert!(scenario["expected"]["keyMessage"].as_str().is_some());
+        }
+    }
+    assert_eq!(
+        referenced,
+        known.into_iter().map(str::to_owned).collect(),
+        "every executable registry check must be attached to at least one scenario"
+    );
 }

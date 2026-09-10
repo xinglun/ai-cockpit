@@ -1,0 +1,157 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-10T12:03:23Z",
+  "checkpointContractDigest": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "recorded": true,
+      "recordedAt": "2026-09-10T12:03:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4eaa45e2da535ecb4247d2627be726b01303b1e18b6a1e1cb65f08a7b7f768cc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-781-trust-diagnostics"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:9f27bff4bbadd85b6ee86ab9969426b1d7d7c551dde1a80d0aabac77ca5d989c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "previousContractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "reason": "The Runtime refreshes this repository-bound generated observer snapshot during the final verification/preflight path; bind it explicitly without widening implementation behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T13:54:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-781-trust-diagnostics"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:cafbb17460d86adb4b3577c12851ac4d0e5bbcd8f83c7d1fa57f76070470e7bf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "previousContractHash": "sha256:9f27bff4bbadd85b6ee86ab9969426b1d7d7c551dde1a80d0aabac77ca5d989c",
+      "reason": "Align the Contract with the Runtime directory-glob syntax and bind the added MCP test and Runtime-generated observer snapshot paths; no implementation or governance behavior is widened.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T13:54:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-781-trust-diagnostics"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "previousContractHash": "sha256:cafbb17460d86adb4b3577c12851ac4d0e5bbcd8f83c7d1fa57f76070470e7bf",
+      "reason": "Bind the two implementation and test paths reported by the Runtime scope gate so the Contract reflects the actual in-scope fix and its direct regression coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T13:57:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-781-trust-diagnostics"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+  "createdAt": "2026-09-10T11:59:52Z",
+  "intentAlignment": {
+    "evidence": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/reference/collaboration-scenario-matrix.json",
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "tests/performance/runtime_benchmark.sh"
+    ],
+    "reason": "The five scenarios map directly to the user's five review findings and the Contract acceptance criteria; publication remains a separate Work Item.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T14:02:26Z",
+  "preflightContractDigest": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "expected": "Human output names the actual acceptance or intent alignment gap and does not call valid verification evidence invalid.",
+      "required": true,
+      "scenario": "A red governance result with valid verification but acceptance or intent alignment gaps",
+      "status": "unverified",
+      "verificationPlan": "Add repository renderer tests for en, zh, and ja summary/full views and exercise the CLI and MCP Outcome routes."
+    },
+    {
+      "expected": "Human output distinguishes missing, invalid, mismatched, retained, pending-cleanup, and unknown resource facts and proposes only Runtime-supported next actions.",
+      "required": true,
+      "scenario": "Finalization receipt and resource recovery classification",
+      "status": "unverified",
+      "verificationPlan": "Use controlled temporary Git resources and protocol/repository/CLI fixtures for receipt, identity, cleanup, retention, and unknown paths."
+    },
+    {
+      "expected": "Human reports preserve the same blockers, unknowns, authorization boundary, and operational consequence across entry points and languages without chat history.",
+      "required": true,
+      "scenario": "CLI/MCP multilingual human semantic parity and no-history handoff",
+      "status": "unverified",
+      "verificationPlan": "Bind scenarios to the shared matrix and assert semantic invariants against real CLI and MCP human output, including A/B counterexamples."
+    },
+    {
+      "expected": "Measurements expose supported phase timing and controlled counters, with explicit unavailable reasons where platform/runtime support is absent.",
+      "required": true,
+      "scenario": "Main-path phase and resource diagnostics on macOS/Linux",
+      "status": "unverified",
+      "verificationPlan": "Run benchmark unit tests, controlled repository measurements, filesystem-type success/failure tests, and ordinary/many-history scenario captures."
+    },
+    {
+      "expected": "The renderer never combines facts from different observation boundaries; deterministic changes yield bounded retry or explicit unknown/failure.",
+      "required": true,
+      "scenario": "Outcome assembly detects concurrent lifecycle/finalization fact changes",
+      "status": "unverified",
+      "verificationPlan": "Add deterministic observation-boundary tests for close/lifecycle/finalization mutation, corruption, identity drift, stable reads, and pure rendering."
+    },
+    {
+      "expected": "Existing archived records and machine protocols remain readable without rewriting historical bytes or weakening governance gates.",
+      "required": true,
+      "scenario": "Historical compatibility and immutable evidence preservation",
+      "status": "unverified",
+      "verificationPlan": "Run focused historical fixtures, full workspace tests, documentation/gate checks, and compare immutable archive bytes before and after."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T12:03:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:7fbe802819619b472c17663bb038213765c4319b925fb197b8bf8d3d21f79399",
+  "workItemId": "WI-781-trust-diagnostics"
+}

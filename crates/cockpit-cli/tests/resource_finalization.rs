@@ -422,6 +422,21 @@ fn runtime_close_requires_explicit_resource_finalization_receipt() {
         !missing_receipt.status.success(),
         "close must fail before resource finalization"
     );
+    let pending_outcome = run(
+        binary,
+        &["work-item", "outcome", "--id", "WI-FINALIZATION"],
+        root,
+    );
+    assert_success(&pending_outcome, "pending outcome");
+    let pending_text = String::from_utf8(pending_outcome.stdout).expect("pending outcome UTF-8");
+    assert!(
+        pending_text.contains("re-observe") || pending_text.contains("Re-observe"),
+        "pending finalization must request inspection/recovery: {pending_text}"
+    );
+    assert!(
+        !pending_text.contains("delete the exact") && !pending_text.contains("Delete the exact"),
+        "missing receipt must not repeat a deletion action: {pending_text}"
+    );
     let status = run_json(binary, &["status"], root);
     let repository_id = status["repositoryId"].as_str().expect("repository id");
     let archived_contract: serde_json::Value = serde_json::from_slice(

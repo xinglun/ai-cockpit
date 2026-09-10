@@ -5,7 +5,7 @@ description: "Evidence-only diagnosis of governance cost for one repository-boun
 audience: [adopter, maintainer, reviewer]
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-348-reference-verification-operation-policy
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # Performance diagnosis
@@ -16,7 +16,13 @@ Performance diagnosis explains measured governance cost; it does not change
 governance. The Runtime's request-scoped `diagnose` output and verification
 cost observations can report snapshot work, files read/hashed, verification
 runs, executed/reused nodes, worker/process counts, elapsed time, and bounded
-bottleneck hints for one repository and optional Work Item.
+bottleneck hints for one repository and optional Work Item. The primary path is
+also timed in Runtime-internal phases: identity, Git/snapshot, read/hash,
+parse, governance, and projection/serialization. A repository-only invocation
+still collects these Runtime phases; a Work Item is needed only for the
+Work-Item-specific probe. The diagnosis includes actual scoped read/hash bytes
+and Git calls; child-process counts are explicitly unavailable on this
+read-only route rather than reported as zero.
 
 Reports must keep these distinctions:
 
@@ -36,4 +42,7 @@ and [Governance profiles](governance-profiles.md) for the authority boundary.
 
 The same advisory boundary applies to every adopter with explicit `--repo`:
 performance facts are local telemetry, not a global project state or a
-permission to skip checks.
+permission to skip checks. `runtime_total` is the measured parent scope; child
+phases may overlap or nest, so their elapsed values must not be summed as an
+end-to-end total. Older diagnosis records that lack `measurementScope` remain
+readable with an explicit legacy-unknown scope.

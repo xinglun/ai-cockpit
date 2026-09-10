@@ -473,19 +473,15 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
 
 #[test]
 fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
-    let directory = std::env::temp_dir().join(format!(
-        "cockpit-mcp-blocked-outcome-{}",
-        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
-    ));
-    fs::create_dir_all(&directory).expect("directory");
+    let directory = TestTempDir::new("cockpit-mcp-blocked-outcome");
     Command::new("git")
         .args(["init", "-q"])
-        .current_dir(&directory)
+        .current_dir(directory.path())
         .status()
         .expect("git init");
-    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::attach(directory.path()).expect("attach");
     cockpit_repository::start_work_item_with_options(
-        &directory,
+        directory.path(),
         "WI-MCP-BLOCKED",
         "exercise blocked outcome",
         "expose recovery facts through MCP",
@@ -498,11 +494,24 @@ fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
         },
     )
     .expect("start");
-    let contract = directory.join(".ai/work-items/active/WI-MCP-BLOCKED.contract.json");
-    cockpit_repository::preflight_work_item(&directory, &contract).expect("preflight");
-    cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-BLOCKED").expect("checkpoint");
+    cockpit_repository::plan_resource_finalization(
+        directory.path(),
+        "WI-MCP-BLOCKED",
+        &cockpit_protocol::ResourceFinalizationContext {
+            branch: "feature/WI-MCP-BLOCKED".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/WI-MCP-BLOCKED".into(),
+        },
+    )
+    .expect("finalization plan");
+    let contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-MCP-BLOCKED.contract.json");
     cockpit_repository::record_work_item_governance_controls(
-        &directory,
+        directory.path(),
         "WI-MCP-BLOCKED",
         &serde_json::json!({
             "intentAlignment": {
@@ -512,10 +521,13 @@ fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
         }),
     )
     .expect("intent alignment");
-    cockpit_repository::finish_work_item(&directory, "WI-MCP-BLOCKED")
+    cockpit_repository::preflight_work_item(directory.path(), &contract).expect("preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), "WI-MCP-BLOCKED")
+        .expect("checkpoint");
+    cockpit_repository::finish_work_item(directory.path(), "WI-MCP-BLOCKED")
         .expect_err("missing verification must block");
 
-    let cli_outcome = cockpit_repository::outcome_v2(&directory, "WI-MCP-BLOCKED")
+    let cli_outcome = cockpit_repository::outcome_v2(directory.path(), "WI-MCP-BLOCKED")
         .expect("CLI outcome projection");
     assert_eq!(
         cli_outcome.failed_gate.as_deref(),
@@ -528,7 +540,7 @@ fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
             "method":"tools/call",
             "params":{"name":"work_item_outcome","arguments":{"workItemId":"WI-MCP-BLOCKED","language":"zh-CN"}}
         }),
-        &directory,
+        directory.path(),
         &test_runtime_context(),
     );
     assert_eq!(response["result"]["isError"], false);
@@ -544,7 +556,12 @@ fn mcp_blocked_outcome_exposes_the_same_recovery_facts_as_cli() {
             .unwrap()
             .starts_with("Outcome: 🔴")
     );
-    fs::remove_dir_all(directory).expect("cleanup");
+    let path = directory.path().to_owned();
+    drop(directory);
+    assert!(
+        !path.exists(),
+        "controlled MCP test resource must be cleaned up"
+    );
 }
 
 #[test]

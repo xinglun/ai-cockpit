@@ -290,6 +290,13 @@ pub struct RepositorySnapshot {
     pub dependency_fingerprint: String,
     pub files_read: usize,
     pub files_hashed: usize,
+    /// Request-scoped byte counters for performance diagnostics. They are
+    /// omitted from serialized snapshots so existing repository identities
+    /// and historical evidence remain unchanged.
+    #[serde(skip, default)]
+    pub bytes_read: u64,
+    #[serde(skip, default)]
+    pub bytes_hashed: u64,
     /// Source-only tree identity captured while reading the Git index. This
     /// is an internal request-scoped optimization hint; it is intentionally
     /// omitted from serialized snapshots so existing wire/digest semantics
@@ -393,6 +400,8 @@ impl GitRepository {
         let mut changed_hasher = Sha256::new();
         let mut changed_files_read = 0;
         let mut changed_files_hashed = 0;
+        let mut changed_bytes_read = 0_u64;
+        let mut changed_bytes_hashed = 0_u64;
         let mut hashed_paths = BTreeSet::new();
         for change in change_evidence
             .values()
@@ -427,6 +436,8 @@ impl GitRepository {
                 changed_hasher.update(&bytes);
                 changed_files_read += 1;
                 changed_files_hashed += 1;
+                changed_bytes_read = changed_bytes_read.saturating_add(bytes.len() as u64);
+                changed_bytes_hashed = changed_bytes_hashed.saturating_add(bytes.len() as u64);
                 if let Some(change) = change_evidence.get_mut(relative) {
                     if change.content_state == ChangeContentState::TooLarge
                         || bytes.len() > MAX_CHANGE_TEXT_BYTES
@@ -477,6 +488,8 @@ impl GitRepository {
         let mut dependency_hasher = Sha256::new();
         let mut files_read = 0;
         let mut files_hashed = 0;
+        let mut bytes_read = 0_u64;
+        let mut bytes_hashed = 0_u64;
         for relative in dependency_paths {
             if !hashed_paths.insert(relative.into()) {
                 continue;
@@ -488,6 +501,8 @@ impl GitRepository {
                 dependency_hasher.update(&bytes);
                 files_read += 1;
                 files_hashed += 1;
+                bytes_read = bytes_read.saturating_add(bytes.len() as u64);
+                bytes_hashed = bytes_hashed.saturating_add(bytes.len() as u64);
             }
         }
         let mut source_tree_hasher = Sha256::new();
@@ -515,6 +530,8 @@ impl GitRepository {
             dependency_fingerprint: format!("sha256:{}", hex::encode(dependency_hasher.finalize())),
             files_read: files_read + changed_files_read,
             files_hashed: files_hashed + changed_files_hashed,
+            bytes_read: bytes_read.saturating_add(changed_bytes_read),
+            bytes_hashed: bytes_hashed.saturating_add(changed_bytes_hashed),
             source_tree_digest: Some(digest(&source_tree_hasher.finalize())),
         })
     }

@@ -18,9 +18,9 @@ use cockpit_protocol::{
     HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
     ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
     OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceDiagnosis, PolicyLayer, ProjectGovernanceProjection, QualityCommand,
-    RecoveryDecisionReceipt, RepositoryConfig, ResourceFinalizationContext,
-    ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
+    ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
+    ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
     TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
     WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
@@ -83,9 +83,10 @@ use lifecycle::{
     work_item_artifact_path,
 };
 pub use outcome_render::{
-    HumanDecisionProjection, OutcomeRenderInput, OutcomeRenderView, outcome_render_input,
-    outcome_render_input_from_outcome, outcome_render_input_with_runtime,
-    render_full_human_outcome, render_human_outcome, render_human_outcome_with_view,
+    FinalizationProjection, HumanDecisionProjection, OutcomeAssemblyMetadata, OutcomeRenderInput,
+    OutcomeRenderView, outcome_render_input, outcome_render_input_from_outcome,
+    outcome_render_input_with_runtime, render_full_human_outcome, render_human_outcome,
+    render_human_outcome_with_view,
 };
 pub use project_governance::*;
 use status_projection::{
@@ -9282,9 +9283,10 @@ fn normalized_archive_artifact_bytes(
 }
 
 /// Preserve a machine-readable recovery handoff when a lifecycle gate fails.
-/// The helper is deliberately best-effort: the original gate error remains
-/// authoritative, while any persisted projection is identity-bound and never
-/// changes the lifecycle state to a terminal success.
+/// The original gate error remains authoritative, while any persisted
+/// projection is identity-bound and never changes the lifecycle state to a
+/// terminal success. A persistence failure is returned to the caller instead
+/// of being silently discarded.
 fn persist_blocked_lifecycle_outcome(
     root: &Path,
     work_item_id: &str,
@@ -9380,6 +9382,8 @@ fn persist_blocked_lifecycle_outcome(
             historical_status: None,
             recovery_condition: Some(recovery_condition.clone()),
             recovery_decision: None,
+            governance_reasons: Vec::new(),
+            finalization: None,
         };
         let mut value =
             serde_json::to_value(outcome_v2).map_err(|serialization| ObserverError::State {
@@ -9407,21 +9411,41 @@ fn persist_blocked_lifecycle_outcome(
 }
 
 fn lifecycle_failure_metadata(error: &ObserverError) -> (String, String) {
-    let text = error.to_string().to_ascii_lowercase();
-    if text.contains("verification") {
+    let message = match error {
+        ObserverError::State { message, .. } => message.as_str(),
+        _ => "",
+    };
+    if matches!(
+        message,
+        "finish requires a recorded verification receipt"
+            | "verification receipt is not a passed receipt for this work item"
+            | "verification receipt is stale for the current repository snapshot"
+            | "verification evidence is not a valid current receipt"
+            | "finish requires a green preflight result for the current repository snapshot"
+    ) || message.starts_with("verification evidence")
+    {
         (
             "finish.verification".into(),
             "Record valid current verification evidence, rerun preflight, and retry finish.".into(),
         )
-    } else if text.contains("preflight") {
+    } else if matches!(
+        message,
+        "finish requires a green preflight result after verification"
+    ) {
         (
             "finish.preflight".into(),
             "Record a fresh non-red preflight result, then retry finish.".into(),
         )
-    } else if text.contains("contract") || text.contains("governance") {
+    } else if message.starts_with("Contract/Summary governance controls are blocked:") {
         (
             "finish.governance".into(),
             "Repair the Contract or governance projection, rerun preflight, and retry finish."
+                .into(),
+        )
+    } else if message.starts_with("finish requires a") && message.contains("finalization plan") {
+        (
+            "finish.finalization".into(),
+            "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules."
                 .into(),
         )
     } else {
@@ -10441,6 +10465,8 @@ fn outcome_v2_internal_with_snapshot(
         recovery_condition,
         recovery_decision,
         historical_status,
+        governance_reasons: Vec::new(),
+        finalization: None,
     })
 }
 
@@ -10998,10 +11024,21 @@ pub fn performance_diagnosis(
     root: &Path,
     work_item_id: Option<&str>,
 ) -> Result<PerformanceDiagnosis, ObserverError> {
+    let total_start = Instant::now();
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let mut phases = Vec::new();
+    let identity_start = Instant::now();
+    let repository = repository_id(&root);
+    phases.push(PerformancePhase {
+        name: "identity".into(),
+        elapsed_ns: identity_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
+    let git_start = Instant::now();
     let git =
         cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
             path: root.clone(),
@@ -11011,6 +11048,12 @@ pub fn performance_diagnosis(
         path: root.clone(),
         message: error.to_string(),
     })?;
+    phases.push(PerformancePhase {
+        name: "git_snapshot".into(),
+        elapsed_ns: git_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
     let mut cost = GovernanceCost {
         snapshot_git_calls: snapshot.git_calls,
         snapshot_files_read: snapshot.files_read,
@@ -11022,11 +11065,38 @@ pub fn performance_diagnosis(
     };
     let mut evidence_refs = vec!["repository-snapshot".into()];
     let mut unknowns = Vec::new();
+    let mut read_bytes = snapshot.bytes_read;
+    let mut hashed_bytes = snapshot.bytes_hashed;
+    let read_hash_start = Instant::now();
+    let mut evidence_bytes = None;
     if let Some(work_item_id) = work_item_id {
         let path = root
             .join(".ai/evidence")
             .join(format!("{work_item_id}.verification.json"));
-        match read_json(&path) {
+        match fs::read(&path) {
+            Ok(bytes) => {
+                let digest = Digest::sha256_bytes(&bytes);
+                read_bytes = read_bytes.saturating_add(bytes.len() as u64);
+                hashed_bytes = hashed_bytes.saturating_add(bytes.len() as u64);
+                evidence_bytes = Some((bytes, digest));
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                unknowns.push("verification_receipt_missing".into())
+            }
+            Err(_) => unknowns.push("verification_receipt_unreadable".into()),
+        }
+    } else {
+        unknowns.push("work_item_not_selected".into());
+    }
+    phases.push(PerformancePhase {
+        name: "read_hash".into(),
+        elapsed_ns: read_hash_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
+    let parse_start = Instant::now();
+    if let (Some((bytes, _digest)), Some(work_item_id)) = (evidence_bytes.as_ref(), work_item_id) {
+        match serde_json::from_slice::<serde_json::Value>(bytes) {
             Ok(evidence) => {
                 cost.verification_runs = 1;
                 let receipt = evidence.get("receipt").unwrap_or(&evidence);
@@ -11037,11 +11107,69 @@ pub fn performance_diagnosis(
                 cost.elapsed_ms = receipt["elapsedMs"].as_u64().unwrap_or(0) as u128;
                 evidence_refs.push(format!(".ai/evidence/{work_item_id}.verification.json"));
             }
-            Err(_) => unknowns.push("verification_receipt_missing".into()),
+            Err(_) => unknowns.push("verification_receipt_invalid".into()),
         }
-    } else {
-        unknowns.push("work_item_not_selected".into());
     }
+    phases.push(PerformancePhase {
+        name: "parse".into(),
+        elapsed_ns: parse_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
+    let governance_start = Instant::now();
+    let mut projected_outcome = None;
+    if let Some(work_item_id) = work_item_id {
+        if validate_work_item_governance_controls(&root, work_item_id).is_err() {
+            unknowns.push("governance_projection_unavailable".into());
+        }
+        if let Ok(snapshot_digest) = snapshot_digest(&snapshot) {
+            match outcome_v2_internal_with_snapshot(
+                &root,
+                work_item_id,
+                None,
+                Some((&snapshot, &snapshot_digest)),
+            ) {
+                Ok(outcome) => projected_outcome = Some(outcome),
+                Err(_) => unknowns.push("outcome_projection_unavailable".into()),
+            }
+        } else {
+            unknowns.push("snapshot_digest_unavailable".into());
+        }
+    }
+    phases.push(PerformancePhase {
+        name: "governance".into(),
+        elapsed_ns: governance_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
+    let projection_start = Instant::now();
+    if let Some(outcome) = projected_outcome.as_ref()
+        && serde_json::to_vec(outcome).is_err()
+    {
+        unknowns.push("outcome_serialization_failed".into());
+    }
+    if serde_json::to_vec(&snapshot).is_err() {
+        unknowns.push("snapshot_serialization_failed".into());
+    }
+    phases.push(PerformancePhase {
+        name: "projection_serialization".into(),
+        elapsed_ns: projection_start.elapsed().as_nanos(),
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
+    // The Runtime does not own a process supervisor for this read-only route,
+    // so a child-process count is explicitly unavailable rather than zero.
+    unknowns.push("child_process_count_unavailable_runtime_internal".into());
+    let total_elapsed_ns = total_start.elapsed().as_nanos();
+    for phase in &mut phases {
+        phase.parent = Some("runtime_total".into());
+    }
+    phases.push(PerformancePhase {
+        name: "runtime_total".into(),
+        elapsed_ns: total_elapsed_ns,
+        measurement: "runtime_internal".into(),
+        parent: None,
+    });
     let mut bottlenecks = Vec::new();
     if cost.snapshot_files_hashed > 1000 {
         bottlenecks.push("snapshot_hashing".into());
@@ -11056,13 +11184,24 @@ pub fn performance_diagnosis(
     };
     Ok(PerformanceDiagnosis {
         schema_version: 1,
-        repository_id: repository_id(&root).to_string(),
+        repository_id: repository.to_string(),
         work_item_id: work_item_id.map(str::to_owned),
         state,
         cost,
         bottlenecks,
         unknowns,
         evidence_refs,
+        phases,
+        counters: PerformanceCounters {
+            read_bytes: Some(read_bytes),
+            hashed_bytes: Some(hashed_bytes),
+            git_calls: Some(snapshot.git_calls.saturating_add(1)),
+            child_processes: None,
+        },
+        measurement_scope: format!(
+            "runtime_internal; total_elapsed_ms={}",
+            total_elapsed_ns / 1_000_000
+        ),
     })
 }
 

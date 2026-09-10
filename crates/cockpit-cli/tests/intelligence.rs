@@ -346,7 +346,11 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
     let outcome_text = String::from_utf8(outcome.stdout).expect("UTF-8 outcome");
     assert!(outcome_text.starts_with("Outcome: 🟡 验证尚未就绪 — WI-INTELLIGENCE"));
     assert!(outcome_text.contains("🟡 验证尚未就绪"));
-    assert!(outcome_text.contains("未找到或无法使用验证证据；结果尚未准备好。"));
+    assert!(
+        outcome_text.contains("意图对齐证据不足")
+            || outcome_text.contains("验收证据不足")
+            || outcome_text.contains("验证证据无效")
+    );
     assert!(!outcome_text.contains("No verification evidence"));
     assert!(outcome_text.contains("下一步"));
     fs::write(
@@ -391,10 +395,8 @@ fn intelligence_commands_emit_repository_bound_json_and_unknowns() {
         assert!(text.contains(title), "language={language}");
         assert!(text.contains(status), "language={language}");
         let summary = match language {
-            "ja" => "検証 evidence を確認できないか現在の context と一致しないため、停止しました。",
-            _ => {
-                "Verification evidence could not be confirmed or does not match this context; the outcome is stopped."
-            }
+            "ja" => "検証 evidence が無効なため、現在の結果は停止しています。",
+            _ => "Verification evidence is invalid; the current result is stopped.",
         };
         assert!(text.contains(summary), "language={language}");
     }
