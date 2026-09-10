@@ -4,16 +4,30 @@
     ".ai/work-items/active/WI-786-parity-registration-repair.contract.json",
     ".ai/work-items/active/WI-786-parity-registration-repair.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-10T16:36:11Z",
+  "checkpointContractDigest": "sha256:f0e83a7828ab8a2c41cd47047d833b93aa779343520c4413f81be0eba87424c9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ac4b3fd4744dcadf9770ea61289dd2757309f64ca93c4bfc36b1677d724c6540",
   "createdAt": "2026-09-10T16:31:33Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
   "predecessorWorkItemId": "WI-785-wi784-doc-promotion",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-10T16:41:17Z",
+  "preflightContractDigest": "sha256:f0e83a7828ab8a2c41cd47047d833b93aa779343520c4413f81be0eba87424c9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ac4b3fd4744dcadf9770ea61289dd2757309f64ca93c4bfc36b1677d724c6540",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-785-wi784-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-10T16:32:13Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T16:36:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:b830aac2fa6efda736a6ee6dc2355e7d1d99d86d375d3b24aa19613349e42a5b",
   "workItemId": "WI-786-parity-registration-repair"
 }
