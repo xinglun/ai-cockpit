@@ -26,10 +26,7 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b1a5ef82e9cb51e4b80e4d725152fdeb928450b11431e0fe1de9ff605e0a430b",
   "requiredEvidenceClasses": [
-    "Fresh Runtime-bound verification receipt for this Work Item.",
-    "Passing repository quality gate report and tri-language documentation checks.",
-    "Reviewed PR hosted checks and merged PR identity.",
-    "Provider finalization receipt finalize-verify result and structured close decision."
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "main",

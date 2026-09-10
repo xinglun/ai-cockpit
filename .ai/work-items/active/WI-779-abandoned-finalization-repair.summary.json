@@ -6,6 +6,42 @@
   "checkpointAt": "2026-09-10T08:50:46Z",
   "checkpointContractDigest": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "recorded": true,
+      "recordedAt": "2026-09-10T08:50:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "previousContractHash": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
+      "reason": "Normalize requiredEvidenceClasses to the Runtime-supported verification class; preserve concrete hosted quality, tri-language documentation, finalization, and close obligations in acceptance criteria and scenario evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T10:43:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
   "createdAt": "2026-09-10T08:49:47Z",
   "intentAlignment": {
@@ -19,11 +55,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T09:08:30Z",
+  "preflightAt": "2026-09-10T10:41:15Z",
   "preflightContractDigest": "sha256:50a184d295339ae0ae5b344996a53a642320355d939f2ab53ad85e3e1d6dcbaa",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -89,6 +125,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-10T10:43:18Z"
+  },
   "verificationRecoveryReconciled": "sha256:38afd4fcb51e2edec66e6753481485cbea54728153a2f64f5f0c19ccc1f70661",
   "workItemId": "WI-779-abandoned-finalization-repair"
 }
