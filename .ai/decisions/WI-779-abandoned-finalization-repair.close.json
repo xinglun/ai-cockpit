@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d16bf00e3b85a3464c289b8e71eedacda309292fa7a7af396da664f9bb05b4fd",
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
+            ".ai/decisions/WI-779-abandoned-finalization-repair.finalize.9f7d0e6138090d274b444c57240c3fb2bf3e963ba701cc9c3a05d308f29448d9.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-10T11:08:23Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement and verify the abandoned finalization disposition, its repository and documentation projections, and the regression coverage needed to close the WI-777 class of failed delivery from current main."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-779-abandoned-finalization-repair"
+  },
+  "finalReportDigest": "sha256:c529387d2f626202fada4ff3da773c49b31512772689b98a0fbfa4e45b542482",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:00c3025a3b71fdee4485dba15510da8d0d775af89afb21d1ee6e7f4f1e73c8de",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-779-abandoned-finalization-repair.finalize.9f7d0e6138090d274b444c57240c3fb2bf3e963ba701cc9c3a05d308f29448d9.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-10T11:08:23Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-779-abandoned-finalization-repair.verification.json",
+      ".ai/decisions/WI-779-abandoned-finalization-repair.finalize.9f7d0e6138090d274b444c57240c3fb2bf3e963ba701cc9c3a05d308f29448d9.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #762 merged after all hosted checks passed; WI-779 abandoned-finalization repair is delivered and its exact resources are finalized. No performance, release, or user-benefit claim is made.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-10T11:08:34Z",
+  "workItemId": "WI-779-abandoned-finalization-repair"
+}

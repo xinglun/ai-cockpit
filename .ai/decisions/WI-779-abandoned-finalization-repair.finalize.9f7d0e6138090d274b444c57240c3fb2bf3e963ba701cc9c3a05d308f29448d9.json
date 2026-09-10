@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:da8680cb0c8ae44b3c148fa2dcc099d7f45cd7a664129a20b293d13c1a98144e",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "a1035cf43bfa932e8e1b29a46374674d2cc5434c",
+      "name": "codex/wi-779-abandoned-finalization-repair",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:87d33ab7275ff7334b30e5757c7850c7e56d857cbfe04cf1c27775adb07baf21",
+    "operationId": "github-pr-762-merge-cleanup-20260910",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "ecd0b973e0fb72f570da925b16a41c130d78e65d",
+      "headRevision": "a1035cf43bfa932e8e1b29a46374674d2cc5434c",
+      "mergeCommit": "2c88b83960c1e698dfc8d28b2c6a35e62679b43f",
+      "number": 762,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/762"
+    },
+    "reason": "PR #762 was merged after all hosted checks passed; the exact remote branch and dedicated worktree were deleted and removed after the retained merge receipt was recorded.",
+    "receiptId": "ai-cockpit-WI-779-abandoned-finalization-repair-resources-deleted",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-779-abandoned-finalization-repair",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/762",
+      "worktree": "/private/tmp/ai-cockpit-wi-779-abandoned-finalization-repair"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+    "runtimeVersion": "0.2.87",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-10T11:07:27Z",
+    "workItemId": "WI-779-abandoned-finalization-repair",
+    "worktree": {
+      "branch": "codex/wi-779-abandoned-finalization-repair",
+      "headRevision": "a1035cf43bfa932e8e1b29a46374674d2cc5434c",
+      "path": "/private/tmp/ai-cockpit-wi-779-abandoned-finalization-repair",
+      "worktreeId": "WI-779-abandoned-finalization-repair"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "ai-cockpit-WI-779-abandoned-finalization-repair-resources-deleted"
+}
