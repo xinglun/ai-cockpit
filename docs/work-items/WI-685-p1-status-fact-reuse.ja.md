@@ -83,5 +83,8 @@ bytes、internal Git calls、runtime child-process count、cache invalidation ev
 はこの platform では unavailable であり、0 には置き換えていません。host CPU contention を
 測定できないため round40 は別分類で保持します。
 
-この Work Item は `in_progress` です。Runtime verify、hosted PR review、merge、archive、close、
-documentation promotion が残っており、PR や最終 governance decision はまだ主張していません。
+この Work Item は `closed` です。Runtime verify、review 済み PR delivery、merge、archive、close、
+documentation promotion は front matter の terminal path に記録されています。受け入れられた
+request-scoped index は記載された observation boundary に限定され、resident MCP と unavailable な
+resource metric は引き続き主張していません。明示された `user_visible_benefit_not_declared` unknown
+は保持されます。

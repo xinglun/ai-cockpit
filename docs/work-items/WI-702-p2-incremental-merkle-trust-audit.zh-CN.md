@@ -55,8 +55,9 @@ metadata guard 无法证明读取期间发生了同时改变字节并恢复所�
 这仍是明确的有效性限制，不是缓存命中，也不是正确性结论。文件通知、持久索引、分层 Merkle
 树、生产接入、release 行为和性能基准都不在本 WI 范围内。
 
-本文不声称最终 PR、merge 或绿色治理结果。Runtime verification receipt、托管 review、archive、
-close 和最终文档晋级仍是必需步骤。
+本文作为前置历史记录，不单独声称绿色终态。WI-712 已完成 append-only recovery、评审后的 PR
+对账、finalization、close 和文档晋级，相关记录见下方恢复边界。前置 bytes 保持不可变，本 WI
+仍不声称生产性能收益。
 
 ## 合并后恢复边界
 

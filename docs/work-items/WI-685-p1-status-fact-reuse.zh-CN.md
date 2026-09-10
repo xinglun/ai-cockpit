@@ -84,5 +84,7 @@ round40 的 pre-box 候选测量出现明显变慢，且无关路径也同时变
 明确标记 unavailable，未填零。基准也不能测量主机 CPU 争用，因此 round40 不利
 结果单独分类保留。
 
-当前 Work Item 为 `in_progress`，等待 Runtime verify、托管 PR review、merge、
-archive、close 和文档晋级；尚未声称 PR 或最终治理决定。
+当前 Work Item 已 `closed`。Runtime verify、评审后的 PR 交付、merge、archive、
+close 和文档晋级均由页首终态路径记录。已接受的请求内索引仍限定在文档所述观察
+周期内；常驻 MCP 和不可用资源指标仍未作结论。显式的
+`user_visible_benefit_not_declared` unknown 保持不变。
