@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "All three reference-parity documents bind the hashed recovery decision paths and verification evidence required for WI-781, WI-782, and WI-784.",
+    "English, Simplified Chinese, and Japanese rows remain semantically equivalent and preserve WI-783 terminal and WI-785 recovery facts.",
+    "WI-786 own planning pages and parity registration remain bounded and are deterministically promotable after verified close.",
+    "The repository parity-status, documentation, and full workspace checks pass without rewriting immutable evidence.",
+    "The Work Item uses the Runtime-supported verification evidence class and a reviewed PR before archive and close."
+  ],
+  "createdAt": "2026-09-10T16:41:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b830aac2fa6efda736a6ee6dc2355e7d1d99d86d375d3b24aa19613349e42a5b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac4b3fd4744dcadf9770ea61289dd2757309f64ca93c4bfc36b1677d724c6540",
+      "workItemId": "WI-786-parity-registration-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-786-parity-registration-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-785-wi784-doc-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-786-parity-registration-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-786-parity-registration-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-786-parity-registration-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-786-parity-registration-repair.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-786-parity-registration-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-786-parity-registration-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce a Runtime-valid successor PR whose recovered parity rows bind actual decision and evidence paths and whose docs gates pass without rewriting historical records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-786-parity-registration-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-786-parity-registration-repair"
+  },
+  "taskReportDigest": "sha256:28110ef4f8a0499c1c34ff6d33aaaa513e128a248ff740877ca625dc9d556072",
+  "taskReportMarkdownDigest": "sha256:a4e00a9d56b06b07f7ec8c66c2a1c388b29cf83d6d1f8ef1b233554c82bedcb9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-786-parity-registration-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-786-parity-registration-repair"
+}

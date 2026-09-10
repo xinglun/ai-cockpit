@@ -1,0 +1,37 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-784-wi783-doc-promotion.recovery.json",
+    ".ai/evidence/WI-784-wi783-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.events.jsonl",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.outcome.json",
+    ".ai/work-items/active/WI-784-wi783-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T16:13:05Z",
+  "checkpointContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:3ca9f2e3d5d65e477665fbdcf2b6c479416bc97e901902b296d9598ace327cde",
+  "createdAt": "2026-09-10T16:05:38Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9e09ea1121e96a0d615a74841f94458eb04b697cd5a4d7f1d0ae3c1495c812f1",
+  "predecessorWorkItemId": "WI-784-wi783-doc-promotion",
+  "preflightAt": "2026-09-10T16:18:30Z",
+  "preflightContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3ca9f2e3d5d65e477665fbdcf2b6c479416bc97e901902b296d9598ace327cde",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-784-wi783-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T16:18:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-785-wi784-doc-promotion"
+}

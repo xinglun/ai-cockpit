@@ -1,0 +1,31 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-successor-close",
+  "decidedAt": "2026-09-11T00:00:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-784-wi783-doc-promotion.recovery.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-785-wi784-doc-promotion.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/765"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:9e09ea1121e96a0d615a74841f94458eb04b697cd5a4d7f1d0ae3c1495c812f1",
+  "predecessorEventsDigest": "sha256:6e7af6d106479b42270bbd94f08ecd6bfce217ec208228eacb9f98709aba53bb",
+  "predecessorOutcomeDigest": "sha256:ec499e7315d2462074149242fa36ebe68e16a32e2aa19fde19cbf1ab91015ea7",
+  "predecessorSummaryDigest": "sha256:476523797df81406323f14e5d6901d82e5db334ebd71e296477bb764cbe7f386",
+  "predecessorWorkItemId": "WI-784-wi783-doc-promotion",
+  "reason": "WI-785 completed the bounded Runtime-valid documentation recovery and is the reviewed continuation for WI-784. Preserve WI-784 immutable failed-attempt bytes and supersede its stale active lifecycle marker through the completed successor lineage.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:1ad4641884479ee6a20a7d27706e41617df8781bf2068c90fd5367fcc98c13cc",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-785-wi784-doc-promotion",
+  "workItemId": "WI-784-wi783-doc-promotion"
+}
