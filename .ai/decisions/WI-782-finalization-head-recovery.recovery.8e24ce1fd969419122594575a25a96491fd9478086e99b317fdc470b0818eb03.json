@@ -1,0 +1,30 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-successor-close",
+  "decidedAt": "2026-09-10T15:45:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-782-finalization-head-recovery.recovery.json",
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.archive.json",
+    ".ai/decisions/WI-783-parity-finalization-recovery.close.json",
+    ".ai/decisions/WI-783-parity-finalization-recovery.finalize.8597e352cfd9a104610fa75ac7b065e1b3ea4127cace3108edaf1f72bf0c558d.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "predecessorEventsDigest": "sha256:305d3fe6ea650c4fda82692e280e733327e181525c11b75d47547e695c5fda40",
+  "predecessorOutcomeDigest": "sha256:02e56294b195ddc991952fa2b99ac02e77dc1c9262b8b55abdd881c8854d4d8c",
+  "predecessorSummaryDigest": "sha256:fbda930114b0e1696ec0582ff35f752a3b3768d700f5d15afb8e2d70394fd976",
+  "predecessorWorkItemId": "WI-782-finalization-head-recovery",
+  "reason": "WI-783 completed the bounded successor recovery, passed hosted review, merged as e28df1de, recorded both post-merge finalization transitions, and closed; preserve WI-782 immutable bytes and supersede its predecessor close obligation through the completed successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:1ad4641884479ee6a20a7d27706e41617df8781bf2068c90fd5367fcc98c13cc",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-783-parity-finalization-recovery",
+  "workItemId": "WI-782-finalization-head-recovery"
+}

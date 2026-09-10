@@ -1,0 +1,131 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+      "workItemId": "WI-782-finalization-head-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-782-finalization-head-recovery.recovery.8e24ce1fd969419122594575a25a96491fd9478086e99b317fdc470b0818eb03.json",
+            ".ai/decisions/WI-783-parity-finalization-recovery.close.json",
+            ".ai/decisions/WI-783-parity-finalization-recovery.finalize.8597e352cfd9a104610fa75ac7b065e1b3ea4127cace3108edaf1f72bf0c558d.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by github:xinglun via explicit-user-authorized-successor-close at 2026-09-10T15:45:16Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写 WI-781 不可变记录的前提下，为 successor 建立新鲜的仓库绑定验证、finalization 与关闭证据，并完成恢复后的 parity 投影。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-782-finalization-head-recovery"
+  },
+  "finalReportDigest": "sha256:92591cbd768ed5345ba15453571357c597745fe672c324c83f67fc99d1c6c235",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "github:xinglun",
+    "authoritySource": "explicit-user-authorized-successor-close",
+    "decidedAt": "2026-09-10T15:45:16Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-782-finalization-head-recovery.recovery.8e24ce1fd969419122594575a25a96491fd9478086e99b317fdc470b0818eb03.json",
+      ".ai/decisions/WI-783-parity-finalization-recovery.close.json",
+      ".ai/decisions/WI-783-parity-finalization-recovery.finalize.8597e352cfd9a104610fa75ac7b065e1b3ea4127cace3108edaf1f72bf0c558d.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#Work-Item-change-discipline",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "WI-783 is the completed successor; preserve WI-782 immutable records and close its historical recovery boundary without fabricating a new finalization result.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-10T15:45:17Z",
+  "workItemId": "WI-782-finalization-head-recovery"
+}
