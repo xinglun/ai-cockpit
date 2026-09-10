@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "unmerged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2cf5d9e5060591522deb153ce451623f2030dcc2",
+    "name": "codex/wi-775-wi774-parity-order-recovery-final",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:358c66d560b5c10d0c259244dd100b90dbf97a4dc652d7ce720b158f95e82ff6",
+  "operationId": "operation-WI-775-wi774-parity-order-recovery-abandoned",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "884876d806404457c7ababe4e2b63b3845c7f9d1",
+    "headRevision": "2cf5d9e5060591522deb153ce451623f2030dcc2",
+    "number": 758,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/758"
+  },
+  "reason": "PR #758 was explicitly closed without merge after its failed delivery; the exact unmerged branch and worktree are absent and the immutable failure evidence is preserved.",
+  "receiptId": "ai-cockpit-WI-775-wi774-parity-order-recovery-abandoned",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-775-wi774-parity-order-recovery-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/758",
+    "worktree": "/private/tmp/ai-cockpit-wi-775-wi774-parity-order-recovery-final"
+  },
+  "result": {
+    "disposition": "abandoned",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:45c063695a73aa9827300612ca796f22f6e160076968784d71cd3bea7191b634",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T06:53:03Z",
+  "workItemId": "WI-775-wi774-parity-order-recovery",
+  "worktree": {
+    "branch": "codex/wi-775-wi774-parity-order-recovery-final",
+    "headRevision": "2cf5d9e5060591522deb153ce451623f2030dcc2",
+    "path": "/private/tmp/ai-cockpit-wi-775-wi774-parity-order-recovery-final",
+    "worktreeId": "WI-775-wi774-parity-order-recovery"
+  }
+}
