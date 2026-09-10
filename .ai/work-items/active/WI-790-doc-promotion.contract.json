@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "The pre-archive tri-language WI-790 pages and parity rows are present; the WI-785 recovered row binds the actual hashed supersede decision and verification evidence; WI-787 terminal pages bind the actual terminal evidence; documentation and parity gates pass; reviewed PR is merged and Runtime exact finalization, cleanup, finalize-verify, and close are recorded."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1b2f13fe63662070ebf449bf83cee54d4487bc51",
+  "createdAt": "2026-09-10T17:55:17Z",
+  "goal": "Run the repository closed-Work-Item projection and bounded recovery registration in a documentation-only Work Item, verify current parity and documentation gates, and complete reviewed PR merge, exact finalization, cleanup, and close.",
+  "intent": "Promote the terminal WI-787 and recovered WI-785 tri-language documentation and reference-parity projections after Runtime close.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Product/runtime behavior",
+    " release versioning and publication",
+    " historical archive/evidence/decision bytes",
+    " unrelated documentation",
+    " and any branch or worktree other than this Work Item."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:801da5c39f2a2ff8579c507b5eaffa869f0e4af455306aa25f4364d0e3b131c3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-790-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-790-doc-promotion"
+  },
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-787-parity-finalization-recovery.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.zh-CN.md",
+    "docs/work-items/WI-787-parity-finalization-recovery.ja.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-785-wi784-doc-promotion.ja.md",
+    "docs/work-items/WI-790-doc-promotion.md",
+    "docs/work-items/WI-790-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-790-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-790-doc-promotion"
+}
