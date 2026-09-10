@@ -1,12 +1,25 @@
 {
-  "acceptanceCriteria": [],
-  "authority": "unknown",
-  "baseRevision": "d0c181ecf79130aac06e0cd49cb2cdc5c57f173d",
+  "acceptanceCriteria": [
+    "Fresh Runtime verification passes against the current default branch and binds this repository and successor Work Item.",
+    "The immutable WI-771 archive, evidence, outcome, summary, events, recovery decision, and PR #755 remain unchanged.",
+    "No Runtime, performance, or release behavior is changed; performance implementation remains deferred.",
+    "Finish, archive, provider finalization, finalize-verify, close, and exact cleanup complete with generated evidence.",
+    "Post-close promotion check and final repository audit pass."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "a4de2c30c5613237c918e0ad228e9406e1bc955e",
   "createdAt": "2026-09-10T01:28:04Z",
-  "goal": "",
-  "intent": "",
+  "goal": "Produce fresh repository-bound evidence for the already-merged documentation projection, preserve WI-771 immutable recovery records, and complete the successor lifecycle without changing Runtime or performance behavior.",
+  "intent": "Revalidate the merged WI-770 terminal documentation projection from the current default branch after the WI-771 post-merge archive snapshot mismatch.",
   "mode": "implementation",
-  "outOfScope": [],
+  "outOfScope": [
+    "Runtime behavior",
+    "performance implementation",
+    "release workflow",
+    "version metadata",
+    "historical WI-771 archive/evidence/close bytes",
+    "unrelated documentation projections"
+  ],
   "predecessorContractDigest": "sha256:bf6c2649c0e75957c290d93f1b2a2e5470c684921c33d4acbaf0fcac1e506dba",
   "predecessorWorkItemId": "WI-771-wi770-doc-promotion",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
@@ -14,19 +27,29 @@
   "recoveryDecisionPath": ".ai/decisions/WI-771-wi770-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:881bb0c6d40a973b0b62c8f373e4653f8886c15b64c0172acbdefb430ca055bd",
-  "requiredEvidenceClasses": [],
+  "requiredEvidenceClasses": [
+    "verification",
+    "archive",
+    "finalization",
+    "decision"
+  ],
   "resourceContext": {
     "baseBranch": "unknown",
     "baseRemote": "unknown",
-    "branch": "main",
+    "branch": "codex/wi-772-wi771-doc-promotion-recovery",
     "provider": "unknown",
     "pullRequest": "unknown",
-    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+    "worktree": "/private/tmp/ai-cockpit-wi-772-wi771-doc-promotion-recovery"
   },
-  "risk": "unknown",
-  "scope": [],
+  "risk": "normal",
+  "scope": [
+    "Current Runtime-bound recovery evidence",
+    ".ai/decisions/observer-snapshot.json"
+  ],
   "sources": [],
-  "state": "not_ready",
-  "verification": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
   "workItemId": "WI-772-wi771-doc-promotion-recovery"
 }
