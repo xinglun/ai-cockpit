@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "ccc3c5c71dc0be8ee829e36cea31eecfee32f211",
+  "createdAt": "2026-09-10T00:06:33Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
+  "predecessorWorkItemId": "WI-769-performance-terminal-docs",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-769-performance-terminal-docs.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:efd345e8458ef5157902a4387381a6b853e7af49a0d6f7f3bcab7743d813297d",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-769-performance-doc-state",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/private/tmp/ai-cockpit-wi-769-performance-doc-state"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-770-performance-terminal-docs-recovery"
+}

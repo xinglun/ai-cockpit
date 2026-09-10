@@ -1,0 +1,25 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-09T23:51:39Z",
+  "checkpointContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:efd345e8458ef5157902a4387381a6b853e7af49a0d6f7f3bcab7743d813297d",
+  "createdAt": "2026-09-09T23:50:05Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-10T00:02:15Z",
+  "preflightContractDigest": "sha256:e15a9700ef02d01104041cbe4b4a2dff12c7aec92a35d20c34bc628561003465",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:efd345e8458ef5157902a4387381a6b853e7af49a0d6f7f3bcab7743d813297d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T00:02:38Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-769-performance-terminal-docs"
+}

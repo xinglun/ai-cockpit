@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T00:03:02Z",
+  "files": {
+    "contractDigest": "sha256:c6ca1528544816646f51ed22a1a8c4039dfb58cb3cf3b3d019446fc9642cdf09",
+    "contractPath": ".ai/work-items/archive/WI-769-performance-terminal-docs.contract.json",
+    "eventsDigest": "sha256:921c09fc27f68b30cbbcbeaacf4dbc0c6eaf2dee95bb60ce8165a5d59167474a",
+    "eventsPath": ".ai/work-items/archive/WI-769-performance-terminal-docs.events.jsonl",
+    "outcomeDigest": "sha256:2480857025236d4491a225ac2623d6d142e1922b20d6ad4e742f8f5f34bfd095",
+    "outcomePath": ".ai/work-items/archive/WI-769-performance-terminal-docs.outcome.json",
+    "summaryDigest": "sha256:569aead62d0d00c099225fd95dafbd291cd387204d1ca0efcbffe2f2955df692",
+    "summaryPath": ".ai/work-items/archive/WI-769-performance-terminal-docs.summary.json",
+    "taskReportDigest": "sha256:ffcd83851b5f4f13d73c9fccb06057554b350afd5aa89dc64919eb90869ed273",
+    "taskReportMarkdownDigest": "sha256:8d889114a29f7df581aee8520ff238ebc0dec741289c5277312cc2cd5bb06d1c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-769-performance-terminal-docs.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-769-performance-terminal-docs.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-769-performance-terminal-docs"
+}
