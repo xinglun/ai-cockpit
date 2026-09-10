@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-pre-merge-finalization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "82f48ecc71d5781ed4c2b6daa551617f25ce1adf",
+    "name": "codex/wi-790-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:efe7dcf74434a297a7c006b1e77cae12a37895a2120451b89dd1526f102fe9f9",
+  "operationId": "github-pr-768-WI-790-pre-merge-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1b2f13fe63662070ebf449bf83cee54d4487bc51",
+    "headRevision": "82f48ecc71d5781ed4c2b6daa551617f25ce1adf",
+    "number": 768,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/768"
+  },
+  "reason": "PR #768 is ready for review but unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass and the provider merge is available.",
+  "receiptId": "ai-cockpit-WI-790-doc-promotion-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-790-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/768",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-790-doc-promotion"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T18:11:24Z",
+  "workItemId": "WI-790-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-790-doc-promotion",
+    "headRevision": "82f48ecc71d5781ed4c2b6daa551617f25ce1adf",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-790-doc-promotion",
+    "worktreeId": "WI-790-doc-promotion"
+  }
+}
