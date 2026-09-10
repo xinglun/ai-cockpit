@@ -3,7 +3,10 @@
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-10T20:04:46Z",
+  "checkpointContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
   "createdAt": "2026-09-10T19:59:48Z",
   "intentAlignment": {
     "evidence": [
@@ -14,11 +17,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T20:04:28Z",
+  "preflightAt": "2026-09-10T20:04:42Z",
   "preflightContractDigest": "sha256:4f4bc9fcfe5e216f3e18ee8195a23b5ba88116e8e345770000fcd9f633d1e0fc",
-  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
-  "preflightState": "red",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -82,7 +85,7 @@
       "verificationPlan": "Complete finish and archive before merge, record provider finalization after merge and cleanup, close with explicit authorization, synchronize main, and run the closed-work-item promotion check."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-09-10T20:04:28.535071+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T20:04:46Z",
   "workItemId": "WI-793-release-v0-2-90-recovery"
 }
