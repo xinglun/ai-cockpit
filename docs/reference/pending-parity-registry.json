@@ -1,38 +1,4 @@
 {
-  "entries": [
-    {
-      "baseRevision": "07902f2d10b1b284fa14fc0141650f223084c89b",
-      "createdAt": "2026-09-10T14:24:11Z",
-      "expectedRecords": {
-        "contract": ".ai/work-items/archive/WI-781-trust-diagnostics.contract.json",
-        "finalize": ".ai/decisions/WI-781-trust-diagnostics.finalize.json",
-        "verification": ".ai/evidence/WI-781-trust-diagnostics.verification.json"
-      },
-      "headRevision": "eb980c11d3e023cc45f4b94cd31ecc14a4aaf419",
-      "parityRows": [
-        {
-          "path": "docs/reference/reference-parity.md",
-          "row": "| WI-781-trust-diagnostics — Trust diagnostics and Outcome consistency | In progress | archive `.ai/work-items/archive/WI-781-trust-diagnostics.contract.json`; verification `.ai/evidence/WI-781-trust-diagnostics.verification.json`; finalization `.ai/decisions/WI-781-trust-diagnostics.finalize.json`; close `.ai/decisions/WI-781-trust-diagnostics.close.json` |"
-        },
-        {
-          "path": "docs/reference/reference-parity.zh-CN.md",
-          "row": "| WI-781-trust-diagnostics — 信任诊断与 Outcome 一致性 | 进行中 | archive `.ai/work-items/archive/WI-781-trust-diagnostics.contract.json`; verification `.ai/evidence/WI-781-trust-diagnostics.verification.json`; finalization `.ai/decisions/WI-781-trust-diagnostics.finalize.json`; close `.ai/decisions/WI-781-trust-diagnostics.close.json` |"
-        },
-        {
-          "path": "docs/reference/reference-parity.ja.md",
-          "row": "| WI-781-trust-diagnostics — Trust diagnostics and Outcome consistency | In progress | archive `.ai/work-items/archive/WI-781-trust-diagnostics.contract.json`; verification `.ai/evidence/WI-781-trust-diagnostics.verification.json`; finalization `.ai/decisions/WI-781-trust-diagnostics.finalize.json`; close `.ai/decisions/WI-781-trust-diagnostics.close.json` |"
-        }
-      ],
-      "provider": "github",
-      "pullRequest": {
-        "number": 763,
-        "url": "https://github.com/xinglun/ai-cockpit/pull/763"
-      },
-      "registryBaseRevision": "40e857a69d2825f64d25b1402fd2876e57b91ed7",
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "state": "in_progress",
-      "workItemId": "WI-781-trust-diagnostics"
-    }
-  ],
+  "entries": [],
   "schemaVersion": 1
 }
