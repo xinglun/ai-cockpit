@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "0f1ba6a0a50e9c3160cf7ec2282e93ad9cd14d49",
+    "name": "codex/wi-787-parity-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fe912442ceae608a1e931fcc7b5a376ca474106f5c8f637b6dce948c6a290590",
+  "operationId": "github-pr-767-wi-787-pre-merge-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4981bb18a2bbbc2dfb435da2fd6c6ef41f2128cb",
+    "headRevision": "0f1ba6a0a50e9c3160cf7ec2282e93ad9cd14d49",
+    "number": 767,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/767"
+  },
+  "reason": "PR #767 is ready for review but unmerged; retain the exact reviewed branch and clean worktree until hosted checks pass and the provider merge is available.",
+  "receiptId": "ai-cockpit-WI-787-parity-finalization-recovery-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-787-parity-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/767",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T17:20:00Z",
+  "workItemId": "WI-787-parity-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-787-parity-finalization-recovery",
+    "headRevision": "0f1ba6a0a50e9c3160cf7ec2282e93ad9cd14d49",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-787-parity-finalization-recovery",
+    "worktreeId": "WI-787-parity-finalization-recovery"
+  }
+}
