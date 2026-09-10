@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T14:12:56Z",
+  "files": {
+    "contractDigest": "sha256:d63a730e3a114a43d9b334616955233996d055e02086fcf4fb755479dc2fb4ca",
+    "contractPath": ".ai/work-items/archive/WI-781-trust-diagnostics.contract.json",
+    "eventsDigest": "sha256:c4566039c5ba41cce1064953e1a74a9bae7bb2897d6925a68e208d2be8d708b3",
+    "eventsPath": ".ai/work-items/archive/WI-781-trust-diagnostics.events.jsonl",
+    "outcomeDigest": "sha256:f67cfdd8ba964a4ca6bc058416e5db9f93dae650069319aca0b1f8e93699436a",
+    "outcomePath": ".ai/work-items/archive/WI-781-trust-diagnostics.outcome.json",
+    "summaryDigest": "sha256:fd17f63fb5d8f1a9c980c35d671f3c81115f9d8af00aa1438b092e99c6b24d1c",
+    "summaryPath": ".ai/work-items/archive/WI-781-trust-diagnostics.summary.json",
+    "taskReportDigest": "sha256:c8f8c4725916328e930b70b3565ebd64aa2d02a0b42618c0c9720201633c8637",
+    "taskReportMarkdownDigest": "sha256:884795290debd4c72c3cac6a74b55d9d3104c32e73d4d0e26c4f42494ce7c8ab",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-781-trust-diagnostics.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-781-trust-diagnostics.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-781-trust-diagnostics"
+}

@@ -1,7 +1,7 @@
 {
   "changedPaths": [],
   "checkpointAt": "2026-09-10T12:03:23Z",
-  "checkpointContractDigest": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+  "checkpointContractDigest": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -77,6 +77,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-781-trust-diagnostics"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3ba990bfc441dd3e88e1a8f904fd5feedc87e0536d9db2c87269a93282ca658f",
+      "previousContractHash": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+      "reason": "The reviewed GitHub PR resource context was bound by finalize-plan after the initial verification; revalidate the current Contract and require fresh preflight and verification for the exact branch, worktree, and PR identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-10T14:08:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-781-trust-diagnostics"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
@@ -93,8 +113,8 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-10T14:02:26Z",
-  "preflightContractDigest": "sha256:ab5919ca5af4419f64b227fb7b0da3080b7eb9b539aaadc47f5eb43d1dc79936",
+  "preflightAt": "2026-09-10T14:12:50Z",
+  "preflightContractDigest": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:8e22a4c7fa2ffadf1d647d233e9ac8033449de586947d8b54ec705fc3a77f466",
   "preflightState": "green",
@@ -144,14 +164,13 @@
       "verificationPlan": "Run focused historical fixtures, full workspace tests, documentation/gate checks, and compare immutable archive bytes before and after."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T12:03:23Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T14:12:50Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:7fbe802819619b472c17663bb038213765c4319b925fb197b8bf8d3d21f79399",
   "workItemId": "WI-781-trust-diagnostics"
 }
