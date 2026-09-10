@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-close",
+  "decidedAt": "2026-09-11T00:01:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-785-wi784-doc-promotion.recovery.json",
+    ".ai/decisions/WI-786-parity-registration-repair.recovery.json",
+    ".ai/decisions/WI-786-parity-registration-repair.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:0d1c5ea800f992da817febe4aec09a2b129eb15127fb33387e456dc67814863b",
+  "predecessorContractDigest": "sha256:1738bb6fddecf359bafe407b37de8482a0d8dba166ff8639a562b35e8db63a1e",
+  "predecessorEventsDigest": "sha256:4c047bdbabbb3c99d7d97ae563750ee933728a6af4019a81d22d67e39381d409",
+  "predecessorOutcomeDigest": "sha256:8823a2e3cddc8e870d5a9510c4e59ee4ff8e601dc61deb190d44fc9587fff9bb",
+  "predecessorSummaryDigest": "sha256:bf004585df0c88c61fd8474d4ff40f9f11e918ac6ff23079cd9ef36f0a0823eb",
+  "predecessorWorkItemId": "WI-785-wi784-doc-promotion",
+  "reason": "WI-786 completed the documented successor recovery for WI-785; preserve WI-785 immutable archive and historical evidence, and close this missing-finalization predecessor as superseded without fabricating a provider receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-786-parity-registration-repair",
+  "workItemId": "WI-785-wi784-doc-promotion"
+}
