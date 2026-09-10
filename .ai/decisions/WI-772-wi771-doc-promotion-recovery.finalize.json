@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2c43b933d8a89898689bec0e008ef11a05768309",
+    "name": "codex/wi-772-wi771-doc-promotion-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:72afd4a1fff4c4a668e2572eeba3187f095ab26cbe2fc4610ebd4d585f8be412",
+  "operationId": "local-wi772-finalization-20260910",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a4de2c30c5613237c918e0ad228e9406e1bc955e",
+    "headRevision": "2c43b933d8a89898689bec0e008ef11a05768309",
+    "mergeCommit": "2c43b933d8a89898689bec0e008ef11a05768309",
+    "number": 1,
+    "url": "not-requested"
+  },
+  "reason": "The bounded WI-772 recovery branch was fast-forward synchronized into main after fresh verification and archive; its exact local branch and worktree were then removed.",
+  "receiptId": "local-wi772-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-772-wi771-doc-promotion-recovery",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/ai-cockpit-wi-772-wi771-doc-promotion-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:63f9b1b193c4c42080bb84112b0323f3b7d005b701386467accde8fc7d484dca",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T01:44:00Z",
+  "workItemId": "WI-772-wi771-doc-promotion-recovery",
+  "worktree": {
+    "branch": "codex/wi-772-wi771-doc-promotion-recovery",
+    "headRevision": "2c43b933d8a89898689bec0e008ef11a05768309",
+    "path": "/private/tmp/ai-cockpit-wi-772-wi771-doc-promotion-recovery",
+    "worktreeId": "WI-772-wi771-doc-promotion-recovery"
+  }
+}
