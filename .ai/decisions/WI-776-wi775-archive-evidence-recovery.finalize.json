@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c78a714a4361c52c0ea7ccaac469dd4f01ff4141",
+    "name": "codex/wi-776-wi775-archive-evidence-recovery-final",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f847fb896196a3fc2c07b5ef799cbf4657aefc3582e3423089939fb8972ec404",
+  "operationId": "github-pr-759-merge-cleanup-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "884876d806404457c7ababe4e2b63b3845c7f9d1",
+    "headRevision": "c78a714a4361c52c0ea7ccaac469dd4f01ff4141",
+    "mergeCommit": "00cee4bcd5812e0bcceef508052d1e6077a8eee3",
+    "number": 759,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/759"
+  },
+  "reason": "PR #759 passed all hosted checks and was merged; the exact WI-776 branch and worktree were removed while preserving predecessor failure artifacts and the archived recovery evidence, and synchronized origin/main contains the reviewed merge.",
+  "receiptId": "ai-cockpit-WI-776-wi775-archive-evidence-recovery-post-merge-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-776-wi775-archive-evidence-recovery-final",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/759",
+    "worktree": "/private/tmp/ai-cockpit-wi-776-wi775-archive-evidence-recovery-final"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T05:48:41Z",
+  "workItemId": "WI-776-wi775-archive-evidence-recovery",
+  "worktree": {
+    "branch": "codex/wi-776-wi775-archive-evidence-recovery-final",
+    "headRevision": "c78a714a4361c52c0ea7ccaac469dd4f01ff4141",
+    "path": "/private/tmp/ai-cockpit-wi-776-wi775-archive-evidence-recovery-final",
+    "worktreeId": "WI-776-wi775-archive-evidence-recovery-final"
+  }
+}
