@@ -47,8 +47,6 @@ fn repository() -> tempfile::TempDir {
     let contract = directory
         .path()
         .join(".ai/work-items/active/WI-RECOVERY.contract.json");
-    preflight_work_item(directory.path(), &contract).expect("preflight");
-    checkpoint_work_item(directory.path(), "WI-RECOVERY").expect("checkpoint");
     record_work_item_governance_controls(
         directory.path(),
         "WI-RECOVERY",
@@ -60,6 +58,8 @@ fn repository() -> tempfile::TempDir {
         }),
     )
     .expect("intent alignment");
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), "WI-RECOVERY").expect("checkpoint");
     directory
 }
 

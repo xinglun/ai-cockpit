@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "WI-781 不可变记录保持原始字节，并由恢复决定与 predecessor digest 绑定",
+    "恢复 scaffold 只允许在已绑定 predecessor 的既有分支上显式激活，普通 start 仍要求同步默认基线",
+    "项目测试、治理检查和 hosted PR 检查通过，successor finalization 绑定真实 PR、分支、工作树与 Runtime 身份",
+    "发布前 successor 可按 Runtime 规则完成验证、归档、收尾和关闭，不提出未经事实支持的清理动作"
+  ],
+  "createdAt": "2026-09-10T15:06:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:991bb500dabc946febb9c2faf4f8da6625879643ec4a9c61d2804220bdd6bde9",
+  "evidenceRefs": [
+    ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+      "workItemId": "WI-782-finalization-head-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写 WI-781 不可变记录的前提下，为 successor 建立新鲜的仓库绑定验证、finalization 与关闭证据，并完成恢复后的 parity 投影。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-782-finalization-head-recovery"
+  },
+  "taskReportDigest": "sha256:34f75e966ac8cc50a54c8011d1b6594ce27e2e8ce351ce35df4a15a7b7ef5b59",
+  "taskReportMarkdownDigest": "sha256:bed18918de0b33f0ee2e13b569cee5f872ca8c3293c27e98ebec530ab2787706",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-782-finalization-head-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-782-finalization-head-recovery"
+}

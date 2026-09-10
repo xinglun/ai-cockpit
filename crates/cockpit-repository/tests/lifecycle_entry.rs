@@ -204,6 +204,91 @@ fn start_rejects_clean_branch_ahead_of_discoverable_default_base() {
 }
 
 #[test]
+fn recovery_scaffold_may_activate_on_its_existing_ahead_branch() {
+    let directory = repository();
+    fs::write(directory.path().join("README.md"), "base\n").expect("base file");
+    run(directory.path(), &["add", "-A"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "base",
+        ],
+    );
+    run(directory.path(), &["branch", "-M", "main"]);
+    let base = output(directory.path(), &["rev-parse", "HEAD"])
+        .trim()
+        .to_owned();
+    run(
+        directory.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://example.invalid/origin.git",
+        ],
+    );
+    run(
+        directory.path(),
+        &["update-ref", "refs/remotes/origin/main", &base],
+    );
+    run(
+        directory.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    run(directory.path(), &["checkout", "-qb", "recovery"]);
+    scaffold_work_item(directory.path(), "WI-RECOVERY", "implementation")
+        .expect("recovery scaffold");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-RECOVERY.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("json");
+    contract["predecessorWorkItemId"] = serde_json::json!("WI-PREDECESSOR");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("serialize contract"),
+    )
+    .expect("write recovery binding");
+    run(directory.path(), &["add", "-A"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "reserve recovery continuation",
+        ],
+    );
+
+    start_work_item_with_options(
+        directory.path(),
+        "WI-RECOVERY",
+        "continue the recovery",
+        "activate a bounded recovery continuation",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["recovery remains explicitly bounded".into()],
+            ..start_options()
+        },
+    )
+    .expect("recovery continuation should bypass only the ordinary base check");
+}
+
+#[test]
 fn status_reports_unknown_readiness_without_remote_metadata() {
     let directory = repository();
     let readiness = status(directory.path()).expect("status").readiness;

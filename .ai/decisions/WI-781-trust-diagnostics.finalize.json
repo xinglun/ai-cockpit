@@ -1,0 +1,59 @@
+{
+  "actor": "github:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-pre-merge-finalization-boundary",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "eb980c11d3e023cc45f4b94cd31ecc14a4aaf419",
+    "name": "codex/wi-781-trust-diagnostics",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d63a730e3a114a43d9b334616955233996d055e02086fcf4fb755479dc2fb4ca",
+  "operationId": "github-pr-763-pre-merge-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "07902f2d10b1b284fa14fc0141650f223084c89b",
+    "headRevision": "eb980c11d3e023cc45f4b94cd31ecc14a4aaf419",
+    "number": 763,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/763"
+  },
+  "reason": "PR #763 is open and unmerged while hosted checks and review are pending; retain the exact reviewed branch and clean worktree until the provider merge is available.",
+  "receiptId": "ai-cockpit-WI-781-trust-diagnostics-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f1a7eae4dfbf260f99a487579ea239539c7fe46943dfb5a6663610db2a808bbd",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T14:15:07Z",
+  "workItemId": "WI-781-trust-diagnostics",
+  "worktree": {
+    "branch": "codex/wi-781-trust-diagnostics",
+    "headRevision": "eb980c11d3e023cc45f4b94cd31ecc14a4aaf419",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics",
+    "worktreeId": "WI-781-trust-diagnostics"
+  }
+}

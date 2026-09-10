@@ -5,7 +5,7 @@ description: "状態と遷移から生成した協作言語の場景行列。実
 audience: [adopter, contributor, maintainer, reviewer]
 status: current
 authority: canonical
-lastVerifiedBy: WI-756-p1-handoff-reconstruction
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # 協作場景行列
@@ -76,9 +76,10 @@ Work Item は拡張のみ可能で番号の振り直しは行わない)は
 ## 既知の限界
 
 本行列は引き続き手作業で整理された意味論的な索引であり、完全な自動テスト
-スイートではない。WI-753 は中断と再開を含む状態/選択肢/Runtime の一致境界
-について、制御されたリポジトリで実行可能なチェックを一件追加し、WI-756 は
-Runtime 記録だけを読み、明示的な阻断を保持する有界の引き継ぎ再構築チェック
-を一件追加した。すべての不変量や状態の組合せを完全な直積でカバーすると主張
-するものではなく、将来の Work Item は既存の番号を振り直さずに有界なチェック
-を追加できる。
+スイートではない。JSON の出典には実行可能なチェック登録表を追加し、各対象
+場景の入力事実、期待する意味、テスト入口を結び付けた。WI-781 は人間向け
+レポートの意味論的一致、finalization アクションの分類、有界 Outcome 組立て
+再試行、段階別 Runtime 診断を追加し、未対応のプロセス数は unavailable のまま
+扱う。すべての不変量や状態の組合せを完全な直積でカバーすると主張するもの
+ではなく、将来の Work Item は既存の番号を振り直さずに有界なチェックを追加
+できる。

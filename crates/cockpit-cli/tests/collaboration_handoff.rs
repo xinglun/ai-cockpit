@@ -61,6 +61,11 @@ fn reconstruct_handoff(binary: &str, repo: &Path, id: &str) -> Value {
     let contract = read_json(record_path(repo, ".ai/work-items/active", id, "contract"));
     let summary = read_json(record_path(repo, ".ai/work-items/active", id, "summary"));
     let status = run_json(binary, repo, &["work-item", "status", "--id", id, "--json"]);
+    let controls = run_json(
+        binary,
+        repo,
+        &["work-item", "validate", "--id", id, "--json"],
+    );
     let outcome = read_json(record_path(repo, ".ai/work-items/active", id, "outcome"));
     let evidence = read_json(record_path(repo, ".ai/evidence", id, "verification"));
 
@@ -87,8 +92,18 @@ fn reconstruct_handoff(binary: &str, repo: &Path, id: &str) -> Value {
             "freshness": status["evidenceFreshness"].clone(),
         },
         "authorization": {
-            "authority": contract["authority"].clone(),
+            "declaredAuthority": contract["authority"].clone(),
             "preflightReview": summary["preflightState"].clone(),
+            "applicable": contract["authority"] == json!("authorized")
+                && summary["preflightState"] == json!("green")
+                && status["evidenceFreshness"]["state"] == json!("fresh")
+                && controls["state"] == json!("verified"),
+            "basis": {
+                "preflightReview": summary["preflightState"].clone(),
+                "evidenceFreshness": status["evidenceFreshness"].clone(),
+                "governanceControls": controls["state"].clone(),
+                "findings": controls["findings"].clone(),
+            },
         },
         "blockReason": {
             "outcomeState": outcome["state"].clone(),
@@ -194,7 +209,19 @@ fn new_agent_reconstructs_handoff_from_runtime_records_without_conversation_hist
     );
     assert!(handoff["evidence"]["runtimeDigest"].as_str().is_some());
 
-    assert_eq!(handoff["authorization"]["authority"], "authorized");
+    assert_eq!(handoff["authorization"]["declaredAuthority"], "authorized");
+    assert_eq!(handoff["authorization"]["applicable"], false);
+    assert_eq!(
+        handoff["authorization"]["basis"]["governanceControls"],
+        "blocked"
+    );
+    assert!(
+        handoff["authorization"]["basis"]["findings"]
+            .as_array()
+            .expect("governance findings")
+            .iter()
+            .any(|finding| finding["code"] == "acceptance_evidence_missing")
+    );
     assert_eq!(handoff["blockReason"]["outcomeState"], "blocked");
     assert!(handoff["blockReason"]["failedGate"].as_str().is_some());
     assert!(

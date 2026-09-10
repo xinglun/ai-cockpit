@@ -36,6 +36,8 @@ fn snapshot(paths: &[&str]) -> RepositorySnapshot {
         dependency_fingerprint: "sha256:dependencies".into(),
         files_read: 0,
         files_hashed: 0,
+        bytes_read: 0,
+        bytes_hashed: 0,
         source_tree_digest: None,
     }
 }

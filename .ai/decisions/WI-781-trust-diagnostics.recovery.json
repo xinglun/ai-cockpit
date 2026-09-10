@@ -1,0 +1,29 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-immutable-delivery-recovery",
+  "decidedAt": "2026-09-10T14:44:20Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-781-trust-diagnostics.finalize.json",
+    ".ai/evidence/WI-781-trust-diagnostics.verification.json",
+    ".ai/work-items/archive/WI-781-trust-diagnostics.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
+  "predecessorEventsDigest": "sha256:c4566039c5ba41cce1064953e1a74a9bae7bb2897d6925a68e208d2be8d708b3",
+  "predecessorOutcomeDigest": "sha256:a9242dae2d35ea8c23b3f79fdb0d0436850ee90c0a3be844053acd5e1778f7e6",
+  "predecessorSummaryDigest": "sha256:94b65a84bbdae87b7daeafa097f04deb4aa429b3f7e0c14a5568a5bd116b8458",
+  "predecessorWorkItemId": "WI-781-trust-diagnostics",
+  "reason": "Hosted workspace clippy found a required source correction after the immutable pre-merge finalization receipt was recorded; preserve WI-781 bytes and create a bounded successor for protocol-valid finalization and closure.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor records a fresh repository-bound finalization receipt after the corrected PR head is reviewed, completes parity registration, and closes both lineage records without rewriting WI-781.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-782-finalization-head-recovery",
+  "workItemId": "WI-781-trust-diagnostics"
+}

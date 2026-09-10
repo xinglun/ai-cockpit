@@ -1,0 +1,29 @@
+{
+  "actor": "github:xinglun",
+  "authoritySource": "explicit-user-authorized-immutable-successor-recovery",
+  "decidedAt": "2026-09-10T15:16:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.archive.json",
+    ".ai/decisions/WI-782-finalization-head-recovery.finalize.json",
+    ".ai/evidence/WI-782-finalization-head-recovery.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "predecessorEventsDigest": "sha256:305d3fe6ea650c4fda82692e280e733327e181525c11b75d47547e695c5fda40",
+  "predecessorOutcomeDigest": "sha256:02e56294b195ddc991952fa2b99ac02e77dc1c9262b8b55abdd881c8854d4d8c",
+  "predecessorSummaryDigest": "sha256:fbda930114b0e1696ec0582ff35f752a3b3768d700f5d15afb8e2d70394fd976",
+  "predecessorWorkItemId": "WI-782-finalization-head-recovery",
+  "reason": "The archived WI-782 parity rows were correctly required before archive, but their terminal status must be projected after archive and before the finalization head is frozen. The immutable WI-782 finalization receipt cannot be rewritten after that ordering defect; preserve all WI-782 bytes and use a bounded successor for the post-archive parity projection and protocol-valid finalization.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor records the implemented three-language parity projection before its immutable finalization receipt, completes hosted review, and closes the WI-782 lineage without rewriting predecessor bytes.",
+  "runtimeDigest": "sha256:28f34ac8e88f33df4ec9b8cc86133f0679ae9e38f8d610edceb618c879bd9bd8",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-783-parity-finalization-recovery",
+  "workItemId": "WI-782-finalization-head-recovery"
+}

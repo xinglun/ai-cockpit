@@ -8,7 +8,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: outcome-dialog-acceptance
+lastVerifiedBy: WI-781-trust-diagnostics
 capabilityClaims:
   - human_outcome_handoff
 ---
@@ -74,9 +74,10 @@ view from the complete audit report to the four-part summary above. This reduces
 empty-column reading for ordinary tasks while keeping verification, lifecycle,
 decision, blockers, uncertainty, and evidence references visible. The complete
 report remains available with `--view full`, and the MCP `work_item_outcome` tool
-accepts `view: "summary"` (default) or `view: "full"`. Machine-readable JSON,
-validation rules, exit codes, authorization semantics, and persisted evidence are
-unchanged. Top-level `finish`, `archive`, and `close` continue to render the
+accepts `view: "summary"` (default) or `view: "full"`. Existing machine-readable
+JSON fields, validation rules, exit codes, authorization semantics, and persisted
+evidence remain compatible; optional reason/finalization fields are additive.
+Top-level `finish`, `archive`, and `close` continue to render the
 complete handoff on stderr for lifecycle error and audit context; `--json` still
 suppresses that human channel.
 
@@ -84,7 +85,7 @@ Status markers are decision signals, not release authorization:
 
 - `🟢` verified evidence is present; review evidence before proceeding.
 - `🟡` the result is partial, not ready, or unknown; repair or investigate.
-- `🔴` a required control failed or authority/scope is invalid; stop and recover.
+- `🔴` a required control failed; inspect the displayed reason projection and stop until the actual gap is resolved.
 
 Empty data is not treated as a positive fact. Risk findings are rendered as
 `Not recorded` or `Not assessed` when the evidence cannot support a stronger
@@ -92,6 +93,14 @@ statement; only an explicit evidence-backed claim may say that no risk was
 found within a named check scope. Other empty sections use `Not recorded`.
 The report never fills a governance decision from inference. A green result
 does not authorize merge, release, publication, or a security claim.
+
+A red marker is not itself an evidence diagnosis. The Runtime derives stable
+reason keys from the existing failed gate, unknowns, governance-control
+findings, scope/authorization rules, and evidence state. It distinguishes
+verification failure, invalid/expired evidence, missing acceptance evidence,
+intent misalignment, scope or authorization gaps, and unknown causes. Summary
+and full views share this projection, and the CLI/MCP human handoff preserves
+the same semantics across `en`, `zh`, and `ja`.
 
 The status lines deliberately keep four dimensions separate:
 
@@ -152,17 +161,28 @@ includes `historicalStatus: "superseded"` and uses a yellow historical marker.
 This means the original evidence is preserved and is not being revalidated as
 the current result; it is not a red failure and not a green authorization.
 
-For an ordinary archived Work Item with a bound resource context, a missing or
-invalid provider finalization receipt adds the stable
-`resource_finalization_pending` unknown and prevents a green/verified Outcome.
-The receipt is a separate provider-side boundary from repository verification.
-An archived Work Item also remains non-terminal until its explicit close
-decision is valid. The human handoff therefore names the remaining sequence:
-clean up the exact branch/worktree, record finalization, run
-`finalize-verify`, and then `close`; an item without external resources only
-needs the reviewed human `close` decision. The machine status projection marks
-this gap as blocking and exposes corresponding `safeActions` so an Agent cannot
-silently proceed to another Work Item.
+For an ordinary archived Work Item with a bound resource context, finalization
+is projected from the Runtime's receipt validator and resource observations.
+Missing receipts, corrupt records, identity mismatches, pending cleanup,
+retained resources, and verified deletion have distinct states and actions.
+Missing or invalid facts instruct the Agent to inspect or re-observe and never
+to repeat deletion; a retained disposition never becomes a delete suggestion;
+verified deletion only leaves the Runtime's close decision. Human wording is
+not an authorization source. An archived Work Item remains non-terminal until
+the Runtime accepts finalization and its explicit close decision.
+
+Outcome assembly captures the repository snapshot and relevant lifecycle,
+decision, evidence, and finalization records in one request-scoped observation
+boundary. A deterministic change during assembly causes at most one retry;
+continued change is returned as explicit unknown/failure. The pure renderer
+performs no I/O and never extends the captured context across execution or
+persistence stages.
+
+`ai-cockpit diagnose` reports Runtime-internal primary-path phases for identity,
+Git/snapshot, read/hash, parse, governance, and projection/serialization. It
+also reports actual scoped read/hash bytes and Git calls. Unsupported child
+process counts are marked unavailable rather than zero, and benchmark-tool
+overhead is kept separate from these Runtime measurements.
 
 The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
 output. Agent conversations should render the same handoff in the language of

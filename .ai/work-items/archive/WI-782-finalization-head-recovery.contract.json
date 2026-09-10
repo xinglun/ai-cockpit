@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "WI-781 不可变记录保持原始字节，并由恢复决定与 predecessor digest 绑定",
+    "恢复 scaffold 只允许在已绑定 predecessor 的既有分支上显式激活，普通 start 仍要求同步默认基线",
+    "项目测试、治理检查和 hosted PR 检查通过，successor finalization 绑定真实 PR、分支、工作树与 Runtime 身份",
+    "发布前 successor 可按 Runtime 规则完成验证、归档、收尾和关闭，不提出未经事实支持的清理动作"
+  ],
+  "authority": "authorized",
+  "baseRevision": "264dcb50eb5b09c9a62604a99edc7afb4bd3c403",
+  "createdAt": "2026-09-10T14:47:15Z",
+  "goal": "在不改写 WI-781 不可变记录的前提下，为 successor 建立新鲜的仓库绑定验证、finalization 与关闭证据，并完成恢复后的 parity 投影。",
+  "intent": "修复归档后必要源代码修正造成的 finalization head 漂移，并恢复可验证的收尾边界，保持 Calibrated Human-Agent Trust。",
+  "mode": "implementation",
+  "outOfScope": [
+    "改写 WI-781 归档 Contract、Summary、Outcome、Events、验证或 finalization 字节",
+    "修改历史决定、已发布标签、默认分支或用户全局配置",
+    "绕过 hosted checks、删除资源或伪造身份授权"
+  ],
+  "predecessorContractDigest": "sha256:b4e2311a42272efd910fbb0a315acb482f79eed4e820ebe1c0faa899c1caa34a",
+  "predecessorWorkItemId": "WI-781-trust-diagnostics",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-781-trust-diagnostics.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c18d6c18dd369bc0b34a4174487e1addf7dfa5b9aaea71f7032d414259043fef",
+  "requiredEvidenceClasses": [
+    "verification",
+    "recovery_decision",
+    "archive",
+    "premerge_finalize",
+    "outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-781-trust-diagnostics.recovery.json",
+    ".ai/work-items/active/WI-782-finalization-head-recovery.contract.json",
+    ".ai/work-items/active/WI-782-finalization-head-recovery.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-782-finalization-head-recovery"
+}

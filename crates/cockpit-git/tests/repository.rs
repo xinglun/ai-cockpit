@@ -57,6 +57,8 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
     assert!(snapshot.head.is_some());
     assert_eq!(snapshot.changed_paths, vec!["src.txt"]);
     assert_eq!(snapshot.git_calls, 4);
+    assert_eq!(snapshot.bytes_read, b"change\n".len() as u64);
+    assert_eq!(snapshot.bytes_hashed, b"change\n".len() as u64);
     assert_eq!(snapshot.change_evidence.len(), 1);
     assert_eq!(snapshot.change_evidence[0].kind, ChangeKind::Added);
     assert_eq!(

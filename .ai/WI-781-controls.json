@@ -1,0 +1,57 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "A red governance result with valid verification but acceptance or intent alignment gaps",
+      "required": true,
+      "status": "unverified",
+      "expected": "Human output names the actual acceptance or intent alignment gap and does not call valid verification evidence invalid.",
+      "verificationPlan": "Add repository renderer tests for en, zh, and ja summary/full views and exercise the CLI and MCP Outcome routes."
+    },
+    {
+      "scenario": "Finalization receipt and resource recovery classification",
+      "required": true,
+      "status": "unverified",
+      "expected": "Human output distinguishes missing, invalid, mismatched, retained, pending-cleanup, and unknown resource facts and proposes only Runtime-supported next actions.",
+      "verificationPlan": "Use controlled temporary Git resources and protocol/repository/CLI fixtures for receipt, identity, cleanup, retention, and unknown paths."
+    },
+    {
+      "scenario": "CLI/MCP multilingual human semantic parity and no-history handoff",
+      "required": true,
+      "status": "unverified",
+      "expected": "Human reports preserve the same blockers, unknowns, authorization boundary, and operational consequence across entry points and languages without chat history.",
+      "verificationPlan": "Bind scenarios to the shared matrix and assert semantic invariants against real CLI and MCP human output, including A/B counterexamples."
+    },
+    {
+      "scenario": "Main-path phase and resource diagnostics on macOS/Linux",
+      "required": true,
+      "status": "unverified",
+      "expected": "Measurements expose supported phase timing and controlled counters, with explicit unavailable reasons where platform/runtime support is absent.",
+      "verificationPlan": "Run benchmark unit tests, controlled repository measurements, filesystem-type success/failure tests, and ordinary/many-history scenario captures."
+    },
+    {
+      "scenario": "Outcome assembly detects concurrent lifecycle/finalization fact changes",
+      "required": true,
+      "status": "unverified",
+      "expected": "The renderer never combines facts from different observation boundaries; deterministic changes yield bounded retry or explicit unknown/failure.",
+      "verificationPlan": "Add deterministic observation-boundary tests for close/lifecycle/finalization mutation, corruption, identity drift, stable reads, and pure rendering."
+    },
+    {
+      "scenario": "Historical compatibility and immutable evidence preservation",
+      "required": true,
+      "status": "unverified",
+      "expected": "Existing archived records and machine protocols remain readable without rewriting historical bytes or weakening governance gates.",
+      "verificationPlan": "Run focused historical fixtures, full workspace tests, documentation/gate checks, and compare immutable archive bytes before and after."
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "The five scenarios map directly to the user's five review findings and the Contract acceptance criteria; publication remains a separate Work Item.",
+    "evidence": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/reference/collaboration-scenario-matrix.json",
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "tests/performance/runtime_benchmark.sh"
+    ]
+  }
+}

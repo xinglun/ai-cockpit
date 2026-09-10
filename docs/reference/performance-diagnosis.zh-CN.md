@@ -5,7 +5,7 @@ description: "针对单个仓库 Work Item 的证据型治理成本诊断。"
 audience: [adopter, maintainer, reviewer]
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-348-reference-verification-operation-policy
+lastVerifiedBy: WI-781-trust-diagnostics
 ---
 
 # 性能诊断
@@ -15,7 +15,11 @@ lastVerifiedBy: WI-348-reference-verification-operation-policy
 性能诊断用于解释已测量的治理成本，不改变治理结论。Runtime 的 request-scoped
 `diagnose` 输出和 verification cost 观察可以针对一个仓库及可选 Work Item 报告
 快照工作、读取/哈希文件、验证运行、执行/复用节点、worker/进程数量、耗时和有限的
-瓶颈提示。
+瓶颈提示。只提供仓库时也会采集 Runtime 主路径阶段；只有 Work Item 专属 probe
+才需要 Work Item。
+主路径还按 Runtime 内部阶段计时：identity、Git/snapshot、read/hash、parse、
+governance 和 projection/serialization。诊断会给出实际范围内的读取/哈希字节数
+及 Git 调用次数；只读路线不支持子进程计数时明确显示 unavailable，而不是填零。
 
 报告必须区分：
 
@@ -31,4 +35,6 @@ provider 等待或企业性能声明。参见[治理成本指标](governance-cos
 和[治理配置](governance-profiles.zh-CN.md)。
 
 相同的 advisory 边界适用于每个显式 `--repo` 的 adopter：性能事实是本地遥测，
-不是全局项目状态，也不是跳过检查的权限。
+不是全局项目状态，也不是跳过检查的权限。`runtime_total` 是测量到的父级范围；
+子阶段可能嵌套或重叠，不能把它们相加当作端到端耗时。缺少 `measurementScope` 的
+旧诊断记录仍可读取，但会明确标为 legacy-unknown scope。

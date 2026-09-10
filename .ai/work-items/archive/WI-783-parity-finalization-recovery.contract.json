@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "WI-782 的 recovery 决定绑定正确 predecessor digests，且 WI-781 与 WI-782 不可变记录保持不变",
+    "三语 WI-782 parity 行由 Recovered 反映 successor ownership，WI-783 在归档前使用条件状态并在 finalization 前转为 Implemented",
+    "verification 通过且 finalization receipt 绑定真实 PR #763、分支、工作树、Runtime 身份与当前 head",
+    "close 只在 Runtime 验证 provider 状态后记录，恢复链与 docs promotion 可由静态治理检查验证"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf0a8513b59826f27fe127f74b9dde466776a52b",
+  "createdAt": "2026-09-10T15:17:08Z",
+  "goal": "在不改写 WI-782 或 WI-781 不可变记录的前提下，先完成三语 parity 终态，再以真实 PR、分支、工作树和 Runtime 身份建立可验证的 finalization 与 close 边界。",
+  "intent": "完成 WI-782 恢复链的 post-archive parity 终态投影和协议有效的 finalization，保持 Calibrated Human-Agent Trust。",
+  "mode": "implementation",
+  "outOfScope": [
+    "改写 WI-782 或 WI-781 的任何归档、Outcome、verification、finalization、recovery 或 close 字节",
+    "修改源码、默认分支、发布标签、历史决定或用户全局配置",
+    "绕过 hosted checks、伪造身份授权或提出未经事实支持的资源清理"
+  ],
+  "predecessorContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "predecessorWorkItemId": "WI-782-finalization-head-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-782-finalization-head-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f07c179c206452e6edf82a4944d53868ab69dbad1179bf9b33d375422151084",
+  "requiredEvidenceClasses": [
+    "verification",
+    "recovery_decision",
+    "archive",
+    "premerge_finalize",
+    "outcome"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-781-trust-diagnostics",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/763",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-781-trust-diagnostics"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-782-finalization-head-recovery.recovery.json",
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.contract.json",
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.summary.json",
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.outcome.json",
+    ".ai/work-items/archive/WI-782-finalization-head-recovery.events.jsonl",
+    ".ai/evidence/WI-782-finalization-head-recovery.verification.json",
+    ".ai/decisions/WI-782-finalization-head-recovery.finalize.json",
+    ".ai/work-items/active/WI-783-parity-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-783-parity-finalization-recovery.summary.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-783-parity-finalization-recovery"
+}
