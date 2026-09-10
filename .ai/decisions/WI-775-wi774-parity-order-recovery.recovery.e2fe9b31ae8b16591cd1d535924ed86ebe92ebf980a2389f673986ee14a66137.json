@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T07:53:38Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.archive.json",
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.finalize.json",
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json",
+    ".ai/evidence/WI-776-wi775-archive-evidence-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/759"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:a4d14863cf0a51193e3d3102106e05e856ab3e71218ec312d5be78972fb192b5",
+  "predecessorEventsDigest": "sha256:adae4a3ca45a17cec11dd1ed92abb54d2303f70c5d410a76a689a72c5dddc7e6",
+  "predecessorOutcomeDigest": "sha256:f80d2aed583290072b6a96d02f82a239c61c76981f6cc8606ebd40874b119835",
+  "predecessorSummaryDigest": "sha256:aff3c88531509f72b93f9988ea97bee17aaa68f2bcb7edbe0d85823f6d45c6f2",
+  "predecessorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "reason": "WI-776 completed the bounded parity-first redelivery with fresh verification, reviewed hosted checks, merge, finalization, close, and exact cleanup. Supersede WI-775 as immutable historical evidence without rewriting its archived Contract, stale verification, recovery decision, or closed PR history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-775; continue only from the closed WI-776 successor and retain WI-775 historical bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-776-wi775-archive-evidence-recovery",
+  "workItemId": "WI-775-wi774-parity-order-recovery"
+}

@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T07:55:31Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-774-wi773-doc-promotion.recovery.json",
+    ".ai/decisions/WI-775-wi774-parity-order-recovery.recovery.e2fe9b31ae8b16591cd1d535924ed86ebe92ebf980a2389f673986ee14a66137.json",
+    ".ai/decisions/WI-775-wi774-parity-order-recovery.close.json",
+    ".ai/work-items/archive/WI-776-wi775-archive-evidence-recovery.archive.json",
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.finalize.json",
+    ".ai/decisions/WI-776-wi775-archive-evidence-recovery.close.json",
+    "https://github.com/xinglun/ai-cockpit/pull/759"
+  ],
+  "policyRefs": [
+    "AGENTS.md:immutable-history-and-successor-recovery",
+    ".ai/README.md:work-item-change-discipline"
+  ],
+  "predecessorContractDigest": "sha256:1d1f3b6812866062058c4f598efe162f98e440903bcb8c5370fdee485b6baf37",
+  "predecessorEventsDigest": "sha256:5bd908d71777a6fbb687a507f15228142e9c072397cc91a3517626c97e384e3b",
+  "predecessorOutcomeDigest": "sha256:ccc869995f8aeca9a35fafe460247fa9a55a1aafe1df6f4dbb03f3145d9f50da",
+  "predecessorSummaryDigest": "sha256:820ea260c14a8585d2b7f0f39f0bce8b352403093fc1315a1a4b9834489ba650",
+  "predecessorWorkItemId": "WI-774-wi773-doc-promotion",
+  "reason": "The WI-775 to WI-776 successor chain completed the bounded documentation recovery with fresh verification, reviewed hosted checks, merge, finalization, close, and exact cleanup. Supersede WI-774 as immutable historical evidence without rewriting its archived Contract, failed verification, recovery decision, or closed PR history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "No further action is required for WI-774; continue only from the closed successor lineage and retain WI-774 historical bytes.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-775-wi774-parity-order-recovery",
+  "workItemId": "WI-774-wi773-doc-promotion"
+}
