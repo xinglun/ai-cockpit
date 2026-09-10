@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-782-finalization-head-recovery.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-10T15:17:08Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:17532ba338a1688d10e8410cc1c19079275c43a351e5c9de13305e247aaaab6d",
+  "predecessorWorkItemId": "WI-782-finalization-head-recovery",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-782-finalization-head-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-10T15:17:08Z",
+  "workItemId": "WI-783-parity-finalization-recovery"
+}
