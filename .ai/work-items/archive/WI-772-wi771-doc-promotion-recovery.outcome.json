@@ -66,7 +66,7 @@
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.summary.json"
+            ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -104,7 +104,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.contract.json"
+            ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.contract.json"
           ],
           "inference": false,
           "text": "Produce fresh repository-bound evidence for the already-merged documentation projection, preserve WI-771 immutable recovery records, and complete the successor lifecycle without changing Runtime or performance behavior."
@@ -113,7 +113,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.contract.json"
+            ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -123,7 +123,7 @@
     "status": "verified",
     "workItemId": "WI-772-wi771-doc-promotion-recovery"
   },
-  "taskReportDigest": "sha256:78082093ba04da7f9067cafd30a0c0a8115c3657735a1455235b732aadb330c8",
+  "taskReportDigest": "sha256:2963d663e51eb3ec87088f17d10a06eee3b4fed57128fab7f87c5530536f2079",
   "taskReportMarkdownDigest": "sha256:2ae1135e4eff2368c281ab5ef018f9bed555f8862825a645bb3380a227f34c9c",
   "unknowns": [
     "user_visible_benefit_not_declared"

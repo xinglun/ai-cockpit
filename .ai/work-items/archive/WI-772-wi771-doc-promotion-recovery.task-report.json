@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.summary.json"
+          ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.contract.json"
+          ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.contract.json"
         ],
         "inference": false,
         "text": "Produce fresh repository-bound evidence for the already-merged documentation projection, preserve WI-771 immutable recovery records, and complete the successor lifecycle without changing Runtime or performance behavior."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-772-wi771-doc-promotion-recovery.contract.json"
+          ".ai/work-items/archive/WI-772-wi771-doc-promotion-recovery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
