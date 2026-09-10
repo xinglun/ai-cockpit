@@ -50,7 +50,10 @@
     "docs/work-items/WI-771-wi770-doc-promotion.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-772-wi771-doc-promotion-recovery.md",
+    "docs/work-items/WI-772-wi771-doc-promotion-recovery.zh-CN.md",
+    "docs/work-items/WI-772-wi771-doc-promotion-recovery.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",
