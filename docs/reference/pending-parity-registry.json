@@ -1,4 +1,38 @@
 {
-  "entries": [],
+  "entries": [
+    {
+      "baseRevision": "bdb8a721dd95ba218ac7554b52674ee9fa3975c7",
+      "createdAt": "2026-09-10T06:49:00Z",
+      "expectedRecords": {
+        "contract": ".ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json",
+        "finalize": ".ai/decisions/WI-777-unmerged-failed-finalization.finalize.json",
+        "verification": ".ai/evidence/WI-777-unmerged-failed-finalization.verification.json"
+      },
+      "headRevision": "9bd9887fe7b86b3482339982ee0c7074f3fb70b9",
+      "parityRows": [
+        {
+          "path": "docs/reference/reference-parity.md",
+          "row": "| WI-777-unmerged-failed-finalization — truthful abandoned finalization protocol | In progress | [Work Item](../work-items/WI-777-unmerged-failed-finalization.md); `.ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json`; `.ai/evidence/WI-777-unmerged-failed-finalization.verification.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.finalize.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.close.json` |"
+        },
+        {
+          "path": "docs/reference/reference-parity.zh-CN.md",
+          "row": "| WI-777-unmerged-failed-finalization——诚实的 abandoned finalization 协议 | 进行中 | [Work Item](../work-items/WI-777-unmerged-failed-finalization.zh-CN.md); `.ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json`; `.ai/evidence/WI-777-unmerged-failed-finalization.verification.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.finalize.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.close.json` |"
+        },
+        {
+          "path": "docs/reference/reference-parity.ja.md",
+          "row": "| WI-777-unmerged-failed-finalization — truthful abandoned finalization protocol | In progress | [Work Item](../work-items/WI-777-unmerged-failed-finalization.ja.md); `.ai/work-items/archive/WI-777-unmerged-failed-finalization.contract.json`; `.ai/evidence/WI-777-unmerged-failed-finalization.verification.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.finalize.json`; `.ai/decisions/WI-777-unmerged-failed-finalization.close.json` |"
+        }
+      ],
+      "provider": "github",
+      "pullRequest": {
+        "number": 760,
+        "url": "https://github.com/xinglun/ai-cockpit/pull/760"
+      },
+      "registryBaseRevision": "cac777915a340ca2a47e96fa5958d656c2e85638",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "state": "in_progress",
+      "workItemId": "WI-777-unmerged-failed-finalization"
+    }
+  ],
   "schemaVersion": 1
 }
