@@ -1,7 +1,7 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-779-abandoned-finalization-repair.contract.json",
-    ".ai/work-items/active/WI-779-abandoned-finalization-repair.summary.json"
+    ".ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json",
+    ".ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json"
   ],
   "checkpointAt": "2026-09-10T08:50:46Z",
   "checkpointContractDigest": "sha256:4cae595002d721f6ea72bf4ea92ec45354ddcf0adf0ca9b7a0b036ca9f21e3c9",
@@ -117,14 +117,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T10:37:14.994194+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T10:54:24Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:aae3314d2fda9d885bd01c726ec5d497f313fe3b37142622088a70ece07163b2",
   "workItemId": "WI-779-abandoned-finalization-repair"
 }

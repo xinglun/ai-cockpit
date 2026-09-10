@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T10:54:38Z",
+  "files": {
+    "contractDigest": "sha256:87d33ab7275ff7334b30e5757c7850c7e56d857cbfe04cf1c27775adb07baf21",
+    "contractPath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json",
+    "eventsDigest": "sha256:7fe17e03826b8aff9c1f7d1642679a4b0ba153c0b32d3f5c134a8f150f4b99b7",
+    "eventsPath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.events.jsonl",
+    "outcomeDigest": "sha256:e1edf62cc097eb7d94693330ec8cf7eb49b11fd3645022540fd6835807a2e97b",
+    "outcomePath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.outcome.json",
+    "summaryDigest": "sha256:692157d169713a305ad919a34ef483d5cd6ab73b3d5f5d7adaf744db71ccb16d",
+    "summaryPath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.summary.json",
+    "taskReportDigest": "sha256:36d2481b6e3d16c0fd7effd09cee05864119771879c650841e5bb1cf65d425f9",
+    "taskReportMarkdownDigest": "sha256:ccaf0e20d29e7966eed4240485cd932c35ae9c940969601348ec9d03b9967e92",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-779-abandoned-finalization-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-779-abandoned-finalization-repair"
+}
