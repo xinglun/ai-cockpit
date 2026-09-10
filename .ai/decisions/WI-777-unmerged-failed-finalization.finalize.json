@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "9bd9887fe7b86b3482339982ee0c7074f3fb70b9",
+    "name": "codex/wi-777-unmerged-failed-finalization",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f7c916939355618ed99ab14633d4bf2dcfbb29c4a8b18349a26a4290076ecc48",
+  "operationId": "operation-WI-777-unmerged-failed-finalization-awaiting-merge-close",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "bdb8a721dd95ba218ac7554b52674ee9fa3975c7",
+    "headRevision": "9bd9887fe7b86b3482339982ee0c7074f3fb70b9",
+    "number": 760,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/760"
+  },
+  "reason": "awaiting_merge_close: PR #760 is open and the exact reviewed branch and worktree must be retained",
+  "receiptId": "ai-cockpit-WI-777-unmerged-failed-finalization-pre-merge",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-777-unmerged-failed-finalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/760",
+    "worktree": "/private/tmp/ai-cockpit-wi-777-unmerged-failed-finalization"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:45c063695a73aa9827300612ca796f22f6e160076968784d71cd3bea7191b634",
+  "runtimeVersion": "0.2.89",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T06:47:18Z",
+  "workItemId": "WI-777-unmerged-failed-finalization",
+  "worktree": {
+    "branch": "codex/wi-777-unmerged-failed-finalization",
+    "headRevision": "9bd9887fe7b86b3482339982ee0c7074f3fb70b9",
+    "path": "/private/tmp/ai-cockpit-wi-777-unmerged-failed-finalization",
+    "worktreeId": "WI-777-unmerged-failed-finalization"
+  }
+}
