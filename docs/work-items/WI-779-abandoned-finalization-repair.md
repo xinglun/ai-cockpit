@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-779 — abandoned finalization repair"
 description: "Add a truthful terminal state for explicitly closed unmerged failed deliveries."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-779-abandoned-finalization-repair
 lastVerifiedBy: WI-779-abandoned-finalization-repair
+terminalArchive: .ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json
+terminalVerification: .ai/evidence/WI-779-abandoned-finalization-repair.verification.json
+terminalFinalization: .ai/decisions/WI-779-abandoned-finalization-repair.finalize.9f7d0e6138090d274b444c57240c3fb2bf3e963ba701cc9c3a05d308f29448d9.json
+terminalDecision: .ai/decisions/WI-779-abandoned-finalization-repair.close.json
 ---
 
 [简体中文](WI-779-abandoned-finalization-repair.zh-CN.md) · [日本語](WI-779-abandoned-finalization-repair.ja.md)

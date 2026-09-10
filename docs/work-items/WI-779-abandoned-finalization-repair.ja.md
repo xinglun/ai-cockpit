@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-779 — abandoned finalization 修正"
 description: "明示的に close された未 merge の失敗 delivery に正直な終端状態を追加する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-779-abandoned-finalization-repair
 lastVerifiedBy: WI-779-abandoned-finalization-repair
+terminalArchive: .ai/work-items/archive/WI-779-abandoned-finalization-repair.contract.json
+terminalVerification: .ai/evidence/WI-779-abandoned-finalization-repair.verification.json
+terminalFinalization: .ai/decisions/WI-779-abandoned-finalization-repair.finalize.9f7d0e6138090d274b444c57240c3fb2bf3e963ba701cc9c3a05d308f29448d9.json
+terminalDecision: .ai/decisions/WI-779-abandoned-finalization-repair.close.json
 ---
 
 [English](WI-779-abandoned-finalization-repair.md) · [简体中文](WI-779-abandoned-finalization-repair.zh-CN.md)
