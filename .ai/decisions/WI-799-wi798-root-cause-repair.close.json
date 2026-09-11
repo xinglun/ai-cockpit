@@ -1,0 +1,159 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
+      "workItemId": "WI-799-wi798-root-cause-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/ci.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.archive.json",
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json",
+            ".ai/decisions/WI-799-wi798-root-cause-repair.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization-root-cause-repair-and-release at 2026-09-11T19:27:11Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，修复全部已发现根因，交付经审查的新版本并完成公开产物安装升级验收。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-799-wi798-root-cause-repair"
+  },
+  "finalReportDigest": "sha256:1f5c718c07c9b0232a8b867f3736941571dd753fd4799a556b4a2a0c7d64758b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:00d5fba19a6e6e01b8be1f213e45f04d9a49a4a1e58626cb1938eb7b05019f6f",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-799-wi798-root-cause-repair.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-root-cause-repair-and-release",
+    "decidedAt": "2026-09-11T19:27:11Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-799-wi798-root-cause-repair.archive.json",
+      ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json",
+      ".ai/decisions/WI-799-wi798-root-cause-repair.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户已明确授权：修复全部根因、按 WI 流程完成合并与发布；当前 PR、归档、验证和资源收尾证据均已核实。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-11T19:28:39Z",
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

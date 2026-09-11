@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization-root-cause-repair-and-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f146c5ab0fe39444e814bceeb8b1f372a5821366",
+    "name": "codex/wi-798-collab-observability-performance",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:ce78d4149ab8956a53c0460d00e2020d623b4e91eea2178177fb7696ca2eefa2",
+  "operationId": "github-pr-775-merge-cleanup-20260911",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f07e4ec7400397a557fa9aa95e1898d671b24cb4",
+    "headRevision": "f146c5ab0fe39444e814bceeb8b1f372a5821366",
+    "mergeCommit": "2001dd5c11493bd91fbfd01c45a7d45a3ba8c637",
+    "number": 775,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/775"
+  },
+  "reason": "PR #775 merged after all hosted checks passed; the exact feature branch and integration worktree were removed and independently verified.",
+  "receiptId": "ai-cockpit-WI-799-wi798-root-cause-repair-pr-775-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-798-collab-observability-performance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/775",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-798-collab-observability-performance"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-11T19:27:11Z",
+  "workItemId": "WI-799-wi798-root-cause-repair",
+  "worktree": {
+    "branch": "codex/wi-798-collab-observability-performance",
+    "headRevision": "f146c5ab0fe39444e814bceeb8b1f372a5821366",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-798-collab-observability-performance",
+    "worktreeId": "WI-799-wi798-root-cause-repair"
+  }
+}
