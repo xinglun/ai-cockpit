@@ -36,7 +36,7 @@
     "nonRiskExplanations": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-795-wi794-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-795-wi794-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "No repository paths were observed as changed by the current Summary."
@@ -48,7 +48,7 @@
           ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -74,7 +74,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-795-wi794-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Update the bounded tri-language WI-794 pages and reference-parity rows from in progress to truthful closed projections, bind the immutable Runtime archive, finalization, close, and release evidence, and make promote_closed_work_item --check-all pass."
@@ -83,7 +83,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-795-wi794-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

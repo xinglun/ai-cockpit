@@ -5,14 +5,17 @@
     "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-794-release-v0-2-90-closure --check passes.",
     "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, python3 tests/docs/work_item_status_consistency.py --repo <repo>, and python3 tests/ci/governance_integrity_gate.py --repo <repo> pass."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-11T00:48:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:15b57c88d8483e48ab0702028a1c6205ae08d1afa7cdba44d5a43ecaf4321953",
   "evidenceRefs": [
     ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -20,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -34,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
       "workItemId": "WI-795-wi794-doc-promotion"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -58,22 +58,14 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-795-wi794-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "No repository paths were observed as changed by the current Summary."
@@ -85,7 +77,7 @@
             ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -95,15 +87,23 @@
             ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-795-wi794-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Update the bounded tri-language WI-794 pages and reference-parity rows from in progress to truthful closed projections, bind the immutable Runtime archive, finalization, close, and release evidence, and make promote_closed_work_item --check-all pass."
@@ -112,23 +112,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-795-wi794-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-795-wi794-doc-promotion"
   },
+  "taskReportDigest": "sha256:78648a1b7a5fb02e6b3876dafa51a6967d9197bd30ac7ce50778aff91fa75c20",
+  "taskReportMarkdownDigest": "sha256:3398ee2acdfcf5bb17f3e62195b691b992ca0b9b0e1daa4703a9e536eb0d275e",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-795-wi794-doc-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-795-wi794-doc-promotion"
 }
