@@ -1,0 +1,72 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-800-wi799-doc-promotion.recovery.121c6285a66e823f781789042ec113a6e23aa962d0e8112f3b819334f820fd2f.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.ja.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-11T19:31:53Z",
+  "checkpointContractDigest": "sha256:1e85be5c569b1cbcfc8f94f322183ff5370443463abb455721d90108f62a1316",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:51b35086142a38020d66892371cd084851726b47132ebe804b2170f09a82e1b1",
+      "recorded": true,
+      "recordedAt": "2026-09-11T19:31:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-800-wi799-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:1e85be5c569b1cbcfc8f94f322183ff5370443463abb455721d90108f62a1316",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:51b35086142a38020d66892371cd084851726b47132ebe804b2170f09a82e1b1",
+      "previousContractHash": "sha256:51b35086142a38020d66892371cd084851726b47132ebe804b2170f09a82e1b1",
+      "reason": "Hosted docs governance found that an active documentation Work Item must register its own tri-language pages before the governed route can proceed; add only those three in-scope projection files.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T19:41:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-800-wi799-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:eaef32e038da8e481ec4d443a9d6d08462003a1c3abc1f57fc47db8aee4830d7",
+  "createdAt": "2026-09-11T19:30:37Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-11T19:50:07Z",
+  "preflightContractDigest": "sha256:1e85be5c569b1cbcfc8f94f322183ff5370443463abb455721d90108f62a1316",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:eaef32e038da8e481ec4d443a9d6d08462003a1c3abc1f57fc47db8aee4830d7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T19:50:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-800-wi799-doc-promotion"
+}

@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-root-cause-repair-and-release",
+  "decidedAt": "2026-09-11T19:33:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:51b35086142a38020d66892371cd084851726b47132ebe804b2170f09a82e1b1",
+  "predecessorEventsDigest": "sha256:82aabff2765be4dcb63a0b9da3e8492c0c3756671cd5ca9852754662b9cc592b",
+  "predecessorOutcomeDigest": "sha256:83600e6a0736b6407a6f0b2e034b663e103fa5b368ff82312de95fa402efc3d4",
+  "predecessorSummaryDigest": "sha256:f4d1e21cc812a462a4d27aa7a0ea439626371e834ecc1118b4f0a94dcc0fb695",
+  "predecessorWorkItemId": "WI-800-wi799-doc-promotion",
+  "reason": "Finish exposed that the provider finalization plan must be bound before verification; retry the same narrow documentation Work Item without creating a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun current Runtime preflight, checkpoint, verification, and finish after the finalization plan is bound",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-800-wi799-doc-promotion"
+}
