@@ -1,0 +1,66 @@
+{
+  "disposition": "deleted",
+  "headDigest": "sha256:5baf3a7e89c5075647b427526d2c1cf254296f891b44c9bb2e674f2379d6fb4b",
+  "headPath": ".ai/decisions/n-minus-one-lifecycle.finalize.json",
+  "receipt": {
+    "actor": "harness:release-adopter-upgrade",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94",
+      "name": "release-adopter-n-minus-one",
+      "remote": "local"
+    },
+    "contractDigest": "sha256:f23b16214845783e6755d5ccc6330a2109fc0f907ead0a2539ab6eff2fc79c60",
+    "operationId": "delete-n-minus-one-lifecycle",
+    "provider": "release-adopter-upgrade-harness",
+    "pullRequest": {
+      "baseBranch": "release-adopter-n-minus-one",
+      "baseRemote": "local",
+      "baseRevision": "85a670c847578080c9efc685ce0100ca496696b0",
+      "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94",
+      "mergeCommit": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94",
+      "number": 1,
+      "url": "acceptance://v0.2.89/n-minus-one-lifecycle"
+    },
+    "reason": "The isolated N-1 lifecycle branch and worktree were removed before close.",
+    "receiptId": "release-adopter-upgrade-n-minus-one-lifecycle",
+    "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+    "resourceContext": {
+      "baseBranch": "release-adopter-n-minus-one",
+      "baseRemote": "local",
+      "branch": "release-adopter-n-minus-one",
+      "provider": "release-adopter-upgrade-harness",
+      "pullRequest": "acceptance://v0.2.89/n-minus-one-lifecycle",
+      "worktree": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/adopter"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:671a0d7bb239ecbabf53d63d1d534a0f9c52f4c78dfcd2e6e83f26c709a6188e",
+    "runtimeVersion": "0.2.89",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-10T23:28:10Z",
+    "workItemId": "n-minus-one-lifecycle",
+    "worktree": {
+      "branch": "release-adopter-n-minus-one",
+      "headRevision": "e576b6c2be412ef1a3c7c1a7a69131c721d3ce94",
+      "path": "/private/var/folders/3z/qt8pjxx568xbg3d10zks40sr0000gp/T/ai-cockpit-n-minus-one.7sBYS1/adopter",
+      "worktreeId": "n-minus-one-lifecycle"
+    }
+  },
+  "sequence": 0,
+  "state": "verified",
+  "workItemId": "n-minus-one-lifecycle"
+}

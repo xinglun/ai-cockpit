@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-793——v0.2.90 发布恢复"
 description: "在 WI-792 不可消费的 retry 证据被保留后，从最新默认分支重新交付 v0.2.90。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-release-recovery
 workItemId: WI-793-release-v0-2-90-recovery
 lastVerifiedBy: WI-793-release-v0-2-90-recovery
@@ -12,6 +12,10 @@ lastVerifiedBy: WI-793-release-v0-2-90-recovery
 [English](WI-793-release-v0-2-90-recovery.md) · [日本語](WI-793-release-v0-2-90-recovery.ja.md)
 
 # WI-793——v0.2.90 发布恢复
+
+## 历史状态
+
+WI-793 是保留的历史 predecessor。v0.2.90 Release 和 adopter 证据可用后，Runtime 记录了指向 WI-794 的 `supersede` 决定。其 archive、verification、retry 与 supersede 记录保持不可变；当前发布收尾由 WI-794 负责。
 
 ## 恢复边界
 

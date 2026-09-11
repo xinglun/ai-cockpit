@@ -1,0 +1,129 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/n-minus-one-post-migration.verification.json"
+      ],
+      "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+      "repositorySnapshotDigest": "sha256:d5fc6dc28d61590a02d35f71e8439d029874f6ba2b7b9b1af1208f63a1255355",
+      "workItemId": "n-minus-one-post-migration"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/n-minus-one-post-migration.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:release-acceptance via release-adopter-upgrade-acceptance at 2026-09-10T23:28:13Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/n-minus-one-post-migration.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+          ],
+          "inference": false,
+          "text": "Prove the new Runtime can govern a fresh Work Item after N-1 migration."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/n-minus-one-post-migration.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "n-minus-one-post-migration"
+  },
+  "finalReportDigest": "sha256:f6a4f55cb56a5bc46ae287c3a6f6ae0aa74f1178786d0748261ed5f3ff8cf222",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:9d8a2656971267004c49013a26192e64d690e454d11db74e5e5d94b1c8e2066f",
+  "resourceFinalizationHeadDigest": "sha256:8f56fca881e66e979ae8d4e764ae96fa4b2e5372c7ad339833585a4b5f9885f5",
+  "resourceFinalizationHeadPath": ".ai/decisions/n-minus-one-post-migration.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:release-acceptance",
+    "authoritySource": "release-adopter-upgrade-acceptance",
+    "decidedAt": "2026-09-10T23:28:13Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/n-minus-one-post-migration.verification.json"
+    ],
+    "policyRefs": [
+      "release-adopter-upgrade-acceptance:v0.2.90"
+    ],
+    "reason": "Confirm continued governed operation after approved migration and public Release evidence passed.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-10T23:28:13Z",
+  "workItemId": "n-minus-one-post-migration"
+}

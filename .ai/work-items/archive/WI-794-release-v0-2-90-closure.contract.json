@@ -1,0 +1,111 @@
+{
+  "acceptanceCriteria": [
+    "The immutable v0.2.90 Release manifest and downloaded artifact acceptance remain bound to merged main 2d45d6f2e0c99131c6476bd1aa3b3dedc5d81921, with isolated roots and cleanup proven.",
+    "The WI-793 blocked Contract and recovery receipt remain historical, while WI-794 is archived, finalized, explicitly closed, and exact branch/worktree cleanup plus synchronized main are verified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d45d6f2e0c99131c6476bd1aa3b3dedc5d81921",
+  "createdAt": "2026-09-10T23:46:41Z",
+  "goal": "Revalidate the immutable public release and N-1 adoption evidence from synchronized main, archive and explicitly finalize the successor closure, obtain the required human close decision, synchronize main, and verify exact cleanup without rewriting any predecessor or release bytes.",
+  "intent": "Complete the governed post-release closure for the already published v0.2.90 while preserving WI-793's blocked Contract and recovery evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust behavior changes",
+    "Runtime changes",
+    "tag reuse",
+    "release rewriting",
+    "predecessor evidence rewriting",
+    "provider authorization claims"
+  ],
+  "predecessorContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
+  "predecessorWorkItemId": "WI-793-release-v0-2-90-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7c3fcb5b162cbc6fbabf7695c90e90cea6b25784075016b5224283350c959926",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance",
+    "release publication",
+    "adopter acceptance"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-794-release-v0-2-90-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/772",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-793-release-v0-2-90-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/release-manifest.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/runtime.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.90"
+      ],
+      "expected": "The public Release manifest, annotated tag, checksums, and downloaded binary identify v0.2.90 from merged main commit 2d45d6f2e0c99131c6476bd1aa3b3dedc5d81921.",
+      "required": true,
+      "scenario": "published v0.2.90 identity remains bound to merged main",
+      "status": "unverified",
+      "verificationPlan": "Run the public manifest and version-consistency checks against the immutable v0.2.90 Release and retain the downloaded artifact identity evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+      ],
+      "expected": "The downloaded public archive passes installation, Runtime identity, forbidden-root isolation, and temporary-root cleanup checks without using the workspace binary.",
+      "required": true,
+      "scenario": "public v0.2.90 adopter installation is isolated and cleaned",
+      "status": "unverified",
+      "verificationPlan": "Inspect the completed public adopter acceptance receipt, isolation receipt, and cleanup receipt from the immutable Release artifact."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+      ],
+      "expected": "An isolated adopter upgrades from immutable v0.2.89 to v0.2.90, preserves byte-identical governed history, and cleans temporary roots.",
+      "required": true,
+      "scenario": "v0.2.89 to v0.2.90 upgrade preserves governed history",
+      "status": "unverified",
+      "verificationPlan": "Inspect the completed public N-1 upgrade receipt, history digest, isolation receipt, and cleanup receipt."
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.outcome.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.events.jsonl"
+      ],
+      "expected": "The blocked WI-793 Contract, Summary, Outcome, Events, and successor recovery receipt remain preserved and bound to the repository and current Runtime without being rewritten.",
+      "required": true,
+      "scenario": "WI-793 recovery history remains immutable and identity-bound",
+      "status": "unverified",
+      "verificationPlan": "Validate the predecessor recovery receipt and compare its recorded digests with the retained predecessor artifacts before archiving the successor."
+    }
+  ],
+  "scope": [
+    ".ai/evidence/external/v0.2.90/**",
+    ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json",
+    ".ai/decisions/WI-794-release-v0-2-90-closure.finalize.json",
+    ".ai/decisions/WI-794-release-v0-2-90-closure.close.json",
+    "docs/work-items/WI-794-release-v0-2-90-closure.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.zh-CN.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-794-release-v0-2-90-closure"
+}

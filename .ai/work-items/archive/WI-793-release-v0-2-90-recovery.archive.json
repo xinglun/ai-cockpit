@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-09-11T00:03:10Z",
+  "files": {
+    "contractDigest": "sha256:c8dd0c97433435a00b1c77cefda7b8a6f4f63938677858bd16ede0ac313b2fbe",
+    "contractPath": ".ai/work-items/archive/WI-793-release-v0-2-90-recovery.contract.json",
+    "eventsDigest": "sha256:63fd8a43f6a4449d605c76f6ca7a9ac5be22250dfa9ff067e2b054889b605f6e",
+    "eventsPath": ".ai/work-items/archive/WI-793-release-v0-2-90-recovery.events.jsonl",
+    "outcomeDigest": "sha256:692fbb4e1a4730e9e76809ffc197c365a11a18d924c24c13b05cd591e7232795",
+    "outcomePath": ".ai/work-items/archive/WI-793-release-v0-2-90-recovery.outcome.json",
+    "summaryDigest": "sha256:159940941c14eea779821a2898a92f309234e79df016989d8b9d2f0ae4cb2a1c",
+    "summaryPath": ".ai/work-items/archive/WI-793-release-v0-2-90-recovery.summary.json"
+  },
+  "historicalArtifacts": [],
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "WI-794-release-v0-2-90-closure",
+  "supersessionDecisionPath": ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.767616302c23a34f2d921c811d3def32c668218e3a239c6f57f945dd494019c5.json",
+  "workItemId": "WI-793-release-v0-2-90-recovery"
+}

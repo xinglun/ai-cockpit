@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-793 — v0.2.90 release recovery"
 description: "Redeliver v0.2.90 from the latest default branch after immutable WI-792 retry evidence became non-consumable."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-release-recovery
 workItemId: WI-793-release-v0-2-90-recovery
 lastVerifiedBy: WI-793-release-v0-2-90-recovery
@@ -12,6 +12,13 @@ lastVerifiedBy: WI-793-release-v0-2-90-recovery
 [简体中文](WI-793-release-v0-2-90-recovery.zh-CN.md) · [日本語](WI-793-release-v0-2-90-recovery.ja.md)
 
 # WI-793 — v0.2.90 release recovery
+
+## Historical status
+
+WI-793 is a preserved historical predecessor. Runtime recorded a `supersede`
+decision in favor of WI-794 after the v0.2.90 Release and adopter evidence were
+available. Its archive, verification, retry, and supersede records remain
+immutable; current release closure is owned by WI-794.
 
 ## Recovery boundary
 

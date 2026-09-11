@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "kind": "run_root_cleanup",
+  "state": "passed",
+  "removed": true,
+  "validated": true,
+  "reason": "validated run_root removed"
+}
