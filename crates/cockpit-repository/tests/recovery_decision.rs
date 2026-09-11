@@ -958,6 +958,21 @@ fn retry_recovery_classifies_previous_runtime_evidence_as_stale_before_verify() 
     summary["recoveryCondition"] = json!("retry after the Runtime changed");
     fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
 
+    // The previous receipt is also deliberately bound to the old Contract;
+    // an explicit retry must make that controlled replacement stale rather
+    // than contradictory, while still requiring the recovery binding.
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    contract["title"] = json!("Contract revised before replacement verification");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).unwrap(),
+    )
+    .unwrap();
+
     let mut retry = receipt(&directory, "retry after the Runtime changed");
     retry["decision"] = json!("retry");
     retry.as_object_mut().unwrap().remove("successorWorkItemId");
@@ -1116,6 +1131,114 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
     assert_eq!(decision.state, cockpit_core::DecisionState::Green);
     finish_work_item_with_runtime(directory.path(), id, &runtime)
         .expect("finish after retry verification and preflight");
+}
+
+#[test]
+fn retry_after_previous_completion_appends_a_new_completion_without_rewriting_history() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/retry-after-completion".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/retry-after-completion"
+                .into(),
+        },
+    )
+    .expect("finalization plan");
+    let events_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.events.jsonl"));
+    let mut events = fs::OpenOptions::new()
+        .append(true)
+        .open(&events_path)
+        .expect("events");
+    use std::io::Write;
+    writeln!(
+        events,
+        "{}",
+        json!({
+            "schemaVersion": 1,
+            "eventId": "completed-before-retry",
+            "repositoryId": repository_id(directory.path()),
+            "workItemId": id,
+            "eventType": "completed",
+            "timestamp": "2026-08-23T00:00:01Z",
+            "detail": "previous completion remains historical",
+            "evidenceRefs": [],
+            "relatedEventIds": ["blocked-1"],
+            "correctionOf": null
+        })
+    )
+    .expect("append historical completion");
+    let historical_event_bytes = fs::read(&events_path).expect("historical events");
+
+    let mut retry = receipt(&directory, "retry after a previously completed attempt");
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:02:00Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
+    let git = cockpit_git::GitRepository::discover(directory.path()).expect("git repository");
+    let snapshot = git.snapshot().expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "retry-after-completion-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &runtime,
+        &snapshot,
+    )
+    .expect("record verification");
+    preflight_work_item_with_runtime(
+        directory.path(),
+        &directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .expect("fresh preflight");
+    finish_work_item_with_runtime(directory.path(), id, &runtime)
+        .expect("retry finish must append after a previous completion");
+
+    let events_after = fs::read(&events_path).expect("events after retry");
+    assert!(
+        events_after.starts_with(&historical_event_bytes),
+        "retry must preserve the prior completion event bytes"
+    );
+    assert_eq!(
+        String::from_utf8_lossy(&events_after)
+            .matches("\"eventType\":\"completed\"")
+            .count(),
+        2,
+        "retry should append exactly one current completion"
+    );
 }
 
 #[test]

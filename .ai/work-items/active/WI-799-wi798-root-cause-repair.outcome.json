@@ -1,0 +1,421 @@
+{
+  "acceptanceResults": [
+    "A: finalization action and error categories come from typed observed facts rather than English error-string matching; retained, missing, corrupt, identity-mismatch, cleanup-pending, and unknown cases provide correct safe next actions.",
+    "B: one request-scoped observation boundary records every required file and directory candidate dependency, including events and archive candidates, detects replacement/addition/deletion/type drift, and returns unknown after bounded instability.",
+    "C: collaboration scenario matrix executes real CLI and MCP paths across summary/full and en/zh-CN/ja, verifies blockers, authorization, unknowns, and action semantics, and proves manual fixture expectations cannot mask endpoint defects.",
+    "D: performance traces bind operation, scenario, measurement, runtime identity, phase parentage, and counters to actual boundaries; benchmark separates probes/metadata/processes, uses at least 100 valid warm samples, and reports p50/p95 only with sufficient evidence.",
+    "E: each optimization is independently measurable and committable, is retained only when correctness gates pass and the measured bottleneck improves without unacceptable regression, and no unmeasured candidate is presented as a benefit.",
+    "All required Rust, matrix, performance, documentation, governance, release, installation, and upgrade checks pass from the reviewed branch; historical bytes remain unchanged.",
+    "A new immutable version is discovered after v0.2.90, published from the reviewed merge, and its downloaded artifact passes isolated install and N-1 upgrade acceptance.",
+    "The Work Item follows start, preflight, checkpoint, verify, finish, archive, reviewed PR, merge, close, documentation promotion, synchronization, and exact cleanup with current Runtime evidence.",
+    "P0 release isolation scanning is implemented by one Rust process for enumeration, metadata, streaming hashes, and deterministic manifest output, with compatible result/exit/output semantics and special-path, symlink, and cross-platform coverage; the 80% target is reported honestly if not met.",
+    "P0 release installation and N-1 upgrade acceptance share Rust logic for artifact identity, isolated roots, steps, failure reports, cleanup, and phase-bound retry; candidate fresh install and candidate upgrade, then public fresh install, public upgrade, and version consistency checks run in independent isolation with required joins.",
+    "P1 governance, documentation, parity, and archive-reference checks use shared Rust rules and request-local facts where they are production paths; offline statistics, independent black-box tests, one-time maintenance tools, bootstrap, and platform glue remain explicitly classified.",
+    "WI execution reuses Contract/config/policy/receipt facts within one operation, reads only target dependencies unless a global governance fact is required, checks cheap deterministic prerequisites before expensive verification, stops dependent work after prerequisite failure, and emits structured retry/failure records without creating a successor for every technical retry.",
+    "At least three WI scenarios (no source change, single-file change, cross-module change) are measured in Cockpit and at least one verified current object engineering project; Cockpit management, engineering verification, external waiting, and failure-rework costs remain separately identified, with object-project source changes out of scope unless separately authorized.",
+    "Every release phase has identity-bound resumable evidence; injected interruption, timeout, cleanup failure, network/runner failure, and identity mismatch prove that recovery reuses valid phases, does not rebuild or republish unnecessarily, does not overwrite Release/tag/history, and blocks on inconsistent public artifacts.",
+    "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
+    "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
+  ],
+  "createdAt": "2026-09-11T16:06:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cd6b66aa988514db68a53024b069ba6de424d3c440a033fda9a074b92a035762",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2bb5192634c46a368063e33f191e999c58ec9aef6a4cb87f90f9f78ed856c715",
+      "workItemId": "WI-799-wi798-root-cause-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.051e59934c6af70e1bca9eee288e13f8fdb4874c0316db9e3700210f371ef923.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.26ffb758bccd0ec4f812d10241a90378506208d522c7461dacd187620e87bf37.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.2ee5175e37abbf447c21dad6b66182074e72fa35e385ad6a8d114257f0dba468.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.8c0e32610a4426da15f60ffbec54e8b9fcbf40b7083c5c20af20717dfceab30d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.9becc501b4e06ff64f260ed13097c235d7ed07bb889bd176eb49c7d1b794ee74.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/collaboration_consistency.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/collaboration_handoff.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/collaboration_scenario_matrix.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/acceptance.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/recovery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/resume.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/tests/acceptance_recovery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/tests/cli.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/src/gate_plan.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/collaboration-scenario-matrix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_repository_gates.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_resume_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，修复全部已发现根因，交付经审查的新版本并完成公开产物安装升级验收。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-799-wi798-root-cause-repair"
+  },
+  "taskReportDigest": "sha256:071b6aefa1382aa6da5c1f95a1b56043994a565dc28918a901fe3000f32f119f",
+  "taskReportMarkdownDigest": "sha256:507b33b6acf8f10b72338ac5a4cb588315f4989cc83ab4c77eecb92ba2ac6a6b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

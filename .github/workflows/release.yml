@@ -28,6 +28,9 @@ env:
 
 jobs:
   release_tools:
+    # Helper compilation is an expensive prerequisite; do not start it until
+    # the cheap release-policy barriers have passed.
+    needs: release_preflight
     strategy:
       fail-fast: false
       matrix:
@@ -667,6 +670,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
@@ -760,6 +764,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
           FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
         run: |
@@ -1060,6 +1065,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
@@ -1200,6 +1206,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
           EVENT_NAME: ${{ github.event_name }}
           FROM_TAG: ${{ steps.release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.release_pair.outputs.to_tag }}

@@ -1,6 +1,12 @@
+use cockpit_core::Digest;
+use cockpit_git::GitRepository;
+use cockpit_protocol::RuntimeContext;
 use cockpit_repository::{
-    WorkItemStartOptions, attach, scaffold_work_item, start_work_item_with_options, status,
+    WorkItemStartOptions, amend_work_item_contract, attach, checkpoint_work_item,
+    preflight_work_item, require_verification_preconditions, scaffold_work_item,
+    start_work_item_with_options, status,
 };
+use serde_json::json;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -127,6 +133,95 @@ fn start_rejects_user_changes_that_precede_the_contract() {
             .join(".ai/work-items/active/WI-DIRTY-START.contract.json")
             .exists()
     );
+}
+
+#[test]
+fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCENARIO-DECLARATION",
+        "declare high-risk scenario coverage",
+        "make the preflight boundary explicit",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            risk: "high".into(),
+            ..start_options()
+        },
+    )
+    .expect("start");
+
+    amend_work_item_contract(
+        directory.path(),
+        "WI-SCENARIO-DECLARATION",
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "preflight",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "preflight stops before expensive verification",
+                "verificationPlan": "run the preflight regression"
+            }]
+        }),
+        "declare the required high-risk scenario before checkpoint",
+    )
+    .expect("scenario declaration");
+
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-SCENARIO-DECLARATION.contract.json"),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(contract["scenarioCoverage"][0]["scenario"], "preflight");
+}
+
+#[test]
+fn verification_preconditions_reject_missing_governance_controls_before_execution() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-VERIFY-PRECONDITIONS",
+        "check cheap verification gates first",
+        "reject missing governance controls before the project command",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            acceptance_criteria: vec!["A: bounded review remains explicit".into()],
+            ..start_options()
+        },
+    )
+    .expect("start");
+    let contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-VERIFY-PRECONDITIONS.contract.json");
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), "WI-VERIFY-PRECONDITIONS").expect("checkpoint");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    let error = require_verification_preconditions(
+        directory.path(),
+        "WI-VERIFY-PRECONDITIONS",
+        &runtime,
+        &snapshot,
+    )
+    .expect_err("missing governance controls must stop before execution");
+    assert!(
+        error
+            .to_string()
+            .contains("verification preconditions are blocked")
+    );
+    assert!(error.to_string().contains("acceptance_evidence_missing"));
 }
 
 #[test]

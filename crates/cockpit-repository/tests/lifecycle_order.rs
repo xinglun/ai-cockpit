@@ -174,6 +174,8 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
         missing.to_string().contains("preflight") || missing.to_string().contains("verification")
     );
 
+    fs::create_dir_all(directory.path().join("src")).expect("source directory");
+    fs::write(directory.path().join("src/main.rs"), "fn main() {}\n").expect("source change");
     record_verification(
         directory.path(),
         "WI-ORDER-RECOVER",
@@ -192,6 +194,12 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
     )
     .expect("summary JSON");
     assert_eq!(summary["preflightState"], "green");
+    assert!(
+        summary["changedPaths"]
+            .as_array()
+            .is_some_and(|paths| paths.iter().any(|path| path == "src/main.rs")),
+        "verification input paths must be retained in the canonical Summary: {summary}"
+    );
     let outcome: serde_json::Value = serde_json::from_slice(
         &fs::read(
             directory

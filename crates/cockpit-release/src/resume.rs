@@ -6,7 +6,10 @@
 //! A receipt is reusable only when the complete release identity and every
 //! evidence digest bind to the current request.
 
-use std::{fs, path::Path};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 
 use chrono::Utc;
 use serde::{Deserialize, Serialize};
@@ -47,6 +50,8 @@ pub enum ReceiptError {
     EvidenceDigestMismatch,
     #[error("receipt phase result is missing a failure description")]
     MissingFailure,
+    #[error("replacement phase attempt must be greater than the recorded attempt")]
+    AttemptNotMonotonic,
     #[error("receipt phase result contains an inconsistent failure strategy")]
     InconsistentFailure,
     #[error("cannot replace receipt atomically: {0}")]
@@ -64,6 +69,12 @@ pub struct PhaseReceiptStore {
     pub results: Vec<PhaseResult>,
     #[serde(default)]
     pub history: Vec<PhaseResult>,
+    /// Runtime-only location of the restored receipt.  Evidence paths in a
+    /// receipt are portable by basename, so validation after artifact
+    /// relocation must resolve against this directory rather than an old
+    /// absolute runner path.
+    #[serde(skip)]
+    evidence_base: Option<PathBuf>,
 }
 
 impl PhaseReceiptStore {
@@ -75,6 +86,7 @@ impl PhaseReceiptStore {
             identity_digest,
             results: Vec::new(),
             history: Vec::new(),
+            evidence_base: None,
         }
     }
 
@@ -93,8 +105,9 @@ impl PhaseReceiptStore {
             }
             Err(error) => return Err(ReceiptError::Io(error)),
         }
-        let store: Self = serde_json::from_slice(&fs::read(path)?)?;
-        store.validate_binding_at(expected, path.parent())?;
+        let mut store: Self = serde_json::from_slice(&fs::read(path)?)?;
+        store.evidence_base = path.parent().map(Path::to_path_buf);
+        store.validate_binding_at(expected, store.evidence_base.as_deref())?;
         Ok(store)
     }
 
@@ -110,10 +123,10 @@ impl PhaseReceiptStore {
         if self.schema_version != RECEIPT_SCHEMA_VERSION {
             return Err(ReceiptError::CorruptIdentityDigest);
         }
-        if self.identity_digest != self.identity.digest() {
+        if !self.identity.digest_matches(&self.identity_digest) {
             return Err(ReceiptError::CorruptIdentityDigest);
         }
-        if self.identity != *expected {
+        if !self.identity.binding_matches(expected) {
             return Err(ReceiptError::IdentityMismatch);
         }
 
@@ -138,7 +151,7 @@ impl PhaseReceiptStore {
         if result.identity != self.identity {
             return Err(ReceiptError::ResultIdentityMismatch);
         }
-        if result.identity_digest != result.identity.digest() {
+        if !result.identity.digest_matches(&result.identity_digest) {
             return Err(ReceiptError::ResultIdentityDigest);
         }
         if result.status == PhaseStatus::Succeeded {
@@ -225,12 +238,15 @@ impl PhaseReceiptStore {
             if existing.status == PhaseStatus::Succeeded {
                 return Err(ReceiptError::DuplicatePhase(phase));
             }
+            if attempt <= existing.attempt {
+                return Err(ReceiptError::AttemptNotMonotonic);
+            }
             let previous = self.results.remove(index);
             self.history.push(previous);
         }
         self.results.push(replacement);
         self.results.sort_by_key(|result| result.phase);
-        self.validate_binding(&self.identity.clone())
+        self.validate_binding_at(&self.identity.clone(), self.evidence_base.as_deref())
     }
 
     /// Record a failed, interrupted, or timed-out phase without overwriting
@@ -258,16 +274,20 @@ impl PhaseReceiptStore {
             if self.results[index].status == PhaseStatus::Succeeded {
                 return Err(ReceiptError::DuplicatePhase(phase));
             }
+            if attempt <= self.results[index].attempt {
+                return Err(ReceiptError::AttemptNotMonotonic);
+            }
             let previous = self.results.remove(index);
             self.history.push(previous);
         }
         self.results.push(result);
         self.results.sort_by_key(|stored| stored.phase);
-        self.validate_binding(&self.identity.clone())
+        self.validate_binding_at(&self.identity.clone(), self.evidence_base.as_deref())
     }
 
     pub fn write_atomic(&self, path: &Path) -> Result<(), ReceiptError> {
         let parent = path.parent().unwrap_or_else(|| Path::new("."));
+        self.validate_binding_at(&self.identity.clone(), Some(parent))?;
         fs::create_dir_all(parent)?;
         let temp = path.with_extension(format!("json.tmp.{}", std::process::id()));
         let bytes = serde_json::to_vec_pretty(self)?;
@@ -311,17 +331,29 @@ fn validate_evidence(
     evidence_base: Option<&Path>,
 ) -> Result<(), ReceiptError> {
     let original = Path::new(&evidence.path);
-    let fallback =
-        evidence_base.and_then(|base| original.file_name().map(|filename| base.join(filename)));
-    let candidates = [Some(original), fallback.as_deref()];
+    let restored = evidence_base.and_then(|base| {
+        if original.is_absolute() {
+            original.file_name().map(|filename| base.join(filename))
+        } else {
+            Some(base.join(original))
+        }
+    });
+    // When a receipt has been restored, never trust the old absolute path:
+    // it may still exist on the runner and contain unrelated bytes.  The
+    // restored artifact must be the one whose digest is checked.
+    let candidates = if evidence_base.is_some() {
+        [restored, None]
+    } else {
+        [Some(original.to_path_buf()), None]
+    };
     for candidate in candidates.into_iter().flatten() {
-        let Ok(metadata) = fs::symlink_metadata(candidate) else {
+        let Ok(metadata) = fs::symlink_metadata(&candidate) else {
             continue;
         };
         if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
             return Err(ReceiptError::InvalidEvidence(evidence.path.clone()));
         }
-        let actual = format!("sha256:{}", sha256_file(candidate)?);
+        let actual = format!("sha256:{}", sha256_file(&candidate)?);
         if actual != evidence.digest {
             return Err(ReceiptError::EvidenceDigestMismatch);
         }

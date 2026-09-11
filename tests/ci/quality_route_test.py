@@ -157,6 +157,9 @@ strict_gate_ids = [
 assert automatic["requiredGateIds"] == strict_gate_ids
 assert "workspace_package_tests" in strict_gate_ids
 assert "release_adopter" in strict_gate_ids
+strict_order = automatic["executionOrder"]
+assert strict_order.index("release_action_runtime") < strict_order.index("performance_p0_regression")
+assert strict_order.index("performance_p0_regression") < strict_order.index("workspace_clippy")
 for profile in ("light", "standard", "strict"):
     profile_gate_ids = [
         gate["id"]

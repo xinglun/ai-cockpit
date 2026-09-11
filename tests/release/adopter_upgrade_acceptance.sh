@@ -41,6 +41,10 @@ cleanup_run_root() {
   cleanup_validated=false
   cleanup_reason='run_root cleanup was not attempted'
 
+  if [[ "${prior_cleanup_unresolved:-false}" == true ]]; then
+    cleanup_reason="${prior_cleanup_recovery_reason:-prior cleanup target could not be safely recovered}"
+    return 1
+  fi
   [[ -n "${run_root:-}" ]] || {
     cleanup_state=passed
     cleanup_removed=true
@@ -120,13 +124,75 @@ remove_exact_tree() {
   return 1
 }
 
+recover_prior_cleanup() {
+  [[ "$resume" == true && -f "$output/cleanup.json" && ! -L "$output/cleanup.json" ]] || return 0
+  [[ "$(jq -r '.state // empty' "$output/cleanup.json" 2>/dev/null)" == failed ]] || return 0
+
+  local target_path target_parent target_basename target_identity parent_real root_real
+  target_path="$(jq -er '.target.path | select(type == "string" and length > 0)' "$output/cleanup.json" 2>/dev/null)" || {
+    prior_cleanup_unresolved=true
+    prior_cleanup_recovery_state=blocked
+    prior_cleanup_recovery_reason='prior cleanup receipt has no exact target path'
+    return 1
+  }
+  target_parent="$(jq -er '.target.parent | select(type == "string" and length > 0)' "$output/cleanup.json" 2>/dev/null)" || {
+    prior_cleanup_unresolved=true
+    prior_cleanup_recovery_state=blocked
+    prior_cleanup_recovery_reason='prior cleanup receipt has no target parent'
+    return 1
+  }
+  target_basename="$(jq -er '.target.basename | select(type == "string" and length > 0)' "$output/cleanup.json" 2>/dev/null)" || {
+    prior_cleanup_unresolved=true
+    prior_cleanup_recovery_state=blocked
+    prior_cleanup_recovery_reason='prior cleanup receipt has no target basename'
+    return 1
+  }
+  target_identity="$(jq -er '.target.deviceInode | select(type == "string" and length > 0)' "$output/cleanup.json" 2>/dev/null)" || {
+    prior_cleanup_unresolved=true
+    prior_cleanup_recovery_state=blocked
+    prior_cleanup_recovery_reason='prior cleanup receipt has no device/inode identity'
+    return 1
+  }
+  cleanup_target_path="$target_path"
+  cleanup_target_parent="$target_parent"
+  cleanup_target_basename="$target_basename"
+  cleanup_target_identity="$target_identity"
+  parent_real="$(cd "$target_parent" 2>/dev/null && pwd -P)" || parent_real=''
+  root_real="$(cd "$target_path" 2>/dev/null && pwd -P)" || root_real=''
+  if [[ -z "$parent_real" || -z "$root_real" || "$parent_real" == / || "$root_real" != "$parent_real"/* \
+    || "$target_basename" != ai-cockpit-n-minus-one.* \
+    || "${root_real##*/}" != "$target_basename" \
+    || ! -d "$target_path" || -L "$target_path" \
+    || "$(path_identity "$target_path" 2>/dev/null)" != "$target_identity" ]]; then
+    prior_cleanup_unresolved=true
+    prior_cleanup_recovery_state=blocked
+    prior_cleanup_recovery_reason='prior cleanup target is absent or no longer matches its recorded safety identity'
+    return 1
+  fi
+  if remove_exact_tree "$target_path"; then
+    prior_cleanup_recovery_state=passed
+    prior_cleanup_recovery_reason='prior validated run_root was removed before resuming acceptance'
+    return 0
+  fi
+  prior_cleanup_unresolved=true
+  prior_cleanup_recovery_state=blocked
+  prior_cleanup_recovery_reason='prior validated run_root could not be removed'
+  return 1
+}
+
 write_cleanup_receipt() {
   jq -n \
     --arg state "$cleanup_state" \
     --arg reason "$cleanup_reason" \
+    --arg targetPath "$cleanup_target_path" \
+    --arg targetParent "$cleanup_target_parent" \
+    --arg targetBasename "$cleanup_target_basename" \
+    --arg targetIdentity "$cleanup_target_identity" \
+    --arg priorState "$prior_cleanup_recovery_state" \
+    --arg priorReason "$prior_cleanup_recovery_reason" \
     --argjson removed "$cleanup_removed" \
     --argjson validated "$cleanup_validated" \
-    '{schemaVersion:1,kind:"run_root_cleanup",state:$state,removed:$removed,validated:$validated,reason:(if $reason == "" then null else $reason end)}' \
+    '{schemaVersion:1,kind:"run_root_cleanup",state:$state,removed:$removed,validated:$validated,reason:(if $reason == "" then null else $reason end),target:(if $targetPath == "" then null else {path:$targetPath,parent:$targetParent,basename:$targetBasename,deviceInode:$targetIdentity} end),priorTargetRecovery:{state:$priorState,reason:(if $priorReason == "" then null else $priorReason end)}}' \
     > "$output/cleanup.json"
 }
 
@@ -254,6 +320,13 @@ staged_candidate=false
 from_bin='' to_bin='' from_version='' to_version='' from_digest='' to_digest='' repository_id=''
 cleanup_state=not_started cleanup_removed=false cleanup_validated=false cleanup_reason=''
 run_root_identity=''
+cleanup_target_path=''
+cleanup_target_parent=''
+cleanup_target_basename=''
+cleanup_target_identity=''
+prior_cleanup_recovery_state=not_attempted
+prior_cleanup_recovery_reason=''
+prior_cleanup_unresolved=false
 adopter_repository_id=''
 close_decision_work_item=''
 close_decision_repository_id=''
@@ -266,6 +339,7 @@ phase_plan=''
 acceptance_scope=''
 acceptance_phase=''
 acceptance_evidence=''
+current_phase='prepare'
 close_ready=false
 publish_formula_digest=''
 publish_handoff_digest=''
@@ -307,17 +381,59 @@ refresh_phase_plan() {
     --output "$phase_plan" || die 'identity-bound acceptance plan rejected the current receipt store'
 }
 
+write_unbound_failure_receipt() {
+  local phase="${1:-${current_phase:-unknown}}"
+  local kind="${2:-${AI_COCKPIT_ACCEPTANCE_FAILURE_KIND:-runner}}"
+  local code="${3:-acceptance_phase_failed_before_identity}"
+  local diagnostic="${4:-${failure_reason:-command exited with status ${exit_code:-1}}}"
+  local identity_state=unavailable
+  [[ -f "${phase_identity:-}" && ! -L "${phase_identity:-}" ]] && identity_state=available
+  local recovery_strategy=retry_current_phase
+  case "$kind" in
+    input_changed|identity_mismatch|validation|scope_changed|authority_changed|base_changed|already_published)
+      recovery_strategy=blocked_until_inputs_repaired
+      ;;
+  esac
+  jq -n \
+    --arg phase "$phase" \
+    --arg kind "$kind" \
+    --arg code "$code" \
+    --arg diagnostic "$diagnostic" \
+    --arg strategy "$recovery_strategy" \
+    --arg identityState "$identity_state" \
+    --argjson attempt "${ACCEPTANCE_ATTEMPT:-1}" \
+    '{schemaVersion:1,kind:"release_phase_failure",status:"failed",phase:$phase,failureKind:$kind,failureCode:$code,diagnostic:$diagnostic,attempt:$attempt,identityState:$identityState,recovery:{strategy:$strategy,phase:$phase},persistedPhaseReceipt:false}' \
+    > "$output/phase-failure.json"
+}
+
 record_phase_failure_from_plan() {
   local phase="${1:-}" kind="${2:-${AI_COCKPIT_ACCEPTANCE_FAILURE_KIND:-runner}}"
-  [[ -f "$phase_plan" && -f "$phase_identity" ]] || return 0
-  if [[ -z "$phase" ]]; then
-    phase="$(jq -er '.actions[] | select(.action == "run" or .action == "retry") | .phase' "$phase_plan" 2>/dev/null | head -n 1)" || return 0
+  if [[ ! -f "$phase_plan" || ! -f "$phase_identity" ]]; then
+    write_unbound_failure_receipt "${phase:-${current_phase:-unknown}}" "$kind" \
+      acceptance_phase_failed_before_identity \
+      "${failure_reason:-failure occurred before an identity-bound phase plan was persisted}"
+    return $?
   fi
-  [[ -n "$phase" ]] || return 0
+  if [[ -z "$phase" ]]; then
+    phase="$(jq -er '.actions[] | select(.action == "run" or .action == "retry") | .phase' "$phase_plan" 2>/dev/null | head -n 1)" || {
+      failure_reason='identity-bound phase plan is malformed and could not identify the failed phase'
+      if ! write_unbound_failure_receipt "${current_phase:-unknown}" validation acceptance_phase_plan_invalid "$failure_reason"; then
+        printf 'adopter upgrade acceptance failure receipt could not be persisted: %s\n' "$failure_reason" >&2
+      fi
+      return 1
+    }
+  fi
+  if [[ -z "$phase" ]]; then
+    failure_reason='identity-bound phase plan contains no runnable phase'
+    if ! write_unbound_failure_receipt "${current_phase:-unknown}" validation acceptance_phase_plan_empty "$failure_reason"; then
+      printf 'adopter upgrade acceptance failure receipt could not be persisted: %s\n' "$failure_reason" >&2
+    fi
+    return 1
+  fi
   case "$exit_code" in
     130|143) kind=interruption ;;
   esac
-  "$COCKPIT_RELEASE_BIN" acceptance-record-failure \
+  if ! "$COCKPIT_RELEASE_BIN" acceptance-record-failure \
     --scope "$acceptance_scope" \
     --identity "$phase_identity" \
     --receipts "$phase_receipts" \
@@ -325,15 +441,19 @@ record_phase_failure_from_plan() {
     --failure-kind "$kind" \
     --failure-code acceptance_phase_failed \
     --diagnostic "${failure_reason:-command exited with status $exit_code}" \
-    --attempt "${ACCEPTANCE_ATTEMPT:-1}" >/dev/null || {
-      failure_reason="could not persist identity-bound failure receipt for $phase"
-      return 1
-    }
+    --attempt "${ACCEPTANCE_ATTEMPT:-1}" >/dev/null; then
+    failure_reason="could not persist identity-bound failure receipt for $phase"
+    if ! write_unbound_failure_receipt "$phase" "$kind" acceptance_phase_failure_persist_failed "$failure_reason"; then
+      printf 'adopter upgrade acceptance failure receipt could not be persisted: %s\n' "$failure_reason" >&2
+    fi
+    return 1
+  fi
   return 0
 }
 
 record_phase_success() {
   local phase="$1" evidence="$2"
+  current_phase="$phase"
   if ! phase_action_should_run "$phase"; then
       pass "phase-$phase" 'reused identity-bound phase receipt'
       return 0
@@ -500,8 +620,19 @@ trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 
+if ! recover_prior_cleanup; then
+  failure_reason="$prior_cleanup_recovery_reason"
+  if ! write_unbound_failure_receipt close cleanup cleanup_target_unrecoverable "$failure_reason"; then
+    printf 'adopter upgrade acceptance failure receipt could not be persisted: %s\n' "$failure_reason" >&2
+  fi
+  exit 1
+fi
 run_root="$(mktemp -d "$run_parent/ai-cockpit-n-minus-one.XXXXXX")"
 run_root_identity="$(path_identity "$run_root")"
+cleanup_target_path="$run_root"
+cleanup_target_parent="$run_parent"
+cleanup_target_basename="${run_root##*/}"
+cleanup_target_identity="$run_root_identity"
 download_root="$run_root/downloads"; from_root="$run_root/from"; to_root="$run_root/to"; adopter="$run_root/adopter"
 isolated_home="$run_root/home"; isolated_xdg="$run_root/xdg"; isolated_tmp="$run_root/tmp"; isolated_cargo="$run_root/cargo"
 mkdir -p "$download_root" "$from_root" "$to_root" "$isolated_home" "$isolated_xdg" "$isolated_tmp" "$isolated_cargo"

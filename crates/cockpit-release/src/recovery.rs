@@ -150,13 +150,13 @@ pub enum ReuseDecision {
 
 /// Classify one persisted result against the current operation identity.
 pub fn evaluate_reuse(result: &PhaseResult, expected: &ReleaseIdentity) -> ReuseDecision {
-    if result.identity_digest != result.identity.digest() {
+    if !result.identity.digest_matches(&result.identity_digest) {
         return ReuseDecision::Invalidated {
             from: result.phase,
             reason: InvalidationReason::CorruptIdentityDigest,
         };
     }
-    if result.identity != *expected {
+    if !result.identity.binding_matches(expected) {
         return ReuseDecision::Invalidated {
             from: result.phase,
             reason: InvalidationReason::InputChanged,

@@ -25,8 +25,8 @@
     "human_report_entrypoint_parity": {
       "inputFacts": ["OutcomeV2", "localized human handoff"],
       "expectedSemantics": {
-        "description": "CLI and MCP human handoffs preserve the same reason, unknown, authorization scope, and consequence semantics in every supported language.",
-        "semanticTokens": ["outcome_marker", "verification_state", "acceptance_gap", "intent_gap", "next_action"]
+      "description": "CLI and MCP human handoffs preserve the same acceptance and intent projections, authorization scope, and consequence semantics in every supported language.",
+      "semanticTokens": ["outcome_marker", "verification_state", "next_action"]
       },
       "test": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome"
     },

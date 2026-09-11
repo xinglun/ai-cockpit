@@ -20,6 +20,7 @@ from quality_route import (
     load_manifest,
     parse_structured_failure,
     required_gate_ids as resolve_required_gate_ids,
+    execution_order as resolve_execution_order,
     validate_route_receipt,
 )
 
@@ -331,6 +332,7 @@ def main() -> int:
             route_binding: dict[str, Any] = {
                 "manifestDigest": file_digest(manifest_path),
                 "requiredGateIds": required_gate_ids,
+                "executionOrder": resolve_execution_order(manifest, required_gate_ids),
                 "selectedProfile": selected_profile,
             }
         else:
@@ -359,6 +361,7 @@ def main() -> int:
                 "manifestDigest": receipt["manifestDigest"],
                 "receiptDigest": receipt["receiptDigest"],
                 "requiredGateIds": required_gate_ids,
+                "executionOrder": receipt.get("executionOrder"),
                 "selectedProfile": selected_profile,
             }
             if args.contract_gate_report:
@@ -412,9 +415,6 @@ def main() -> int:
             route_binding=route_binding,
         )
 
-    selected_positions = {gate["id"]: index for index, gate in enumerate(selected_gates)}
-    indegree = {gate["id"]: 0 for gate in selected_gates}
-    dependents = {gate["id"]: [] for gate in selected_gates}
     for gate in selected_gates:
         for dependency in gate.get("dependsOn", []):
             if dependency not in selected_ids:
@@ -425,29 +425,34 @@ def main() -> int:
                     "regenerate the route receipt with the complete dependency closure",
                     route_binding=route_binding,
                 )
-            indegree[gate["id"]] += 1
-            dependents[dependency].append(gate["id"])
-    ready = {gate_id for gate_id, count in indegree.items() if count == 0}
-    execution_ids: list[str] = []
-    while ready:
-        gate_id = min(ready, key=selected_positions.__getitem__)
-        ready.remove(gate_id)
-        execution_ids.append(gate_id)
-        for dependent in dependents[gate_id]:
-            indegree[dependent] -= 1
-            if indegree[dependent] == 0:
-                ready.add(dependent)
-    if len(execution_ids) != len(selected_gates):
+    expected_execution_order = resolve_execution_order(manifest, required_gate_ids)
+    if not args.list_only:
+        receipt_execution_order = route_binding.get("executionOrder")
+        if receipt_execution_order != expected_execution_order:
+            return preflight_failure(
+                report_path,
+                "route_receipt_execution_order_invalid",
+                "route receipt execution order does not match the canonical cost-aware dependency order",
+                "regenerate the route receipt from the current manifest and repository facts",
+                route_binding=route_binding,
+            )
+    execution_order = expected_execution_order
+    position = {gate_id: index for index, gate_id in enumerate(execution_order)}
+    if any(
+        position[dependency] >= position[gate["id"]]
+        for gate in selected_gates
+        for dependency in gate.get("dependsOn", [])
+        if dependency in position
+    ):
         return preflight_failure(
             report_path,
             "selected_gate_dependencies_cyclic",
-            "selected gate dependencies are cyclic",
-            "repair the manifest dependency graph before rerunning this route",
+            "route execution order violates selected gate dependencies",
+            "regenerate the route receipt with the complete dependency closure",
             route_binding=route_binding,
         )
-    gates = [gates_by_id[gate_id] for gate_id in execution_ids]
+    gates = [gates_by_id[gate_id] for gate_id in execution_order]
 
-    execution_order = [gate["id"] for gate in gates]
     if args.list_only:
         write_report(
             report_path,

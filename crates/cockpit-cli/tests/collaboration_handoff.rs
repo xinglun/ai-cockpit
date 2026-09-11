@@ -165,14 +165,66 @@ fn new_agent_reconstructs_handoff_from_runtime_records_without_conversation_hist
         ],
     );
     run_json(binary, repo.path(), &["checkpoint", "--id", id]);
+    let controls_path = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls_path.path(),
+        serde_json::to_vec_pretty(&json!({
+            "acceptanceEvidence": [
+                {
+                    "acceptanceId": "A1",
+                    "evidence": [{
+                        "type": "test",
+                        "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+                        "locator": "new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history",
+                        "verification": "passed"
+                    }]
+                },
+                {
+                    "acceptanceId": "A2",
+                    "evidence": [{
+                        "type": "test",
+                        "path": "crates/cockpit-cli/tests/collaboration_handoff.rs",
+                        "locator": "new_agent_reconstructs_handoff_from_runtime_records_without_conversation_history",
+                        "verification": "passed"
+                    }]
+                }
+            ],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-cli/tests/collaboration_handoff.rs"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls JSON");
+    let controls = run(
+        binary,
+        repo.path(),
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            id,
+            "--input",
+            controls_path.path().to_str().expect("controls path"),
+        ],
+    );
+    assert!(
+        controls.status.success(),
+        "controls stderr={}",
+        String::from_utf8_lossy(&controls.stderr)
+    );
     run_json(
         binary,
         repo.path(),
         &["verify", "--work-item", id, "--command", "true"],
     );
 
-    // Deliberately omit acceptanceEvidence and intentAlignment.  The failed
-    // finish is the persisted boundary a new Agent must explain, not hide.
+    // The governance controls were recorded before verification. A source
+    // change after the receipt is the persisted blocker here; finish must
+    // reject the stale evidence and a new Agent must explain that fact.
+    fs::write(repo.path().join("changed-after-verification"), b"drift\n")
+        .expect("post-verification source change");
     let finish = run(binary, repo.path(), &["finish", "--id", id]);
     assert!(!finish.status.success(), "finish unexpectedly succeeded");
     let finish_text = format!(
@@ -194,13 +246,16 @@ fn new_agent_reconstructs_handoff_from_runtime_records_without_conversation_hist
     assert_eq!(handoff["outOfScope"], json!(["production behavior"]));
     assert_eq!(handoff["completion"]["summaryState"], "checkpointed");
     assert_eq!(handoff["completion"]["lifecyclePhase"], "checkpointed");
-    assert_eq!(handoff["completion"]["verification"], "verified");
+    assert_eq!(handoff["completion"]["verification"], "unknown");
     assert_eq!(handoff["completion"]["done"], false);
     assert_eq!(handoff["completion"]["pending"], true);
 
     assert_eq!(handoff["evidence"]["passed"], true);
     assert_eq!(handoff["evidence"]["workItemId"], id);
-    assert_eq!(handoff["evidence"]["freshness"]["state"], "fresh");
+    assert_eq!(
+        handoff["evidence"]["freshness"]["state"],
+        "stale_or_invalid"
+    );
     assert!(handoff["evidence"]["contractDigest"].as_str().is_some());
     assert!(
         handoff["evidence"]["repositorySnapshotDigest"]
@@ -213,14 +268,13 @@ fn new_agent_reconstructs_handoff_from_runtime_records_without_conversation_hist
     assert_eq!(handoff["authorization"]["applicable"], false);
     assert_eq!(
         handoff["authorization"]["basis"]["governanceControls"],
-        "blocked"
+        "verified"
     );
     assert!(
         handoff["authorization"]["basis"]["findings"]
             .as_array()
             .expect("governance findings")
-            .iter()
-            .any(|finding| finding["code"] == "acceptance_evidence_missing")
+            .is_empty()
     );
     assert_eq!(handoff["blockReason"]["outcomeState"], "blocked");
     assert!(handoff["blockReason"]["failedGate"].as_str().is_some());

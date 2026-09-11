@@ -1300,6 +1300,17 @@ fn run() -> Result<()> {
             if let Some(work_item_id) = work_item.as_deref() {
                 cockpit_repository::require_policy_for_verification(&root, work_item_id)
                     .context("enforce verification policy")?;
+                // Governance projections and ordering prerequisites are cheap
+                // and deterministic. Reject them before starting the build or
+                // test command so a missing registration cannot surface only
+                // at finish after the expensive verification has completed.
+                cockpit_repository::require_verification_preconditions(
+                    &root,
+                    work_item_id,
+                    &runtime_context,
+                    &initial_snapshot,
+                )
+                .context("check verification preconditions")?;
             }
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {

@@ -186,15 +186,9 @@ fn expected_headings(language: &str, view: &str) -> Vec<&'static str> {
 
 fn required_fragments(language: &str) -> [&'static str; 2] {
     match expected_language(language) {
-        "zh" => ["不是验证证据无效", "意图对齐证据不足"],
-        "ja" => [
-            "検証 evidence が無効という意味ではありません",
-            "intent alignment evidence が不足しています",
-        ],
-        _ => [
-            "does not mean verification evidence is invalid",
-            "intent-alignment evidence is insufficient",
-        ],
+        "zh" => ["验证证据有效", "验证证据"],
+        "ja" => ["検証 evidence は有効", "検証 evidence"],
+        _ => ["Verification evidence is valid", "Verification evidence"],
     }
 }
 
@@ -224,17 +218,11 @@ fn assert_outcome_semantics_equal(
         "fixture must expose at least one explicit unknown"
     );
     assert!(
-        cli_outcome["governanceReasons"]
-            .as_array()
-            .is_some_and(|reasons| {
-                reasons
-                    .iter()
-                    .any(|reason| reason == "acceptance_evidence_insufficient")
-                    && reasons
-                        .iter()
-                        .any(|reason| reason == "intent_alignment_insufficient")
-            }),
-        "fixture must expose the expected governance reasons: {cli_outcome}"
+        cli_outcome["governanceReasons"].is_null()
+            || cli_outcome["governanceReasons"]
+                .as_array()
+                .is_some_and(Vec::is_empty),
+        "fixture must not expose stale governance reasons after pre-verification controls: {cli_outcome}"
     );
     assert_eq!(cli_outcome["finalization"]["state"], "receipt_missing");
     assert_eq!(
@@ -253,9 +241,9 @@ fn collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_
     let work_item_id = "WI-COLLABORATION-MATRIX";
     let repository = repository();
 
-    // Reuse the established real lifecycle fixture: the Work Item is
-    // verified, but acceptance/intent controls remain incomplete and the
-    // finalization receipt is absent.
+    // The Work Item is verified with its acceptance/intent controls recorded
+    // before the expensive command. The finalization receipt remains absent,
+    // so the handoff still exercises a meaningful downstream blocker.
     run_json(binary, repository.path(), &["attach"]);
     run_json(
         binary,
@@ -292,6 +280,39 @@ fn collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_
         binary,
         repository.path(),
         &["checkpoint", "--id", work_item_id],
+    );
+    let controls_path = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls_path.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+                    "locator": "collaboration_matrix_fixture_preserves_outcome_semantics_through_cli_and_mcp_stdio",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-cli/tests/collaboration_scenario_matrix.rs"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls JSON");
+    run_json(
+        binary,
+        repository.path(),
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            work_item_id,
+            "--input",
+            controls_path.path().to_str().expect("controls path"),
+        ],
     );
     run_json(
         binary,

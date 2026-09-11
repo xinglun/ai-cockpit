@@ -114,7 +114,13 @@ fn all_release_phases_are_explicit_and_ordered() {
 fn identity_digest_is_deterministic_and_changes_with_inputs() {
     let first = identity("91");
     let second = identity("92");
+    let mut relocated = first.clone();
+    relocated.isolation.home = "/runner/work/relocated/home".into();
+    relocated.isolation.xdg_config_home = "/runner/work/relocated/xdg".into();
+    relocated.isolation.tmp = "/runner/work/relocated/tmp".into();
+    relocated.isolation.cargo_home = "/runner/work/relocated/cargo".into();
     assert_eq!(first.digest(), first.digest());
+    assert_eq!(first.digest(), relocated.digest());
     assert_ne!(first.digest(), second.digest());
     assert!(first.digest().starts_with("sha256:"));
 }
@@ -408,6 +414,16 @@ fn failed_phase_is_recorded_and_success_replaces_only_the_latest_result() {
         Some(PhaseAction::Retry { .. })
     ));
 
+    assert!(matches!(
+        store.record_success(
+            ReleasePhase::CandidateAcceptance,
+            1,
+            "candidate-repeated",
+            &evidence,
+        ),
+        Err(cockpit_release::resume::ReceiptError::AttemptNotMonotonic)
+    ));
+
     store
         .record_success(
             ReleasePhase::CandidateAcceptance,
@@ -451,7 +467,9 @@ fn receipt_evidence_can_be_revalidated_after_runner_artifact_relocation() {
     let new_receipts = new.path().join("phase-receipts.json");
     std::fs::copy(&old_receipts, &new_receipts).unwrap();
     std::fs::copy(&old_evidence, new.path().join("isolation.json")).unwrap();
-    std::fs::remove_file(old_evidence).unwrap();
+    // The old runner path may still exist after artifact relocation.  It must
+    // not win over the restored evidence merely because it is absolute.
+    std::fs::write(&old_evidence, b"unrelated old runner evidence").unwrap();
 
     let mut relocated = PhaseReceiptStore::load(&new_receipts, &expected).unwrap();
     relocated
@@ -464,6 +482,20 @@ fn receipt_evidence_can_be_revalidated_after_runner_artifact_relocation() {
         .unwrap();
     assert!(relocated.history.is_empty());
     assert_eq!(relocated.results.len(), 1);
+
+    let next_evidence = new.path().join("source-verification.json");
+    std::fs::write(&next_evidence, b"next phase evidence").unwrap();
+    relocated
+        .record_success(
+            ReleasePhase::SourceVerificationBuild,
+            2,
+            "source-verification-build",
+            &next_evidence,
+        )
+        .unwrap();
+    relocated.write_atomic(&new_receipts).unwrap();
+    let reloaded = PhaseReceiptStore::load(&new_receipts, &expected).unwrap();
+    assert_eq!(reloaded.results.len(), 2);
 }
 
 #[test]

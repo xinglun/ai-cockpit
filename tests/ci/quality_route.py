@@ -210,6 +210,52 @@ def required_gate_ids(
     ]
 
 
+_GATE_CATEGORY_PRIORITY = {
+    "docs": 0,
+    "release": 1,
+    "workflow": 2,
+    "ci": 3,
+    "conformance": 4,
+    "evaluation": 5,
+    "performance": 6,
+    "workspace": 7,
+}
+
+
+def execution_order(manifest: dict[str, Any], selected_ids: list[str]) -> list[str]:
+    """Order independent gates by cost/policy priority, then preserve deps."""
+    selected = set(selected_ids)
+    gates_by_id = {gate["id"]: gate for gate in manifest["gates"]}
+    indegree = {
+        gate_id: sum(dependency in selected for dependency in gates_by_id[gate_id].get("dependsOn", []))
+        for gate_id in selected
+    }
+    dependents: dict[str, list[str]] = {gate_id: [] for gate_id in selected}
+    for gate_id in selected:
+        for dependency in gates_by_id[gate_id].get("dependsOn", []):
+            if dependency in selected:
+                dependents[dependency].append(gate_id)
+    ready = {gate_id for gate_id, count in indegree.items() if count == 0}
+    ordered: list[str] = []
+    while ready:
+        gate_id = min(
+            ready,
+            key=lambda candidate: (
+                _GATE_CATEGORY_PRIORITY.get(gates_by_id[candidate]["category"], 8),
+                candidate,
+            ),
+        )
+        ready.remove(gate_id)
+        ordered.append(gate_id)
+        for dependent in dependents[gate_id]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                ready.add(dependent)
+    if len(ordered) != len(selected):
+        raise ValueError("gate dependencies must be acyclic")
+    return ordered
+
+
 def normalize_paths(paths: list[str], repository: Path | None = None) -> list[str]:
     root = repository.resolve() if repository is not None else None
     normalized: set[str] = set()
@@ -289,7 +335,7 @@ def select_route(manifest: dict[str, Any], *, paths: list[str], risk: str, stage
             selected = requested_profile
             reasons.append(f"explicit escalation to {requested_profile}")
     selected, required_gate_ids = required_gate_ids_for_route(manifest, selected, reasons)
-    return {"automaticProfile": automatic, "pathDecisions": decisions, "reasons": sorted(set(reasons)) or [f"empty diff defaults to {automatic}"], "requiredGateIds": required_gate_ids, "selectedProfile": selected}
+    return {"automaticProfile": automatic, "pathDecisions": decisions, "reasons": sorted(set(reasons)) or [f"empty diff defaults to {automatic}"], "requiredGateIds": required_gate_ids, "executionOrder": execution_order(manifest, required_gate_ids), "selectedProfile": selected}
 
 
 def required_gate_ids_for_route(

@@ -193,6 +193,11 @@ fn acceptance_commands_persist_resume_and_fail_closed_on_identity_change() {
         ("candidate_acceptance", "candidate"),
         ("publish", "publish"),
     ] {
+        let attempt = if phase == "candidate_acceptance" {
+            "2"
+        } else {
+            "1"
+        };
         let result = Command::new(binary())
             .args([
                 "acceptance-record",
@@ -204,6 +209,8 @@ fn acceptance_commands_persist_resume_and_fail_closed_on_identity_change() {
                 phase,
                 "--evidence",
                 evidence.to_str().unwrap(),
+                "--attempt",
+                attempt,
             ])
             .output()
             .unwrap();

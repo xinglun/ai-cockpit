@@ -1,0 +1,24 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "human:authorized-development-instruction",
+  "decidedAt": "2026-09-12T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json",
+    ".ai/work-items/active/WI-799-wi798-root-cause-repair.outcome.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e357771005fb6b109597b638f76e7877e361d11822aec0553026158299399049",
+  "predecessorEventsDigest": "sha256:21a782993eb0dedfbadd2f3764b64244ff55d9e114858487077de16aa918b2a0",
+  "predecessorOutcomeDigest": "sha256:8ee6e5d234cccff85e17de009d2b182bf36dc1eeb10cee25db718e5d5d09e608",
+  "predecessorSummaryDigest": "sha256:8ad8225662478e79189a745a19bfe6d5f806a785374aa74d4df87796251cf72a",
+  "predecessorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "reason": "refresh retry authority after the verified Runtime binary changed during regression testing",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "refresh preflight, rerun current Runtime verification, and retry finish",
+  "runtimeDigest": "sha256:e87c1a672cf8a1d2cf44213ca40c1d10bb7e37527e82154136d5c0e7e25d4b21",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

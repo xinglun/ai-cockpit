@@ -240,10 +240,82 @@ pub struct ReleaseIdentity {
 
 impl ReleaseIdentity {
     /// Return the content-bound identity digest used by phase receipts.
+    ///
+    /// Physical isolation roots are intentionally excluded from this key.
+    /// They are retained in the serialized identity for audit, but a resumed
+    /// receipt may be restored under a different runner/output directory.
+    /// The evidence digest and current receipt directory still have to
+    /// validate before a phase can be reused.
     pub fn digest(&self) -> String {
+        let bytes = serde_json::to_vec(&ReleaseIdentityDigest::from(self))
+            .expect("ReleaseIdentity digest payload is serializable");
+        let digest = Sha256::digest(bytes);
+        format!("sha256:{}", hex::encode(digest))
+    }
+
+    /// Return the pre-relocation digest used by older receipt stores.
+    pub(crate) fn legacy_digest(&self) -> String {
         let bytes = serde_json::to_vec(self).expect("ReleaseIdentity is serializable");
         let digest = Sha256::digest(bytes);
         format!("sha256:{}", hex::encode(digest))
+    }
+
+    /// Compare release inputs while allowing only the physical runner roots
+    /// to move.  Source, artifacts, Runtime, target, and the isolation-root
+    /// roles remain part of the binding.
+    pub(crate) fn binding_matches(&self, other: &Self) -> bool {
+        self.source == other.source
+            && self.candidate == other.candidate
+            && self.previous == other.previous
+            && self.runtime == other.runtime
+            && self.target == other.target
+            && logical_isolation(&self.isolation) == logical_isolation(&other.isolation)
+    }
+
+    pub(crate) fn digest_matches(&self, digest: &str) -> bool {
+        digest == self.digest() || digest == self.legacy_digest()
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct ReleaseIdentityDigest<'a> {
+    source: &'a SourceIdentity,
+    candidate: &'a ArtifactIdentity,
+    previous: &'a Option<ArtifactIdentity>,
+    runtime: &'a RuntimeIdentity,
+    target: &'a str,
+    isolation: LogicalIsolationRootPolicy,
+}
+
+impl<'a> From<&'a ReleaseIdentity> for ReleaseIdentityDigest<'a> {
+    fn from(identity: &'a ReleaseIdentity) -> Self {
+        Self {
+            source: &identity.source,
+            candidate: &identity.candidate,
+            previous: &identity.previous,
+            runtime: &identity.runtime,
+            target: &identity.target,
+            isolation: logical_isolation(&identity.isolation),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct LogicalIsolationRootPolicy {
+    home: &'static str,
+    xdg_config_home: &'static str,
+    tmp: &'static str,
+    cargo_home: &'static str,
+}
+
+fn logical_isolation(_isolation: &IsolationRootPolicy) -> LogicalIsolationRootPolicy {
+    LogicalIsolationRootPolicy {
+        home: "home",
+        xdg_config_home: "xdg_config_home",
+        tmp: "tmp",
+        cargo_home: "cargo_home",
     }
 }
 
@@ -349,6 +421,7 @@ impl PhaseResult {
     }
 
     pub fn binding_matches(&self, expected: &ReleaseIdentity) -> bool {
-        self.identity == *expected && self.identity_digest == self.identity.digest()
+        self.identity.binding_matches(expected)
+            && self.identity.digest_matches(&self.identity_digest)
     }
 }

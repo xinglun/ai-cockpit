@@ -83,6 +83,11 @@ pub struct GatePlan {
     pub path_decisions: Vec<PathDecision>,
     pub reasons: Vec<String>,
     pub required_gate_ids: Vec<String>,
+    /// Deterministic topological execution order.  Unlike
+    /// `requiredGateIds` (the manifest's canonical set order), this order
+    /// prioritizes cheap policy barriers before performance and workspace
+    /// commands while preserving every declared dependency.
+    pub execution_order: Vec<String>,
     pub selected_profile: String,
     pub receipt_digest: String,
 }
@@ -430,12 +435,13 @@ pub fn plan_gate_route(
     if reasons.is_empty() {
         reasons.push(format!("empty diff defaults to {}", automatic));
     }
-    let required_gate_ids = manifest
+    let required_gate_ids: Vec<String> = manifest
         .gates
         .iter()
         .filter(|gate| profile_rank(&selected) >= profile_rank(&gate.minimum_profile))
         .map(|gate| gate.id.clone())
         .collect();
+    let execution_order = execution_order(manifest, &required_gate_ids);
     let mut plan = GatePlan {
         schema_version: GATE_PLAN_SCHEMA_VERSION,
         kind: "repository_quality_route".into(),
@@ -453,11 +459,96 @@ pub fn plan_gate_route(
         path_decisions,
         reasons,
         required_gate_ids,
+        execution_order,
         selected_profile: selected,
         receipt_digest: String::new(),
     };
     plan.receipt_digest = canonical_digest_without_receipt(&plan)?;
     Ok(plan)
+}
+
+fn execution_order(manifest: &GateManifest, selected_ids: &[String]) -> Vec<String> {
+    let selected = selected_ids.iter().cloned().collect::<BTreeSet<_>>();
+    let mut indegree = selected
+        .iter()
+        .map(|id| {
+            let gate = manifest
+                .gates
+                .iter()
+                .find(|candidate| candidate.id == *id)
+                .expect("selected gate exists in validated manifest");
+            (
+                id.clone(),
+                gate.depends_on
+                    .iter()
+                    .filter(|dependency| selected.contains(*dependency))
+                    .count(),
+            )
+        })
+        .collect::<BTreeMap<_, _>>();
+    let mut dependents = BTreeMap::<String, Vec<String>>::new();
+    for id in &selected {
+        let gate = manifest
+            .gates
+            .iter()
+            .find(|candidate| candidate.id == *id)
+            .expect("selected gate exists in validated manifest");
+        for dependency in &gate.depends_on {
+            if selected.contains(dependency) {
+                dependents
+                    .entry(dependency.clone())
+                    .or_default()
+                    .push(id.clone());
+            }
+        }
+    }
+    let mut ready = selected
+        .iter()
+        .filter(|id| indegree.get(*id) == Some(&0))
+        .cloned()
+        .collect::<BTreeSet<_>>();
+    let mut ordered = Vec::with_capacity(selected.len());
+    while !ready.is_empty() {
+        let next = ready
+            .iter()
+            .min_by_key(|id| {
+                let gate = manifest
+                    .gates
+                    .iter()
+                    .find(|candidate| candidate.id == **id)
+                    .expect("selected gate exists in validated manifest");
+                (gate_execution_priority(&gate.category), id.as_str())
+            })
+            .cloned()
+            .expect("ready gate exists");
+        ready.remove(&next);
+        ordered.push(next.clone());
+        for dependent in dependents.get(&next).into_iter().flatten() {
+            let count = indegree
+                .get_mut(dependent)
+                .expect("dependent gate exists in validated manifest");
+            *count -= 1;
+            if *count == 0 {
+                ready.insert(dependent.clone());
+            }
+        }
+    }
+    debug_assert_eq!(ordered.len(), selected.len());
+    ordered
+}
+
+fn gate_execution_priority(category: &str) -> u8 {
+    match category {
+        "docs" => 0,
+        "release" => 1,
+        "workflow" => 2,
+        "ci" => 3,
+        "conformance" => 4,
+        "evaluation" => 5,
+        "performance" => 6,
+        "workspace" => 7,
+        _ => 8,
+    }
 }
 
 pub fn validate_gate_plan(
@@ -726,6 +817,7 @@ mod tests {
             plan.required_gate_ids,
             vec!["ci_light", "workspace_standard"]
         );
+        assert_eq!(plan.execution_order, vec!["ci_light", "workspace_standard"]);
         assert_eq!(plan.changed_paths, vec!["docs/readme.md", "src/lib.rs"]);
     }
 

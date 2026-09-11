@@ -194,6 +194,39 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
         ],
     );
     run_json(binary, repo.path(), &["checkpoint", "--id", id]);
+    let controls_path = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls_path.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+                    "locator": "cli_subprocess_and_mcp_handler_agree_on_the_same_outcome",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls JSON");
+    run_json(
+        binary,
+        repo.path(),
+        &[
+            "work-item",
+            "controls",
+            "--id",
+            id,
+            "--input",
+            controls_path.path().to_str().expect("controls path"),
+        ],
+    );
     run_json(
         binary,
         repo.path(),
@@ -244,18 +277,13 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
     // failed to bind to the Work Item at all.
     assert_eq!(cli_outcome["workItemId"], id);
     assert_eq!(mcp_outcome["workItemId"], id);
+    assert_eq!(cli_outcome["decisionState"], "green");
     assert!(
-        cli_outcome["governanceReasons"]
-            .as_array()
-            .is_some_and(|reasons| {
-                reasons
-                    .iter()
-                    .any(|reason| reason == "acceptance_evidence_insufficient")
-                    && reasons
-                        .iter()
-                        .any(|reason| reason == "intent_alignment_insufficient")
-            }),
-        "machine Outcome must carry the same structured reason projection used by the human handoff: {cli_outcome}"
+        cli_outcome["governanceReasons"].is_null()
+            || cli_outcome["governanceReasons"]
+                .as_array()
+                .is_some_and(Vec::is_empty),
+        "machine Outcome must not retain stale governance gaps after the pre-verification controls are recorded: {cli_outcome}"
     );
     assert_eq!(
         cli_outcome["governanceReasons"],
@@ -275,21 +303,9 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
     // equality. It checks the actual handoff text for stable facts and the
     // non-authorization consequence, while allowing translated labels.
     for (language, required_fragments) in [
-        (
-            "en",
-            vec![
-                "does not mean verification evidence is invalid",
-                "intent-alignment evidence is insufficient",
-            ],
-        ),
-        ("zh", vec!["不是验证证据无效", "意图对齐证据不足"]),
-        (
-            "ja",
-            vec![
-                "検証 evidence が無効という意味ではありません",
-                "intent alignment evidence が不足しています",
-            ],
-        ),
+        ("en", vec!["Verification evidence is valid"]),
+        ("zh", vec!["验证证据有效"]),
+        ("ja", vec!["検証 evidence は有効"]),
     ] {
         let cli_handoff = human_cli_output(binary, repo.path(), id, language);
         let mcp_response = cockpit_mcp::handle_request_for_repo(

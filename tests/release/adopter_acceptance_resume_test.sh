@@ -13,6 +13,23 @@ tmp="$(mktemp -d "${TMPDIR:-/tmp}/ai-cockpit-adopter-resume.XXXXXX")"
 cleanup() { find "$tmp" -depth -mindepth 0 -delete; }
 trap cleanup EXIT
 
+# A failure before the identity-bound plan exists must still leave a durable,
+# machine-readable recovery record instead of disappearing into the shell exit
+# code.
+incomplete_candidate="$tmp/incomplete-candidate"
+early_output="$tmp/early-output"
+mkdir -p "$incomplete_candidate" "$early_output"
+set +e
+COCKPIT_RELEASE_BIN="$helper" TMPDIR="$tmp" \
+  "$script" --repository xinglun/ai-cockpit --tag v0.2.90 \
+    --target x86_64-unknown-linux-gnu --candidate-dir "$incomplete_candidate" \
+    --source-repo "$repo" --output "$early_output"
+early_status=$?
+set -e
+[[ "$early_status" -ne 0 ]] || { echo 'missing candidate input unexpectedly passed' >&2; exit 1; }
+jq -e '.kind == "release_phase_failure" and .phase == "prepare" and .identityState == "unavailable" and .persistedPhaseReceipt == false and .recovery.strategy == "retry_current_phase"' \
+  "$early_output/phase-failure.json" >/dev/null
+
 candidate="$tmp/candidate"
 runtime="$tmp/runtime"
 output="$tmp/output"
@@ -84,6 +101,7 @@ jq -e '[.results[] | select(.phase == "source_verification_build" and .status ==
 set +e
 AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE=source_verification_build \
 AI_COCKPIT_ACCEPTANCE_COMMAND_COUNTER="$counter" \
+ACCEPTANCE_ATTEMPT=2 \
 COCKPIT_RELEASE_BIN="$helper" \
 TMPDIR="$tmp" \
   "$script" --repository xinglun/ai-cockpit --tag v0.2.90 \
