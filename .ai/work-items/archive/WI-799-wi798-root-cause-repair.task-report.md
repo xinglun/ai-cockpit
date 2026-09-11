@@ -16,7 +16,7 @@
 
 - Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
+- Changed path: .ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json
 - Changed path: .github/workflows/ci.yml
 - Changed path: tests/ci/quality_route_test.py
 

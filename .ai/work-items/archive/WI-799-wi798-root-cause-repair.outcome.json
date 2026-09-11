@@ -56,35 +56,35 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .github/workflows/ci.yml"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/ci/quality_route_test.py"
@@ -143,7 +143,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json"
           ],
           "inference": false,
           "text": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，修复全部已发现根因，交付经审查的新版本并完成公开产物安装升级验收。"
@@ -152,7 +152,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+            ".ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -162,8 +162,8 @@
     "status": "verified",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "taskReportDigest": "sha256:e811f0fc07d7865d47a07acb03bd8ab73d8844a1d3a8ab2c2da160a627e966d4",
-  "taskReportMarkdownDigest": "sha256:cf7779343a1902b45a2b383d1fd3a7fe88bcdb181848e017a00e399d8f0cc0f5",
+  "taskReportDigest": "sha256:f3fb61873244f5d88c6cd71b67df802fd588fa1516299b5360f877fc1e6c581a",
+  "taskReportMarkdownDigest": "sha256:baf5d64d5f0c56d300c55c14b5aecdda6fd75a1a6bd704695148999962af0f4c",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
