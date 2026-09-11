@@ -59,10 +59,12 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json",
-    ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+    ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json",
+    "crates/cockpit-core/src/lib.rs",
+    "crates/cockpit-core/tests/governance_semantics.rs"
   ],
   "checkpointAt": "2026-09-11T14:22:54Z",
-  "checkpointContractDigest": "sha256:e80ab074d963aaae343ac773dcb752d90d130d30083d25da8e938ecd259c50bb",
+  "checkpointContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -158,9 +160,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-799-wi798-root-cause-repair"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e357771005fb6b109597b638f76e7877e361d11822aec0553026158299399049",
+      "previousContractHash": "sha256:e80ab074d963aaae343ac773dcb752d90d130d30083d25da8e938ecd259c50bb",
+      "reason": "The hosted comparison gate exposed a shared scope-pattern semantic mismatch: Contracts can declare simple filename globs such as docs/reference/ci-quality-gates*.md, but the governance evaluator previously treated them as literal paths. Add the shared cockpit-core matcher fix and regression under this Work Item so scope declarations and enforcement use one rule.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T17:44:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:842c7ee60bcb8a23167923b1745c6860a83cbd13988ba6ae56cc3f4cb91ba2dc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-799-wi798-root-cause-repair"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:842c7ee60bcb8a23167923b1745c6860a83cbd13988ba6ae56cc3f4cb91ba2dc",
+  "checkpointRepositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
   "createdAt": "2026-09-11T14:15:58Z",
   "intentAlignment": {
     "evidence": [
@@ -173,10 +195,10 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
   "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
-  "preflightAt": "2026-09-11T17:42:11Z",
-  "preflightContractDigest": "sha256:e80ab074d963aaae343ac773dcb752d90d130d30083d25da8e938ecd259c50bb",
+  "preflightAt": "2026-09-11T17:50:22Z",
+  "preflightContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:842c7ee60bcb8a23167923b1745c6860a83cbd13988ba6ae56cc3f4cb91ba2dc",
+  "preflightRepositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json",
@@ -277,7 +299,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-11T17:42:19Z",
+  "updatedAt": "2026-09-11T17:50:30Z",
   "verification": [
     {
       "check": "project-command-0",

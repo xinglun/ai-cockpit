@@ -17,6 +17,8 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
+- Changed path: crates/cockpit-core/src/lib.rs
+- Changed path: crates/cockpit-core/tests/governance_semantics.rs
 
 ## Findings
 

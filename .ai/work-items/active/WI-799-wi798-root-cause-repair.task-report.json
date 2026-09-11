@@ -4,7 +4,7 @@
       ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:842c7ee60bcb8a23167923b1745c6860a83cbd13988ba6ae56cc3f4cb91ba2dc",
+    "repositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
   "format": "ai-cockpit.task-outcome",
@@ -33,6 +33,20 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-core/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-core/tests/governance_semantics.rs"
       }
     ],
     "evidence": [

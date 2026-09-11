@@ -43,6 +43,28 @@ fn scope_exceeded_is_red_and_has_safe_action() {
 }
 
 #[test]
+fn filename_glob_scope_matches_without_crossing_directories() {
+    let mut input = base_input();
+    input.scope = vec!["docs/reference/ci-quality-gates*.md".into()];
+    input.changed_paths = vec!["docs/reference/ci-quality-gates.zh-CN.md".into()];
+
+    let decision = evaluate(input.clone());
+
+    assert_eq!(decision.state, DecisionState::Green);
+    assert!(decision.blockers.is_empty());
+
+    input.changed_paths = vec!["docs/reference/nested/ci-quality-gates.md".into()];
+    let decision = evaluate(input);
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(
+        decision
+            .blockers
+            .iter()
+            .any(|item| item == "scope_exceeded")
+    );
+}
+
+#[test]
 fn missing_evidence_is_yellow_and_never_passes() {
     let mut input = base_input();
     input.evidence = EvidenceState::Missing;
