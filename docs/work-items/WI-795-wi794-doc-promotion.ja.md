@@ -3,10 +3,11 @@ author: AI Cockpit maintainers
 title: "WI-795 — WI-794 closed documentation promotion"
 description: "WI-794 の Runtime close evidence を bounded な三言語 documentation projection に昇格する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-795-wi794-doc-promotion
-lastVerifiedBy: WI-795-wi794-doc-promotion
+lastVerifiedBy: WI-796-wi795-doc-promotion-retry
+recoveryDecision: .ai/decisions/WI-795-wi794-doc-promotion.recovery.json
 ---
 
 [English](WI-795-wi794-doc-promotion.md) · [简体中文](WI-795-wi794-doc-promotion.zh-CN.md)

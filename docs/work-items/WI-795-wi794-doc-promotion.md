@@ -3,10 +3,11 @@ author: AI Cockpit maintainers
 title: "WI-795 — WI-794 closed documentation promotion"
 description: "Promote the closed WI-794 Runtime evidence into a bounded, tri-language documentation projection."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-795-wi794-doc-promotion
-lastVerifiedBy: WI-795-wi794-doc-promotion
+lastVerifiedBy: WI-796-wi795-doc-promotion-retry
+recoveryDecision: .ai/decisions/WI-795-wi794-doc-promotion.recovery.json
 ---
 
 [简体中文](WI-795-wi794-doc-promotion.zh-CN.md) · [日本語](WI-795-wi794-doc-promotion.ja.md)

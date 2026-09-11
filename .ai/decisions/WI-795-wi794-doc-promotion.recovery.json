@@ -1,0 +1,28 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-11T01:04:19Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json",
+    ".ai/evidence/WI-795-wi794-doc-promotion.verification.json",
+    ".ai/decisions/WI-795-wi794-doc-promotion.finalize.json"
+  ],
+  "policyRefs": [
+    "repository-review-policy"
+  ],
+  "predecessorContractDigest": "sha256:bc08537327c8949d2598bf6e9be08db8c6ccf08ab1b0ab86c983ed3910ffb34f",
+  "predecessorEventsDigest": "sha256:5643cdee826506c47c152215bca8115f992e29a352b5d73006e7a162e5ba08d0",
+  "predecessorOutcomeDigest": "sha256:85ac4c21760fb63f48641266f7283a211d3a5c255f46b81cf3fceaaf6ade95c4",
+  "predecessorSummaryDigest": "sha256:f8814214df826e52a222a36ef6324ff0f6497975439111350cf7ff664320ddd9",
+  "predecessorWorkItemId": "WI-795-wi794-doc-promotion",
+  "reason": "WI-795 preserved an immutable procedural failure: its parity registration and verification evidence were introduced in one commit, so the required registration-before-evidence ordering cannot be repaired without rewriting history. Continue the bounded documentation promotion through an independently verifiable successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Verify, finalize, close, and promote the successor through a fresh reviewed PR from the synchronized default branch; retain WI-795 as immutable history.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-796-wi795-doc-promotion-retry",
+  "workItemId": "WI-795-wi794-doc-promotion"
+}

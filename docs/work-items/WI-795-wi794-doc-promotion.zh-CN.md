@@ -3,10 +3,11 @@ author: AI Cockpit maintainers
 title: "WI-795——WI-794 已关闭文档晋级"
 description: "将 WI-794 的 Runtime 关闭证据投影为有边界的三语文档。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorized-documentation-promotion
 workItemId: WI-795-wi794-doc-promotion
-lastVerifiedBy: WI-795-wi794-doc-promotion
+lastVerifiedBy: WI-796-wi795-doc-promotion-retry
+recoveryDecision: .ai/decisions/WI-795-wi794-doc-promotion.recovery.json
 ---
 
 [English](WI-795-wi794-doc-promotion.md) · [日本語](WI-795-wi794-doc-promotion.ja.md)
