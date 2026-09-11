@@ -4,14 +4,17 @@
     "No immutable WI-799 archive, close, finalization, or historical bytes are rewritten.",
     "The required documentation, parity, governance, and reference checks pass before finish."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-11T19:35:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:69f574861a394e972df139f057d9687299ebc8610b347163e8525133ebda4ef8",
   "evidenceRefs": [
     ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
   ],
-  "failedGate": "finish.finalization",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -19,11 +22,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -33,14 +35,19 @@
       "repositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
       "workItemId": "WI-800-wi799-doc-promotion"
     },
-    "failedGate": "finish.finalization",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-800-wi799-doc-promotion.recovery.json"
+        },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
@@ -61,48 +68,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
         }
       ],
       "evidence": [
@@ -121,15 +86,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -140,7 +97,7 @@
             ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -150,10 +107,18 @@
             ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -174,16 +139,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-800-wi799-doc-promotion"
   },
+  "taskReportDigest": "sha256:257b6837e466017ff68292fd28c0ed82c26a1282a5fcfaf547d2d795fa087234",
+  "taskReportMarkdownDigest": "sha256:5607802d2e823f01a04e31402444ae61b9c4932e025722775376aaf252f53203",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-800-wi799-doc-promotion.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-800-wi799-doc-promotion"
 }
