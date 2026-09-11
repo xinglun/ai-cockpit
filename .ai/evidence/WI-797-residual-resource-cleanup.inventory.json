@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-797-residual-resource-cleanup",
+  "repository": "xinglun/ai-cockpit",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "observedAt": "2026-09-11T03:12:56Z",
+  "runtimeVersion": "0.2.90",
+  "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+  "defaultRemote": "origin",
+  "defaultBranch": "main",
+  "defaultRevision": "407dff1c7aa18f03124f51b3c01de0989afb45a0",
+  "authorization": "explicit user authorization in the current task; no provider or human identity was inferred from repository data",
+  "resources": [
+    {
+      "workItemIds": ["WI-780-trust-diagnostics"],
+      "worktree": ".worktrees/codex-wi-780-trust-diagnostics",
+      "branch": "codex/wi-780-trust-diagnostics",
+      "head": "07902f2d10b1b284fa14fc0141650f223084c89b",
+      "remoteBranch": false,
+      "pullRequests": [],
+      "statusBeforeCleanup": "dirty; active WI waiting for verification evidence",
+      "classification": "superseded_local_dirty",
+      "recoverability": {
+        "stashCommit": "88a729c9af4a4e1f0cfe54d7f8d3e82202986ebc",
+        "stashMessage": "WI-797 preserve WI-780 residual worktree before authorized cleanup"
+      }
+    },
+    {
+      "workItemIds": ["WI-784-wi783-doc-promotion", "WI-785-wi784-doc-promotion"],
+      "worktree": ".worktrees/codex-wi-784-wi783-doc-promotion",
+      "branch": "codex/wi-784-wi783-doc-promotion",
+      "head": "77132bee2af3acbfd12d8e2583b81264f20bdb70",
+      "remoteBranch": true,
+      "pullRequests": [764, 765],
+      "statusBeforeCleanup": "clean; branch is 50 commits behind origin/main and has zero unique commits",
+      "classification": "superseded_merged_equivalent",
+      "recoverability": {
+        "immutableEvidence": "branch head and closed PR history retained before deletion",
+        "stashCommit": null
+      }
+    },
+    {
+      "workItemIds": ["WI-788-doc-promotion"],
+      "worktree": ".worktrees/codex-wi-788-doc-promotion",
+      "branch": "codex/wi-788-doc-promotion",
+      "head": "1b2f13fe63662070ebf449bf83cee54d4487bc51",
+      "remoteBranch": false,
+      "pullRequests": [],
+      "statusBeforeCleanup": "dirty; active WI blocked at finish.lifecycle",
+      "classification": "superseded_local_dirty",
+      "recoverability": {
+        "stashCommit": "31bc22508fc06664bdce81ae361a28e79a33fab9",
+        "stashMessage": "WI-797 preserve WI-788 residual worktree before authorized cleanup"
+      }
+    },
+    {
+      "workItemIds": ["WI-789-wi788-doc-promotion"],
+      "worktree": ".worktrees/codex-wi-789-wi788-doc-promotion",
+      "branch": "codex/wi-789-wi788-doc-promotion",
+      "head": "1b2f13fe63662070ebf449bf83cee54d4487bc51",
+      "remoteBranch": false,
+      "pullRequests": [],
+      "statusBeforeCleanup": "dirty; active WI waiting for verification evidence",
+      "classification": "superseded_local_dirty",
+      "recoverability": {
+        "stashCommit": "52e84738f49b7ea9e19aa6556d1535282a500933",
+        "stashMessage": "WI-797 preserve WI-789 residual worktree before authorized cleanup"
+      }
+    },
+    {
+      "workItemIds": ["WI-790-doc-promotion"],
+      "worktree": ".worktrees/codex-wi-790-doc-promotion",
+      "branch": "codex/wi-790-doc-promotion",
+      "head": "d1b5e405055774a9f70cbfaf35c4ec85e64deb52",
+      "remoteBranch": true,
+      "pullRequests": [768],
+      "statusBeforeCleanup": "open draft; quality check failed; branch is 32 commits behind and has four unique commits",
+      "classification": "superseded_open_pr",
+      "recoverability": {
+        "immutableEvidence": "PR #768, head SHA, and branch commit graph retained before closure/deletion",
+        "stashCommit": null
+      }
+    },
+    {
+      "workItemIds": ["WI-792-release-v0-2-90", "WI-793-release-v0-2-90-recovery"],
+      "worktree": ".worktrees/codex-wi-792-release",
+      "branch": "codex/wi-792-release",
+      "head": "3b271a630b9ea409ae89ad0324a1ca2dd7ce2441",
+      "remoteBranch": true,
+      "pullRequests": [770],
+      "statusBeforeCleanup": "dirty; PR #770 open draft with route failure; WI-792 red and WI-793 yellow",
+      "classification": "superseded_open_pr_dirty",
+      "recoverability": {
+        "stashCommit": "8dd700b7ed682e6f9880ca6beef5e9a531bc58aa",
+        "stashMessage": "WI-797 preserve WI-792-WI-793 residual worktree before authorized cleanup",
+        "immutableEvidence": "PR #770, head SHA, and branch commit graph retained before closure/deletion"
+      }
+    },
+    {
+      "workItemIds": ["WI-793-release-v0-2-90-recovery"],
+      "worktree": null,
+      "branch": "codex/wi-793-release-v0-2-90-recovery",
+      "head": "7957aa19056b12b23c87fed3f09449bc13cfca0f",
+      "remoteBranch": true,
+      "pullRequests": [771],
+      "statusBeforeCleanup": "merged through PR #771; current origin/main contains the head",
+      "classification": "merged_remote_branch",
+      "recoverability": {
+        "immutableEvidence": "merged PR #771 and current main history retained",
+        "stashCommit": null
+      }
+    }
+  ],
+  "cleanupPolicy": {
+    "preserve": ["PR records", "immutable Runtime evidence", "tag v0.2.90", "main", "dirty-worktree stashes"],
+    "removeOnlyAfterVerification": ["exact obsolete PR closure", "exact remote branch", "exact local branch", "exact worktree"],
+    "forbidden": ["history rewrite", "tag deletion or rewrite", "provider auto-delete before finalization", "unrelated resource deletion"]
+  }
+}
