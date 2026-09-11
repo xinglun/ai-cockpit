@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:43bb2cc82e13eeff859f32db46c34bb95631df4a89039110ebbf414303a96564",
-  "createdAt": "2026-09-11T17:34:27Z",
+  "contractDigest": "sha256:997c654b71da9311194facdbfdc3d29481f414834c44daeaba8c95b8eec6d15d",
+  "createdAt": "2026-09-11T17:38:30Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 235577,
-      "executionElapsedMs": 235131,
+      "elapsedMs": 157143,
+      "executionElapsedMs": 156794,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 235577,
-    "executionElapsedMs": 235131,
-    "filesHashed": 18,
-    "filesRead": 20,
+    "elapsedMs": 157143,
+    "executionElapsedMs": 156794,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,12 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        "crates/cockpit-git/src/lib.rs",
-        "crates/cockpit-git/tests/repository.rs",
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/ci_quality_gate.rs"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "f07e4ec7400397a557fa9aa95e1898d671b24cb4",
       "dependencyConfidence": "unknown",
@@ -49,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 235131,
+      "executionElapsedMs": 156794,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -81,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:6a3be847efabbdbbd718bbf3b3c30ba3bebab2749cdff8858fac92acd1c08d34",
+        "outputDigest": "sha256:ba10a14c7f71807325a295ab9bb51ea8b41cf07f9371210c5259e6eb4757be3a",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -97,7 +92,7 @@
     "runtimeVersion": "0.2.90",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "receiptDigest": "sha256:553adc0ba3d4bdcf85fb596579578991fe6457ed0ee6c4af4af2a5d4f9f3c8c4",
+  "receiptDigest": "sha256:9f43606d4b35a3c92c98464177cbeb13d2fdcefdeb55e17d600c97038505a38d",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:842c7ee60bcb8a23167923b1745c6860a83cbd13988ba6ae56cc3f4cb91ba2dc",
   "runtimeDigest": "sha256:3c208229490729b9230c6120bd645cf7610f8ef4b5867527b2f01cbb84c8fc80",

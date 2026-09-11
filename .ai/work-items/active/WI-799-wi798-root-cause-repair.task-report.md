@@ -17,10 +17,6 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
-- Changed path: crates/cockpit-git/src/lib.rs
-- Changed path: crates/cockpit-git/tests/repository.rs
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs
 
 ## Findings
 

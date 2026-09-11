@@ -218,7 +218,10 @@
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
     "docs/reference/reference-parity.ja.md",
-    "crates/cockpit-git/**"
+    "crates/cockpit-git/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
   ],
   "sources": [],
   "state": "implementation_active",

@@ -33,34 +33,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-git/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-git/tests/repository.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
       }
     ],
     "evidence": [

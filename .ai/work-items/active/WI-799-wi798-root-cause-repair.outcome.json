@@ -17,9 +17,9 @@
     "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
     "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
   ],
-  "createdAt": "2026-09-11T17:34:39Z",
+  "createdAt": "2026-09-11T17:38:36Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f59012fd4d2c30234498485347c0f52ef2b8ca604406c99b6095dbc682cdc27e",
+  "evidenceDigest": "sha256:141f4e38f8b4253a24b9e54756a65084d930f88c57d891ae5b468d936399a8a2",
   "evidenceRefs": [
     ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
   ],
@@ -74,34 +74,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-git/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-git/tests/repository.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
         }
       ],
       "evidence": [
@@ -176,8 +148,8 @@
     "status": "verified",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "taskReportDigest": "sha256:0961c1448fa973103772600ea39fe96a7475685e1ad7be40b8efd8c980482364",
-  "taskReportMarkdownDigest": "sha256:d8a655d452e3857af0a624c28c9ebe61e95220370c552c9cf4feca3ecb44ae4e",
+  "taskReportDigest": "sha256:28b5a306439f6c61afe0b12a46cfd9a3d378118af9175d877cadb4016f7ae27f",
+  "taskReportMarkdownDigest": "sha256:5ebac695e21f28fcf9552a1ebbbf9caa2b9b04970594318713b9dd6d248b3ca9",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
