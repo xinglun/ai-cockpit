@@ -221,7 +221,8 @@
     "crates/cockpit-git/**",
     ".ai/decisions/**",
     ".ai/evidence/**",
-    ".ai/work-items/**"
+    ".ai/work-items/**",
+    "docs/reference/ci-quality-gates*.md"
   ],
   "sources": [],
   "state": "implementation_active",
