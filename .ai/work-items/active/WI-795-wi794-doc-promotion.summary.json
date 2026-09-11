@@ -1,0 +1,65 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-11T00:39:02Z",
+  "checkpointContractDigest": "sha256:e63f39320bdcfe7ed160f4f1768f118ae0e7778de0e5cdc07ac9172b93888e17",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e87df0d136b7b0dd55f4be4f198a1c6cca25a094b9504d4ad8dc7a5d646cf220",
+      "recorded": true,
+      "recordedAt": "2026-09-11T00:39:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-795-wi794-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e63f39320bdcfe7ed160f4f1768f118ae0e7778de0e5cdc07ac9172b93888e17",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e87df0d136b7b0dd55f4be4f198a1c6cca25a094b9504d4ad8dc7a5d646cf220",
+      "previousContractHash": "sha256:e87df0d136b7b0dd55f4be4f198a1c6cca25a094b9504d4ad8dc7a5d646cf220",
+      "reason": "Correct the Runtime Contract's required evidence declaration from a comma-split prose value to the repository-defined single verification class; revalidation intentionally invalidates the earlier receipt so verification will run fresh against the amended Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T00:44:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-795-wi794-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
+  "createdAt": "2026-09-11T00:36:18Z",
+  "failedGate": "finish.governance",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-11T00:45:04Z",
+  "preflightContractDigest": "sha256:e63f39320bdcfe7ed160f4f1768f118ae0e7778de0e5cdc07ac9172b93888e17",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-11T00:45:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:bc8a5206a376d3a8e3711dff246ea32cd425fc6e9a4e0530e5012e11a53bb5ca",
+  "workItemId": "WI-795-wi794-doc-promotion"
+}

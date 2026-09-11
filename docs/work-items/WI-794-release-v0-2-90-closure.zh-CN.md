@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-794——v0.2.90 受治理的发布收尾"
 description: "已发布 v0.2.90 制品的发布后收尾 successor。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized-release-recovery
 workItemId: WI-794-release-v0-2-90-closure
 lastVerifiedBy: WI-794-release-v0-2-90-closure
+terminalArchive: .ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json
+terminalVerification: .ai/evidence/WI-794-release-v0-2-90-closure.verification.json
+terminalFinalization: .ai/decisions/WI-794-release-v0-2-90-closure.finalize.json
+terminalDecision: .ai/decisions/WI-794-release-v0-2-90-closure.close.json
 ---
 
 [English](WI-794-release-v0-2-90-closure.md) · [日本語](WI-794-release-v0-2-90-closure.ja.md)

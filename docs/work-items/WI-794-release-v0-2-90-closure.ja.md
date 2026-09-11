@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-794 — v0.2.90 governed release closure"
 description: "公開済み v0.2.90 artifact の post-release closure successor。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized-release-recovery
 workItemId: WI-794-release-v0-2-90-closure
 lastVerifiedBy: WI-794-release-v0-2-90-closure
+terminalArchive: .ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json
+terminalVerification: .ai/evidence/WI-794-release-v0-2-90-closure.verification.json
+terminalFinalization: .ai/decisions/WI-794-release-v0-2-90-closure.finalize.json
+terminalDecision: .ai/decisions/WI-794-release-v0-2-90-closure.close.json
 ---
 
 [English](WI-794-release-v0-2-90-closure.md) · [简体中文](WI-794-release-v0-2-90-closure.zh-CN.md)

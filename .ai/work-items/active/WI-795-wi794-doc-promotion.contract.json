@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-794/reference-parity projections reflect the Runtime-closed state and bind actual immutable evidence without invented claims.",
+    "English, Simplified Chinese, and Japanese retain equivalent governance facts and operational consequences.",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-794-release-v0-2-90-closure --check passes.",
+    "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, python3 tests/docs/work_item_status_consistency.py --repo <repo>, and python3 tests/ci/governance_integrity_gate.py --repo <repo> pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "be4206d72608daea5cfb5b35dc08589840929b60",
+  "createdAt": "2026-09-11T00:36:18Z",
+  "goal": "Update the bounded tri-language WI-794 pages and reference-parity rows from in progress to truthful closed projections, bind the immutable Runtime archive, finalization, close, and release evidence, and make promote_closed_work_item --check-all pass.",
+  "intent": "Promote the closed WI-794 documentation projections required by the repository's deterministic post-close check.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust production behavior; Runtime behavior; versioning; release/tag assets; immutable .ai records; unrelated Work Items and documentation."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:881a02432b097e84afb2280263b279d27844c2be3da487cf40fa20784a4c055c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-795-wi794-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-795-wi794-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-794-release-v0-2-90-closure.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.zh-CN.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.ja.md",
+    "docs/work-items/WI-795-wi794-doc-promotion.md",
+    "docs/work-items/WI-795-wi794-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-795-wi794-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-795-wi794-doc-promotion"
+}
