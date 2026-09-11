@@ -6,14 +6,17 @@
     "All required Runtime close/finalization transitions and human Outcomes are recorded without inventing human decisions or benefits.",
     "After cleanup, origin/main is synchronized, the root worktree is clean, the exact cleaned resources are absent, and Runtime/doc/governance checks pass."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-11T03:34:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:63a5d0c5dd99f99dbd4c1b89e360701aa104ce49b73ac617c514b02bed45cade",
   "evidenceRefs": [
     ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
   ],
-  "failedGate": "finish.finalization",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +24,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +37,8 @@
       "repositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
       "workItemId": "WI-797-residual-resource-cleanup"
     },
-    "failedGate": "finish.finalization",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -59,15 +59,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -86,7 +78,7 @@
             ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -96,10 +88,18 @@
             ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -120,16 +120,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-797-residual-resource-cleanup"
   },
+  "taskReportDigest": "sha256:bf1b7d049d1db32be328191dffda38f96094ff2836b4edb405ad1b96d5c27ea3",
+  "taskReportMarkdownDigest": "sha256:6e6c7a276788adac6dfa7ccacf5f51eee84d0bb035e0076cbc7dbd4b72ee2fe2",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-797-residual-resource-cleanup.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-797-residual-resource-cleanup"
 }

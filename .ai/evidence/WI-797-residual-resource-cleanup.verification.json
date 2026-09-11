@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:b6dab0b8c3ff4d7f513f25992b0c8f9b6363216d758de141c1bb71246feafb44",
-  "createdAt": "2026-09-11T03:17:31Z",
+  "contractDigest": "sha256:6debbedc69792b135744bc69f160c70aace5f80f62e46df2668270880997f0af",
+  "createdAt": "2026-09-11T03:34:30Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 284,
-      "executionElapsedMs": 78,
+      "elapsedMs": 9081,
+      "executionElapsedMs": 8870,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,16 +20,16 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+      "runtimeDigest": "sha256:8fe6d1122b3ce38385a626f485e03f3f51ac1818dc4d4f486ee1706acd12770b",
       "runtimeVersion": "0.2.90",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 284,
-    "executionElapsedMs": 78,
+    "elapsedMs": 9081,
+    "executionElapsedMs": 8870,
     "filesHashed": 5,
     "filesRead": 5,
-    "gitCalls": 6,
+    "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 78,
+      "executionElapsedMs": 8870,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -88,14 +88,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+    "runtimeDigest": "sha256:8fe6d1122b3ce38385a626f485e03f3f51ac1818dc4d4f486ee1706acd12770b",
     "runtimeVersion": "0.2.90",
     "workItemId": "WI-797-residual-resource-cleanup"
   },
-  "receiptDigest": "sha256:bcd5c743bf4b1f5506fd99edf1217088b9bd31d813115aace80756551a228f67",
+  "receiptDigest": "sha256:bceeea43114cce5aa854645035d45220407ac4dd7f05d1ee40ee715eafd58519",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
-  "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+  "runtimeDigest": "sha256:8fe6d1122b3ce38385a626f485e03f3f51ac1818dc4d4f486ee1706acd12770b",
   "runtimeVersion": "0.2.90",
   "workItemId": "WI-797-residual-resource-cleanup"
 }

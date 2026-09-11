@@ -1,0 +1,34 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "explicit-user-authorized-release-and-residual-cleanup",
+  "decidedAt": "2026-09-11T03:27:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-797-residual-resource-cleanup.verification.json",
+    ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+    ".ai/evidence/WI-797-residual-resource-cleanup.actions.json",
+    ".ai/work-items/active/WI-797-residual-resource-cleanup.contract.json",
+    ".ai/work-items/active/WI-797-residual-resource-cleanup.summary.json",
+    ".ai/work-items/active/WI-797-residual-resource-cleanup.outcome.json",
+    ".ai/work-items/active/WI-797-residual-resource-cleanup.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/774"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    ".ai/README.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:b54f31ec8bfbe4eb51c3016c973aed5088f550fb3b1c60af94c674373c85b9b0",
+  "predecessorEventsDigest": "sha256:95e231a7a44dd7ce4c54cff634611631210dcc3ea99f7a0e1ed62371e16769bb",
+  "predecessorOutcomeDigest": "sha256:a96f0652243366023b1ea1493ec89629349857b769dcd10a7fecc86e7ecaa47c",
+  "predecessorSummaryDigest": "sha256:818072d043c270fbbf173688e58f5da350876c2e04f69ba85c1b0a0fa9037532",
+  "predecessorWorkItemId": "WI-797-residual-resource-cleanup",
+  "reason": "Binding the actual cleanup PR changed the Contract digest and made the earlier verification receipt contradictory by identity. Preserve the prior evidence and perform one bounded Runtime retry against the real PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and verification against the actual PR #774 context, then complete finish, archive, hosted review, merge, provider finalization, close, synchronization, and exact cleanup.",
+  "runtimeDigest": "sha256:8fe6d1122b3ce38385a626f485e03f3f51ac1818dc4d4f486ee1706acd12770b",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-797-residual-resource-cleanup"
+}

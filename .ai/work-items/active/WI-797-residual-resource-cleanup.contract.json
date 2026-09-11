@@ -33,38 +33,39 @@
     " cleanup receipts",
     " finalization/close records",
     " final main synchronization",
-    " and post-cleanup Runtime/doc/governance checks."
+    " and post-cleanup Runtime/doc/governance checks.",
+    "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-797-residual-resource-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/774",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-797-residual-resource-cleanup"
+  },
+  "risk": "high",
   "scenarioCoverage": [
     {
-      "scenario": "residual_inventory_and_identity_binding",
-      "required": true,
-      "status": "verified",
       "evidence": [
         "Runtime inspect/status/doctor at current origin/main",
         "fresh GitHub PR and remote-branch inventory",
         "per-resource Git equivalence and worktree status"
-      ]
+      ],
+      "required": true,
+      "scenario": "residual_inventory_and_identity_binding",
+      "status": "verified"
     },
     {
-      "scenario": "dirty_evidence_recoverability_before_cleanup",
-      "required": true,
-      "status": "verified",
       "evidence": [
         "uncommitted paths enumerated for WI-780, WI-788, WI-789, and WI-792",
         "immutable Runtime records and branch commits identified before mutation"
-      ]
+      ],
+      "required": true,
+      "scenario": "dirty_evidence_recoverability_before_cleanup",
+      "status": "verified"
     }
   ],
-  "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
-    "branch": "codex/wi-797-residual-resource-cleanup",
-    "provider": "unknown",
-    "pullRequest": "unknown",
-    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-797-residual-resource-cleanup"
-  },
-  "risk": "high",
   "scope": [
     "Only the inventoried residuals: WI-780 trust diagnostics local worktree",
     " WI-784/WI-785 documentation recovery branch/worktree",

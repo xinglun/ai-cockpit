@@ -64,11 +64,46 @@
   ],
   "changedPaths": [],
   "checkpointAt": "2026-09-11T03:10:06Z",
-  "checkpointContractDigest": "sha256:b6dab0b8c3ff4d7f513f25992b0c8f9b6363216d758de141c1bb71246feafb44",
+  "checkpointContractDigest": "sha256:6debbedc69792b135744bc69f160c70aace5f80f62e46df2668270880997f0af",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b54f31ec8bfbe4eb51c3016c973aed5088f550fb3b1c60af94c674373c85b9b0",
+      "recorded": true,
+      "recordedAt": "2026-09-11T03:10:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-797-residual-resource-cleanup"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6debbedc69792b135744bc69f160c70aace5f80f62e46df2668270880997f0af",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b54f31ec8bfbe4eb51c3016c973aed5088f550fb3b1c60af94c674373c85b9b0",
+      "previousContractHash": "sha256:b54f31ec8bfbe4eb51c3016c973aed5088f550fb3b1c60af94c674373c85b9b0",
+      "reason": "Bind the standard verification evidence class required by the repository policy; keep the cleanup Contract's bounded scope and all prior evidence immutable.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T03:33:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-797-residual-resource-cleanup"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
   "createdAt": "2026-09-11T03:06:43Z",
-  "failedGate": "finish.finalization",
   "intentAlignment": {
     "evidence": [
       ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
@@ -82,14 +117,12 @@
     ]
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-11T03:17:31Z",
-  "preflightContractDigest": "sha256:b6dab0b8c3ff4d7f513f25992b0c8f9b6363216d758de141c1bb71246feafb44",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightAt": "2026-09-11T03:34:30Z",
+  "preflightContractDigest": "sha256:6debbedc69792b135744bc69f160c70aace5f80f62e46df2668270880997f0af",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -113,14 +146,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-11T03:19:11Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T03:34:45Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f4cc5c9ee5322ec857bff2109390625543740d1783605b091b50fbf210b92047",
   "workItemId": "WI-797-residual-resource-cleanup"
 }
