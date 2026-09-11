@@ -12,7 +12,9 @@ Usage: adopter_acceptance.sh \
   --target TARGET \
   --output DIRECTORY \
   [--candidate-dir DIRECTORY] \
-  [--source-repo DIRECTORY]
+  [--source-repo DIRECTORY] \
+  [--publish-handoff FILE] \
+  [--resume]
 USAGE
 }
 
@@ -50,6 +52,8 @@ target=''
 output=''
 source_repo=''
 candidate_dir=''
+publish_handoff=''
+resume=false
 
 while (($# > 0)); do
   case "$1" in
@@ -82,6 +86,15 @@ while (($# > 0)); do
       [[ $# -ge 2 ]] || die "--candidate-dir requires a value"
       candidate_dir=$2
       shift 2
+      ;;
+    --publish-handoff)
+      [[ $# -ge 2 ]] || die "--publish-handoff requires a value"
+      publish_handoff=$2
+      shift 2
+      ;;
+    --resume)
+      resume=true
+      shift
       ;;
     --help|-h)
       usage
@@ -129,12 +142,19 @@ if [[ -n "$candidate_dir" ]]; then
   [[ -d "$candidate_dir" && ! -L "$candidate_dir" ]] || die 'candidate directory must be a regular directory'
   candidate_dir="$(cd "$candidate_dir" && pwd -P)"
 fi
+if [[ -n "$publish_handoff" ]]; then
+  [[ -f "$publish_handoff" && ! -L "$publish_handoff" ]] || die 'publish handoff must be a regular, non-symlinked file'
+  publish_handoff="$(cd "$(dirname "$publish_handoff")" && pwd -P)/$(basename "$publish_handoff")"
+fi
 
 mkdir -p "$output"
 output="$(cd "$output" && pwd)"
-if [[ -n "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]]; then
+if [[ "$resume" != true && -n "$(find "$output" -mindepth 1 -print -quit 2>/dev/null)" ]]; then
   die "output directory must be empty: $output"
 fi
+resume_cache="$output/.resume-cache"
+phase_identity="$output/phase-identity.json"
+phase_receipts="$output/phase-receipts.json"
 
 tmpdir=''
 if tmpdir="$(printenv TMPDIR)"; then :; fi
@@ -162,6 +182,11 @@ source_ai_state=unknown
 source_before_status=''
 source_after_status=''
 runtime_bin=''
+phase_plan=''
+acceptance_scope=''
+acceptance_phase=''
+acceptance_evidence=''
+close_ready=false
 rustup_home=''
 rustup_toolchain=''
 cleanup_state=not_started
@@ -366,6 +391,7 @@ finalize() {
   local cleanup_result=0
   local acceptance_update_result=0
   local cleanup_receipt_result=0
+  local close_result=0
   local final_sums_result=0
   finished_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   if [[ "$exit_code" -eq 0 ]]; then
@@ -441,6 +467,14 @@ finalize() {
   acceptance_update_result=$?
   write_cleanup_receipt
   cleanup_receipt_result=$?
+  record_close_after_cleanup || close_result=$?
+  if [[ "$close_result" -ne 0 ]]; then
+    exit_code="$close_result"
+    [[ -n "$failure_reason" ]] || failure_reason='close phase receipt could not be persisted'
+    if ! mark_acceptance_failed "$failure_reason"; then
+      printf 'adopter acceptance failure metadata could not be updated\n' >&2
+    fi
+  fi
   write_sums
   final_sums_result=$?
   if [[ "$cleanup_state" == failed ]]; then
@@ -449,6 +483,7 @@ finalize() {
   fi
   [[ "$acceptance_update_result" -eq 0 ]] || exit_code=1
   [[ "$cleanup_receipt_result" -eq 0 ]] || exit_code=1
+  [[ "$close_result" -eq 0 ]] || exit_code=1
   [[ "$final_sums_result" -eq 0 ]] || exit_code=1
   if [[ "$cleanup_result" -ne 0 ]]; then exit_code=1; fi
   exit "$exit_code"
@@ -515,6 +550,123 @@ capture_runtime() {
   mark_passed "$evidence_name"
 }
 
+phase_action() {
+  local phase="$1"
+  jq -er --arg phase "$phase" '.actions[] | select(.phase == $phase) | .action' "$phase_plan"
+}
+
+phase_action_should_run() {
+  local phase="$1"
+  local action
+  action="$(phase_action "$phase")" || die "acceptance plan has no action for phase $phase"
+  case "$action" in
+    run|retry)
+      return 0
+      ;;
+    reuse)
+      return 1
+      ;;
+    blocked)
+      die "acceptance phase $phase is blocked by an invalid prerequisite"
+      ;;
+    *)
+      die "acceptance phase $phase has unknown action: $action"
+      ;;
+  esac
+}
+
+refresh_phase_plan() {
+  [[ -n "${COCKPIT_RELEASE_BIN:-}" && -x "$COCKPIT_RELEASE_BIN" ]] || die 'COCKPIT_RELEASE_BIN must point to the prebuilt cockpit-release helper'
+  "$COCKPIT_RELEASE_BIN" acceptance-plan \
+    --scope "$acceptance_scope" \
+    --identity "$phase_identity" \
+    --receipts "$phase_receipts" \
+    --output "$phase_plan" || die 'identity-bound acceptance plan rejected the current receipt store'
+}
+
+record_phase_success() {
+  local phase="$1"
+  local evidence="$2"
+  if ! phase_action_should_run "$phase"; then
+      mark_passed "phase-$phase" 'reused identity-bound phase receipt'
+      return 0
+  fi
+  "$COCKPIT_RELEASE_BIN" acceptance-record \
+    --scope "$acceptance_scope" \
+    --identity "$phase_identity" \
+    --receipts "$phase_receipts" \
+    --phase "$phase" \
+    --evidence "$evidence" \
+    --attempt "${ACCEPTANCE_ATTEMPT:-1}" >/dev/null || die "could not persist identity-bound phase receipt: $phase"
+  refresh_phase_plan
+  if [[ "${AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE:-}" == "$phase" ]]; then
+    failure_reason="injected failure after $phase receipt"
+    exit 97
+  fi
+}
+
+validate_persisted_acceptance() {
+  [[ -n "$acceptance_phase" && -n "$acceptance_evidence" ]] || die 'acceptance resume scope is not initialized'
+  [[ -f "$acceptance_evidence" && ! -L "$acceptance_evidence" ]] || die "persisted acceptance evidence is missing or symlinked: $acceptance_evidence"
+  jq -e \
+    --arg phase "$acceptance_phase" \
+    --arg evidence "$acceptance_evidence" \
+    '[.results[] | select(.phase == $phase and .status == "succeeded" and .evidence.path == $evidence)] | length == 1' \
+    "$phase_receipts" >/dev/null || die "persisted $acceptance_phase receipt does not bind its acceptance evidence"
+  jq -e '.schemaVersion == 2 and .sourceUnchanged == true and .roots.HOME.unchanged == true and .roots.XDG_CONFIG_HOME.unchanged == true and .repositoryIsolation == true' \
+    "$acceptance_evidence" >/dev/null || die "persisted $acceptance_phase evidence failed its isolation/source checks"
+}
+
+mark_acceptance_failed() {
+  local reason="$1" updated="$output/.acceptance.json.failure.tmp"
+  [[ -f "$output/acceptance.json" ]] || return 1
+  jq --arg reason "$reason" '.adopterAcceptance = "failed" | .failureReason = $reason' \
+    "$output/acceptance.json" > "$updated" && mv -f -- "$updated" "$output/acceptance.json"
+}
+
+record_close_after_cleanup() {
+  [[ "$close_ready" == true && "$cleanup_state" == passed ]] || return 0
+  [[ -f "$output/cleanup.json" ]] || {
+    failure_reason='close receipt prerequisites are missing'
+    return 1
+  }
+  local action
+  local close_plan="$output/close-phase-plan.json"
+  "$COCKPIT_RELEASE_BIN" acceptance-plan \
+    --scope "$acceptance_scope" \
+    --identity "$phase_identity" \
+    --receipts "$phase_receipts" \
+    --output "$close_plan" >/dev/null || {
+      failure_reason='close phase plan rejected the persisted receipt store'
+      return 1
+    }
+  action="$(jq -er '.actions[] | select(.phase == "close") | .action' "$close_plan" 2>/dev/null)" || {
+    failure_reason='close phase is absent from the scoped acceptance plan'
+    return 1
+  }
+  [[ "$action" == reuse || "$action" == not_applicable ]] && return 0
+  "$COCKPIT_RELEASE_BIN" acceptance-record \
+    --scope "$acceptance_scope" \
+    --identity "$phase_identity" \
+    --receipts "$phase_receipts" \
+    --phase close \
+    --evidence "$output/cleanup.json" \
+    --attempt "${ACCEPTANCE_ATTEMPT:-1}" >/dev/null || {
+      failure_reason='could not persist identity-bound close phase receipt'
+      return 1
+    }
+  if [[ "${AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE:-}" == close ]]; then
+    failure_reason='injected failure after close receipt'
+    return 97
+  fi
+}
+
+count_acceptance_command() {
+  local command_name="$1"
+  [[ -n "${AI_COCKPIT_ACCEPTANCE_COMMAND_COUNTER:-}" ]] || return 0
+  printf '%s\n' "$command_name" >> "$AI_COCKPIT_ACCEPTANCE_COMMAND_COUNTER"
+}
+
 version="$(printf '%s' "$tag" | sed 's/^v//')"
 archive_name="ai-cockpit-$tag-$target.$archive_extension"
 manifest_name=release-manifest.json
@@ -523,14 +675,32 @@ archive_path="$download_root/$archive_name"
 manifest_path="$download_root/$manifest_name"
 sums_path="$download_root/$sums_name"
 release_url=''
+release_api=''
+formula_url=''
+publish_formula_digest=''
+publish_handoff_digest=''
+cache_archive="$resume_cache/$archive_name"
+cache_manifest="$resume_cache/$manifest_name"
+cache_sums="$resume_cache/$sums_name"
+if [[ "$resume" == true ]]; then
+  [[ -f "$cache_archive" && ! -L "$cache_archive" ]] || die "resume cache is missing archive: $cache_archive"
+  [[ -f "$cache_manifest" && ! -L "$cache_manifest" ]] || die "resume cache is missing manifest: $cache_manifest"
+  [[ -f "$cache_sums" && ! -L "$cache_sums" ]] || die "resume cache is missing checksums: $cache_sums"
+  cp "$cache_archive" "$archive_path"
+  cp "$cache_manifest" "$manifest_path"
+  cp "$cache_sums" "$sums_path"
+fi
 if [[ -n "$candidate_dir" ]]; then
   staged_candidate=true
   for candidate_file in "$archive_name" "$manifest_name" "$sums_name"; do
     [[ -f "$candidate_dir/$candidate_file" && ! -L "$candidate_dir/$candidate_file" ]] || die "staged candidate file is missing or symlinked: $candidate_file"
   done
-  cp "$candidate_dir/$archive_name" "$archive_path"
-  cp "$candidate_dir/$manifest_name" "$manifest_path"
-  cp "$candidate_dir/$sums_name" "$sums_path"
+  if [[ "$resume" != true ]]; then
+    count_acceptance_command candidate-artifact-copy
+    cp "$candidate_dir/$archive_name" "$archive_path"
+    cp "$candidate_dir/$manifest_name" "$manifest_path"
+    cp "$candidate_dir/$sums_name" "$sums_path"
+  fi
   source_revision="$(git -C "$source_repo" rev-parse 'HEAD^{commit}')"
   [[ "$(jq -er '.commit' "$manifest_path")" == "$source_revision" ]] || die 'staged candidate commit does not match source checkout HEAD'
   archive_url="workflow-artifact:ai-cockpit-candidate/$archive_name"
@@ -539,7 +709,10 @@ else
   release_url="https://github.com/$repository/releases/tag/$tag"
   api_url="https://api.github.com/repos/$repository/releases/tags/$tag"
   release_api="$output/release.json"
-  if ! github_api_get "$api_url" "$release_api"; then
+  if [[ "$resume" == true && -f "$release_api" && ! -L "$release_api" ]]; then
+    release_published=true
+    mark_passed release-fetch 'reused cached public Release metadata'
+  elif ! github_api_get "$api_url" "$release_api"; then
     record_step release-fetch failed 'public Release API request failed'
     failure_reason='public Release API request failed'
     exit 1
@@ -561,6 +734,35 @@ else
   curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest_path"
   curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums_path"
 fi
+if [[ -n "$release_api" && -z "$archive_url" ]]; then
+  archive_url="$(jq -er --arg name "$archive_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+  manifest_url="$(jq -er --arg name "$manifest_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+  sums_url="$(jq -er --arg name "$sums_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
+fi
+if [[ -n "$publish_handoff" ]]; then
+  [[ -n "$release_api" ]] || die 'publish handoff requires public Release metadata'
+  formula_url="$(jq -er '.assets[] | select(.name == "ai-cockpit.rb") | .browser_download_url' "$release_api")"
+  [[ "$formula_url" == "https://github.com/$repository/releases/download/$tag/"* ]] || die 'Formula URL is outside the requested public Release'
+  formula_path="$output/ai-cockpit.rb"
+  formula_cache="$resume_cache/ai-cockpit.rb"
+  if [[ "$resume" == true && -f "$formula_cache" && ! -L "$formula_cache" ]]; then
+    cp "$formula_cache" "$formula_path"
+  else
+    curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$formula_url" -o "$formula_path"
+    mkdir -p "$resume_cache"
+    cp "$formula_path" "$formula_cache"
+  fi
+  publish_formula_digest="$(sha256_file "$formula_path")"
+  publish_handoff_digest="sha256:$(sha256_file "$publish_handoff")"
+  "$COCKPIT_RELEASE_BIN" validate-handoff \
+    --handoff "$publish_handoff" \
+    --tag "$tag" \
+    --commit "$(jq -er '.commit' "$manifest_path")" \
+    --provider-release-id "$(jq -er '.id' "$release_api")" \
+    --manifest-sha256 "$(sha256_file "$manifest_path")" \
+    --formula-sha256 "$publish_formula_digest" >/dev/null || die 'published handoff does not bind the public Release assets'
+  mark_passed publish-handoff
+fi
 cp "$manifest_path" "$output/release-manifest.json"
 cp "$sums_path" "$output/SHA256SUMS.release"
 manifest_archive_digest="$(jq -er --arg target "$target" '.artifacts[] | select(.target == $target) | .archive.sha256' "$manifest_path")"
@@ -570,6 +772,10 @@ actual_archive_digest="$(sha256_file "$archive_path")"
 [[ "$sums_archive_digest" == "$actual_archive_digest" ]] || die 'archive digest does not match SHA256SUMS'
 [[ "$(jq -er '.version' "$manifest_path")" == "$version" ]] || die 'manifest version does not match tag'
 [[ "$(jq -er '.tag' "$manifest_path")" == "$tag" ]] || die 'manifest tag does not match requested tag'
+mkdir -p "$resume_cache"
+cp "$archive_path" "$cache_archive"
+cp "$manifest_path" "$cache_manifest"
+cp "$sums_path" "$cache_sums"
 mark_passed release-download
 
 if [[ "$archive_extension" == tar.gz ]]; then
@@ -582,6 +788,7 @@ if [[ "$archive_extension" == zip ]]; then runtime_bin="$runtime_root/ai-cockpit
 [[ -f "$runtime_bin" && -x "$runtime_bin" ]] || die 'accepted archive did not contain an executable Runtime'
 runtime_version="$("$runtime_bin" --version | awk '{print $2}')"
 runtime_digest="sha256:$(sha256_file "$runtime_bin")"
+export AI_COCKPIT_ISOLATION_BIN="$runtime_bin"
 [[ "$runtime_version" == "$version" ]] || die 'accepted Runtime version does not match candidate tag'
 runtime_platform="$(uname -s)-$(uname -m)"
 jq -n \
@@ -600,9 +807,59 @@ jq -n \
   '{schemaVersion:1,tag:$tag,version:$version,target:$target,platform:$platform,archive:$archive,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,downloadSource:$downloadSource,releaseUrl:(if $releaseUrl == "" then null else $releaseUrl end),manifestDigest:$manifestDigest,releasePublished:$releasePublished,stagedCandidate:$stagedCandidate}' > "$output/runtime.json"
 mark_passed runtime-pin
 
+jq -n \
+  --arg repository "$source_repository_id" \
+  --arg commit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg lock "sha256:$(sha256_file "$source_repo/Cargo.lock")" \
+  --arg version "$version" \
+  --arg tag "$tag" \
+  --arg manifest "sha256:$(sha256_file "$manifest_path")" \
+  --arg archive "$archive_name" \
+  --arg archiveDigest "$manifest_archive_digest" \
+  --arg formulaDigest "$publish_formula_digest" \
+  --arg handoffDigest "$publish_handoff_digest" \
+  --arg runtimeVersion "$runtime_version" \
+  --arg runtimeDigest "$runtime_digest" \
+  --arg target "$target" \
+  --arg output "$output" \
+  '{source:{repository:$repository,commit:$commit,cargoLockDigest:$lock},candidate:{version:$version,tag:$tag,manifestDigest:$manifest,assets:({($archive):$archiveDigest} + (if $formulaDigest == "" then {} else {"ai-cockpit.rb":$formulaDigest} end) + (if $handoffDigest == "" then {} else {"homebrew-handoff.json":$handoffDigest} end))},previous:null,runtime:{version:$runtimeVersion,digest:$runtimeDigest},target:$target,isolation:{home:($output+"/.resume-scope/home"),xdgConfigHome:($output+"/.resume-scope/xdg"),tmp:($output+"/.resume-scope/tmp"),cargoHome:($output+"/.resume-scope/cargo")}}' \
+  > "$phase_identity"
+if [[ -n "$candidate_dir" ]]; then
+  acceptance_scope=candidate
+  acceptance_phase=candidate_acceptance
+else
+  acceptance_scope=public
+  acceptance_phase=public_acceptance
+fi
+acceptance_evidence="$output/isolation.json"
+phase_plan="$run_root/phase-plan.json"
+refresh_phase_plan
+record_phase_success prepare "$output/release-manifest.json"
 source_before_status="$(git -C "$source_repo" status --porcelain=v1)"
 manifest_source_checkout "$source_repo" "$output" "$run_root/source-before.manifest"
 if [[ -e "$source_repo/.ai" ]]; then source_ai_state=present; else source_ai_state=absent; fi
+jq -n \
+  --arg sourceRepository "$source_repo" \
+  --arg sourceRepositoryId "$source_repository_id" \
+  --arg sourceCommit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg sourceStatus "$source_before_status" \
+  --arg sourceManifestDigest "sha256:$(sha256_file "$run_root/source-before.manifest")" \
+  --arg runtimeVersion "$runtime_version" \
+  --arg runtimeDigest "$runtime_digest" \
+  '{schemaVersion:1,phase:"source_verification_build",source:{repository:$sourceRepository,repositoryId:$sourceRepositoryId,commit:$sourceCommit,status:$sourceStatus,manifestDigest:$sourceManifestDigest},runtime:{version:$runtimeVersion,digest:$runtimeDigest}}' \
+  > "$output/source-verification.json"
+record_phase_success source_verification_build "$output/source-verification.json"
+if [[ "$acceptance_scope" == public ]]; then
+  record_phase_success publish "$output/runtime.json"
+fi
+if ! phase_action_should_run "$acceptance_phase"; then
+  record_phase_success "$acceptance_phase" "$acceptance_evidence"
+  validate_persisted_acceptance
+  close_ready=true
+  overall_state=passed
+  failure_reason=''
+  exit 0
+fi
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo new --lib --vcs none "$adopter_root" >/dev/null
 printf 'target/\n' > "$adopter_root/.gitignore"
 env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C cargo generate-lockfile --manifest-path "$adopter_root/Cargo.toml" >/dev/null
@@ -838,5 +1095,11 @@ jq -n \
 jq -e '.repositoryId != null and .distinctFromSource == true' "$output/repository.json" >/dev/null || die 'adopter repository identity is not distinct from source'
 mark_passed repository-identity
 
+if [[ "$acceptance_scope" == candidate ]]; then
+  record_phase_success candidate_acceptance "$acceptance_evidence"
+else
+  record_phase_success public_acceptance "$acceptance_evidence"
+fi
+close_ready=true
 overall_state=passed
 failure_reason=''

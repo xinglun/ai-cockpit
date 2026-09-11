@@ -12,8 +12,10 @@ from typing import Any
 
 from quality_route import (
     PROFILE_ORDER,
+    RouteValidationError,
     file_digest,
     load_manifest,
+    parse_structured_failure,
     profile_includes,
     validate_route_receipt,
 )
@@ -34,6 +36,56 @@ def load_receipt(path: Path) -> dict[str, Any]:
 def write_report(path: Path, report: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def validate_route_with_rust(
+    binary: str,
+    *,
+    repository: Path,
+    manifest_path: Path,
+    receipt_path: Path,
+    receipt: dict[str, Any],
+) -> None:
+    """Use the shared Rust fact/rule boundary for production receipt checks.
+
+    The Python validator remains the compatibility fallback for offline
+    fixtures and older callers. The hosted path supplies the prebuilt binary,
+    so route validation does not re-implement Git/manifest/Contract planning.
+    """
+    command = [
+        binary,
+        "gate-plan",
+        "--repo",
+        str(repository),
+        "--manifest",
+        str(manifest_path),
+        "--base",
+        str(receipt.get("baseRevision", "")),
+        "--head",
+        str(receipt.get("headRevision", "")),
+        "--stage",
+        str(receipt.get("stage", "")),
+        "--risk",
+        str(receipt.get("requestedRisk", "")),
+        "--receipt",
+        str(receipt_path),
+        "--validate-receipt",
+    ]
+    contract = receipt.get("contractPath")
+    if isinstance(contract, str) and contract:
+        command.extend(["--contract", str(repository / contract)])
+    completed = subprocess.run(command, check=False, capture_output=True, text=True)
+    if completed.returncode != 0:
+        detail = completed.stderr.strip() or completed.stdout.strip() or "Rust gate-plan validation failed"
+        structured = parse_structured_failure(completed.stderr + "\n" + completed.stdout)
+        if structured is not None:
+            code, remediation = structured
+            raise RouteValidationError(
+                code,
+                "Rust gate-plan validation failed",
+                remediation,
+            )
+        raise ValueError(detail)
 
 
 def failure_code(gate_id: str, *, launch_error: bool = False, detail: str = "") -> str:
@@ -144,6 +196,7 @@ def main() -> int:
     parser.add_argument("--report", required=True)
     parser.add_argument("--route-receipt")
     parser.add_argument("--contract-gate-report")
+    parser.add_argument("--gate-plan-bin")
     parser.add_argument("--profile", choices=PROFILE_ORDER)
     parser.add_argument("--list-only", action="store_true")
     args = parser.parse_args()
@@ -176,11 +229,20 @@ def main() -> int:
             if not args.route_receipt:
                 raise ValueError("execution requires --route-receipt")
             receipt = load_receipt(Path(args.route_receipt))
-            validate_route_receipt(
-                receipt,
-                repository=repository,
-                manifest_path=manifest_path,
-            )
+            if args.gate_plan_bin:
+                validate_route_with_rust(
+                    args.gate_plan_bin,
+                    repository=repository,
+                    manifest_path=manifest_path,
+                    receipt_path=Path(args.route_receipt).resolve(),
+                    receipt=receipt,
+                )
+            else:
+                validate_route_receipt(
+                    receipt,
+                    repository=repository,
+                    manifest_path=manifest_path,
+                )
             selected_profile = receipt["selectedProfile"]
             required_gate_ids = receipt["requiredGateIds"]
             route_binding = {
@@ -204,6 +266,18 @@ def main() -> int:
                     "standard/strict Contract routes require --contract-gate-report"
                 )
     except (OSError, ValueError, KeyError, TypeError) as error:
+        if isinstance(error, RouteValidationError):
+            print(
+                json.dumps(
+                    {
+                        "state": "failed",
+                        "failureCode": error.code,
+                        "remediation": error.remediation,
+                    },
+                    sort_keys=True,
+                ),
+                file=sys.stderr,
+            )
         parser.error(str(error))
 
     selected_ids = set(required_gate_ids)

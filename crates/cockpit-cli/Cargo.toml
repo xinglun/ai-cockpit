@@ -17,6 +17,7 @@ cockpit-agent = { path = "../cockpit-agent" }
 cockpit-repository = { path = "../cockpit-repository" }
 cockpit-verification = { path = "../cockpit-verification" }
 cockpit-git = { path = "../cockpit-git" }
+cockpit-isolation = { path = "../cockpit-isolation" }
 cockpit-knowledge = { path = "../cockpit-knowledge" }
 cockpit-mcp = { path = "../cockpit-mcp" }
 cockpit-protocol = { path = "../cockpit-protocol" }

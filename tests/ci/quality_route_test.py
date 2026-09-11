@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -26,6 +27,22 @@ route = load_module()
 manifest = route.load_manifest(MANIFEST_PATH)
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
+
+empty_covers = copy.deepcopy(manifest)
+empty_covers["gates"][0]["covers"] = []
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-empty-covers-") as temporary_directory:
+    empty_covers_path = Path(temporary_directory) / "manifest.json"
+    empty_covers_path.write_text(json.dumps(empty_covers), encoding="utf-8")
+    try:
+        route.load_manifest(empty_covers_path)
+    except ValueError as error:
+        assert "non-empty list" in str(error)
+    else:
+        raise AssertionError("Python route must reject covers: []")
+
+assert route.parse_structured_failure(
+    '{"state":"failed","failureCode":"quality_route_failed","remediation":"retry"}'
+) == ("quality_route_failed", "retry")
 
 
 def assert_invalid_gate_order(gates: list[dict], temporary: Path) -> None:
@@ -257,7 +274,11 @@ final_route = ci_workflow.index("name: Finalize the typed repository quality rou
 rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")
 assert initial_route < runtime_shadow < final_route < rust_gate < gate_execution
-assert "cargo run --locked --package cockpit-cli" in ci_workflow
+assert "target/ai-cockpit" in ci_workflow
+assert ci_workflow.count("--rust-bin target/ai-cockpit") == 2
+assert "--rust-bin target/release/ai-cockpit" in ci_workflow
+assert "name: ci-gate-plan-tool" in ci_workflow
+assert "--gate-plan-bin target/ai-cockpit" in ci_workflow
 
 for relative in (
     "docs/reference/ci-runtime-shadow.md",
@@ -339,5 +360,26 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-lifecycle-boundary-") as tem
         assert "lifecycle_transition_stale" in str(error)
     else:
         raise AssertionError("a failed lifecycle transition must fail before gates")
+
+    summary_path.unlink()
+    os.symlink(repository / "README.md", summary_path)
+    try:
+        route.plan_repository_route(
+            repository=repository,
+            manifest_path=MANIFEST_PATH,
+            base=base,
+            head=base,
+            stage="pull_request",
+            risk="normal",
+            contract_path=Path(".ai/work-items/active/WI-LIFECYCLE.contract.json"),
+            requested_profile=None,
+        )
+    except route.RouteValidationError as error:
+        assert error.code == "lifecycle_transition_invalid"
+        assert error.remediation == (
+            "restore the repository-local Summary and rerun preflight before pushing"
+        )
+    else:
+        raise AssertionError("a Summary symlink must fail before gates")
 
 print("repository quality route regression passed")

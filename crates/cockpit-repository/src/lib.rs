@@ -14,11 +14,11 @@ use cockpit_protocol::{
     ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt,
     DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
-    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
-    HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
-    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
-    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
+    FinalizationErrorCode, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
+    HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt, HumanBenefitReport,
+    HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+    ParallelSlotLease, PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
@@ -50,6 +50,7 @@ mod evidence_store;
 mod execution_context;
 mod governance_controls;
 mod lifecycle;
+mod observation_ledger;
 mod outcome_render;
 mod project_governance;
 mod status_projection;
@@ -520,6 +521,24 @@ pub enum ObserverError {
     SnapshotRootMismatch,
     #[error("repository protocol state error at {path}: {message}")]
     State { path: PathBuf, message: String },
+    #[error("resource finalization observation error at {path} ({code:?}): {diagnostic}")]
+    FinalizationObservation {
+        path: PathBuf,
+        code: FinalizationErrorCode,
+        diagnostic: String,
+    },
+}
+
+fn finalization_observation_error(
+    path: impl Into<PathBuf>,
+    code: FinalizationErrorCode,
+    error: impl std::fmt::Display,
+) -> ObserverError {
+    ObserverError::FinalizationObservation {
+        path: path.into(),
+        code,
+        diagnostic: error.to_string(),
+    }
 }
 
 fn path_derived_repository_id(root: &Path) -> Digest {
@@ -7238,8 +7257,22 @@ fn verify_resource_finalization_internal(
         source,
     })?;
     let (receipt, path, receipt_digest, sequence) =
-        resolve_resource_finalization_head(&root, work_item_id)?;
-    let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)?;
+        resolve_resource_finalization_head(&root, work_item_id).map_err(|error| {
+            finalization_observation_error(
+                resource_finalization_decision_path(&root, work_item_id),
+                FinalizationErrorCode::RecordCorrupt,
+                error,
+            )
+        })?;
+    let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)
+        .map_err(|error| {
+            finalization_observation_error(
+                root.join(".ai/work-items/archive")
+                    .join(format!("{work_item_id}.contract.json")),
+                FinalizationErrorCode::RecordCorrupt,
+                error,
+            )
+        })?;
     let current_contract_canonical_digest = contract_digest(
         &root
             .join(".ai/work-items/archive")
@@ -7306,16 +7339,26 @@ fn verify_resource_finalization_internal(
         (!contract_amendment_revalidation).then_some(&finalization_contract_digest),
         contract.resource_context.as_ref(),
     )
-    .map_err(|error| ObserverError::State {
-        path: path.clone(),
-        message: error.to_string(),
+    .map_err(|error| {
+        finalization_observation_error(path.clone(), error.finalization_error_code(), error)
     })?;
-    validate_historical_finalization(&root, &receipt, &path)?;
-    ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
+    validate_historical_finalization(&root, &receipt, &path).map_err(|error| {
+        finalization_observation_error(path.clone(), FinalizationErrorCode::RecordCorrupt, error)
+    })?;
+    ensure_resource_finalization_base_binding(&receipt, &contract, &path).map_err(|error| {
+        finalization_observation_error(path.clone(), FinalizationErrorCode::BaseMismatch, error)
+    })?;
     let inferred_legacy_shared_worktree =
         infer_legacy_shared_worktree_retained(&root, &receipt, &contract);
     let historical_recovery = if let Some(runtime) = runtime {
-        load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)?
+        load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)
+            .map_err(|error| {
+                finalization_observation_error(
+                    historical_finalization_recovery_path(&root, work_item_id),
+                    FinalizationErrorCode::HistoricalRecoveryRequired,
+                    error,
+                )
+            })?
     } else {
         None
     };
@@ -7355,13 +7398,13 @@ fn verify_resource_finalization_internal(
             if kind.is_none()
                 && let Err(error) = ensure_resource_runtime_identity(&receipt, runtime, &path)
             {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!(
-                        "{}; inspect with `ai-cockpit work-item finalize-recovery-plan --repo <repository> --id {work_item_id}` before recording historical recovery",
-                        error
+                return Err(finalization_observation_error(
+                    path.clone(),
+                    FinalizationErrorCode::RuntimeMismatch,
+                    format!(
+                        "{error}; inspect with `ai-cockpit work-item finalize-recovery-plan --repo <repository> --id {work_item_id}` before recording historical recovery"
                     ),
-                });
+                ));
             }
             kind
         } else {
@@ -7370,15 +7413,23 @@ fn verify_resource_finalization_internal(
     } else {
         None
     };
+    let resources_deleted = local_resources_deleted(&root, &receipt).map_err(|error| {
+        finalization_observation_error(
+            path.clone(),
+            FinalizationErrorCode::ObservationUnavailable,
+            error,
+        )
+    })?;
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Deleted | ResourceFinalizationDisposition::Abandoned
-    ) && !local_resources_deleted(&root, &receipt)?
+    ) && !resources_deleted
     {
-        return Err(ObserverError::State {
+        return Err(finalization_observation_error(
             path,
-            message: "resource finalization cleanup postconditions are not satisfied".into(),
-        });
+            FinalizationErrorCode::CleanupPending,
+            "resource finalization cleanup postconditions are not satisfied",
+        ));
     }
     let mut result = serde_json::json!({
         "workItemId": work_item_id,

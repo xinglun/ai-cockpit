@@ -41,6 +41,9 @@ assert "lifecycle_transition_stale" in route
 assert "remediation" in route
 assert "failure_code" in runner
 assert "failureRoots" in runner
+assert "--rust-bin" in route
+assert "--gate-plan-bin" in runner
+assert "ci-gate-plan-tool" in workflow
 
 # A failing manifest command is represented once in the machine report. Raw
 # stderr is captured as diagnostic data and never becomes a second apparent

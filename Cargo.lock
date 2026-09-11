@@ -243,6 +243,7 @@ dependencies = [
  "cockpit-agent",
  "cockpit-core",
  "cockpit-git",
+ "cockpit-isolation",
  "cockpit-knowledge",
  "cockpit-mcp",
  "cockpit-protocol",
@@ -278,6 +279,18 @@ dependencies = [
 
 [[package]]
 name = "cockpit-git"
+version = "0.2.90"
+dependencies = [
+ "hex",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "thiserror",
+]
+
+[[package]]
+name = "cockpit-isolation"
 version = "0.2.90"
 dependencies = [
  "hex",

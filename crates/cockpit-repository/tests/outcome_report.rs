@@ -552,6 +552,40 @@ fn human_renderer_names_acceptance_and_intent_gaps_without_invalidating_verifica
     assert!(!summary.contains("verify again"), "{summary}");
 }
 
+#[cfg(unix)]
+#[test]
+fn outcome_observation_rejects_symlinked_active_contract() {
+    use std::os::unix::fs::symlink;
+
+    let directory = repository();
+    let id = "WI-OUTCOME-SYMLINK-CONTRACT";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "reject a symlinked active Contract during Outcome observation",
+        "preserve the original Contract path identity",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    let target = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.target.json"));
+    fs::rename(&contract, &target).expect("move contract target");
+    symlink(&target, &contract).expect("contract symlink");
+
+    let error = cockpit_repository::outcome_render_input(directory.path(), id)
+        .expect_err("Outcome observation must reject a symlinked active Contract");
+    assert!(error.to_string().contains("regular non-symlink"), "{error}");
+}
+
 #[test]
 fn report_is_typed_evidence_bound_and_serializable() {
     let directory = repository();

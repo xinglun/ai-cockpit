@@ -264,7 +264,11 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
     assert_eq!(cli_outcome["finalization"]["state"], "receipt_missing");
     assert_eq!(
         cli_outcome["finalization"]["action"],
-        "inspect_resources_and_record_receipt"
+        "record_finalization_receipt"
+    );
+    assert_eq!(
+        cli_outcome["finalization"]["nextAction"]["id"],
+        "record_finalization_receipt"
     );
 
     // Human-language parity is a separate assertion from machine JSON

@@ -23,6 +23,27 @@ env:
   CARGO_TERM_COLOR: never
 
 jobs:
+  release_tools:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - name: Build the shared release acceptance helper once
+        run: cargo build --locked --release --package cockpit-release
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: cockpit-release-acceptance-tool
+          path: target/release/cockpit-release
+          if-no-files-found: error
+          retention-days: 7
+
   build:
     strategy:
       fail-fast: false
@@ -457,7 +478,7 @@ jobs:
           ./extracted/ai-cockpit.exe --help | Out-Null
 
   staged_adopter_acceptance:
-    needs: [aggregate, source_quality, release_policy, verify]
+    needs: [aggregate, source_quality, release_policy, verify, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -473,12 +494,18 @@ jobs:
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-acceptance-tool
+          path: tools
       - name: Run staged candidate adopter acceptance
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
         run: |
           set -euo pipefail
+          chmod +x "$COCKPIT_RELEASE_BIN"
           tag="$(jq -er '.tag' dist/release-manifest.json)"
           output="$RUNNER_TEMP/staged-adopter-acceptance"
           mkdir -p "$output"
@@ -499,7 +526,7 @@ jobs:
           retention-days: 30
 
   staged_adopter_upgrade_acceptance:
-    needs: [aggregate, source_quality, release_policy, verify, staged_adopter_acceptance]
+    needs: [aggregate, source_quality, release_policy, verify, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -515,6 +542,10 @@ jobs:
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-acceptance-tool
+          path: tools
       - name: Resolve public N-1 and staged candidate pair
         id: staged_release_pair
         shell: bash
@@ -548,10 +579,12 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
           FROM_TAG: ${{ steps.staged_release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.staged_release_pair.outputs.to_tag }}
         run: |
           set -euo pipefail
+          chmod +x "$COCKPIT_RELEASE_BIN"
           output="$RUNNER_TEMP/staged-adopter-upgrade"
           mkdir -p "$output"
           tests/release/adopter_upgrade_acceptance.sh \
@@ -717,7 +750,7 @@ jobs:
     # a Release; it fails the workflow if public assets drift from the source
     # version or the current trilingual installation docs.
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    needs: [publish, publish_handoff]
+    needs: [publish_handoff]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -743,7 +776,7 @@ jobs:
 
   adopter_acceptance:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    needs: [publish, publish_handoff]
+    needs: [publish_handoff, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -755,18 +788,29 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-acceptance-tool
+          path: tools
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-publish-handoff
+          path: handoff
       - name: Run public Release adopter acceptance
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
         run: |
           set -euo pipefail
+          chmod +x "$COCKPIT_RELEASE_BIN"
           mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
           tests/release/adopter_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --tag "$GITHUB_REF_NAME" \
             --target x86_64-unknown-linux-gnu \
             --source-repo "$GITHUB_WORKSPACE" \
+            --publish-handoff "$GITHUB_WORKSPACE/handoff/homebrew-handoff.json" \
             --output "$RUNNER_TEMP/release-adopter-acceptance"
       - name: Upload adopter acceptance evidence
         if: always()
@@ -785,12 +829,11 @@ jobs:
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') &&
         needs.publish.result == 'success' &&
-        needs.publish_handoff.result == 'success' &&
-        needs.adopter_acceptance.result != 'skipped') ||
+        needs.publish_handoff.result == 'success') ||
        (github.event_name == 'workflow_dispatch' &&
         github.event.inputs.from_tag != '' &&
         github.event.inputs.to_tag != ''))
-    needs: [publish, publish_handoff, adopter_acceptance]
+    needs: [publish, publish_handoff, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -799,6 +842,16 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-acceptance-tool
+          path: tools
+      - name: Download publication handoff for push-triggered public acceptance
+        if: github.event_name == 'push'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-publish-handoff
+          path: handoff
       - name: Resolve immutable public Release pair
         id: release_pair
         shell: bash
@@ -842,18 +895,26 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
+          EVENT_NAME: ${{ github.event_name }}
           FROM_TAG: ${{ steps.release_pair.outputs.from_tag }}
           TO_TAG: ${{ steps.release_pair.outputs.to_tag }}
           TARGET: ${{ github.event.inputs.target || 'x86_64-unknown-linux-gnu' }}
         run: |
           set -euo pipefail
+          chmod +x "$COCKPIT_RELEASE_BIN"
           mkdir -p "$RUNNER_TEMP/release-adopter-upgrade"
+          handoff_args=()
+          if [[ "$EVENT_NAME" == push ]]; then
+            handoff_args=(--publish-handoff "$GITHUB_WORKSPACE/handoff/homebrew-handoff.json")
+          fi
           tests/release/adopter_upgrade_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --from-tag "$FROM_TAG" \
             --to-tag "$TO_TAG" \
             --target "$TARGET" \
             --source-repo "$GITHUB_WORKSPACE" \
+            "${handoff_args[@]}" \
             --output "$RUNNER_TEMP/release-adopter-upgrade"
       - name: Record N-1 not-applicable result
         if: steps.release_pair.outputs.from_tag == ''
@@ -878,5 +939,54 @@ jobs:
         with:
           name: release-adopter-upgrade-${{ github.ref_name || github.run_id }}-${{ github.run_id }}
           path: ${{ runner.temp }}/release-adopter-upgrade/
+          if-no-files-found: error
+          retention-days: 30
+
+  release_close:
+    # The close barrier is deliberately after every public acceptance branch.
+    # It records a failed close when any required receipt is absent; it never
+    # rewrites a Release, moves a tag, or deletes historical evidence.
+    if: always() && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - name: Write release close receipt
+        shell: bash
+        env:
+          TAG: ${{ github.ref_name }}
+          COMMIT: ${{ github.sha }}
+          HANDOFF: ${{ needs.publish_handoff.result }}
+          VERSION_CONSISTENCY: ${{ needs.post_release_version_consistency.result }}
+          INSTALL: ${{ needs.adopter_acceptance.result }}
+          UPGRADE: ${{ needs.adopter_upgrade_acceptance.result }}
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/release-close"
+          mkdir -p "$output"
+          state=passed
+          for result in "$HANDOFF" "$VERSION_CONSISTENCY" "$INSTALL"; do
+            [[ "$result" == success ]] || state=failed
+          done
+          [[ "$UPGRADE" == success || "$UPGRADE" == skipped ]] || state=failed
+          jq -n \
+            --arg tag "$TAG" \
+            --arg commit "$COMMIT" \
+            --arg state "$state" \
+            --arg handoff "$HANDOFF" \
+            --arg versionConsistency "$VERSION_CONSISTENCY" \
+            --arg install "$INSTALL" \
+            --arg upgrade "$UPGRADE" \
+            '{schemaVersion:1,phase:"close",tag:$tag,commit:$commit,state:$state,requiredReceipts:{publishHandoff:$handoff,versionConsistency:$versionConsistency,publicInstall:$install,publicUpgrade:$upgrade}}' \
+            > "$output/release-close.json"
+          sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
+          [[ "$state" == passed ]] || { echo 'release close blocked: required acceptance did not pass' >&2; exit 1; }
+      - name: Upload release close receipt
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: release-close-${{ github.ref_name }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/release-close/
           if-no-files-found: error
           retention-days: 30

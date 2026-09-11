@@ -26,6 +26,28 @@ Execution order is Task 1, Tasks 2-5 in parallel on disjoint paths, Task 6
 integration/baseline, Task 7, Task 8, then Appendix A and Appendix B. Appendix
 C records the conflict scan that governs dispatch.
 
+## Addendum execution order
+
+The appended critical-path work is a second governed wave on the same active
+Contract. First amend and revalidate the Contract, freeze the old Shell and
+release acceptance baselines, and confirm the current object-project path and
+access conditions. Then dispatch A-D read-only inventories in parallel. After
+their boundaries are reconciled, dispatch implementation work in isolated
+branches/worktrees: A and B are independent P0 release slices; C and D are
+independent P1 execution/governance slices. The integration owner alone edits
+shared CLI contracts, release workflow joins, active Runtime evidence, and
+the final release. Candidate optimizations are serialized after the P0
+results, one per commit, with an explicit keep/revert decision.
+
+The required phase join is:
+
+`baseline freeze -> P0 A/B implementation -> P0 A/B correctness and
+benchmark -> P1 C/D implementation -> integrated WI/release recovery tests ->
+reviewed PR -> merge -> close -> publish -> downloaded public acceptance`.
+
+No release or close action starts while a required phase result is missing,
+identity-inconsistent, or only locally inferred.
+
 ---
 
 ## Appendix A: Full integration, documentation, governance, and hosted PR
@@ -459,5 +481,117 @@ git diff --check
 git add crates/cockpit-repository/src/lib.rs crates/cockpit-repository/src/execution_context.rs crates/cockpit-git/src/lib.rs crates/cockpit-cli/src/main.rs crates/cockpit-mcp/src/lib.rs tests/performance crates/cockpit-cli/tests/performance.rs
 git commit -m "perf: bind diagnostics to measured operations"
 ```
+
+---
+
+### Addendum Task 11: Replace the release isolation manifest hot path with Rust (Agent A)
+
+**Files:**
+- Create: `crates/cockpit-release/src/isolation.rs`.
+- Modify: `crates/cockpit-release/src/lib.rs` and `crates/cockpit-release/src/main.rs`.
+- Modify: `tests/release/isolation_manifest.sh` into a thin compatibility wrapper.
+- Modify: `tests/release/isolation_manifest_test.sh` and add `crates/cockpit-release/tests/isolation.rs`.
+
+**Interfaces:**
+- Consumes: an explicit root, output exclusion, and manifest mode from the existing shell helper callers.
+- Produces: one Rust invocation that emits the same deterministic JSONL records, exit failures, path/type/digest/target semantics, and cleanup-safe errors.
+
+- [ ] Freeze the shell contract by running the existing regression on a controlled repository and recording manifest bytes, exit codes, elapsed time, and external-process count for special paths, dangling/escaping symlinks, output exclusion, tracked/untracked `.ai` entries, and source mutation.
+- [ ] Add Rust tests for deterministic ordering, streamed SHA-256, directory/other/missing records, literal/resolved symlink targets, containment failures, output exclusion, and failure reports that preserve the original root.
+- [ ] Implement directory enumeration, metadata, streamed hashing, sorting, and serialization in one Rust process; do not spawn one process per entry.
+- [ ] Switch Shell callers to forward to the prebuilt tool, then assert old/new byte and exit equivalence before measuring the 80% target.
+- [ ] Run `cargo test --locked -p cockpit-release --test isolation -- --nocapture`, `bash tests/release/isolation_manifest_test.sh`, `cargo fmt --all -- --check`, and `git diff --check`; commit as `perf: move release isolation scanning into Rust`.
+
+---
+
+### Addendum Task 12: Share release acceptance and resumable phase results (Agent B)
+
+**Files:**
+- Create or modify: `crates/cockpit-release/src/acceptance.rs` and `crates/cockpit-release/src/main.rs`.
+- Modify: `tests/release/adopter_acceptance.sh`, `tests/release/adopter_upgrade_acceptance.sh`, their tests, and `.github/workflows/release.yml`.
+
+**Interfaces:**
+- Consumes: immutable artifact/manifest identity, target, isolated-root policy, prior phase receipts, and test-only failure-injection mode.
+- Produces: identity-bound phase results, structured failure reports, cleanup receipts, and an idempotent resume plan that never overwrites a mismatched Release/tag/history.
+
+- [ ] Define a serializable phase result containing phase, artifact/manifest/source/Runtime identities, root policy, status, boundaries, reusable result references, and cleanup state; reject mismatches.
+- [ ] Add interruption, timeout, cleanup failure, network/runner failure, and identity-mismatch tests proving that only the first invalid phase reruns and valid phases are reused.
+- [ ] Move artifact identity, isolated HOME/XDG/TMP/CARGO roots, step execution, failure reporting, and exact-root cleanup into Rust while retaining public downloaded-artifact and N-1 history checks.
+- [ ] Run candidate fresh install and candidate N-1 upgrade independently after build; run public fresh install, public N-1 upgrade, and version consistency independently after publication, joining all required results before close.
+- [ ] Run `cargo test --locked -p cockpit-release --tests -- --nocapture`, both adopter acceptance test scripts, `bash -n` on both helpers, and `git diff --check`; commit as `perf: make release acceptance phases resumable`.
+
+---
+
+### Addendum Task 13: Add one-operation WI fact reuse and early failure routing (Agent C)
+
+**Files:**
+- Modify: `crates/cockpit-repository/src/execution_context.rs`, `crates/cockpit-repository/src/lib.rs`, `crates/cockpit-repository/src/outcome_render.rs`, and `crates/cockpit-cli/src/main.rs` only for context/trace propagation.
+- Test: repository context, lifecycle-order/recovery tests, and structured failure/retry tests.
+
+**Interfaces:**
+- Consumes: the current request-local `ObservationLedger` and Runtime operation identity.
+- Produces: one operation context with parsed Contract/config/policy/receipt/source/governance facts, explicit target/global scope, cheap preconditions, and dependent-task cancellation records.
+
+- [ ] Test one parse/read per immutable fact within an operation, target-only reads that exclude unrelated Work Items, and explicit global checks; count boundary rechecks separately.
+- [ ] Route base identity, registration/order, Contract readiness, and tool-availability gates before Cargo, network, or provider work; record structured failure and prevent dependent starts.
+- [ ] Bind source verification to source identity and governance decisions to governance facts so close/registration changes do not rerun unrelated source tests.
+- [ ] Prove technical retries reuse the same Work Item and phase receipt while changed authority/base/scope or unsafe recovery creates a successor; repeated technical failures must not create duplicate successors.
+- [ ] Run focused repository context/lifecycle/recovery tests, `git diff --check`, and commit as `perf: reuse WI facts and short-circuit dependent work`.
+
+---
+
+### Addendum Task 14: Converge production governance routing on Rust (Agent D)
+
+**Files:**
+- Modify: `tests/ci/quality_route.py` and `tests/ci/run_repository_gates.py` only as compatibility wrappers where Rust covers the rule.
+- Modify: `crates/cockpit-cli/src/main.rs`, `crates/cockpit-repository/src/lib.rs`, `crates/cockpit-verification/**`, `.github/workflows/ci.yml`, and `.github/workflows/release.yml`.
+- Test: `tests/ci/*_test.sh`, Rust route tests, and governance/doc/parity/archive regressions.
+
+**Interfaces:**
+- Consumes: one Rust route plan with dependencies, selected checks, identity, and recovery state.
+- Produces: compatibility-equivalent exits, fields, receipts, bindings, and an explicit retained-script classification.
+
+- [ ] Compare Python and Rust decisions on valid, missing, stale, parity, archive-reference, and base-mismatch fixtures before changing callers.
+- [ ] Add wrapper/Rust parity tests for result fields, exit codes, required evidence, and binding identities; malformed/stale records must fail at the earliest gate.
+- [ ] Move production scheduling, dependency cancellation, structured failure output, and reusable results to Rust; keep offline statistics, independent black-box tests, one-time maintenance, bootstrap, and platform glue classified.
+- [ ] Update CI to invoke the prebuilt tool once per job boundary while preserving artifacts and failed-child evidence.
+- [ ] Run CI route/gate tests, `cargo test --locked --workspace`, and `git diff --check`; commit as `perf: converge production governance routing on Rust`.
+
+---
+
+### Addendum Task 15: Measure the three WI scenarios and the verified object project
+
+**Files:**
+- Modify: `tests/performance/runtime_benchmark.sh`, `runtime_benchmark_scenarios.py`, and `runtime_benchmark_stats.py` only for scenario setup and separated cost categories.
+- Create: `tests/performance/wi_execution_report.py` for offline aggregation of Runtime receipts and raw samples.
+- Test: performance statistic and black-box scenario tests.
+
+**Interfaces:**
+- Consumes: a prebuilt current binary, controlled Cockpit fixtures, and the verified read-only Sentinel checkout at `/Users/sei-rinn/dev/workspace_rust/sentinel`.
+- Produces: raw/summarized no-change, single-file-change, and cross-module-change reports with management, engineering verification, external wait, failure rework, identity, and process/read/hash/parse counters.
+
+- [ ] Freeze repository manifests, source revisions, toolchain, machine, scenario facts, and access conditions; use temporary copies/worktrees for mutations and never edit Sentinel.
+- [ ] Run at least 100 valid warm samples per command and inject one prerequisite and one resumable phase failure, recording exactly which steps rerun and their elapsed time.
+- [ ] Compare after P0/P1 changes using the same identity keys, separating Runtime, Git, Cargo, and Shell wrapper processes; reject missing source identity or invalid floors.
+- [ ] Run the performance unit tests, `git diff --check`, and commit evidence tooling as `test: measure WI critical path and recovery rework`.
+
+---
+
+### Addendum Task 16: Integrate, document, review, publish, and close
+
+**Files:**
+- Modify: tri-language collaboration/release documentation and active Summary through Runtime controls.
+- Modify: `Cargo.toml`/`Cargo.lock` only after merge-time version discovery.
+- Evidence: release, installation, upgrade, and cleanup receipts through Runtime and the release workflow.
+
+**Interfaces:**
+- Consumes: A-D implementation branches, P0 before/after measurements, WI/object-project reports, and phase failure-injection receipts.
+- Produces: one reviewed PR, synchronized merged main, the next immutable Release after v0.2.90, downloaded public install/N-1 acceptance, closed Work Item, promoted docs, and exact cleanup.
+
+- [ ] Reconcile changed paths and Contract scope for each branch, run full workspace/release regression tests, resolve shared interfaces only in the integration branch, and preserve rejected optimization/recovery evidence.
+- [ ] Through Runtime controls, bind scenario results, acceptance evidence, and final dimensions. Human Outcome must list Cockpit/object-project WI times, release critical-path times, read/parse/process changes, reused phases, migrated/retained script scope, compatibility evidence, public artifact proof, version/Release link, and cleanup state.
+- [ ] Finish/archive/PR/merge/close through the declared Runtime lifecycle; hosted checks must bind the exact reviewed head; synchronize main before tagging.
+- [ ] Discover the next reserved patch after v0.2.90, publish from synchronized main, and run independent downloaded fresh-install and N-1-upgrade acceptance without a workspace-binary fallback.
+- [ ] Run `python3 tests/docs/promote_closed_work_item.py --repo "$PWD" --check-all`, `ai-cockpit inspect --repo "$PWD"`, `ai-cockpit status --repo "$PWD"`, `ai-cockpit doctor --repo "$PWD"`, and exact worktree/branch cleanup before green Outcome.
 
 ---

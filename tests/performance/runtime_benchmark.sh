@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+usage() {
+  echo "usage: $0 <runtime-binary> <repo> <output.json> [warm-samples>=100] [work-item-id] [budgets.json]"
+}
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  usage
+  exit 0
+fi
+
 if [[ $# -lt 3 || $# -gt 6 ]]; then
-  echo "usage: $0 <runtime-binary> <repo> <output.json> [iterations] [work-item-id] [budgets.json]" >&2
+  usage >&2
   exit 2
 fi
 
 binary=$1
 repo=$2
 output=$3
-iterations=${4:-8}
+iterations=${4:-100}
 work_item=${5:-}
 budgets=${6:-}
 
@@ -23,6 +32,10 @@ if [[ ! -d "$repo" ]]; then
 fi
 if ! [[ "$iterations" =~ ^[1-9][0-9]*$ ]]; then
   echo "iterations must be a positive integer" >&2
+  exit 2
+fi
+if (( iterations < 100 )); then
+  echo "warm sample count must be at least 100" >&2
   exit 2
 fi
 
@@ -50,8 +63,13 @@ import sys
 import tempfile
 import time
 
-from runtime_benchmark_stats import summarize
-from runtime_benchmark_scenarios import scenario_matrix_entry
+from runtime_benchmark_stats import MIN_VALID_WARM_SAMPLES, summarize
+from runtime_benchmark_scenarios import (
+    SCENARIO_NAMES,
+    scenario_id,
+    scenario_matrix_entry,
+    unselected_scenario_entry,
+)
 from runtime_benchmark_support import filesystem_metadata
 
 
@@ -63,17 +81,27 @@ work_item = sys.argv[5] or None
 budgets_path = pathlib.Path(sys.argv[6]) if sys.argv[6] else None
 warmup_count = 1
 scenario = os.environ.get("AI_COCKPIT_BENCHMARK_SCENARIO", "current-repository")
-invocation_count = 0
 metadata_git_calls = 0
+process_counts = {
+    "probeProcesses": 0,
+    "warmupProcesses": 0,
+    "measuredCommandProcesses": 0,
+}
+
+try:
+    scenario_id_value = scenario_id(scenario)
+except ValueError as error:
+    raise builtins.__dict__["System" + "Exit"](str(error)) from error
 
 
-def execute(args, parse_json=False, use_repo=True):
-    global invocation_count
+def execute(args, parse_json=False, use_repo=True, process_scope="probeProcesses"):
+    if process_scope not in process_counts:
+        raise ValueError(f"unknown benchmark process scope: {process_scope}")
     command = [str(binary), *args]
     if use_repo:
         command.extend(["--repo", str(repo)])
     started = time.perf_counter_ns()
-    invocation_count += 1
+    process_counts[process_scope] += 1
     try:
         result = subprocess.run(
             command,
@@ -94,6 +122,33 @@ def execute(args, parse_json=False, use_repo=True):
         except json.JSONDecodeError as error:
             raise builtins.__dict__["System" + "Exit"](f"benchmark command returned invalid JSON: {args[0]}") from error
     return result.stdout.decode("utf-8", "replace").strip(), elapsed_ms
+
+
+def execute_sample(args, process_scope):
+    if process_scope not in process_counts:
+        raise ValueError(f"unknown benchmark process scope: {process_scope}")
+    command = [str(binary), *args, "--repo", str(repo)]
+    started = time.perf_counter_ns()
+    process_counts[process_scope] += 1
+    try:
+        result = subprocess.run(
+            command,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            timeout=300,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
+        return None, elapsed_ms, False, type(error).__name__
+    elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
+    if result.returncode != 0:
+        return None, elapsed_ms, False, f"exit:{result.returncode}"
+    try:
+        return json.loads(result.stdout), elapsed_ms, True, None
+    except json.JSONDecodeError:
+        return None, elapsed_ms, False, "invalid_json"
 
 
 def git_metadata(args):
@@ -168,6 +223,34 @@ def diagnosis_phase(diagnosis, *names):
     measurements = sorted({phase.get("measurement") for phase in selected if phase.get("measurement")})
     if len(measurements) != 1:
         return unavailable("runtime_diagnosis_phase_measurement_scope_ambiguous")
+    intervals = []
+    for phase in selected:
+        start = phase.get("startNs")
+        end = phase.get("endNs")
+        if (
+            not isinstance(start, int)
+            or isinstance(start, bool)
+            or not isinstance(end, int)
+            or isinstance(end, bool)
+            or start < 0
+            or end < start
+        ):
+            intervals = []
+            break
+        intervals.append((start, end))
+    if intervals:
+        ordered = sorted(intervals)
+        overlap = {
+            "status": "detected" if any(left_end > right_start for (_, left_end), (right_start, _) in zip(ordered, ordered[1:])) else "none",
+            "detected": any(left_end > right_start for (_, left_end), (right_start, _) in zip(ordered, ordered[1:])),
+            "basis": "explicit_monotonic_intervals",
+        }
+    else:
+        overlap = {
+            "status": "unknown",
+            "reason": "runtime_diagnosis_phase_intervals_unavailable",
+            "basis": "parent denotes nesting and does not prove wall-time overlap",
+        }
     elapsed_ns = sum(elapsed_values)
     return {
         "available": True,
@@ -176,14 +259,18 @@ def diagnosis_phase(diagnosis, *names):
         "elapsedNs": elapsed_ns,
         "measurement": measurements[0],
         "phaseNames": [phase["name"] for phase in selected],
-        "parentScopes": parents,
-        "overlapWarning": bool(parents),
+        "parentIds": parents,
+        "overlap": overlap,
     }
 
 
 def phase_metrics(diagnosis):
+    runtime_identity = diagnosis_phase(diagnosis, "identity")
     return {
-        "processStartupAndRuntimeIdentity": diagnosis_phase(diagnosis, "identity"),
+        "runtimeIdentityResolution": runtime_identity,
+        "processStartupAndRuntimeIdentity": unavailable(
+            "external_process_startup_is_measured_by_e2e_wall_clock"
+        ),
         "gitSnapshot": diagnosis_phase(diagnosis, "git_snapshot"),
         "fileReadHashParse": diagnosis_phase(diagnosis, "read_hash", "parse"),
         "evidenceAndGovernance": diagnosis_phase(diagnosis, "governance"),
@@ -201,6 +288,7 @@ def diagnosis_counter(diagnosis, key):
 
 
 def resource_metrics(diagnosis):
+    total_processes = sum(process_counts.values())
     return {
         "actualReadBytes": diagnosis_counter(diagnosis, "readBytes"),
         "actualHashedBytes": diagnosis_counter(diagnosis, "hashedBytes"),
@@ -209,42 +297,170 @@ def resource_metrics(diagnosis):
         "peakMemoryBytes": unavailable("platform_metric_unavailable"),
         "processesSpawned": {
             "available": True,
-            "value": invocation_count,
-            "scope": "direct external CLI invocations including identity probes and warmups",
+            "value": total_processes,
+            "scope": "all benchmark-spawned external CLI processes; metadata Git is separate",
+            "byScope": dict(process_counts),
         },
-        "metadataGitCalls": {"available": True, "value": metadata_git_calls, "scope": "benchmark metadata collection"},
+        "measuredCommandProcesses": {
+            "available": True,
+            "value": process_counts["measuredCommandProcesses"],
+            "scope": "measured command processes only; excludes probes and warmups",
+        },
+        "metadataGitProcesses": {
+            "available": True,
+            "value": metadata_git_calls,
+            "scope": "benchmark metadata Git subprocesses only; excludes measured commands",
+        },
     }
 
 
+def measurement_record(operation_id, kind, ordinal, elapsed_ms, process_scope, valid=True, reason=None):
+    record = {
+        "traceId": trace_id,
+        "measurementId": f"{operation_id}:{kind}:{ordinal}",
+        "operationId": operation_id,
+        "scenarioId": scenario_id_value,
+        "runtime": {
+            "version": runtime_version,
+            "digest": runtime_digest,
+            "binaryDigest": binary_digest,
+        },
+        "repository": {"repositoryId": repository_id},
+        "phase": {
+            "parentId": f"{operation_id}:process",
+            "scope": "external_process_boundary",
+        },
+        "boundaryCounters": {
+            "available": False,
+            "reason": "runtime_internal_counters_are_operation_scoped_and_not_exposed_per_external_sample",
+        },
+        "kind": kind,
+        "ordinal": ordinal,
+        "elapsedMs": round(elapsed_ms, 3),
+        "processScope": process_scope,
+        "valid": valid,
+    }
+    if reason is not None:
+        record["invalidReason"] = reason
+    return record
+
+
 def measure(name, args):
-    _, first_elapsed = execute(args)
+    operation_id = f"cli.{name}"
+    records = []
+    first_payload, first_elapsed, first_valid, first_reason = execute_sample(
+        args, "measuredCommandProcesses"
+    )
+    records.append(
+        measurement_record(
+            operation_id,
+            "first",
+            0,
+            first_elapsed,
+            "measured_command",
+            first_valid,
+            first_reason,
+        )
+    )
+    if not first_valid:
+        raise builtins.__dict__["System" + "Exit"](
+            f"first benchmark sample is invalid: {name} ({first_reason})"
+        )
     warmup_samples = []
-    for _ in range(warmup_count):
-        _, warmup_elapsed = execute(args)
+    for ordinal in range(warmup_count):
+        _, warmup_elapsed, warmup_valid, warmup_reason = execute_sample(
+            args, "warmupProcesses"
+        )
         warmup_samples.append(round(warmup_elapsed, 3))
+        records.append(
+            measurement_record(
+                operation_id,
+                "warmup",
+                ordinal,
+                warmup_elapsed,
+                "warmup",
+                warmup_valid,
+                warmup_reason,
+            )
+        )
     warm_samples = []
-    for _ in range(iterations):
-        _, warm_elapsed = execute(args)
-        warm_samples.append(warm_elapsed)
-    result = summarize(name, [first_elapsed, *warm_samples])
+    invalid_warm_samples = []
+    attempts = 0
+    max_attempts = iterations * 3
+    last_payload = first_payload
+    while len(warm_samples) < iterations and attempts < max_attempts:
+        ordinal = attempts
+        warm_payload, warm_elapsed, warm_valid, warm_reason = execute_sample(
+            args, "measuredCommandProcesses"
+        )
+        records.append(
+            measurement_record(
+                operation_id,
+                "warm",
+                ordinal,
+                warm_elapsed,
+                "measured_command",
+                warm_valid,
+                warm_reason,
+            )
+        )
+        if warm_valid:
+            warm_samples.append(warm_elapsed)
+            last_payload = warm_payload
+        else:
+            invalid_warm_samples.append(
+                {"ordinal": ordinal, "reason": warm_reason, "elapsedMs": round(warm_elapsed, 3)}
+            )
+        attempts += 1
+    if len(warm_samples) < iterations:
+        raise builtins.__dict__["System" + "Exit"](
+            f"warm benchmark batch invalid: {name} ({len(warm_samples)}/{iterations} valid; invalid={invalid_warm_samples})"
+        )
+    result = summarize(name, [first_elapsed, *warm_samples], warm_samples)
+    result["operationId"] = operation_id
+    result["scenarioId"] = scenario_id_value
+    result["measurementId"] = f"{operation_id}:batch"
+    result["rawSampleOrder"] = ["first"] + [
+        f"warm:{record['ordinal']}"
+        for record in records
+        if record["kind"] == "warm" and record["valid"]
+    ]
+    result["measurementOrder"] = [record["measurementId"] for record in records]
+    result["rawMeasurementIds"] = [
+        records[0]["measurementId"],
+        *[
+            record["measurementId"]
+            for record in records
+            if record["kind"] == "warm" and record["valid"]
+        ],
+    ]
+    result["warmupMeasurementIds"] = [record["measurementId"] for record in records if record["kind"] == "warmup"]
+    result["measurementRecords"] = records
+    result["validWarmSampleMinimum"] = MIN_VALID_WARM_SAMPLES
+    result["invalidWarmSamples"] = invalid_warm_samples
+    result["warmAttemptCount"] = attempts
     result["e2eMeaning"] = "wall-clock process invocation through output capture"
     result["warmupSamplesMs"] = warmup_samples
     result["warmupCount"] = warmup_count
-    return result
+    return result, last_payload
 
 
-version_output, version_elapsed = execute(["--version"], use_repo=False)
+version_output, version_elapsed = execute(["--version"], use_repo=False, process_scope="probeProcesses")
 version_text = version_output
 if not version_text.startswith("ai-cockpit "):
     raise builtins.__dict__["System" + "Exit"]("runtime binary did not report an ai-cockpit version")
 
-inspect, inspect_elapsed = execute(["inspect"], parse_json=True)
-status, status_elapsed = execute(["status"], parse_json=True)
+inspect, inspect_elapsed = execute(["inspect"], parse_json=True, process_scope="probeProcesses")
+status, status_elapsed = execute(["status"], parse_json=True, process_scope="probeProcesses")
 runtime_version = inspect.get("runtimeVersion")
 runtime_digest = inspect.get("runtimeDigest")
 repository_id = status.get("repositoryId")
 if not all(isinstance(value, str) and value.startswith("sha256:") for value in (runtime_digest, repository_id)):
     raise builtins.__dict__["System" + "Exit"]("inspect did not provide runtime/repository identity")
+binary_digest = "sha256:" + hashlib.sha256(binary.read_bytes()).hexdigest()
+trace_id = "sha256:" + hashlib.sha256(
+    f"{binary_digest}|{runtime_version}|{runtime_digest}|{repository_id}|{scenario_id_value}".encode("utf-8")
+).hexdigest()
 
 probes = [
     {"name": "runtime-version", "kind": "runtime_identity", "elapsedMs": round(version_elapsed, 3)},
@@ -268,19 +484,8 @@ comparison_key = "sha256:" + hashlib.sha256(
 if not filesystem.get("available"):
     comparison_key = "unavailable:filesystem_comparison"
 
-scenario_names = [
-    "small-clean",
-    "many-files-clean",
-    "single-file-change",
-    "multi-file-change",
-    "large-file-change",
-    "many-historical-wi",
-    "concurrent-validation-requests",
-    "resident-mcp-repeat-query",
-    "current-repository",
-]
 scenario_matrix = []
-for name in scenario_names:
+for name in SCENARIO_NAMES:
     if name == scenario:
         selected = scenario_matrix_entry(
             name,
@@ -296,18 +501,19 @@ for name in scenario_names:
             )
         scenario_matrix.append(selected)
     else:
-        scenario_matrix.append({"name": name, "status": "not_measured", "reason": "not selected for this invocation"})
+        scenario_matrix.append(unselected_scenario_entry(name))
 
 samples = []
 for name, args in (("inspect", ["inspect"]), ("status", ["status"]), ("doctor", ["doctor"]), ("observe", ["observe"])):
-    samples.append(measure(name, args))
+    measured, _ = measure(name, args)
+    samples.append(measured)
 diagnose_args = ["diagnose"]
 if work_item:
-    samples.append(measure("work-item-status", ["work-item", "status", "--id", work_item]))
+    measured, _ = measure("work-item-status", ["work-item", "status", "--id", work_item])
+    samples.append(measured)
     diagnose_args.extend(["--work-item", work_item])
-samples.append(measure("diagnose", diagnose_args))
-
-runtime_diagnosis, _ = execute(diagnose_args, parse_json=True)
+diagnose_sample, runtime_diagnosis = measure("diagnose", diagnose_args)
+samples.append(diagnose_sample)
 
 if budgets_path:
     try:
@@ -324,16 +530,20 @@ else:
 
 document = {
     "schemaVersion": 2,
+    "traceSchemaVersion": 1,
+    "traceId": trace_id,
+    "scenarioId": scenario_id_value,
     "runtimeVersion": runtime_version,
     "runtimeDigest": runtime_digest,
     "repositoryId": repository_id,
-    "binaryDigest": "sha256:" + hashlib.sha256(binary.read_bytes()).hexdigest(),
+    "binaryDigest": binary_digest,
     "capturedAt": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
     "source": "explicit-external-binary",
     "measurementModel": {
         "firstMeasurement": "first measured independent CLI process after Runtime identity probes; not true cold cache",
         "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
         "warmupCount": warmup_count,
+        "validWarmSampleMinimum": MIN_VALID_WARM_SAMPLES,
         "residentMcp": {"status": "not_measured", "reason": "harness invokes the external CLI and has no resident MCP transport"},
     },
     "preMeasurementProbeCount": len(probes),
@@ -348,6 +558,12 @@ document = {
     },
     "phaseMetrics": phase_metrics(runtime_diagnosis),
     "resourceMetrics": resource_metrics(runtime_diagnosis),
+    "processAccounting": {
+        **process_counts,
+        "totalExternalProcesses": sum(process_counts.values()),
+        "metadataGitProcesses": metadata_git_calls,
+        "metadataGitScope": "benchmark metadata collection only",
+    },
     "cacheInvalidationReasons": unavailable("runtime_does_not_expose_cache_invalidation_events"),
     "scenario": scenario,
     "scenarioMatrix": scenario_matrix,

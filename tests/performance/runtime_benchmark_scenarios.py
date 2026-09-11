@@ -3,6 +3,34 @@
 from __future__ import annotations
 
 
+SCENARIO_NAMES = (
+    "small-clean",
+    "many-files-clean",
+    "single-file-change",
+    "multi-file-change",
+    "large-file-change",
+    "many-historical-wi",
+    "concurrent-validation-requests",
+    "resident-mcp-repeat-query",
+    "current-repository",
+)
+
+NOT_SELECTED_REASON = "not selected for this invocation"
+
+
+def scenario_id(name: str) -> str:
+    """Return the canonical ID and reject labels outside the matrix."""
+
+    if name not in SCENARIO_NAMES:
+        raise ValueError(f"unknown benchmark scenario: {name}")
+    return name
+
+
+def unselected_scenario_entry(name: str) -> dict[str, str]:
+    scenario_id(name)
+    return {"name": name, "status": "not_measured", "reason": NOT_SELECTED_REASON}
+
+
 def scenario_matrix_entry(
     name: str,
     *,
@@ -19,6 +47,8 @@ def scenario_matrix_entry(
     deliberately fixed here so a caller-provided label cannot turn an arbitrary
     repository into a misleading scenario result.
     """
+
+    scenario_id(name)
 
     if name == "current-repository":
         return {"name": name, "status": "measured", "reason": "facts_captured"}

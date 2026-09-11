@@ -1233,6 +1233,117 @@ pub struct ResourceFinalizationTransitionReceipt {
     pub receipt: ResourceFinalizationReceipt,
 }
 
+/// Stable machine-readable observation states for the finalization boundary.
+/// These states describe what the Runtime observed; they do not grant
+/// authorization to delete resources or close a Work Item.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FinalizationObservationState {
+    NotRequired,
+    NotObserved,
+    ReceiptMissing,
+    RecordCorrupt,
+    IdentityMismatch,
+    CleanupPending,
+    Verified,
+    VerifiedRetained,
+    VerifiedDeleted,
+    VerifiedAbandoned,
+    HistoricalVerified,
+    Unknown,
+}
+
+/// Stable machine-readable error identifiers.  Human diagnostics remain
+/// optional metadata and must never be used to select a category.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FinalizationErrorCode {
+    ContractMissing,
+    ContractInvalid,
+    ReceiptMissing,
+    ReceiptUnreadable,
+    RecordCorrupt,
+    UnsupportedSchema,
+    EmptyField,
+    InvalidDigest,
+    InvalidCode,
+    IdentityMismatch,
+    InvalidState,
+    InvalidDisposition,
+    ReplayMismatch,
+    TransitionForked,
+    TransitionStale,
+    CleanupPending,
+    RuntimeMismatch,
+    BaseMismatch,
+    HistoricalRecoveryRequired,
+    ObservationUnavailable,
+    Unknown,
+}
+
+/// A typed finalization error with an optional human-facing diagnostic.
+/// `diagnostic` is explanatory only and is not part of the classification
+/// contract.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct FinalizationError {
+    pub code: FinalizationErrorCode,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub diagnostic: Option<String>,
+}
+
+/// Stable identifiers for safe next actions at the finalization boundary.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FinalizationActionId {
+    InspectCurrentObservation,
+    RecordFinalizationReceipt,
+    VerifyFinalizationReceipt,
+    InspectRecoveryConditions,
+    RecordHistoricalRecovery,
+    CleanupExternalResource,
+    RecordCloseDecision,
+    PreserveHistoricalEvidence,
+    StopAndPreserveEvidence,
+}
+
+/// Whether an action requires an authority beyond observation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FinalizationAuthorization {
+    None,
+    HumanRequired,
+    ProviderRequired,
+}
+
+/// Safety boundary attached to a finalization action.  In particular,
+/// recording a receipt is not the same operation as deleting a provider
+/// resource, and recording a close decision is not implicit authorization.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FinalizationSafety {
+    ObserveOnly,
+    RepositoryRecordOnly,
+    ExternalCleanupRequired,
+    HumanDecisionOnly,
+    StopAndPreserveEvidence,
+}
+
+/// A protocol-neutral action projection. `argv` is optional and structured as
+/// argument tokens rather than a shell command string; repository mappings can
+/// add it later without changing the stable action identifier.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct FinalizationActionProjection {
+    pub id: FinalizationActionId,
+    pub authorization: FinalizationAuthorization,
+    pub safety: FinalizationSafety,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub argv: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub evidence_refs: Vec<String>,
+}
+
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum ResourceFinalizationError {
     #[error("resource finalization schema version must be 1")]
@@ -1251,6 +1362,38 @@ pub enum ResourceFinalizationError {
     InvalidDisposition(&'static str),
     #[error("resource finalization replay mismatch: {0}")]
     ReplayMismatch(&'static str),
+}
+
+impl ResourceFinalizationError {
+    /// Return the stable typed identifier corresponding to this protocol
+    /// validation error. The Display implementation remains human-facing.
+    pub fn finalization_error_code(&self) -> FinalizationErrorCode {
+        match self {
+            Self::UnsupportedSchema => FinalizationErrorCode::UnsupportedSchema,
+            Self::EmptyField(_) => FinalizationErrorCode::EmptyField,
+            Self::InvalidDigest(_) => FinalizationErrorCode::InvalidDigest,
+            Self::InvalidCode(_) => FinalizationErrorCode::InvalidCode,
+            Self::IdentityMismatch(_) => FinalizationErrorCode::IdentityMismatch,
+            Self::InvalidState(_) => FinalizationErrorCode::InvalidState,
+            Self::InvalidDisposition(_) => FinalizationErrorCode::InvalidDisposition,
+            Self::ReplayMismatch(_) => FinalizationErrorCode::ReplayMismatch,
+        }
+    }
+}
+
+impl From<&ResourceFinalizationError> for FinalizationError {
+    fn from(error: &ResourceFinalizationError) -> Self {
+        Self {
+            code: error.finalization_error_code(),
+            diagnostic: Some(error.to_string()),
+        }
+    }
+}
+
+impl FinalizationError {
+    pub fn from_resource_error(error: &ResourceFinalizationError) -> Self {
+        Self::from(error)
+    }
 }
 
 pub const RESOURCE_FINALIZATION_SCHEMA_VERSION: u32 = 1;
@@ -3496,6 +3639,14 @@ pub struct OutcomeFinalizationProjection {
     pub disposition: Option<String>,
     pub action: String,
     pub reliable: bool,
+    /// Optional typed fields are additive; legacy JSON containing only the
+    /// string fields remains readable by newer protocol consumers.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observation_state: Option<FinalizationObservationState>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub error: Option<FinalizationError>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub next_action: Option<FinalizationActionProjection>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are

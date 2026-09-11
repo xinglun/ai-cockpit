@@ -1,11 +1,12 @@
-//! Automated check for collaboration-language semantic invariant 7 (see
+//! Automated checks for collaboration-language semantic invariant 7 (see
 //! docs/reference/collaboration-invariant-coverage.md): the displayed next
 //! step must match the current Runtime state/policy. A general oracle over
-//! every state is intractable, so this asserts the exact recovery message
-//! for a bounded subset of `sourceType: "observed"` scenarios in
+//! every state is intractable, so this asserts a bounded subset of
+//! `sourceType: "observed"` scenarios in
 //! docs/reference/collaboration-scenario-matrix.json (SCN-001, SCN-002,
-//! SCN-016) still matches each scenario's recorded `expected.keyMessage`
-//! byte-for-byte, not just a loose substring.
+//! SCN-016). The structured expectations are schema-checked and the action
+//! expectation is compared with an error returned by a real repository
+//! operation; no final Outcome projection is fabricated here.
 
 use cockpit_core::Digest;
 use cockpit_repository::{
@@ -62,6 +63,154 @@ fn expected_key_message(id: &str) -> String {
         .to_owned()
 }
 
+fn scenario_entry<'a>(matrix: &'a Value, id: &str) -> &'a Value {
+    matrix["scenarios"]
+        .as_array()
+        .expect("scenarios array")
+        .iter()
+        .find(|entry| entry["id"] == id)
+        .unwrap_or_else(|| panic!("{id} missing from collaboration-scenario-matrix.json"))
+}
+
+fn next_action_matches(scenario: &Value, actual: &str) -> Result<(), String> {
+    let id = scenario["id"].as_str().unwrap_or("unknown scenario");
+    let expected = scenario["expectedAction"]["messageContains"]
+        .as_str()
+        .ok_or_else(|| format!("{id} expectedAction.messageContains is not a string"))?;
+    if actual.contains(expected) {
+        Ok(())
+    } else {
+        Err(format!(
+            "{id} expected next action to contain {expected:?}, got {actual:?}"
+        ))
+    }
+}
+
+fn assert_next_action_matches(scenario: &Value, actual: &str) {
+    next_action_matches(scenario, actual).unwrap_or_else(|error| panic!("{error}"));
+}
+
+fn required_field<'a>(object: &'a Value, key: &str, label: &str) -> &'a Value {
+    object
+        .as_object()
+        .unwrap_or_else(|| panic!("{label} must be an object"))
+        .get(key)
+        .unwrap_or_else(|| panic!("{label}.{key} is required"))
+}
+
+fn non_empty_string<'a>(value: &'a Value, label: &str) -> &'a str {
+    value
+        .as_str()
+        .filter(|text| !text.trim().is_empty())
+        .unwrap_or_else(|| panic!("{label} must be a non-empty string"))
+}
+
+fn non_empty_string_array(value: &Value, label: &str) {
+    let values = value
+        .as_array()
+        .unwrap_or_else(|| panic!("{label} must be an array"));
+    assert!(!values.is_empty(), "{label} must not be empty");
+    for (index, value) in values.iter().enumerate() {
+        non_empty_string(value, &format!("{label}[{index}]"));
+    }
+}
+
+fn assert_required_scenario_shape(scenario: &Value) {
+    let id = non_empty_string(&scenario["id"], "scenario.id");
+    assert_eq!(scenario["sourceType"], "observed", "{id} must be observed");
+
+    let input_facts = required_field(scenario, "inputFacts", id);
+    for key in ["lifecycleState", "operation"] {
+        non_empty_string(
+            required_field(input_facts, key, "inputFacts"),
+            &format!("{id}.inputFacts.{key}"),
+        );
+    }
+
+    let expected_state = required_field(scenario, "expectedState", id);
+    non_empty_string(
+        required_field(expected_state, "result", "expectedState"),
+        &format!("{id}.expectedState.result"),
+    );
+    non_empty_string(
+        required_field(expected_state, "lifecycleState", "expectedState"),
+        &format!("{id}.expectedState.lifecycleState"),
+    );
+    let decision_state = required_field(expected_state, "decisionState", "expectedState");
+    assert!(
+        decision_state.is_null()
+            || decision_state
+                .as_str()
+                .is_some_and(|value| !value.trim().is_empty()),
+        "{id}.expectedState.decisionState must be null or a non-empty string"
+    );
+
+    let blockers = required_field(scenario, "expectedBlockers", id)
+        .as_array()
+        .unwrap_or_else(|| panic!("{id}.expectedBlockers must be an array"));
+    assert!(
+        !blockers.is_empty(),
+        "{id}.expectedBlockers must not be empty"
+    );
+    for (index, blocker) in blockers.iter().enumerate() {
+        let label = format!("{id}.expectedBlockers[{index}]");
+        for key in ["code", "severity", "evidence"] {
+            non_empty_string(
+                required_field(blocker, key, &label),
+                &format!("{label}.{key}"),
+            );
+        }
+    }
+
+    let action = required_field(scenario, "expectedAction", id);
+    for key in ["kind", "command", "messageContains"] {
+        non_empty_string(
+            required_field(action, key, "expectedAction"),
+            &format!("{id}.expectedAction.{key}"),
+        );
+    }
+    for key in ["mutatesRepository", "requiresHumanDecision"] {
+        assert!(
+            required_field(action, key, "expectedAction").is_boolean(),
+            "{id}.expectedAction.{key} must be boolean"
+        );
+    }
+
+    non_empty_string_array(
+        required_field(scenario, "forbiddenInferences", id),
+        &format!("{id}.forbiddenInferences"),
+    );
+
+    let verification_plan = required_field(scenario, "verificationPlan", id);
+    for key in ["fixture", "exercise", "productionEntryPoint"] {
+        non_empty_string(
+            required_field(verification_plan, key, "verificationPlan"),
+            &format!("{id}.verificationPlan.{key}"),
+        );
+    }
+    for key in ["setupSteps", "assertions"] {
+        non_empty_string_array(
+            required_field(verification_plan, key, "verificationPlan"),
+            &format!("{id}.verificationPlan.{key}"),
+        );
+    }
+    assert!(
+        required_field(verification_plan, "noOutcomeProjection", "verificationPlan")
+            .as_bool()
+            .is_some_and(|value| value),
+        "{id}.verificationPlan.noOutcomeProjection must be true"
+    );
+
+    assert_eq!(
+        scenario["expected"]["result"], scenario["expectedState"]["result"],
+        "{id} structured expectedState.result must preserve legacy expected.result"
+    );
+    assert_eq!(
+        scenario["expected"]["keyMessage"], scenario["expectedAction"]["messageContains"],
+        "{id} live action expectation must preserve legacy expected.keyMessage"
+    );
+}
+
 fn repository_root() -> std::path::PathBuf {
     std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
@@ -74,8 +223,11 @@ fn scn_001_checkpoint_before_start_matches_scenario_matrix_key_message() {
 
     let error =
         checkpoint_work_item(directory.path(), "WI-SCN-001").expect_err("checkpoint must reject");
+    let message = state_message(error);
+    let matrix = scenario_matrix();
+    assert_next_action_matches(scenario_entry(&matrix, "SCN-001"), &message);
     assert_eq!(
-        state_message(error),
+        message,
         expected_key_message("SCN-001"),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-001 expected.keyMessage exactly"
     );
@@ -103,6 +255,8 @@ fn scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_messag
     )
     .expect_err("start must reject a dirty worktree");
     let message = state_message(error);
+    let matrix = scenario_matrix();
+    assert_next_action_matches(scenario_entry(&matrix, "SCN-002"), &message);
     assert!(
         message.contains(&expected_key_message("SCN-002")),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-002 expected.keyMessage substring, got {message:?}"
@@ -147,8 +301,11 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
     // Deliberately skip `plan_resource_finalization` -- that omission is
     // exactly what SCN-016 observes and what this test protects.
     let error = finish_work_item(directory.path(), id).expect_err("finish must reject");
+    let message = state_message(error);
+    let matrix = scenario_matrix();
+    assert_next_action_matches(scenario_entry(&matrix, "SCN-016"), &message);
     assert_eq!(
-        state_message(error),
+        message,
         expected_key_message("SCN-016"),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-016 expected.keyMessage exactly"
     );
@@ -166,6 +323,7 @@ fn scn_001_002_016_are_still_declared_observed_in_the_scenario_matrix() {
             .iter()
             .find(|entry| entry["id"] == id)
             .unwrap_or_else(|| panic!("{id} missing from collaboration-scenario-matrix.json"));
+        assert_required_scenario_shape(scenario);
         assert_eq!(
             scenario["sourceType"], "observed",
             "{id} must remain sourceType=observed for this test to keep testing a real, previously-hit Runtime behavior"
@@ -192,6 +350,7 @@ fn executable_scenario_checks_bind_facts_semantics_and_tests_without_duplicate_a
         "human_report_entrypoint_parity",
         "human_report_summary_retains_blocker",
         "finalization_action_matches_state",
+        "finalization_case_cli_mcp_typed_next_action",
         "no_history_handoff",
         "observation_boundary_bounded_retry",
         "runtime_phase_diagnostics",
@@ -260,5 +419,41 @@ fn executable_scenario_checks_bind_facts_semantics_and_tests_without_duplicate_a
         referenced,
         known.into_iter().map(str::to_owned).collect(),
         "every executable registry check must be attached to at least one scenario"
+    );
+}
+
+#[test]
+fn required_scenarios_have_structured_expectations_and_live_matrix_mutation_guard() {
+    let matrix = scenario_matrix();
+    let scenarios = matrix["scenarios"].as_array().expect("scenarios array");
+    for id in ["SCN-001", "SCN-002", "SCN-016"] {
+        let scenario = scenarios
+            .iter()
+            .find(|entry| entry["id"] == id)
+            .unwrap_or_else(|| panic!("{id} missing from collaboration-scenario-matrix.json"));
+        assert_required_scenario_shape(scenario);
+    }
+
+    let directory = repository();
+    scaffold_work_item(directory.path(), "WI-SCN-MUTATION", "code").expect("scaffold");
+    let actual = state_message(
+        checkpoint_work_item(directory.path(), "WI-SCN-MUTATION")
+            .expect_err("checkpoint must reject"),
+    );
+    let scenario = scenarios
+        .iter()
+        .find(|entry| entry["id"] == "SCN-001")
+        .expect("SCN-001");
+    assert_next_action_matches(scenario, &actual);
+
+    let mut mutated = scenario.clone();
+    mutated["expectedAction"]["messageContains"] =
+        Value::String("matrix mutation must not match runtime output".into());
+    let changed_expected = mutated["expectedAction"]["messageContains"]
+        .as_str()
+        .expect("mutated expectedAction.messageContains");
+    assert!(
+        next_action_matches(&mutated, &actual).is_err() && !actual.contains(changed_expected),
+        "a changed matrix expectation must be rejected by the live assertion"
     );
 }

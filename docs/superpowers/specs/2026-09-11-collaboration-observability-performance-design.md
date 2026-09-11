@@ -162,3 +162,70 @@ documentation/governance checks, reviewed PR/merge state, the new published
 version, downloaded artifact installation, N-1 upgrade history preservation,
 and exact post-close cleanup. Any missing or contradictory evidence remains
 unknown rather than being promoted to green.
+
+## Addendum: WI and release critical-path optimization
+
+The highest-priority objective for this round is reducing end-to-end Work Item
+and release waiting time, while preserving the correctness repairs and the
+fail-closed authorization boundary above. The optimization target includes
+Runtime calls, the surrounding Python/Shell orchestration, release isolation
+scanning, candidate/public installation and N-1 acceptance, and recovery after
+partial failure.
+
+### Migration boundaries
+
+The P0 isolation manifest path moves to a Rust single-process command that
+enumerates the exact allowed paths, reads metadata, streams file hashes, and
+emits the existing deterministic manifest contract and exit behavior. The
+Shell helper becomes a thin compatibility/bootstrap wrapper and remains
+responsible only for platform glue and invoking the prebuilt command. The
+same boundary applies to common release acceptance operations: artifact
+identity, isolated roots, step execution, structured failure output, cleanup,
+and phase-bound retry are shared Rust logic. The implementation must not be a
+mechanical translation into one external `Command` per file.
+
+Governance, documentation, parity, archive-reference, quality-route, and
+repository-gate production paths converge on shared Rust rules and one
+request-local facts index. Offline statistics, independent black-box tests,
+one-time maintenance tools, bootstrap, and necessary platform glue remain
+classified and are not migrated merely for symmetry.
+
+### WI execution and release DAG
+
+Each operation owns one observation context containing parsed Contract,
+configuration, policy, receipt, and source/governance facts. Target-only
+operations load only the target Work Item and actual dependencies; global
+governance actions retain their explicit global scan. Cheap deterministic
+preconditions and ordering checks run before build/test or network work.
+Dependent work is cancelled after a prerequisite failure and emits a
+structured failure record. A technical retry reuses valid phase receipts and
+does not create a successor Work Item; a successor is reserved for a changed
+scope, authority, base, or unsafe recovery.
+
+Release phases are `prepare -> source verification/build -> candidate
+acceptance -> publish -> public artifact acceptance -> close`. Candidate fresh
+install and candidate N-1 upgrade are independent children; public fresh
+install, public N-1 upgrade, and version consistency are independent children
+after publication. Each child has an independent isolation root and a result
+bound to the input artifact, manifest, source commit, Runtime identity, and
+phase. Recovery resumes from the earliest invalid phase, reuses valid results,
+and blocks on identity or artifact mismatch without overwriting tags, Releases,
+or historical evidence.
+
+### New measurement acceptance
+
+The baseline and final reports separate Cockpit management cost, engineering
+verification cost, external waiting, and failure rework. They cover no source
+change, one-file change, and cross-module change in Cockpit and in the verified
+current object project at `/Users/sei-rinn/dev/workspace_rust/sentinel`; the
+object project is measurement-only in this Work Item and its source/CI is not
+modified. Reports include source/runtime/toolchain/machine/scenario identity,
+raw samples, phase timings, file reads, parses, hashes, external process
+counts, waits, and re-executed steps.
+
+The release isolation scan has an engineering goal of at least 80% lower
+elapsed time and external-process count versus the frozen Shell baseline. A
+shortfall is reported with its measured cause; it is never achieved by
+omitting validation. Every injected interruption, timeout, cleanup failure,
+network/runner failure, and identity mismatch must have a regression case that
+proves idempotent recovery and historical-output preservation.

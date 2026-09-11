@@ -387,6 +387,71 @@ fn bounded_executor_starts_a_dependent_only_after_its_dependency_finishes() {
 }
 
 #[test]
+fn failed_dependency_is_reported_without_running_dependents_or_blocking_independent_nodes() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let marker = std::env::temp_dir().join(format!(
+        "cockpit-verification-failed-dependency-{}-{suffix}",
+        std::process::id()
+    ));
+    let _ = std::fs::remove_file(&marker);
+
+    let upstream = always_command("upstream", "false", vec![]);
+    let dependent = always_command(
+        "dependent",
+        "python3",
+        vec![
+            "-c".into(),
+            "import pathlib,sys; pathlib.Path(sys.argv[1]).write_text('ran')".into(),
+            marker.to_string_lossy().into_owned(),
+        ],
+    )
+    .with_dependencies(vec!["upstream".into()]);
+    let independent = always_command("independent", "true", vec![]);
+
+    let receipt = execute_bounded_at(vec![dependent, independent, upstream], 2, NOW)
+        .expect("failed dependency must terminate the schedule");
+
+    assert!(!receipt.passed);
+    assert_eq!(receipt.nodes_executed, 2);
+    assert_eq!(receipt.processes_spawned, 2);
+    assert_eq!(receipt.process_spawn_failures, 0);
+    assert!(
+        !marker.exists(),
+        "a dependent of a failed node must not be spawned"
+    );
+    assert!(
+        !receipt
+            .results
+            .iter()
+            .find(|result| result.node_id == "upstream")
+            .expect("failed node result")
+            .passed,
+        "the original failure must remain in the report"
+    );
+    assert!(
+        receipt
+            .results
+            .iter()
+            .find(|result| result.node_id == "independent")
+            .expect("independent node result")
+            .passed,
+        "independent nodes must still execute"
+    );
+    assert!(
+        !receipt
+            .results
+            .iter()
+            .find(|result| result.node_id == "dependent")
+            .expect("dependent node result")
+            .passed,
+        "blocked dependents must remain unsuccessful in the report"
+    );
+}
+
+#[test]
 fn bounded_executor_still_runs_independent_nodes_in_parallel() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

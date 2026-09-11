@@ -54,6 +54,23 @@ def failure_metadata(detail: str) -> tuple[str, str]:
     )
 
 
+def parse_structured_failure(output: str) -> tuple[str, str] | None:
+    """Extract compatibility fields emitted by the Rust gate-plan command."""
+    for line in output.splitlines():
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if (
+            isinstance(value, dict)
+            and value.get("state") == "failed"
+            and isinstance(value.get("failureCode"), str)
+            and isinstance(value.get("remediation"), str)
+        ):
+            return value["failureCode"], value["remediation"]
+    return None
+
+
 def canonical_digest(value: Any) -> str:
     encoded = json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return "sha256:" + hashlib.sha256(encoded).hexdigest()
@@ -257,14 +274,14 @@ def validate_lifecycle_boundary(repository: Path, contract_relative: str | None)
         return
     work_item_id = contract_name.removesuffix(".contract.json")
     summary_path = repository / ".ai/work-items/active" / f"{work_item_id}.summary.json"
-    if not summary_path.exists():
-        return
-    if summary_path.is_symlink() or not summary_path.is_file():
+    if summary_path.is_symlink() or (summary_path.exists() and not summary_path.is_file()):
         raise RouteValidationError(
             "lifecycle_transition_invalid",
             "active lifecycle Summary is not a regular file",
             "restore the repository-local Summary and rerun preflight before pushing",
         )
+    if not summary_path.exists():
+        return
     try:
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
@@ -354,7 +371,36 @@ def main() -> int:
     parser.add_argument("--contract")
     parser.add_argument("--profile", choices=PROFILE_ORDER)
     parser.add_argument("--receipt", required=True)
+    parser.add_argument(
+        "--rust-bin",
+        help="delegate route planning to the shared Rust gate-plan binary",
+    )
     args = parser.parse_args()
+    if args.rust_bin:
+        command = [
+            args.rust_bin,
+            "gate-plan",
+            "--repo",
+            args.repo,
+            "--manifest",
+            args.manifest,
+            "--base",
+            args.base,
+            "--head",
+            args.head,
+            "--stage",
+            args.stage,
+            "--risk",
+            args.risk,
+            "--receipt",
+            args.receipt,
+        ]
+        if args.contract:
+            command.extend(["--contract", args.contract])
+        if args.profile:
+            command.extend(["--profile", args.profile])
+        completed = subprocess.run(command, check=False)
+        return completed.returncode
     repository = Path(args.repo).resolve()
     try:
         receipt = plan_repository_route(repository=repository, manifest_path=Path(args.manifest), base=args.base, head=args.head, stage=args.stage, risk=args.risk, contract_path=Path(args.contract) if args.contract else None, requested_profile=args.profile)

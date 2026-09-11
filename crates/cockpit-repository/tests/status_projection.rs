@@ -382,7 +382,7 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     let handoff = render_human_outcome(&outcome, "zh");
     assert!(handoff.starts_with("Outcome: 🟡"));
     assert!(handoff.contains("provider finalization"));
-    assert!(handoff.contains("finalize-verify"));
+    assert!(handoff.contains("work-item finalize"));
     assert!(handoff.contains("close"));
 
     close_work_item_with_structured_decision(

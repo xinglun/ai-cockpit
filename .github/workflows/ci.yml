@@ -25,6 +25,11 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
+      - name: Build the shared Rust gate-plan tool once
+        run: cargo build --locked --package cockpit-cli --release
       - name: Plan the dynamic quality route
         id: plan
         shell: bash
@@ -67,8 +72,15 @@ jobs:
             --receipt target/quality-route.json
           )
           if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
-          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          python3 tests/ci/quality_route.py "${route_args[@]}" --rust-bin target/release/ai-cockpit >/dev/null
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
+      - name: Upload the shared Rust gate-plan tool
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ci-gate-plan-tool
+          path: target/release/ai-cockpit
+          if-no-files-found: error
+          retention-days: 7
 
   quality:
     needs: route
@@ -84,6 +96,13 @@ jobs:
         with:
           toolchain: 1.94.1
           components: rustfmt, clippy
+      - name: Download the shared Rust gate-plan tool
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ci-gate-plan-tool
+          path: target
+      - name: Make the shared Rust gate-plan tool executable
+        run: chmod +x target/ai-cockpit
       - name: Plan the initial typed repository quality route
         id: initial_quality_route
         shell: bash
@@ -126,7 +145,7 @@ jobs:
             --receipt target/quality-route-initial.json
           )
           if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
-          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          python3 tests/ci/quality_route.py "${route_args[@]}" --rust-bin target/ai-cockpit >/dev/null
           echo "profile=$(jq -er '.selectedProfile' target/quality-route-initial.json)" >> "$GITHUB_OUTPUT"
           echo "base_revision=$base_revision" >> "$GITHUB_OUTPUT"
           echo "head_revision=$head_revision" >> "$GITHUB_OUTPUT"
@@ -163,7 +182,7 @@ jobs:
             --receipt target/quality-route.json
           )
           if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then route_args+=(--contract "$ROUTE_CONTRACT_PATH"); fi
-          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          python3 tests/ci/quality_route.py "${route_args[@]}" --rust-bin target/ai-cockpit >/dev/null
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
       - name: Verify the route plan is stable across jobs
         shell: bash
@@ -181,7 +200,7 @@ jobs:
           ROUTE_STAGE: ${{ steps.initial_quality_route.outputs.stage }}
         run: |
           set -euo pipefail
-          cargo run --locked --package cockpit-cli -- \
+          target/ai-cockpit \
             gate \
             --repo "$GITHUB_WORKSPACE" \
             --contract "$ROUTE_CONTRACT_PATH" \
@@ -206,6 +225,7 @@ jobs:
             --manifest tests/ci/repository_gate_manifest.json
             --route-receipt target/quality-route.json
             --report target/repository-gates.json
+            --gate-plan-bin target/ai-cockpit
           )
           if [[ "$ROUTE_PROFILE" != light && -n "$ROUTE_CONTRACT_PATH" ]]; then
             gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)

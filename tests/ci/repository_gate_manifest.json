@@ -22,6 +22,7 @@
     {"category": "performance", "command": ["tests/performance/regression_gate_test.sh"], "id": "performance_regression", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/action_runtime_policy_test.sh"], "id": "release_action_runtime", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/adopter_acceptance_test.sh"], "covers": ["tests/release/isolation_manifest_test.sh"], "id": "release_adopter", "minimumProfile": "strict"},
+    {"category": "release", "command": ["tests/release/adopter_acceptance_resume_test.sh"], "id": "release_adopter_acceptance_resume", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/adopter_upgrade_acceptance_test.sh"], "id": "release_adopter_upgrade", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/release/annotated_tag_identity.sh"], "id": "release_annotated_tag", "minimumProfile": "strict"},
     {"category": "release", "command": ["tests/ci/release_gate_policy_test.sh"], "id": "release_policy_regression", "minimumProfile": "strict"},
