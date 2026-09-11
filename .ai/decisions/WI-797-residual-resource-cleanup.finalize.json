@@ -1,0 +1,59 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-release-and-residual-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "unmerged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "aebd9f8dd314733fa894fff0f68bf3adf4a9a765",
+    "name": "codex/wi-797-residual-resource-cleanup",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6d7be54ca254e145f1804fe2d437ba2768d4051f90b7f5c038daead171da2113",
+  "operationId": "github-pr-774-merge-observed-20260911",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "407dff1c7aa18f03124f51b3c01de0989afb45a0",
+    "headRevision": "aebd9f8dd314733fa894fff0f68bf3adf4a9a765",
+    "number": 774,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/774"
+  },
+  "reason": "PR #774 passed all hosted checks and was merged as 01caa7f3c7bfce9ec0add01ef98ea858495acd42; the exact Work Item branch and dedicated worktree remain present and clean until the separate cleanup transition.",
+  "receiptId": "ai-cockpit-WI-797-residual-resource-cleanup-merge-observed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-797-residual-resource-cleanup",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/774",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-797-residual-resource-cleanup"
+  },
+  "result": {
+    "disposition": "blocked",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8fe6d1122b3ce38385a626f485e03f3f51ac1818dc4d4f486ee1706acd12770b",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-11T03:53:44Z",
+  "workItemId": "WI-797-residual-resource-cleanup",
+  "worktree": {
+    "branch": "codex/wi-797-residual-resource-cleanup",
+    "headRevision": "aebd9f8dd314733fa894fff0f68bf3adf4a9a765",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-797-residual-resource-cleanup",
+    "worktreeId": "WI-797-residual-resource-cleanup"
+  }
+}
