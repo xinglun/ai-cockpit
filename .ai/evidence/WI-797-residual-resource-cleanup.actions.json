@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "WI-797-residual-resource-cleanup",
+  "observedAt": "2026-09-11T03:18:01Z",
+  "repository": "xinglun/ai-cockpit",
+  "providerIdentity": "xinglun",
+  "actions": [
+    {
+      "kind": "pull_request_close",
+      "number": 768,
+      "headBranch": "codex/wi-790-doc-promotion",
+      "head": "d1b5e405055774a9f70cbfaf35c4ec85e64deb52",
+      "result": "closed",
+      "closedAt": "2026-09-11T03:14:05Z",
+      "history": "retained",
+      "reason": "unmerged draft superseded by the later merged documentation recovery path"
+    },
+    {
+      "kind": "pull_request_close",
+      "number": 770,
+      "headBranch": "codex/wi-792-release",
+      "head": "3b271a630b9ea409ae89ad0324a1ca2dd7ce2441",
+      "result": "closed",
+      "closedAt": "2026-09-11T03:14:07Z",
+      "history": "retained",
+      "reason": "unmerged release preparation superseded by the merged recovery release path and published v0.2.90"
+    },
+    {
+      "kind": "remote_branch_delete",
+      "branch": "codex/wi-784-wi783-doc-promotion",
+      "headBeforeDelete": "77132bee2af3acbfd12d8e2583b81264f20bdb70",
+      "result": "deleted",
+      "precondition": "closed PRs #764 and #765; zero unique commits versus origin/main"
+    },
+    {
+      "kind": "remote_branch_delete",
+      "branch": "codex/wi-790-doc-promotion",
+      "headBeforeDelete": "d1b5e405055774a9f70cbfaf35c4ec85e64deb52",
+      "result": "deleted",
+      "precondition": "PR #768 closed; head retained in PR history"
+    },
+    {
+      "kind": "remote_branch_delete",
+      "branch": "codex/wi-792-release",
+      "headBeforeDelete": "3b271a630b9ea409ae89ad0324a1ca2dd7ce2441",
+      "result": "deleted",
+      "precondition": "PR #770 closed; dirty worktree preserved as stash 8dd700b7ed682e6f9880ca6beef5e9a531bc58aa"
+    },
+    {
+      "kind": "remote_branch_delete",
+      "branch": "codex/wi-793-release-v0-2-90-recovery",
+      "headBeforeDelete": "7957aa19056b12b23c87fed3f09449bc13cfca0f",
+      "result": "deleted",
+      "precondition": "PR #771 merged and head is contained by origin/main"
+    },
+    {
+      "kind": "local_worktree_and_branch_cleanup",
+      "resources": [
+        "codex/wi-780-trust-diagnostics",
+        "codex/wi-784-wi783-doc-promotion",
+        "codex/wi-788-doc-promotion",
+        "codex/wi-789-wi788-doc-promotion",
+        "codex/wi-790-doc-promotion",
+        "codex/wi-792-release"
+      ],
+      "result": "worktrees removed and exact local branches deleted",
+      "dirtyRecovery": [
+        "88a729c9af4a4e1f0cfe54d7f8d3e82202986ebc",
+        "31bc22508fc06664bdce81ae361a28e79a33fab9",
+        "52e84738f49b7ea9e19aa6556d1535282a500933",
+        "8dd700b7ed682e6f9880ca6beef5e9a531bc58aa"
+      ]
+    }
+  ],
+  "nonActions": [
+    "PR records were not deleted",
+    "v0.2.90 tag was not changed",
+    "main was not changed by cleanup",
+    "unrelated historical stash entries and worktrees were not touched"
+  ]
+}

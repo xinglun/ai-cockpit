@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-11T03:35:05Z",
+  "files": {
+    "contractDigest": "sha256:6d7be54ca254e145f1804fe2d437ba2768d4051f90b7f5c038daead171da2113",
+    "contractPath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.contract.json",
+    "eventsDigest": "sha256:27c3068451b04f6df0bead662eff7bd04161e24320536cf4e04c5ea53c967206",
+    "eventsPath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:6311716d2d7f8e6a01b4f55c9801c8e2958503b55a9672d5b0c917b47088a326",
+    "outcomePath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.outcome.json",
+    "summaryDigest": "sha256:5210bd8aa4971520fde5afb479e7fc2ee75e39178277dda8e93b1c8f08c30f71",
+    "summaryPath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.summary.json",
+    "taskReportDigest": "sha256:7273a159bce09a935ed29f25c05eeacd2edd47d00449f456eb69f5e49a4692e9",
+    "taskReportMarkdownDigest": "sha256:6e6c7a276788adac6dfa7ccacf5f51eee84d0bb035e0076cbc7dbd4b72ee2fe2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-797-residual-resource-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-797-residual-resource-cleanup"
+}
