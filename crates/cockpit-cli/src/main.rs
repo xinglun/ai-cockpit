@@ -17,8 +17,17 @@ use cockpit_repository::{
     record_resource_finalization, resolve_verification_route, run_repository_verification,
     scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
 };
+use cockpit_verification::gate_plan::{
+    GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
+    failure_metadata, load_manifest, plan_gate_route, validate_gate_plan,
+    validate_lifecycle_summary,
+};
 use serde_json::json;
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 mod runtime_identity;
 
@@ -28,6 +37,30 @@ struct Cli {
     #[command(subcommand)]
     command: CommandKind,
 }
+
+#[derive(Debug)]
+struct GatePlanCliFailure {
+    detail: String,
+    payload: GatePlanFailure,
+}
+
+impl GatePlanCliFailure {
+    fn from_error(error: anyhow::Error) -> Self {
+        let detail = format!("{error:#}");
+        Self {
+            payload: failure_metadata(&detail),
+            detail,
+        }
+    }
+}
+
+impl std::fmt::Display for GatePlanCliFailure {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.write_str(&self.detail)
+    }
+}
+
+impl std::error::Error for GatePlanCliFailure {}
 
 #[derive(Debug, Subcommand)]
 enum CommandKind {
@@ -44,6 +77,21 @@ enum CommandKind {
     Observe {
         #[arg(long)]
         repo: PathBuf,
+    },
+    /// Emit a deterministic JSONL filesystem isolation manifest in one Rust
+    /// process. `--paths-file` accepts a NUL-delimited source path list when
+    /// Git, rather than a whole-tree walk, defines the source boundary.
+    IsolationManifest {
+        #[arg(long)]
+        root: PathBuf,
+        #[arg(long)]
+        output: Option<PathBuf>,
+        #[arg(long)]
+        paths_file: Option<PathBuf>,
+        /// Relative output directory whose ancestor metadata is masked in a
+        /// source-checkout manifest.
+        #[arg(long)]
+        mask_ancestors_of: Option<PathBuf>,
     },
     Attach {
         #[arg(long)]
@@ -168,6 +216,32 @@ enum CommandKind {
         base_revision: Option<String>,
         #[arg(long)]
         report: Option<PathBuf>,
+    },
+    /// Build or validate the shared Rust CI gate plan.  The compatibility
+    /// Python route may delegate here so production and regression paths use
+    /// one manifest/rule implementation.
+    GatePlan {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        manifest: PathBuf,
+        #[arg(long)]
+        base: Option<String>,
+        #[arg(long)]
+        head: Option<String>,
+        #[arg(long)]
+        stage: Option<String>,
+        #[arg(long)]
+        risk: Option<String>,
+        #[arg(long)]
+        contract: Option<PathBuf>,
+        #[arg(long)]
+        profile: Option<String>,
+        #[arg(long)]
+        receipt: PathBuf,
+        /// Validate an existing receipt against the same current facts.
+        #[arg(long)]
+        validate_receipt: bool,
     },
     Evidence {
         #[command(subcommand)]
@@ -618,6 +692,275 @@ impl OutcomeViewArg {
     }
 }
 
+struct GatePlanOptions<'a> {
+    repo: &'a Path,
+    manifest: &'a Path,
+    base: &'a Option<String>,
+    head: &'a Option<String>,
+    stage: &'a Option<String>,
+    risk: &'a Option<String>,
+    contract: Option<&'a PathBuf>,
+    profile: Option<&'a str>,
+    receipt: &'a Path,
+    validate_receipt: bool,
+}
+
+fn run_gate_plan(options: GatePlanOptions<'_>) -> Result<()> {
+    let GatePlanOptions {
+        repo,
+        manifest,
+        base,
+        head,
+        stage,
+        risk,
+        contract,
+        profile,
+        receipt,
+        validate_receipt,
+    } = options;
+    let root = fs::canonicalize(repo).context("canonicalize repository")?;
+    let manifest_path = resolve_repo_path(&root, manifest)?;
+    let manifest_bytes = fs::read(&manifest_path).context("read gate manifest")?;
+    let manifest_value = load_manifest(&manifest_bytes).map_err(|error| anyhow::anyhow!(error))?;
+    let manifest_digest = format!("sha256:{}", hex::encode(sha256_bytes(&manifest_bytes)));
+    let receipt_path = resolve_repo_path(&root, receipt)?;
+    let existing = if validate_receipt {
+        let bytes = fs::read(&receipt_path).context("read gate-plan receipt")?;
+        Some(
+            serde_json::from_slice::<GatePlan>(&bytes)
+                .map_err(|error| anyhow::anyhow!("invalid gate-plan receipt: {error}"))?,
+        )
+    } else {
+        None
+    };
+    let base = base
+        .as_deref()
+        .or_else(|| existing.as_ref().map(|plan| plan.base_revision.as_str()))
+        .ok_or_else(|| {
+            anyhow::anyhow!("gate-plan requires --base unless --validate-receipt is used")
+        })?;
+    let head = head
+        .as_deref()
+        .or_else(|| existing.as_ref().map(|plan| plan.head_revision.as_str()))
+        .unwrap_or("HEAD");
+    let stage = stage
+        .as_ref()
+        .cloned()
+        .or_else(|| existing.as_ref().map(|plan| plan.stage.clone()))
+        .ok_or_else(|| {
+            anyhow::anyhow!("gate-plan requires --stage unless --validate-receipt is used")
+        })?;
+    let requested_risk = risk
+        .clone()
+        .or_else(|| existing.as_ref().map(|plan| plan.requested_risk.clone()))
+        .unwrap_or_else(|| "normal".into());
+    let requested_profile = profile.map(str::to_owned).or_else(|| {
+        existing
+            .as_ref()
+            .and_then(|plan| plan.requested_profile.clone())
+    });
+    let contract_path = contract.cloned().or_else(|| {
+        existing
+            .as_ref()
+            .and_then(|plan| plan.contract_path.clone())
+            .map(PathBuf::from)
+    });
+    let contract = contract_path
+        .as_ref()
+        .map(|path| load_contract_fact(&root, path))
+        .transpose()?;
+    let base_revision = resolve_git_revision(&root, base)?;
+    let head_revision = resolve_git_revision(&root, head)?;
+    let changed_paths = git_changed_paths(&root, &base_revision, &head_revision)?;
+    let input = GatePlanInput {
+        base_revision,
+        head_revision,
+        stage,
+        risk: requested_risk,
+        requested_profile,
+        changed_paths,
+        manifest_digest,
+        contract_path: contract.as_ref().map(|fact| fact.relative_path.clone()),
+        contract_digest: contract.as_ref().map(|fact| fact.digest.clone()),
+        contract_risk: contract.as_ref().map(|fact| fact.risk.clone()),
+    };
+    let plan = plan_gate_route(&manifest_value, &input)
+        .map_err(|error| anyhow::anyhow!(format_gate_plan_error(error)))?;
+    if let Some(existing) = existing.as_ref() {
+        validate_gate_plan(&manifest_value, &input, existing)
+            .map_err(|error| anyhow::anyhow!(format_gate_plan_error(error)))?;
+        println!("{}", serde_json::to_string_pretty(existing)?);
+    } else {
+        if let Some(parent) = receipt_path.parent() {
+            fs::create_dir_all(parent).context("create gate-plan receipt parent")?;
+        }
+        fs::write(
+            &receipt_path,
+            format!("{}\n", serde_json::to_string_pretty(&plan)?),
+        )
+        .context("write gate-plan receipt")?;
+        println!("{}", serde_json::to_string_pretty(&plan)?);
+    }
+    Ok(())
+}
+
+struct ContractFact {
+    relative_path: String,
+    digest: String,
+    risk: String,
+}
+
+fn load_contract_fact(root: &Path, path: &Path) -> Result<ContractFact> {
+    let candidate = resolve_repo_path(root, path)?;
+    let metadata = fs::symlink_metadata(&candidate).context("inspect route Contract")?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        anyhow::bail!("Contract path must be a regular file");
+    }
+    let canonical = fs::canonicalize(&candidate).context("canonicalize route Contract")?;
+    let relative = canonical
+        .strip_prefix(root)
+        .map_err(|_| anyhow::anyhow!("Contract path escapes repository"))?
+        .to_string_lossy()
+        .replace(std::path::MAIN_SEPARATOR, "/");
+    let bytes = fs::read(&canonical).context("read route Contract")?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&bytes).context("parse route Contract")?;
+    let risk = value
+        .get("risk")
+        .and_then(serde_json::Value::as_str)
+        .filter(|value| !value.trim().is_empty())
+        .ok_or_else(|| anyhow::anyhow!("Contract risk is missing"))?
+        .to_owned();
+    let summary = root.join(".ai/work-items/active").join(
+        Path::new(&relative)
+            .file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or_default()
+            .strip_suffix(".contract.json")
+            .map(|id| format!("{id}.summary.json"))
+            .unwrap_or_default(),
+    );
+    if summary.is_symlink() || (summary.exists() && !summary.is_file()) {
+        anyhow::bail!(
+            "lifecycle_transition_invalid: active lifecycle Summary is not a regular file"
+        );
+    }
+    if summary.exists() {
+        let summary_bytes = fs::read(&summary).map_err(|error| {
+            anyhow::anyhow!(
+                "lifecycle_transition_invalid: unable to read active lifecycle Summary: {error}"
+            )
+        })?;
+        let summary_value: serde_json::Value =
+            serde_json::from_slice(&summary_bytes).map_err(|error| {
+                anyhow::anyhow!(
+                    "lifecycle_transition_invalid: active lifecycle Summary is malformed: {error}"
+                )
+            })?;
+        validate_lifecycle_summary(&summary_value)
+            .map_err(|error| anyhow::anyhow!(format_gate_plan_error(error)))?;
+    }
+    Ok(ContractFact {
+        relative_path: relative,
+        digest: format!("sha256:{}", hex::encode(sha256_bytes(&bytes))),
+        risk,
+    })
+}
+
+fn resolve_repo_path(root: &Path, path: &Path) -> Result<PathBuf> {
+    let candidate = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        root.join(path)
+    };
+    if candidate.exists() {
+        let canonical = fs::canonicalize(&candidate).context("canonicalize repository path")?;
+        if !canonical.starts_with(root) {
+            anyhow::bail!("path escapes repository");
+        }
+    }
+    Ok(candidate)
+}
+
+fn sha256_bytes(bytes: &[u8]) -> [u8; 32] {
+    use sha2::{Digest, Sha256};
+    Sha256::digest(bytes).into()
+}
+
+fn run_git_bytes(root: &Path, args: &[String]) -> Result<Vec<u8>> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .context("launch git fact query")?;
+    if !output.status.success() {
+        anyhow::bail!(
+            "git fact query failed: {}",
+            String::from_utf8_lossy(&output.stderr).trim()
+        );
+    }
+    Ok(output.stdout)
+}
+
+fn resolve_git_revision(root: &Path, revision: &str) -> Result<String> {
+    let selector = format!("{revision}^{{commit}}");
+    let output = run_git_bytes(root, &["rev-parse".into(), "--verify".into(), selector])?;
+    let value = String::from_utf8(output).context("git revision is not UTF-8")?;
+    let value = value.trim();
+    if value.len() != 40 || !value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        anyhow::bail!("invalid Git commit: {revision}");
+    }
+    Ok(value.to_owned())
+}
+
+fn git_changed_paths(root: &Path, base: &str, head: &str) -> Result<Vec<String>> {
+    let queries = [
+        vec![
+            "diff".into(),
+            "--name-only".into(),
+            "-z".into(),
+            format!("{base}...{head}"),
+            "--".into(),
+        ],
+        vec![
+            "diff".into(),
+            "--name-only".into(),
+            "-z".into(),
+            head.into(),
+            "--".into(),
+        ],
+        vec![
+            "ls-files".into(),
+            "--others".into(),
+            "--exclude-standard".into(),
+            "-z".into(),
+        ],
+    ];
+    let mut paths = Vec::new();
+    for query in queries {
+        let output = run_git_bytes(root, &query)?;
+        for path in output
+            .split(|byte| *byte == 0)
+            .filter(|path| !path.is_empty())
+        {
+            paths.push(String::from_utf8(path.to_vec()).context("Git path is not UTF-8")?);
+        }
+    }
+    cockpit_verification::gate_plan::normalize_paths(&paths)
+        .map_err(|error| anyhow::anyhow!(format_gate_plan_error(error)))
+}
+
+fn format_gate_plan_error(error: GatePlanError) -> String {
+    match error {
+        GatePlanError::LifecycleInvalid(detail) => {
+            format!("lifecycle_transition_invalid: {detail}")
+        }
+        GatePlanError::LifecycleStale(detail) => format!("lifecycle_transition_stale: {detail}"),
+        other => other.to_string(),
+    }
+}
+
 /// Select the language used by the human handoff. The agent-facing dialog is
 /// localized by the conversation layer; the CLI falls back to the user's
 /// locale so the same report is useful when invoked directly.
@@ -639,6 +982,14 @@ fn output_language() -> &'static str {
 
 fn main() {
     if let Err(error) = run() {
+        if let Some(failure) = error.downcast_ref::<GatePlanCliFailure>() {
+            eprintln!(
+                "{}",
+                serde_json::to_string(&failure.payload).expect("gate-plan failure serializes")
+            );
+            eprintln!("{}", failure.detail);
+            std::process::exit(GATE_PLAN_FAILURE_EXIT_CODE);
+        }
         eprintln!("{error:#}");
         std::process::exit(1);
     }
@@ -646,6 +997,47 @@ fn main() {
 
 fn run() -> Result<()> {
     let cli = Cli::parse();
+    if let CommandKind::IsolationManifest {
+        root,
+        output,
+        paths_file,
+        mask_ancestors_of,
+    } = &cli.command
+    {
+        return run_isolation_manifest(
+            root,
+            output.as_ref(),
+            paths_file.as_ref(),
+            mask_ancestors_of.as_deref(),
+        );
+    }
+    if let CommandKind::GatePlan {
+        repo,
+        manifest,
+        base,
+        head,
+        stage,
+        risk,
+        contract,
+        profile,
+        receipt,
+        validate_receipt,
+    } = &cli.command
+    {
+        return run_gate_plan(GatePlanOptions {
+            repo,
+            manifest,
+            base,
+            head,
+            stage,
+            risk,
+            contract: contract.as_ref(),
+            profile: profile.as_deref(),
+            receipt,
+            validate_receipt: *validate_receipt,
+        })
+        .map_err(|error| anyhow::Error::new(GatePlanCliFailure::from_error(error)));
+    }
     let runtime_context = runtime_identity::load_current().context("load runtime identity")?;
     match cli.command {
         CommandKind::Inspect { repo } => {
@@ -707,6 +1099,12 @@ fn run() -> Result<()> {
             output["evolution"] = serde_json::to_value(evolution)?;
             output["profileUpdateProposal"] = serde_json::to_value(profile_update_proposal)?;
             println!("{}", serde_json::to_string_pretty(&output)?);
+        }
+        CommandKind::IsolationManifest { .. } => {
+            unreachable!("handled before runtime identity load")
+        }
+        CommandKind::GatePlan { .. } => {
+            unreachable!("handled before runtime identity load")
         }
         CommandKind::Attach { repo } => {
             let profile = attach(&repo).context("attach repository")?;
@@ -902,6 +1300,17 @@ fn run() -> Result<()> {
             if let Some(work_item_id) = work_item.as_deref() {
                 cockpit_repository::require_policy_for_verification(&root, work_item_id)
                     .context("enforce verification policy")?;
+                // Governance projections and ordering prerequisites are cheap
+                // and deterministic. Reject them before starting the build or
+                // test command so a missing registration cannot surface only
+                // at finish after the expensive verification has completed.
+                cockpit_repository::require_verification_preconditions(
+                    &root,
+                    work_item_id,
+                    &runtime_context,
+                    &initial_snapshot,
+                )
+                .context("check verification preconditions")?;
             }
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {
@@ -1077,6 +1486,24 @@ fn run() -> Result<()> {
                 serde_json::Value::String(runtime_context.runtime_version.clone());
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
+            if !run.receipt.passed {
+                let failed_nodes = run
+                    .receipt
+                    .results
+                    .iter()
+                    .filter(|result| !result.passed)
+                    .map(|result| format!("{} ({})", result.node_id, result.reason))
+                    .collect::<Vec<_>>();
+                println!("{}", serde_json::to_string_pretty(&output)?);
+                anyhow::bail!(
+                    "verification command failed for {}; structured failure receipt emitted",
+                    if failed_nodes.is_empty() {
+                        "an unknown node".into()
+                    } else {
+                        failed_nodes.join(", ")
+                    }
+                );
+            }
             if let Some(work_item) = work_item {
                 cockpit_repository::record_verification_with_runtime(
                     &root,
@@ -1875,6 +2302,53 @@ fn run() -> Result<()> {
     Ok(())
 }
 
+fn run_isolation_manifest(
+    root: &Path,
+    output: Option<&PathBuf>,
+    paths_file: Option<&PathBuf>,
+    mask_ancestors_of: Option<&Path>,
+) -> Result<()> {
+    if let Some(path) = output {
+        let mut destination = fs::File::create(path)
+            .with_context(|| format!("create isolation manifest output {}", path.display()))?;
+        return emit_isolation_manifest(root, paths_file, mask_ancestors_of, &mut destination);
+    }
+    let stdout = std::io::stdout();
+    let mut destination = stdout.lock();
+    emit_isolation_manifest(root, paths_file, mask_ancestors_of, &mut destination)
+}
+
+fn emit_isolation_manifest<W: std::io::Write>(
+    root: &Path,
+    paths_file: Option<&PathBuf>,
+    mask_ancestors_of: Option<&Path>,
+    destination: W,
+) -> Result<()> {
+    if let Some(paths_file) = paths_file {
+        let bytes = fs::read(paths_file)
+            .with_context(|| format!("read NUL-delimited path list {}", paths_file.display()))?;
+        let paths = bytes
+            .split(|byte| *byte == 0)
+            .filter(|path| !path.is_empty())
+            .map(|path| {
+                std::str::from_utf8(path)
+                    .context("source manifest path list contains non-UTF-8 path")
+                    .map(PathBuf::from)
+            })
+            .collect::<Result<Vec<_>>>()?;
+        cockpit_isolation::scan_paths_to_jsonl_with_mask(
+            root,
+            paths,
+            destination,
+            mask_ancestors_of,
+        )
+        .context("scan selected isolation paths")?;
+    } else {
+        cockpit_isolation::scan_tree_to_jsonl(root, destination).context("scan isolation tree")?;
+    }
+    Ok(())
+}
+
 fn merge_verification_runs(
     mut runs: Vec<cockpit_repository::RepositoryVerificationRun>,
 ) -> Option<cockpit_repository::RepositoryVerificationRun> {
@@ -2006,9 +2480,22 @@ fn print_lifecycle_result(
     let handoff = if json {
         None
     } else {
-        let input =
-            cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
-                .context("read lifecycle Outcome handoff")?;
+        let input = output
+            .get("outcome")
+            .cloned()
+            .and_then(|value| serde_json::from_value::<cockpit_protocol::OutcomeV2>(value).ok())
+            .map(|outcome| cockpit_repository::outcome_render_input_from_outcome(repo, outcome))
+            .map_or_else(
+                || {
+                    cockpit_repository::outcome_render_input_with_runtime(
+                        repo,
+                        work_item_id,
+                        runtime,
+                    )
+                },
+                Ok,
+            )
+            .context("read lifecycle Outcome handoff")?;
         Some(cockpit_repository::render_human_outcome(
             &input,
             output_language(),

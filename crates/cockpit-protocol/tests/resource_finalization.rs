@@ -1,6 +1,8 @@
 use cockpit_core::Digest;
 use cockpit_protocol::{
-    Contract, HistoricalFinalization, HistoricalFinalizationKind,
+    Contract, FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
+    FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
+    HistoricalFinalization, HistoricalFinalizationKind, OutcomeFinalizationProjection,
     RESOURCE_FINALIZATION_CODE_AMBIGUOUS_STATE, RESOURCE_FINALIZATION_CODE_DIRTY_WORKTREE,
     RESOURCE_FINALIZATION_CODE_PROTECTED_BRANCH, RESOURCE_FINALIZATION_CODE_UNMERGED_PULL_REQUEST,
     ResourceFinalizationBranchIdentity, ResourceFinalizationBranchState,
@@ -76,6 +78,308 @@ fn receipt() -> ResourceFinalizationReceipt {
             pull_request: "https://github.example/acme/project/pull/158".into(),
         }),
         historical: None,
+    }
+}
+
+fn typed_action(id: FinalizationActionId) -> FinalizationActionProjection {
+    FinalizationActionProjection {
+        id,
+        authorization: FinalizationAuthorization::None,
+        safety: FinalizationSafety::ObserveOnly,
+        argv: None,
+        evidence_refs: vec![],
+    }
+}
+
+fn typed_projection(
+    state: FinalizationObservationState,
+    error: Option<FinalizationError>,
+    disposition: Option<ResourceFinalizationDisposition>,
+    action: FinalizationActionProjection,
+    reliable: bool,
+) -> OutcomeFinalizationProjection {
+    OutcomeFinalizationProjection {
+        state: "legacy_state".into(),
+        error_code: error.as_ref().map(|_| "legacy_error".into()),
+        disposition: disposition
+            .as_ref()
+            .map(|value| match value {
+                ResourceFinalizationDisposition::Deleted => "deleted",
+                ResourceFinalizationDisposition::Abandoned => "abandoned",
+                ResourceFinalizationDisposition::Retained => "retained",
+                ResourceFinalizationDisposition::Blocked => "blocked",
+                ResourceFinalizationDisposition::Unknown => "unknown",
+            })
+            .map(str::to_owned),
+        action: "legacy_action".into(),
+        reliable,
+        observation_state: Some(state),
+        error,
+        next_action: Some(action),
+    }
+}
+
+#[test]
+fn typed_finalization_states_cover_all_observation_outcomes() {
+    let cases = [
+        (
+            FinalizationObservationState::NotRequired,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            FinalizationObservationState::NotObserved,
+            FinalizationActionId::InspectCurrentObservation,
+        ),
+        (
+            FinalizationObservationState::ReceiptMissing,
+            FinalizationActionId::RecordFinalizationReceipt,
+        ),
+        (
+            FinalizationObservationState::RecordCorrupt,
+            FinalizationActionId::InspectRecoveryConditions,
+        ),
+        (
+            FinalizationObservationState::IdentityMismatch,
+            FinalizationActionId::InspectRecoveryConditions,
+        ),
+        (
+            FinalizationObservationState::CleanupPending,
+            FinalizationActionId::CleanupExternalResource,
+        ),
+        (
+            FinalizationObservationState::Verified,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            FinalizationObservationState::VerifiedRetained,
+            FinalizationActionId::PreserveHistoricalEvidence,
+        ),
+        (
+            FinalizationObservationState::VerifiedDeleted,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            FinalizationObservationState::VerifiedAbandoned,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            FinalizationObservationState::HistoricalVerified,
+            FinalizationActionId::PreserveHistoricalEvidence,
+        ),
+        (
+            FinalizationObservationState::Unknown,
+            FinalizationActionId::StopAndPreserveEvidence,
+        ),
+    ];
+
+    for (state, action) in cases {
+        let projection = typed_projection(state, None, None, typed_action(action), false);
+        let value = serde_json::to_value(&projection).unwrap();
+        let parsed: OutcomeFinalizationProjection = serde_json::from_value(value).unwrap();
+        assert_eq!(parsed.observation_state, Some(state));
+        assert_eq!(
+            parsed.next_action.as_ref().map(|value| &value.id),
+            Some(&action)
+        );
+    }
+}
+
+#[test]
+fn typed_finalization_dispositions_cover_retained_deleted_abandoned_and_non_terminal_results() {
+    for (disposition, action) in [
+        (
+            ResourceFinalizationDisposition::Retained,
+            FinalizationActionId::CleanupExternalResource,
+        ),
+        (
+            ResourceFinalizationDisposition::Deleted,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            ResourceFinalizationDisposition::Abandoned,
+            FinalizationActionId::RecordCloseDecision,
+        ),
+        (
+            ResourceFinalizationDisposition::Blocked,
+            FinalizationActionId::InspectRecoveryConditions,
+        ),
+        (
+            ResourceFinalizationDisposition::Unknown,
+            FinalizationActionId::StopAndPreserveEvidence,
+        ),
+    ] {
+        let projection = typed_projection(
+            FinalizationObservationState::Verified,
+            None,
+            Some(disposition.clone()),
+            typed_action(action),
+            true,
+        );
+        assert_eq!(
+            projection.disposition.as_deref(),
+            Some(format!("{:?}", disposition).to_lowercase().as_str())
+        );
+        assert_eq!(projection.next_action.as_ref().unwrap().id, action);
+    }
+}
+
+#[test]
+fn resource_finalization_errors_expose_stable_typed_codes_without_display_matching() {
+    let cases = [
+        (
+            ResourceFinalizationError::UnsupportedSchema,
+            FinalizationErrorCode::UnsupportedSchema,
+        ),
+        (
+            ResourceFinalizationError::EmptyField("provider"),
+            FinalizationErrorCode::EmptyField,
+        ),
+        (
+            ResourceFinalizationError::InvalidDigest("runtimeDigest"),
+            FinalizationErrorCode::InvalidDigest,
+        ),
+        (
+            ResourceFinalizationError::InvalidCode("dirty_worktree".into()),
+            FinalizationErrorCode::InvalidCode,
+        ),
+        (
+            ResourceFinalizationError::IdentityMismatch("repositoryId"),
+            FinalizationErrorCode::IdentityMismatch,
+        ),
+        (
+            ResourceFinalizationError::InvalidState("state"),
+            FinalizationErrorCode::InvalidState,
+        ),
+        (
+            ResourceFinalizationError::InvalidDisposition("disposition"),
+            FinalizationErrorCode::InvalidDisposition,
+        ),
+        (
+            ResourceFinalizationError::ReplayMismatch("digest"),
+            FinalizationErrorCode::ReplayMismatch,
+        ),
+    ];
+
+    for (error, expected) in cases {
+        let typed = FinalizationError::from_resource_error(&error);
+        assert_eq!(typed.code, expected);
+        assert!(typed.diagnostic.is_some());
+        assert_eq!(error.finalization_error_code(), expected);
+    }
+}
+
+#[test]
+fn legacy_finalization_projection_json_remains_readable_without_typed_fields() {
+    let legacy = serde_json::json!({
+        "state": "receipt_missing",
+        "errorCode": "receipt_missing",
+        "disposition": null,
+        "action": "inspect_resources_and_record_receipt",
+        "reliable": false
+    });
+
+    let projection: OutcomeFinalizationProjection = serde_json::from_value(legacy.clone()).unwrap();
+    assert_eq!(projection.observation_state, None);
+    assert_eq!(projection.error, None);
+    assert_eq!(projection.next_action, None);
+    assert_eq!(
+        serde_json::to_value(projection).unwrap(),
+        serde_json::json!({
+            "state": "receipt_missing",
+            "errorCode": "receipt_missing",
+            "action": "inspect_resources_and_record_receipt",
+            "reliable": false
+        })
+    );
+}
+
+#[test]
+fn typed_finalization_projection_is_additive_and_round_trips_with_legacy_fields() {
+    let projection = typed_projection(
+        FinalizationObservationState::ReceiptMissing,
+        Some(FinalizationError {
+            code: FinalizationErrorCode::ReceiptMissing,
+            diagnostic: Some("human diagnostic is not a classifier input".into()),
+        }),
+        None,
+        FinalizationActionProjection {
+            id: FinalizationActionId::RecordFinalizationReceipt,
+            authorization: FinalizationAuthorization::HumanRequired,
+            safety: FinalizationSafety::RepositoryRecordOnly,
+            argv: Some(vec![
+                "ai-cockpit".into(),
+                "work-item".into(),
+                "finalize".into(),
+            ]),
+            evidence_refs: vec![".ai/decisions/example.finalize.json".into()],
+        },
+        false,
+    );
+
+    let value = serde_json::to_value(&projection).unwrap();
+    assert_eq!(value["state"], "legacy_state");
+    assert_eq!(value["action"], "legacy_action");
+    assert_eq!(value["observationState"], "receipt_missing");
+    assert_eq!(value["error"]["code"], "receipt_missing");
+    assert_eq!(value["nextAction"]["id"], "record_finalization_receipt");
+    assert_eq!(value["nextAction"]["authorization"], "human_required");
+    assert_eq!(value["nextAction"]["safety"], "repository_record_only");
+
+    let parsed: OutcomeFinalizationProjection = serde_json::from_value(value).unwrap();
+    assert_eq!(parsed, projection);
+}
+
+#[test]
+fn typed_finalization_error_and_action_identifiers_round_trip_exhaustively() {
+    let error_codes = [
+        FinalizationErrorCode::ContractMissing,
+        FinalizationErrorCode::ContractInvalid,
+        FinalizationErrorCode::ReceiptMissing,
+        FinalizationErrorCode::ReceiptUnreadable,
+        FinalizationErrorCode::RecordCorrupt,
+        FinalizationErrorCode::UnsupportedSchema,
+        FinalizationErrorCode::EmptyField,
+        FinalizationErrorCode::InvalidDigest,
+        FinalizationErrorCode::InvalidCode,
+        FinalizationErrorCode::IdentityMismatch,
+        FinalizationErrorCode::InvalidState,
+        FinalizationErrorCode::InvalidDisposition,
+        FinalizationErrorCode::ReplayMismatch,
+        FinalizationErrorCode::TransitionForked,
+        FinalizationErrorCode::TransitionStale,
+        FinalizationErrorCode::CleanupPending,
+        FinalizationErrorCode::RuntimeMismatch,
+        FinalizationErrorCode::BaseMismatch,
+        FinalizationErrorCode::HistoricalRecoveryRequired,
+        FinalizationErrorCode::ObservationUnavailable,
+        FinalizationErrorCode::Unknown,
+    ];
+    for code in error_codes {
+        let value = serde_json::to_value(FinalizationError {
+            code,
+            diagnostic: None,
+        })
+        .unwrap();
+        let parsed: FinalizationError = serde_json::from_value(value).unwrap();
+        assert_eq!(parsed.code, code);
+    }
+
+    let action_ids = [
+        FinalizationActionId::InspectCurrentObservation,
+        FinalizationActionId::RecordFinalizationReceipt,
+        FinalizationActionId::VerifyFinalizationReceipt,
+        FinalizationActionId::InspectRecoveryConditions,
+        FinalizationActionId::RecordHistoricalRecovery,
+        FinalizationActionId::CleanupExternalResource,
+        FinalizationActionId::RecordCloseDecision,
+        FinalizationActionId::PreserveHistoricalEvidence,
+        FinalizationActionId::StopAndPreserveEvidence,
+    ];
+    for id in action_ids {
+        let action = typed_action(id);
+        let value = serde_json::to_value(&action).unwrap();
+        let parsed: FinalizationActionProjection = serde_json::from_value(value).unwrap();
+        assert_eq!(parsed.id, id);
     }
 }
 

@@ -1,3 +1,5 @@
+pub mod gate_plan;
+
 use cockpit_core::Digest;
 use cockpit_evidence::{
     EvidenceContext, ReusableReceipt, ReuseAction, ReuseReason, ReuseState, decide_reuse,
@@ -2535,6 +2537,7 @@ struct SchedulerState {
     commands: BTreeMap<String, VerificationCommand>,
     remaining_dependencies: BTreeMap<String, usize>,
     dependents: BTreeMap<String, Vec<String>>,
+    blocked: BTreeSet<String>,
     completed: usize,
     total: usize,
     resource_budget: usize,
@@ -2577,6 +2580,7 @@ impl SchedulerState {
             commands: by_id,
             remaining_dependencies,
             dependents,
+            blocked: BTreeSet::new(),
             completed: 0,
             total,
             resource_budget,
@@ -2628,18 +2632,41 @@ impl SchedulerState {
         if !outcome.passed {
             self.metrics.passed = false;
         }
+        let passed = outcome.passed;
         self.metrics.outcomes.insert(id.into(), outcome);
-        if let Some(dependents) = self.dependents.get(id) {
+        let dependents = self.dependents.get(id).cloned().unwrap_or_default();
+        if passed {
             for dependent in dependents {
+                if self.blocked.contains(&dependent) {
+                    continue;
+                }
                 let remaining = self
                     .remaining_dependencies
-                    .get_mut(dependent)
+                    .get_mut(&dependent)
                     .expect("planned dependent exists");
                 *remaining -= 1;
                 if *remaining == 0 {
-                    self.ready.push_back(dependent.clone());
+                    self.ready.push_back(dependent);
                 }
             }
+        } else {
+            for dependent in dependents {
+                self.block(dependent);
+            }
+        }
+    }
+
+    fn block(&mut self, id: String) {
+        if !self.blocked.insert(id.clone()) {
+            return;
+        }
+        self.ready.retain(|ready_id| ready_id != &id);
+        self.commands.remove(&id);
+        self.remaining_dependencies.remove(&id);
+        self.completed += 1;
+        let dependents = self.dependents.get(&id).cloned().unwrap_or_default();
+        for dependent in dependents {
+            self.block(dependent);
         }
     }
 }
@@ -2668,5 +2695,58 @@ impl RuntimeMetrics {
             passed: true,
             outcomes: BTreeMap::new(),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn failed_dependency_is_not_made_ready() {
+        let upstream = VerificationCommand::new(
+            "a-upstream",
+            "false",
+            Vec::new(),
+            VerificationReusePolicy::NeverReuse,
+        );
+        let dependent = VerificationCommand::new(
+            "b-dependent",
+            "true",
+            Vec::new(),
+            VerificationReusePolicy::NeverReuse,
+        )
+        .with_dependencies(vec!["a-upstream".into()]);
+        let independent = VerificationCommand::new(
+            "c-independent",
+            "true",
+            Vec::new(),
+            VerificationReusePolicy::NeverReuse,
+        );
+        let mut state = SchedulerState::new(vec![upstream, dependent, independent], 3);
+
+        let command = state.take_ready().expect("upstream starts first");
+        assert_eq!(command.id, "a-upstream");
+        state.complete(
+            &command.id,
+            false,
+            command.resource_weight,
+            ExecutionOutcome {
+                spawned: true,
+                passed: false,
+                output_digest: None,
+                output_truncated: false,
+                timed_out: false,
+            },
+        );
+
+        let next = state
+            .take_ready()
+            .expect("independent node remains runnable");
+        assert_eq!(next.id, "c-independent");
+        assert!(
+            state.take_ready().is_none(),
+            "failed dependency must not make its dependent ready"
+        );
     }
 }

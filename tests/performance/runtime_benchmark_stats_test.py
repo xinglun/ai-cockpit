@@ -15,8 +15,10 @@ class RuntimeBenchmarkStatsTest(unittest.TestCase):
         summary = summarize("status", [120, 20, 22, 21])
 
         self.assertEqual(summary["rawSamplesMs"], [120.0, 20.0, 22.0, 21.0])
+        self.assertEqual(summary["rawSampleCount"], 4)
         self.assertEqual(summary["firstMeasurementMs"], 120.0)
         self.assertEqual(summary["warmSamplesMs"], [20.0, 22.0, 21.0])
+        self.assertEqual(summary["validWarmSampleCount"], 3)
         self.assertEqual(summary["warm"]["quantileMethod"], QUANTILE_METHOD)
         self.assertIsNone(summary["warm"]["p95Ms"])
         self.assertEqual(summary["warm"]["unavailableReason"]["p95"], "insufficient_samples:3<20")
@@ -42,6 +44,35 @@ class RuntimeBenchmarkStatsTest(unittest.TestCase):
         self.assertEqual(summary["warm"]["p95Ms"], 19.0)
         self.assertFalse(summary["warm"]["reliable"]["p99"])
         self.assertEqual(summary["warm"]["unavailableReason"]["p99"], "insufficient_samples:20<100")
+
+    def test_benchmark_floor_is_explicitly_100_valid_warm_samples(self):
+        values = list(range(1, 101))
+        summary = summarize("status", [120] + values)
+
+        self.assertEqual(summary["warm"]["validSampleCount"], 100)
+        self.assertEqual(summary["warm"]["minimumValidSampleCount"], 100)
+        self.assertEqual(summary["warm"]["p99Ms"], 99.0)
+
+    def test_percentiles_use_only_valid_warm_samples(self):
+        summary = summarize("status", [120] + list(range(1, 101)) + [999], list(range(1, 101)))
+
+        self.assertEqual(summary["rawSampleCount"], 102)
+        self.assertEqual(summary["validWarmSampleCount"], 100)
+        self.assertEqual(summary["warm"]["p50Ms"], 50.0)
+        self.assertEqual(summary["warm"]["p95Ms"], 95.0)
+
+    def test_nested_warm_valid_sample_count_excludes_invalid_samples(self):
+        summary = summarize("status", [120] + list(range(1, 101)) + [999], list(range(1, 101)))
+
+        self.assertEqual(summary["warm"]["sampleCount"], 101)
+        self.assertEqual(summary["warm"]["validSampleCount"], 100)
+
+    def test_scenario_ids_are_stable_and_unknown_names_are_rejected(self):
+        from runtime_benchmark_scenarios import scenario_id
+
+        self.assertEqual(scenario_id("current-repository"), "current-repository")
+        with self.assertRaises(ValueError):
+            scenario_id("invented-scenario")
 
     def test_empty_samples_are_rejected(self):
         with self.assertRaises(ValueError):

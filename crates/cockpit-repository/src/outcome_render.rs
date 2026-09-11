@@ -1,5 +1,7 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
+    FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
+    FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
     HumanDecision, OutcomeClaim, OutcomeFinalizationProjection, OutcomeState, OutcomeV2,
     RuntimeContext, TaskOutcomeReport,
 };
@@ -7,9 +9,10 @@ use serde_json::Value;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+use super::observation_ledger::{CandidateMatcher, ObservationLedger};
 use crate::{
     ObservationPhase, ObserverError, RepositoryExecutionContext,
-    close_decision_is_valid_for_status, read_contract, repository_id,
+    close_decision_is_valid_for_status, repository_id,
 };
 
 const MAX_OUTCOME_ASSEMBLY_ATTEMPTS: usize = 2;
@@ -79,7 +82,7 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
     let human_decision = load_human_decision(root, &outcome.work_item_id);
     let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
     OutcomeRenderInput {
-        finalization: finalization_projection_from_outcome(&outcome),
+        finalization: finalization_projection_from_outcome(root, &outcome),
         reason_keys: governance_reason_keys_from_outcome(&outcome),
         outcome,
         human_decision,
@@ -112,7 +115,10 @@ fn assemble_outcome_render_input_with_hook(
             runtime,
             &contract_path,
         )?;
-        let before_facts = assembly_facts_digest(context.root(), work_item_id)?;
+        let mut ledger = assembly_observation_ledger(context.root(), work_item_id)?;
+        let before_external = resource_observation_facts(context.root());
+        let before_observation = ledger.digest(&before_external);
+        let before_facts = ledger.facts_digest();
         let snapshot_digest = super::snapshot_digest(context.snapshot())?;
         let outcome = super::outcome_v2_internal_with_snapshot(
             context.root(),
@@ -135,7 +141,8 @@ fn assemble_outcome_render_input_with_hook(
             );
         let human_decision = load_human_decision(context.root(), work_item_id);
         let lifecycle_status = lifecycle_status(context.root(), &outcome, historical, superseded);
-        let finalization = finalization_projection(context.root(), work_item_id, &outcome, runtime);
+        let finalization =
+            finalization_projection(&ledger, context.root(), work_item_id, &outcome, runtime);
         let reason_keys = governance_reason_keys(context.root(), work_item_id, &outcome, runtime);
         let mut outcome = outcome;
         outcome.governance_reasons = reason_keys.clone();
@@ -152,9 +159,21 @@ fn assemble_outcome_render_input_with_hook(
         if let Some(hook) = after_assembly.as_mut() {
             hook(attempt);
         }
-        let after_facts = assembly_facts_digest(context.root(), work_item_id)?;
-        if before_facts != after_facts {
-            last_change = Some((before_facts, after_facts));
+        let after_external = resource_observation_facts(context.root());
+        let after_observation = ledger.recheck_digest(&after_external);
+        let after_observation = match after_observation {
+            Ok(digest) => digest,
+            Err(error) => {
+                last_change = Some((
+                    before_observation,
+                    Digest::sha256_bytes(error.to_string().as_bytes()),
+                ));
+                continue;
+            }
+        };
+        let after_facts = ledger.facts_digest();
+        if before_observation != after_observation || before_facts != after_facts {
+            last_change = Some((before_observation, after_observation));
             continue;
         }
         observation.validate_current()?;
@@ -174,16 +193,213 @@ fn assemble_outcome_render_input_with_hook(
     })
 }
 
+/// Capture every repository-local dependency which can influence the Outcome
+/// handoff before any assembly reads occur. The candidate sets are separate
+/// from fixed files so additions and removals cannot be hidden by a digest of
+/// only the files that happened to exist at the first read.
+fn assembly_observation_ledger(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<ObservationLedger, ObserverError> {
+    let mut ledger = ObservationLedger::new(root);
+    let fixed = [
+        ".ai/cockpit.toml",
+        ".ai/project.json",
+        ".ai/policy.json",
+        ".ai/project/capabilities.json",
+        ".ai/project/success_criteria.json",
+        ".ai/project/profile-policy.json",
+    ];
+    for relative in fixed {
+        ledger.register_file(relative, &root.join(relative))?;
+    }
+    for phase in ["active", "archive"] {
+        for suffix in [
+            "contract.json",
+            "summary.json",
+            "outcome.json",
+            "task-report.json",
+            "task-report.md",
+            "approach.json",
+            "intelligence.json",
+            "archive.json",
+        ] {
+            let relative = format!(".ai/work-items/{phase}/{work_item_id}.{suffix}");
+            ledger.register_file(
+                relative,
+                &root.join(format!(".ai/work-items/{phase}/{work_item_id}.{suffix}")),
+            )?;
+        }
+        let relative = format!(".ai/work-items/{phase}/{work_item_id}.events.jsonl");
+        ledger.register_file(
+            relative,
+            &super::task_outcome_event_path(root, work_item_id, phase == "archive"),
+        )?;
+        ledger.register_candidate_set(
+            format!("{phase} Work Item candidates"),
+            &root.join(format!(".ai/work-items/{phase}")),
+            CandidateMatcher::PrefixSuffix {
+                prefix: Some(format!("{work_item_id}.")),
+                suffix: Some(".json".into()),
+            },
+        )?;
+    }
+    ledger.register_file(
+        format!(".ai/evidence/{work_item_id}.verification.json"),
+        &root.join(format!(".ai/evidence/{work_item_id}.verification.json")),
+    )?;
+
+    let decisions = root.join(".ai/decisions");
+    for (label, prefix) in [
+        (
+            "finalization decision candidates",
+            format!("{work_item_id}.finalize"),
+        ),
+        (
+            "recovery decision candidates",
+            format!("{work_item_id}.recovery"),
+        ),
+        (
+            "finalization recovery decision candidates",
+            format!("{work_item_id}.finalize-recovery"),
+        ),
+        (
+            "preflight review decision candidates",
+            format!("{work_item_id}.preflight-review"),
+        ),
+        ("close decision candidates", format!("{work_item_id}.close")),
+    ] {
+        ledger.register_candidate_set(
+            label,
+            &decisions,
+            CandidateMatcher::PrefixSuffix {
+                prefix: Some(prefix),
+                suffix: Some(".json".into()),
+            },
+        )?;
+    }
+
+    for phase in ["active", "archive"] {
+        let manifest = root.join(format!(
+            ".ai/work-items/{phase}/{work_item_id}.archive.json"
+        ));
+        register_manifest_references(&mut ledger, root, &manifest)?;
+    }
+    register_decision_references(&mut ledger, root, work_item_id)?;
+    Ok(ledger)
+}
+
+fn register_manifest_references(
+    ledger: &mut ObservationLedger,
+    root: &Path,
+    manifest: &Path,
+) -> Result<(), ObserverError> {
+    ledger.register_file("archive manifest", manifest)?;
+    let Some(bytes) = ledger.cached_file_bytes(manifest)? else {
+        return Ok(());
+    };
+    let Ok(value) = serde_json::from_slice::<Value>(bytes) else {
+        return Ok(());
+    };
+    register_json_path_references(ledger, root, &value, manifest)
+}
+
+fn register_decision_references(
+    ledger: &mut ObservationLedger,
+    root: &Path,
+    work_item_id: &str,
+) -> Result<(), ObserverError> {
+    let decisions = root.join(".ai/decisions");
+    let entries = ledger.cached_directory_entries(&decisions)?;
+    let prefixes = [
+        format!("{work_item_id}.finalize"),
+        format!("{work_item_id}.recovery"),
+        format!("{work_item_id}.finalize-recovery"),
+        format!("{work_item_id}.preflight-review"),
+        format!("{work_item_id}.close"),
+    ];
+    for (name, path) in entries {
+        if !name.ends_with(".json") || !prefixes.iter().any(|prefix| name.starts_with(prefix)) {
+            continue;
+        }
+        let Some(bytes) = ledger.cached_file_bytes(&path)? else {
+            continue;
+        };
+        let Ok(value) = serde_json::from_slice::<Value>(bytes) else {
+            continue;
+        };
+        register_json_path_references(ledger, root, &value, &path)?;
+    }
+    Ok(())
+}
+
+fn register_json_path_references(
+    ledger: &mut ObservationLedger,
+    root: &Path,
+    value: &Value,
+    source: &Path,
+) -> Result<(), ObserverError> {
+    match value {
+        Value::Array(values) => {
+            for value in values {
+                register_json_path_references(ledger, root, value, source)?;
+            }
+        }
+        Value::Object(values) => {
+            for value in values.values() {
+                register_json_path_references(ledger, root, value, source)?;
+            }
+        }
+        Value::String(raw) if raw.starts_with(".ai/") => {
+            let relative = Path::new(raw);
+            if relative.components().any(|component| {
+                matches!(
+                    component,
+                    std::path::Component::RootDir | std::path::Component::ParentDir
+                )
+            }) {
+                return Err(ObserverError::State {
+                    path: source.to_path_buf(),
+                    message: format!("referenced path escapes repository root: {raw}"),
+                });
+            }
+            ledger.register_file(
+                format!("referenced by {}", source.display()),
+                &root.join(relative),
+            )?;
+        }
+        _ => {}
+    }
+    Ok(())
+}
+
 fn outcome_contract_path(root: &Path, work_item_id: &str) -> Result<PathBuf, ObserverError> {
-    [
+    let candidates = [
         root.join(".ai/work-items/active")
             .join(format!("{work_item_id}.contract.json")),
         root.join(".ai/work-items/archive")
             .join(format!("{work_item_id}.contract.json")),
-    ]
-    .into_iter()
-    .find(|path| path.is_file())
-    .ok_or_else(|| ObserverError::State {
+    ];
+    for path in candidates {
+        match fs::symlink_metadata(&path) {
+            Ok(metadata) if metadata.file_type().is_symlink() => {
+                return Err(ObserverError::State {
+                    path,
+                    message: "observation Contract must be a regular non-symlink file".into(),
+                });
+            }
+            Ok(metadata) if metadata.is_file() => return Ok(path),
+            Ok(_) => {
+                return Err(ObserverError::State {
+                    path,
+                    message: "observation Contract must be a regular non-symlink file".into(),
+                });
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(source) => return Err(ObserverError::Read { path, source }),
+        }
+    }
+    Err(ObserverError::State {
         path: root
             .join(".ai/work-items/active")
             .join(format!("{work_item_id}.contract.json")),
@@ -191,85 +407,26 @@ fn outcome_contract_path(root: &Path, work_item_id: &str) -> Result<PathBuf, Obs
     })
 }
 
-fn assembly_facts_digest(root: &Path, work_item_id: &str) -> Result<Digest, ObserverError> {
-    let mut paths = vec![
-        format!(".ai/evidence/{work_item_id}.verification.json"),
-        format!(".ai/decisions/{work_item_id}.close.json"),
-        format!(".ai/decisions/{work_item_id}.recovery.json"),
-        format!(".ai/decisions/{work_item_id}.preflight-review.json"),
-    ];
-    for phase in ["active", "archive"] {
-        for suffix in [
-            "contract.json",
-            "summary.json",
-            "outcome.json",
-            "task-report.json",
-        ] {
-            paths.push(format!(".ai/work-items/{phase}/{work_item_id}.{suffix}"));
-        }
-        paths.push(format!(
-            ".ai/work-items/{phase}/{work_item_id}.archive.json"
-        ));
-    }
-    let decisions = root.join(".ai/decisions");
-    if let Ok(entries) = fs::read_dir(&decisions) {
-        let prefixes = [
-            format!("{work_item_id}.finalize"),
-            format!("{work_item_id}.recovery"),
-            format!("{work_item_id}.preflight-review"),
-        ];
-        for entry in entries.flatten() {
-            let name = entry.file_name().to_string_lossy().into_owned();
-            if name.ends_with(".json") && prefixes.iter().any(|prefix| name.starts_with(prefix)) {
-                paths.push(format!(".ai/decisions/{name}"));
-            }
-        }
-    }
-    paths.sort();
-    paths.dedup();
-    let mut bytes = Vec::new();
-    for relative in paths {
-        bytes.extend_from_slice(relative.as_bytes());
-        bytes.push(0);
-        let path = root.join(&relative);
-        match fs::symlink_metadata(&path) {
-            Ok(metadata) if metadata.file_type().is_symlink() => {
-                bytes.extend_from_slice(b"symlink")
-            }
-            Ok(metadata) if metadata.is_file() => {
-                bytes.extend_from_slice(&fs::read(&path).map_err(|source| {
-                    ObserverError::Read {
-                        path: path.clone(),
-                        source,
-                    }
-                })?);
-            }
-            Ok(_) => bytes.extend_from_slice(b"invalid"),
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                bytes.extend_from_slice(b"missing")
-            }
-            Err(source) => return Err(ObserverError::Read { path, source }),
-        }
-        bytes.push(0xff);
-    }
-    bytes.extend_from_slice(b"resource-observation\0");
-    bytes.extend_from_slice(&resource_observation_facts(root));
-    bytes.push(0xff);
-    Ok(Digest::sha256_bytes(&bytes))
-}
-
 /// Finalization verification reads local branch/worktree state in addition to
 /// repository records. Include those observations in the assembly boundary so
 /// a cleanup race cannot be rendered from a stitched record-only view.
 fn resource_observation_facts(root: &Path) -> Vec<u8> {
-    let branch = super::git_text(root, &["branch", "--format=%(refname:short)"])
+    resource_observation_facts_with(|args| super::git_text(root, args))
+}
+
+fn resource_observation_facts_with<F>(mut git_text: F) -> Vec<u8>
+where
+    F: FnMut(&[&str]) -> Option<String>,
+{
+    let branch = git_text(&["branch", "--format=%(refname:short)"])
         .unwrap_or_else(|| "<unavailable>".into());
-    let worktrees = super::git_text(root, &["worktree", "list", "--porcelain"])
-        .unwrap_or_else(|| "<unavailable>".into());
+    let worktrees =
+        git_text(&["worktree", "list", "--porcelain"]).unwrap_or_else(|| "<unavailable>".into());
     format!("branch\0{branch}\0worktrees\0{worktrees}").into_bytes()
 }
 
 fn finalization_projection(
+    ledger: &ObservationLedger,
     root: &Path,
     work_item_id: &str,
     _outcome: &OutcomeV2,
@@ -279,18 +436,23 @@ fn finalization_projection(
         Ok(path) => path,
         Err(_) => return finalization_projection_unknown("contract_missing"),
     };
-    let contract = match read_contract(&contract_path) {
-        Ok(contract) => contract,
-        Err(_) => return finalization_projection_unknown("contract_invalid"),
+    let Some(contract_bytes) = ledger.cached_file_bytes(&contract_path).ok().flatten() else {
+        return finalization_projection_unknown("contract_invalid");
+    };
+    let Ok(contract) = serde_json::from_slice::<cockpit_protocol::Contract>(contract_bytes) else {
+        return finalization_projection_unknown("contract_invalid");
     };
     if contract.resource_context.is_none() {
-        return FinalizationProjection {
-            state: "not_required".into(),
+        return finalization_projection_from_parts(FinalizationProjectionParts {
+            root,
+            work_item_id,
+            state: "not_required",
             error_code: None,
             disposition: None,
-            action: "human_decision_or_lifecycle".into(),
+            action: "human_decision_or_lifecycle",
             reliable: true,
-        };
+            diagnostic: None,
+        });
     }
     let receipt_path = root
         .join(".ai/decisions")
@@ -298,52 +460,68 @@ fn finalization_projection(
     match fs::symlink_metadata(&receipt_path) {
         Ok(_) => {}
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            return FinalizationProjection {
-                state: "receipt_missing".into(),
-                error_code: Some("receipt_missing".into()),
+            return finalization_projection_from_parts(FinalizationProjectionParts {
+                root,
+                work_item_id,
+                state: "receipt_missing",
+                error_code: Some("receipt_missing"),
                 disposition: None,
-                action: "inspect_resources_and_record_receipt".into(),
+                action: "record_finalization_receipt",
                 reliable: false,
-            };
+                diagnostic: Some("resource finalization receipt is not present".into()),
+            });
         }
         Err(_) => return finalization_projection_unknown("receipt_unreadable"),
     }
     match super::verify_resource_finalization_internal(root, work_item_id, runtime) {
         Ok(value) => {
             let disposition = value["disposition"].as_str().map(str::to_owned);
+            let state = value["state"].as_str().unwrap_or("verified");
             let action = match disposition.as_deref() {
                 Some("retained") => "retain_resources_and_follow_close_rules",
                 Some("deleted" | "abandoned") => "record_close_decision_if_required",
                 _ => "inspect_finalization_result",
             };
-            FinalizationProjection {
-                state: "verified".into(),
+            finalization_projection_from_parts(FinalizationProjectionParts {
+                root,
+                work_item_id,
+                state,
                 error_code: None,
-                disposition,
-                action: action.into(),
+                disposition: disposition.as_deref(),
+                action,
                 reliable: true,
-            }
+                diagnostic: None,
+            })
         }
         Err(error) => {
-            let code = classify_finalization_error(&error.to_string());
-            let action = match code.as_str() {
-                "identity_mismatch" | "record_corrupt" => "inspect_binding_and_recovery_evidence",
-                "cleanup_pending" => "reobserve_resources_before_cleanup",
-                "receipt_missing" => "inspect_resources_and_record_receipt",
-                _ => "inspect_recovery_conditions_before_action",
+            let (code, diagnostic) = match error {
+                ObserverError::FinalizationObservation {
+                    code, diagnostic, ..
+                } => (code, Some(diagnostic)),
+                other => (
+                    FinalizationErrorCode::ObservationUnavailable,
+                    Some(other.to_string()),
+                ),
             };
-            FinalizationProjection {
-                state: code.clone(),
-                error_code: Some(code),
+            let (state, action) = finalization_state_and_action_for_error(code);
+            finalization_projection_from_parts(FinalizationProjectionParts {
+                root,
+                work_item_id,
+                state,
+                error_code: Some(finalization_error_code_name(code)),
                 disposition: None,
-                action: action.into(),
+                action,
                 reliable: false,
-            }
+                diagnostic,
+            })
         }
     }
 }
 
-fn finalization_projection_from_outcome(outcome: &OutcomeV2) -> FinalizationProjection {
+fn finalization_projection_from_outcome(
+    root: &Path,
+    outcome: &OutcomeV2,
+) -> FinalizationProjection {
     if let Some(projection) = outcome.finalization.clone() {
         return projection;
     }
@@ -352,50 +530,269 @@ fn finalization_projection_from_outcome(outcome: &OutcomeV2) -> FinalizationProj
         .iter()
         .any(|unknown| unknown == "resource_finalization_pending")
     {
-        FinalizationProjection {
-            state: "unknown".into(),
-            error_code: Some("resource_finalization_pending".into()),
+        finalization_projection_from_parts(FinalizationProjectionParts {
+            root,
+            work_item_id: &outcome.work_item_id,
+            state: "unknown",
+            error_code: Some("resource_finalization_pending"),
             disposition: None,
-            action: "inspect_recovery_conditions_before_action".into(),
+            action: "inspect_recovery_conditions_before_action",
             reliable: false,
-        }
+            diagnostic: None,
+        })
     } else {
-        FinalizationProjection {
-            state: "not_observed".into(),
+        finalization_projection_from_parts(FinalizationProjectionParts {
+            root,
+            work_item_id: &outcome.work_item_id,
+            state: "not_observed",
             error_code: None,
             disposition: None,
-            action: "use_current_runtime_observation".into(),
+            action: "use_current_runtime_observation",
             reliable: false,
-        }
+            diagnostic: None,
+        })
     }
 }
 
 fn finalization_projection_unknown(code: &str) -> FinalizationProjection {
-    FinalizationProjection {
-        state: "unknown".into(),
-        error_code: Some(code.into()),
+    finalization_projection_from_parts(FinalizationProjectionParts {
+        root: Path::new("."),
+        work_item_id: "unknown",
+        state: "unknown",
+        error_code: Some(code),
         disposition: None,
-        action: "inspect_recovery_conditions_before_action".into(),
+        action: "inspect_recovery_conditions_before_action",
         reliable: false,
+        diagnostic: None,
+    })
+}
+
+struct FinalizationProjectionParts<'a> {
+    root: &'a Path,
+    work_item_id: &'a str,
+    state: &'a str,
+    error_code: Option<&'a str>,
+    disposition: Option<&'a str>,
+    action: &'a str,
+    reliable: bool,
+    diagnostic: Option<String>,
+}
+
+fn finalization_projection_from_parts(
+    parts: FinalizationProjectionParts<'_>,
+) -> FinalizationProjection {
+    let FinalizationProjectionParts {
+        root,
+        work_item_id,
+        state,
+        error_code,
+        disposition,
+        action,
+        reliable,
+        diagnostic,
+    } = parts;
+    let observation_state = finalization_observation_state(state, disposition);
+    let error = error_code.map(|code| FinalizationError {
+        code: finalization_error_code(code),
+        diagnostic,
+    });
+    let next_action = Some(finalization_action_projection_for_context(
+        action,
+        root,
+        work_item_id,
+    ));
+    FinalizationProjection {
+        state: state.into(),
+        error_code: error_code.map(str::to_owned),
+        disposition: disposition.map(str::to_owned),
+        action: action.into(),
+        reliable,
+        observation_state: Some(observation_state),
+        error,
+        next_action,
     }
 }
 
-fn classify_finalization_error(message: &str) -> String {
-    let lower = message.to_ascii_lowercase();
-    if lower.contains("identity mismatch") || lower.contains("binding") {
-        "identity_mismatch".into()
-    } else if lower.contains("not a regular")
-        || lower.contains("invalid resource finalization")
-        || lower.contains("invalid json")
-        || lower.contains("schema")
-    {
-        "record_corrupt".into()
-    } else if lower.contains("cleanup postconditions") || lower.contains("cleanup") {
-        "cleanup_pending".into()
-    } else if lower.contains("not found") || lower.contains("missing") {
-        "receipt_missing".into()
-    } else {
-        "unknown".into()
+fn finalization_observation_state(
+    value: &str,
+    disposition: Option<&str>,
+) -> FinalizationObservationState {
+    match value {
+        "not_required" => FinalizationObservationState::NotRequired,
+        "not_observed" => FinalizationObservationState::NotObserved,
+        "receipt_missing" => FinalizationObservationState::ReceiptMissing,
+        "record_corrupt" => FinalizationObservationState::RecordCorrupt,
+        "identity_mismatch" => FinalizationObservationState::IdentityMismatch,
+        "cleanup_pending" => FinalizationObservationState::CleanupPending,
+        "verified" => match disposition {
+            Some("retained") => FinalizationObservationState::VerifiedRetained,
+            Some("deleted") => FinalizationObservationState::VerifiedDeleted,
+            Some("abandoned") => FinalizationObservationState::VerifiedAbandoned,
+            _ => FinalizationObservationState::Verified,
+        },
+        "historical_verified" => FinalizationObservationState::HistoricalVerified,
+        _ => FinalizationObservationState::Unknown,
+    }
+}
+
+fn finalization_error_code(value: &str) -> FinalizationErrorCode {
+    match value {
+        "contract_missing" => FinalizationErrorCode::ContractMissing,
+        "contract_invalid" => FinalizationErrorCode::ContractInvalid,
+        "receipt_missing" => FinalizationErrorCode::ReceiptMissing,
+        "receipt_unreadable" => FinalizationErrorCode::ReceiptUnreadable,
+        "record_corrupt" => FinalizationErrorCode::RecordCorrupt,
+        "unsupported_schema" => FinalizationErrorCode::UnsupportedSchema,
+        "empty_field" => FinalizationErrorCode::EmptyField,
+        "invalid_digest" => FinalizationErrorCode::InvalidDigest,
+        "invalid_code" => FinalizationErrorCode::InvalidCode,
+        "identity_mismatch" => FinalizationErrorCode::IdentityMismatch,
+        "invalid_state" => FinalizationErrorCode::InvalidState,
+        "invalid_disposition" => FinalizationErrorCode::InvalidDisposition,
+        "replay_mismatch" => FinalizationErrorCode::ReplayMismatch,
+        "transition_forked" => FinalizationErrorCode::TransitionForked,
+        "transition_stale" => FinalizationErrorCode::TransitionStale,
+        "cleanup_pending" => FinalizationErrorCode::CleanupPending,
+        "runtime_mismatch" => FinalizationErrorCode::RuntimeMismatch,
+        "base_mismatch" => FinalizationErrorCode::BaseMismatch,
+        "historical_recovery_required" => FinalizationErrorCode::HistoricalRecoveryRequired,
+        "observation_unavailable" => FinalizationErrorCode::ObservationUnavailable,
+        _ => FinalizationErrorCode::Unknown,
+    }
+}
+
+fn finalization_error_code_name(code: FinalizationErrorCode) -> &'static str {
+    match code {
+        FinalizationErrorCode::ContractMissing => "contract_missing",
+        FinalizationErrorCode::ContractInvalid => "contract_invalid",
+        FinalizationErrorCode::ReceiptMissing => "receipt_missing",
+        FinalizationErrorCode::ReceiptUnreadable => "receipt_unreadable",
+        FinalizationErrorCode::RecordCorrupt => "record_corrupt",
+        FinalizationErrorCode::UnsupportedSchema => "unsupported_schema",
+        FinalizationErrorCode::EmptyField => "empty_field",
+        FinalizationErrorCode::InvalidDigest => "invalid_digest",
+        FinalizationErrorCode::InvalidCode => "invalid_code",
+        FinalizationErrorCode::IdentityMismatch => "identity_mismatch",
+        FinalizationErrorCode::InvalidState => "invalid_state",
+        FinalizationErrorCode::InvalidDisposition => "invalid_disposition",
+        FinalizationErrorCode::ReplayMismatch => "replay_mismatch",
+        FinalizationErrorCode::TransitionForked => "transition_forked",
+        FinalizationErrorCode::TransitionStale => "transition_stale",
+        FinalizationErrorCode::CleanupPending => "cleanup_pending",
+        FinalizationErrorCode::RuntimeMismatch => "runtime_mismatch",
+        FinalizationErrorCode::BaseMismatch => "base_mismatch",
+        FinalizationErrorCode::HistoricalRecoveryRequired => "historical_recovery_required",
+        FinalizationErrorCode::ObservationUnavailable => "observation_unavailable",
+        FinalizationErrorCode::Unknown => "unknown",
+    }
+}
+
+fn finalization_state_and_action_for_error(
+    code: FinalizationErrorCode,
+) -> (&'static str, &'static str) {
+    match code {
+        FinalizationErrorCode::ReceiptMissing => ("receipt_missing", "record_finalization_receipt"),
+        FinalizationErrorCode::CleanupPending => {
+            ("cleanup_pending", "reobserve_resources_before_cleanup")
+        }
+        FinalizationErrorCode::IdentityMismatch
+        | FinalizationErrorCode::BaseMismatch
+        | FinalizationErrorCode::RuntimeMismatch => {
+            ("identity_mismatch", "inspect_binding_and_recovery_evidence")
+        }
+        FinalizationErrorCode::UnsupportedSchema
+        | FinalizationErrorCode::RecordCorrupt
+        | FinalizationErrorCode::EmptyField
+        | FinalizationErrorCode::InvalidDigest
+        | FinalizationErrorCode::InvalidCode
+        | FinalizationErrorCode::InvalidState
+        | FinalizationErrorCode::InvalidDisposition
+        | FinalizationErrorCode::ReplayMismatch
+        | FinalizationErrorCode::TransitionForked
+        | FinalizationErrorCode::TransitionStale => {
+            ("record_corrupt", "inspect_binding_and_recovery_evidence")
+        }
+        _ => ("unknown", "inspect_recovery_conditions_before_action"),
+    }
+}
+
+#[cfg(test)]
+fn finalization_action_projection(action: &str) -> FinalizationActionProjection {
+    finalization_action_projection_for_context(action, Path::new("."), "unknown")
+}
+
+fn finalization_action_projection_for_context(
+    action: &str,
+    root: &Path,
+    work_item_id: &str,
+) -> FinalizationActionProjection {
+    let (id, authorization, safety, argv) = match action {
+        "record_finalization_receipt" | "inspect_resources_and_record_receipt" => (
+            FinalizationActionId::RecordFinalizationReceipt,
+            FinalizationAuthorization::ProviderRequired,
+            FinalizationSafety::RepositoryRecordOnly,
+            Some(vec![
+                "ai-cockpit".into(),
+                "work-item".into(),
+                "finalize".into(),
+                "--repo".into(),
+                root.display().to_string(),
+                "--id".into(),
+                work_item_id.into(),
+                "--input".into(),
+                root.join(".ai/decisions")
+                    .join(format!("{work_item_id}.finalize.json"))
+                    .display()
+                    .to_string(),
+            ]),
+        ),
+        "reobserve_resources_before_cleanup" => (
+            FinalizationActionId::VerifyFinalizationReceipt,
+            FinalizationAuthorization::None,
+            FinalizationSafety::ObserveOnly,
+            Some(vec![
+                "ai-cockpit".into(),
+                "work-item".into(),
+                "finalize-verify".into(),
+            ]),
+        ),
+        "record_close_decision_if_required" | "human_decision_or_lifecycle" => (
+            FinalizationActionId::RecordCloseDecision,
+            FinalizationAuthorization::HumanRequired,
+            FinalizationSafety::HumanDecisionOnly,
+            None,
+        ),
+        "retain_resources_and_follow_close_rules" => (
+            FinalizationActionId::PreserveHistoricalEvidence,
+            FinalizationAuthorization::None,
+            FinalizationSafety::StopAndPreserveEvidence,
+            None,
+        ),
+        "inspect_binding_and_recovery_evidence" => (
+            FinalizationActionId::InspectRecoveryConditions,
+            FinalizationAuthorization::None,
+            FinalizationSafety::ObserveOnly,
+            None,
+        ),
+        "inspect_finalization_result" | "use_current_runtime_observation" => (
+            FinalizationActionId::InspectCurrentObservation,
+            FinalizationAuthorization::None,
+            FinalizationSafety::ObserveOnly,
+            None,
+        ),
+        _ => (
+            FinalizationActionId::StopAndPreserveEvidence,
+            FinalizationAuthorization::None,
+            FinalizationSafety::StopAndPreserveEvidence,
+            None,
+        ),
+    };
+    FinalizationActionProjection {
+        id,
+        authorization,
+        safety,
+        argv,
+        evidence_refs: Vec::new(),
     }
 }
 
@@ -1171,28 +1568,35 @@ fn localized_finalization_status(projection: &FinalizationProjection, language: 
 }
 
 fn localized_finalization_action(projection: &FinalizationProjection, language: &str) -> String {
-    match (language, projection.state.as_str(), projection.disposition.as_deref()) {
-        ("zh", "verified", Some("retained")) => "receipt 确认资源按计划保留；不要删除，记录或检查 Runtime 允许的 close 决定。".into(),
-        ("ja", "verified", Some("retained")) => "receipt は plan に従う resource 保持を確認しています。削除せず、Runtime が許可する close 判断を記録または確認します。".into(),
-        (_, "verified", Some("retained")) => "The receipt confirms resources are retained by plan; do not delete them, and record or check the Runtime-permitted close decision.".into(),
-        ("zh", "verified", Some("deleted" | "abandoned")) => "finalization 已验证；仅记录必需的人工 close 决定，不能把该建议当作授权。".into(),
-        ("ja", "verified", Some("deleted" | "abandoned")) => "finalization は検証済みです。必要な人間の close 判断だけを記録し、この案を権限として扱いません。".into(),
-        (_, "verified", Some("deleted" | "abandoned")) => "Finalization is verified; record only the required human close decision, and do not treat this suggestion as authorization.".into(),
-        ("zh", "receipt_missing", _) => "先观察精确分支和工作树资源并记录 receipt（使用 work-item finalize-verify）；不要再次删除，完成前不要 close。".into(),
-        ("ja", "receipt_missing", _) => "正確な branch と worktree resource を再観測して receipt を記録します（work-item finalize-verify）。削除を繰り返さず、完了前に close しません。".into(),
-        (_, "receipt_missing", _) => "Re-observe the exact branch and worktree resources and record the receipt with work-item finalize-verify; do not delete again or close before it is complete.".into(),
-        ("zh", "identity_mismatch", _) => "核对 receipt、Contract、Work Item 和 repository 绑定，再按 Runtime 恢复入口处理。".into(),
-        ("ja", "identity_mismatch", _) => "receipt、Contract、Work Item、repository の binding を確認し、Runtime の復旧入口に従います。".into(),
-        (_, "identity_mismatch", _) => "Check the receipt, Contract, Work Item, and repository bindings, then use the Runtime recovery entry point.".into(),
-        ("zh", "record_corrupt", _) => "检查记录完整性并恢复可验证的 receipt；在此之前不执行清理。".into(),
-        ("ja", "record_corrupt", _) => "記録の integrity を確認して検証可能な receipt を復旧し、それまでは cleanup を実行しません。".into(),
-        (_, "record_corrupt", _) => "Inspect record integrity and recover a verifiable receipt; do not clean up before that.".into(),
-        ("zh", "cleanup_pending", _) => "重新观察资源和清理后置条件；只有有效计划确认未清理时才执行精确清理。".into(),
-        ("ja", "cleanup_pending", _) => "resource と cleanup の事後条件を再観測します。有効な plan が未 cleanup を確認した場合だけ正確な cleanup を実行します。".into(),
-        (_, "cleanup_pending", _) => "Re-observe resources and cleanup postconditions; clean only when a valid plan confirms cleanup is still required.".into(),
-        ("zh", "not_required", _) => "审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。".into(),
-        ("ja", "not_required", _) => "現在のライフサイクル状態を確認して必要な人間の判断を記録します。検証状態を権限に拡張しません。".into(),
-        (_, "not_required", _) => "Review the current lifecycle state and record any required human decision; verification status is not authorization.".into(),
+    let action = projection.next_action.as_ref().map(|next| next.id);
+    let state = projection
+        .observation_state
+        .unwrap_or(FinalizationObservationState::Unknown);
+    match (language, action, state) {
+        ("zh", Some(FinalizationActionId::PreserveHistoricalEvidence), _)
+        | ("zh", _, FinalizationObservationState::VerifiedRetained) => "receipt 确认资源按计划保留；不要删除，记录或检查 Runtime 允许的 close 决定。".into(),
+        ("ja", Some(FinalizationActionId::PreserveHistoricalEvidence), _)
+        | ("ja", _, FinalizationObservationState::VerifiedRetained) => "receipt は plan に従う resource 保持を確認しています。削除せず、Runtime が許可する close 判断を記録または確認します。".into(),
+        (_, Some(FinalizationActionId::PreserveHistoricalEvidence), _)
+        | (_, _, FinalizationObservationState::VerifiedRetained) => "The receipt confirms resources are retained by plan; do not delete them, and record or check the Runtime-permitted close decision.".into(),
+        ("zh", Some(FinalizationActionId::RecordCloseDecision), FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned)
+        | ("zh", _, FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned) => "finalization 已验证；仅记录必需的人工 close 决定，不能把该建议当作授权。".into(),
+        ("ja", Some(FinalizationActionId::RecordCloseDecision), FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned)
+        | ("ja", _, FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned) => "finalization は検証済みです。必要な人間の close 判断だけを記録し、この案を権限として扱いません。".into(),
+        (_, Some(FinalizationActionId::RecordCloseDecision), FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned)
+        | (_, _, FinalizationObservationState::VerifiedDeleted | FinalizationObservationState::VerifiedAbandoned) => "Finalization is verified; record only the required human close decision, and do not treat this suggestion as authorization.".into(),
+        ("zh", Some(FinalizationActionId::RecordFinalizationReceipt), _) => "先观察精确分支和工作树资源，再使用绑定路径的 work-item finalize 命令记录 receipt；不要再次删除，完成前不要 close。".into(),
+        ("ja", Some(FinalizationActionId::RecordFinalizationReceipt), _) => "正確な branch と worktree resource を再観測し、binding 済みの work-item finalize コマンドで receipt を記録します。削除を繰り返さず、完了前に close しません。".into(),
+        (_, Some(FinalizationActionId::RecordFinalizationReceipt), _) => "Re-observe the exact branch and worktree resources, then use the bound work-item finalize command to record the receipt; do not delete again or close before it is complete.".into(),
+        ("zh", Some(FinalizationActionId::InspectRecoveryConditions), _) => "核对 receipt、Contract、Work Item 和 repository 绑定，再按 Runtime 恢复入口处理。".into(),
+        ("ja", Some(FinalizationActionId::InspectRecoveryConditions), _) => "receipt、Contract、Work Item、repository の binding を確認し、Runtime の復旧入口に従います。".into(),
+        (_, Some(FinalizationActionId::InspectRecoveryConditions), _) => "Check the receipt, Contract, Work Item, and repository bindings, then use the Runtime recovery entry point.".into(),
+        ("zh", Some(FinalizationActionId::VerifyFinalizationReceipt), _) => "重新观察资源和清理后置条件；只有有效计划确认未清理时才执行精确清理。".into(),
+        ("ja", Some(FinalizationActionId::VerifyFinalizationReceipt), _) => "resource と cleanup の事後条件を再観測します。有効な plan が未 cleanup を確認した場合だけ正確な cleanup を実行します。".into(),
+        (_, Some(FinalizationActionId::VerifyFinalizationReceipt), _) => "Re-observe resources and cleanup postconditions; clean only when a valid plan confirms cleanup is still required.".into(),
+        ("zh", Some(FinalizationActionId::RecordCloseDecision), _) => "审阅当前生命周期状态并记录必需的人工作业；验证状态不扩大为授权。".into(),
+        ("ja", Some(FinalizationActionId::RecordCloseDecision), _) => "現在のライフサイクル状態を確認して必要な人間の判断を記録します。検証状態を権限に拡張しません。".into(),
+        (_, Some(FinalizationActionId::RecordCloseDecision), _) => "Review the current lifecycle state and record any required human decision; verification status is not authorization.".into(),
         ("zh", _, _) => "先检查恢复证据和资源观察；原因不明时保持停止，不执行删除。".into(),
         ("ja", _, _) => "まず復旧 evidence と resource observation を確認します。理由が不明な場合は停止し、削除しません。".into(),
         (_, _, _) => "Inspect recovery evidence and resource observations first; when the reason is unknown, stop and do not delete.".into(),
@@ -2118,16 +2522,20 @@ fn render_human_decision(
 #[cfg(test)]
 mod render_tests {
     use super::{
-        FinalizationProjection, HumanDecisionProjection, OutcomeRenderInput,
-        assemble_outcome_render_input_with_hook, render_human_outcome,
+        FinalizationProjection, HumanDecisionProjection, ObservationLedger, OutcomeRenderInput,
+        assemble_outcome_render_input_with_hook, finalization_action_projection,
+        finalization_action_projection_for_context, render_human_outcome,
     };
     use crate::{
         WorkItemStartOptions, attach, checkpoint_work_item, preflight_work_item,
         record_verification, start_work_item_with_options,
     };
     use cockpit_core::{DecisionState, Digest};
-    use cockpit_protocol::{HumanBenefitReport, HumanDecision, OutcomeState, OutcomeV2};
-    use std::{fs, process::Command};
+    use cockpit_protocol::{
+        FinalizationActionId, FinalizationObservationState, HumanBenefitReport, HumanDecision,
+        OutcomeState, OutcomeV2,
+    };
+    use std::{fs, path::Path, process::Command};
 
     fn base_outcome() -> OutcomeV2 {
         OutcomeV2 {
@@ -2172,6 +2580,11 @@ mod render_tests {
                 disposition: None,
                 action: "use_current_runtime_observation".into(),
                 reliable: false,
+                observation_state: Some(FinalizationObservationState::NotObserved),
+                error: None,
+                next_action: Some(finalization_action_projection(
+                    "use_current_runtime_observation",
+                )),
             },
             reason_keys: Vec::new(),
             assembly: None,
@@ -2259,6 +2672,68 @@ mod render_tests {
         assert_eq!(input.outcome.governance_reasons, input.reason_keys);
     }
 
+    #[cfg(unix)]
+    #[test]
+    fn outcome_assembly_rejects_a_symlinked_active_contract() {
+        use std::os::unix::fs::symlink;
+
+        let directory = observed_repository();
+        let id = "WI-OBSERVATION-BOUNDARY";
+        let contract = directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json"));
+        let target = directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.target.json"));
+        fs::rename(&contract, &target).expect("move contract target");
+        symlink(&target, &contract).expect("symlink contract");
+
+        let error =
+            super::assemble_outcome_render_input_with_hook(directory.path(), id, None, None)
+                .expect_err("active Contract symlink must fail closed");
+        assert!(error.to_string().contains("regular non-symlink"), "{error}");
+    }
+
+    #[test]
+    fn resource_facts_are_read_once_and_reused_by_boundary_digests() {
+        let mut git_queries = 0;
+        let external = super::resource_observation_facts_with(|args| {
+            git_queries += 1;
+            Some(if args[0] == "branch" {
+                "main".into()
+            } else {
+                "worktree".into()
+            })
+        });
+        assert_eq!(git_queries, 2, "one branch and one worktree query");
+        let ledger = ObservationLedger::new(Path::new("/tmp/request-local-ledger"));
+        let first = ledger.digest(&external);
+        let second = ledger.digest(&external);
+        assert_eq!(first, second);
+        assert_eq!(
+            git_queries, 2,
+            "digest consumers must not re-query Git facts"
+        );
+    }
+
+    #[test]
+    fn outcome_assembly_registers_event_stream_drift() {
+        let directory = observed_repository();
+        let id = "WI-OBSERVATION-BOUNDARY";
+        let events = directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.events.jsonl"));
+        let mut hook = |attempt| {
+            if attempt == 1 {
+                fs::write(&events, b"observation mutation\n").expect("mutate event stream");
+            }
+        };
+        let input =
+            assemble_outcome_render_input_with_hook(directory.path(), id, None, Some(&mut hook))
+                .expect("bounded retry succeeds after event drift");
+        assert_eq!(input.assembly.expect("assembly metadata").attempts, 2);
+    }
+
     #[test]
     fn outcome_assembly_stops_after_bounded_record_changes() {
         let directory = observed_repository();
@@ -2340,6 +2815,10 @@ mod render_tests {
         let mut missing = input(HumanDecisionProjection::Missing, true);
         missing.finalization.state = "receipt_missing".into();
         missing.finalization.action = "inspect_resources_and_record_receipt".into();
+        missing.finalization.observation_state = Some(FinalizationObservationState::ReceiptMissing);
+        missing.finalization.next_action = Some(finalization_action_projection(
+            "inspect_resources_and_record_receipt",
+        ));
         let missing_text = render_human_outcome(&missing, "en");
         let missing_summary = super::render_human_outcome_with_view(
             &missing,
@@ -2357,6 +2836,11 @@ mod render_tests {
         let mut retained = input(HumanDecisionProjection::Missing, true);
         retained.finalization.state = "verified".into();
         retained.finalization.disposition = Some("retained".into());
+        retained.finalization.observation_state =
+            Some(FinalizationObservationState::VerifiedRetained);
+        retained.finalization.next_action = Some(finalization_action_projection(
+            "retain_resources_and_follow_close_rules",
+        ));
         let retained_text = render_human_outcome(&retained, "en");
         let retained_summary = super::render_human_outcome_with_view(
             &retained,
@@ -2380,6 +2864,11 @@ mod render_tests {
         let mut deleted = input(HumanDecisionProjection::Missing, true);
         deleted.finalization.state = "verified".into();
         deleted.finalization.disposition = Some("deleted".into());
+        deleted.finalization.observation_state =
+            Some(FinalizationObservationState::VerifiedDeleted);
+        deleted.finalization.next_action = Some(finalization_action_projection(
+            "record_close_decision_if_required",
+        ));
         let deleted_text = render_human_outcome(&deleted, "en");
         let deleted_summary = super::render_human_outcome_with_view(
             &deleted,
@@ -2415,6 +2904,11 @@ mod render_tests {
             let mut classified = input(HumanDecisionProjection::Missing, true);
             classified.finalization.state = state.into();
             classified.finalization.action = action.into();
+            classified.finalization.observation_state = Some(match state {
+                "identity_mismatch" => FinalizationObservationState::IdentityMismatch,
+                _ => FinalizationObservationState::RecordCorrupt,
+            });
+            classified.finalization.next_action = Some(finalization_action_projection(action));
             for language in ["en", "zh", "ja"] {
                 let summary = super::render_human_outcome_with_view(
                     &classified,
@@ -2454,6 +2948,46 @@ mod render_tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn receipt_next_action_is_executable_and_retained_action_is_non_destructive() {
+        let receipt = finalization_action_projection_for_context(
+            "record_finalization_receipt",
+            Path::new("/repo"),
+            "WI-42",
+        );
+        assert_eq!(
+            receipt.argv,
+            Some(vec![
+                "ai-cockpit".into(),
+                "work-item".into(),
+                "finalize".into(),
+                "--repo".into(),
+                "/repo".into(),
+                "--id".into(),
+                "WI-42".into(),
+                "--input".into(),
+                "/repo/.ai/decisions/WI-42.finalize.json".into(),
+            ])
+        );
+        let retained = finalization_action_projection_for_context(
+            "retain_resources_and_follow_close_rules",
+            Path::new("/repo"),
+            "WI-42",
+        );
+        assert_eq!(
+            retained.id,
+            FinalizationActionId::PreserveHistoricalEvidence
+        );
+        assert_eq!(
+            retained.safety,
+            cockpit_protocol::FinalizationSafety::StopAndPreserveEvidence
+        );
+        assert_eq!(
+            retained.authorization,
+            cockpit_protocol::FinalizationAuthorization::None
+        );
     }
 
     #[test]

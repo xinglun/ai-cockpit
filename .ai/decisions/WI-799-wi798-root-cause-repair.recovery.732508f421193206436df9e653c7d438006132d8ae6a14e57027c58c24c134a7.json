@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-root-cause-repair",
+  "decidedAt": "2026-09-11T17:56:59Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+  "predecessorEventsDigest": "sha256:0453cf09964607d523ba3adb05b26d1076a94ffdd2a91c725b00a53d7f94487f",
+  "predecessorOutcomeDigest": "sha256:c409ce55aa3630119c0fd8bf5a358e4d0c529a7f49fa8a4220b36e4e5d8f9360",
+  "predecessorSummaryDigest": "sha256:698cc16e5b81c4e2ec5aa4c003d813f56c23fa7a07ff619f70c7c8e96bf55012",
+  "predecessorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "reason": "Documentation integrity exposed missing successor Work Item pages and parity registration after finish; retry the current Work Item with fresh bound evidence instead of creating another successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun current Runtime verification after the documentation and parity repair, then retry finish",
+  "runtimeDigest": "sha256:6ed3215f10f356dff452714f35cf1fcb3bedff48287299c78f1f91578126fb68",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

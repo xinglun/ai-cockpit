@@ -14,11 +14,11 @@ use cockpit_protocol::{
     ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt,
     DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
     EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
-    GovernanceCost, GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
-    HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
-    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
-    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
+    FinalizationErrorCode, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
+    HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt, HumanBenefitReport,
+    HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+    ParallelSlotLease, PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
@@ -50,6 +50,7 @@ mod evidence_store;
 mod execution_context;
 mod governance_controls;
 mod lifecycle;
+mod observation_ledger;
 mod outcome_render;
 mod project_governance;
 mod status_projection;
@@ -235,7 +236,11 @@ pub struct ContractQualityGateReport {
     pub contract_digest: Digest,
     pub contract_file_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    /// Immutable Work Item baseline used by Runtime lifecycle verification.
     pub base_revision: String,
+    /// Provider/CI comparison baseline for this hosted route. This can
+    /// differ from the Contract baseline when a PR targets a newer base.
+    pub comparison_base_revision: String,
     pub head_revision: Option<String>,
     pub changed_paths: Vec<String>,
     pub stage: String,
@@ -520,6 +525,24 @@ pub enum ObserverError {
     SnapshotRootMismatch,
     #[error("repository protocol state error at {path}: {message}")]
     State { path: PathBuf, message: String },
+    #[error("resource finalization observation error at {path} ({code:?}): {diagnostic}")]
+    FinalizationObservation {
+        path: PathBuf,
+        code: FinalizationErrorCode,
+        diagnostic: String,
+    },
+}
+
+fn finalization_observation_error(
+    path: impl Into<PathBuf>,
+    code: FinalizationErrorCode,
+    error: impl std::fmt::Display,
+) -> ObserverError {
+    ObserverError::FinalizationObservation {
+        path: path.into(),
+        code,
+        diagnostic: error.to_string(),
+    }
 }
 
 fn path_derived_repository_id(root: &Path) -> Digest {
@@ -2991,12 +3014,25 @@ pub fn evaluate_contract_quality_gate(
             message: "Contract repositoryId does not match the repository context".into(),
         });
     }
-    if let Some(expected) = expected_base_revision
-        && contract.base_revision != expected
+    let comparison_base_revision = expected_base_revision
+        .map(str::to_owned)
+        .unwrap_or_else(|| contract.base_revision.clone());
+    let comparison_selector = format!("{comparison_base_revision}^{{commit}}");
+    if !valid_git_object_id(&comparison_base_revision)
+        || git_text(
+            &root,
+            &[
+                "rev-parse",
+                "--verify",
+                "--end-of-options",
+                comparison_selector.as_str(),
+            ],
+        )
+        .is_none()
     {
         return Err(ObserverError::State {
-            path: contract_path,
-            message: "Contract baseRevision does not match the CI base revision".into(),
+            path: contract_path.clone(),
+            message: "CI comparison baseRevision is not a valid repository commit".into(),
         });
     }
     let git =
@@ -3004,10 +3040,12 @@ pub fn evaluate_contract_quality_gate(
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
+    let snapshot = git
+        .snapshot_against(&comparison_base_revision)
+        .map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: format!("capture CI comparison diff: {error}"),
+        })?;
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }
@@ -3047,6 +3085,7 @@ pub fn evaluate_contract_quality_gate(
         contract_file_digest,
         repository_snapshot_digest: current_snapshot_digest,
         base_revision: contract.base_revision.clone(),
+        comparison_base_revision,
         head_revision: snapshot.head.clone(),
         changed_paths: route.affected_paths.clone(),
         stage: stage.as_str().into(),
@@ -3172,6 +3211,99 @@ pub fn require_policy_for_verification(
             })
         }
     }
+}
+
+/// Check every cheap Work Item gate that can make a verification command
+/// invalid before the command is started.  The verification recorder keeps
+/// the same checks as a fail-closed backstop, but callers must not discover a
+/// missing governance projection only after an expensive build or test run.
+pub fn require_verification_preconditions(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<(), ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let contract_value = read_json(&contract_path)?;
+    let contract = read_contract(&contract_path)?;
+    let summary = read_json(&summary_path)?;
+    if !matches!(
+        summary["state"].as_str(),
+        Some("checkpointed" | "finish_ready")
+    ) || summary["checkpointCount"] != serde_json::json!(1)
+    {
+        return Err(ObserverError::State {
+            path: summary_path,
+            message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
+        });
+    }
+    let current_snapshot_digest = snapshot_digest(snapshot)?.to_string();
+    if summary["preflightRepositorySnapshotDigest"]
+        .as_str()
+        .is_none_or(|value| value != current_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+            message: "verification requires a preflight result for the current repository snapshot"
+                .into(),
+        });
+    }
+    let current_contract_digest = contract_digest(&contract_path)?.to_string();
+    if summary["preflightContractDigest"]
+        .as_str()
+        .is_none_or(|value| value != current_contract_digest)
+    {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "verification requires a preflight result for the current Contract".into(),
+        });
+    }
+    let preflight_state = summary["preflightState"].as_str().unwrap_or_default();
+    let recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    let amendment_pending = summary
+        .get("verificationInvalidatedByContractAmendment")
+        .is_some();
+    if !matches!(preflight_state, "green" | "yellow") && !recovery_pending && !amendment_pending {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "verification requires a recorded non-red preflight result".into(),
+        });
+    }
+    let controls = validate_contract_summary_controls_with_runtime(
+        &contract,
+        &contract_value,
+        &summary,
+        runtime,
+    );
+    if controls.state == "blocked" {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: format!(
+                "verification preconditions are blocked: {}",
+                controls
+                    .findings
+                    .iter()
+                    .map(|item| item.code.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            ),
+        });
+    }
+    Ok(())
 }
 
 fn is_test_path(path: &str) -> bool {
@@ -4189,11 +4321,15 @@ fn verification_evidence_state(
     let amendment_invalidates_previous = !archived
         && contract_amendment_invalidates_verification(root, contract, &expected_contract_digest);
     if envelope.contract_digest.as_ref() != Some(&expected_contract_digest) {
-        return Ok(if amendment_invalidates_previous {
-            EvidenceState::Stale
-        } else {
-            EvidenceState::Contradictory
-        });
+        return Ok(
+            if amendment_invalidates_previous
+                || retry_recovery_pending_is_valid(root, contract, current_runtime)
+            {
+                EvidenceState::Stale
+            } else {
+                EvidenceState::Contradictory
+            },
+        );
     }
 
     if let Some(embedded_retention) = envelope.retention.as_ref() {
@@ -4221,7 +4357,29 @@ fn verification_evidence_state(
         && (envelope.runtime_version != runtime.runtime_version
             || envelope.runtime_digest != runtime.runtime_digest)
     {
-        return Ok(EvidenceState::Contradictory);
+        // A retry receipt is the explicit authorization to replace evidence
+        // produced by the previous Runtime executable.  Classify that
+        // transition as stale so preflight can lead directly to the bounded
+        // replacement verification; foreign or tampered evidence without a
+        // retry remains contradictory and fail-closed.
+        let retry_pending = !archived
+            && root
+                .join(".ai/work-items/active")
+                .join(format!("{}.summary.json", contract.work_item_id))
+                .is_file()
+            && read_json(
+                &root
+                    .join(".ai/work-items/active")
+                    .join(format!("{}.summary.json", contract.work_item_id)),
+            )
+            .ok()
+            .and_then(|summary| summary.get("recoveryRetryPending").cloned())
+            .is_some_and(|value| value == serde_json::json!(true));
+        return Ok(if retry_pending {
+            EvidenceState::Stale
+        } else {
+            EvidenceState::Contradictory
+        });
     }
     let current_snapshot_digest = snapshot_digest(snapshot)?;
     if !archived && envelope.repository_snapshot_digest != current_snapshot_digest {
@@ -4333,6 +4491,35 @@ fn contract_amendment_invalidates_verification(
         .and_then(serde_json::Value::as_str)
         .and_then(|value| value.parse::<Digest>().ok())
         .is_some_and(|digest| digest == *current_contract_digest)
+}
+
+/// A retry receipt is the explicit, append-only authority to replace a
+/// receipt after a controlled Contract or Runtime change.  The helper is
+/// intentionally stricter than the Summary marker alone; otherwise a stale
+/// or hand-written marker could downgrade a tampered identity mismatch to a
+/// recoverable state.
+fn retry_recovery_pending_is_valid(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    current_runtime: Option<&RuntimeContext>,
+) -> bool {
+    let Some(runtime) = current_runtime else {
+        return false;
+    };
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    if read_json(&summary_path)
+        .ok()
+        .and_then(|summary| summary.get("recoveryRetryPending").cloned())
+        != Some(serde_json::json!(true))
+    {
+        return false;
+    }
+    load_recovery_decision(root, &contract.work_item_id, Some(runtime))
+        .ok()
+        .flatten()
+        .is_some_and(|decision| decision.decision == "retry")
 }
 
 /// Return true when an archived receipt is integrity-valid as historical
@@ -7238,8 +7425,22 @@ fn verify_resource_finalization_internal(
         source,
     })?;
     let (receipt, path, receipt_digest, sequence) =
-        resolve_resource_finalization_head(&root, work_item_id)?;
-    let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)?;
+        resolve_resource_finalization_head(&root, work_item_id).map_err(|error| {
+            finalization_observation_error(
+                resource_finalization_decision_path(&root, work_item_id),
+                FinalizationErrorCode::RecordCorrupt,
+                error,
+            )
+        })?;
+    let (contract, finalization_contract_digest) = archived_contract_digest(&root, work_item_id)
+        .map_err(|error| {
+            finalization_observation_error(
+                root.join(".ai/work-items/archive")
+                    .join(format!("{work_item_id}.contract.json")),
+                FinalizationErrorCode::RecordCorrupt,
+                error,
+            )
+        })?;
     let current_contract_canonical_digest = contract_digest(
         &root
             .join(".ai/work-items/archive")
@@ -7306,16 +7507,26 @@ fn verify_resource_finalization_internal(
         (!contract_amendment_revalidation).then_some(&finalization_contract_digest),
         contract.resource_context.as_ref(),
     )
-    .map_err(|error| ObserverError::State {
-        path: path.clone(),
-        message: error.to_string(),
+    .map_err(|error| {
+        finalization_observation_error(path.clone(), error.finalization_error_code(), error)
     })?;
-    validate_historical_finalization(&root, &receipt, &path)?;
-    ensure_resource_finalization_base_binding(&receipt, &contract, &path)?;
+    validate_historical_finalization(&root, &receipt, &path).map_err(|error| {
+        finalization_observation_error(path.clone(), FinalizationErrorCode::RecordCorrupt, error)
+    })?;
+    ensure_resource_finalization_base_binding(&receipt, &contract, &path).map_err(|error| {
+        finalization_observation_error(path.clone(), FinalizationErrorCode::BaseMismatch, error)
+    })?;
     let inferred_legacy_shared_worktree =
         infer_legacy_shared_worktree_retained(&root, &receipt, &contract);
     let historical_recovery = if let Some(runtime) = runtime {
-        load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)?
+        load_historical_finalization_recovery(&root, work_item_id, &receipt, &contract, runtime)
+            .map_err(|error| {
+                finalization_observation_error(
+                    historical_finalization_recovery_path(&root, work_item_id),
+                    FinalizationErrorCode::HistoricalRecoveryRequired,
+                    error,
+                )
+            })?
     } else {
         None
     };
@@ -7355,13 +7566,13 @@ fn verify_resource_finalization_internal(
             if kind.is_none()
                 && let Err(error) = ensure_resource_runtime_identity(&receipt, runtime, &path)
             {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!(
-                        "{}; inspect with `ai-cockpit work-item finalize-recovery-plan --repo <repository> --id {work_item_id}` before recording historical recovery",
-                        error
+                return Err(finalization_observation_error(
+                    path.clone(),
+                    FinalizationErrorCode::RuntimeMismatch,
+                    format!(
+                        "{error}; inspect with `ai-cockpit work-item finalize-recovery-plan --repo <repository> --id {work_item_id}` before recording historical recovery"
                     ),
-                });
+                ));
             }
             kind
         } else {
@@ -7370,15 +7581,23 @@ fn verify_resource_finalization_internal(
     } else {
         None
     };
+    let resources_deleted = local_resources_deleted(&root, &receipt).map_err(|error| {
+        finalization_observation_error(
+            path.clone(),
+            FinalizationErrorCode::ObservationUnavailable,
+            error,
+        )
+    })?;
     if matches!(
         receipt.result.disposition,
         ResourceFinalizationDisposition::Deleted | ResourceFinalizationDisposition::Abandoned
-    ) && !local_resources_deleted(&root, &receipt)?
+    ) && !resources_deleted
     {
-        return Err(ObserverError::State {
+        return Err(finalization_observation_error(
             path,
-            message: "resource finalization cleanup postconditions are not satisfied".into(),
-        });
+            FinalizationErrorCode::CleanupPending,
+            "resource finalization cleanup postconditions are not satisfied",
+        ));
     }
     let mut result = serde_json::json!({
         "workItemId": work_item_id,
@@ -9672,6 +9891,7 @@ fn append_task_outcome_recovery_event(
     } else {
         Vec::new()
     };
+    let original_len = events.len();
     let detail = format!("Lifecycle gate blocked: {failed_gate}. {recovery_condition}");
     if events
         .iter()
@@ -9701,17 +9921,7 @@ fn append_task_outcome_recovery_event(
         correction_of: None,
         finding_fingerprint: None,
     });
-    let encoded = events
-        .iter()
-        .map(serde_json::to_string)
-        .collect::<Result<Vec<_>, _>>()
-        .map_err(|error| ObserverError::State {
-            path: path.clone(),
-            message: error.to_string(),
-        })?
-        .join("\n")
-        + "\n";
-    atomic_write(&path, encoded.as_bytes())
+    append_task_outcome_event_lines(&path, &events[original_len..])
 }
 
 fn validate_task_outcome_events(
@@ -9844,6 +10054,57 @@ fn event_id(event_type: &str, detail: &str, timestamp: &str) -> String {
     format!("event-{}", Digest::sha256_bytes(input.as_bytes()))
 }
 
+/// Append only the new event lines. Re-serializing the complete event stream
+/// would alter historical JSON formatting/bytes and make a recovery appear to
+/// rewrite the very evidence it is required to preserve.
+fn append_task_outcome_event_lines(
+    path: &Path,
+    events: &[TaskOutcomeEvent],
+) -> Result<(), ObserverError> {
+    if events.is_empty() {
+        return Ok(());
+    }
+    let needs_separator = fs::metadata(path)
+        .ok()
+        .filter(|metadata| metadata.len() > 0)
+        .is_some_and(|_| {
+            fs::read(path)
+                .ok()
+                .is_some_and(|bytes| !bytes.ends_with(b"\n"))
+        });
+    let mut file = fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .map_err(|source| ObserverError::Read {
+            path: path.to_path_buf(),
+            source,
+        })?;
+    if needs_separator {
+        file.write_all(b"\n")
+            .map_err(|source| ObserverError::Read {
+                path: path.to_path_buf(),
+                source,
+            })?;
+    }
+    for event in events {
+        let encoded = serde_json::to_vec(event).map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: error.to_string(),
+        })?;
+        file.write_all(&encoded)
+            .and_then(|_| file.write_all(b"\n"))
+            .map_err(|source| ObserverError::Read {
+                path: path.to_path_buf(),
+                source,
+            })?;
+    }
+    file.flush().map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })
+}
+
 fn finding_fingerprint(event_type: &str, detail: &str, evidence_refs: &[String]) -> String {
     let normalized_detail = detail.split_whitespace().collect::<Vec<_>>().join(" ");
     let mut refs = evidence_refs.to_vec();
@@ -9886,6 +10147,7 @@ fn append_task_outcome_events(
     } else {
         Vec::new()
     };
+    let original_len = events.len();
     let timestamp = now();
     let mut append = |event_type: &str, detail: &str, evidence_refs: Vec<String>| {
         let fingerprint = matches!(event_type, "finding" | "risk")
@@ -9959,17 +10221,7 @@ fn append_task_outcome_events(
     for claim in &report.sections.residual_risks {
         append("risk", &claim.text, claim.evidence_refs.clone());
     }
-    let encoded = events
-        .iter()
-        .map(serde_json::to_string)
-        .collect::<Result<Vec<_>, _>>()
-        .map_err(|error| ObserverError::State {
-            path: path.clone(),
-            message: error.to_string(),
-        })?
-        .join("\n")
-        + "\n";
-    fs::write(&path, encoded).map_err(|source| ObserverError::Read { path, source })
+    append_task_outcome_event_lines(&path, &events[original_len..])
 }
 
 fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
@@ -10730,10 +10982,15 @@ fn load_recovery_decision(
         candidates.push((decided_at, path, receipt));
     }
     if let Some(latest_valid) = candidates.iter().map(|item| item.0).max() {
-        if let Some((_, _, error)) = stale_candidates
-            .into_iter()
-            .find(|(timestamp, _, _)| timestamp.is_none_or(|value| value >= latest_valid))
-        {
+        let now = Utc::now().timestamp_millis();
+        if let Some((_, _, error)) = stale_candidates.into_iter().find(|(timestamp, _, _)| {
+            // A stale receipt with a future timestamp can be left by a
+            // clock-skewed or interrupted retry. It remains immutable
+            // evidence, but must not outrank a valid current-runtime
+            // receipt and strand the recovery path indefinitely. A
+            // non-future stale receipt still dominates conservatively.
+            timestamp.is_none_or(|value| value >= latest_valid && value <= now)
+        }) {
             return Err(error);
         }
     } else if stale_candidates

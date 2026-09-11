@@ -12,8 +12,11 @@ manifest_before="$parent/ai-cockpit-isolation-before.$$.manifest"
 manifest_after="$parent/ai-cockpit-isolation-after.$$.manifest"
 manifest_output_only="$parent/ai-cockpit-isolation-output-only.$$.manifest"
 manifest_untracked="$parent/ai-cockpit-isolation-untracked.$$.manifest"
+manifest_missing_rust="$parent/ai-cockpit-isolation-missing-rust.$$.manifest"
+manifest_missing_paths="$parent/ai-cockpit-isolation-missing.$$.paths"
 cleanup() {
-  rm -rf -- "$root" "$manifest_before" "$manifest_after" "$manifest_output_only" "$manifest_untracked"
+  rm -rf -- "$root" "$manifest_before" "$manifest_after" "$manifest_output_only" \
+    "$manifest_untracked" "$manifest_missing_rust" "$manifest_missing_paths"
 }
 trap cleanup EXIT
 
@@ -37,6 +40,23 @@ jq -e --arg target 'nested/file.txt' --arg resolved "$root/nested/file.txt" \
 jq -e --arg digest "sha256:$(sha256_file "$root/nested/file.txt")" \
   'select(.path == "nested/file.txt" and .digest == $digest)' "$manifest_before" >/dev/null
 validate_manifest_symlink_containment "$root" "$manifest_before"
+
+shell_missing_record="$(manifest_record "$root/selected-but-removed.txt" "selected-but-removed.txt")"
+jq -e 'select(.path == "selected-but-removed.txt" and .type == "missing" and
+  .mode == "0" and .size == "0" and .mtime == "0" and
+  .digest == null and .target == null and .resolvedTarget == null)' \
+  <(printf '%s\n' "$shell_missing_record") >/dev/null
+if [[ -n "${AI_COCKPIT_ISOLATION_BIN:-}" && -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
+  printf 'nested/file.txt\0selected-but-removed.txt\0' > "$manifest_missing_paths"
+  "$AI_COCKPIT_ISOLATION_BIN" isolation-manifest --root "$root" \
+    --paths-file "$manifest_missing_paths" --output "$manifest_missing_rust"
+  rust_missing_record="$(jq -c 'select(.path == "selected-but-removed.txt")' "$manifest_missing_rust")"
+  [[ "$rust_missing_record" == "$shell_missing_record" ]] || {
+    printf 'Rust selected-path missing record differs from Shell helper\nShell: %s\nRust: %s\n' \
+      "$shell_missing_record" "$rust_missing_record" >&2
+    exit 1
+  }
+fi
 
 printf 'beta\n' > "$root/nested/file.txt"
 chmod 700 "$root/empty-directory"

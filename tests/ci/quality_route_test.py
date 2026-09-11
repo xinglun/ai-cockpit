@@ -4,6 +4,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -26,6 +27,22 @@ route = load_module()
 manifest = route.load_manifest(MANIFEST_PATH)
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
+
+empty_covers = copy.deepcopy(manifest)
+empty_covers["gates"][0]["covers"] = []
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-empty-covers-") as temporary_directory:
+    empty_covers_path = Path(temporary_directory) / "manifest.json"
+    empty_covers_path.write_text(json.dumps(empty_covers), encoding="utf-8")
+    try:
+        route.load_manifest(empty_covers_path)
+    except ValueError as error:
+        assert "non-empty list" in str(error)
+    else:
+        raise AssertionError("Python route must reject covers: []")
+
+assert route.parse_structured_failure(
+    '{"state":"failed","failureCode":"quality_route_failed","remediation":"retry"}'
+) == ("quality_route_failed", "retry")
 
 
 def assert_invalid_gate_order(gates: list[dict], temporary: Path) -> None:
@@ -53,6 +70,18 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-order-") as temporary_d
     duplicate.insert(1, duplicate_gate)
     assert_invalid_gate_order(duplicate, temporary)
 
+    cyclic = copy.deepcopy(manifest)
+    cyclic["gates"][0]["dependsOn"] = [cyclic["gates"][1]["id"]]
+    cyclic["gates"][1]["dependsOn"] = [cyclic["gates"][0]["id"]]
+    cyclic_path = temporary / "cyclic-manifest.json"
+    cyclic_path.write_text(json.dumps(cyclic), encoding="utf-8")
+    try:
+        route.load_manifest(cyclic_path)
+    except ValueError as error:
+        assert "acyclic" in str(error)
+    else:
+        raise AssertionError("cyclic gate dependencies must fail before route selection")
+
 
 def selected(paths: list[str], *, risk: str = "normal", stage: str = "pull_request") -> str:
     return route.select_route(
@@ -72,6 +101,33 @@ assert selected(["docs/release/distribution.md", "Cargo.lock"]) == "strict"
 assert selected(["unclassified/new-surface.xyz"]) == "strict"
 assert selected(["docs/release/distribution.md"], risk="high") == "strict"
 assert selected(["docs/release/distribution.md"], stage="release") == "strict"
+
+closure_manifest = copy.deepcopy(manifest)
+closure_manifest["gates"] = [
+    {
+        "category": "fixture",
+        "command": ["true"],
+        "id": "fixture_a_strict",
+        "minimumProfile": "strict",
+    },
+    {
+        "category": "fixture",
+        "command": ["false"],
+        "dependsOn": ["fixture_a_strict"],
+        "id": "fixture_b_standard",
+        "minimumProfile": "standard",
+    },
+]
+closure = route.select_route(
+    closure_manifest,
+    paths=["crates/example.rs"],
+    risk="normal",
+    stage="pull_request",
+    requested_profile=None,
+)
+assert closure["automaticProfile"] == "standard"
+assert closure["selectedProfile"] == "strict"
+assert closure["requiredGateIds"] == ["fixture_a_strict", "fixture_b_standard"]
 
 automatic = route.select_route(
     manifest,
@@ -101,6 +157,9 @@ strict_gate_ids = [
 assert automatic["requiredGateIds"] == strict_gate_ids
 assert "workspace_package_tests" in strict_gate_ids
 assert "release_adopter" in strict_gate_ids
+strict_order = automatic["executionOrder"]
+assert strict_order.index("release_action_runtime") < strict_order.index("performance_p0_regression")
+assert strict_order.index("performance_p0_regression") < strict_order.index("workspace_clippy")
 for profile in ("light", "standard", "strict"):
     profile_gate_ids = [
         gate["id"]
@@ -224,40 +283,44 @@ assert "  push:\n    branches:\n      - main" in ci_workflow
 assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
 assert "target/quality-route.json" in ci_workflow
-assert "target/quality-route-initial.json" in ci_workflow
 assert "gate" in ci_workflow
 assert "--runner hosted" in ci_workflow
 assert "target/rust-contract-quality-gate.json" in ci_workflow
 assert "--contract-gate-report" in ci_workflow
-assert "--route-receipt target/quality-route-initial.json" not in ci_workflow
 assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
 assert "contracts=()" in release_workflow
 assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
-assert "if: steps.initial_quality_route.outputs.profile != 'light'" in ci_workflow
+assert "name: Bind the shared typed repository quality route" in ci_workflow
+assert "if: steps.quality_route.outputs.profile != 'light'" in ci_workflow
 assert (
-    "if: steps.initial_quality_route.outputs.profile != 'light' && "
-    "steps.initial_quality_route.outputs.contract_path != ''"
+    "if: steps.quality_route.outputs.profile != 'light' && "
+    "steps.quality_route.outputs.contract_path != ''"
 ) in ci_workflow
 assert ci_workflow.count(
-    "steps.initial_quality_route.outputs.profile != 'light' && "
-    "steps.initial_quality_route.outputs.contract_path != ''"
-) == 2
-assert "name: Finalize the typed repository quality route" in ci_workflow
+    "steps.quality_route.outputs.profile != 'light' && "
+    "steps.quality_route.outputs.contract_path != ''"
+) == 4
+assert "name: Plan the initial typed repository quality route" not in ci_workflow
+assert "name: Finalize the typed repository quality route" not in ci_workflow
+assert "target/quality-route-initial.json" not in ci_workflow
 assert "name: verify workspace package coverage receipt" in ci_workflow
 assert (
     "if: always() && steps.quality_route.outputs.profile != 'light' && "
     "hashFiles('target/workspace-package-coverage.json') != ''"
 ) in ci_workflow
-initial_route = ci_workflow.index("name: Plan the initial typed repository quality route")
+bound_route = ci_workflow.index("name: Bind the shared typed repository quality route")
 runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
-final_route = ci_workflow.index("name: Finalize the typed repository quality route")
 rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")
-assert initial_route < runtime_shadow < final_route < rust_gate < gate_execution
-assert "cargo run --locked --package cockpit-cli" in ci_workflow
+assert bound_route < runtime_shadow < rust_gate < gate_execution
+assert "target/release/ai-cockpit" in ci_workflow
+assert "--rust-bin target/ai-cockpit" not in ci_workflow
+assert "--rust-bin target/release/ai-cockpit" in ci_workflow
+assert "name: ci-gate-plan-tool" in ci_workflow
+assert "--gate-plan-bin target/release/ai-cockpit" in ci_workflow
 
 for relative in (
     "docs/reference/ci-runtime-shadow.md",
@@ -339,5 +402,26 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-lifecycle-boundary-") as tem
         assert "lifecycle_transition_stale" in str(error)
     else:
         raise AssertionError("a failed lifecycle transition must fail before gates")
+
+    summary_path.unlink()
+    os.symlink(repository / "README.md", summary_path)
+    try:
+        route.plan_repository_route(
+            repository=repository,
+            manifest_path=MANIFEST_PATH,
+            base=base,
+            head=base,
+            stage="pull_request",
+            risk="normal",
+            contract_path=Path(".ai/work-items/active/WI-LIFECYCLE.contract.json"),
+            requested_profile=None,
+        )
+    except route.RouteValidationError as error:
+        assert error.code == "lifecycle_transition_invalid"
+        assert error.remediation == (
+            "restore the repository-local Summary and rerun preflight before pushing"
+        )
+    else:
+        raise AssertionError("a Summary symlink must fail before gates")
 
 print("repository quality route regression passed")

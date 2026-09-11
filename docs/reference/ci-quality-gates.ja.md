@@ -77,6 +77,12 @@ gate runner は command output を捕捉し、fixture が意図的に出す nega
 （root code、対象 gate ID、remediation）が一件ずつ入り、raw output は二重の失敗数になりません。
 成功した repository-gate receipt の schema は維持され、post-finalize evidence として使えます。
 
+runner report は `executionOrder`、`launchedGateIds`、`reusedGateIds` も束縛します。
+preflight error は gate command を一つも起動する前に保存され、各 gate の後に checkpoint
+を atomic に保存します。依存先の失敗はその依存 gate だけを block し、
+`--resume-report` は route と command の束縛が一致する成功済み gate だけを再利用します。
+これにより interruption、timeout、retry の証拠を明示し、影響を受けない検査を再実行しません。
+
 adopter project は自身の `.ai/` と Contract を通じて同じ route/transition 境界を継承します。
 共有 Runtime と policy manifest は工程外部にあり、Work Item state、Evidence、failure receipt
 は repository-local に分離され、本プロジェクトと共有されません。

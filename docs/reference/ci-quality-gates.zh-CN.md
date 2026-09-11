@@ -73,6 +73,11 @@ gate runner 会捕获命令输出，不再把每个 fixture 预期的负向诊�
 不会被计为第二个失败。通过的 repository-gate receipt 保持原有 schema，因此仍可作为
 post-finalize evidence。
 
+runner 报告还绑定 `executionOrder`、`launchedGateIds` 和 `reusedGateIds`。任何
+preflight 错误都会在启动 gate 命令前写入；每个 gate 后都会原子写入执行 checkpoint。
+依赖失败只阻断依赖它的 gate；`--resume-report` 只复用 route 与 command 绑定仍一致的
+已通过 gate。这样中断、超时和重试的证据明确可见，也不会重跑不受影响的检查。
+
 对象工程通过自己的 `.ai/` 与 Contract 继承相同的 route 和过渡边界。共享 Runtime 与
 policy manifest 位于工程外部；Work Item 状态、Evidence 和失败回执保持仓库本地隔离，
 不会与本项目共享。

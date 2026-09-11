@@ -25,8 +25,8 @@
     "human_report_entrypoint_parity": {
       "inputFacts": ["OutcomeV2", "localized human handoff"],
       "expectedSemantics": {
-        "description": "CLI and MCP human handoffs preserve the same reason, unknown, authorization scope, and consequence semantics in every supported language.",
-        "semanticTokens": ["outcome_marker", "verification_state", "acceptance_gap", "intent_gap", "next_action"]
+      "description": "CLI and MCP human handoffs preserve the same acceptance and intent projections, authorization scope, and consequence semantics in every supported language.",
+      "semanticTokens": ["outcome_marker", "verification_state", "next_action"]
       },
       "test": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs::cli_subprocess_and_mcp_handler_agree_on_the_same_outcome"
     },
@@ -69,6 +69,14 @@
         "semanticTokens": ["identity", "git_snapshot", "read_hash", "parse", "governance", "projection_serialization", "read_bytes", "hashed_bytes", "git_calls", "child_processes_unavailable"]
       },
       "test": "crates/cockpit-repository/tests/intelligence.rs::capability_and_diagnosis_are_snapshot_bound_and_parallel_check_fails_closed"
+    },
+    "finalization_case_cli_mcp_typed_next_action": {
+      "inputFacts": ["ResourceFinalizationReceipt", "finalization observation error", "CLI/MCP outcome projection"],
+      "expectedSemantics": {
+        "description": "Retained, deleted, abandoned, corrupt, identity-mismatched, and cleanup-pending finalization observations preserve one typed observation state and next_action across CLI/MCP, summary/full views, and en/zh-CN/ja presentation.",
+        "semanticTokens": ["typed_observation_state", "typed_next_action", "cli_mcp_parity", "view_locale_invariance"]
+      },
+      "test": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs::finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales"
     }
   },
   "scenarios": [
@@ -80,6 +88,45 @@
       "citation": "ai-cockpit checkpoint --repo <repo> --id WI-679-... (2026-09-08)",
       "precondition": "Work Item scaffold created via `work-item new`; Contract/Summary state is still not_ready.",
       "action": {"entrypoint": "cli", "command": "checkpoint --repo <repo> --id <id>"},
+      "inputFacts": {
+        "lifecycleState": "not_ready",
+        "operation": "checkpoint",
+        "worktree": "clean",
+        "contract": "scaffold_only"
+      },
+      "expectedState": {
+        "result": "rejected",
+        "lifecycleState": "not_ready",
+        "decisionState": null
+      },
+      "expectedBlockers": [
+        {
+          "code": "invalid_lifecycle_transition",
+          "severity": "red",
+          "evidence": "checkpoint requires implementation_active"
+        }
+      ],
+      "expectedAction": {
+        "kind": "activate_work_item_then_retry",
+        "command": "work-item start --repo <repo> --id <id>",
+        "messageContains": "checkpoint is invalid from state \"not_ready\"; expected implementation_active",
+        "mutatesRepository": true,
+        "requiresHumanDecision": false
+      },
+      "forbiddenInferences": [
+        "A rejected checkpoint does not authorize implementation or imply that the Work Item is active."
+      ],
+      "verificationPlan": {
+        "fixture": "temporary_attached_repository_with_not_ready_scaffold",
+        "setupSteps": ["attach", "scaffold_work_item"],
+        "exercise": "checkpoint_work_item",
+        "productionEntryPoint": "cockpit_repository::checkpoint_work_item",
+        "assertions": [
+          "the production repository operation returns a lifecycle State error",
+          "the error contains expectedAction.messageContains"
+        ],
+        "noOutcomeProjection": true
+      },
       "expected": {
         "result": "rejected",
         "decisionState": null,
@@ -96,6 +143,45 @@
       "citation": "ai-cockpit start ... (2026-09-08): \"lifecycle entry rejected before start: non-governance changes were present before start: docs/reference/...\"",
       "precondition": "Implementation files were written into the worktree before running `start`.",
       "action": {"entrypoint": "cli", "command": "start --repo <repo> --id <id> --intent ... --goal ..."},
+      "inputFacts": {
+        "lifecycleState": "not_ready",
+        "operation": "start",
+        "worktree": "has_pre_existing_non_governance_changes",
+        "changedPath": "src-under-review.txt"
+      },
+      "expectedState": {
+        "result": "rejected",
+        "lifecycleState": "not_ready",
+        "decisionState": null
+      },
+      "expectedBlockers": [
+        {
+          "code": "pre_existing_non_governance_changes",
+          "severity": "red",
+          "evidence": "src-under-review.txt"
+        }
+      ],
+      "expectedAction": {
+        "kind": "clean_worktree_then_retry",
+        "command": "stash or remove pre-existing non-governance changes, then rerun work-item start",
+        "messageContains": "non-governance changes were present before start",
+        "mutatesRepository": true,
+        "requiresHumanDecision": false
+      },
+      "forbiddenInferences": [
+        "A start rejection does not authorize the pre-existing change or merge it into the Work Item."
+      ],
+      "verificationPlan": {
+        "fixture": "temporary_repository_with_pre_existing_non_governance_change",
+        "setupSteps": ["git_init", "write_pre_existing_change"],
+        "exercise": "start_work_item_with_options",
+        "productionEntryPoint": "cockpit_repository::start_work_item_with_options",
+        "assertions": [
+          "the production repository operation rejects lifecycle entry",
+          "the error names the changed path and contains expectedAction.messageContains"
+        ],
+        "noOutcomeProjection": true
+      },
       "expected": {
         "result": "rejected",
         "decisionState": null,
@@ -323,6 +409,45 @@
       "citation": "ai-cockpit finish ... (2026-09-08) -> \"finish requires a non-provisional resource finalization plan; run finalize-plan before finish\"",
       "precondition": "resourceContext still has unknown/pending branch/worktree/base/provider/PR fields.",
       "action": {"entrypoint": "cli", "command": "finish --repo <repo> --id <id>"},
+      "inputFacts": {
+        "lifecycleState": "checkpointed",
+        "operation": "finish",
+        "verificationReceipt": "passing",
+        "resourceFinalizationPlan": "missing_or_provisional"
+      },
+      "expectedState": {
+        "result": "rejected",
+        "lifecycleState": "checkpointed",
+        "decisionState": null
+      },
+      "expectedBlockers": [
+        {
+          "code": "resource_finalization_plan_missing",
+          "severity": "red",
+          "evidence": "resourceContext remains unknown or provisional"
+        }
+      ],
+      "expectedAction": {
+        "kind": "plan_resource_finalization_then_retry",
+        "command": "work-item finalize-plan --repo <repo> --id <id>, then rerun finish",
+        "messageContains": "finish requires a non-provisional resource finalization plan; run finalize-plan before finish",
+        "mutatesRepository": true,
+        "requiresHumanDecision": false
+      },
+      "forbiddenInferences": [
+        "A passing verification receipt does not authorize finish while the finalization plan is missing."
+      ],
+      "verificationPlan": {
+        "fixture": "temporary_checkpointed_repository_without_finalization_plan",
+        "setupSteps": ["start", "preflight", "checkpoint", "record_passing_verification"],
+        "exercise": "finish_work_item",
+        "productionEntryPoint": "cockpit_repository::finish_work_item",
+        "assertions": [
+          "the production repository operation rejects finish",
+          "the error contains expectedAction.messageContains"
+        ],
+        "noOutcomeProjection": true
+      },
       "expected": {
         "result": "rejected",
         "decisionState": null,
@@ -498,6 +623,143 @@
       "invariantsExercised": [3, 4, 7, 8, 10],
       "executableChecks": ["no_history_handoff", "runtime_phase_diagnostics"],
       "notes": "The test uses only temporary controlled-repository records and explicitly reads the persisted Outcome rather than treating the transient failed command's presentation as completion. It does not recruit, interview, or evaluate external participants."
+    },
+    {
+      "id": "SCN-027",
+      "category": "finalization_observation",
+      "title": "retained resources preserve a no-delete typed next action across entrypoints and presentation views",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a valid retained finalization receipt.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "verified_retained",
+        "typedNextAction": "preserve_historical_evidence",
+        "keyMessage": "preserve historical evidence",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [3, 5, 6, 7],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "The fixture is persisted through the Runtime finalize command; the test asserts that retained resources are preserved and never rendered as an unsupported delete action."
+    },
+    {
+      "id": "SCN-028",
+      "category": "finalization_observation",
+      "title": "deleted resources require only the typed human close decision",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a valid deleted finalization receipt and no local branch/worktree remains.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "verified_deleted",
+        "typedNextAction": "record_close_decision",
+        "keyMessage": "record the human close decision",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [1, 5, 6, 7],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "Verification of cleanup is not treated as authorization to merge, release, or close; the typed action names the separate human close decision."
+    },
+    {
+      "id": "SCN-029",
+      "category": "finalization_observation",
+      "title": "abandoned unmerged delivery remains a truthful terminal observation",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a valid abandoned receipt with an unmerged pull request and deleted local resources.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "verified_abandoned",
+        "typedNextAction": "record_close_decision",
+        "keyMessage": "record the human close decision",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [1, 4, 5, 6, 7],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "The case does not convert a failed or unmerged delivery into a merged result; its next action remains the explicit close decision."
+    },
+    {
+      "id": "SCN-030",
+      "category": "finalization_observation",
+      "title": "corrupt finalization records stop at recovery inspection",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a malformed canonical finalization record.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "record_corrupt",
+        "typedNextAction": "inspect_recovery_conditions",
+        "keyMessage": "inspect recovery conditions",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [2, 3, 5, 6, 7],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "Malformed evidence is not treated as missing cleanup or as a safe retry authorization; the projection stops at inspection."
+    },
+    {
+      "id": "SCN-031",
+      "category": "finalization_observation",
+      "title": "identity-mismatched finalization records preserve the binding stop",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a syntactically valid receipt bound to a different repository identity.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "identity_mismatch",
+        "typedNextAction": "inspect_recovery_conditions",
+        "keyMessage": "inspect recovery conditions",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [3, 5, 6, 7, 8],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "A parseable record with the wrong repository identity is still stopped; presentation localization cannot make it current evidence."
+    },
+    {
+      "id": "SCN-032",
+      "category": "finalization_observation",
+      "title": "cleanup-pending observations require re-verification before any cleanup action",
+      "sourceType": "observed",
+      "citation": "cargo test -p cockpit-cli --test collaboration_scenario_matrix finalization_cases_keep_typed_next_action_equal_across_cli_mcp_views_and_locales",
+      "precondition": "A temporary archived Work Item has a deleted receipt while its local branch/worktree still exists.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "work-item outcome --json and MCP work_item_outcome for summary/full and en/zh-CN/ja"},
+      "expected": {
+        "result": "consistent",
+        "observationState": "cleanup_pending",
+        "typedNextAction": "verify_finalization_receipt",
+        "keyMessage": "verify the finalization receipt",
+        "languages": ["en", "zh-CN", "ja"],
+        "views": ["summary", "full"]
+      },
+      "invariantsExercised": [2, 3, 5, 6, 7],
+      "executableChecks": ["finalization_case_cli_mcp_typed_next_action"],
+      "notes": "The local postcondition is intentionally false in the temporary fixture; the next action is observation-only and never an instruction to repeat deletion."
+    },
+    {
+      "id": "SCN-033",
+      "category": "finalization_observation",
+      "title": "unclassifiable finalization state remains explicitly unavailable",
+      "sourceType": "unavailable",
+      "citation": "No stable CLI/MCP fixture can safely force an unknown finalization state without introducing a filesystem race or breaking the prerequisite Contract observation.",
+      "precondition": "An unknown finalization state would require an observation failure outside the controlled record cases.",
+      "action": {"entrypoint": "cli_and_mcp", "command": "reserved for a deterministic Runtime fixture"},
+      "expected": {
+        "result": "unavailable",
+        "observationState": "unknown",
+        "typedNextAction": "stop_and_preserve_evidence",
+        "evidenceStatus": "unavailable"
+      },
+      "invariantsExercised": [3, 5, 6, 7],
+      "notes": "This case cannot be safely constructed with the current production entrypoints; the matrix preserves explicit unavailable evidence instead of using a flaky race or claiming an unproven CLI/MCP result."
     }
   ]
 }

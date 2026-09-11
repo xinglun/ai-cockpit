@@ -911,9 +911,9 @@ pub fn revalidate_contract_amendment(
 }
 
 /// Apply a bounded, append-only Contract amendment and record its revalidation.
-/// Only additive scope, out-of-scope, and acceptance entries are accepted; the
-/// Runtime never lets an amendment rewrite identity, authority, base, mode, or
-/// existing criteria.
+/// Only additive scope, out-of-scope, acceptance, required-evidence, and
+/// scenario-coverage entries are accepted; the Runtime never lets an
+/// amendment rewrite identity, authority, base, mode, or existing criteria.
 pub fn amend_work_item_contract(
     root: &Path,
     work_item_id: &str,
@@ -928,7 +928,33 @@ pub fn amend_work_item_contract(
     let path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
     let mut contract = read_json(&path)?;
+    let summary = read_json(&summary_path)?;
+    for key in input
+        .as_object()
+        .into_iter()
+        .flat_map(|object| object.keys())
+    {
+        if !matches!(
+            key.as_str(),
+            "scopeAppend"
+                | "outOfScopeAppend"
+                | "acceptanceAppend"
+                | "requiredEvidenceClassesAppend"
+                | "scenarioCoverageAppend"
+        ) {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!("unsupported Contract amendment field {key}"),
+            });
+        }
+    }
+    let pre_checkpoint_scenario_declaration = input.get("scenarioCoverageAppend").is_some()
+        && summary["checkpointCount"] == serde_json::json!(0)
+        && input.as_object().is_some_and(|object| object.len() == 1);
     for (field, target) in [
         ("scopeAppend", "scope"),
         ("outOfScopeAppend", "outOfScope"),
@@ -960,6 +986,72 @@ pub fn amend_work_item_contract(
                 existing.push(serde_json::json!(value));
             }
         }
+    }
+    if let Some(values) = input.get("scenarioCoverageAppend") {
+        let values = values.as_array().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "scenarioCoverageAppend must be an array".into(),
+        })?;
+        if contract
+            .get("scenarioCoverage")
+            .is_none_or(serde_json::Value::is_null)
+        {
+            contract["scenarioCoverage"] = serde_json::json!([]);
+        }
+        let coverage =
+            contract["scenarioCoverage"]
+                .as_array_mut()
+                .ok_or_else(|| ObserverError::State {
+                    path: path.clone(),
+                    message: "Contract field scenarioCoverage is not an array".into(),
+                })?;
+        for value in values {
+            let Some(name) = value.get("scenario").and_then(serde_json::Value::as_str) else {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "scenarioCoverageAppend entries must contain a scenario string".into(),
+                });
+            };
+            if name.trim().is_empty()
+                || coverage.iter().any(|entry| {
+                    entry.get("scenario").and_then(serde_json::Value::as_str) == Some(name)
+                })
+            {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!(
+                        "scenarioCoverageAppend contains duplicate or empty scenario {name:?}"
+                    ),
+                });
+            }
+            coverage.push(value.clone());
+        }
+        if let Err(errors) =
+            cockpit_protocol::validate_scenario_coverage_projection(&contract["scenarioCoverage"])
+        {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!("scenarioCoverageAppend is invalid: {}", errors.join(", ")),
+            });
+        }
+    }
+    if pre_checkpoint_scenario_declaration {
+        serde_json::from_value::<Contract>(contract.clone()).map_err(|error| {
+            ObserverError::State {
+                path: path.clone(),
+                message: format!("scenarioCoverageAppend produced an invalid Contract: {error}"),
+            }
+        })?;
+        atomic_json(&path, &contract)?;
+        return Ok(serde_json::json!({
+            "schemaVersion": 1,
+            "repositoryId": repository_id(&root),
+            "workItemId": work_item_id,
+            "stage": "pre_checkpoint_scenario_declaration",
+            "recorded": true,
+            "contractHash": contract_digest(&path)?,
+            "recordedAt": now()
+        }));
     }
     if contract["scope"].as_array().is_none() {
         return Err(ObserverError::State {
@@ -1533,9 +1625,12 @@ fn finish_work_item_internal_unlocked(
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
         return Err(error);
     }
-    if let Err(error) =
-        append_task_outcome_events(&root, &contract, &task_report, retry_recovery_pending)
-    {
+    if let Err(error) = append_task_outcome_events(
+        &root,
+        &contract,
+        &task_report,
+        retry_recovery_pending || verification_recovery_reconciled,
+    ) {
         let _ = fs::remove_file(active.join(format!("{work_item_id}.outcome.json")));
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.json")));
         let _ = fs::remove_file(active.join(format!("{work_item_id}.task-report.md")));
@@ -3045,6 +3140,14 @@ fn record_verification_internal(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
     let mut summary: serde_json::Value = read_json(&summary_path)?;
+    // Preserve the snapshot that actually drove verification in the canonical
+    // Summary.  The old path only refreshed governance projections below;
+    // consequently a Work Item started from a clean tree reported an empty
+    // changedPaths list even after source edits and produced a misleading
+    // delivery report.  Do not use `refreshed_snapshot` here: it includes the
+    // evidence/projection writes made by this function rather than just the
+    // verification input.
+    summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
     summary
         .as_object_mut()
         .expect("Work Item Summary is an object")

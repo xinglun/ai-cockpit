@@ -979,6 +979,12 @@ pub enum ObservationConsistency {
     Stable,
 }
 
+#[derive(Clone, Copy, Debug)]
+struct ObservationPhaseOptions {
+    use_persistent_cache: bool,
+    validate_current: bool,
+}
+
 /// Validated, request-scoped facts for one observation phase.  This is a
 /// value object rather than a cache: `validate_current` must succeed before a
 /// caller uses it after any possible repository or execution mutation.
@@ -1099,21 +1105,20 @@ impl ObservationContext {
             });
         }
         if let (Some(path), Some(expected)) = (&self.contract_path, &self.contract_digest) {
-            let current = contract_identity_digest(path)?;
+            let (current, current_model) = contract_digests(path)?;
             if &current != expected {
                 return Err(ObserverError::State {
                     path: path.clone(),
                     message: "observation phase Contract identity changed".into(),
                 });
             }
-            if let Some(expected_model) = &self.contract_model_digest {
-                let current_model = contract_model_digest(path)?;
-                if &current_model != expected_model {
-                    return Err(ObserverError::State {
-                        path: path.clone(),
-                        message: "observation Contract model changed".into(),
-                    });
-                }
+            if let Some(expected_model) = &self.contract_model_digest
+                && &current_model != expected_model
+            {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "observation Contract model changed".into(),
+                });
             }
         }
         if current_snapshot_digest != self.snapshot_digest {
@@ -1157,7 +1162,10 @@ fn governance_configuration_digest(root: &Path) -> Result<Digest, ObserverError>
         let path = root.join(relative);
         match fs::symlink_metadata(&path) {
             Ok(metadata) if metadata.file_type().is_symlink() => {
-                bytes.extend_from_slice(b"symlink");
+                return Err(ObserverError::State {
+                    path,
+                    message: "active governance file must be a regular non-symlink file".into(),
+                });
             }
             Ok(metadata) if metadata.file_type().is_file() => {
                 bytes.extend_from_slice(&fs::read(&path).map_err(|source| {
@@ -1188,13 +1196,62 @@ fn governance_policy_digest(root: &Path) -> Result<Option<Digest>, ObserverError
         Err(source) => return Err(ObserverError::Read { path, source }),
     };
     if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        if metadata.file_type().is_symlink() {
+            return Err(ObserverError::State {
+                path,
+                message: "active governance file must be a regular non-symlink file".into(),
+            });
+        }
         return Ok(Some(Digest::sha256_bytes(b"invalid-policy-file")));
     }
     let bytes = fs::read(&path).map_err(|source| ObserverError::Read { path, source })?;
     Ok(Some(Digest::sha256_bytes(&bytes)))
 }
 
-fn contract_identity_digest(path: &Path) -> Result<Digest, ObserverError> {
+fn validate_contract_path(root: &Path, contract_path: &Path) -> Result<PathBuf, ObserverError> {
+    let original = if contract_path.is_absolute() {
+        contract_path.to_path_buf()
+    } else {
+        std::env::current_dir()
+            .map_err(|source| ObserverError::Read {
+                path: contract_path.to_path_buf(),
+                source,
+            })?
+            .join(contract_path)
+    };
+    let metadata = fs::symlink_metadata(&original).map_err(|source| ObserverError::Read {
+        path: original.clone(),
+        source,
+    })?;
+    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+        return Err(ObserverError::State {
+            path: original,
+            message: "observation Contract must be a regular non-symlink file".into(),
+        });
+    }
+    let parent = original.parent().ok_or_else(|| ObserverError::State {
+        path: original.clone(),
+        message: "observation Contract has no parent directory".into(),
+    })?;
+    let canonical_parent = fs::canonicalize(parent).map_err(|source| ObserverError::Read {
+        path: parent.to_path_buf(),
+        source,
+    })?;
+    let canonical_path =
+        canonical_parent.join(original.file_name().ok_or_else(|| ObserverError::State {
+            path: original.clone(),
+            message: "observation Contract has no file name".into(),
+        })?);
+    if !canonical_path.starts_with(root) {
+        return Err(ObserverError::State {
+            path: original,
+            message: "observation Contract escapes repository root".into(),
+        });
+    }
+    Ok(original)
+}
+
+fn contract_digests(path: &Path) -> Result<(Digest, Digest), ObserverError> {
     let metadata = fs::symlink_metadata(path).map_err(|source| ObserverError::Read {
         path: path.to_path_buf(),
         source,
@@ -1205,31 +1262,19 @@ fn contract_identity_digest(path: &Path) -> Result<Digest, ObserverError> {
             message: "observation Contract must be a regular non-symlink file".into(),
         });
     }
+    let bytes = fs::read(path).map_err(|source| ObserverError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
     let value: serde_json::Value =
-        serde_json::from_slice(&fs::read(path).map_err(|source| ObserverError::Read {
-            path: path.to_path_buf(),
-            source,
-        })?)
-        .map_err(|error| ObserverError::State {
+        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
             message: error.to_string(),
         })?;
-    cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+    let identity = cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
         path: path.to_path_buf(),
         message: error.to_string(),
-    })
-}
-
-fn contract_model_digest(path: &Path) -> Result<Digest, ObserverError> {
-    let value: serde_json::Value =
-        serde_json::from_slice(&fs::read(path).map_err(|source| ObserverError::Read {
-            path: path.to_path_buf(),
-            source,
-        })?)
-        .map_err(|error| ObserverError::State {
-            path: path.to_path_buf(),
-            message: error.to_string(),
-        })?;
+    })?;
     let contract: cockpit_protocol::Contract =
         serde_json::from_value(value).map_err(|error| ObserverError::State {
             path: path.to_path_buf(),
@@ -1239,10 +1284,12 @@ fn contract_model_digest(path: &Path) -> Result<Digest, ObserverError> {
         path: path.to_path_buf(),
         message: error.to_string(),
     })?;
-    cockpit_protocol::digest_json(&normalized).map_err(|error| ObserverError::State {
-        path: path.to_path_buf(),
-        message: error.to_string(),
-    })
+    let model =
+        cockpit_protocol::digest_json(&normalized).map_err(|error| ObserverError::State {
+            path: path.to_path_buf(),
+            message: error.to_string(),
+        })?;
+    Ok((identity, model))
 }
 
 /// Request-scoped repository state.  A context captures one immutable Git
@@ -1336,7 +1383,17 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_digest: Option<Digest>,
     ) -> Result<ObservationContext, ObserverError> {
-        self.observe_phase_with_bindings(phase, runtime, contract_digest, None, None, true)
+        self.observe_phase_with_bindings(
+            phase,
+            runtime,
+            contract_digest,
+            None,
+            None,
+            ObservationPhaseOptions {
+                use_persistent_cache: true,
+                validate_current: true,
+            },
+        )
     }
 
     pub fn observe_phase_with_contract(
@@ -1345,26 +1402,18 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_path: &Path,
     ) -> Result<ObservationContext, ObserverError> {
-        let contract_path =
-            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
-                path: contract_path.to_path_buf(),
-                source,
-            })?;
-        if !contract_path.starts_with(&self.root) {
-            return Err(ObserverError::State {
-                path: contract_path,
-                message: "observation Contract escapes repository root".into(),
-            });
-        }
-        let contract_digest = contract_identity_digest(&contract_path)?;
-        let contract_model_digest = contract_model_digest(&contract_path)?;
+        let contract_path = validate_contract_path(&self.root, contract_path)?;
+        let (contract_digest, contract_model_digest) = contract_digests(&contract_path)?;
         self.observe_phase_with_bindings(
             phase,
             runtime,
             Some(contract_digest),
             Some(contract_model_digest),
             Some(contract_path),
-            true,
+            ObservationPhaseOptions {
+                use_persistent_cache: true,
+                validate_current: true,
+            },
         )
     }
 
@@ -1374,26 +1423,18 @@ impl RepositoryExecutionContext {
         runtime: Option<&RuntimeContext>,
         contract_path: &Path,
     ) -> Result<ObservationContext, ObserverError> {
-        let contract_path =
-            fs::canonicalize(contract_path).map_err(|source| ObserverError::Read {
-                path: contract_path.to_path_buf(),
-                source,
-            })?;
-        if !contract_path.starts_with(&self.root) {
-            return Err(ObserverError::State {
-                path: contract_path,
-                message: "observation Contract escapes repository root".into(),
-            });
-        }
-        let contract_digest = contract_identity_digest(&contract_path)?;
-        let contract_model_digest = contract_model_digest(&contract_path)?;
+        let contract_path = validate_contract_path(&self.root, contract_path)?;
+        let (contract_digest, contract_model_digest) = contract_digests(&contract_path)?;
         self.observe_phase_with_bindings(
             phase,
             runtime,
             Some(contract_digest),
             Some(contract_model_digest),
             Some(contract_path),
-            false,
+            ObservationPhaseOptions {
+                use_persistent_cache: false,
+                validate_current: false,
+            },
         )
     }
 
@@ -1404,9 +1445,9 @@ impl RepositoryExecutionContext {
         contract_digest: Option<Digest>,
         contract_model_digest: Option<Digest>,
         contract_path: Option<PathBuf>,
-        use_persistent_cache: bool,
+        options: ObservationPhaseOptions,
     ) -> Result<ObservationContext, ObserverError> {
-        let observation = if use_persistent_cache {
+        let observation = if options.use_persistent_cache {
             self.observe()?.clone()
         } else {
             self.observe_uncached()?.clone()
@@ -1431,7 +1472,9 @@ impl RepositoryExecutionContext {
             consistency: ObservationConsistency::Stable,
             root: self.root.clone(),
         };
-        context.validate_current()?;
+        if options.validate_current {
+            context.validate_current()?;
+        }
         Ok(context)
     }
 

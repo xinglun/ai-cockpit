@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-root-cause-repair",
+  "decidedAt": "2026-09-11T18:43:09Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
+  "predecessorEventsDigest": "sha256:81318f3c5ffd64ffd59a6aeb9c38a24d9a3ac72b79169511a222237202d10c34",
+  "predecessorOutcomeDigest": "sha256:ee6581543f933782d11a6bc5daf410600cd65b1f81b289f95bf1d39194bdc76a",
+  "predecessorSummaryDigest": "sha256:03f57e2dccc78bde44fbe588ba4129c07e5832fe7b89918353f3e9f3b24a7c87",
+  "predecessorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "reason": "Hosted quality exposed an artifact layout mismatch before repository gates; repair the workflow and retry the same Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun current Runtime preflight, checkpoint, and verification after the hosted artifact path repair",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

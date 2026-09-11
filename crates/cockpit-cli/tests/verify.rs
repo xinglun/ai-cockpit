@@ -75,6 +75,38 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
 }
 
 #[test]
+fn verify_returns_nonzero_and_structured_receipt_when_command_fails() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-failure-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--command", "false"])
+        .output()
+        .expect("verify");
+    assert!(!output.status.success());
+    let receipt: serde_json::Value = serde_json::from_slice(&output.stdout)
+        .expect("failed verification must remain machine-readable on stdout");
+    assert_eq!(receipt["passed"], false);
+    assert_eq!(receipt["results"][0]["passed"], false);
+    assert_eq!(receipt["results"][0]["nodeId"], "project-command-0");
+    assert!(
+        !String::from_utf8_lossy(&output.stderr)
+            .contains("failed verification cannot be recorded as completion evidence")
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_rejects_an_unknown_typed_stage() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-verify-stage-{}-{}",

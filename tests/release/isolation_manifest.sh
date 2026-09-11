@@ -77,6 +77,12 @@ manifest_record() {
 # Symlinks are never followed and retain literal and resolved target metadata.
 manifest_tree() {
   local root=$1 manifest=$2 path relative
+  if [[ -n "${AI_COCKPIT_ISOLATION_BIN:-}" && -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
+    if "$AI_COCKPIT_ISOLATION_BIN" isolation-manifest --root "$root" --output "$manifest"; then
+      return 0
+    fi
+    return 1
+  fi
   : > "$manifest"
   [[ -d "$root" ]] || return 0
   while IFS= read -r -d '' path; do
@@ -128,6 +134,35 @@ manifest_source_checkout() {
     rm -f -- "$path_list" "$sorted_path"
     return 1
   }
+  if [[ -n "${AI_COCKPIT_ISOLATION_BIN:-}" && -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
+    local scanner_path_list
+    scanner_path_list="$(mktemp "${manifest}.scanner.XXXXXX")" || {
+      rm -f -- "$path_list" "$sorted_path"
+      return 1
+    }
+    while IFS= read -r -d '' relative; do
+      if [[ -n "$output_relative" ]]; then
+        case "$relative" in "$output_relative"|"$output_relative"/*) continue ;; esac
+      fi
+      printf '%s\0' "$relative"
+    done < "$sorted_path" > "$scanner_path_list" || {
+      rm -f -- "$path_list" "$sorted_path" "$scanner_path_list"
+      return 1
+    }
+    local scanner_result
+    local -a scanner_args
+    scanner_args=(isolation-manifest --root "$root_real" --paths-file "$scanner_path_list" --output "$manifest")
+    if [[ -n "$output_relative" ]]; then
+      scanner_args+=(--mask-ancestors-of "$output_relative")
+    fi
+    if "$AI_COCKPIT_ISOLATION_BIN" "${scanner_args[@]}"; then
+      scanner_result=0
+    else
+      scanner_result=$?
+    fi
+    rm -f -- "$path_list" "$sorted_path" "$scanner_path_list"
+    return "$scanner_result"
+  fi
   while IFS= read -r -d '' relative; do
     if [[ -n "$output_relative" ]]; then
       case "$relative" in "$output_relative"|"$output_relative"/*) continue ;; esac

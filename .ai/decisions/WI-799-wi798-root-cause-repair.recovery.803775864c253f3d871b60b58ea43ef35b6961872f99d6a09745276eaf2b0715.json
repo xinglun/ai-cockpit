@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-root-cause-repair",
+  "decidedAt": "2026-09-11T19:03:42Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
+  "predecessorEventsDigest": "sha256:ef07f911591aa66d98d7ce3cd1f1326cd4cb83892d2f660a03c37928160a7afe",
+  "predecessorOutcomeDigest": "sha256:b89d0e1d123f258e4f38b74366137e08fb86a4c75e02586d629e57d8e92ab58d",
+  "predecessorSummaryDigest": "sha256:ceab0a75baf5dd74669402d80b625b631256015f85e200b08651e7df5a910654",
+  "predecessorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "reason": "Finalize-plan ordering was exposed after finish; retry the same Work Item so provider context is bound before fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "record the bound finalize-plan before verification, then rerun current Runtime verification and finish",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

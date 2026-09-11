@@ -93,6 +93,10 @@ fn start_fixture(binary: &str, repo: &Path, id: &str) {
         "needsHumanDecision": true,
         "blockedReason": "controlled test data requires the option-selection path"
     });
+    value["executionDecision"] = serde_json::json!({
+        "status": "needs_human_decision",
+        "reason": "controlled test data requires the option-selection path"
+    });
     fs::write(
         contract_path,
         serde_json::to_vec_pretty(&value).expect("fixture contract JSON"),
@@ -146,8 +150,14 @@ fn record_test_data_decision(repo: &Path, id: &str) {
     let input = tempfile::NamedTempFile::new().expect("decision input");
     fs::write(
         input.path(),
-        serde_json::to_vec_pretty(&json!({"decisionEvidence": decision}))
-            .expect("decision input JSON"),
+        serde_json::to_vec_pretty(&json!({
+            "decisionEvidence": decision,
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["tests/collaboration_consistency.rs"]
+            }
+        }))
+        .expect("decision input JSON"),
     )
     .expect("write decision input");
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
@@ -203,8 +213,16 @@ fn blocking_verification_command(repo: &Path) -> (PathBuf, PathBuf, PathBuf) {
 }
 
 #[cfg(unix)]
-fn spawn_interrupted_verify(binary: &str, repo: &Path, id: &str) -> (Child, PathBuf, PathBuf) {
-    let (command, started, release) = blocking_verification_command(repo);
+fn spawn_interrupted_verify(
+    binary: &str,
+    repo: &Path,
+    id: &str,
+) -> (Child, tempfile::TempDir, PathBuf, PathBuf) {
+    // The blocking command is execution input, not repository source. Keep it
+    // outside the repository so creating/removing the interruption fixture
+    // cannot invalidate the Work Item's governance snapshot before verify.
+    let command_dir = tempfile::tempdir().expect("verification fixture directory");
+    let (command, started, release) = blocking_verification_command(command_dir.path());
     let mut verify = Command::new(binary);
     verify
         .args(["verify", "--work-item", id, "--command"])
@@ -213,6 +231,7 @@ fn spawn_interrupted_verify(binary: &str, repo: &Path, id: &str) -> (Child, Path
         .arg(repo);
     (
         verify.spawn().expect("spawn verification"),
+        command_dir,
         started,
         release,
     )
@@ -286,7 +305,8 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
         .join(format!("{id}.verification.json"));
     #[cfg(unix)]
     {
-        let (mut interrupted, started, release) = spawn_interrupted_verify(binary, repo.path(), id);
+        let (mut interrupted, command_dir, started, release) =
+            spawn_interrupted_verify(binary, repo.path(), id);
         wait_for(&started);
         interrupted.kill().expect("interrupt verification process");
         let interrupted_status = interrupted.wait().expect("wait interrupted verification");
@@ -313,7 +333,7 @@ fn displayed_option_state_and_runtime_transition_stay_consistent_through_resume(
         assert_ne!(interrupted_outcome["state"], "verified");
         fs::remove_file(&started).expect("remove interruption marker");
         fs::remove_file(&release).expect("remove release marker");
-        fs::remove_file(repo.path().join("verification-blocking.sh"))
+        fs::remove_file(command_dir.path().join("verification-blocking.sh"))
             .expect("remove interruption script");
     }
 

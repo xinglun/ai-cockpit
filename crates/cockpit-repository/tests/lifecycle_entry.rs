@@ -1,6 +1,14 @@
+use cockpit_core::Digest;
+use cockpit_git::GitRepository;
+use cockpit_protocol::RuntimeContext;
 use cockpit_repository::{
-    WorkItemStartOptions, attach, scaffold_work_item, start_work_item_with_options, status,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    amend_work_item_contract, attach, checkpoint_work_item, preflight_work_item,
+    preflight_work_item_with_runtime, record_verification_with_runtime,
+    require_verification_preconditions, run_repository_verification, scaffold_work_item,
+    start_work_item_with_options, status,
 };
+use serde_json::json;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
@@ -127,6 +135,183 @@ fn start_rejects_user_changes_that_precede_the_contract() {
             .join(".ai/work-items/active/WI-DIRTY-START.contract.json")
             .exists()
     );
+}
+
+#[test]
+fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCENARIO-DECLARATION",
+        "declare high-risk scenario coverage",
+        "make the preflight boundary explicit",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            risk: "high".into(),
+            ..start_options()
+        },
+    )
+    .expect("start");
+
+    amend_work_item_contract(
+        directory.path(),
+        "WI-SCENARIO-DECLARATION",
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "preflight",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "preflight stops before expensive verification",
+                "verificationPlan": "run the preflight regression"
+            }]
+        }),
+        "declare the required high-risk scenario before checkpoint",
+    )
+    .expect("scenario declaration");
+
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-SCENARIO-DECLARATION.contract.json"),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(contract["scenarioCoverage"][0]["scenario"], "preflight");
+}
+
+#[test]
+fn verification_preconditions_reject_missing_governance_controls_before_execution() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-VERIFY-PRECONDITIONS",
+        "check cheap verification gates first",
+        "reject missing governance controls before the project command",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            acceptance_criteria: vec!["A: bounded review remains explicit".into()],
+            ..start_options()
+        },
+    )
+    .expect("start");
+    let contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-VERIFY-PRECONDITIONS.contract.json");
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), "WI-VERIFY-PRECONDITIONS").expect("checkpoint");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    let error = require_verification_preconditions(
+        directory.path(),
+        "WI-VERIFY-PRECONDITIONS",
+        &runtime,
+        &snapshot,
+    )
+    .expect_err("missing governance controls must stop before execution");
+    assert!(
+        error
+            .to_string()
+            .contains("verification preconditions are blocked")
+    );
+    assert!(error.to_string().contains("acceptance_evidence_missing"));
+}
+
+#[test]
+fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFY-EMPTY-INVALIDATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "allow a no-gate amendment to recover",
+        "let fresh verification clear an empty invalidation marker",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("initial preflight");
+    let summary = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut summary_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary).expect("summary")).expect("summary JSON");
+    summary_value["intentAlignment"] = json!({
+        "state": "resolved",
+        "evidence": ["test-intent"]
+    });
+    fs::write(
+        &summary,
+        serde_json::to_vec_pretty(&summary_value).expect("summary JSON"),
+    )
+    .expect("intent alignment");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "typed-receipt-regression".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("typed verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("initial verification");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["docs/**"]}),
+        "add an authorized scope without any required verification gates",
+    )
+    .expect("amend Contract");
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("amended preflight");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("amended snapshot");
+
+    require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+        .expect("empty invalidation marker must allow fresh verification to run");
 }
 
 #[test]

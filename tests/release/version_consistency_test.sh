@@ -13,7 +13,7 @@ grep -Fq 'docs/architecture/release-distribution.zh-CN.md' "$script"
 grep -Fq -- '--post-release' "$script"
 grep -Fq 'tests/release/version_consistency.sh' "$workflow"
 grep -Fq 'post_release_version_consistency:' "$workflow"
-grep -Fq 'needs: [publish, publish_handoff]' "$workflow"
+grep -Fq 'needs: [publish]' "$workflow"
 for document in \
   docs/release/distribution.md \
   docs/release/distribution.ja.md \

@@ -669,16 +669,19 @@ pub fn scenario_coverage_preflight_unknowns(contract: &Value) -> Vec<String> {
 fn acceptance_ids(contract: &Contract) -> (Vec<String>, bool, Vec<GovernanceFinding>) {
     let mut ids = Vec::new();
     let mut numbered = false;
-    let mut unnumbered = false;
     let mut findings = Vec::new();
     for criterion in &contract.acceptance_criteria {
         let Some((prefix, _)) = criterion.split_once(':') else {
-            unnumbered = true;
             continue;
         };
-        if let Some(suffix) = prefix.strip_prefix('A') {
+        if prefix
+            .as_bytes()
+            .first()
+            .is_some_and(u8::is_ascii_uppercase)
+        {
             numbered = true;
-            if suffix.is_empty() || !suffix.bytes().all(|b| b.is_ascii_digit()) {
+            let suffix = &prefix[1..];
+            if !suffix.is_empty() && !suffix.bytes().all(|b| b.is_ascii_digit()) {
                 findings.push(finding(
                     "acceptance_id_invalid",
                     format!("invalid acceptance identifier {prefix}"),
@@ -692,16 +695,14 @@ fn acceptance_ids(contract: &Contract) -> (Vec<String>, bool, Vec<GovernanceFind
                 ));
             }
         } else {
-            unnumbered = true;
+            // Non-labelled criteria remain legacy/unmapped.
         }
     }
-    if numbered && unnumbered {
-        findings.push(finding(
-            "acceptance_id_mixed",
-            "numbered and unnumbered acceptance criteria cannot share one evidence mapping",
-            "error",
-        ));
-    }
+    // Explicitly labelled criteria and legacy unnumbered criteria may coexist.
+    // Only the labelled subset participates in acceptanceEvidence; the
+    // unnumbered subset remains a later-stage Contract condition. Rejecting
+    // this valid shape at finish would force post-merge evidence into the
+    // pre-merge lifecycle and create an avoidable recovery loop.
     (ids, numbered, findings)
 }
 
@@ -720,9 +721,10 @@ impl InsertUnique for Vec<String> {
     }
 }
 
-/// Validate stable acceptance IDs and Summary `acceptanceEvidence`.  Legacy
-/// unnumbered criteria intentionally remain compatible and are reported as
-/// `not_applicable` rather than being silently assigned IDs.
+/// Validate stable explicit acceptance IDs and Summary `acceptanceEvidence`.
+/// Legacy unnumbered criteria intentionally remain compatible and are not
+/// silently assigned IDs; they are evaluated by the later phase that can
+/// produce their evidence.
 pub fn validate_acceptance_evidence_values(
     contract: &Contract,
     summary: &Value,
@@ -1233,12 +1235,12 @@ pub fn record_work_item_governance_controls(
             });
         }
     }
-    let Some(summary_object) = summary.as_object_mut() else {
+    if !summary.is_object() {
         return Err(ObserverError::State {
             path: summary_path,
             message: "Work Item Summary must be a JSON object".into(),
         });
-    };
+    }
     let decision_evidence = if let Some(value) = object.get("decisionEvidence") {
         Some(validate_preflight_decision_evidence(
             root,
@@ -1255,6 +1257,9 @@ pub fn record_work_item_governance_controls(
         "finalDimensions",
     ] {
         if let Some(value) = object.get(key) {
+            let summary_object = summary
+                .as_object_mut()
+                .expect("Work Item Summary was validated as an object");
             if value.is_null() {
                 summary_object.remove(key);
             } else {
@@ -1262,12 +1267,92 @@ pub fn record_work_item_governance_controls(
             }
         }
     }
+    // Validate the candidate projection before any receipt or Summary bytes
+    // are written.  Finish performs the same gate, but discovering a
+    // Contract/Summary shape error there can happen after an expensive
+    // verification run and leaves a recoverable failure marker behind. Keep
+    // the validation scoped to projection fields supplied by this request:
+    // incremental callers must be able to record a human review receipt while
+    // the Contract still intentionally reports a human-decision conflict.
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if regular_file(&contract_path) {
+        let contract_value: Value =
+            serde_json::from_slice(&fs::read(&contract_path).map_err(|source| {
+                ObserverError::Read {
+                    path: contract_path.clone(),
+                    source,
+                }
+            })?)
+            .map_err(|error| ObserverError::State {
+                path: contract_path.clone(),
+                message: format!("invalid Contract: {error}"),
+            })?;
+        let contract = crate::read_contract(&contract_path)?;
+        let mut errors = Vec::new();
+        if object.contains_key("scenarioCoverage") {
+            errors.extend(
+                validate_scenario_coverage_values(&contract_value, &summary)
+                    .2
+                    .into_iter()
+                    .filter(|finding| finding.severity == "error")
+                    .map(|finding| finding.code),
+            );
+        }
+        if object.contains_key("acceptanceEvidence") {
+            errors.extend(
+                validate_acceptance_evidence_values(&contract, &summary)
+                    .2
+                    .into_iter()
+                    .filter(|finding| finding.severity == "error")
+                    .map(|finding| finding.code),
+            );
+        }
+        if object.contains_key("intentAlignment") {
+            errors.extend(
+                validate_intent_alignment_values(&contract, &summary)
+                    .2
+                    .into_iter()
+                    .filter(|finding| finding.severity == "error")
+                    .map(|finding| finding.code),
+            );
+        }
+        if object.contains_key("finalDimensions") {
+            let final_report = summary.get("finalDimensions").map(|value| {
+                validate_final_dimensions_value_with_runtime(
+                    value,
+                    None,
+                    Some(&contract.work_item_id),
+                    None,
+                )
+            });
+            if let Some(report) = final_report {
+                errors.extend(
+                    report
+                        .findings
+                        .into_iter()
+                        .filter(|finding| finding.severity == "error")
+                        .map(|finding| finding.code),
+                );
+            }
+        }
+        if !errors.is_empty() {
+            return Err(ObserverError::State {
+                path: contract_path,
+                message: format!("governance controls are invalid: {}", errors.join(", ")),
+            });
+        }
+    }
     if let Some(evidence) = decision_evidence {
         let value = serde_json::to_value(&evidence).map_err(|error| ObserverError::State {
             path: summary_path.clone(),
             message: error.to_string(),
         })?;
-        summary_object.insert("decisionEvidence".into(), value.clone());
+        summary
+            .as_object_mut()
+            .expect("Work Item Summary was validated as an object")
+            .insert("decisionEvidence".into(), value.clone());
         let decisions_dir = root.join(".ai/decisions");
         let canonical_path = decisions_dir.join(format!("{work_item_id}.preflight-review.json"));
         // Decision receipts are append-only. A changed Contract or snapshot
@@ -1316,7 +1401,10 @@ pub fn record_work_item_governance_controls(
             crate::atomic_json(&decision_path, &value)?;
         }
     }
-    summary_object.insert("updatedAt".into(), chrono::Utc::now().to_rfc3339().into());
+    summary
+        .as_object_mut()
+        .expect("Work Item Summary was validated as an object")
+        .insert("updatedAt".into(), chrono::Utc::now().to_rfc3339().into());
     let bytes = serde_json::to_vec_pretty(&summary).map_err(|error| ObserverError::State {
         path: summary_path.clone(),
         message: error.to_string(),
@@ -1655,15 +1743,29 @@ pub fn validate_agent_risk_controls(
         .and_then(Value::as_array)
         .cloned()
         .unwrap_or_default();
-    if summary
-        .get("verificationInvalidatedByContractAmendment")
-        .is_some()
-    {
-        findings.push(finding(
-            "required_verification_invalidated",
-            "Contract amendment invalidated prior verification; fresh required checks are required",
-            "error",
-        ));
+    if let Some(marker) = summary.get("verificationInvalidatedByContractAmendment") {
+        match marker
+            .get("invalidatedRequiredChecks")
+            .and_then(Value::as_array)
+        {
+            Some(checks) if checks.is_empty() => {
+                // A legacy or no-gate amendment still makes predecessor
+                // evidence stale, but there are no required checks that can
+                // be invalidated.  Let fresh verification run so its recorder
+                // can clear the marker; finish remains responsible for the
+                // resulting evidence freshness.
+            }
+            Some(_) => findings.push(finding(
+                "required_verification_invalidated",
+                "Contract amendment invalidated prior verification; fresh required checks are required",
+                "error",
+            )),
+            None => findings.push(finding(
+                "required_verification_invalidation_malformed",
+                "Contract amendment invalidation marker must contain an array invalidatedRequiredChecks field",
+                "error",
+            )),
+        }
     }
     for check in required {
         let matches = verification

@@ -1,0 +1,28 @@
+{
+  "actor": "codex-agent",
+  "authoritySource": "user authorization in the current task",
+  "decidedAt": "2026-09-11T23:20:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-798-collaboration-observability-performance.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/775"
+  ],
+  "policyRefs": [
+    "AGENTS.md: Work Item change discipline",
+    "AGENTS.md: defect discovered during implementation or verification"
+  ],
+  "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+  "predecessorEventsDigest": "sha256:eb38c8634421e875daeaee934691c79a3fc4b2bcc2632538ac86ff63b659fc9e",
+  "predecessorOutcomeDigest": "sha256:825360b00779f8f9ecd5d7b60fd0287257f13cc9c758ab9e681def99f1cdb545",
+  "predecessorSummaryDigest": "sha256:d78500b1da605ca351cebaa77d55bb83010706cbcd68668a338a3e89cb45a5a7",
+  "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
+  "reason": "WI-798 was archived before provider finalization and before the remaining CI and release recovery root causes were fully corrected. The predecessor archive is immutable; continue the same authorized delivery through an explicitly linked recovery successor and bind all fixes to the predecessor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the root-cause repairs, obtain fresh Runtime and hosted verification, finalize the reviewed provider resources, and close the predecessor/successor lineage without rewriting historical bytes.",
+  "runtimeDigest": "sha256:f4e3dc8636b938e6c0e2a7cbacbb47963dcd27d110f69c1ba67bc42cf069d673",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

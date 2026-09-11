@@ -54,6 +54,23 @@ def failure_metadata(detail: str) -> tuple[str, str]:
     )
 
 
+def parse_structured_failure(output: str) -> tuple[str, str] | None:
+    """Extract compatibility fields emitted by the Rust gate-plan command."""
+    for line in output.splitlines():
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        if (
+            isinstance(value, dict)
+            and value.get("state") == "failed"
+            and isinstance(value.get("failureCode"), str)
+            and isinstance(value.get("remediation"), str)
+        ):
+            return value["failureCode"], value["remediation"]
+    return None
+
+
 def canonical_digest(value: Any) -> str:
     encoded = json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return "sha256:" + hashlib.sha256(encoded).hexdigest()
@@ -106,7 +123,7 @@ def load_manifest(path: Path) -> dict[str, Any]:
             raise ValueError(f"gates[{index}] must be an object")
         if not {"category", "command", "id", "minimumProfile"}.issubset(gate):
             raise ValueError(f"gates[{index}] is missing required fields")
-        if set(gate) - {"category", "command", "covers", "id", "minimumProfile"}:
+        if set(gate) - {"category", "command", "covers", "dependsOn", "id", "minimumProfile"}:
             raise ValueError(f"gates[{index}] contains unknown fields")
         gate_id = gate["id"]
         if not isinstance(gate_id, str) or not gate_id:
@@ -116,12 +133,41 @@ def load_manifest(path: Path) -> dict[str, Any]:
             raise ValueError(f"gates[{index}].minimumProfile is invalid")
         if "covers" in gate:
             _string_list(gate["covers"], f"gates[{index}].covers")
+        if "dependsOn" in gate:
+            _string_list(gate["dependsOn"], f"gates[{index}].dependsOn", allow_empty=True)
         ids.append(gate_id)
         commands.append(command)
     if ids != sorted(ids) or len(ids) != len(set(ids)):
         raise ValueError("gate IDs must be sorted and unique")
     if len(commands) != len(set(commands)):
         raise ValueError("gate commands must be unique")
+    positions = {gate_id: index for index, gate_id in enumerate(ids)}
+    for index, gate in enumerate(gates):
+        dependencies = gate.get("dependsOn", [])
+        if len(dependencies) != len(set(dependencies)):
+            raise ValueError(f"gates[{index}].dependsOn must contain unique IDs")
+        for dependency in dependencies:
+            if dependency not in positions:
+                raise ValueError(f"gates[{index}].dependsOn references unknown gate")
+    indegree = [0] * len(gates)
+    dependents: list[list[int]] = [[] for _ in gates]
+    for index, gate in enumerate(gates):
+        for dependency in gate.get("dependsOn", []):
+            dependency_index = positions[dependency]
+            indegree[index] += 1
+            dependents[dependency_index].append(index)
+    ready = {index for index, count in enumerate(indegree) if count == 0}
+    visited = 0
+    while ready:
+        index = min(ready)
+        ready.remove(index)
+        visited += 1
+        for dependent in dependents[index]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                ready.add(dependent)
+    if visited != len(gates):
+        raise ValueError("gate dependencies must be acyclic")
     return manifest
 
 
@@ -135,6 +181,79 @@ def _rank(profile: str) -> int:
 def profile_includes(manifest: dict[str, Any], selected: str, minimum: str) -> bool:
     del manifest
     return _rank(selected) >= _rank(minimum)
+
+
+def required_gate_ids(
+    manifest: dict[str, Any], selected: str
+) -> tuple[str, list[str]]:
+    """Return a profile and gate set that include the complete dependency closure."""
+    gates_by_id = {gate["id"]: gate for gate in manifest["gates"]}
+    selected_profile = selected
+    while True:
+        dependency_profile = selected_profile
+        for gate in manifest["gates"]:
+            if not profile_includes(manifest, selected_profile, gate["minimumProfile"]):
+                continue
+            for dependency in gate.get("dependsOn", []):
+                dependency_profile = max(
+                    dependency_profile,
+                    gates_by_id[dependency]["minimumProfile"],
+                    key=_rank,
+                )
+        if dependency_profile == selected_profile:
+            break
+        selected_profile = dependency_profile
+    return selected_profile, [
+        gate["id"]
+        for gate in manifest["gates"]
+        if profile_includes(manifest, selected_profile, gate["minimumProfile"])
+    ]
+
+
+_GATE_CATEGORY_PRIORITY = {
+    "docs": 0,
+    "release": 1,
+    "workflow": 2,
+    "ci": 3,
+    "conformance": 4,
+    "evaluation": 5,
+    "performance": 6,
+    "workspace": 7,
+}
+
+
+def execution_order(manifest: dict[str, Any], selected_ids: list[str]) -> list[str]:
+    """Order independent gates by cost/policy priority, then preserve deps."""
+    selected = set(selected_ids)
+    gates_by_id = {gate["id"]: gate for gate in manifest["gates"]}
+    indegree = {
+        gate_id: sum(dependency in selected for dependency in gates_by_id[gate_id].get("dependsOn", []))
+        for gate_id in selected
+    }
+    dependents: dict[str, list[str]] = {gate_id: [] for gate_id in selected}
+    for gate_id in selected:
+        for dependency in gates_by_id[gate_id].get("dependsOn", []):
+            if dependency in selected:
+                dependents[dependency].append(gate_id)
+    ready = {gate_id for gate_id, count in indegree.items() if count == 0}
+    ordered: list[str] = []
+    while ready:
+        gate_id = min(
+            ready,
+            key=lambda candidate: (
+                _GATE_CATEGORY_PRIORITY.get(gates_by_id[candidate]["category"], 8),
+                candidate,
+            ),
+        )
+        ready.remove(gate_id)
+        ordered.append(gate_id)
+        for dependent in dependents[gate_id]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                ready.add(dependent)
+    if len(ordered) != len(selected):
+        raise ValueError("gate dependencies must be acyclic")
+    return ordered
 
 
 def normalize_paths(paths: list[str], repository: Path | None = None) -> list[str]:
@@ -215,8 +334,17 @@ def select_route(manifest: dict[str, Any], *, paths: list[str], risk: str, stage
         if _rank(requested_profile) > _rank(automatic):
             selected = requested_profile
             reasons.append(f"explicit escalation to {requested_profile}")
-    required_gate_ids = [gate["id"] for gate in manifest["gates"] if profile_includes(manifest, selected, gate["minimumProfile"])]
-    return {"automaticProfile": automatic, "pathDecisions": decisions, "reasons": sorted(set(reasons)) or [f"empty diff defaults to {automatic}"], "requiredGateIds": required_gate_ids, "selectedProfile": selected}
+    selected, required_gate_ids = required_gate_ids_for_route(manifest, selected, reasons)
+    return {"automaticProfile": automatic, "pathDecisions": decisions, "reasons": sorted(set(reasons)) or [f"empty diff defaults to {automatic}"], "requiredGateIds": required_gate_ids, "executionOrder": execution_order(manifest, required_gate_ids), "selectedProfile": selected}
+
+
+def required_gate_ids_for_route(
+    manifest: dict[str, Any], selected: str, reasons: list[str]
+) -> tuple[str, list[str]]:
+    selected_profile, gate_ids = required_gate_ids(manifest, selected)
+    if selected_profile != selected:
+        reasons.append(f"dependency closure requires at least {selected_profile}")
+    return selected_profile, gate_ids
 
 
 def _contract_binding(repository: Path, contract_path: Path | None) -> tuple[str | None, str | None, str | None]:
@@ -257,14 +385,14 @@ def validate_lifecycle_boundary(repository: Path, contract_relative: str | None)
         return
     work_item_id = contract_name.removesuffix(".contract.json")
     summary_path = repository / ".ai/work-items/active" / f"{work_item_id}.summary.json"
-    if not summary_path.exists():
-        return
-    if summary_path.is_symlink() or not summary_path.is_file():
+    if summary_path.is_symlink() or (summary_path.exists() and not summary_path.is_file()):
         raise RouteValidationError(
             "lifecycle_transition_invalid",
             "active lifecycle Summary is not a regular file",
             "restore the repository-local Summary and rerun preflight before pushing",
         )
+    if not summary_path.exists():
+        return
     try:
         summary = json.loads(summary_path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as error:
@@ -354,7 +482,36 @@ def main() -> int:
     parser.add_argument("--contract")
     parser.add_argument("--profile", choices=PROFILE_ORDER)
     parser.add_argument("--receipt", required=True)
+    parser.add_argument(
+        "--rust-bin",
+        help="delegate route planning to the shared Rust gate-plan binary",
+    )
     args = parser.parse_args()
+    if args.rust_bin:
+        command = [
+            args.rust_bin,
+            "gate-plan",
+            "--repo",
+            args.repo,
+            "--manifest",
+            args.manifest,
+            "--base",
+            args.base,
+            "--head",
+            args.head,
+            "--stage",
+            args.stage,
+            "--risk",
+            args.risk,
+            "--receipt",
+            args.receipt,
+        ]
+        if args.contract:
+            command.extend(["--contract", args.contract])
+        if args.profile:
+            command.extend(["--profile", args.profile])
+        completed = subprocess.run(command, check=False)
+        return completed.returncode
     repository = Path(args.repo).resolve()
     try:
         receipt = plan_repository_route(repository=repository, manifest_path=Path(args.manifest), base=args.base, head=args.head, stage=args.stage, risk=args.risk, contract_path=Path(args.contract) if args.contract else None, requested_profile=args.profile)

@@ -1,0 +1,251 @@
+{
+  "acceptanceCriteria": [
+    "A: finalization action and error categories come from typed observed facts rather than English error-string matching; retained, missing, corrupt, identity-mismatch, cleanup-pending, and unknown cases provide correct safe next actions.",
+    "B: one request-scoped observation boundary records every required file and directory candidate dependency, including events and archive candidates, detects replacement/addition/deletion/type drift, and returns unknown after bounded instability.",
+    "C: collaboration scenario matrix executes real CLI and MCP paths across summary/full and en/zh-CN/ja, verifies blockers, authorization, unknowns, and action semantics, and proves manual fixture expectations cannot mask endpoint defects.",
+    "D: performance traces bind operation, scenario, measurement, runtime identity, phase parentage, and counters to actual boundaries; benchmark separates probes/metadata/processes, uses at least 100 valid warm samples, and reports p50/p95 only with sufficient evidence.",
+    "E: each optimization is independently measurable and committable, is retained only when correctness gates pass and the measured bottleneck improves without unacceptable regression, and no unmeasured candidate is presented as a benefit.",
+    "All required Rust, matrix, performance, documentation, governance, release, installation, and upgrade checks pass from the reviewed branch; historical bytes remain unchanged.",
+    "A new immutable version is discovered after v0.2.90, published from the reviewed merge, and its downloaded artifact passes isolated install and N-1 upgrade acceptance.",
+    "The Work Item follows start, preflight, checkpoint, verify, finish, archive, reviewed PR, merge, close, documentation promotion, synchronization, and exact cleanup with current Runtime evidence.",
+    "P0 release isolation scanning is implemented by one Rust process for enumeration, metadata, streaming hashes, and deterministic manifest output, with compatible result/exit/output semantics and special-path, symlink, and cross-platform coverage; the 80% target is reported honestly if not met.",
+    "P0 release installation and N-1 upgrade acceptance share Rust logic for artifact identity, isolated roots, steps, failure reports, cleanup, and phase-bound retry; candidate fresh install and candidate upgrade, then public fresh install, public upgrade, and version consistency checks run in independent isolation with required joins.",
+    "P1 governance, documentation, parity, and archive-reference checks use shared Rust rules and request-local facts where they are production paths; offline statistics, independent black-box tests, one-time maintenance tools, bootstrap, and platform glue remain explicitly classified.",
+    "WI execution reuses Contract/config/policy/receipt facts within one operation, reads only target dependencies unless a global governance fact is required, checks cheap deterministic prerequisites before expensive verification, stops dependent work after prerequisite failure, and emits structured retry/failure records without creating a successor for every technical retry.",
+    "At least three WI scenarios (no source change, single-file change, cross-module change) are measured in Cockpit and at least one verified current object engineering project; Cockpit management, engineering verification, external waiting, and failure-rework costs remain separately identified, with object-project source changes out of scope unless separately authorized.",
+    "Every release phase has identity-bound resumable evidence; injected interruption, timeout, cleanup failure, network/runner failure, and identity mismatch prove that recovery reuses valid phases, does not rebuild or republish unnecessarily, does not overwrite Release/tag/history, and blocks on inconsistent public artifacts.",
+    "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
+    "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c72254c2ae6bc712139fc755698694653ae004ba",
+  "createdAt": "2026-09-11T05:15:19Z",
+  "goal": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，交付经审查的新版本：finalization action 语义正确且跨入口一致，Outcome 事实边界可证明，协作场景真实验收，性能测量可复现并仅按实测瓶颈优化，完成发布与安装升级验收。",
+  "intent": "修复 AI Cockpit 协作语义、Outcome 事实观察一致性与性能测量边界，并按证据推进高价值优化。",
+  "mode": "code",
+  "outOfScope": [
+    "global Agent/MCP configuration",
+    "V1 runtime",
+    "provider-side resource deletion",
+    "unrelated feature work",
+    "rewriting historical evidence",
+    "unsafe speculative optimization",
+    "modifying the current object engineering project source or CI; it is measurement-only in this Work Item"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "performance",
+    "governance",
+    "release",
+    "installation",
+    "upgrade"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-798-collab-observability-performance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/775",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-798-collab-observability-performance"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+      ],
+      "expected": "Missing, retained, deleted or abandoned, corrupt, identity mismatch, cleanup pending, and unknown observations produce action identifiers and executable next-action guidance from one typed projection; no English error-string classifier remains.",
+      "required": true,
+      "scenario": "typed_finalization_actions_cover_all_observed_states",
+      "status": "unverified",
+      "verificationPlan": "Exercise repository Outcome assembly and the CLI/MCP human handoff for every finalization state and assert state, error category, action identifier, command shape, safety boundary, and localized text."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/tests"
+      ],
+      "expected": "A single request-scoped observation boundary records required files and directory candidate sets, including events and archive candidates, and bounded retries return unknown when any registered dependency changes.",
+      "required": true,
+      "scenario": "outcome_observation_detects_registered_dependency_drift",
+      "status": "unverified",
+      "verificationPlan": "Mutate bytes, replace file types, add or remove directory members, and change event/archive candidates between before and after hooks; assert retry and fail-closed unknown behavior."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "docs/reference/collaboration-scenario-matrix.json"
+      ],
+      "expected": "Real CLI subprocess and MCP handler paths agree for summary/full and en/zh-CN/ja while preserving blockers, unknowns, authorization boundaries, no-history handoff, and finalization action semantics.",
+      "required": true,
+      "scenario": "real_cli_mcp_collaboration_paths_preserve_semantics",
+      "status": "unverified",
+      "verificationPlan": "Build fixtures through repository lifecycle commands, invoke both production entrypoints, compare structured and rendered outcomes, and mutate matrix expectations to prove the tests are executable rather than manual-only."
+    },
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark.sh",
+        "tests/performance/runtime_benchmark_stats.py",
+        "tests/performance/runtime_benchmark_scenarios.py"
+      ],
+      "expected": "Every trace binds operation, scenario, measurement, runtime identity, phase parentage, wall time, and actual boundary counters; probes, metadata, child processes, and measured command samples remain separate.",
+      "required": true,
+      "scenario": "performance_measurement_is_operation_and_scenario_bound",
+      "status": "unverified",
+      "verificationPlan": "Run the benchmark with at least 100 valid warm samples, validate p50/p95 floors and raw sample ordering, inspect phase overlap, and reject unbound or mixed-scope metrics."
+    },
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark.sh",
+        "crates/cockpit-cli/tests/performance.rs"
+      ],
+      "expected": "Each retained optimization has an independent before/after measurement, correctness regression evidence, and no unacceptable regression; unmeasured candidate optimizations are not claimed as benefits.",
+      "required": true,
+      "scenario": "only_measured_performance_bottlenecks_are_optimized",
+      "status": "unverified",
+      "verificationPlan": "Establish the corrected baseline first, apply one bounded optimization at a time, rerun correctness and performance checks, and record the decision and rollback condition."
+    },
+    {
+      "evidence": [
+        "tests/release",
+        "docs/release",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "expected": "The next immutable version after v0.2.90 is published from reviewed merged main and its downloaded artifact passes isolated installation, history preservation, cleanup, and upgrade acceptance.",
+      "required": true,
+      "scenario": "reviewed_release_artifact_passes_install_and_n_minus_one_upgrade",
+      "status": "unverified",
+      "verificationPlan": "Discover the next available version after implementation, complete hosted PR checks and merge, publish immutable tag and Release assets, then run public artifact installation and N-1 upgrade harnesses with retained manifests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-isolation",
+        "crates/cockpit-release",
+        "tests/release/isolation_manifest.sh",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "expected": "The Rust scanner replaces per-entry Shell metadata/hash processes while preserving deterministic output, exit behavior, special paths, symlink containment, and output exclusion.",
+      "required": true,
+      "scenario": "release_isolation_scanner_preserves_manifest_contract",
+      "status": "unverified",
+      "verificationPlan": "Compare old and new manifests and exits on the frozen fixture, then measure elapsed time and external process count with the same input and report the 80% target or measured shortfall."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-release",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "Independent candidate/public acceptance children preserve identity-bound results and resume from the earliest invalid phase without overwriting tags, Releases, or history.",
+      "required": true,
+      "scenario": "release_acceptance_phases_resume_without_rebuild_or_republish",
+      "status": "unverified",
+      "verificationPlan": "Inject interruption, timeout, cleanup, network/runner, and identity failures at each phase; rerun with unchanged inputs and assert reuse, bounded rerun, cleanup, and fail-closed mismatch behavior."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-cli/src/main.rs"
+      ],
+      "expected": "One operation reuses immutable parsed facts, keeps target-only and global scopes explicit, checks cheap preconditions first, and prevents dependent work after prerequisite failure.",
+      "required": true,
+      "scenario": "wi_execution_reuses_facts_and_stops_dependents_early",
+      "status": "unverified",
+      "verificationPlan": "Measure no-change, single-file, and cross-module scenarios with read/parse/hash/process counters and injected prerequisite failures; assert no unnecessary source verification or successor creation."
+    },
+    {
+      "evidence": [
+        "tests/ci/quality_route.py",
+        "tests/ci/run_repository_gates.py",
+        "crates/cockpit-verification",
+        ".github/workflows/ci.yml"
+      ],
+      "expected": "Production governance routing shares Rust rules, dependency plans, cancellation, and structured failure results; retained scripts are explicitly offline, black-box, maintenance, bootstrap, or platform glue.",
+      "required": true,
+      "scenario": "governance_production_routes_use_shared_rust_plan",
+      "status": "unverified",
+      "verificationPlan": "Run Python-wrapper/Rust parity fixtures for valid, stale, missing, parity, archive-reference, and base-mismatch cases and compare exits, fields, evidence bindings, and earliest failure stage."
+    },
+    {
+      "evidence": [
+        "tests/performance",
+        "verified current object project: /Users/sei-rinn/dev/workspace_rust/sentinel"
+      ],
+      "expected": "Cockpit and the verified Sentinel checkout have comparable no-change, single-file-change, and cross-module-change reports separating management, engineering verification, external waits, and failure rework.",
+      "required": true,
+      "scenario": "cockpit_and_object_project_wi_costs_are_separately_measured",
+      "status": "unverified",
+      "verificationPlan": "Use temporary copies/worktrees for mutations, retain source/runtime/toolchain/machine identities and at least 100 valid warm samples, and never modify the Sentinel checkout."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "crates/cockpit-verification/**",
+    "tests/performance/**",
+    "tests/ci/**",
+    ".github/workflows/**",
+    "crates/cockpit-release/**",
+    "crates/cockpit-isolation/**",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "docs/reference/collaboration-invariant-coverage*.md",
+    "docs/reference/collaboration-language-contract*.md",
+    "docs/work-items/**",
+    "docs/release/**",
+    "tests/release/**",
+    "release/**",
+    "docs/superpowers/specs/2026-09-11-collaboration-observability-performance-design.md",
+    "docs/superpowers/plans/2026-09-11-collaboration-observability-performance.md",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/superpowers/evidence/**"
+  ],
+  "sources": [
+    "user-provided AI Cockpit collaboration semantics, observation consistency, and performance optimization instruction",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/runtime_benchmark_scenarios.py",
+    "crates/cockpit-isolation/src/lib.rs",
+    "crates/cockpit-isolation/tests/scanner.rs",
+    "tests/release/isolation_manifest.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/isolation_manifest_test.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/ci/quality_route.py",
+    "tests/ci/run_repository_gates.py",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "verified current object project: /Users/sei-rinn/dev/workspace_rust/sentinel (read-only measurement; clean Git checkout on develop; origin=git@github.com:xinglun/sentinel.git)"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

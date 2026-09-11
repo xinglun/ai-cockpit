@@ -181,6 +181,26 @@ fn observation_phase_requires_a_fresh_context_for_each_lifecycle_phase() {
     fs::remove_dir_all(root).expect("cleanup");
 }
 
+#[cfg(unix)]
+#[test]
+fn observation_phase_rejects_a_symlinked_contract_before_canonicalizing_it() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository("symlink-contract");
+    attach(&root).expect("attach");
+    scaffold_work_item(&root, "WI-SYMLINK-CONTRACT", "code").expect("scaffold");
+    let contract = root.join(".ai/work-items/active/WI-SYMLINK-CONTRACT.contract.json");
+    let target = root.join(".ai/work-items/active/WI-SYMLINK-CONTRACT.contract.target.json");
+    fs::rename(&contract, &target).expect("move contract target");
+    symlink(&target, &contract).expect("symlink contract");
+
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let error = context
+        .observe_phase_with_contract(ObservationPhase::BeforeGovernance, None, &contract)
+        .expect_err("symlinked Contract must fail closed");
+    assert!(error.to_string().contains("regular non-symlink"), "{error}");
+}
+
 #[test]
 fn governance_decision_consumes_the_validated_observation_context() {
     let root = repository("governance-context");
@@ -226,6 +246,48 @@ fn governance_decision_consumes_the_validated_observation_context() {
         .expect_err("stale context must not reach governance");
     assert!(error.to_string().contains("observation phase"));
     fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[cfg(unix)]
+#[test]
+fn observation_rejects_symlinked_contract_and_active_governance_file() {
+    use std::os::unix::fs::symlink;
+
+    let root = repository("symlink-observation");
+    attach(&root).expect("attach");
+    scaffold_work_item(&root, "WI-SYMLINK-OBSERVATION", "code").expect("scaffold");
+
+    let contract = root.join(".ai/work-items/active/WI-SYMLINK-OBSERVATION.contract.json");
+    let contract_target =
+        root.join(".ai/work-items/active/WI-SYMLINK-OBSERVATION.contract.target.json");
+    fs::rename(&contract, &contract_target).expect("move contract target");
+    symlink(&contract_target, &contract).expect("contract symlink");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture");
+    let contract_error = context
+        .observe_phase_with_contract(ObservationPhase::BeforeGovernance, None, &contract)
+        .expect_err("observation must reject a symlinked Contract");
+    assert!(
+        contract_error.to_string().contains("regular non-symlink"),
+        "{contract_error}"
+    );
+    fs::remove_file(&contract).expect("remove contract symlink");
+    fs::rename(contract_target, &contract).expect("restore contract");
+
+    let config = root.join(".ai/cockpit.toml");
+    let config_target = root.join(".ai/cockpit.target.toml");
+    fs::rename(&config, &config_target).expect("move config target");
+    symlink(&config_target, &config).expect("config symlink");
+    let context = RepositoryExecutionContext::capture(&root).expect("capture after restore");
+    let config_error = context
+        .observe_phase(ObservationPhase::BeforeGovernance, None, None)
+        .expect_err("observation must reject a symlinked active governance file");
+    assert!(
+        config_error.to_string().contains("symlink")
+            || config_error.to_string().contains("regular non-symlink"),
+        "{config_error}"
+    );
+    fs::remove_file(&config).expect("remove config symlink");
+    fs::rename(config_target, config).expect("restore config");
 }
 
 #[test]

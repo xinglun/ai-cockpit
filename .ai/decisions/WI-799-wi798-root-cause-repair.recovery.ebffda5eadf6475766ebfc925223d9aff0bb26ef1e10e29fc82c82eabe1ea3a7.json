@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-root-cause-repair",
+  "decidedAt": "2026-09-11T18:01:11Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+  "predecessorEventsDigest": "sha256:0453cf09964607d523ba3adb05b26d1076a94ffdd2a91c725b00a53d7f94487f",
+  "predecessorOutcomeDigest": "sha256:c409ce55aa3630119c0fd8bf5a358e4d0c529a7f49fa8a4220b36e4e5d8f9360",
+  "predecessorSummaryDigest": "sha256:6a459d6b1faf5e22e0e2825b63f852f09356b1972a8ac0e6fa54d49e5986c393",
+  "predecessorWorkItemId": "WI-799-wi798-root-cause-repair",
+  "reason": "The Runtime identity changed after the previous retry; append a current-runtime retry so the pending recovery marker remains explicitly bound without replacing prior receipts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun current Runtime verification with the v7 identity, then retry finish",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-799-wi798-root-cause-repair"
+}

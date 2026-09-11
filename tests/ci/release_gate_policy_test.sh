@@ -30,6 +30,8 @@ require 'staged_adopter_acceptance:' 'release must gate publication on staged ad
 require 'staged_adopter_upgrade_acceptance:' 'release must gate publication on staged N-1 acceptance'
 require '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
 require '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
+require 'adopterAcceptance == "not_applicable"' 'release close must validate the first-release N-1 not-applicable receipt'
+require 'releasePublished == true' 'release close must bind a not-applicable N-1 result to the published Release'
 grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$manifest" || {
   printf 'release gate policy failure: canonical manifest must derive workspace packages from cargo metadata\n' >&2
   exit 1

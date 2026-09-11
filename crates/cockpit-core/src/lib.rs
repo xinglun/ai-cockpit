@@ -692,7 +692,48 @@ fn matches_pattern(path: &str, pattern: &str) -> bool {
     if let Some(prefix) = pattern.strip_suffix("/**") {
         return path == prefix || path.starts_with(&format!("{prefix}/"));
     }
+    if pattern.contains('*') || pattern.contains('?') {
+        return simple_glob_matches(path, pattern);
+    }
     path == pattern
+}
+
+/// Match the small, repository-relative glob language accepted by Contract
+/// scopes.  A wildcard never crosses a directory boundary; recursive
+/// directory scopes are handled by the `/**` branch above.  Keeping this
+/// matcher here makes the Contract declaration and governance evaluation use
+/// the same semantics without pulling shell glob behavior into the domain.
+fn simple_glob_matches(path: &str, pattern: &str) -> bool {
+    let path: Vec<char> = path.chars().collect();
+    let pattern: Vec<char> = pattern.chars().collect();
+    let mut states = vec![vec![false; pattern.len() + 1]; path.len() + 1];
+    states[0][0] = true;
+    for path_index in 0..=path.len() {
+        for pattern_index in 0..pattern.len() {
+            if !states[path_index][pattern_index] {
+                continue;
+            }
+            match pattern[pattern_index] {
+                '*' => {
+                    states[path_index][pattern_index + 1] = true;
+                    if path_index < path.len() && path[path_index] != '/' {
+                        states[path_index + 1][pattern_index] = true;
+                    }
+                }
+                '?' => {
+                    if path_index < path.len() && path[path_index] != '/' {
+                        states[path_index + 1][pattern_index + 1] = true;
+                    }
+                }
+                literal => {
+                    if path_index < path.len() && path[path_index] == literal {
+                        states[path_index + 1][pattern_index + 1] = true;
+                    }
+                }
+            }
+        }
+    }
+    states[path.len()][pattern.len()]
 }
 
 fn requires_human_confirmation_unknown(unknown: &str) -> bool {

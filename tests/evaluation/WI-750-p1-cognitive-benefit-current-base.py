@@ -17,6 +17,7 @@ import re
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -352,7 +353,9 @@ def language_check(repo: Path, binary: Path, work_item: str, language: str) -> d
     }
 
 
-def write_markdown(repo: Path, report: dict[str, Any]) -> None:
+def write_markdown(
+    repo: Path, report: dict[str, Any], output_path: Path | None = None
+) -> None:
     lines = [
         f"# {WORK_ITEM}",
         "",
@@ -403,8 +406,9 @@ def write_markdown(repo: Path, report: dict[str, Any]) -> None:
             "",
         ]
     )
-    OUTPUT_MD.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_MD.write_text("\n".join(lines), encoding="utf-8")
+    target = output_path or repo / OUTPUT_MD
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("\n".join(lines), encoding="utf-8")
 
 
 def evaluate(repo: Path, requested_binary: str | None) -> dict[str, Any]:
@@ -468,12 +472,28 @@ def main() -> int:
         print(f"P1-A evaluation failed: {error}", file=sys.stderr)
         return 1
 
-    OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    output_path = repo / OUTPUT_JSON
-    output_path.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    write_markdown(repo, report)
+    if args.check:
+        # A check is a read-only gate. Render into an isolated temporary
+        # directory so evaluating current Runtime projections cannot rewrite
+        # tracked historical evidence or dirty the checkout.
+        with tempfile.TemporaryDirectory(prefix="wi-750-evaluation-") as directory:
+            output_root = Path(directory)
+            output_json = output_root / OUTPUT_JSON
+            output_md = output_root / OUTPUT_MD
+            output_json.parent.mkdir(parents=True, exist_ok=True)
+            output_json.write_text(
+                json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            write_markdown(repo, report, output_md)
+    else:
+        output_json = repo / OUTPUT_JSON
+        output_json.parent.mkdir(parents=True, exist_ok=True)
+        output_json.write_text(
+            json.dumps(report, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        write_markdown(repo, report)
     violations = [
         violation
         for case in report["cases"]
