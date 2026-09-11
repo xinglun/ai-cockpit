@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7dc348388e212bea7aa6a1f52b29c634b2a1445ae740cf5ad24c3c106b7f74bc",
+      "workItemId": "WI-796-wi795-doc-promotion-retry"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-796-wi795-doc-promotion-retry.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-796-wi795-doc-promotion-retry.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json",
+            ".ai/decisions/WI-796-wi795-doc-promotion-retry.finalize.e98e9a07ee6e979dade4b7884f937e1ceb9e298d41c937e59a544ef5d3a86c43.json",
+            "https://github.com/xinglun/ai-cockpit/pull/773"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorized-release-closure at 2026-09-11T01:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the WI-795 documentation promotion through a fresh ordered successor without rewriting the predecessor immutable records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-796-wi795-doc-promotion-retry"
+  },
+  "finalReportDigest": "sha256:cb7ef829be3debe06423a5a95484e252897c7edd914063fd14521345ab27f599",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:be9c3c8af9b0af6a8863e53c3d7978b3a8a5edb184f93dbebffc993c96b4408b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-796-wi795-doc-promotion-retry.finalize.e98e9a07ee6e979dade4b7884f937e1ceb9e298d41c937e59a544ef5d3a86c43.json",
+  "resourceFinalizationSequence": 2,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorized-release-closure",
+    "decidedAt": "2026-09-11T01:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json",
+      ".ai/decisions/WI-796-wi795-doc-promotion-retry.finalize.e98e9a07ee6e979dade4b7884f937e1ceb9e298d41c937e59a544ef5d3a86c43.json",
+      "https://github.com/xinglun/ai-cockpit/pull/773"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "User-authorized release closure after hosted PR #773 merge, synchronized main, verified Runtime finalization cleanup, and published v0.2.90 post-release verification.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-11T01:50:32Z",
+  "workItemId": "WI-796-wi795-doc-promotion-retry"
+}

@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-796——WI-795 按顺序重新交付文档的 successor"
 description: "保留 WI-795 的不可变顺序失败，并完成有序的文档晋级。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized-successor-recovery
 workItemId: WI-796-wi795-doc-promotion-retry
 lastVerifiedBy: WI-796-wi795-doc-promotion-retry
+terminalArchive: .ai/work-items/archive/WI-796-wi795-doc-promotion-retry.contract.json
+terminalVerification: .ai/evidence/WI-796-wi795-doc-promotion-retry.verification.json
+terminalFinalization: .ai/decisions/WI-796-wi795-doc-promotion-retry.finalize.e98e9a07ee6e979dade4b7884f937e1ceb9e298d41c937e59a544ef5d3a86c43.json
+terminalDecision: .ai/decisions/WI-796-wi795-doc-promotion-retry.close.json
 predecessorWorkItemId: WI-795-wi794-doc-promotion
 recoveryDecision: .ai/decisions/WI-795-wi794-doc-promotion.recovery.json
 ---
