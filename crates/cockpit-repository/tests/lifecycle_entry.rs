@@ -2,8 +2,10 @@ use cockpit_core::Digest;
 use cockpit_git::GitRepository;
 use cockpit_protocol::RuntimeContext;
 use cockpit_repository::{
-    WorkItemStartOptions, amend_work_item_contract, attach, checkpoint_work_item,
-    preflight_work_item, require_verification_preconditions, scaffold_work_item,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    amend_work_item_contract, attach, checkpoint_work_item, preflight_work_item,
+    preflight_work_item_with_runtime, record_verification_with_runtime,
+    require_verification_preconditions, run_repository_verification, scaffold_work_item,
     start_work_item_with_options, status,
 };
 use serde_json::json;
@@ -222,6 +224,94 @@ fn verification_preconditions_reject_missing_governance_controls_before_executio
             .contains("verification preconditions are blocked")
     );
     assert!(error.to_string().contains("acceptance_evidence_missing"));
+}
+
+#[test]
+fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFY-EMPTY-INVALIDATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "allow a no-gate amendment to recover",
+        "let fresh verification clear an empty invalidation marker",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("initial preflight");
+    let summary = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut summary_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary).expect("summary")).expect("summary JSON");
+    summary_value["intentAlignment"] = json!({
+        "state": "resolved",
+        "evidence": ["test-intent"]
+    });
+    fs::write(
+        &summary,
+        serde_json::to_vec_pretty(&summary_value).expect("summary JSON"),
+    )
+    .expect("intent alignment");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "typed-receipt-regression".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("typed verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("initial verification");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["docs/**"]}),
+        "add an authorized scope without any required verification gates",
+    )
+    .expect("amend Contract");
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("amended preflight");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("amended snapshot");
+
+    require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+        .expect("empty invalidation marker must allow fresh verification to run");
 }
 
 #[test]

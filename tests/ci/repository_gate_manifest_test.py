@@ -208,7 +208,9 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
         encoding="utf-8",
     )
     contract_file = repository / ".ai/work-items/active/WI-CI-FIX.contract.json"
-    contract_file.write_text('{"risk":"normal"}\n', encoding="utf-8")
+    contract_file.write_text(
+        json.dumps({"risk": "normal", "baseRevision": base}) + "\n", encoding="utf-8"
+    )
     contract_receipt = route.plan_repository_route(
         repository=repository,
         manifest_path=fixture_manifest,
@@ -236,6 +238,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
                 "contractFileDigest": contract_receipt["contractDigest"],
                 "repositorySnapshotDigest": "sha256:" + "3" * 64,
                 "baseRevision": base,
+                "comparisonBaseRevision": base,
                 "headRevision": head,
                 "changedPaths": [],
                 "stage": "pr",

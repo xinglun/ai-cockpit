@@ -234,6 +234,7 @@ def load_contract_gate_report(
         "contractFileDigest",
         "repositorySnapshotDigest",
         "baseRevision",
+        "comparisonBaseRevision",
         "headRevision",
         "changedPaths",
         "stage",
@@ -270,8 +271,14 @@ def load_contract_gate_report(
         raise ValueError("Contract gate report requires the route Contract")
     if report["contractFileDigest"] != file_digest(repository / contract_path):
         raise ValueError("Contract gate file digest does not match route Contract")
-    if report["baseRevision"] != route.get("baseRevision"):
-        raise ValueError("Contract gate baseRevision does not match route receipt")
+    try:
+        contract_value = json.loads((repository / contract_path).read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as error:
+        raise ValueError(f"unable to load route Contract for baseline binding: {error}") from error
+    if report["baseRevision"] != contract_value.get("baseRevision"):
+        raise ValueError("Contract gate baseRevision does not match route Contract baseline")
+    if report["comparisonBaseRevision"] != route.get("baseRevision"):
+        raise ValueError("Contract gate comparisonBaseRevision does not match route receipt")
     expected_stage = "pr" if route.get("stage") == "pull_request" else route.get("stage")
     if report["stage"] != expected_stage or report["runner"] != "hosted":
         raise ValueError("Contract gate stage or runner does not match CI route")

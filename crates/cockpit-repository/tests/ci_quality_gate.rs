@@ -19,6 +19,19 @@ fn git(repository: &Path, args: &[&str]) {
     );
 }
 
+fn git_revision(repository: &Path) -> String {
+    let output = Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(repository)
+        .output()
+        .expect("git revision");
+    assert!(output.status.success(), "git rev-parse failed: {output:?}");
+    String::from_utf8(output.stdout)
+        .expect("git revision UTF-8")
+        .trim()
+        .to_owned()
+}
+
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
     let root = directory.path();
@@ -107,6 +120,8 @@ fn valid_gate_is_identity_bound_and_read_only() {
     assert_eq!(report.stage, "pr");
     assert_eq!(report.runner, "hosted");
     assert_eq!(report.work_item_id, "WI-CI-GATE");
+    assert_eq!(report.base_revision, base);
+    assert_eq!(report.comparison_base_revision, base);
     assert_eq!(
         report.repository_id.to_string(),
         cockpit_repository::repository_id(directory.path()).to_string()
@@ -117,6 +132,34 @@ fn valid_gate_is_identity_bound_and_read_only() {
         ai_bytes(directory.path()),
         "read-only gate changed .ai bytes"
     );
+}
+
+#[test]
+fn hosted_gate_distinguishes_contract_baseline_from_ci_comparison_baseline() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let contract_base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap())
+        .unwrap()["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    fs::write(root.join("comparison.txt"), "new PR comparison base\n").expect("comparison");
+    git(root, &["add", "comparison.txt"]);
+    git(root, &["commit", "-qm", "advance comparison base"]);
+    let comparison_base = git_revision(root);
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&comparison_base),
+        &runtime(),
+    )
+    .expect("divergent baselines are valid when both are explicit");
+    assert_eq!(report.base_revision, contract_base);
+    assert_eq!(report.comparison_base_revision, comparison_base);
 }
 
 #[test]

@@ -1486,6 +1486,24 @@ fn run() -> Result<()> {
                 serde_json::Value::String(runtime_context.runtime_version.clone());
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
+            if !run.receipt.passed {
+                let failed_nodes = run
+                    .receipt
+                    .results
+                    .iter()
+                    .filter(|result| !result.passed)
+                    .map(|result| format!("{} ({})", result.node_id, result.reason))
+                    .collect::<Vec<_>>();
+                println!("{}", serde_json::to_string_pretty(&output)?);
+                anyhow::bail!(
+                    "verification command failed for {}; structured failure receipt emitted",
+                    if failed_nodes.is_empty() {
+                        "an unknown node".into()
+                    } else {
+                        failed_nodes.join(", ")
+                    }
+                );
+            }
             if let Some(work_item) = work_item {
                 cockpit_repository::record_verification_with_runtime(
                     &root,

@@ -1743,15 +1743,29 @@ pub fn validate_agent_risk_controls(
         .and_then(Value::as_array)
         .cloned()
         .unwrap_or_default();
-    if summary
-        .get("verificationInvalidatedByContractAmendment")
-        .is_some()
-    {
-        findings.push(finding(
-            "required_verification_invalidated",
-            "Contract amendment invalidated prior verification; fresh required checks are required",
-            "error",
-        ));
+    if let Some(marker) = summary.get("verificationInvalidatedByContractAmendment") {
+        match marker
+            .get("invalidatedRequiredChecks")
+            .and_then(Value::as_array)
+        {
+            Some(checks) if checks.is_empty() => {
+                // A legacy or no-gate amendment still makes predecessor
+                // evidence stale, but there are no required checks that can
+                // be invalidated.  Let fresh verification run so its recorder
+                // can clear the marker; finish remains responsible for the
+                // resulting evidence freshness.
+            }
+            Some(_) => findings.push(finding(
+                "required_verification_invalidated",
+                "Contract amendment invalidated prior verification; fresh required checks are required",
+                "error",
+            )),
+            None => findings.push(finding(
+                "required_verification_invalidation_malformed",
+                "Contract amendment invalidation marker must contain an array invalidatedRequiredChecks field",
+                "error",
+            )),
+        }
     }
     for check in required {
         let matches = verification

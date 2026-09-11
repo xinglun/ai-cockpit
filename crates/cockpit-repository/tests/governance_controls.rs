@@ -359,6 +359,33 @@ fn summary_final_dimensions_are_bound_to_current_runtime_in_lifecycle_controls()
 }
 
 #[test]
+fn malformed_amendment_invalidation_marker_fails_closed() {
+    let contract = contract("normal", "intent", vec![]);
+    let current = RuntimeContext {
+        runtime_version: "0.2.10".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"controls-runtime"),
+    };
+    let summary = json!({
+        "verificationInvalidatedByContractAmendment": {
+            "contractHash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+    });
+    let report = validate_contract_summary_controls_with_runtime(
+        &contract,
+        &serde_json::to_value(&contract).unwrap(),
+        &summary,
+        &current,
+    );
+    assert!(
+        report
+            .findings
+            .iter()
+            .any(|item| item.code == "required_verification_invalidation_malformed")
+    );
+}
+
+#[test]
 fn recording_controls_is_bounded_to_projection_fields() {
     let directory = tempdir().unwrap();
     let summary_dir = directory.path().join(".ai/work-items/active");

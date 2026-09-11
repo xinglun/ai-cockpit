@@ -236,7 +236,11 @@ pub struct ContractQualityGateReport {
     pub contract_digest: Digest,
     pub contract_file_digest: Digest,
     pub repository_snapshot_digest: Digest,
+    /// Immutable Work Item baseline used by Runtime lifecycle verification.
     pub base_revision: String,
+    /// Provider/CI comparison baseline for this hosted route. This can
+    /// differ from the Contract baseline when a PR targets a newer base.
+    pub comparison_base_revision: String,
     pub head_revision: Option<String>,
     pub changed_paths: Vec<String>,
     pub stage: String,
@@ -3010,12 +3014,25 @@ pub fn evaluate_contract_quality_gate(
             message: "Contract repositoryId does not match the repository context".into(),
         });
     }
-    if let Some(expected) = expected_base_revision
-        && contract.base_revision != expected
+    let comparison_base_revision = expected_base_revision
+        .map(str::to_owned)
+        .unwrap_or_else(|| contract.base_revision.clone());
+    let comparison_selector = format!("{comparison_base_revision}^{{commit}}");
+    if !valid_git_object_id(&comparison_base_revision)
+        || git_text(
+            &root,
+            &[
+                "rev-parse",
+                "--verify",
+                "--end-of-options",
+                comparison_selector.as_str(),
+            ],
+        )
+        .is_none()
     {
         return Err(ObserverError::State {
-            path: contract_path,
-            message: "Contract baseRevision does not match the CI base revision".into(),
+            path: contract_path.clone(),
+            message: "CI comparison baseRevision is not a valid repository commit".into(),
         });
     }
     let git =
@@ -3066,6 +3083,7 @@ pub fn evaluate_contract_quality_gate(
         contract_file_digest,
         repository_snapshot_digest: current_snapshot_digest,
         base_revision: contract.base_revision.clone(),
+        comparison_base_revision,
         head_revision: snapshot.head.clone(),
         changed_paths: route.affected_paths.clone(),
         stage: stage.as_str().into(),
