@@ -911,6 +911,76 @@ fn retry_recovery_accepts_a_lifecycle_state_failure_with_red_preflight() {
 }
 
 #[test]
+fn retry_recovery_classifies_previous_runtime_evidence_as_stale_before_verify() {
+    let directory = repository();
+    let previous_runtime = current_runtime();
+    let current_runtime = RuntimeContext {
+        runtime_version: previous_runtime.runtime_version.clone(),
+        protocol_version: previous_runtime.protocol_version,
+        runtime_digest: Digest::sha256_bytes(b"runtime-current"),
+    };
+    let snapshot = cockpit_git::GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "runtime-transition-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: previous_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("previous-runtime verification");
+    record_verification_with_runtime(
+        directory.path(),
+        "WI-BLOCKED",
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &previous_runtime,
+        &snapshot,
+    )
+    .expect("record previous-runtime evidence");
+
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).unwrap();
+    summary["state"] = json!("checkpointed");
+    summary["failedGate"] = json!("finish.governance");
+    summary["recoveryCondition"] = json!("retry after the Runtime changed");
+    fs::write(&summary_path, serde_json::to_vec_pretty(&summary).unwrap()).unwrap();
+
+    let mut retry = receipt(&directory, "retry after the Runtime changed");
+    retry["decision"] = json!("retry");
+    retry.as_object_mut().unwrap().remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(current_runtime.runtime_version);
+    retry["runtimeDigest"] = json!(current_runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:07:00Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &current_runtime)
+        .expect("retry recovery");
+
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let decision =
+        preflight_work_item_with_runtime(directory.path(), &contract_path, &current_runtime)
+            .expect("preflight remains recoverable before replacement verification");
+    assert!(
+        !decision.blockers.contains(&"evidence_contradictory".into()),
+        "runtime transition should be stale under an explicit retry"
+    );
+    assert!(decision.unknowns.contains(&"evidence_stale".into()));
+}
+
+#[test]
 fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
     let directory = repository();
     let id = "WI-BLOCKED";

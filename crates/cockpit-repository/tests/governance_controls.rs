@@ -181,6 +181,43 @@ fn acceptance_ids_preserve_legacy_and_validate_numbered_evidence() {
     assert_eq!(state, "verified");
     assert!(unknowns.is_empty());
     assert!(findings.is_empty());
+
+    let mixed = contract("normal", "intent", vec!["A: works", "legacy works"]);
+    let (state, unknowns, findings) = validate_acceptance_evidence_values(
+        &mixed,
+        &json!({
+            "acceptanceEvidence": [
+                {"acceptanceId":"A","evidence":[{"type":"test","path":"tests/a.rs","locator":"case_a","verification":"passed"}]}
+            ]
+        }),
+    );
+    assert_eq!(state, "verified");
+    assert!(unknowns.is_empty());
+    assert!(findings.is_empty());
+}
+
+#[test]
+fn lettered_acceptance_sections_support_evidence_mapping() {
+    let contract = contract("high", "intent", vec!["A: first", "B: second", "C: third"]);
+    let evidence = |id: &str| {
+        json!({
+            "acceptanceId": id,
+            "evidence": [{
+                "type": "test",
+                "path": "tests/governance.rs",
+                "locator": "lettered_acceptance",
+                "verification": "passed"
+            }]
+        })
+    };
+    let summary = json!({
+        "acceptanceEvidence": [evidence("A"), evidence("B"), evidence("C")]
+    });
+
+    let (state, unknowns, findings) = validate_acceptance_evidence_values(&contract, &summary);
+    assert_eq!(state, "verified");
+    assert!(unknowns.is_empty());
+    assert!(findings.is_empty());
 }
 
 #[test]
@@ -351,6 +388,39 @@ fn recording_controls_is_bounded_to_projection_fields() {
             .to_string()
             .contains("unsupported governance projection")
     );
+}
+
+#[test]
+fn recording_controls_rejects_invalid_acceptance_id_before_writing() {
+    let directory = tempdir().unwrap();
+    let active = directory.path().join(".ai/work-items/active");
+    fs::create_dir_all(&active).unwrap();
+    let contract_value = contract(
+        "normal",
+        "intent",
+        vec!["A: works", "Bbroken: legacy works"],
+    );
+    fs::write(
+        active.join("WI-CONTROLS-SHAPE.contract.json"),
+        serde_json::to_vec_pretty(&contract_value).unwrap(),
+    )
+    .unwrap();
+    let summary_path = active.join("WI-CONTROLS-SHAPE.summary.json");
+    fs::write(&summary_path, r#"{"state":"checkpointed"}"#).unwrap();
+
+    let error = cockpit_repository::record_work_item_governance_controls(
+        directory.path(),
+        "WI-CONTROLS-SHAPE",
+        &json!({
+            "acceptanceEvidence": [
+                {"acceptanceId":"A","evidence":[{"type":"test","path":"tests/a.rs","locator":"case_a","verification":"passed"}]}
+            ]
+        }),
+    )
+    .expect_err("invalid Contract/Summary controls must be rejected before persistence");
+    assert!(error.to_string().contains("acceptance_id_invalid"));
+    let persisted: Value = serde_json::from_slice(&fs::read(summary_path).unwrap()).unwrap();
+    assert!(persisted.get("acceptanceEvidence").is_none());
 }
 
 #[cfg(unix)]

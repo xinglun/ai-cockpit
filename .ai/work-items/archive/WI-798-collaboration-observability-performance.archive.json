@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-11T12:18:56Z",
+  "files": {
+    "contractDigest": "sha256:1d2c64470d5a93bda6503cf8cfbc8e264d03bdf88925132ae1f6e0ca4ede2e12",
+    "contractPath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json",
+    "eventsDigest": "sha256:eb38c8634421e875daeaee934691c79a3fc4b2bcc2632538ac86ff63b659fc9e",
+    "eventsPath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.events.jsonl",
+    "outcomeDigest": "sha256:9f69a6f462f5eff995385dd6106b1c1b3de9c4fe42137c451e74f409b73ea525",
+    "outcomePath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.outcome.json",
+    "summaryDigest": "sha256:a86143560d3640c030405b965724875bbadd9b3da5b742ff41a5fb5034622b0e",
+    "summaryPath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.summary.json",
+    "taskReportDigest": "sha256:f4c667ebc465bd838c574614a07f2f7cc38b273e961a7ecf3247d085ed9368ea",
+    "taskReportMarkdownDigest": "sha256:ff2834896b4035a0fded6b25f3fa8bd0c0b066f48bd3eef5c882a3cde9ed237b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-798-collaboration-observability-performance.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

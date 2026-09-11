@@ -48,8 +48,8 @@
     "baseBranch": "main",
     "baseRemote": "origin",
     "branch": "codex/wi-798-collab-observability-performance",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/775",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-798-collab-observability-performance"
   },
   "risk": "high",

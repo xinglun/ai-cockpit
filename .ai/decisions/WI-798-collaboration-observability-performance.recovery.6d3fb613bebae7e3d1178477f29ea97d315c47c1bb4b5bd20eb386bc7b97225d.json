@@ -1,0 +1,24 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "user-authorized",
+  "decidedAt": "2026-09-11T12:21:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-798-collaboration-observability-performance.verification.json",
+    "crates/cockpit-repository/tests/governance_controls.rs"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+  "predecessorEventsDigest": "sha256:551df9802ea58e50c11486fd4ee87560590e5d808d590c83c2406d9323d6c8b8",
+  "predecessorOutcomeDigest": "sha256:7bf41e50d7ffaf9e9dc615d5ec3b90cdb9e259d48efe1211ab2f8a2c41c00cbd",
+  "predecessorSummaryDigest": "sha256:f62fbb11072e3d6b8b32e68de533cad42037bad3046a05b52f5e050e806ffdfb",
+  "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
+  "reason": "Recover the finish governance projection after adding the bounded lettered acceptance-ID validator and Summary control evidence; rerun current verification under Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence and Runtime preflight after the governance control repair",
+  "runtimeDigest": "sha256:f4e3dc8636b938e6c0e2a7cbacbb47963dcd27d110f69c1ba67bc42cf069d673",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

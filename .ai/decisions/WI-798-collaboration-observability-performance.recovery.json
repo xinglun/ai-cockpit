@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "user-authorized",
+  "decidedAt": "2026-09-11T11:24:41Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+  "predecessorEventsDigest": "sha256:a3009dc31178891c8f2e03d6c8f316c11342d8ead902e54225e492c6fbea0daa",
+  "predecessorOutcomeDigest": "sha256:c6ad90ec0d1af9cd4ca219206eff3ee764270b8c585c76d9d009ec8c4a439794",
+  "predecessorSummaryDigest": "sha256:27627e54d783a234aa2eff19c524299410f7f412d02dd28fdca8741c5a001835",
+  "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
+  "reason": "Recover the failed finish finalization projection after binding reviewed PR #775; rerun current verification and finish under Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh verification evidence and Runtime preflight for the bound PR #775 finalization context",
+  "runtimeDigest": "sha256:cc3fd8aa342588f6a476fdc5bf5fd0a4e306ccd68a3a76951808626200fa84f2",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

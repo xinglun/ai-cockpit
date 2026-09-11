@@ -4240,7 +4240,29 @@ fn verification_evidence_state(
         && (envelope.runtime_version != runtime.runtime_version
             || envelope.runtime_digest != runtime.runtime_digest)
     {
-        return Ok(EvidenceState::Contradictory);
+        // A retry receipt is the explicit authorization to replace evidence
+        // produced by the previous Runtime executable.  Classify that
+        // transition as stale so preflight can lead directly to the bounded
+        // replacement verification; foreign or tampered evidence without a
+        // retry remains contradictory and fail-closed.
+        let retry_pending = !archived
+            && root
+                .join(".ai/work-items/active")
+                .join(format!("{}.summary.json", contract.work_item_id))
+                .is_file()
+            && read_json(
+                &root
+                    .join(".ai/work-items/active")
+                    .join(format!("{}.summary.json", contract.work_item_id)),
+            )
+            .ok()
+            .and_then(|summary| summary.get("recoveryRetryPending").cloned())
+            .is_some_and(|value| value == serde_json::json!(true));
+        return Ok(if retry_pending {
+            EvidenceState::Stale
+        } else {
+            EvidenceState::Contradictory
+        });
     }
     let current_snapshot_digest = snapshot_digest(snapshot)?;
     if !archived && envelope.repository_snapshot_digest != current_snapshot_digest {

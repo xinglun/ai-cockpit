@@ -1,6 +1,6 @@
 {
-  "dependencyFingerprint": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "diffDigest": "sha256:6fa0e24bbbe07121fb92e760404002006f64297ee18a3fad7535ea1ffbbc1ff6",
+  "dependencyFingerprint": "sha256:112cc36f1dde4d2b810e2aa55f589e8a1e0d418146cf896c6a5e5673d6adf068",
+  "diffDigest": "sha256:ec94906e2fb9e02c0f397e117a28fef68eb3ed6e5df98274af065e3b193e9766",
   "observation": {
     "buildSystems": [
       "Cargo"
@@ -15,8 +15,8 @@
       "release",
       "security"
     ],
-    "dependencyFingerprint": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "filesRead": 11263,
+    "dependencyFingerprint": "sha256:112cc36f1dde4d2b810e2aa55f589e8a1e0d418146cf896c6a5e5673d6adf068",
+    "filesRead": 11224,
     "languages": [
       "Python",
       "Rust"
@@ -31,10 +31,10 @@
         "state": "detected"
       }
     ],
-    "snapshotDigest": "sha256:dcdcdeb25953d515253f4181f2225f9f586d18332c62eb163a1972e3d46b4516",
+    "snapshotDigest": "sha256:56bcd851e884d89cf8ddc54fde065e129b9c68fc1a35164717a73b27ae29ac1c",
     "testRoots": [
       "tests/**"
     ]
   },
-  "treeDigest": "sha256:e2a792c2819ea65c29460adede8739b5e1f0bf172ca2a0020ef83e08aead394f"
+  "treeDigest": "sha256:497eeb7412fd52d6c4dd41edbbad5051214ec348d7776783d494c551751d9f65"
 }

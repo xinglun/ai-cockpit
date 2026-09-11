@@ -17,14 +17,17 @@
     "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
     "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-11T12:18:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8d2405de126c9a84a5e9cb41ba4184b07704d7ec7a29e23891cc9b276633187d",
   "evidenceRefs": [
     ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
   ],
-  "failedGate": "finish.finalization",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -32,41 +35,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a5cde25bce54c1c685582c2f5c6372aef18b74b77b1224ef94130b5986131d6a",
+      "repositorySnapshotDigest": "sha256:646eac59563d840876364ec613a1376cfc73e91976b250bcca17c384d845818c",
       "workItemId": "WI-798-collaboration-observability-performance"
     },
-    "failedGate": "finish.finalization",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-798-collaboration-observability-performance.summary.json"
+            ".ai/work-items/archive/WI-798-collaboration-observability-performance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-798-collaboration-observability-performance.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-798-collaboration-observability-performance.summary.json"
+            ".ai/work-items/archive/WI-798-collaboration-observability-performance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-798-collaboration-observability-performance.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-798-collaboration-observability-performance.summary.json"
         }
       ],
       "evidence": [
@@ -85,15 +85,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -104,7 +96,7 @@
             ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -114,15 +106,23 @@
             ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-798-collaboration-observability-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-798-collaboration-observability-performance.contract.json"
+            ".ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json"
           ],
           "inference": false,
           "text": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，交付经审查的新版本：finalization action 语义正确且跨入口一致，Outcome 事实边界可证明，协作场景真实验收，性能测量可复现并仅按实测瓶颈优化，完成发布与安装升级验收。"
@@ -131,23 +131,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-798-collaboration-observability-performance.contract.json"
+            ".ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-798-collaboration-observability-performance"
   },
+  "taskReportDigest": "sha256:f4c667ebc465bd838c574614a07f2f7cc38b273e961a7ecf3247d085ed9368ea",
+  "taskReportMarkdownDigest": "sha256:ff2834896b4035a0fded6b25f3fa8bd0c0b066f48bd3eef5c882a3cde9ed237b",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-798-collaboration-observability-performance.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-798-collaboration-observability-performance"
 }

@@ -1,10 +1,67 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A",
+      "evidence": [
+        {
+          "locator": "typed finalization states and next actions",
+          "path": "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+          "type": "test",
+          "verification": "workspace test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "B",
+      "evidence": [
+        {
+          "locator": "request-scoped observation and dependency drift",
+          "path": "crates/cockpit-repository/tests/repository_context.rs",
+          "type": "test",
+          "verification": "repository test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "C",
+      "evidence": [
+        {
+          "locator": "CLI and MCP matrix parity",
+          "path": "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+          "type": "test",
+          "verification": "CLI integration test passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "D",
+      "evidence": [
+        {
+          "locator": "operation-bound warm samples and counters",
+          "path": "docs/superpowers/evidence/2026-09-11-wi-798-performance.md",
+          "type": "benchmark",
+          "verification": "100 valid warm samples recorded"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "E",
+      "evidence": [
+        {
+          "locator": "optimization decision and scanner comparison",
+          "path": "docs/superpowers/evidence/2026-09-11-wi-798-performance.md",
+          "type": "benchmark",
+          "verification": "correctness passed and measured result recorded"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
-    ".ai/work-items/active/WI-798-collaboration-observability-performance.contract.json",
-    ".ai/work-items/active/WI-798-collaboration-observability-performance.summary.json"
+    ".ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json",
+    ".ai/work-items/archive/WI-798-collaboration-observability-performance.summary.json"
   ],
   "checkpointAt": "2026-09-11T05:19:06Z",
-  "checkpointContractDigest": "sha256:7c77363c173d5becf54c3131e4f9f443db25f5a7522e272916b6a94dfe8d28bb",
+  "checkpointContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -220,29 +277,188 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-798-collaboration-observability-performance"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "previousContractHash": "sha256:7c77363c173d5becf54c3131e4f9f443db25f5a7522e272916b6a94dfe8d28bb",
+      "reason": "Bind the actual reviewed PR #775 finalization context before rerunning required verification",
+      "recorded": true,
+      "recordedAt": "2026-09-11T09:46:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1861efd03a40db8e4ca238893dfe4adfeae7449ed79e368937db5f94abb079e3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-798-collaboration-observability-performance"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:f2a52d3c6f752a11e04282795e8a1ef5bed89adaaf189083f12188652b714e63",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "previousContractHash": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+      "reason": "Add stable F-P acceptance labels to the existing appended criteria so every Contract criterion can bind explicit evidence without changing its original language.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T11:50:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7fe96ab3abaf60f15c0f2e811ade6784f01b54797d2f7aad89fa9409b8f23aea",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-798-collaboration-observability-performance"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "previousContractHash": "sha256:f2a52d3c6f752a11e04282795e8a1ef5bed89adaaf189083f12188652b714e63",
+      "reason": "Keep the original post-merge acceptance criteria as legacy unnumbered conditions while allowing explicit A-E evidence mappings; remove the invalid mixed-ID finish gate without weakening explicit-ID validation.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T12:01:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a5f3d0e3b6f57bde7c6b64546ac1da9c5bd9b10704551250fc65361c8e826388",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-798-collaboration-observability-performance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a5cde25bce54c1c685582c2f5c6372aef18b74b77b1224ef94130b5986131d6a",
+  "checkpointRepositorySnapshotDigest": "sha256:646eac59563d840876364ec613a1376cfc73e91976b250bcca17c384d845818c",
   "createdAt": "2026-09-11T05:15:19Z",
-  "failedGate": "finish.finalization",
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-09-11-collaboration-observability-performance-design.md",
+      "docs/superpowers/plans/2026-09-11-collaboration-observability-performance.md",
+      "docs/superpowers/evidence/2026-09-11-wi-798-performance.md"
+    ],
+    "state": "resolved"
+  },
   "mode": "code",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-11T09:38:08Z",
-  "preflightContractDigest": "sha256:7c77363c173d5becf54c3131e4f9f443db25f5a7522e272916b6a94dfe8d28bb",
+  "preflightAt": "2026-09-11T12:18:24Z",
+  "preflightContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a5cde25bce54c1c685582c2f5c6372aef18b74b77b1224ef94130b5986131d6a",
+  "preflightRepositorySnapshotDigest": "sha256:646eac59563d840876364ec613a1376cfc73e91976b250bcca17c384d845818c",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-11T09:38:34Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs"
+      ],
+      "required": true,
+      "scenario": "typed_finalization_actions_cover_all_observed_states",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "required": true,
+      "scenario": "outcome_observation_detects_registered_dependency_drift",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/collaboration_scenario_matrix.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+      ],
+      "required": true,
+      "scenario": "real_cli_mcp_collaboration_paths_preserve_semantics",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark_stats_test.py",
+        "docs/superpowers/evidence/2026-09-11-wi-798-performance.md"
+      ],
+      "required": true,
+      "scenario": "performance_measurement_is_operation_and_scenario_bound",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark.sh",
+        "docs/superpowers/evidence/2026-09-11-wi-798-performance.md"
+      ],
+      "required": true,
+      "scenario": "only_measured_performance_bottlenecks_are_optimized",
+      "status": "verified"
+    },
+    {
+      "reason": "The immutable public Release and downloaded-artifact acceptance run only after the reviewed PR is merged; this pre-merge finish boundary records the phase separation.",
+      "required": true,
+      "scenario": "reviewed_release_artifact_passes_install_and_n_minus_one_upgrade",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-isolation/tests/scanner.rs",
+        "tests/release/isolation_manifest_test.sh"
+      ],
+      "required": true,
+      "scenario": "release_isolation_scanner_preserves_manifest_contract",
+      "status": "verified"
+    },
+    {
+      "reason": "Public Release acceptance is a post-merge release-stage operation; candidate phase planning and resume behavior are covered by the implementation tests, while public artifacts do not exist at this pre-merge boundary.",
+      "required": true,
+      "scenario": "release_acceptance_phases_resume_without_rebuild_or_republish",
+      "status": "not_applicable"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/repository_context.rs",
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "required": true,
+      "scenario": "wi_execution_reuses_facts_and_stops_dependents_early",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/gate_plan_parity.rs",
+        "tests/ci/quality_route_test.py"
+      ],
+      "required": true,
+      "scenario": "governance_production_routes_use_shared_rust_plan",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "docs/superpowers/evidence/2026-09-11-wi-798-performance.md",
+        "tests/performance/runtime_benchmark_scenarios.py"
+      ],
+      "required": true,
+      "scenario": "cockpit_and_object_project_wi_costs_are_separately_measured",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T12:18:44Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:4040cf4beea35975da82213a191ec2a091d68c9362908f54f5aac972fe5e077e",
   "workItemId": "WI-798-collaboration-observability-performance"
 }
