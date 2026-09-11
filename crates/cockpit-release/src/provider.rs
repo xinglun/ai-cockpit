@@ -169,14 +169,9 @@ mod tests {
             .unwrap();
         }
         fs::write(dist.join("Formula/ai-cockpit.rb"), "formula").unwrap();
-        let manifest = ReleaseManifest::from_staged_dist(
-            "0.2.90",
-            "v0.2.90",
-            &commit,
-            &format!("{}", "b".repeat(64)),
-            &dist,
-        )
-        .unwrap();
+        let manifest =
+            ReleaseManifest::from_staged_dist("0.2.90", "v0.2.90", &commit, &"b".repeat(64), &dist)
+                .unwrap();
         fs::write(
             dist.join("release-manifest.json"),
             manifest.canonical_bytes().unwrap(),
