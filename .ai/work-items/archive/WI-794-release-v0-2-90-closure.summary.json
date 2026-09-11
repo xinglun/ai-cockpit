@@ -110,19 +110,93 @@
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.events.jsonl",
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.outcome.json",
     ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json",
-    ".ai/work-items/active/WI-794-release-v0-2-90-closure.contract.json",
-    ".ai/work-items/active/WI-794-release-v0-2-90-closure.summary.json"
+    ".ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json",
+    ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-10T23:50:58Z",
+  "checkpointContractDigest": "sha256:bbdd6cd5c789e50960c18021179efebd19428674e19b0315032d0ff89ee717d7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c431cbb812f90569d1b0e6495d6ebbcf9af19f01ff9ad7588692e03783110b5a",
   "createdAt": "2026-09-10T23:46:41Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-794-release-v0-2-90-closure.contract.json",
+      "docs/work-items/WI-794-release-v0-2-90-closure.md",
+      ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+      ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json"
+    ],
+    "reason": "The public release identity, isolated installation, byte-identical N-1 history, and immutable WI-793 recovery bindings are directly evidenced; post-merge archive/finalization/close remain Runtime lifecycle gates and are not pre-claimed here.",
+    "state": "resolved"
+  },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
   "predecessorWorkItemId": "WI-793-release-v0-2-90-recovery",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-11T00:09:56Z",
+  "preflightContractDigest": "sha256:bbdd6cd5c789e50960c18021179efebd19428674e19b0315032d0ff89ee717d7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c431cbb812f90569d1b0e6495d6ebbcf9af19f01ff9ad7588692e03783110b5a",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-10T23:47:48Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/release-manifest.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/runtime.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.90"
+      ],
+      "expected": "The public Release manifest, annotated tag, checksums, and downloaded binary identify v0.2.90 from merged main commit 2d45d6f2e0c99131c6476bd1aa3b3dedc5d81921.",
+      "required": true,
+      "scenario": "published v0.2.90 identity remains bound to merged main",
+      "status": "verified",
+      "verificationPlan": "Run the public manifest and version-consistency checks against the immutable v0.2.90 Release and retain the downloaded artifact identity evidence."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json",
+        ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+      ],
+      "expected": "The downloaded public archive passes installation, Runtime identity, forbidden-root isolation, and temporary-root cleanup checks without using the workspace binary.",
+      "required": true,
+      "scenario": "public v0.2.90 adopter installation is isolated and cleaned",
+      "status": "verified",
+      "verificationPlan": "Inspect the completed public adopter acceptance receipt, isolation receipt, and cleanup receipt from the immutable Release artifact."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json",
+        ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+      ],
+      "expected": "An isolated adopter upgrades from immutable v0.2.89 to v0.2.90, preserves byte-identical governed history, and cleans temporary roots.",
+      "required": true,
+      "scenario": "v0.2.89 to v0.2.90 upgrade preserves governed history",
+      "status": "verified",
+      "verificationPlan": "Inspect the completed public N-1 upgrade receipt, history digest, isolation receipt, and cleanup receipt."
+    },
+    {
+      "evidence": [
+        ".ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.outcome.json",
+        ".ai/work-items/active/WI-793-release-v0-2-90-recovery.events.jsonl"
+      ],
+      "expected": "The blocked WI-793 Contract, Summary, Outcome, Events, and successor recovery receipt remain preserved and bound to the repository and current Runtime without being rewritten.",
+      "required": true,
+      "scenario": "WI-793 recovery history remains immutable and identity-bound",
+      "status": "verified",
+      "verificationPlan": "Validate the predecessor recovery receipt and compare its recorded digests with the retained predecessor artifacts before archiving the successor."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T00:10:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-794-release-v0-2-90-closure"
 }

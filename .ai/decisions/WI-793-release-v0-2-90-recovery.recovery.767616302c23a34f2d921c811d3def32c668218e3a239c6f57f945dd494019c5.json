@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-release-recovery",
+  "decidedAt": "2026-09-11T00:03:01Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.contract.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.outcome.json",
+    ".ai/work-items/active/WI-793-release-v0-2-90-recovery.events.jsonl",
+    ".ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json",
+    ".ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md#Recovery",
+    "docs/reference/repository-workflow.md#Recovery"
+  ],
+  "predecessorContractDigest": "sha256:50aa922c771945ba67524fcc3f76d37694aab94cca2a0ca2986efb5facbbd813",
+  "predecessorEventsDigest": "sha256:63fd8a43f6a4449d605c76f6ca7a9ac5be22250dfa9ff067e2b054889b605f6e",
+  "predecessorOutcomeDigest": "sha256:451559b743f2ad0d30af5a922f22dedb811d9375c49939e6df59ac3b399ec3c3",
+  "predecessorSummaryDigest": "sha256:ab3b0a2415f1411a115f8211e8b88adb3324713a84f51ec77eb36dc0033b8e8e",
+  "predecessorWorkItemId": "WI-793-release-v0-2-90-recovery",
+  "reason": "WI-794 is the active successor for the post-release closure; supersede the blocked WI-793 active projection so hosted quality has one active Contract, while preserving every WI-793 artifact and recovery receipt unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the successor from the synchronized merged v0.2.90 source, declare only executable pre-finish scenarios, complete fresh verification, archive, reviewed post-merge closure, finalization, explicit close, synchronized main, and exact cleanup.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-794-release-v0-2-90-closure",
+  "workItemId": "WI-793-release-v0-2-90-recovery"
+}
