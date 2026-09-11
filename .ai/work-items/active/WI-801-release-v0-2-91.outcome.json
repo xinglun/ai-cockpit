@@ -1,0 +1,192 @@
+{
+  "acceptanceResults": [
+    "Cargo.toml and Cargo.lock consistently identify version 0.2.91 with no unrelated dependency changes.",
+    "The three WI-801 Work Item pages and tri-language parity rows are registered before verification.",
+    "Release preflight, source quality, candidate build and immutable public/N-1 acceptance can bind the published v0.2.91 artifacts to reviewed main.",
+    "The canonical workspace package gate must use bounded package-level parallelism and configurable in-package test threads while preserving deterministic package ordering, fail-closed omission reporting, metadata failure reporting, and compatibility with the existing gate manifest."
+  ],
+  "createdAt": "2026-09-11T20:59:41Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:64507ab1468067e8880628b8cf50fbbcbeda9fbfaa724ba616aae38e8efbab90",
+  "evidenceRefs": [
+    ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fbaba1a42fd4fa1222616f54bbb7dae91770105fefc8b6fe27bda1b6f7dfc863",
+      "workItemId": "WI-801-release-v0-2-91"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.19442e685f56e0f117d57929c7bcba85ae74f24209299f8537fbbf87bcb2cbc5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.64f8d1303ed5d5b794a653b25668d67c4ef9a20b991fb220944f4afe9c891292.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.721211f2d8aea24d537452c946df2fe95f9639f6bf14be44b4f9327c4be438da.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.bc937d76ee0062c908d8edf2069bb86cae95898edf948e90e965d5f7b5c51c0e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-801-release-v0-2-91.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.contract.json"
+          ],
+          "inference": false,
+          "text": "Align the workspace and lockfile version to 0.2.91, register the tri-language release Work Item projections, and pass the immutable release preflight without changing Runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-801-release-v0-2-91"
+  },
+  "taskReportDigest": "sha256:b136a0ef1d7c2ee7158ad3028afa505c6875109df814adea0ec57efb7f0221ce",
+  "taskReportMarkdownDigest": "sha256:df1a9ccff83fafef25b6a1ab38d4cd32317f7cde22f2130d2b767ccece958551",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-801-release-v0-2-91.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-801-release-v0-2-91"
+}

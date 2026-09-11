@@ -19,10 +19,25 @@ printf '%s\n' "$3" >>"$PACKAGE_LOG"
 SH
 chmod +x "$tmp/fake-cargo"
 
-PACKAGE_LOG="$tmp/packages.log" "$root/tests/ci/run_workspace_package_tests.sh" \
+PACKAGE_LOG="$tmp/packages.log" WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 "$root/tests/ci/run_workspace_package_tests.sh" \
   --metadata "$tmp/metadata.json" --cargo "$tmp/fake-cargo" --report "$tmp/report.json"
 diff -u <(printf '%s\n' package-a package-b) "$tmp/packages.log"
 jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' "$tmp/report.json" >/dev/null
+
+# Parallel completion must not make the machine-readable report depend on
+# which package happened to finish first.
+cat >"$tmp/out-of-order-cargo" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "$3" == package-a ]]; then sleep 0.05; fi
+printf '%s\n' "$3" >>"$PACKAGE_LOG"
+SH
+chmod +x "$tmp/out-of-order-cargo"
+PACKAGE_LOG="$tmp/out-of-order-packages.log" WORKSPACE_TEST_WORKERS=2 WORKSPACE_TEST_THREADS=2 \
+  "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+  --cargo "$tmp/out-of-order-cargo" --report "$tmp/out-of-order-report.json"
+jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' \
+  "$tmp/out-of-order-report.json" >/dev/null
 
 # A failed package must stop the run and produce a fail-closed receipt that
 # exposes the omitted remainder.
@@ -32,7 +47,7 @@ set -euo pipefail
 [[ "$3" != package-a ]]
 SH
 chmod +x "$tmp/failing-cargo"
-if "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
+if WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 "$root/tests/ci/run_workspace_package_tests.sh" --metadata "$tmp/metadata.json" \
   --cargo "$tmp/failing-cargo" --report "$tmp/failing-report.json" >/dev/null 2>&1; then
   printf 'workspace coverage accepted an omitted package\n' >&2
   exit 1
@@ -46,7 +61,7 @@ cat >"$tmp/failing-metadata-cargo" <<'SH'
 exit 42
 SH
 chmod +x "$tmp/failing-metadata-cargo"
-if "$root/tests/ci/run_workspace_package_tests.sh" --cargo "$tmp/failing-metadata-cargo" \
+if WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 "$root/tests/ci/run_workspace_package_tests.sh" --cargo "$tmp/failing-metadata-cargo" \
   --report "$tmp/failing-metadata-report.json" >/dev/null 2>&1; then
   printf 'workspace coverage accepted failed cargo metadata\n' >&2
   exit 1

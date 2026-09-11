@@ -2,7 +2,8 @@
   "acceptanceCriteria": [
     "Cargo.toml and Cargo.lock consistently identify version 0.2.91 with no unrelated dependency changes.",
     "The three WI-801 Work Item pages and tri-language parity rows are registered before verification.",
-    "Release preflight, source quality, candidate build and immutable public/N-1 acceptance can bind the published v0.2.91 artifacts to reviewed main."
+    "Release preflight, source quality, candidate build and immutable public/N-1 acceptance can bind the published v0.2.91 artifacts to reviewed main.",
+    "The canonical workspace package gate must use bounded package-level parallelism and configurable in-package test threads while preserving deterministic package ordering, fail-closed omission reporting, metadata failure reporting, and compatibility with the existing gate manifest."
   ],
   "authority": "explicit-user-authorization-root-cause-repair-and-release",
   "baseRevision": "47a47a1d4025d92afcefdfb669f7922d0e70974b",
@@ -28,14 +29,56 @@
     "adopter acceptance"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-801-release-v0-2-91",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/777",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-801-release-v0-2-91"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo workspace, lockfile, tri-language release projections, and release policy identify the same v0.2.91 reviewed source.",
+      "required": true,
+      "scenario": "release_contract_and_version_preflight",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency, documentation/parity, governance integrity, source quality, and hosted release preflight checks before any tag push."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.91 tag and Release are bound to the reviewed PR merge commit and cannot overwrite an existing mismatched Release or tag.",
+      "required": true,
+      "scenario": "reviewed_main_revision_is_the_only_release_input",
+      "status": "unverified",
+      "verificationPlan": "Pass hosted PR checks, merge the reviewed PR, synchronize main, inspect the exact merge SHA, and push one annotated immutable v0.2.91 tag."
+    },
+    {
+      "evidence": [],
+      "expected": "Candidate fresh install and N-1 upgrade use independent isolated roots, published candidate artifacts, and structured cleanup receipts.",
+      "required": true,
+      "scenario": "candidate_acceptance_runs_in_independent_isolation",
+      "status": "unverified",
+      "verificationPlan": "Inspect the release workflow candidate jobs and their receipts, then verify both candidate acceptance paths and cleanup before publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.91 downloaded artifact passes fresh install, v0.2.90 to v0.2.91 upgrade, version consistency, and isolation cleanup.",
+      "required": true,
+      "scenario": "public_artifact_acceptance_covers_install_and_n_minus_one",
+      "status": "unverified",
+      "verificationPlan": "After publication, inspect public adopter and upgrade acceptance jobs and retain their immutable receipts and manifest digests."
+    },
+    {
+      "evidence": [],
+      "expected": "Interruption, timeout, runner/network failure, cleanup failure, or identity mismatch resumes from the earliest invalid phase without unnecessary rebuild, republish, deletion, or history overwrite.",
+      "required": true,
+      "scenario": "release_failure_reuses_valid_phases_without_overwrite",
+      "status": "unverified",
+      "verificationPlan": "Run the release recovery regression coverage and inspect phase-bound receipts; treat any identity mismatch as a blocking failure."
+    }
+  ],
   "scope": [
     "Cargo.toml",
     "Cargo.lock",
@@ -44,7 +87,9 @@
     "docs/work-items/WI-801-release-v0-2-91.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/workspace_package_coverage_test.sh"
   ],
   "sources": [],
   "state": "implementation_active",

@@ -1,35 +1,164 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.19442e685f56e0f117d57929c7bcba85ae74f24209299f8537fbbf87bcb2cbc5.json",
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.64f8d1303ed5d5b794a653b25668d67c4ef9a20b991fb220944f4afe9c891292.json",
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.721211f2d8aea24d537452c946df2fe95f9639f6bf14be44b4f9327c4be438da.json",
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.bc937d76ee0062c908d8edf2069bb86cae95898edf948e90e965d5f7b5c51c0e.json",
+    ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-801-release-v0-2-91.contract.json",
-    ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+    ".ai/work-items/active/WI-801-release-v0-2-91.summary.json",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/workspace_package_coverage_test.sh"
   ],
   "checkpointAt": "2026-09-11T20:21:10Z",
-  "checkpointContractDigest": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+  "checkpointContractDigest": "sha256:3f58d71e6b0141cc055c52bb6ee6f92db6bdcbe10722b5b7c28731bc050c571f",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:7840879511014723ef96c8fb5483e5b8535c056676fda4dbdab31af3cf024083",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+      "recorded": true,
+      "recordedAt": "2026-09-11T20:21:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7840879511014723ef96c8fb5483e5b8535c056676fda4dbdab31af3cf024083",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-801-release-v0-2-91"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f8fa7757e833278c66f76bb9aa4570096333459ac2be7148a2089f6fc8722b1a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+      "previousContractHash": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+      "reason": "Add the high-risk release scenarios that must be planned before verification; this keeps candidate/public acceptance and recovery boundaries explicit and prevents expensive work from starting without coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T20:24:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:572a6447f59dae5f90d150fb43a519bafef7981bdf6969e3b2cd5b892d4185b2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-801-release-v0-2-91"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3f58d71e6b0141cc055c52bb6ee6f92db6bdcbe10722b5b7c28731bc050c571f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+      "previousContractHash": "sha256:f8fa7757e833278c66f76bb9aa4570096333459ac2be7148a2089f6fc8722b1a",
+      "reason": "Verification exposed that the canonical workspace package gate, rather than the one-shot workspace cargo test, is the governed release input; its bounded parallel execution and regression coverage are in-scope for the release performance objective.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T20:52:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:84d60713e730489da4d0b41a3caae7524d2dd6f3adece715d5774cc9734c4a61",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-801-release-v0-2-91"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fbaba1a42fd4fa1222616f54bbb7dae91770105fefc8b6fe27bda1b6f7dfc863",
   "createdAt": "2026-09-11T20:15:05Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+    "contractDigest": "sha256:3f58d71e6b0141cc055c52bb6ee6f92db6bdcbe10722b5b7c28731bc050c571f",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
-    "reason": "The repository owner explicitly authorized this bounded v0.2.91 release Work Item after reviewing its scope, acceptance, required immutable public/N-1 acceptance, and the requirement to find and fix root causes before release. This decision authorizes implementation only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
-    "recordedAt": "2026-09-11T20:21:04Z",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "The repository owner explicitly authorized continuing this same bounded v0.2.91 release Work Item after the canonical workspace gate root cause was found and repaired. The amended scope includes the governed package gate and its fail-closed regression coverage; pre-merge verification still must not substitute for candidate, public, or hosted release evidence. This decision authorizes implementation and verification only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
+    "recordedAt": "2026-09-11T20:59:35Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:7840879511014723ef96c8fb5483e5b8535c056676fda4dbdab31af3cf024083",
+    "repositorySnapshotDigest": "sha256:fbaba1a42fd4fa1222616f54bbb7dae91770105fefc8b6fe27bda1b6f7dfc863",
     "schemaVersion": 1,
     "workItemId": "WI-801-release-v0-2-91"
   },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-801-release-v0-2-91.md",
+      "Cargo.toml",
+      "Cargo.lock"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-11T20:21:10Z",
-  "preflightContractDigest": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
-  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
-  "preflightRepositorySnapshotDigest": "sha256:7840879511014723ef96c8fb5483e5b8535c056676fda4dbdab31af3cf024083",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-11T20:59:40Z",
+  "preflightContractDigest": "sha256:3f58d71e6b0141cc055c52bb6ee6f92db6bdcbe10722b5b7c28731bc050c571f",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:fbaba1a42fd4fa1222616f54bbb7dae91770105fefc8b6fe27bda1b6f7dfc863",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-11T20:21:10Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency_test.sh",
+        "tests/docs/parity_status_check.sh",
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "expected": "Cargo workspace, lockfile, tri-language release projections, and release policy identify the same v0.2.91 reviewed source.",
+      "required": true,
+      "scenario": "release_contract_and_version_preflight",
+      "status": "verified",
+      "verificationPlan": "Run version consistency, documentation/parity, governance integrity, source quality, and hosted release preflight checks before any tag push."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.91 tag and Release are bound to the reviewed PR merge commit and cannot overwrite an existing mismatched Release or tag.",
+      "reason": "PR review, merge, main synchronization, and immutable tag creation are provider release-stage facts after this pre-merge preparation boundary; they will be verified before publication.",
+      "required": true,
+      "scenario": "reviewed_main_revision_is_the_only_release_input",
+      "status": "not_applicable",
+      "verificationPlan": "Pass hosted PR checks, merge the reviewed PR, synchronize main, inspect the exact merge SHA, and push one annotated immutable v0.2.91 tag."
+    },
+    {
+      "evidence": [],
+      "expected": "Candidate fresh install and N-1 upgrade use independent isolated roots, published candidate artifacts, and structured cleanup receipts.",
+      "reason": "Candidate artifacts do not exist until the reviewed main revision is merged and the release workflow builds them.",
+      "required": true,
+      "scenario": "candidate_acceptance_runs_in_independent_isolation",
+      "status": "not_applicable",
+      "verificationPlan": "Inspect the release workflow candidate jobs and their receipts, then verify both candidate acceptance paths and cleanup before publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The public v0.2.91 downloaded artifact passes fresh install, v0.2.90 to v0.2.91 upgrade, version consistency, and isolation cleanup.",
+      "reason": "The public v0.2.91 Release does not exist at this pre-merge preparation boundary.",
+      "required": true,
+      "scenario": "public_artifact_acceptance_covers_install_and_n_minus_one",
+      "status": "not_applicable",
+      "verificationPlan": "After publication, inspect public adopter and upgrade acceptance jobs and retain their immutable receipts and manifest digests."
+    },
+    {
+      "evidence": [],
+      "expected": "Interruption, timeout, runner/network failure, cleanup failure, or identity mismatch resumes from the earliest invalid phase without unnecessary rebuild, republish, deletion, or history overwrite.",
+      "reason": "Release-phase interruption and recovery evidence can only be collected once candidate/public phase receipts exist; no pre-merge result is substituted.",
+      "required": true,
+      "scenario": "release_failure_reuses_valid_phases_without_overwrite",
+      "status": "not_applicable",
+      "verificationPlan": "Run the release recovery regression coverage and inspect phase-bound receipts; treat any identity mismatch as a blocking failure."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T20:59:41Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-801-release-v0-2-91"
 }
