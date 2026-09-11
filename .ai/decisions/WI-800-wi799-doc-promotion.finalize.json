@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization-root-cause-repair-and-release",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "aba2b8dc10d2ac33b9ae0ecff084ba1ba873e093",
+    "name": "codex/wi-800-wi799-doc-promotion",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0d9cde58182296735ce71bbaa0a03037987cc6cbcb0ec8bf3fbfd84e2cebc3d3",
+  "operationId": "github-pr-776-merge-cleanup-20260911",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f46903f3d0aa764397710d0ec0e455177bdfd9b0",
+    "headRevision": "aba2b8dc10d2ac33b9ae0ecff084ba1ba873e093",
+    "mergeCommit": "37fb693abd8d67448d7a1cf79f2ead2fb1915f5e",
+    "number": 776,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/776"
+  },
+  "reason": "PR #776 merged after all hosted checks passed; the exact feature branch and integration worktree were removed and independently verified.",
+  "receiptId": "ai-cockpit-WI-800-wi799-doc-promotion-pr-776-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-800-wi799-doc-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/776",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-800-wi799-doc-promotion"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-11T20:00:23Z",
+  "workItemId": "WI-800-wi799-doc-promotion",
+  "worktree": {
+    "branch": "codex/wi-800-wi799-doc-promotion",
+    "headRevision": "aba2b8dc10d2ac33b9ae0ecff084ba1ba873e093",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-800-wi799-doc-promotion",
+    "worktreeId": "WI-800-wi799-doc-promotion"
+  }
+}
