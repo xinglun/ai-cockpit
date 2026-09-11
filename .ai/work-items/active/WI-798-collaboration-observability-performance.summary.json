@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-798-collaboration-observability-performance.contract.json",
+    ".ai/work-items/active/WI-798-collaboration-observability-performance.summary.json"
+  ],
+  "checkpointAt": "2026-09-11T05:19:06Z",
+  "checkpointContractDigest": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "recorded": true,
+      "recordedAt": "2026-09-11T05:19:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-798-collaboration-observability-performance"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:8b3b88241f574d287ebd55be439d2140fdf1a686fd4a42b8aa998ece92e2cded",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "previousContractHash": "sha256:5c7f86614373e970434473bfe1e79eb2baead655f09a1d6809a779f441cb32bd",
+      "reason": "Add the required architectural design and implementation plan paths to the declared Contract scope before creating them; preserve the original before-edit checkpoint and require fresh preflight evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T05:19:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-798-collaboration-observability-performance"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+  "createdAt": "2026-09-11T05:15:19Z",
+  "mode": "code",
+  "preflightAt": "2026-09-11T05:19:57Z",
+  "preflightContractDigest": "sha256:8b3b88241f574d287ebd55be439d2140fdf1a686fd4a42b8aa998ece92e2cded",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-11T05:19:06Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:8b3b88241f574d287ebd55be439d2140fdf1a686fd4a42b8aa998ece92e2cded",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-11T05:19:53Z"
+  },
+  "workItemId": "WI-798-collaboration-observability-performance"
+}

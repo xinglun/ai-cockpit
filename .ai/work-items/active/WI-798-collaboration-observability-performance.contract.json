@@ -1,0 +1,137 @@
+{
+  "acceptanceCriteria": [
+    "A: finalization action and error categories come from typed observed facts rather than English error-string matching; retained, missing, corrupt, identity-mismatch, cleanup-pending, and unknown cases provide correct safe next actions.",
+    "B: one request-scoped observation boundary records every required file and directory candidate dependency, including events and archive candidates, detects replacement/addition/deletion/type drift, and returns unknown after bounded instability.",
+    "C: collaboration scenario matrix executes real CLI and MCP paths across summary/full and en/zh-CN/ja, verifies blockers, authorization, unknowns, and action semantics, and proves manual fixture expectations cannot mask endpoint defects.",
+    "D: performance traces bind operation, scenario, measurement, runtime identity, phase parentage, and counters to actual boundaries; benchmark separates probes/metadata/processes, uses at least 100 valid warm samples, and reports p50/p95 only with sufficient evidence.",
+    "E: each optimization is independently measurable and committable, is retained only when correctness gates pass and the measured bottleneck improves without unacceptable regression, and no unmeasured candidate is presented as a benefit.",
+    "All required Rust, matrix, performance, documentation, governance, release, installation, and upgrade checks pass from the reviewed branch; historical bytes remain unchanged.",
+    "A new immutable version is discovered after v0.2.90, published from the reviewed merge, and its downloaded artifact passes isolated install and N-1 upgrade acceptance.",
+    "The Work Item follows start, preflight, checkpoint, verify, finish, archive, reviewed PR, merge, close, documentation promotion, synchronization, and exact cleanup with current Runtime evidence."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c72254c2ae6bc712139fc755698694653ae004ba",
+  "createdAt": "2026-09-11T05:15:19Z",
+  "goal": "从 c72254c2ae6bc712139fc755698694653ae004ba 起，交付经审查的新版本：finalization action 语义正确且跨入口一致，Outcome 事实边界可证明，协作场景真实验收，性能测量可复现并仅按实测瓶颈优化，完成发布与安装升级验收。",
+  "intent": "修复 AI Cockpit 协作语义、Outcome 事实观察一致性与性能测量边界，并按证据推进高价值优化。",
+  "mode": "code",
+  "outOfScope": [
+    "global Agent/MCP configuration",
+    "V1 runtime",
+    "provider-side resource deletion",
+    "unrelated feature work",
+    "rewriting historical evidence",
+    "unsafe speculative optimization"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ca4210b80929705fa1324bfae2d649b487d96f08345b068b02bb022eac7ff12b",
+  "requiredEvidenceClasses": [
+    "verification",
+    "performance",
+    "governance",
+    "release",
+    "installation",
+    "upgrade"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-798-collab-observability-performance",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-798-collab-observability-performance"
+  },
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "tests/performance/**",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "docs/reference/collaboration-invariant-coverage*.md",
+    "docs/reference/collaboration-language-contract*.md",
+    "docs/work-items/**",
+    "docs/release/**",
+    "tests/release/**",
+    "release/**",
+    "docs/superpowers/specs/2026-09-11-collaboration-observability-performance-design.md",
+    "docs/superpowers/plans/2026-09-11-collaboration-observability-performance.md",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "sources": [
+    "user-provided AI Cockpit collaboration semantics, observation consistency, and performance optimization instruction",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "docs/reference/collaboration-scenario-matrix.json",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_stats.py",
+    "tests/performance/runtime_benchmark_scenarios.py"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "typed_finalization_actions_cover_all_observed_states",
+      "required": true,
+      "evidence": ["crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-repository/tests", "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"],
+      "expected": "Missing, retained, deleted or abandoned, corrupt, identity mismatch, cleanup pending, and unknown observations produce action identifiers and executable next-action guidance from one typed projection; no English error-string classifier remains.",
+      "verificationPlan": "Exercise repository Outcome assembly and the CLI/MCP human handoff for every finalization state and assert state, error category, action identifier, command shape, safety boundary, and localized text.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "outcome_observation_detects_registered_dependency_drift",
+      "required": true,
+      "evidence": ["crates/cockpit-repository/src/outcome_render.rs", "crates/cockpit-repository/src/execution_context.rs", "crates/cockpit-repository/tests"],
+      "expected": "A single request-scoped observation boundary records required files and directory candidate sets, including events and archive candidates, and bounded retries return unknown when any registered dependency changes.",
+      "verificationPlan": "Mutate bytes, replace file types, add or remove directory members, and change event/archive candidates between before and after hooks; assert retry and fail-closed unknown behavior.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "real_cli_mcp_collaboration_paths_preserve_semantics",
+      "required": true,
+      "evidence": ["crates/cockpit-cli/src/main.rs", "crates/cockpit-mcp/src/lib.rs", "docs/reference/collaboration-scenario-matrix.json"],
+      "expected": "Real CLI subprocess and MCP handler paths agree for summary/full and en/zh-CN/ja while preserving blockers, unknowns, authorization boundaries, no-history handoff, and finalization action semantics.",
+      "verificationPlan": "Build fixtures through repository lifecycle commands, invoke both production entrypoints, compare structured and rendered outcomes, and mutate matrix expectations to prove the tests are executable rather than manual-only.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "performance_measurement_is_operation_and_scenario_bound",
+      "required": true,
+      "evidence": ["tests/performance/runtime_benchmark.sh", "tests/performance/runtime_benchmark_stats.py", "tests/performance/runtime_benchmark_scenarios.py"],
+      "expected": "Every trace binds operation, scenario, measurement, runtime identity, phase parentage, wall time, and actual boundary counters; probes, metadata, child processes, and measured command samples remain separate.",
+      "verificationPlan": "Run the benchmark with at least 100 valid warm samples, validate p50/p95 floors and raw sample ordering, inspect phase overlap, and reject unbound or mixed-scope metrics.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "only_measured_performance_bottlenecks_are_optimized",
+      "required": true,
+      "evidence": ["tests/performance/runtime_benchmark.sh", "crates/cockpit-cli/tests/performance.rs"],
+      "expected": "Each retained optimization has an independent before/after measurement, correctness regression evidence, and no unacceptable regression; unmeasured candidate optimizations are not claimed as benefits.",
+      "verificationPlan": "Establish the corrected baseline first, apply one bounded optimization at a time, rerun correctness and performance checks, and record the decision and rollback condition.",
+      "status": "unverified"
+    },
+    {
+      "scenario": "reviewed_release_artifact_passes_install_and_n_minus_one_upgrade",
+      "required": true,
+      "evidence": ["tests/release", "docs/release", "Cargo.toml", "Cargo.lock"],
+      "expected": "The next immutable version after v0.2.90 is published from reviewed merged main and its downloaded artifact passes isolated installation, history preservation, cleanup, and upgrade acceptance.",
+      "verificationPlan": "Discover the next available version after implementation, complete hosted PR checks and merge, publish immutable tag and Release assets, then run public artifact installation and N-1 upgrade harnesses with retained manifests.",
+      "status": "unverified"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-798-collaboration-observability-performance"
+}
