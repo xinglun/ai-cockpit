@@ -2,7 +2,8 @@
   "acceptanceCriteria": [
     "The six target projections match the deterministic terminal promotion derived from WI-799 archive, verification, finalization, and close evidence.",
     "No immutable WI-799 archive, close, finalization, or historical bytes are rewritten.",
-    "The required documentation, parity, governance, and reference checks pass before finish."
+    "The required documentation, parity, governance, and reference checks pass before finish.",
+    "The WI-800 tri-language Work Item pages and prearchive parity rows are registered before verification, and terminal promotion then makes all six WI-799 projections current."
   ],
   "authority": "explicit-user-authorization-root-cause-repair-and-release",
   "baseRevision": "f46903f3d0aa764397710d0ec0e455177bdfd9b0",
@@ -39,7 +40,10 @@
     "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-800-wi799-doc-promotion.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",

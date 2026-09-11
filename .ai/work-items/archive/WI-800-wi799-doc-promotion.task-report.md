@@ -14,10 +14,16 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-800-wi799-doc-promotion.recovery.json
+- Changed path: .ai/decisions/WI-800-wi799-doc-promotion.recovery.121c6285a66e823f781789042ec113a6e23aa962d0e8112f3b819334f820fd2f.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-800-wi799-doc-promotion.contract.json
-- Changed path: .ai/work-items/active/WI-800-wi799-doc-promotion.summary.json
+- Changed path: .ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json
+- Changed path: .ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json
+- Changed path: docs/reference/reference-parity.ja.md
+- Changed path: docs/reference/reference-parity.md
+- Changed path: docs/reference/reference-parity.zh-CN.md
+- Changed path: docs/work-items/WI-800-wi799-doc-promotion.ja.md
+- Changed path: docs/work-items/WI-800-wi799-doc-promotion.md
+- Changed path: docs/work-items/WI-800-wi799-doc-promotion.zh-CN.md
 
 ## Findings
 

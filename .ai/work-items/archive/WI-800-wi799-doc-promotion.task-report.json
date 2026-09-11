@@ -4,7 +4,7 @@
       ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
+    "repositorySnapshotDigest": "sha256:eaef32e038da8e481ec4d443a9d6d08462003a1c3abc1f57fc47db8aee4830d7",
     "workItemId": "WI-800-wi799-doc-promotion"
   },
   "format": "ai-cockpit.task-outcome",
@@ -15,31 +15,73 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-800-wi799-doc-promotion.recovery.json"
+        "text": "Changed path: .ai/decisions/WI-800-wi799-doc-promotion.recovery.121c6285a66e823f781789042ec113a6e23aa962d0e8112f3b819334f820fd2f.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-800-wi799-doc-promotion.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-800-wi799-doc-promotion.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-800-wi799-doc-promotion.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-800-wi799-doc-promotion.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-800-wi799-doc-promotion.zh-CN.md"
       }
     ],
     "evidence": [
@@ -95,7 +137,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "Synchronize the six stale documentation projections for WI-799 without changing immutable history or production behavior."
@@ -104,7 +146,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-800-wi799-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

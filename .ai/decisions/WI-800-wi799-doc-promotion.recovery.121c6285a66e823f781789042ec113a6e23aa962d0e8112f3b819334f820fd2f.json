@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-root-cause-repair-and-release",
+  "decidedAt": "2026-09-12T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-800-wi799-doc-promotion.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:1e85be5c569b1cbcfc8f94f322183ff5370443463abb455721d90108f62a1316",
+  "predecessorEventsDigest": "sha256:4282c8c44b07eb7a1c3245c90c4a89f729d0d9af8512c3fa9514e6de60754ce3",
+  "predecessorOutcomeDigest": "sha256:b8971afac70470e38c9e5a4331c4e67e74bd16de59bf6850cd873e6a58aaf725",
+  "predecessorSummaryDigest": "sha256:b1f986e36598d26a8c43be3eb95534bb73e3ae8b2e8897e32493e8f1c0deff45",
+  "predecessorWorkItemId": "WI-800-wi799-doc-promotion",
+  "reason": "Contract amendment registered the WI-800 tri-language pages and parity prearchive rows after hosted governance found that prerequisite; retry the same bounded documentation Work Item with current evidence bindings.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "rerun current Runtime preflight, verification, and finish after the Contract amendment and own tri-language documentation registration",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
+  "runtimeVersion": "0.2.90",
+  "schemaVersion": 1,
+  "workItemId": "WI-800-wi799-doc-promotion"
+}
