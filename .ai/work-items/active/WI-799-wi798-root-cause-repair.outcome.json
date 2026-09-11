@@ -17,7 +17,7 @@
     "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
     "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
   ],
-  "createdAt": "2026-09-11T19:02:45Z",
+  "createdAt": "2026-09-11T19:04:27Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:eff1ba95b1071ca35016791dfb6794989afc4a1e16bda284876b267854661a9d",
   "evidenceRefs": [
