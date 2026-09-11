@@ -536,6 +536,106 @@ impl GitRepository {
         })
     }
 
+    /// Capture the current repository facts while binding change evidence to
+    /// the committed comparison between `base` and HEAD.  `snapshot()` is
+    /// intentionally about the working tree; hosted quality gates run on a
+    /// clean checkout, so using it alone would hide every change already
+    /// committed to a pull-request branch.
+    pub fn snapshot_against(&self, base: &str) -> Result<RepositorySnapshot, GitError> {
+        let mut snapshot = self.snapshot()?;
+        let Some(head) = snapshot.head.clone() else {
+            return Err(GitError::Command(
+                "comparison snapshot requires a committed HEAD".into(),
+            ));
+        };
+        let name_status = self.run([
+            "-c",
+            "core.quotePath=false",
+            "diff",
+            "--name-status",
+            "--no-renames",
+            "-z",
+            "--no-ext-diff",
+            "--no-color",
+            base,
+            head.as_str(),
+        ])?;
+        let patch = self.run([
+            "-c",
+            "core.quotePath=false",
+            "diff",
+            "--no-ext-diff",
+            "--no-color",
+            "--unified=0",
+            base,
+            head.as_str(),
+        ])?;
+        let (changed_paths, change_kinds) = comparison_change_facts(&name_status);
+        let mut change_evidence = changed_paths
+            .iter()
+            .map(|path| {
+                (
+                    path.clone(),
+                    ChangeEvidence {
+                        path: path.clone(),
+                        kind: change_kinds
+                            .get(path)
+                            .cloned()
+                            .unwrap_or(ChangeKind::Unknown),
+                        added_lines: Vec::new(),
+                        removed_lines: Vec::new(),
+                        after_text: None,
+                        content_state: ChangeContentState::Unavailable,
+                    },
+                )
+            })
+            .collect::<BTreeMap<_, _>>();
+        apply_patch_facts(&patch, &mut change_evidence);
+        for change in change_evidence.values_mut() {
+            let path = self.root.join(&change.path);
+            match std::fs::read(&path) {
+                Ok(bytes) => {
+                    if bytes.len() > MAX_CHANGE_TEXT_BYTES {
+                        change.after_text = None;
+                        let patch_bytes = change
+                            .added_lines
+                            .iter()
+                            .chain(change.removed_lines.iter())
+                            .map(String::len)
+                            .sum::<usize>();
+                        change.content_state = if patch_bytes <= MAX_CHANGE_TEXT_BYTES
+                            && (!change.added_lines.is_empty() || !change.removed_lines.is_empty())
+                        {
+                            ChangeContentState::Text
+                        } else {
+                            ChangeContentState::TooLarge
+                        };
+                    } else if bytes.contains(&0) {
+                        change.content_state = ChangeContentState::Binary;
+                        change.after_text = None;
+                    } else if let Ok(text) = String::from_utf8(bytes) {
+                        change.content_state = ChangeContentState::Text;
+                        change.after_text = Some(text);
+                    } else {
+                        change.content_state = ChangeContentState::Binary;
+                        change.after_text = None;
+                    }
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                    change.content_state = ChangeContentState::Deleted;
+                }
+                Err(_) => {
+                    change.content_state = ChangeContentState::Unavailable;
+                }
+            }
+        }
+        snapshot.changed_paths = changed_paths;
+        snapshot.change_evidence = change_evidence.into_values().collect();
+        snapshot.git_calls = snapshot.git_calls.saturating_add(2);
+        snapshot.diff_digest = digest(patch.as_bytes());
+        Ok(snapshot)
+    }
+
     fn run<const N: usize>(&self, args: [&str; N]) -> Result<String, GitError> {
         let output = Command::new("git")
             .args(["-C"])
@@ -577,6 +677,32 @@ fn status_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKin
             ChangeKind::Unknown
         } else {
             ChangeKind::Modified
+        };
+        kinds.insert(path, kind);
+    }
+    (kinds.keys().cloned().collect(), kinds)
+}
+
+fn comparison_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKind>) {
+    let mut kinds = BTreeMap::new();
+    let mut fields = status.split('\0');
+    while let Some(code) = fields.next() {
+        if code.is_empty() {
+            continue;
+        }
+        let Some(raw_path) = fields.next() else {
+            break;
+        };
+        let Some(path) = normalize_changed_paths([raw_path]).into_iter().next() else {
+            continue;
+        };
+        let kind = match code.as_bytes().first().copied() {
+            Some(b'A') => ChangeKind::Added,
+            Some(b'D') => ChangeKind::Deleted,
+            Some(b'M') => ChangeKind::Modified,
+            Some(b'R') => ChangeKind::Renamed,
+            Some(b'C') => ChangeKind::Copied,
+            _ => ChangeKind::Unknown,
         };
         kinds.insert(path, kind);
     }

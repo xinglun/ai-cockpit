@@ -217,7 +217,8 @@
     "docs/superpowers/evidence/**",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-git/**"
   ],
   "sources": [],
   "state": "implementation_active",

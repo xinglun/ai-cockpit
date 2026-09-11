@@ -14,27 +14,13 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.6823de02bbfaaa4f03db75feac853f897d54fe7a719366ed676d8ffbbe15d52a.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-799-wi798-root-cause-repair.verification.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.events.jsonl
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.outcome.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.task-report.json
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.task-report.md
-- Changed path: crates/cockpit-cli/src/main.rs
-- Changed path: crates/cockpit-cli/tests/verify.rs
-- Changed path: crates/cockpit-repository/src/governance_controls.rs
+- Changed path: crates/cockpit-git/src/lib.rs
+- Changed path: crates/cockpit-git/tests/repository.rs
 - Changed path: crates/cockpit-repository/src/lib.rs
 - Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs
-- Changed path: crates/cockpit-repository/tests/governance_controls.rs
-- Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: tests/ci/repository_gate_manifest_test.py
-- Changed path: tests/ci/run_repository_gates.py
 
 ## Findings
 

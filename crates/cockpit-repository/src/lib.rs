@@ -3040,10 +3040,12 @@ pub fn evaluate_contract_quality_gate(
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
+    let snapshot = git
+        .snapshot_against(&comparison_base_revision)
+        .map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: format!("capture CI comparison diff: {error}"),
+        })?;
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }

@@ -163,6 +163,33 @@ fn hosted_gate_distinguishes_contract_baseline_from_ci_comparison_baseline() {
 }
 
 #[test]
+fn hosted_gate_includes_committed_changes_from_the_ci_comparison_base() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let contract_base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap())
+        .unwrap()["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    fs::create_dir_all(root.join("crates")).expect("source directory");
+    fs::write(root.join("crates/committed.rs"), "pub fn committed() {}\n").expect("change");
+    git(root, &["add", "crates/committed.rs"]);
+    git(root, &["commit", "-qm", "commit PR source change"]);
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&contract_base),
+        &runtime(),
+    )
+    .expect("quality gate");
+    assert_eq!(report.changed_paths, vec!["crates/committed.rs"]);
+}
+
+#[test]
 fn foreign_base_or_repository_contract_fails_closed() {
     let directory = repository();
     let contract = contract_path(directory.path());

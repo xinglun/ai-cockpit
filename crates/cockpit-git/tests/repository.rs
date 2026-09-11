@@ -94,6 +94,49 @@ fn clean_snapshot_skips_redundant_diff_subprocess() {
 }
 
 #[test]
+fn comparison_snapshot_includes_committed_changes_on_a_clean_worktree() {
+    let path = temporary_repository();
+    let base = String::from_utf8(
+        Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(&path)
+            .output()
+            .expect("git revision")
+            .stdout,
+    )
+    .expect("revision UTF-8")
+    .trim()
+    .to_owned();
+    fs::create_dir_all(path.join("tests")).expect("tests directory");
+    fs::write(
+        path.join("tests/committed.rs"),
+        "#[test]\nfn committed() {}\n",
+    )
+    .expect("write");
+    Command::new("git")
+        .args(["add", "tests/committed.rs"])
+        .current_dir(&path)
+        .status()
+        .expect("git add");
+    Command::new("git")
+        .args(["commit", "-qm", "committed source"])
+        .current_dir(&path)
+        .status()
+        .expect("git commit");
+
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot_against(&base)
+        .expect("comparison snapshot");
+    assert_eq!(snapshot.changed_paths, vec!["tests/committed.rs"]);
+    let change = &snapshot.change_evidence[0];
+    assert_eq!(change.kind, ChangeKind::Added);
+    assert_eq!(change.content_state, ChangeContentState::Text);
+    assert!(change.added_lines.iter().any(|line| line == "#[test]"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn snapshot_reuses_tracked_patch_facts_without_serializing_source_text() {
     let path = temporary_repository();
     fs::write(path.join("README.md"), "changed\nSENTINEL_NEW_TEXT\n").expect("write");
