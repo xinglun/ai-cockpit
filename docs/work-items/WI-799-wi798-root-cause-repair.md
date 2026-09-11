@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-799 — WI-798 root-cause repair"
 description: "Repair the observed collaboration, comparison-diff, scope, governance, and recovery-loop root causes before release."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized-root-cause-repair-and-release
 workItemId: WI-799-wi798-root-cause-repair
 lastVerifiedBy: WI-799-wi798-root-cause-repair
+terminalArchive: .ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json
+terminalVerification: .ai/evidence/WI-799-wi798-root-cause-repair.verification.json
+terminalFinalization: .ai/decisions/WI-799-wi798-root-cause-repair.finalize.json
+terminalDecision: .ai/decisions/WI-799-wi798-root-cause-repair.close.json
 predecessorWorkItemId: WI-798-collaboration-observability-performance
 recoveryDecision: .ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json
 ---

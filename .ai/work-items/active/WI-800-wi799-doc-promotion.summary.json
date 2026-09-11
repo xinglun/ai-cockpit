@@ -1,0 +1,39 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-800-wi799-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-800-wi799-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-11T19:31:53Z",
+  "checkpointContractDigest": "sha256:2e0170eebef5d0d2471b9dad77e2917c97bc63d6b9ac0b82d5509c6db38a94f3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
+  "createdAt": "2026-09-11T19:30:37Z",
+  "failedGate": "finish.finalization",
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-11T19:32:03Z",
+  "preflightContractDigest": "sha256:2e0170eebef5d0d2471b9dad77e2917c97bc63d6b9ac0b82d5509c6db38a94f3",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f7a28ecb61a503116d72917ed2ea38aec445054cc78d4f8d92585f36804490b8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-11T19:32:12Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:e9199b2f99c38a48b09103f4a1b523ce21a6083baeb6818ca7d58b82db0b0e9b",
+  "workItemId": "WI-800-wi799-doc-promotion"
+}

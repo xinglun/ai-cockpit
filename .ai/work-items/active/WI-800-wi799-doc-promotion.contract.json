@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "The six target projections match the deterministic terminal promotion derived from WI-799 archive, verification, finalization, and close evidence.",
+    "No immutable WI-799 archive, close, finalization, or historical bytes are rewritten.",
+    "The required documentation, parity, governance, and reference checks pass before finish."
+  ],
+  "authority": "explicit-user-authorization-root-cause-repair-and-release",
+  "baseRevision": "f46903f3d0aa764397710d0ec0e455177bdfd9b0",
+  "createdAt": "2026-09-11T19:30:37Z",
+  "goal": "Synchronize the six stale documentation projections for WI-799 without changing immutable history or production behavior.",
+  "intent": "Promote the closed WI-799 tri-language Work Item and reference-parity projections with current terminal evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust production behavior",
+    " release versioning",
+    " tag creation",
+    " provider resources",
+    " immutable WI-799 archive/close/finalization records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-800-wi799-doc-promotion",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-800-wi799-doc-promotion"
+  },
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-799-wi798-root-cause-repair.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-800-wi799-doc-promotion"
+}
