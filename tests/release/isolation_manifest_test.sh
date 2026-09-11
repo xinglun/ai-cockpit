@@ -5,6 +5,17 @@ helper="$(cd "$(dirname "$0")" && pwd)/isolation_manifest.sh"
 # shellcheck source=/dev/null
 source "$helper"
 
+if [[ -z "${AI_COCKPIT_ISOLATION_BIN:-}" ]]; then
+  repo_root="$(cd "$(dirname "$0")/../.." && pwd -P)"
+  if [[ -x "$repo_root/target/release/ai-cockpit" ]]; then
+    export AI_COCKPIT_ISOLATION_BIN="$repo_root/target/release/ai-cockpit"
+  fi
+fi
+if [[ -z "${AI_COCKPIT_ISOLATION_BIN:-}" || ! -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
+  printf 'AI_COCKPIT_ISOLATION_BIN must point to the Rust scanner for this regression test\n' >&2
+  exit 1
+fi
+
 parent="${TMPDIR:-/tmp}"
 root="$(mktemp -d "$parent/ai-cockpit-isolation-manifest-regression.XXXXXX")"
 root="$(cd "$root" && pwd -P)"

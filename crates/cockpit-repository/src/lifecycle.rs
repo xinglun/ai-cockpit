@@ -3117,7 +3117,7 @@ fn record_verification_internal(
         &root,
         &contract,
         &refreshed_snapshot,
-        None,
+        current_runtime,
         false,
         None,
     )?;

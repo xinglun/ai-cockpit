@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-11T22:22:06Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-801-release-v0-2-91.verification.json",
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.65cc99a9f71060919ac47b9cdb06da0e221a5b4a6062e9edcff08629364bd5a4.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:47234de0f1e634035cbc5a619a359bb489298202001b0e85873c936d2eea370e",
+  "predecessorEventsDigest": "sha256:d6e37840f07a66cadc4e463b73de164ef4feb4cf72bdf0d981cd740f61c85b62",
+  "predecessorOutcomeDigest": "sha256:923fc6f69336298847a2f26621abfb91dc74d69aa6e6cb409efdf657906f9e05",
+  "predecessorSummaryDigest": "sha256:904fb3176e6f5993215c3259609f6f75623e5015354eaecc94708305dff58554",
+  "predecessorWorkItemId": "WI-801-release-v0-2-91",
+  "reason": "The prior finish attempt reached finish_ready without a provider finalization plan. The owner-authorized bounded retry restores the checkpointed boundary so the exact branch/worktree/provider context can be recorded before the next verification; this is not a successor Work Item and does not repeat resource deletion.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record the exact finalization plan before verification, run the repaired current Runtime verification, rerun preflight, then retry finish only after all identity bindings are green.",
+  "runtimeDigest": "sha256:14248064181c568fd2e86263d5458e86121c36cbfafa147dc6bf3fbaa214cf31",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

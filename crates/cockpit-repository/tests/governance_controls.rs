@@ -197,6 +197,21 @@ fn acceptance_ids_preserve_legacy_and_validate_numbered_evidence() {
 }
 
 #[test]
+fn prose_colons_do_not_create_acceptance_id_requirements() {
+    let contract = contract(
+        "high",
+        "intent",
+        vec!["Acceptance recovery consumes the Rust strategy: retry the affected phase"],
+    );
+
+    let (state, unknowns, findings) = validate_acceptance_evidence_values(&contract, &json!({}));
+
+    assert_eq!(state, "not_applicable");
+    assert!(unknowns.is_empty());
+    assert!(findings.is_empty());
+}
+
+#[test]
 fn lettered_acceptance_sections_support_evidence_mapping() {
     let contract = contract("high", "intent", vec!["A: first", "B: second", "C: third"]);
     let evidence = |id: &str| {

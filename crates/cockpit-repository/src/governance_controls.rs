@@ -674,10 +674,16 @@ fn acceptance_ids(contract: &Contract) -> (Vec<String>, bool, Vec<GovernanceFind
         let Some((prefix, _)) = criterion.split_once(':') else {
             continue;
         };
+        // A prose criterion may contain a colon (for example, "Recovery:
+        // retry the affected phase").  Only a single-token prefix can be an
+        // explicit Acceptance ID; whitespace makes the colon unambiguously
+        // part of natural-language prose and must not create an evidence
+        // obligation.
         if prefix
             .as_bytes()
             .first()
             .is_some_and(u8::is_ascii_uppercase)
+            && !prefix.chars().any(char::is_whitespace)
         {
             numbered = true;
             let suffix = &prefix[1..];

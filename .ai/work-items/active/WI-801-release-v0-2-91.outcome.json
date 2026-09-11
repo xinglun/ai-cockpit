@@ -3,11 +3,23 @@
     "Cargo.toml and Cargo.lock consistently identify version 0.2.91 with no unrelated dependency changes.",
     "The three WI-801 Work Item pages and tri-language parity rows are registered before verification.",
     "Release preflight, source quality, candidate build and immutable public/N-1 acceptance can bind the published v0.2.91 artifacts to reviewed main.",
-    "The canonical workspace package gate must use bounded package-level parallelism and configurable in-package test threads while preserving deterministic package ordering, fail-closed omission reporting, metadata failure reporting, and compatibility with the existing gate manifest."
+    "The canonical workspace package gate must use bounded package-level parallelism and configurable in-package test threads while preserving deterministic package ordering, fail-closed omission reporting, metadata failure reporting, and compatibility with the existing gate manifest.",
+    "All current release/version/reference projections update the workspace version, previous public baseline, reviewed Runtime version, Runtime digest, and reviewed baseline together in all three supported languages.",
+    "The CI quality route and release preflight execute the real source version-consistency check before expensive workspace, candidate, or adopter verification; the static policy regression remains covered separately.",
+    "A clean checkout of the reviewed branch passes the same cheap version and documentation acceptance gates used by hosted CI, so local workspace state cannot hide stale projections.",
+    "Runtime-bound verification refreshes governance with the same Runtime identity as preflight, so a passed verification cannot rewrite a valid current preflight decision into stale evidence",
+    "A regression test covers current-Runtime preflight, checkpoint, verification, and the subsequent preflight/finish boundary",
+    "Acceptance recovery consumes the Rust strategy for every retry: blocked strategies cannot record success, cleanup-only recovery performs only the exact cleanup target, and a missing or incomplete resume receipt fails closed instead of creating an empty plan.",
+    "Phase receipts reject contradictory success/failure fields and concurrent updates preserve append-only history through a repository-local transaction boundary.",
+    "Release preflight and source quality persist structured failure evidence on early failure, and immutable artifact reuse does not overwrite prior attempt evidence.",
+    "Release close requires a successful public N-1 receipt or a valid not-applicable receipt; skipped upstream jobs and incomplete phase bindings block close.",
+    "N-1 resolution selects only a published version lower than the target version, and public acceptance can recover the exact prior publication handoff without rerunning publication.",
+    "Isolation manifests use the Rust single-process scanner in production; the legacy shell implementation is retained only for explicit equivalence regression coverage.",
+    "All regression assertions changed by the Rust release-route migration remain Contract-scoped and execute before hosted release work begins."
   ],
-  "createdAt": "2026-09-11T20:59:41Z",
+  "createdAt": "2026-09-11T23:15:40Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:64507ab1468067e8880628b8cf50fbbcbeda9fbfaa724ba616aae38e8efbab90",
+  "evidenceDigest": "sha256:c31cf2e6740fecd9c3ac52dd53034148a6fcfae48681096353fbfcd533b916bc",
   "evidenceRefs": [
     ".ai/evidence/WI-801-release-v0-2-91.verification.json"
   ],
@@ -33,7 +45,7 @@
         ".ai/evidence/WI-801-release-v0-2-91.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:fbaba1a42fd4fa1222616f54bbb7dae91770105fefc8b6fe27bda1b6f7dfc863",
+      "repositorySnapshotDigest": "sha256:b1e885412f05fa7d0d5f3a05f6a0b5bb9c51e6dc3930c9b38e02542200652543",
       "workItemId": "WI-801-release-v0-2-91"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,28 +59,105 @@
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.19442e685f56e0f117d57929c7bcba85ae74f24209299f8537fbbf87bcb2cbc5.json"
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.0c4fad6a367fe3b2c8491895891cb8c7f096a07a0dcaeee6624b03133243e6ca.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.64f8d1303ed5d5b794a653b25668d67c4ef9a20b991fb220944f4afe9c891292.json"
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.0f8754a51adb40ff02a85449cc832f1732b3276e30e5053fe5645d2f2668e398.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.721211f2d8aea24d537452c946df2fe95f9639f6bf14be44b4f9327c4be438da.json"
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.228dd546d80e847284190b1637b4202069c0ec33f59738d59a37f3d6533ea08f.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.bc937d76ee0062c908d8edf2069bb86cae95898edf948e90e965d5f7b5c51c0e.json"
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.46ebb053e605676afc2934eeffea1ca9d1ce67b2d5a35fcdbb6f409bd533f4ea.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.494377294e221edeb309bea6213757023eb6faa3c74b1596948982d7e1ccdc1d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.65cc99a9f71060919ac47b9cdb06da0e221a5b4a6062e9edcff08629364bd5a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.6aca57c02601f6bd274009ca3815caa8e163d221af32b149ca2fb6901cdfcd09.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.6bbb85b869c3bb47888fa15edca3350b1fd2399e0b60ded58b1a401ae928001a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.7ecd920fde137061c40cdee18fa92891069acbdf82d5c3d09ac8abd401f7f466.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.a4143f4df5a5e7c2c2c9dd39318ccfcd89992ca0d7d5d92105127b1b15f89326.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.d0b1d980f048119a5074d761b16d70e7da18f6c44271d6cec126b24ffc3e9f4c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.preflight-review.ee7d3436d722a16ff3378c045277e87c8a6d8f8493ab3aabf295508b3ebb1b95.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.recovery.186730866237d5ce11a2db79301238efce385030ae096045873ca6db42822fa1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.recovery.f723f47c79319c2b92829c4f9de22fe70c5281c2d9d1a3de652c7a604f4f1a1f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.recovery.json"
         },
         {
           "evidenceRefs": [
@@ -82,7 +171,28 @@
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/evidence/WI-801-release-v0-2-91.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.outcome.json"
         },
         {
           "evidenceRefs": [
@@ -96,14 +206,280 @@
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.task-report.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
+          "text": "Changed path: .ai/work-items/active/WI-801-release-v0-2-91.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/resume.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/tests/acceptance_recovery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/governance_controls.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/governance_controls.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-comparison-metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-801-release-v0-2-91.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-801-release-v0-2-91.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-801-release-v0-2-91.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/isolation_manifest.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/isolation_manifest_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/version_consistency_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-801-release-v0-2-91.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -178,8 +554,8 @@
     "status": "verified",
     "workItemId": "WI-801-release-v0-2-91"
   },
-  "taskReportDigest": "sha256:b136a0ef1d7c2ee7158ad3028afa505c6875109df814adea0ec57efb7f0221ce",
-  "taskReportMarkdownDigest": "sha256:df1a9ccff83fafef25b6a1ab38d4cd32317f7cde22f2130d2b767ccece958551",
+  "taskReportDigest": "sha256:ad532c6fb18862a09fcf9faba81d0d25ccf177431b39844cbe0e6ee14b939c65",
+  "taskReportMarkdownDigest": "sha256:b6b6dc3916ffc7091e798998213394214bbd3d23979ddaf9839c3cf4eae7aa93",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

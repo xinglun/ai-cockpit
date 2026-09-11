@@ -361,12 +361,27 @@ phase_action() {
   jq -er --arg phase "$phase" '.actions[] | select(.phase == $phase) | .action' "$phase_plan"
 }
 
+phase_action_strategy() {
+  local phase="$1"
+  jq -er --arg phase "$phase" '.actions[] | select(.phase == $phase) | (.strategy // "")' "$phase_plan"
+}
+
 phase_action_should_run() {
   local phase="$1" action
   action="$(phase_action "$phase")" || die "acceptance plan has no action for phase $phase"
   case "$action" in
-    run|retry) return 0 ;;
-    reuse) return 1 ;;
+    run) return 0 ;;
+    retry)
+      local strategy
+      strategy="$(phase_action_strategy "$phase")" || die "acceptance plan has no retry strategy for phase $phase"
+      case "$strategy" in
+        retry_current_phase|restart_from_phase) return 0 ;;
+        retry_cleanup_only) die "acceptance phase $phase requires cleanup-only recovery" ;;
+        require_successor|block) die "acceptance phase $phase is blocked until its recovery boundary changes" ;;
+        *) die "acceptance phase $phase has unknown retry strategy: $strategy" ;;
+      esac
+      ;;
+    reuse|not_applicable) return 1 ;;
     blocked) die "acceptance phase $phase is blocked by an invalid prerequisite" ;;
     *) die "acceptance phase $phase has unknown action: $action" ;;
   esac
@@ -501,7 +516,7 @@ record_close_after_cleanup() {
     failure_reason='close receipt prerequisites are missing'
     return 1
   }
-  local action
+  local action strategy
   local close_plan="$output/close-phase-plan.json"
   "$COCKPIT_RELEASE_BIN" acceptance-plan \
     --scope "$acceptance_scope" \
@@ -515,7 +530,35 @@ record_close_after_cleanup() {
     failure_reason='close phase is absent from the scoped acceptance plan'
     return 1
   }
-  [[ "$action" == reuse ]] && return 0
+  case "$action" in
+    reuse|not_applicable) return 0 ;;
+    blocked)
+      failure_reason='close phase is blocked by an unrecovered prerequisite'
+      return 1
+      ;;
+    retry)
+      strategy="$(jq -er '.actions[] | select(.phase == "close") | .strategy' "$close_plan" 2>/dev/null)" || {
+        failure_reason='close retry strategy is missing'
+        return 1
+      }
+      case "$strategy" in
+        retry_cleanup_only) ;;
+        retry_current_phase|restart_from_phase)
+          failure_reason="close phase requires $strategy before it can be recorded"
+          return 1
+          ;;
+        require_successor|block|*)
+          failure_reason="close phase recovery strategy is not executable: $strategy"
+          return 1
+          ;;
+      esac
+      ;;
+    run) ;;
+    *)
+      failure_reason="close phase has unsupported action: $action"
+      return 1
+      ;;
+  esac
   "$COCKPIT_RELEASE_BIN" acceptance-record \
     --scope "$acceptance_scope" \
     --identity "$phase_identity" \
@@ -619,6 +662,19 @@ finish() {
 trap finish EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
+
+if [[ "$resume" == true ]]; then
+  if [[ ! -f "$phase_identity" || -L "$phase_identity" ]]; then
+    failure_reason='resume phase identity is missing or symlinked; refusing to create an empty recovery plan'
+    write_unbound_failure_receipt prepare validation resume_identity_missing "$failure_reason"
+    exit 1
+  fi
+  if [[ ! -f "$phase_receipts" || -L "$phase_receipts" ]]; then
+    failure_reason='resume phase receipt is missing or symlinked; refusing to create an empty recovery plan'
+    write_unbound_failure_receipt prepare validation resume_receipt_missing "$failure_reason"
+    exit 1
+  fi
+fi
 
 if ! recover_prior_cleanup; then
   failure_reason="$prior_cleanup_recovery_reason"

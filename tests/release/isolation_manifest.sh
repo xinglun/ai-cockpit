@@ -75,20 +75,15 @@ manifest_record() {
 
 # Emit one deterministic typed JSON record for every entry below root.
 # Symlinks are never followed and retain literal and resolved target metadata.
+# Production callers must provide the Rust scanner. The shell record helper
+# remains above only for the explicit equivalence regression test.
 manifest_tree() {
-  local root=$1 manifest=$2 path relative
-  if [[ -n "${AI_COCKPIT_ISOLATION_BIN:-}" && -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
-    if "$AI_COCKPIT_ISOLATION_BIN" isolation-manifest --root "$root" --output "$manifest"; then
-      return 0
-    fi
+  local root=$1 manifest=$2
+  if [[ -z "${AI_COCKPIT_ISOLATION_BIN:-}" || ! -x "$AI_COCKPIT_ISOLATION_BIN" ]]; then
+    printf 'isolation manifest requires the Rust scanner (AI_COCKPIT_ISOLATION_BIN)\n' >&2
     return 1
   fi
-  : > "$manifest"
-  [[ -d "$root" ]] || return 0
-  while IFS= read -r -d '' path; do
-    relative="${path#"$root"/}"
-    manifest_record "$path" "$relative"
-  done < <(find "$root" -mindepth 1 -print0 | LC_ALL=C sort -z) > "$manifest"
+  "$AI_COCKPIT_ISOLATION_BIN" isolation-manifest --root "$root" --output "$manifest"
 }
 
 # Record all tracked paths plus every path below .ai, including untracked

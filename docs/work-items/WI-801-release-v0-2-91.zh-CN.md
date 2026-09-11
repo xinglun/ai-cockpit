@@ -19,8 +19,9 @@ WI-801 将 Cargo workspace 和 lockfile 对齐到 v0.2.91，登记三语治理�
 经过评审的 main 修订发布为不可变 Release。发布 workflow 必须使用候选制品，以及
 下载的公开制品完成安装和 N-1 升级验收。
 
-本 Work Item 不改变 Runtime 行为、发布 workflow 语义、历史记录、已有 Release 或
-标签，也不修改无关源码特性。
+本 Work Item 只修改一个 Runtime 生命周期边界：验证完成后的治理刷新继续绑定执行
+验证的 Runtime 身份。不改变其他 Runtime 行为、发布 workflow 语义、历史记录、已有
+Release 或标签，也不修改无关源码特性。
 
 ## 验收
 
@@ -33,11 +34,13 @@ WI-801 将 Cargo workspace 和 lockfile 对齐到 v0.2.91，登记三语治理�
 ## 验证
 
 - `cargo test --locked --workspace`
+- `bash tests/release/version_consistency.sh --repo <repo>`
 - `bash tests/release/version_consistency_test.sh`
 - `bash tests/docs/parity_status_check.sh`
 - `bash tests/docs/documentation_acceptance.sh`
 - `python3 tests/docs/work_item_status_consistency.py --repo <repo>`
 - `python3 tests/ci/governance_integrity_gate.py --repo <repo>`
+- `cargo test -p cockpit-repository --test lifecycle_order runtime_bound_verification_keeps_governance_bound_to_current_runtime -- --exact`
 - hosted release preflight、source quality、候选验收、公开制品验收、N-1 升级验收和
   release close。
 

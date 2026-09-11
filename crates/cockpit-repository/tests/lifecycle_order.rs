@@ -1,9 +1,10 @@
 use cockpit_core::{DecisionState, Digest};
-use cockpit_protocol::ResourceFinalizationContext;
+use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
-    plan_resource_finalization, preflight_work_item, record_verification,
-    revalidate_contract_amendment, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
+    checkpoint_work_item, finish_work_item, plan_resource_finalization, preflight_work_item,
+    preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
+    revalidate_contract_amendment, run_repository_verification, start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -42,6 +43,14 @@ fn start(path: &std::path::Path, id: &str, required: &[&str]) {
 fn contract(path: &std::path::Path, id: &str) -> std::path::PathBuf {
     path.join(".ai/work-items/active")
         .join(format!("{id}.contract.json"))
+}
+
+fn runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "0.2.91-test".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"runtime-bound-lifecycle"),
+    }
 }
 
 #[test]
@@ -231,6 +240,67 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
             .is_none(),
         "finish must consume the recovery projection marker"
     );
+}
+
+#[test]
+fn runtime_bound_verification_keeps_governance_bound_to_current_runtime() {
+    let directory = repository();
+    let id = "WI-ORDER-RUNTIME-BOUND";
+    start(directory.path(), id, &["verification"]);
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    let current_runtime = runtime();
+    let contract_path = contract(directory.path(), id);
+    preflight_work_item_with_runtime(directory.path(), &contract_path, &current_runtime)
+        .expect("runtime-bound preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "runtime-bound-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        id,
+        &serde_json::to_value(&run.receipt).expect("verification receipt JSON"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("runtime-bound verification");
+
+    let summary_path = directory
+        .path()
+        .join(".ai/work-items/active")
+        .join(format!("{id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    assert_eq!(summary["preflightState"], "green");
+    preflight_work_item_with_runtime(directory.path(), &contract_path, &current_runtime)
+        .expect("post-verification preflight remains valid");
+    finish_work_item(directory.path(), id).expect("finish after runtime-bound verification");
 }
 
 #[test]

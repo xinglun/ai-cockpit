@@ -541,6 +541,95 @@ fn receipt_store_rejects_changed_evidence_before_planning() {
 }
 
 #[test]
+fn receipt_store_rejects_contradictory_success_and_failure_fields() {
+    let expected = identity("91");
+    let temp = tempfile::tempdir().unwrap();
+    let evidence = temp.path().join("evidence.json");
+    let receipts = temp.path().join("phase-receipts.json");
+    std::fs::write(&evidence, b"release evidence").unwrap();
+
+    let mut store = PhaseReceiptStore::empty(expected.clone());
+    store
+        .record_success(ReleasePhase::Prepare, 1, "prepare", &evidence)
+        .unwrap();
+    store.write_atomic(&receipts).unwrap();
+
+    let mut document: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&receipts).unwrap()).unwrap();
+    document["results"][0]["failure"] = serde_json::json!({
+        "kind": "network",
+        "strategy": "retry_current_phase",
+        "code": "contradictory",
+        "diagnostic": "must not coexist with success evidence"
+    });
+    std::fs::write(&receipts, serde_json::to_vec_pretty(&document).unwrap()).unwrap();
+
+    assert!(matches!(
+        PhaseReceiptStore::load(&receipts, &expected),
+        Err(cockpit_release::resume::ReceiptError::ContradictoryResult)
+    ));
+}
+
+#[test]
+fn concurrent_receipt_updates_preserve_both_phase_results() {
+    use std::sync::mpsc;
+    use std::thread;
+    use std::time::Duration;
+
+    let expected = identity("91");
+    let temp = tempfile::tempdir().unwrap();
+    let evidence = temp.path().join("evidence.json");
+    let receipts = temp.path().join("phase-receipts.json");
+    std::fs::write(&evidence, b"release evidence").unwrap();
+    let (entered, wait_for_first) = mpsc::channel();
+
+    let first_receipts = receipts.clone();
+    let first_identity = expected.clone();
+    let first_evidence = evidence.clone();
+    let first = thread::spawn(move || {
+        PhaseReceiptStore::update_atomic(&first_receipts, &first_identity, |store| {
+            entered.send(()).unwrap();
+            thread::sleep(Duration::from_millis(100));
+            store.record_success(ReleasePhase::Prepare, 1, "prepare", &first_evidence)
+        })
+        .unwrap();
+    });
+    wait_for_first.recv().unwrap();
+
+    let second_receipts = receipts.clone();
+    let second_identity = expected.clone();
+    let second_evidence = evidence.clone();
+    let second = thread::spawn(move || {
+        PhaseReceiptStore::update_atomic(&second_receipts, &second_identity, |store| {
+            store.record_success(
+                ReleasePhase::SourceVerificationBuild,
+                1,
+                "source-verification-build",
+                &second_evidence,
+            )
+        })
+        .unwrap();
+    });
+    first.join().unwrap();
+    second.join().unwrap();
+
+    let store = PhaseReceiptStore::load(&receipts, &expected).unwrap();
+    assert_eq!(store.results.len(), 2);
+    assert!(
+        store
+            .results
+            .iter()
+            .any(|result| result.phase == ReleasePhase::Prepare)
+    );
+    assert!(
+        store
+            .results
+            .iter()
+            .any(|result| result.phase == ReleasePhase::SourceVerificationBuild)
+    );
+}
+
+#[test]
 fn candidate_scope_reuses_candidate_and_can_continue_to_close_without_publish() {
     let expected = identity("91");
     let results = vec![

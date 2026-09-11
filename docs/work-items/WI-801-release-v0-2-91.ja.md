@@ -20,8 +20,10 @@ projection を登録し、review 済み main revision を immutable Release と�
 release workflow は candidate artifact とダウンロード済みの公開 artifact を使って、
 install と N-1 upgrade の acceptance を行わなければなりません。
 
-この Work Item は Runtime behavior、release workflow semantics、historical records、
-既存の Release/tag、無関係な source feature を変更しません。
+この Work Item は Runtime lifecycle の一境界だけを変更します。verification 後の
+governance refresh が検証を実行した Runtime identity に bind され続けるようにします。
+その他の Runtime behavior、release workflow semantics、historical records、既存の
+Release/tag、無関係な source feature は変更しません。
 
 ## Acceptance
 
@@ -34,11 +36,13 @@ install と N-1 upgrade の acceptance を行わなければなりません。
 ## Verification
 
 - `cargo test --locked --workspace`
+- `bash tests/release/version_consistency.sh --repo <repo>`
 - `bash tests/release/version_consistency_test.sh`
 - `bash tests/docs/parity_status_check.sh`
 - `bash tests/docs/documentation_acceptance.sh`
 - `python3 tests/docs/work_item_status_consistency.py --repo <repo>`
 - `python3 tests/ci/governance_integrity_gate.py --repo <repo>`
+- `cargo test -p cockpit-repository --test lifecycle_order runtime_bound_verification_keeps_governance_bound_to_current_runtime -- --exact`
 - hosted release preflight、source quality、candidate acceptance、公開 artifact acceptance、
   N-1 upgrade acceptance、release close。
 

@@ -270,7 +270,8 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-quality-route-") as temporar
 
 ci_workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
-for workflow in (ci_workflow, release_workflow):
+assert "tests/ci/quality_route.py" in ci_workflow
+for workflow in (ci_workflow,):
     assert "tests/ci/quality_route.py" in workflow
     assert "--route-receipt" in workflow
     assert "tests/ci/repository_gate_manifest.json" in workflow
@@ -289,6 +290,8 @@ assert "target/rust-contract-quality-gate.json" in ci_workflow
 assert "--contract-gate-report" in ci_workflow
 assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
+assert "target/release/ai-cockpit gate-plan" in release_workflow
+assert "python3 tests/ci/quality_route.py" not in release_workflow
 assert "contracts=()" in release_workflow
 assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow

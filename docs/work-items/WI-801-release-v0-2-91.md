@@ -20,8 +20,10 @@ tri-language governance projections, and publishes the reviewed main revision
 as an immutable release. The release workflow must use its candidate artifacts
 and downloaded public artifacts for installation and N-1 upgrade acceptance.
 
-This Work Item does not change Runtime behavior, release workflow semantics,
-historical records, existing releases or tags, or unrelated source features.
+This Work Item changes one Runtime lifecycle boundary: after verification, the
+governance refresh remains bound to the Runtime identity that performed the
+verification. It does not change other Runtime behavior, historical records,
+existing releases or tags, or unrelated source features.
 
 ## Acceptance
 
@@ -38,11 +40,13 @@ historical records, existing releases or tags, or unrelated source features.
 ## Verification
 
 - `cargo test --locked --workspace`
+- `bash tests/release/version_consistency.sh --repo <repo>`
 - `bash tests/release/version_consistency_test.sh`
 - `bash tests/docs/parity_status_check.sh`
 - `bash tests/docs/documentation_acceptance.sh`
 - `python3 tests/docs/work_item_status_consistency.py --repo <repo>`
 - `python3 tests/ci/governance_integrity_gate.py --repo <repo>`
+- `cargo test -p cockpit-repository --test lifecycle_order runtime_bound_verification_keeps_governance_bound_to_current_runtime -- --exact`
 - Hosted release preflight, source quality, candidate acceptance, public
   artifact acceptance, N-1 upgrade acceptance, and release close.
 

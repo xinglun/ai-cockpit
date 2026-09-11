@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized the bounded WI-801 root-cause repair and release. The current Contract, repository snapshot, and Runtime preflight decision are bound to this Work Item and branch. This receipt authorizes fresh verification and the next lifecycle boundary; it does not assert hosted checks, release artifacts, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T23:09:48Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1e885412f05fa7d0d5f3a05f6a0b5bb9c51e6dc3930c9b38e02542200652543",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

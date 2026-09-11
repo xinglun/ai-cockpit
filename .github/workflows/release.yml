@@ -75,6 +75,7 @@ jobs:
           fi
           printf '%s  %s\n' "$digest" "$HELPER_BINARY" > target/release/cockpit-release.sha256
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: cockpit-release-tool-${{ matrix.artifact }}
           path: |
@@ -96,22 +97,41 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          tests/release/action_runtime_policy_test.sh
-          tests/release/version_consistency_test.sh
-          tests/release/workflow_policy.sh .github/workflows/release.yml
           mkdir -p target
-          tests/docs/parity_status_check.sh "$GITHUB_WORKSPACE" target/governance-integrity-report.json
+          set +e
+          tests/release/action_runtime_policy_test.sh
+          result=$?
+          if [[ "$result" -eq 0 ]]; then tests/release/version_consistency_test.sh; result=$?; fi
+          if [[ "$result" -eq 0 ]]; then tests/release/version_consistency.sh --repo "$GITHUB_WORKSPACE"; result=$?; fi
+          if [[ "$result" -eq 0 ]]; then tests/release/workflow_policy.sh .github/workflows/release.yml; result=$?; fi
+          if [[ "$result" -eq 0 ]]; then tests/docs/parity_status_check.sh "$GITHUB_WORKSPACE" target/governance-integrity-report.json; result=$?; fi
+          set -e
+          if [[ "$result" -ne 0 ]]; then
+            jq -n --arg code release_preflight_barrier_failed --argjson exitCode "$result" \
+              '{schemaVersion:1,kind:"release_preflight_failure",state:"failed",failureCode:$code,exitCode:$exitCode}' \
+              > target/release-preflight-failure.json
+            exit "$result"
+          fi
+      - name: Build the shared Rust gate tool once
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo build --locked --release --package cockpit-cli
       - name: Plan the strict release quality route
         shell: bash
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
           contracts=()
           if [[ -d .ai/work-items/active ]]; then
             mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
           fi
           (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
+          if (( ${#contracts[@]} == 1 )); then
+            base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
+          else
+            base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
+          fi
           route_args=(
             --repo "$GITHUB_WORKSPACE"
             --manifest tests/ci/repository_gate_manifest.json
@@ -123,14 +143,27 @@ jobs:
             --receipt target/release-quality-route.json
           )
           if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
-          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+          set +e
+          target/release/ai-cockpit gate-plan "${route_args[@]}"
+          result=$?
+          set -e
+          if [[ "$result" -ne 0 ]]; then
+            jq -n --arg code release_quality_route_failed --argjson exitCode "$result" \
+              '{schemaVersion:1,kind:"release_preflight_failure",state:"failed",failureCode:$code,exitCode:$exitCode}' \
+              > target/release-preflight-failure.json
+            exit "$result"
+          fi
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: release-preflight-receipts
           path: |
             target/governance-integrity-report.json
             target/release-quality-route.json
-          if-no-files-found: error
+            target/release-preflight-failure.json
+            target/release/ai-cockpit
+          if-no-files-found: warn
           retention-days: 7
 
   build:
@@ -245,6 +278,7 @@ jobs:
             --target "$TARGET" \
             --version "$version"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: ai-cockpit-${{ matrix.target }}
           path: dist/
@@ -268,6 +302,11 @@ jobs:
         with:
           name: release-preflight-receipts
           path: target
+      - name: Verify the shared Rust gate tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -x target/release/ai-cockpit
       - name: Evaluate Rust Contract-aware quality gate
         shell: bash
         run: |
@@ -275,8 +314,7 @@ jobs:
           contract_path="$(jq -r '.contractPath // empty' target/release-quality-route.json)"
           profile="$(jq -er '.selectedProfile' target/release-quality-route.json)"
           if [[ "$profile" != light && -n "$contract_path" ]]; then
-            cargo run --locked --package cockpit-cli -- \
-              gate \
+            target/release/ai-cockpit gate \
               --repo "$GITHUB_WORKSPACE" \
               --contract "$contract_path" \
               --stage release \
@@ -298,14 +336,25 @@ jobs:
             --route-receipt target/release-quality-route.json \
             --report target/repository-gates.json
           )
+          gate_args+=(--gate-plan-bin target/release/ai-cockpit)
           contract_path="$(jq -r '.contractPath // empty' target/release-quality-route.json)"
           profile="$(jq -er '.selectedProfile' target/release-quality-route.json)"
           if [[ "$profile" != light && -n "$contract_path" ]]; then
             gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)
           fi
           "${gate_args[@]}"
+      - name: Persist source quality failure evidence
+        if: failure()
+        shell: bash
+        run: |
+          mkdir -p target
+          jq -n --arg code source_quality_failed \
+            '{schemaVersion:1,kind:"release_source_quality_failure",state:"failed",failureCode:$code}' \
+            > target/release-source-quality-failure.json
       - name: Upload source gate receipts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: source-gate-receipts
           path: |
@@ -313,11 +362,13 @@ jobs:
             target/release-quality-route.json
             target/repository-gates.json
             target/workspace-package-coverage.json
-          if-no-files-found: error
+            target/release-source-quality-failure.json
+          if-no-files-found: warn
           retention-days: 7
       - name: Upload Rust Contract gate receipt
         if: hashFiles('target/rust-contract-quality-gate.json') != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: rust-contract-quality-gate
           path: target/rust-contract-quality-gate.json
@@ -381,6 +432,7 @@ jobs:
           "$COCKPIT_RELEASE_BIN" validate \
             --manifest dist/release-manifest.json --dist dist
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: ai-cockpit-candidate
           path: dist/
@@ -459,6 +511,7 @@ jobs:
           provider_state="$(jq -er '.state' "$RUNNER_TEMP/provider-release-state.json")"
           echo "state=$provider_state" >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: provider-release-state
           path: ${{ runner.temp }}/provider-release-state.json
@@ -748,13 +801,21 @@ jobs:
           if [[ "$EVENT_NAME" == workflow_dispatch && -n "$INPUT_FROM_TAG" ]]; then
             from_tag="$INPUT_FROM_TAG"
           else
-            from_tag="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+            published_tags="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
               --jq '.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]+[.][0-9]+[.][0-9]+$"))) | .tag_name' \
-              | sort -V | awk -v current="$to_tag" '$0 != current { candidate=$0 } END { print candidate }')"
+              | sort -V)"
+            from_tag=''
+            while IFS= read -r candidate; do
+              [[ -n "$candidate" && "$candidate" != "$to_tag" ]] || continue
+              if [[ "$(printf '%s\n%s\n' "$candidate" "$to_tag" | sort -V | tail -n 1)" == "$to_tag" ]]; then
+                from_tag="$candidate"
+              fi
+            done <<< "$published_tags"
           fi
           [[ "$to_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || { echo 'candidate tag is not canonical' >&2; exit 1; }
           if [[ -n "$from_tag" ]]; then
             [[ "$from_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ && "$from_tag" != "$to_tag" ]] || { echo 'invalid staged N-1 pair' >&2; exit 1; }
+            [[ "$(printf '%s\n%s\n' "$from_tag" "$to_tag" | sort -V | tail -n 1)" == "$to_tag" ]] || { echo 'staged N-1 must be older than candidate' >&2; exit 1; }
           fi
           echo "from_tag=$from_tag" >> "$GITHUB_OUTPUT"
           echo "to_tag=$to_tag" >> "$GITHUB_OUTPUT"
@@ -1046,9 +1107,23 @@ jobs:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
+      - name: Restore publication handoff on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ ! -f handoff/homebrew-handoff.json ]]; then
+            mkdir -p handoff
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+              --name "ai-cockpit-publish-handoff-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+              --dir handoff
+          fi
       - name: Restore public install receipt on rerun
         if: github.run_attempt > 1
         shell: bash
@@ -1120,9 +1195,23 @@ jobs:
       - name: Download publication handoff for push-triggered public acceptance
         if: github.event_name == 'push'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        continue-on-error: ${{ github.run_attempt > 1 }}
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
+      - name: Restore publication handoff on rerun
+        if: github.event_name == 'push' && github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if [[ ! -f handoff/homebrew-handoff.json ]]; then
+            mkdir -p handoff
+            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+              --name "ai-cockpit-publish-handoff-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+              --dir handoff
+          fi
       - name: Download handoff from the requested publication run
         if: github.event_name == 'workflow_dispatch'
         shell: bash
@@ -1179,7 +1268,13 @@ jobs:
             to_tag="$GITHUB_REF_NAME"
             published_tags="$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
               --jq '.[] | select(.draft == false and .prerelease == false and (.tag_name | test("^v[0-9]+[.][0-9]+[.][0-9]+$"))) | .tag_name' | sort -V)"
-            from_tag="$(printf '%s\n' "$published_tags" | awk -v current="$to_tag" '$0 != current { candidate=$0 } END { print candidate }')"
+            from_tag=''
+            while IFS= read -r candidate; do
+              [[ -n "$candidate" && "$candidate" != "$to_tag" ]] || continue
+              if [[ "$(printf '%s\n%s\n' "$candidate" "$to_tag" | sort -V | tail -n 1)" == "$to_tag" ]]; then
+                from_tag="$candidate"
+              fi
+            done <<< "$published_tags"
           fi
           [[ "$to_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || {
             echo "to_tag is not a canonical semantic Release tag" >&2
@@ -1195,6 +1290,10 @@ jobs:
             }
             [[ "$from_tag" != "$to_tag" ]] || {
               echo "from_tag and to_tag must be distinct" >&2
+              exit 1
+            }
+            [[ "$(printf '%s\n%s\n' "$from_tag" "$to_tag" | sort -V | tail -n 1)" == "$to_tag" ]] || {
+              echo "from_tag must be an older published Release than to_tag" >&2
               exit 1
             }
             echo "from_tag=$from_tag" >> "$GITHUB_OUTPUT"
@@ -1292,6 +1391,34 @@ jobs:
         with:
           name: release-adopter-upgrade-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/upgrade
+      - name: Restore missing close inputs on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -u
+          restore() {
+            local path="$1" name="$2" directory="$3"
+            [[ -f "$path" ]] && return 0
+            mkdir -p "$directory"
+            if ! gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+              --name "$name" --dir "$directory"; then
+              echo "close input unavailable for this or the previous attempt: $path" >&2
+            fi
+          }
+          restore close-inputs/handoff/homebrew-handoff.json \
+            "ai-cockpit-publish-handoff-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/handoff
+          restore close-inputs/version/version-consistency.json \
+            "post-release-version-consistency-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/version
+          restore close-inputs/install/acceptance.json \
+            "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
+          restore close-inputs/upgrade/acceptance.json \
+            "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
+          restore close-inputs/install/phase-receipts.json \
+            "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
+          restore close-inputs/upgrade/phase-receipts.json \
+            "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
       - name: Write release close receipt
         shell: bash
         env:
@@ -1326,9 +1453,9 @@ jobs:
           require_receipt "$version_file" "$VERSION_CONSISTENCY" version_consistency
           require_receipt "$install_file" "$INSTALL" install
           require_receipt "$install_phases" "$INSTALL" install_phases
-          if [[ "$UPGRADE" != success && "$UPGRADE" != skipped ]]; then
-            state=failed; reasons+=(upgrade_job_failed)
-          elif [[ "$UPGRADE" == success && ! -f "$upgrade_file" ]]; then
+          if [[ "$UPGRADE" != success ]]; then
+            state=failed; reasons+=(upgrade_job_failed_or_skipped)
+          elif [[ ! -f "$upgrade_file" ]]; then
             state=failed; reasons+=(missing_upgrade_receipt)
           fi
           provider_release_id=''
@@ -1371,9 +1498,7 @@ jobs:
             }
           }
           validate_acceptance "$install_file" "$install_phases" install
-          if [[ "$UPGRADE" == success ]]; then
-            validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade
-          fi
+          validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade
           reason_json='[]'
           if ((${#reasons[@]} > 0)); then
             reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
