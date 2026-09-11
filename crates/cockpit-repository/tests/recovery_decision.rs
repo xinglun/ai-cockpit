@@ -845,6 +845,52 @@ fn retry_recovery_restores_checkpointed_state_after_failed_finish() {
 }
 
 #[test]
+fn future_dated_stale_retry_does_not_strand_current_runtime_recovery() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+
+    let mut retry = receipt(
+        &directory,
+        "record a current retry before a clock-skewed receipt",
+    );
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:02:00Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime)
+        .expect("current retry recovery");
+
+    let mut clock_skewed = retry;
+    clock_skewed["runtimeDigest"] = json!(Digest::sha256_bytes(b"older-runtime").to_string());
+    clock_skewed["decidedAt"] = json!("2099-01-01T00:00:00Z");
+    let digest = cockpit_protocol::digest_json(&clock_skewed).expect("recovery digest");
+    let path = directory.path().join(format!(
+        ".ai/decisions/{id}.recovery.{}.json",
+        digest.to_string().trim_start_matches("sha256:")
+    ));
+    fs::write(
+        path,
+        serde_json::to_vec_pretty(&clock_skewed).expect("recovery JSON"),
+    )
+    .expect("clock-skewed recovery");
+
+    let decision = preflight_work_item_with_runtime(
+        directory.path(),
+        &directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json")),
+        &runtime,
+    )
+    .expect("future stale retry must not strand the current receipt");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+}
+
+#[test]
 fn retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed() {
     let directory = repository();
     let runtime = current_runtime();

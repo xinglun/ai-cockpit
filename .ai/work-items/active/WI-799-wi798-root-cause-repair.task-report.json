@@ -4,7 +4,7 @@
       ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
+    "repositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,14 +18,21 @@
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.732508f421193206436df9e653c7d438006132d8ae6a14e57027c58c24c134a7.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+        "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.ebffda5eadf6475766ebfc925223d9aff0bb26ef1e10e29fc82c82eabe1ea3a7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
@@ -39,14 +46,56 @@
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-core/src/lib.rs"
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-core/tests/governance_semantics.rs"
+        "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
       }
     ],
     "evidence": [

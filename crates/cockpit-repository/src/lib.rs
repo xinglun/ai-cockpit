@@ -10982,10 +10982,15 @@ fn load_recovery_decision(
         candidates.push((decided_at, path, receipt));
     }
     if let Some(latest_valid) = candidates.iter().map(|item| item.0).max() {
-        if let Some((_, _, error)) = stale_candidates
-            .into_iter()
-            .find(|(timestamp, _, _)| timestamp.is_none_or(|value| value >= latest_valid))
-        {
+        let now = Utc::now().timestamp_millis();
+        if let Some((_, _, error)) = stale_candidates.into_iter().find(|(timestamp, _, _)| {
+            // A stale receipt with a future timestamp can be left by a
+            // clock-skewed or interrupted retry. It remains immutable
+            // evidence, but must not outrank a valid current-runtime
+            // receipt and strand the recovery path indefinitely. A
+            // non-future stale receipt still dominates conservatively.
+            timestamp.is_none_or(|value| value >= latest_valid && value <= now)
+        }) {
             return Err(error);
         }
     } else if stale_candidates

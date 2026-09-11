@@ -57,11 +57,18 @@
     }
   ],
   "changedPaths": [
+    ".ai/decisions/WI-799-wi798-root-cause-repair.recovery.732508f421193206436df9e653c7d438006132d8ae6a14e57027c58c24c134a7.json",
+    ".ai/decisions/WI-799-wi798-root-cause-repair.recovery.ebffda5eadf6475766ebfc925223d9aff0bb26ef1e10e29fc82c82eabe1ea3a7.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json",
     ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json",
-    "crates/cockpit-core/src/lib.rs",
-    "crates/cockpit-core/tests/governance_semantics.rs"
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.md",
+    "docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
   ],
   "checkpointAt": "2026-09-11T14:22:54Z",
   "checkpointContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
@@ -182,7 +189,7 @@
       "workItemId": "WI-799-wi798-root-cause-repair"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
+  "checkpointRepositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
   "createdAt": "2026-09-11T14:15:58Z",
   "intentAlignment": {
     "evidence": [
@@ -195,10 +202,10 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
   "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
-  "preflightAt": "2026-09-11T17:50:22Z",
+  "preflightAt": "2026-09-11T18:05:25Z",
   "preflightContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
+  "preflightRepositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json",
@@ -299,7 +306,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-11T17:50:30Z",
+  "updatedAt": "2026-09-11T18:05:34Z",
   "verification": [
     {
       "check": "project-command-0",

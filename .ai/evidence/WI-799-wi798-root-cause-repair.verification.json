@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
-  "createdAt": "2026-09-11T17:50:22Z",
+  "createdAt": "2026-09-11T18:05:25Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 265092,
-      "executionElapsedMs": 264632,
+      "elapsedMs": 228010,
+      "executionElapsedMs": 227514,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:6ed3215f10f356dff452714f35cf1fcb3bedff48287299c78f1f91578126fb68",
+      "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
       "runtimeVersion": "0.2.90",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 265092,
-    "executionElapsedMs": 264632,
-    "filesHashed": 14,
-    "filesRead": 16,
+    "elapsedMs": 228010,
+    "executionElapsedMs": 227514,
+    "filesHashed": 26,
+    "filesRead": 28,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,8 +37,14 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "crates/cockpit-core/src/lib.rs",
-        "crates/cockpit-core/tests/governance_semantics.rs"
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
+        "docs/work-items/WI-799-wi798-root-cause-repair.md",
+        "docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
       ],
       "assurance": "repository_verified",
       "baseRevision": "f07e4ec7400397a557fa9aa95e1898d671b24cb4",
@@ -47,13 +53,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 264632,
+      "executionElapsedMs": 227514,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
+      "repositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -79,7 +85,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:335da5f92913ea33f8cd4238bf18c1369dde3845f313201478bf06f50b1e7715",
+        "outputDigest": "sha256:52b096370abe99709b52c30463ea6bbe8409b949d3b58fbee2e7bf12aa9c12cc",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -91,14 +97,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:6ed3215f10f356dff452714f35cf1fcb3bedff48287299c78f1f91578126fb68",
+    "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
     "runtimeVersion": "0.2.90",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "receiptDigest": "sha256:bbfc257d92d118d75f161ba02eaad3441dfb7cf0da0d8769d0e75f23361d962e",
+  "receiptDigest": "sha256:309e5fff155270a81e243f426409286df028b46cde90d23ab51d61b828e65121",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:3dcc4e319d2b211f86d19c6d0d996f914a1e6474f595ecbed6b93afd2c27c13d",
-  "runtimeDigest": "sha256:6ed3215f10f356dff452714f35cf1fcb3bedff48287299c78f1f91578126fb68",
+  "repositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
+  "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
   "runtimeVersion": "0.2.90",
   "workItemId": "WI-799-wi798-root-cause-repair"
 }
