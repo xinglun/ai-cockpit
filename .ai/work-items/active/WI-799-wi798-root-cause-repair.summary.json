@@ -57,21 +57,13 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-799-wi798-root-cause-repair.recovery.732508f421193206436df9e653c7d438006132d8ae6a14e57027c58c24c134a7.json",
-    ".ai/decisions/WI-799-wi798-root-cause-repair.recovery.ebffda5eadf6475766ebfc925223d9aff0bb26ef1e10e29fc82c82eabe1ea3a7.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json",
     ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-799-wi798-root-cause-repair.ja.md",
-    "docs/work-items/WI-799-wi798-root-cause-repair.md",
-    "docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
+    "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
   ],
   "checkpointAt": "2026-09-11T14:22:54Z",
-  "checkpointContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+  "checkpointContractDigest": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -187,9 +179,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-799-wi798-root-cause-repair"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e357771005fb6b109597b638f76e7877e361d11822aec0553026158299399049",
+      "previousContractHash": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+      "reason": "The strict evaluation gate's --check mode was found to overwrite tracked historical WI-750 evidence and dirty the repository during validation; include the gate script under this Work Item to make checks side-effect-free and prevent route/evidence drift.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T18:09:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:41989964b3e3f897894bb0dedc0b287565b42ed850e080d0dbdb4162bc877acb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-799-wi798-root-cause-repair"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
+  "checkpointRepositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
   "createdAt": "2026-09-11T14:15:58Z",
   "intentAlignment": {
     "evidence": [
@@ -202,10 +214,10 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:e9a39127d843d1cb6021b4b6ebab7fe95979bef895ae69b74af8c1fff71e8742",
   "predecessorWorkItemId": "WI-798-collaboration-observability-performance",
-  "preflightAt": "2026-09-11T18:05:25Z",
-  "preflightContractDigest": "sha256:becf73aec9b4bade7664f99f1841bdeeab4a155568205e4acfc5eb1c4655828a",
+  "preflightAt": "2026-09-11T18:13:26Z",
+  "preflightContractDigest": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
+  "preflightRepositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json",
@@ -306,7 +318,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-11T18:05:34Z",
+  "updatedAt": "2026-09-11T18:13:41Z",
   "verification": [
     {
       "check": "project-command-0",

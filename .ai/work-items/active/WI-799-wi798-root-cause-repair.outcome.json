@@ -17,9 +17,9 @@
     "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
     "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
   ],
-  "createdAt": "2026-09-11T18:05:34Z",
+  "createdAt": "2026-09-11T18:13:41Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:1e3c5142f0035cc646e2b2d7bbb51b4b8d470500d98b96a05e8a9a381748cecc",
+  "evidenceDigest": "sha256:f8324ac1d75753f68c7091502d26186bf5cd6d5684a422a1bc02fee68eb27a0a",
   "evidenceRefs": [
     ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
   ],
@@ -45,7 +45,7 @@
         ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:61af12620b4be1f48c6388cc573e81125f857ea36ff7d29c0b031c5739ac741b",
+      "repositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
       "workItemId": "WI-799-wi798-root-cause-repair"
     },
     "format": "ai-cockpit.task-outcome",
@@ -59,21 +59,14 @@
             ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.732508f421193206436df9e653c7d438006132d8ae6a14e57027c58c24c134a7.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.ebffda5eadf6475766ebfc925223d9aff0bb26ef1e10e29fc82c82eabe1ea3a7.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
         },
         {
           "evidenceRefs": [
@@ -87,56 +80,7 @@
             ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md"
+          "text": "Changed path: tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
         }
       ],
       "evidence": [
@@ -211,8 +155,8 @@
     "status": "verified",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "taskReportDigest": "sha256:4663783f1b683c6451f4cacd46514ca050ce7dd300900987f76e92e7526c812a",
-  "taskReportMarkdownDigest": "sha256:13352aab25b43b8ed3f46a4fff22ad51fa54ea12a933c08dbeb567647d2149f8",
+  "taskReportDigest": "sha256:aebabc3ffc4b0385d3fde1bfa5b34ec653acb49f11766446a52b6d7cf07d942c",
+  "taskReportMarkdownDigest": "sha256:001a995857332b7a25b8e18e419ed70003960a5a70b9c9e15b7d462b5e072fca",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

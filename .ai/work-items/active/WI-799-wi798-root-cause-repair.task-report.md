@@ -14,18 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.732508f421193206436df9e653c7d438006132d8ae6a14e57027c58c24c134a7.json
-- Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.ebffda5eadf6475766ebfc925223d9aff0bb26ef1e10e29fc82c82eabe1ea3a7.json
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/recovery_decision.rs
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-799-wi798-root-cause-repair.ja.md
-- Changed path: docs/work-items/WI-799-wi798-root-cause-repair.md
-- Changed path: docs/work-items/WI-799-wi798-root-cause-repair.zh-CN.md
+- Changed path: tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py
 
 ## Findings
 

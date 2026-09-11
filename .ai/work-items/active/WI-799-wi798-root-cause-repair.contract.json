@@ -223,7 +223,8 @@
     ".ai/evidence/**",
     ".ai/work-items/**",
     "docs/reference/ci-quality-gates*.md",
-    "crates/cockpit-core/**"
+    "crates/cockpit-core/**",
+    "tests/evaluation/**"
   ],
   "sources": [],
   "state": "implementation_active",
