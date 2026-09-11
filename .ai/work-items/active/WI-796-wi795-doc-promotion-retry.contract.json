@@ -1,20 +1,34 @@
 {
-  "acceptanceCriteria": [],
-  "authority": "unknown",
-  "baseRevision": "bff7db829514e276d4cbc2d7ce855af2126696c3",
+  "acceptanceCriteria": [
+    "The three WI-794 documentation projections and the three reference-parity projections are promoted from the recovered predecessor to the truthful terminal state using immutable WI-794 evidence.",
+    "The successor own tri-language pages and parity row are registered in a commit before successor verification evidence is introduced.",
+    "English Simplified Chinese and Japanese preserve identical governance facts unknowns recovery boundaries and operational consequences.",
+    "The declared documentation parity status-consistency and governance-integrity checks pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c004513b89bde9b7c63c490be427b92e5eb5988a",
   "createdAt": "2026-09-11T01:05:03Z",
-  "goal": "",
-  "intent": "",
-  "mode": "implementation",
-  "outOfScope": [],
+  "goal": "Complete the WI-795 documentation promotion through a fresh ordered successor without rewriting the predecessor immutable records.",
+  "intent": "Redeliver the WI-794 terminal documentation projection with an auditable registration-before-evidence boundary.",
+  "mode": "docs",
+  "outOfScope": [
+    "Rust production behavior",
+    "Runtime behavior",
+    "versioning",
+    "release/tag assets",
+    "immutable WI-795 archive verification finalization and recovery bytes",
+    "unrelated Work Items and documentation."
+  ],
   "predecessorContractDigest": "sha256:bc08537327c8949d2598bf6e9be08db8c6ccf08ab1b0ab86c983ed3910ffb34f",
   "predecessorWorkItemId": "WI-795-wi794-doc-promotion",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-795-wi794-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
-  "requiredEvidenceClasses": [],
+  "repositorySnapshotDigest": "sha256:9388e043076f67476540b30d880934828ce5341974df02945b62214d72f92042",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
   "resourceContext": {
     "baseBranch": "unknown",
     "baseRemote": "unknown",
@@ -23,10 +37,22 @@
     "pullRequest": "unknown",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-795-wi794-doc-promotion"
   },
-  "risk": "unknown",
-  "scope": [],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-794-release-v0-2-90-closure.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.zh-CN.md",
+    "docs/work-items/WI-794-release-v0-2-90-closure.ja.md",
+    "docs/work-items/WI-796-wi795-doc-promotion-retry.md",
+    "docs/work-items/WI-796-wi795-doc-promotion-retry.zh-CN.md",
+    "docs/work-items/WI-796-wi795-doc-promotion-retry.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
   "sources": [],
-  "state": "not_ready",
-  "verification": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
   "workItemId": "WI-796-wi795-doc-promotion-retry"
 }

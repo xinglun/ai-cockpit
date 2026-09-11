@@ -1,18 +1,25 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-795-wi794-doc-promotion.finalize.json",
-    ".ai/decisions/WI-795-wi794-doc-promotion.recovery.json"
+    ".ai/work-items/active/WI-796-wi795-doc-promotion-retry.contract.json",
+    ".ai/work-items/active/WI-796-wi795-doc-promotion-retry.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-11T01:20:03Z",
+  "checkpointContractDigest": "sha256:5d77bd8a53471e05fe49e06b9e5a02ea0c40974a06be6e7e9079797c7ea35a6c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9388e043076f67476540b30d880934828ce5341974df02945b62214d72f92042",
   "createdAt": "2026-09-11T01:05:03Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:bc08537327c8949d2598bf6e9be08db8c6ccf08ab1b0ab86c983ed3910ffb34f",
   "predecessorWorkItemId": "WI-795-wi794-doc-promotion",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-11T01:19:47Z",
+  "preflightContractDigest": "sha256:5d77bd8a53471e05fe49e06b9e5a02ea0c40974a06be6e7e9079797c7ea35a6c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:9388e043076f67476540b30d880934828ce5341974df02945b62214d72f92042",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-795-wi794-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "not_ready",
-  "updatedAt": "2026-09-11T01:05:03Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-11T01:20:03Z",
   "workItemId": "WI-796-wi795-doc-promotion-retry"
 }
