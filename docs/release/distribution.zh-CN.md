@@ -21,11 +21,11 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 完整审计交接仍可使用 `--view full`（MCP 使用 `view: "full"`）。这是仅展示层的变化：机器 JSON、验证、授权、退出码和持久化证据均不变。
 本发布说明不声称已经完成用户研究，也不声称带来风险拦截收益。
 
-当前发布产物命名为 `ai-cockpit-v0.2.90-<target>.tar.gz`（Windows 使用对应的
+当前发布产物命名为 `ai-cockpit-v0.2.91-<target>.tar.gz`（Windows 使用对应的
 archive）。只有公开 Release 和发布后验收完成后，它才成为安装基线。
 
-发布完成后，当前安装基线是公开且绑定身份的 `v0.2.90` Release；在 provider Release
-存在之前，应使用上一个公开的 `v0.2.89` archive。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
+发布完成后，当前安装基线是公开且绑定身份的 `v0.2.91` Release；在 provider Release
+存在之前，应使用上一个公开的 `v0.2.90` archive。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
 （workflow run `33417057474`）：它是 lightweight tag，没有 provider Release，永远不能复用或作为安装基线。
 失败的 `v0.2.88` tag 也作为不可变发布失败历史保留（WI-764，workflow run `34371183927`）；它没有 provider Release，不能复用或作为公开安装基线。
 `v0.2.56` tag 也只是不可变的发布失败历史：source-quality workflow 在创建 provider Release
@@ -85,10 +85,10 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 
 ```bash
 git fetch origin main --tags
-git tag -a v0.2.90 -m 'ai-cockpit v0.2.90'
-test "$(git cat-file -t v0.2.90)" = tag
-test "$(git rev-parse v0.2.90^{})" = "$(git rev-parse HEAD)"
-git push origin v0.2.90
+git tag -a v0.2.91 -m 'ai-cockpit v0.2.91'
+test "$(git cat-file -t v0.2.91)" = tag
+test "$(git rev-parse v0.2.91^{})" = "$(git rev-parse HEAD)"
+git push origin v0.2.91
 ```
 
 workflow 会拒绝 lightweight tag、已存在的 provider Release，或 peeled commit 不是已审查 source commit 的 tag。
@@ -124,10 +124,10 @@ brew untap xinglun/tap                 # 可选
 ## 验证 Release 制品
 
 从同一个已发布 GitHub Release 下载 archive、`release-manifest.json` 和 `SHA256SUMS`。
-v0.2.90 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
+v0.2.91 的校验文件覆盖全部十个 archive/SBOM，因此只校验实际下载的 archive：
 
 ```bash
-archive="ai-cockpit-v0.2.90-aarch64-apple-darwin.tar.gz"
+archive="ai-cockpit-v0.2.91-aarch64-apple-darwin.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -137,8 +137,8 @@ gh attestation verify "$archive" --repo xinglun/ai-cockpit
 如果 Release 已存在，也可以使用 GitHub CLI 下载准确的三个文件：
 
 ```bash
-archive="ai-cockpit-v0.2.90-aarch64-apple-darwin.tar.gz"
-gh release download v0.2.90 --repo xinglun/ai-cockpit \
+archive="ai-cockpit-v0.2.91-aarch64-apple-darwin.tar.gz"
+gh release download v0.2.91 --repo xinglun/ai-cockpit \
   --pattern "$archive" --pattern release-manifest.json --pattern SHA256SUMS
 ```
 
@@ -151,7 +151,7 @@ CLI 和 MCP 的 `verify` JSON 会输出 `runtimeVersion` 与 `runtimeDigest` 这
 ### 后续 candidate 的制品绑定 SBOM 策略
 
 失败的 staged v0.2.32 没有可供 adopter 使用的公开资产，其失败记录保持不可变，不会被改写为成功
-Release。失败且未公开的 v0.2.77 tag 仅作为历史保留。v0.2.90 发布后，公开 bytes 才成为不可变事实；其 `SHA256SUMS` 覆盖五个 archive 与五个
+Release。失败且未公开的 v0.2.77 tag 仅作为历史保留。v0.2.91 发布后，公开 bytes 才成为不可变事实；其 `SHA256SUMS` 覆盖五个 archive 与五个
 按 target 命名的 SBOM，且每个 target SBOM 都绑定对应的 archive 与 executable。
 
 使用 WI-241 边界构建的 release candidate 遵循更严格的契约。每个按 target 命名的 SPDX 2.3
@@ -193,7 +193,7 @@ GitHub Actions run `32696048024` 仍单独作为 `x86_64-unknown-linux-gnu` 的 
 ```bash
 tests/release/adopter_acceptance.sh \
   --repository xinglun/ai-cockpit \
-  --tag v0.2.90 \
+  --tag v0.2.91 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-acceptance
 ```
@@ -232,7 +232,7 @@ ref 或缺少必需 action 时 fail closed。今后更新 action runtime 时，�
 
 ### 历史 N-1 schema 迁移验收
 
-发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.90 是保持同一
+发生 schema 变化的基线是历史上的 v0.1.1 到 v0.2.0 迁移。v0.2.91 是保持同一
 schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 compatibility 后记录
 `migrationState: not_required`。当前 N-1 run 使用紧邻的上一个公开 Release 与当前 Runtime，例如：
 
@@ -240,7 +240,7 @@ schema 的 patch Release；其 N-1 run 仍使用同一个 harness，在确认 co
 tests/release/adopter_upgrade_acceptance.sh \
   --repository xinglun/ai-cockpit \
   --from-tag v0.2.89 \
-  --to-tag v0.2.90 \
+  --to-tag v0.2.91 \
   --target aarch64-apple-darwin \
   --output ./release-adopter-upgrade-acceptance
 ```
@@ -268,7 +268,7 @@ macOS/Linux 用户下载对应的 `.tar.gz` 和 `SHA256SUMS`，选择准确的 R
 
 ```bash
 target="aarch64-apple-darwin" # 选择与机器匹配的 target
-archive="ai-cockpit-v0.2.90-${target}.tar.gz"
+archive="ai-cockpit-v0.2.91-${target}.tar.gz"
 expected="$(awk -v name="$archive" '$2 == name {print $1}' SHA256SUMS)"
 actual="$(shasum -a 256 "$archive" | awk '{print $1}')"
 test -n "$expected" && test "$expected" = "$actual"
@@ -285,7 +285,7 @@ esac
 Windows 用户下载 `.zip` 和 `SHA256SUMS`，比较准确 checksum，解压到用户 bin 目录，并将该目录加入用户 `PATH`：
 
 ```powershell
-$archive = "ai-cockpit-v0.2.90-x86_64-pc-windows-msvc.zip"
+$archive = "ai-cockpit-v0.2.91-x86_64-pc-windows-msvc.zip"
 $expected = Get-Content .\SHA256SUMS |
   Where-Object { ($_ -split '\s+')[1] -eq $archive } |
   ForEach-Object { ($_ -split '\s+')[0].ToLowerInvariant() }
@@ -305,11 +305,11 @@ $env:Path = "$destination;$env:Path"
 
 ## Rust 开发者 fallback
 
-该 fallback 适用于当前已发布且绑定身份的 `v0.2.90` tag。
+该 fallback 适用于当前已发布且绑定身份的 `v0.2.91` tag。
 发布完成后，workspace 含多个 package，必须显式选择 `cockpit-cli`：
 
 ```bash
-cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.90 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
+cargo install --git https://github.com/xinglun/ai-cockpit.git --tag v0.2.91 --locked --root "$HOME/.local" --bin ai-cockpit cockpit-cli
 "$HOME/.local/bin/ai-cockpit" --version
 cargo uninstall --root "$HOME/.local" cockpit-cli
 ```

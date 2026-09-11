@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-11T21:50:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-801-release-v0-2-91.verification.json",
+    ".ai/decisions/WI-801-release-v0-2-91.preflight-review.65cc99a9f71060919ac47b9cdb06da0e221a5b4a6062e9edcff08629364bd5a4.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:47234de0f1e634035cbc5a619a359bb489298202001b0e85873c936d2eea370e",
+  "predecessorEventsDigest": "sha256:73a93e7ca039067aa4ecbd345d3aac135ec134973d1024fcde09afad50dadb6a",
+  "predecessorOutcomeDigest": "sha256:a6f404191b1939097500e77c0152fabcb760e030eba5beea96e9ec195cb93311",
+  "predecessorSummaryDigest": "sha256:a89f99aedd6742e072c6509f0b5b063a3003633fdf77d960d25709e29c1fe599",
+  "predecessorWorkItemId": "WI-801-release-v0-2-91",
+  "reason": "Replace the stale 0.2.90 verification boundary with the repaired 0.2.91 Runtime after confirming that the prior Runtime could regress the post-verification preflight digest. This is a bounded technical retry, not a successor Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run verification with the repaired current Runtime, rerun preflight against the resulting snapshot, then retry finish only after all identity bindings are green.",
+  "runtimeDigest": "sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

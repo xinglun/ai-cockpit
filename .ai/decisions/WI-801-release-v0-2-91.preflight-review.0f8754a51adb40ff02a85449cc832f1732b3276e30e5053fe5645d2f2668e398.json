@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:47234de0f1e634035cbc5a619a359bb489298202001b0e85873c936d2eea370e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized the bounded WI-801 retry. The repaired current Runtime has now produced replacement verification evidence bound to the amended Contract and current snapshot; this receipt records the resulting governance decision for the next lifecycle boundary and does not assert hosted checks, release artifacts, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T22:00:46Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ca72537012ec197cfebf7b360335ea1a87c8b30dd1a25bdf250916649549759d",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

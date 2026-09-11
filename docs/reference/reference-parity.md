@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-793-release-v0-2-90-recovery
+lastVerifiedBy: WI-801-release-v0-2-91
 capabilityClaims:
   - reference_parity
 ---
@@ -41,9 +41,9 @@ for the rebaseline receipt and procedure.
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-The current snapshot uses Rust baseline `446ec82c0e8c0b55094c4654f9e6a098bb75f179`
-and the reviewed Runtime `ai-cockpit v0.2.90` with binary digest
-`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`.
+The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
+and the reviewed Runtime `ai-cockpit v0.2.91` with binary digest
+`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1012,3 +1012,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-798-collaboration-observability-performance — collaboration semantics, observation consistency, and execution-performance optimization | Implemented | [Work Item](../work-items/WI-798-collaboration-observability-performance.md); verified implementation awaiting reviewed merge and release; archive `.ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json`; verification `.ai/evidence/WI-798-collaboration-observability-performance.verification.json`; recovery decision `.ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json`; successor WI-799 carries root-cause repair and finalization/close; PR #775 remains the provider review boundary. |
 | WI-799-wi798-root-cause-repair — WI-798 root-cause repair | Implemented | [Work Item](../work-items/WI-799-wi798-root-cause-repair.md); terminal lifecycle: archive `.ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json`; verification `.ai/evidence/WI-799-wi798-root-cause-repair.verification.json`; finalization `.ai/decisions/WI-799-wi798-root-cause-repair.finalize.json`; close `.ai/decisions/WI-799-wi798-root-cause-repair.close.json`. |
 | WI-800-wi799-doc-promotion — documentation promotion for WI-799 | In progress → Implemented after verified close | [Work Item](../work-items/WI-800-wi799-doc-promotion.md); WI-799 terminal documentation projection; planned archive `.ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json`; verification `.ai/evidence/WI-800-wi799-doc-promotion.verification.json`; planned finalization `.ai/decisions/WI-800-wi799-doc-promotion.finalize.json`; planned close `.ai/decisions/WI-800-wi799-doc-promotion.close.json`. |
+| WI-801-release-v0-2-91 — governed v0.2.91 release | In progress → Implemented after verified close | [Work Item](../work-items/WI-801-release-v0-2-91.md); planned archive `.ai/work-items/archive/WI-801-release-v0-2-91.contract.json`; verification `.ai/evidence/WI-801-release-v0-2-91.verification.json`; planned finalization `.ai/decisions/WI-801-release-v0-2-91.finalize.json`; planned close `.ai/decisions/WI-801-release-v0-2-91.close.json`. |

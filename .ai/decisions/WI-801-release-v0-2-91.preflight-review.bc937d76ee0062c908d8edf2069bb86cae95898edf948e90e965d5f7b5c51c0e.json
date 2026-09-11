@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3f58d71e6b0141cc055c52bb6ee6f92db6bdcbe10722b5b7c28731bc050c571f",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1fa9c3fc9c456ca05b3753de827c33b4e70b9e66ee946f4081a51c7366018996",
+  "reason": "The repository owner explicitly authorized continuing this same bounded v0.2.91 release Work Item after the canonical workspace gate root cause was found and repaired. The amended scope includes the governed package gate and its fail-closed regression coverage; pre-merge verification still must not substitute for candidate, public, or hosted release evidence. This decision authorizes implementation and verification only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T20:53:34Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:84d60713e730489da4d0b41a3caae7524d2dd6f3adece715d5774cc9734c4a61",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

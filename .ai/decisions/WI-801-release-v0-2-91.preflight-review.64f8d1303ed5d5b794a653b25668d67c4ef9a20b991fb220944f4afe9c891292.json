@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f8fa7757e833278c66f76bb9aa4570096333459ac2be7148a2089f6fc8722b1a",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "The repository owner explicitly authorized continuing this same bounded v0.2.91 release Work Item after the high-risk scenario coverage amendment. The release phase boundary is explicit: pre-merge preparation will not substitute for candidate or public artifact evidence, which must be collected after reviewed merge and immutable publication. This decision authorizes implementation only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T20:25:40Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:572a6447f59dae5f90d150fb43a519bafef7981bdf6969e3b2cd5b892d4185b2",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

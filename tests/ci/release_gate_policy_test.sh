@@ -19,7 +19,11 @@ require() {
 require 'name: Run source quality gates' 'source quality step is required'
 require 'tests/ci/run_repository_gates.py' 'release must run the canonical repository gate manifest'
 require 'tests/ci/repository_gate_manifest.json' 'release must bind the canonical repository gate manifest'
-require 'tests/ci/quality_route.py' 'release must derive a typed route from repository facts'
+require 'target/release/ai-cockpit gate-plan' 'release must derive a typed route in the shared Rust application'
+if grep -Fq -- 'python3 tests/ci/quality_route.py' "$workflow"; then
+  printf 'release gate policy failure: compatibility Python route must not be a production release path\n' >&2
+  exit 1
+fi
 require '--stage release' 'release routing must use the release stage floor'
 require '--profile strict' 'release routing must explicitly require the strict profile'
 require '--route-receipt' 'release gate execution must consume the typed route receipt'

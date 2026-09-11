@@ -8,7 +8,10 @@
 
 use std::{
     fs,
+    io::ErrorKind,
     path::{Path, PathBuf},
+    thread,
+    time::Duration,
 };
 
 use chrono::Utc;
@@ -54,6 +57,8 @@ pub enum ReceiptError {
     AttemptNotMonotonic,
     #[error("receipt phase result contains an inconsistent failure strategy")]
     InconsistentFailure,
+    #[error("receipt phase result contains contradictory success and failure fields")]
+    ContradictoryResult,
     #[error("cannot replace receipt atomically: {0}")]
     AtomicWrite(String),
     #[error("recovery plan is invalid: {0}")]
@@ -154,27 +159,37 @@ impl PhaseReceiptStore {
         if !result.identity.digest_matches(&result.identity_digest) {
             return Err(ReceiptError::ResultIdentityDigest);
         }
-        if result.status == PhaseStatus::Succeeded {
-            let Some(evidence) = result.evidence.as_ref() else {
-                return Err(ReceiptError::InvalidEvidence(format!(
-                    "missing evidence for {}",
-                    result.phase.as_str()
-                )));
-            };
-            validate_evidence(evidence, evidence_base)?;
-        }
-        if matches!(
-            result.status,
-            PhaseStatus::Failed | PhaseStatus::Interrupted | PhaseStatus::TimedOut
-        ) {
-            let Some(failure) = result.failure.as_ref() else {
-                return Err(ReceiptError::MissingFailure);
-            };
-            if !failure.is_consistent() {
-                return Err(ReceiptError::InconsistentFailure);
+        match result.status {
+            PhaseStatus::Succeeded => {
+                if result.failure.is_some() {
+                    return Err(ReceiptError::ContradictoryResult);
+                }
+                let Some(evidence) = result.evidence.as_ref() else {
+                    return Err(ReceiptError::InvalidEvidence(format!(
+                        "missing evidence for {}",
+                        result.phase.as_str()
+                    )));
+                };
+                validate_evidence(evidence, evidence_base)?;
             }
-            if failure.status() != result.status {
-                return Err(ReceiptError::InconsistentFailure);
+            PhaseStatus::Failed | PhaseStatus::Interrupted | PhaseStatus::TimedOut => {
+                if result.evidence.is_some() {
+                    return Err(ReceiptError::ContradictoryResult);
+                }
+                let Some(failure) = result.failure.as_ref() else {
+                    return Err(ReceiptError::MissingFailure);
+                };
+                if !failure.is_consistent() {
+                    return Err(ReceiptError::InconsistentFailure);
+                }
+                if failure.status() != result.status {
+                    return Err(ReceiptError::InconsistentFailure);
+                }
+            }
+            PhaseStatus::Pending | PhaseStatus::Running | PhaseStatus::Blocked => {
+                if result.evidence.is_some() || result.failure.is_some() {
+                    return Err(ReceiptError::ContradictoryResult);
+                }
             }
         }
         Ok(())
@@ -287,12 +302,77 @@ impl PhaseReceiptStore {
 
     pub fn write_atomic(&self, path: &Path) -> Result<(), ReceiptError> {
         let parent = path.parent().unwrap_or_else(|| Path::new("."));
+        let _lock = ReceiptLock::acquire(path)?;
+        self.write_atomic_unlocked(path, parent)
+    }
+
+    /// Serialize the complete load/modify/write transaction.  Locking only
+    /// the final rename is insufficient: two acceptance workers could both
+    /// load the same old store and the last writer would silently discard the
+    /// other worker's append-only result.
+    pub fn update_atomic<F>(
+        path: &Path,
+        expected: &ReleaseIdentity,
+        update: F,
+    ) -> Result<Self, ReceiptError>
+    where
+        F: FnOnce(&mut Self) -> Result<(), ReceiptError>,
+    {
+        let parent = path.parent().unwrap_or_else(|| Path::new("."));
+        let _lock = ReceiptLock::acquire(path)?;
+        let mut store = Self::load(path, expected)?;
+        update(&mut store)?;
+        store.write_atomic_unlocked(path, parent)?;
+        Ok(store)
+    }
+
+    fn write_atomic_unlocked(&self, path: &Path, parent: &Path) -> Result<(), ReceiptError> {
         self.validate_binding_at(&self.identity.clone(), Some(parent))?;
         fs::create_dir_all(parent)?;
         let temp = path.with_extension(format!("json.tmp.{}", std::process::id()));
         let bytes = serde_json::to_vec_pretty(self)?;
         fs::write(&temp, bytes)?;
         fs::rename(&temp, path).map_err(|error| ReceiptError::AtomicWrite(error.to_string()))
+    }
+}
+
+/// A repository-local cooperative transaction lock.  The lock is created
+/// with `create_new`, so concurrent record commands cannot both believe they
+/// own the read/modify/write transaction.  A stale lock is reported as a
+/// structured error instead of being removed speculatively and risking a
+/// concurrent writer's history.
+struct ReceiptLock {
+    path: PathBuf,
+}
+
+impl ReceiptLock {
+    fn acquire(receipts: &Path) -> Result<Self, ReceiptError> {
+        let parent = receipts.parent().unwrap_or_else(|| Path::new("."));
+        fs::create_dir_all(parent)?;
+        let lock_path = receipts.with_extension("json.lock");
+        for _ in 0..500 {
+            match fs::OpenOptions::new()
+                .write(true)
+                .create_new(true)
+                .open(&lock_path)
+            {
+                Ok(_) => return Ok(Self { path: lock_path }),
+                Err(error) if error.kind() == ErrorKind::AlreadyExists => {
+                    thread::sleep(Duration::from_millis(10));
+                }
+                Err(error) => return Err(ReceiptError::Io(error)),
+            }
+        }
+        Err(ReceiptError::AtomicWrite(format!(
+            "receipt transaction lock is busy: {}",
+            lock_path.display()
+        )))
+    }
+}
+
+impl Drop for ReceiptLock {
+    fn drop(&mut self) {
+        let _ = fs::remove_file(&self.path);
     }
 }
 

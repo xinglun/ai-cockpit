@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-793-release-v0-2-90-recovery
+lastVerifiedBy: WI-801-release-v0-2-91
 capabilityClaims:
   - reference_parity
 ---
@@ -34,9 +34,9 @@ capabilityClaims:
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-当前快照使用 Rust 基线 `446ec82c0e8c0b55094c4654f9e6a098bb75f179`，以及经审查的
-`ai-cockpit v0.2.90` Runtime（二进制摘要
-`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`）。
+当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
+`ai-cockpit v0.2.91` Runtime（二进制摘要
+`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -851,3 +851,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-798-collaboration-observability-performance——协作语义、观察一致性与执行性能优化 | 已实现 | [Work Item](../work-items/WI-798-collaboration-observability-performance.zh-CN.md)；实现已验证，等待审查合并和发布；archive `.ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json`；verification `.ai/evidence/WI-798-collaboration-observability-performance.verification.json`；recovery decision `.ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json`；successor WI-799 负责根因修复及 finalization/close；PR #775 仍是 provider 审查边界。 |
 | WI-799-wi798-root-cause-repair——WI-798 根因修复 | 已实现 | [Work Item](../work-items/WI-799-wi798-root-cause-repair.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json`; verification `.ai/evidence/WI-799-wi798-root-cause-repair.verification.json`; finalization `.ai/decisions/WI-799-wi798-root-cause-repair.finalize.json`; close `.ai/decisions/WI-799-wi798-root-cause-repair.close.json`. |
 | WI-800-wi799-doc-promotion——WI-799 文档投影 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-800-wi799-doc-promotion.zh-CN.md)；WI-799 的终态文档投影；计划 archive `.ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json`；verification `.ai/evidence/WI-800-wi799-doc-promotion.verification.json`；计划 finalization `.ai/decisions/WI-800-wi799-doc-promotion.finalize.json`；计划 close `.ai/decisions/WI-800-wi799-doc-promotion.close.json`。 |
+| WI-801-release-v0-2-91——受治理的 v0.2.91 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-801-release-v0-2-91.zh-CN.md)；计划 archive `.ai/work-items/archive/WI-801-release-v0-2-91.contract.json`；verification `.ai/evidence/WI-801-release-v0-2-91.verification.json`；计划 finalization `.ai/decisions/WI-801-release-v0-2-91.finalize.json`；计划 close `.ai/decisions/WI-801-release-v0-2-91.close.json`。 |

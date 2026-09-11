@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-793-release-v0-2-90-recovery
+lastVerifiedBy: WI-801-release-v0-2-91
 capabilityClaims:
   - reference_parity
 ---
@@ -37,9 +37,9 @@ parity check に network source や source content の copy は必要ありま�
 
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
-Current snapshot は Rust baseline `446ec82c0e8c0b55094c4654f9e6a098bb75f179` と、
-review 済み `ai-cockpit v0.2.90`（binary digest
-`sha256:4ef144434dc27c40a8b6d0de7988fb1bc914fa10a9d2b7a2b7b0b9ed036f957c`）を使用します。
+Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
+review 済み `ai-cockpit v0.2.91`（binary digest
+`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -877,3 +877,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-798-collaboration-observability-performance — collaboration semantics, observation consistency, and execution-performance optimization | Implemented | [Work Item](../work-items/WI-798-collaboration-observability-performance.ja.md); verified implementation であり、reviewed merge と release を待っています。archive `.ai/work-items/archive/WI-798-collaboration-observability-performance.contract.json`; verification `.ai/evidence/WI-798-collaboration-observability-performance.verification.json`; recovery decision `.ai/decisions/WI-798-collaboration-observability-performance.recovery.7f58122c0b99798e61e08bed7f3f3c3ccf8dd4da8dd8dffebd1b4f7be68fd96c.json`; successor WI-799 が root-cause repair と finalization/close を担当します。PR #775 は provider review boundary です。 |
 | WI-799-wi798-root-cause-repair — WI-798 root-cause repair | Implemented | [Work Item](../work-items/WI-799-wi798-root-cause-repair.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-799-wi798-root-cause-repair.contract.json`; verification `.ai/evidence/WI-799-wi798-root-cause-repair.verification.json`; finalization `.ai/decisions/WI-799-wi798-root-cause-repair.finalize.json`; close `.ai/decisions/WI-799-wi798-root-cause-repair.close.json`. |
 | WI-800-wi799-doc-promotion — documentation projection for WI-799 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-800-wi799-doc-promotion.ja.md); WI-799 の terminal documentation projection; planned archive `.ai/work-items/archive/WI-800-wi799-doc-promotion.contract.json`; verification `.ai/evidence/WI-800-wi799-doc-promotion.verification.json`; planned finalization `.ai/decisions/WI-800-wi799-doc-promotion.finalize.json`; planned close `.ai/decisions/WI-800-wi799-doc-promotion.close.json`. |
+| WI-801-release-v0-2-91 — governed v0.2.91 release | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-801-release-v0-2-91.ja.md); planned archive `.ai/work-items/archive/WI-801-release-v0-2-91.contract.json`; verification `.ai/evidence/WI-801-release-v0-2-91.verification.json`; planned finalization `.ai/decisions/WI-801-release-v0-2-91.finalize.json`; planned close `.ai/decisions/WI-801-release-v0-2-91.close.json`. |

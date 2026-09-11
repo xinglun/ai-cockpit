@@ -367,9 +367,9 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
                 serde_json::from_slice(&fs::read(identity)?)?;
             let phase = parse_release_phase(&phase)?;
             let scope = parse_acceptance_scope(&scope)?;
-            let mut store = PhaseReceiptStore::load(&receipts, &identity)?;
-            store.record_success(phase, attempt, phase.as_str(), &evidence)?;
-            store.write_atomic(&receipts)?;
+            let store = PhaseReceiptStore::update_atomic(&receipts, &identity, |store| {
+                store.record_success(phase, attempt, phase.as_str(), &evidence)
+            })?;
             if let Some(action) = plan_for_phase(&store.plan_for_scope(scope)?, phase) {
                 println!("{}", serde_json::to_string(action)?);
             }
@@ -391,9 +391,9 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
             let kind = parse_failure_kind(&failure_kind)?;
             let failure =
                 cockpit_release::recovery::PhaseFailure::new(kind, failure_code, diagnostic);
-            let mut store = PhaseReceiptStore::load(&receipts, &identity)?;
-            store.record_failure(phase, attempt, failure)?;
-            store.write_atomic(&receipts)?;
+            let store = PhaseReceiptStore::update_atomic(&receipts, &identity, |store| {
+                store.record_failure(phase, attempt, failure)
+            })?;
             if let Some(action) = plan_for_phase(&store.plan_for_scope(scope)?, phase) {
                 println!("{}", serde_json::to_string(action)?);
             }

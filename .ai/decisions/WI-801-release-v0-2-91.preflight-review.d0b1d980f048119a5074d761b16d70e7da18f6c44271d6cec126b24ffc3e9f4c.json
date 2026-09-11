@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:34ecc9721fc3aaea3e47effb437fa1ee0186a15c6b04b2c84c4fcd5192c06998",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "The repository owner explicitly authorized continuing this same bounded v0.2.91 release Work Item after the hosted docs/version root causes were found and repaired. The amended scope includes the current release projections, executable early version checks, and their policy regression coverage; pre-merge verification still must not substitute for candidate, public, or hosted release evidence. This decision authorizes implementation and verification only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T21:23:43Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0a2920331181a974661d6283094ade478b5ecf977448941b21ed39e1090c2940",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}
