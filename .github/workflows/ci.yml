@@ -104,7 +104,7 @@ jobs:
           name: ci-gate-plan-tool
           path: target
       - name: Make the shared Rust gate-plan tool executable
-        run: chmod +x target/ai-cockpit
+        run: chmod +x target/release/ai-cockpit
       - name: Bind the shared typed repository quality route
         id: quality_route
         shell: bash
@@ -159,7 +159,7 @@ jobs:
           ROUTE_STAGE: ${{ steps.quality_route.outputs.stage }}
         run: |
           set -euo pipefail
-          target/ai-cockpit \
+          target/release/ai-cockpit \
             gate \
             --repo "$GITHUB_WORKSPACE" \
             --contract "$ROUTE_CONTRACT_PATH" \
@@ -184,7 +184,7 @@ jobs:
             --manifest tests/ci/repository_gate_manifest.json
             --route-receipt target/quality-route.json
             --report target/repository-gates.json
-            --gate-plan-bin target/ai-cockpit
+            --gate-plan-bin target/release/ai-cockpit
           )
           if [[ "$ROUTE_PROFILE" != light && -n "$ROUTE_CONTRACT_PATH" ]]; then
             gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)

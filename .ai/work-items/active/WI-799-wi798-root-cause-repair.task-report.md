@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
 
 ## Task overview
 
@@ -14,10 +14,11 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json
 - Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json
-- Changed path: tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py
+- Changed path: .github/workflows/ci.yml
+- Changed path: tests/ci/quality_route_test.py
 
 ## Findings
 

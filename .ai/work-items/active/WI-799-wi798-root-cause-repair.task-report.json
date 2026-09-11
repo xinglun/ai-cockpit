@@ -4,7 +4,7 @@
       ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
+    "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,14 +18,14 @@
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
@@ -39,7 +39,14 @@
           ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+        "text": "Changed path: .github/workflows/ci.yml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/quality_route_test.py"
       }
     ],
     "evidence": [
@@ -69,7 +76,7 @@
           ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],

@@ -17,9 +17,8 @@
     "用户可见收益：在保持事实、授权和兼容性边界的前提下，完整 WI 与发布执行链的等待时间缩短，失败恢复少重复执行；收益以 Cockpit 与对象工程测量、发布阶段计时及恢复复用证据为准，不由实现本身推断。",
     "公开安装与 N-1 升级验收必须消费 publish_handoff 生成的 identity-bound receipt；receipt 必须由 Rust release helper 校验 request identity、provider Release ID、tag、commit、manifest 摘要、Formula 摘要和有效期，并将 handoff 摘要纳入 public phase identity。"
   ],
-  "createdAt": "2026-09-11T18:13:41Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f8324ac1d75753f68c7091502d26186bf5cd6d5684a422a1bc02fee68eb27a0a",
+  "evidenceDigest": "sha256:eff1ba95b1071ca35016791dfb6794989afc4a1e16bda284876b267854661a9d",
   "evidenceRefs": [
     ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
   ],
@@ -37,15 +36,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
+      "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
       "workItemId": "WI-799-wi798-root-cause-repair"
     },
     "format": "ai-cockpit.task-outcome",
@@ -59,14 +58,14 @@
             ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+          "text": "Changed path: .ai/decisions/WI-799-wi798-root-cause-repair.recovery.76300f486fbe211d6da660fa48a0e09a9511676903357a6d49580c0f5be9d004.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-799-wi798-root-cause-repair.contract.json"
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
@@ -80,7 +79,14 @@
             ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+          "text": "Changed path: .github/workflows/ci.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-799-wi798-root-cause-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
         }
       ],
       "evidence": [
@@ -110,7 +116,7 @@
             ".ai/evidence/WI-799-wi798-root-cause-repair.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -155,8 +161,8 @@
     "status": "verified",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "taskReportDigest": "sha256:aebabc3ffc4b0385d3fde1bfa5b34ec653acb49f11766446a52b6d7cf07d942c",
-  "taskReportMarkdownDigest": "sha256:001a995857332b7a25b8e18e419ed70003960a5a70b9c9e15b7d462b5e072fca",
+  "taskReportDigest": "sha256:51d77eefc814b0488056c5d3f41c813b9acdb4e29676ae5374aeb787f420248d",
+  "taskReportMarkdownDigest": "sha256:393c78bb916571ddbc2652465228be12876683f5ffd6966068bea1504793ce9d",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:9cd735fe9f4470c94f63bf6d34d187e7530e6d1774bebfd9b98f59a7b043cd3f",
-  "createdAt": "2026-09-11T18:13:26Z",
+  "createdAt": "2026-09-11T18:51:01Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 171967,
-      "executionElapsedMs": 171579,
+      "elapsedMs": 239599,
+      "executionElapsedMs": 239265,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 171967,
-    "executionElapsedMs": 171579,
-    "filesHashed": 12,
-    "filesRead": 14,
+    "elapsedMs": 239599,
+    "executionElapsedMs": 239265,
+    "filesHashed": 9,
+    "filesRead": 9,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,7 +37,8 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "tests/evaluation/WI-750-p1-cognitive-benefit-current-base.py"
+        ".github/workflows/ci.yml",
+        "tests/ci/quality_route_test.py"
       ],
       "assurance": "repository_verified",
       "baseRevision": "f07e4ec7400397a557fa9aa95e1898d671b24cb4",
@@ -46,13 +47,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 171579,
+      "executionElapsedMs": 239265,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
+      "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -72,21 +73,21 @@
     "protectedNodesSkipped": 0,
     "receiptCandidates": [],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "rerunStale": 1,
+    "rerunStale": 0,
     "rerunUnknown": 0,
     "results": [
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:b0ffdadf4532e278a9de798041fb58f4432764a11b1bb7a5d23db59f235c2fec",
+        "outputDigest": "sha256:5fb0754e07a6932135a60d7629d3e72b38b160f25ab0bf9e51f4e6bc8da2507f",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
-        "reason": "evidence_expired",
+        "reason": "reuse_not_configured",
         "receiptId": null,
         "reused": false,
         "satisfiedBy": "execution",
-        "state": "stale",
+        "state": "not_applicable",
         "timedOut": false
       }
     ],
@@ -94,9 +95,9 @@
     "runtimeVersion": "0.2.90",
     "workItemId": "WI-799-wi798-root-cause-repair"
   },
-  "receiptDigest": "sha256:d4f25a31db1020c40204ff81e4a13bfe24d02e016ae46a0e096b260bc462ef54",
+  "receiptDigest": "sha256:92420a66584ce6cb49dd0636ea44cd10a9397558943b0833591076dd7dc7f294",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:bc4951d31be08eed3a024c8b0b9361c6a10e1d814e139819a49816f33b3b9ebb",
+  "repositorySnapshotDigest": "sha256:8cead1a0b107593d33591cf3da8f8fb5fdc3f66e64ae758d34cf86cf9393942d",
   "runtimeDigest": "sha256:fd9c3090e55fad85731f6a45b97a8c82da69020853a1197ef0ecc0701c6a3a32",
   "runtimeVersion": "0.2.90",
   "workItemId": "WI-799-wi798-root-cause-repair"

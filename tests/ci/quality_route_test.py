@@ -316,11 +316,11 @@ runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
 rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")
 assert bound_route < runtime_shadow < rust_gate < gate_execution
-assert "target/ai-cockpit" in ci_workflow
+assert "target/release/ai-cockpit" in ci_workflow
 assert "--rust-bin target/ai-cockpit" not in ci_workflow
 assert "--rust-bin target/release/ai-cockpit" in ci_workflow
 assert "name: ci-gate-plan-tool" in ci_workflow
-assert "--gate-plan-bin target/ai-cockpit" in ci_workflow
+assert "--gate-plan-bin target/release/ai-cockpit" in ci_workflow
 
 for relative in (
     "docs/reference/ci-runtime-shadow.md",
