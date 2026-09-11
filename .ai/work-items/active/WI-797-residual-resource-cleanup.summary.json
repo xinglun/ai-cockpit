@@ -1,19 +1,126 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "resources",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+          "type": "inventory",
+          "verification": "fresh GitHub, Git, worktree, and Runtime audit"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "resources[*].recoverability",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+          "type": "recoverability",
+          "verification": "stash commits and immutable PR/head bindings exist"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "actions",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.actions.json",
+          "type": "command-output",
+          "verification": "exact PR closure, remote ref deletion, worktree removal, and local branch deletion"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "providerIdentity and nonActions",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.actions.json",
+          "type": "provider-record",
+          "verification": "PR history retained; no tag, main, or unrelated resource changed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "receipt.passed",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.verification.json",
+          "type": "runtime-verification",
+          "verification": "Runtime verify executes post-cleanup conditions"
+        },
+        {
+          "locator": "actions",
+          "path": ".ai/evidence/WI-797-residual-resource-cleanup.actions.json",
+          "type": "command-output",
+          "verification": "fresh remote and local cleanup results"
+        }
+      ]
+    }
+  ],
   "changedPaths": [],
   "checkpointAt": "2026-09-11T03:10:06Z",
   "checkpointContractDigest": "sha256:b6dab0b8c3ff4d7f513f25992b0c8f9b6363216d758de141c1bb71246feafb44",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
   "createdAt": "2026-09-11T03:06:43Z",
+  "failedGate": "finish.finalization",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+      ".ai/evidence/WI-797-residual-resource-cleanup.actions.json",
+      ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+    ],
+    "reason": "The cleanup follows the user-authorized bounded inventory, preserves immutable PR/history and dirty-worktree recovery, and removes only exact obsolete resources.",
+    "state": "resolved",
+    "unknowns": [
+      "Historical unmerged PR content remains recoverable through the retained PR records and recorded stash/head identities; it is not claimed to be merged."
+    ]
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-11T03:09:59Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-11T03:17:31Z",
   "preflightContractDigest": "sha256:b6dab0b8c3ff4d7f513f25992b0c8f9b6363216d758de141c1bb71246feafb44",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
   "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+        ".ai/evidence/WI-797-residual-resource-cleanup.actions.json"
+      ],
+      "reason": "Each resource is bound to a Work Item, branch/head, PR where present, and worktree or stash identity.",
+      "required": true,
+      "scenario": "residual_inventory_and_identity_binding",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-797-residual-resource-cleanup.inventory.json",
+        ".ai/evidence/WI-797-residual-resource-cleanup.actions.json"
+      ],
+      "reason": "All four dirty worktrees were stashed before removal and their exact stash commits are retained.",
+      "required": true,
+      "scenario": "dirty_evidence_recoverability_before_cleanup",
+      "status": "verified"
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-11T03:10:06Z",
+  "updatedAt": "2026-09-11T03:19:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:f4cc5c9ee5322ec857bff2109390625543740d1783605b091b50fbf210b92047",
   "workItemId": "WI-797-residual-resource-cleanup"
 }

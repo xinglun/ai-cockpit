@@ -1,0 +1,135 @@
+{
+  "acceptanceResults": [
+    "Every inventoried residual is classified as merged, superseded, active, dirty, or evidence-bearing with a direct resource and Work Item binding.",
+    "Immutable Runtime, Git, PR, and dirty-worktree evidence is retained or bound to a recoverable exact artifact before cleanup.",
+    "Only obsolete exact PRs, remote branches, local branches, and worktrees are removed; no tag, main branch, PR history, or unrelated resource is deleted.",
+    "All required Runtime close/finalization transitions and human Outcomes are recorded without inventing human decisions or benefits.",
+    "After cleanup, origin/main is synchronized, the root worktree is clean, the exact cleaned resources are absent, and Runtime/doc/governance checks pass."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+  ],
+  "failedGate": "finish.finalization",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:091b6d6dd09858c0335a1db2e23690299c3b8048ba7ecb6acfeb40003c3a90d6",
+      "workItemId": "WI-797-residual-resource-cleanup"
+    },
+    "failedGate": "finish.finalization",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-797-residual-resource-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-797-residual-resource-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-797-residual-resource-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "Classify and close obsolete or superseded residual paths one by one, retain exact evidence for dirty attempts, remove only verified exact resources, and finish with a clean synchronized default branch and an auditable Runtime closure."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-797-residual-resource-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-797-residual-resource-cleanup"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-797-residual-resource-cleanup.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-797-residual-resource-cleanup"
+}
