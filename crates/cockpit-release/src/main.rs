@@ -7,6 +7,7 @@ use cockpit_release::{
     formula::{FormulaSource, render_formula},
     handoff::{Destination, HandoffDocument, Issuer, ReleaseBinding},
     manifest::{ReleaseManifest, write_checksums},
+    provider::verify_existing_release,
     resume::{PhaseReceiptStore, plan_for_phase},
     sbom::{bind_sbom_file, validate_sbom_binding},
 };
@@ -145,6 +146,34 @@ enum Command {
         evidence: PathBuf,
         #[arg(long, default_value_t = 1)]
         attempt: u32,
+    },
+    AcceptanceRecordFailure {
+        #[arg(long, default_value = "full")]
+        scope: String,
+        #[arg(long)]
+        identity: PathBuf,
+        #[arg(long)]
+        receipts: PathBuf,
+        #[arg(long)]
+        phase: String,
+        #[arg(long)]
+        failure_kind: String,
+        #[arg(long)]
+        failure_code: String,
+        #[arg(long)]
+        diagnostic: String,
+        #[arg(long, default_value_t = 1)]
+        attempt: u32,
+    },
+    VerifyProviderRelease {
+        #[arg(long)]
+        manifest: PathBuf,
+        #[arg(long)]
+        dist: PathBuf,
+        #[arg(long)]
+        release_json: PathBuf,
+        #[arg(long)]
+        tag_commit: String,
     },
 }
 
@@ -345,8 +374,61 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
                 println!("{}", serde_json::to_string(action)?);
             }
         }
+        Command::AcceptanceRecordFailure {
+            scope,
+            identity,
+            receipts,
+            phase,
+            failure_kind,
+            failure_code,
+            diagnostic,
+            attempt,
+        } => {
+            let identity: cockpit_release::acceptance::ReleaseIdentity =
+                serde_json::from_slice(&fs::read(identity)?)?;
+            let phase = parse_release_phase(&phase)?;
+            let scope = parse_acceptance_scope(&scope)?;
+            let kind = parse_failure_kind(&failure_kind)?;
+            let failure =
+                cockpit_release::recovery::PhaseFailure::new(kind, failure_code, diagnostic);
+            let mut store = PhaseReceiptStore::load(&receipts, &identity)?;
+            store.record_failure(phase, attempt, failure)?;
+            store.write_atomic(&receipts)?;
+            if let Some(action) = plan_for_phase(&store.plan_for_scope(scope)?, phase) {
+                println!("{}", serde_json::to_string(action)?);
+            }
+        }
+        Command::VerifyProviderRelease {
+            manifest,
+            dist,
+            release_json,
+            tag_commit,
+        } => {
+            let receipt = verify_existing_release(&manifest, &dist, &release_json, &tag_commit)?;
+            println!("{}", serde_json::to_string(&receipt)?);
+        }
     }
     Ok(())
+}
+
+fn parse_failure_kind(value: &str) -> Result<cockpit_release::recovery::FailureKind, String> {
+    use cockpit_release::recovery::FailureKind;
+    match value {
+        "interruption" => Ok(FailureKind::Interruption),
+        "timeout" => Ok(FailureKind::Timeout),
+        "network" => Ok(FailureKind::Network),
+        "runner" => Ok(FailureKind::Runner),
+        "cleanup" => Ok(FailureKind::Cleanup),
+        "input_changed" => Ok(FailureKind::InputChanged),
+        "validation" => Ok(FailureKind::Validation),
+        "identity_mismatch" => Ok(FailureKind::IdentityMismatch),
+        "scope_changed" => Ok(FailureKind::ScopeChanged),
+        "authority_changed" => Ok(FailureKind::AuthorityChanged),
+        "base_changed" => Ok(FailureKind::BaseChanged),
+        "already_published" => Ok(FailureKind::AlreadyPublished),
+        "unknown" => Ok(FailureKind::Unknown),
+        _ => Err(format!("unknown failure kind: {value}")),
+    }
 }
 
 fn parse_release_phase(value: &str) -> Result<cockpit_release::acceptance::ReleasePhase, String> {

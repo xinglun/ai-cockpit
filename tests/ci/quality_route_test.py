@@ -70,6 +70,18 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-order-") as temporary_d
     duplicate.insert(1, duplicate_gate)
     assert_invalid_gate_order(duplicate, temporary)
 
+    cyclic = copy.deepcopy(manifest)
+    cyclic["gates"][0]["dependsOn"] = [cyclic["gates"][1]["id"]]
+    cyclic["gates"][1]["dependsOn"] = [cyclic["gates"][0]["id"]]
+    cyclic_path = temporary / "cyclic-manifest.json"
+    cyclic_path.write_text(json.dumps(cyclic), encoding="utf-8")
+    try:
+        route.load_manifest(cyclic_path)
+    except ValueError as error:
+        assert "acyclic" in str(error)
+    else:
+        raise AssertionError("cyclic gate dependencies must fail before route selection")
+
 
 def selected(paths: list[str], *, risk: str = "normal", stage: str = "pull_request") -> str:
     return route.select_route(
@@ -89,6 +101,33 @@ assert selected(["docs/release/distribution.md", "Cargo.lock"]) == "strict"
 assert selected(["unclassified/new-surface.xyz"]) == "strict"
 assert selected(["docs/release/distribution.md"], risk="high") == "strict"
 assert selected(["docs/release/distribution.md"], stage="release") == "strict"
+
+closure_manifest = copy.deepcopy(manifest)
+closure_manifest["gates"] = [
+    {
+        "category": "fixture",
+        "command": ["true"],
+        "id": "fixture_a_strict",
+        "minimumProfile": "strict",
+    },
+    {
+        "category": "fixture",
+        "command": ["false"],
+        "dependsOn": ["fixture_a_strict"],
+        "id": "fixture_b_standard",
+        "minimumProfile": "standard",
+    },
+]
+closure = route.select_route(
+    closure_manifest,
+    paths=["crates/example.rs"],
+    risk="normal",
+    stage="pull_request",
+    requested_profile=None,
+)
+assert closure["automaticProfile"] == "standard"
+assert closure["selectedProfile"] == "strict"
+assert closure["requiredGateIds"] == ["fixture_a_strict", "fixture_b_standard"]
 
 automatic = route.select_route(
     manifest,
@@ -241,41 +280,41 @@ assert "  push:\n    branches:\n      - main" in ci_workflow
 assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
 assert "target/quality-route.json" in ci_workflow
-assert "target/quality-route-initial.json" in ci_workflow
 assert "gate" in ci_workflow
 assert "--runner hosted" in ci_workflow
 assert "target/rust-contract-quality-gate.json" in ci_workflow
 assert "--contract-gate-report" in ci_workflow
-assert "--route-receipt target/quality-route-initial.json" not in ci_workflow
 assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
 assert "contracts=()" in release_workflow
 assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
-assert "if: steps.initial_quality_route.outputs.profile != 'light'" in ci_workflow
+assert "name: Bind the shared typed repository quality route" in ci_workflow
+assert "if: steps.quality_route.outputs.profile != 'light'" in ci_workflow
 assert (
-    "if: steps.initial_quality_route.outputs.profile != 'light' && "
-    "steps.initial_quality_route.outputs.contract_path != ''"
+    "if: steps.quality_route.outputs.profile != 'light' && "
+    "steps.quality_route.outputs.contract_path != ''"
 ) in ci_workflow
 assert ci_workflow.count(
-    "steps.initial_quality_route.outputs.profile != 'light' && "
-    "steps.initial_quality_route.outputs.contract_path != ''"
-) == 2
-assert "name: Finalize the typed repository quality route" in ci_workflow
+    "steps.quality_route.outputs.profile != 'light' && "
+    "steps.quality_route.outputs.contract_path != ''"
+) == 4
+assert "name: Plan the initial typed repository quality route" not in ci_workflow
+assert "name: Finalize the typed repository quality route" not in ci_workflow
+assert "target/quality-route-initial.json" not in ci_workflow
 assert "name: verify workspace package coverage receipt" in ci_workflow
 assert (
     "if: always() && steps.quality_route.outputs.profile != 'light' && "
     "hashFiles('target/workspace-package-coverage.json') != ''"
 ) in ci_workflow
-initial_route = ci_workflow.index("name: Plan the initial typed repository quality route")
+bound_route = ci_workflow.index("name: Bind the shared typed repository quality route")
 runtime_shadow = ci_workflow.index("name: verify immutable Runtime shadow")
-final_route = ci_workflow.index("name: Finalize the typed repository quality route")
 rust_gate = ci_workflow.index("name: Evaluate Rust Contract-aware quality gate")
 gate_execution = ci_workflow.index("name: run repository gates exactly once")
-assert initial_route < runtime_shadow < final_route < rust_gate < gate_execution
+assert bound_route < runtime_shadow < rust_gate < gate_execution
 assert "target/ai-cockpit" in ci_workflow
-assert ci_workflow.count("--rust-bin target/ai-cockpit") == 2
+assert "--rust-bin target/ai-cockpit" not in ci_workflow
 assert "--rust-bin target/release/ai-cockpit" in ci_workflow
 assert "name: ci-gate-plan-tool" in ci_workflow
 assert "--gate-plan-bin target/ai-cockpit" in ci_workflow

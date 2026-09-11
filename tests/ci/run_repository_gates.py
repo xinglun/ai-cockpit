@@ -4,9 +4,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
+import signal
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -16,7 +19,7 @@ from quality_route import (
     file_digest,
     load_manifest,
     parse_structured_failure,
-    profile_includes,
+    required_gate_ids as resolve_required_gate_ids,
     validate_route_receipt,
 )
 
@@ -35,7 +38,61 @@ def load_receipt(path: Path) -> dict[str, Any]:
 
 def write_report(path: Path, report: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    payload = json.dumps(report, indent=2, sort_keys=True) + "\n"
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+    )
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def preflight_failure(
+    report_path: Path,
+    code: str,
+    detail: str,
+    remediation: str,
+    *,
+    route_binding: dict[str, Any] | None = None,
+) -> int:
+    """Persist a failure before any repository gate command is launched."""
+    write_report(
+        report_path,
+        {
+            "failureMessage": detail,
+            "failurePhase": "preflight",
+            "failureRoots": [
+                {
+                    "code": code,
+                    "gateId": "preflight",
+                    "remediation": remediation,
+                    "stage": "preflight",
+                }
+            ],
+            "gates": [],
+            "launchedGateIds": [],
+            "route": route_binding or {},
+            "schemaVersion": 2,
+            "state": "failed",
+        },
+    )
+    print(
+        json.dumps(
+            {"state": "failed", "failureCode": code, "remediation": remediation},
+            sort_keys=True,
+        ),
+        file=sys.stderr,
+    )
+    return 1
 
 
 def validate_route_with_rust(
@@ -121,6 +178,44 @@ def failure_remediation(code: str, gate_id: str) -> str:
     return f"run gate {gate_id} locally and repair its declared failing check"
 
 
+def run_gate(command: list[str], repository: Path, timeout: float | None) -> subprocess.CompletedProcess[str]:
+    """Run a gate in its own process group so timeout cleanup is bounded."""
+    process = subprocess.Popen(
+        command,
+        cwd=repository,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        start_new_session=os.name == "posix",
+    )
+    try:
+        stdout, stderr = process.communicate(timeout=timeout)
+    except (subprocess.TimeoutExpired, KeyboardInterrupt) as error:
+        if os.name == "posix":
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        else:
+            process.kill()
+        stdout, stderr = process.communicate()
+        if isinstance(error, KeyboardInterrupt):
+            raise
+        raise subprocess.TimeoutExpired(
+            command,
+            timeout,
+            output=stdout or error.output,
+            stderr=stderr or error.stderr,
+        ) from error
+    return subprocess.CompletedProcess(command, process.returncode, stdout, stderr)
+
+
+def raise_keyboard_interrupt(signum: int, frame: Any) -> None:
+    """Turn runner termination into the same bounded cleanup path as Ctrl-C."""
+    del signum, frame
+    raise KeyboardInterrupt
+
+
 def load_contract_gate_report(
     path: Path,
     *,
@@ -188,6 +283,9 @@ def load_contract_gate_report(
 
 
 def main() -> int:
+    signal.signal(signal.SIGINT, raise_keyboard_interrupt)
+    if hasattr(signal, "SIGTERM"):
+        signal.signal(signal.SIGTERM, raise_keyboard_interrupt)
     parser = argparse.ArgumentParser(
         description="Run only canonical repository gates selected by a typed route receipt"
     )
@@ -199,7 +297,21 @@ def main() -> int:
     parser.add_argument("--gate-plan-bin")
     parser.add_argument("--profile", choices=PROFILE_ORDER)
     parser.add_argument("--list-only", action="store_true")
+    parser.add_argument(
+        "--resume-report",
+        help="reuse passed gates from a bound partial or failed report",
+    )
+    parser.add_argument(
+        "--gate-timeout-seconds",
+        type=float,
+        help="fail a gate and clean up its process after this many seconds",
+    )
     args = parser.parse_args()
+
+    if args.gate_timeout_seconds is not None and args.gate_timeout_seconds <= 0:
+        parser.error("--gate-timeout-seconds must be positive")
+    if args.list_only and args.resume_report:
+        parser.error("--resume-report cannot be combined with --list-only")
 
     repository = Path(args.repo).resolve()
     manifest_path = Path(args.manifest).resolve()
@@ -213,11 +325,9 @@ def main() -> int:
             if args.route_receipt:
                 raise ValueError("--route-receipt cannot be combined with --list-only")
             selected_profile = args.profile or "strict"
-            required_gate_ids = [
-                gate["id"]
-                for gate in manifest["gates"]
-                if profile_includes(manifest, selected_profile, gate["minimumProfile"])
-            ]
+            selected_profile, required_gate_ids = resolve_required_gate_ids(
+                manifest, selected_profile
+            )
             route_binding: dict[str, Any] = {
                 "manifestDigest": file_digest(manifest_path),
                 "requiredGateIds": required_gate_ids,
@@ -267,92 +377,282 @@ def main() -> int:
                 )
     except (OSError, ValueError, KeyError, TypeError) as error:
         if isinstance(error, RouteValidationError):
-            print(
-                json.dumps(
-                    {
-                        "state": "failed",
-                        "failureCode": error.code,
-                        "remediation": error.remediation,
-                    },
-                    sort_keys=True,
-                ),
-                file=sys.stderr,
+            return preflight_failure(
+                report_path,
+                error.code,
+                str(error),
+                error.remediation,
+                route_binding=locals().get("route_binding"),
             )
-        parser.error(str(error))
+        return preflight_failure(
+            report_path,
+            "gate_runner_preflight_failed",
+            str(error),
+            "repair the route, manifest, Contract, or bound evidence before rerunning",
+            route_binding=locals().get("route_binding"),
+        )
 
     selected_ids = set(required_gate_ids)
     gates_by_id = {gate["id"]: gate for gate in manifest["gates"]}
     if len(selected_ids) != len(required_gate_ids) or selected_ids - gates_by_id.keys():
-        parser.error("route receipt contains duplicate or unknown required gate IDs")
-    gates = [gate for gate in manifest["gates"] if gate["id"] in selected_ids]
-    if [gate["id"] for gate in gates] != required_gate_ids:
-        parser.error("route receipt gate order does not match the canonical manifest")
+        return preflight_failure(
+            report_path,
+            "route_receipt_gate_set_invalid",
+            "route receipt contains duplicate or unknown required gate IDs",
+            "regenerate the route receipt from the current manifest and repository facts",
+            route_binding=route_binding,
+        )
+    selected_gates = [gate for gate in manifest["gates"] if gate["id"] in selected_ids]
+    if [gate["id"] for gate in selected_gates] != required_gate_ids:
+        return preflight_failure(
+            report_path,
+            "route_receipt_order_invalid",
+            "route receipt gate order does not match the canonical manifest",
+            "regenerate the route receipt from the current manifest and repository facts",
+            route_binding=route_binding,
+        )
 
-    results: list[dict[str, Any]] = []
-    failure_roots: list[dict[str, str]] = []
-    failed = False
-    for gate in gates:
-        result: dict[str, Any] = {
-            "category": gate["category"],
-            "command": gate["command"],
-            "id": gate["id"],
-        }
-        if gate.get("covers"):
-            result["covers"] = gate["covers"]
-        if args.list_only:
-            result["state"] = "listed"
-        else:
-            command = list(gate["command"])
-            if command[0].endswith(".sh"):
-                command.insert(0, "bash")
-            try:
-                completed = subprocess.run(
-                    command,
-                    cwd=repository,
-                    check=False,
-                    capture_output=True,
-                    text=True,
+    selected_positions = {gate["id"]: index for index, gate in enumerate(selected_gates)}
+    indegree = {gate["id"]: 0 for gate in selected_gates}
+    dependents = {gate["id"]: [] for gate in selected_gates}
+    for gate in selected_gates:
+        for dependency in gate.get("dependsOn", []):
+            if dependency not in selected_ids:
+                return preflight_failure(
+                    report_path,
+                    "route_dependency_missing",
+                    f"selected gate {gate['id']} depends on unselected gate {dependency}",
+                    "regenerate the route receipt with the complete dependency closure",
+                    route_binding=route_binding,
                 )
-            except OSError as error:
-                detail = str(error)
-                result["launchError"] = "gate command could not be started"
-                result["state"] = "failed"
-                code = failure_code(result["id"], launch_error=True, detail=detail)
-                result["failureCode"] = code
-                result["remediation"] = failure_remediation(code, result["id"])
-                failed = True
+            indegree[gate["id"]] += 1
+            dependents[dependency].append(gate["id"])
+    ready = {gate_id for gate_id, count in indegree.items() if count == 0}
+    execution_ids: list[str] = []
+    while ready:
+        gate_id = min(ready, key=selected_positions.__getitem__)
+        ready.remove(gate_id)
+        execution_ids.append(gate_id)
+        for dependent in dependents[gate_id]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                ready.add(dependent)
+    if len(execution_ids) != len(selected_gates):
+        return preflight_failure(
+            report_path,
+            "selected_gate_dependencies_cyclic",
+            "selected gate dependencies are cyclic",
+            "repair the manifest dependency graph before rerunning this route",
+            route_binding=route_binding,
+        )
+    gates = [gates_by_id[gate_id] for gate_id in execution_ids]
+
+    execution_order = [gate["id"] for gate in gates]
+    if args.list_only:
+        write_report(
+            report_path,
+            {
+                "executionOrder": execution_order,
+                "gates": [
+                    {
+                        "category": gate["category"],
+                        "command": gate["command"],
+                        "dependsOn": gate.get("dependsOn", []),
+                        "id": gate["id"],
+                        "state": "listed",
+                    }
+                    for gate in gates
+                ],
+                "launchedGateIds": [],
+                "reusedGateIds": [],
+                "route": route_binding,
+                "schemaVersion": 2,
+                "state": "listed",
+            },
+        )
+        return 0
+    results: list[dict[str, Any]] = []
+    results_by_id: dict[str, dict[str, Any]] = {}
+    failure_roots: list[dict[str, str]] = []
+    launched_gate_ids: list[str] = []
+    reused_gate_ids: list[str] = []
+    failed = False
+    active_result: dict[str, Any] | None = None
+    resume_results: dict[str, dict[str, Any]] = {}
+    if args.resume_report:
+        try:
+            resume = load_receipt(Path(args.resume_report).resolve())
+            if resume.get("schemaVersion") != 2 or resume.get("route") != route_binding:
+                raise ValueError("resume report route binding does not match current route")
+            if resume.get("executionOrder") != execution_order:
+                raise ValueError("resume report execution order does not match current route")
+            if resume.get("state") not in {"failed", "interrupted", "running"}:
+                raise ValueError("resume report must be partial, failed, or interrupted")
+            gate_by_id = {gate["id"]: gate for gate in gates}
+            for prior in resume.get("gates", []):
+                if (
+                    isinstance(prior, dict)
+                    and prior.get("state") == "passed"
+                    and prior.get("id") in gate_by_id
+                    and prior.get("command") == gate_by_id[prior["id"]]["command"]
+                ):
+                    resume_results[prior["id"]] = prior
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            return preflight_failure(
+                report_path,
+                "resume_report_invalid",
+                str(error),
+                "use a partial report bound to the same route, manifest, and commands",
+                route_binding=route_binding,
+            )
+
+    def checkpoint(state: str, *, failure_phase: str | None = None) -> None:
+        report: dict[str, Any] = {
+            "executionOrder": execution_order,
+            "gates": results,
+            "launchedGateIds": launched_gate_ids,
+            "reusedGateIds": reused_gate_ids,
+            "route": route_binding,
+            "schemaVersion": 2,
+            "state": state,
+        }
+        if failure_phase is not None:
+            report["failurePhase"] = failure_phase
+        if failure_roots:
+            report["failureRoots"] = failure_roots
+        write_report(report_path, report)
+
+    try:
+        for gate in gates:
+            result: dict[str, Any] = {
+                "category": gate["category"],
+                "command": gate["command"],
+                "id": gate["id"],
+            }
+            if gate.get("covers"):
+                result["covers"] = gate["covers"]
+            dependencies = gate.get("dependsOn", [])
+            if dependencies:
+                result["dependsOn"] = dependencies
+            if gate["id"] in resume_results:
+                result = dict(resume_results[gate["id"]])
+                result["reused"] = True
+                reused_gate_ids.append(gate["id"])
+                print(f"repository gate {gate['id']}: reused", flush=True)
             else:
-                result["exitCode"] = completed.returncode
-                result["state"] = "passed" if completed.returncode == 0 else "failed"
-                if completed.returncode != 0:
-                    detail = (completed.stderr or completed.stdout or "").strip()
-                    code = failure_code(result["id"], detail=detail)
-                    result["failureCode"] = code
-                    result["remediation"] = failure_remediation(code, result["id"])
-                    if detail:
-                        result["diagnosticDigest"] = "sha256:" + hashlib.sha256(
-                            detail.encode("utf-8", errors="replace")
-                        ).hexdigest()
-                    failed = True
-            if result["state"] == "failed":
-                code = result["failureCode"]
-                if not any(root["code"] == code for root in failure_roots):
-                    failure_roots.append(
-                        {"code": code, "gateId": result["id"], "remediation": result["remediation"]}
+                blocked_by = [
+                    dependency
+                    for dependency in dependencies
+                    if dependency in results_by_id
+                    and results_by_id[dependency].get("state") != "passed"
+                ]
+                if blocked_by:
+                    result["blockedBy"] = blocked_by
+                    result["failureCode"] = "prerequisite_failed"
+                    result["remediation"] = (
+                        "repair the prerequisite gate(s), then rerun this route once"
                     )
-            status = result["state"]
-            code_suffix = f" [{result['failureCode']}]" if status == "failed" else ""
-            print(f"repository gate {result['id']}: {status}{code_suffix}", flush=True)
-        results.append(result)
+                    result["state"] = "blocked"
+                    failed = True
+                    print(
+                        f"repository gate {result['id']}: blocked [prerequisite_failed]",
+                        flush=True,
+                    )
+                else:
+                    command = list(gate["command"])
+                    if command[0].endswith(".sh"):
+                        command.insert(0, "bash")
+                    launched_gate_ids.append(result["id"])
+                    active_result = result
+                    try:
+                        completed = run_gate(command, repository, args.gate_timeout_seconds)
+                    except subprocess.TimeoutExpired:
+                        result["timedOut"] = True
+                        result["state"] = "failed"
+                        result["failureCode"] = "gate_timeout"
+                        result["remediation"] = (
+                            f"repair or split gate {result['id']}, then rerun this route"
+                        )
+                        failed = True
+                    except OSError as error:
+                        detail = str(error)
+                        result["launchError"] = "gate command could not be started"
+                        result["state"] = "failed"
+                        code = failure_code(result["id"], launch_error=True, detail=detail)
+                        result["failureCode"] = code
+                        result["remediation"] = failure_remediation(code, result["id"])
+                        failed = True
+                    else:
+                        result["exitCode"] = completed.returncode
+                        result["state"] = "passed" if completed.returncode == 0 else "failed"
+                        if completed.returncode != 0:
+                            detail = (completed.stderr or completed.stdout or "").strip()
+                            code = failure_code(result["id"], detail=detail)
+                            result["failureCode"] = code
+                            result["remediation"] = failure_remediation(code, result["id"])
+                            if detail:
+                                result["diagnosticDigest"] = "sha256:" + hashlib.sha256(
+                                    detail.encode("utf-8", errors="replace")
+                                ).hexdigest()
+                            failed = True
+                    active_result = None
+                if result["state"] == "failed":
+                    code = result["failureCode"]
+                    if not any(root["code"] == code for root in failure_roots):
+                        failure_roots.append(
+                            {
+                                "code": code,
+                                "gateId": result["id"],
+                                "remediation": result["remediation"],
+                            }
+                        )
+                status = result["state"]
+                code_suffix = f" [{result['failureCode']}]" if status == "failed" else ""
+                print(f"repository gate {result['id']}: {status}{code_suffix}", flush=True)
+            results.append(result)
+            results_by_id[result["id"]] = result
+            active_result = None
+            checkpoint("failed" if failed else "running", failure_phase="execution")
+    except KeyboardInterrupt:
+        if active_result is not None and active_result["id"] not in results_by_id:
+            active_result["state"] = "interrupted"
+            active_result["exitCode"] = 130
+            active_result["failureCode"] = "gate_interrupted"
+            active_result["remediation"] = (
+                "resume from the partial report after repairing the interruption"
+            )
+            results.append(active_result)
+            results_by_id[active_result["id"]] = active_result
+            failure_roots.append(
+                {
+                    "code": "gate_interrupted",
+                    "gateId": active_result["id"],
+                    "remediation": active_result["remediation"],
+                }
+            )
+        if active_result is None:
+            failure_roots.append(
+                {
+                    "code": "gate_interrupted",
+                    "gateId": "execution",
+                    "remediation": "resume from the partial report after repairing the interruption",
+                }
+            )
+        checkpoint("interrupted", failure_phase="execution")
+        return 130
 
     report = {
         "gates": results,
+        "executionOrder": execution_order,
+        "launchedGateIds": launched_gate_ids,
         "route": route_binding,
         "schemaVersion": 2,
         "state": "listed" if args.list_only else ("failed" if failed else "passed"),
+        "reusedGateIds": reused_gate_ids,
     }
     if failure_roots:
         report["failureRoots"] = failure_roots
+        report["failurePhase"] = "execution"
     write_report(report_path, report)
     return 1 if failed else 0
 

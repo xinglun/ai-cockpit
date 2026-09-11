@@ -311,11 +311,33 @@ impl PhaseResult {
         boundaries: PhaseBoundaries,
         failure: PhaseFailure,
     ) -> Self {
+        Self::failed_with_status(
+            phase,
+            identity,
+            attempt,
+            boundaries,
+            failure.status(),
+            failure,
+        )
+    }
+
+    pub fn failed_with_status(
+        phase: ReleasePhase,
+        identity: ReleaseIdentity,
+        attempt: u32,
+        boundaries: PhaseBoundaries,
+        status: PhaseStatus,
+        failure: PhaseFailure,
+    ) -> Self {
+        debug_assert!(matches!(
+            status,
+            PhaseStatus::Failed | PhaseStatus::Interrupted | PhaseStatus::TimedOut
+        ));
         let identity_digest = identity.digest();
         Self {
             schema_version: 1,
             phase,
-            status: PhaseStatus::Failed,
+            status,
             identity,
             identity_digest,
             attempt,

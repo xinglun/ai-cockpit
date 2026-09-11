@@ -55,6 +55,19 @@ EOF
 printf '%s  %s\n' "$archive_sha" "$archive" > "$candidate/SHA256SUMS"
 
 set +e
+pre_output="$tmp/pre-output"
+AI_COCKPIT_ACCEPTANCE_FAIL_BEFORE_PHASE=prepare \
+COCKPIT_RELEASE_BIN="$helper" \
+TMPDIR="$tmp" \
+  "$script" --repository xinglun/ai-cockpit --tag v0.2.90 \
+    --target x86_64-unknown-linux-gnu --candidate-dir "$candidate" \
+    --source-repo "$repo" --output "$pre_output"
+pre_status=$?
+set -e
+[[ "$pre_status" -ne 0 ]] || { echo 'injected pre-phase failure unexpectedly passed' >&2; exit 1; }
+jq -e '[.results[] | select(.phase == "prepare" and .status == "failed" and .failure.kind == "runner")] | length == 1' "$pre_output/phase-receipts.json" >/dev/null
+
+set +e
 AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE=prepare \
 AI_COCKPIT_ACCEPTANCE_COMMAND_COUNTER="$counter" \
 COCKPIT_RELEASE_BIN="$helper" \
@@ -66,7 +79,7 @@ first_status=$?
 set -e
 [[ "$first_status" -ne 0 ]] || { echo 'injected first-phase failure unexpectedly passed' >&2; exit 1; }
 jq -e '[.results[] | select(.phase == "prepare")] | length == 1' "$output/phase-receipts.json" >/dev/null
-jq -e '[.results[] | select(.phase == "source_verification_build")] | length == 0' "$output/phase-receipts.json" >/dev/null
+jq -e '[.results[] | select(.phase == "source_verification_build" and .status == "failed" and .failure.kind == "runner")] | length == 1' "$output/phase-receipts.json" >/dev/null
 
 set +e
 AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE=source_verification_build \

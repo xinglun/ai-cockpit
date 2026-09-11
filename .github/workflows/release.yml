@@ -16,6 +16,10 @@ on:
         required: false
         default: x86_64-unknown-linux-gnu
         type: string
+      handoff_run_id:
+        description: 'Completed publication run whose immutable handoff artifact must be consumed for manual acceptance'
+        required: false
+        type: string
   push:
     tags: ['v*']
 
@@ -24,7 +28,26 @@ env:
 
 jobs:
   release_tools:
-    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            artifact: ubuntu-x86_64
+            binary: cockpit-release
+          - os: ubuntu-24.04-arm
+            artifact: ubuntu-arm64
+            binary: cockpit-release
+          - os: macos-15-intel
+            artifact: macos-x86_64
+            binary: cockpit-release
+          - os: macos-15
+            artifact: macos-arm64
+            binary: cockpit-release
+          - os: windows-2025
+            artifact: windows-x86_64
+            binary: cockpit-release.exe
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
     steps:
@@ -35,16 +58,80 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
-      - name: Build the shared release acceptance helper once
-        run: cargo build --locked --release --package cockpit-release
+      - name: Build the platform release helper once
+        shell: bash
+        env:
+          HELPER_BINARY: ${{ matrix.binary }}
+        run: |
+          set -euo pipefail
+          cargo build --locked --release --package cockpit-release
+          if command -v sha256sum >/dev/null 2>&1; then
+            digest="$(sha256sum "target/release/$HELPER_BINARY" | awk '{print $1}')"
+          else
+            digest="$(shasum -a 256 "target/release/$HELPER_BINARY" | awk '{print $1}')"
+          fi
+          printf '%s  %s\n' "$digest" "$HELPER_BINARY" > target/release/cockpit-release.sha256
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: cockpit-release-acceptance-tool
-          path: target/release/cockpit-release
+          name: cockpit-release-tool-${{ matrix.artifact }}
+          path: |
+            target/release/${{ matrix.binary }}
+            target/release/cockpit-release.sha256
+          if-no-files-found: error
+          retention-days: 7
+
+  release_preflight:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Run cheap release preflight barriers
+        shell: bash
+        run: |
+          set -euo pipefail
+          tests/release/action_runtime_policy_test.sh
+          tests/release/version_consistency_test.sh
+          tests/release/workflow_policy.sh .github/workflows/release.yml
+          mkdir -p target
+          tests/docs/parity_status_check.sh "$GITHUB_WORKSPACE" target/governance-integrity-report.json
+      - name: Plan the strict release quality route
+        shell: bash
+        run: |
+          set -euo pipefail
+          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
+          contracts=()
+          if [[ -d .ai/work-items/active ]]; then
+            mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          fi
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
+          route_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --manifest tests/ci/repository_gate_manifest.json
+            --base "$base_revision"
+            --head "$head_revision"
+            --stage release
+            --risk high
+            --profile strict
+            --receipt target/release-quality-route.json
+          )
+          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
+          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: release-preflight-receipts
+          path: |
+            target/governance-integrity-report.json
+            target/release-quality-route.json
           if-no-files-found: error
           retention-days: 7
 
   build:
+    needs: release_preflight
     strategy:
       fail-fast: false
       matrix:
@@ -52,18 +139,28 @@ jobs:
           - os: ubuntu-24.04
             target: x86_64-unknown-linux-gnu
             archive: tar.gz
+            helper_artifact: ubuntu-x86_64
+            helper_binary: cockpit-release
           - os: ubuntu-24.04-arm
             target: aarch64-unknown-linux-gnu
             archive: tar.gz
+            helper_artifact: ubuntu-arm64
+            helper_binary: cockpit-release
           - os: macos-15-intel
             target: x86_64-apple-darwin
             archive: tar.gz
+            helper_artifact: macos-x86_64
+            helper_binary: cockpit-release
           - os: macos-15
             target: aarch64-apple-darwin
             archive: tar.gz
+            helper_artifact: macos-arm64
+            helper_binary: cockpit-release
           - os: windows-2025
             target: x86_64-pc-windows-msvc
             archive: zip
+            helper_artifact: windows-x86_64
+            helper_binary: cockpit-release.exe
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -76,6 +173,24 @@ jobs:
         with:
           toolchain: 1.94.1
           targets: ${{ matrix.target }}
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-${{ matrix.helper_artifact }}
+          path: tools
+      - name: Verify the prebuilt platform helper
+        shell: bash
+        env:
+          HELPER_BINARY: ${{ matrix.helper_binary }}
+        run: |
+          set -euo pipefail
+          chmod +x "tools/$HELPER_BINARY"
+          expected="$(awk -v name="$HELPER_BINARY" '$2 == name {print $1}' tools/cockpit-release.sha256)"
+          if command -v sha256sum >/dev/null 2>&1; then
+            actual="$(sha256sum "tools/$HELPER_BINARY" | awk '{print $1}')"
+          else
+            actual="$(shasum -a 256 "tools/$HELPER_BINARY" | awk '{print $1}')"
+          fi
+          test -n "$expected" && test "$expected" = "$actual"
       - name: Build the target binary
         run: cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
       - name: Package the exact archive layout
@@ -95,7 +210,7 @@ jobs:
             archive="dist/ai-cockpit-${tag}-${TARGET}.tar.gz"
           fi
           printf 'ai-cockpit %s archive for %s\n' "$version" "$TARGET" > dist/README
-          cargo run --locked --package cockpit-release -- package \
+          tools/${{ matrix.helper_binary }} package \
             --executable "$executable" \
             --license LICENSE \
             --readme dist/README \
@@ -121,7 +236,7 @@ jobs:
           archive="dist/ai-cockpit-v${version}-${TARGET}.${extension}"
           sbom="dist/ai-cockpit-v${version}-${TARGET}.spdx.json"
           mv "dist/sbom-spdx-${TARGET}.json" "$sbom"
-          cargo run --locked --package cockpit-release -- bind-sbom \
+          tools/${{ matrix.helper_binary }} bind-sbom \
             --sbom "$sbom" \
             --archive "$archive" \
             --target "$TARGET" \
@@ -134,6 +249,7 @@ jobs:
           retention-days: 7
 
   source_quality:
+    needs: release_preflight
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -145,29 +261,10 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
-      - name: Plan the strict release quality route
-        shell: bash
-        run: |
-          set -euo pipefail
-          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
-          contracts=()
-          if [[ -d .ai/work-items/active ]]; then
-            mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
-          fi
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
-          route_args=(
-            --repo "$GITHUB_WORKSPACE"
-            --manifest tests/ci/repository_gate_manifest.json
-            --base "$base_revision"
-            --head "$head_revision"
-            --stage release
-            --risk high
-            --profile strict
-            --receipt target/release-quality-route.json
-          )
-          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
-          python3 tests/ci/quality_route.py "${route_args[@]}" >/dev/null
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: release-preflight-receipts
+          path: target
       - name: Evaluate Rust Contract-aware quality gate
         shell: bash
         run: |
@@ -225,7 +322,7 @@ jobs:
           retention-days: 7
 
   aggregate:
-    needs: build
+    needs: [build, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -242,10 +339,19 @@ jobs:
           path: dist
           pattern: ai-cockpit-*
           merge-multiple: true
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
       - name: Aggregate and bind the candidate
         shell: bash
         run: |
           set -euo pipefail
+          chmod +x tools/cockpit-release
+          expected="$(awk '$2 == \"cockpit-release\" {print $1}' tools/cockpit-release.sha256)"
+          if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum tools/cockpit-release | awk '{print $1}')"; else actual="$(shasum -a 256 tools/cockpit-release | awk '{print $1}')"; fi
+          test -n "$expected" && test "$expected" = "$actual"
+          export COCKPIT_RELEASE_BIN="$GITHUB_WORKSPACE/tools/cockpit-release"
           version="$(cargo metadata --locked --format-version 1 | jq -er '.packages[] | select(.name == "cockpit-cli") | .version')"
           tag="v${version}"
           if [[ "$GITHUB_REF" == refs/tags/* && "$GITHUB_REF_NAME" != "$tag" ]]; then
@@ -255,7 +361,7 @@ jobs:
           commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           test "$commit" = "$GITHUB_SHA"
           lock_sha="$(shasum -a 256 Cargo.lock | awk '{print $1}')"
-          cargo run --locked --package cockpit-release -- manifest \
+          "$COCKPIT_RELEASE_BIN" manifest \
             --dist dist \
             --output dist/release-manifest.json \
             --version "$version" \
@@ -263,13 +369,13 @@ jobs:
             --commit "$commit" \
             --cargo-lock-sha256 "$lock_sha"
           mkdir -p dist/Formula
-          cargo run --locked --package cockpit-release -- formula \
+          "$COCKPIT_RELEASE_BIN" formula \
             --manifest dist/release-manifest.json \
             --output dist/Formula/ai-cockpit.rb
-          cargo run --locked --package cockpit-release -- checksums \
+          "$COCKPIT_RELEASE_BIN" checksums \
             --manifest dist/release-manifest.json \
             --dist dist
-          cargo run --locked --package cockpit-release -- validate \
+          "$COCKPIT_RELEASE_BIN" validate \
             --manifest dist/release-manifest.json --dist dist
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
@@ -279,7 +385,7 @@ jobs:
           retention-days: 7
 
   release_policy:
-    needs: [aggregate, source_quality]
+    needs: [aggregate, source_quality, release_tools]
     if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-24.04
     permissions:
@@ -293,12 +399,19 @@ jobs:
         with:
           name: ai-cockpit-candidate
           path: dist
-      - name: Enforce immutable release identity
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
+      - name: Enforce immutable release identity and determine provider state
+        id: release_identity
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
           version="$(jq -er '.version' dist/release-manifest.json)"
           tag="v${version}"
           test "$(jq -er '.tag' dist/release-manifest.json)" = "$tag"
@@ -311,17 +424,46 @@ jobs:
             test "$(git rev-parse "refs/tags/${GITHUB_REF_NAME}^{commit}")" = "$GITHUB_SHA"
             git fetch origin main --depth=1
             git merge-base --is-ancestor "$GITHUB_SHA" origin/main
-            release_response="$(gh api --include "repos/xinglun/ai-cockpit/releases/tags/${tag}" 2>&1 || true)"
-            release_status="$(printf '%s\n' "$release_response" | awk '$1 ~ /^HTTP\// {print $2; exit}')"
-            case "$release_status" in
-              404) ;;
-              2*|3*) echo "provider Release already exists for ${tag}" >&2; exit 1 ;;
-              *) echo "unable to determine provider Release state (HTTP ${release_status:-unknown})" >&2; exit 1 ;;
-            esac
+            tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
+            test "$tag_commit" = "$(jq -er '.commit' dist/release-manifest.json)"
+            release_json="$RUNNER_TEMP/provider-release.json"
+            release_error="$RUNNER_TEMP/provider-release.error"
+            set +e
+            gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" > "$release_json" 2> "$release_error"
+            release_status=$?
+            set -e
+            if [[ "$release_status" -eq 0 ]]; then
+              "$GITHUB_WORKSPACE/tools/cockpit-release" verify-provider-release \
+                --manifest dist/release-manifest.json \
+                --dist dist \
+                --release-json "$release_json" \
+                --tag-commit "$tag_commit" | jq '. + {schemaVersion:1}' \
+                > "$RUNNER_TEMP/provider-release-state.json"
+            elif grep -Eq 'HTTP 404|Not Found' "$release_error"; then
+              jq -n --arg tag "$tag" --arg commit "$GITHUB_SHA" \
+                '{schemaVersion:1,state:"new",tag:$tag,commit:$commit}' \
+                > "$RUNNER_TEMP/provider-release-state.json"
+            else
+              cat "$release_error" >&2
+              echo 'unable to determine provider Release state; refusing to publish' >&2
+              exit 1
+            fi
+          else
+            jq -n --arg tag "$tag" --arg commit "$GITHUB_SHA" \
+              '{schemaVersion:1,state:"not_applicable",tag:$tag,commit:$commit}' \
+              > "$RUNNER_TEMP/provider-release-state.json"
           fi
+          provider_state="$(jq -er '.state' "$RUNNER_TEMP/provider-release-state.json")"
+          echo "state=$provider_state" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: provider-release-state
+          path: ${{ runner.temp }}/provider-release-state.json
+          if-no-files-found: error
+          retention-days: 7
 
   verify:
-    needs: [aggregate, source_quality, release_policy]
+    needs: [aggregate, source_quality, release_policy, release_tools]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -329,24 +471,28 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
-        with:
-          toolchain: 1.94.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
       - name: Verify manifest, checksums, and archive members
         shell: bash
         run: |
           set -euo pipefail
-          cargo run --locked --package cockpit-release -- validate \
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          export COCKPIT_RELEASE_BIN="$GITHUB_WORKSPACE/tools/cockpit-release"
+          "$COCKPIT_RELEASE_BIN" validate \
             --manifest dist/release-manifest.json --dist dist
           version="$(jq -er '.version' dist/release-manifest.json)"
           test -n "$version"
           for target in aarch64-apple-darwin aarch64-unknown-linux-gnu x86_64-apple-darwin x86_64-pc-windows-msvc x86_64-unknown-linux-gnu; do
             if [[ "$target" == x86_64-pc-windows-msvc ]]; then extension=zip; else extension=tar.gz; fi
-            cargo run --locked --package cockpit-release -- inspect \
+            "$COCKPIT_RELEASE_BIN" inspect \
               --archive "dist/ai-cockpit-v${version}-${target}.${extension}" --target "$target"
           done
 
@@ -358,8 +504,10 @@ jobs:
         include:
           - os: macos-15
             target: aarch64-apple-darwin
+            helper_artifact: macos-arm64
           - os: macos-15-intel
             target: x86_64-apple-darwin
+            helper_artifact: macos-x86_64
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -367,13 +515,14 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
-        with:
-          toolchain: 1.94.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-${{ matrix.helper_artifact }}
+          path: tools
       - name: Install and uninstall the staged Formula
         shell: bash
         env:
@@ -405,7 +554,11 @@ jobs:
           done
           port="$(cat /tmp/ai-cockpit-http-port)"
           curl --fail --silent "http://127.0.0.1:${port}/${tag}/${archive}" -o /dev/null
-          cargo run --locked --package cockpit-release -- formula \
+          chmod +x tools/cockpit-release
+          expected="$(awk '$2 == \"cockpit-release\" {print $1}' tools/cockpit-release.sha256)"
+          if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum tools/cockpit-release | awk '{print $1}')"; else actual="$(shasum -a 256 tools/cockpit-release | awk '{print $1}')"; fi
+          test -n "$expected" && test "$expected" = "$actual"
+          tools/cockpit-release formula \
             --manifest dist/release-manifest.json \
             --fixture-base-url "http://127.0.0.1:${port}/" \
             --output Formula/ai-cockpit.rb
@@ -496,8 +649,19 @@ jobs:
           path: dist
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: cockpit-release-acceptance-tool
+          name: cockpit-release-tool-ubuntu-x86_64
           path: tools
+      - name: Restore staged adopter receipt on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/staged-adopter-acceptance"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "staged-adopter-acceptance-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --dir "$RUNNER_TEMP/staged-adopter-acceptance"
       - name: Run staged candidate adopter acceptance
         shell: bash
         env:
@@ -506,23 +670,28 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
           tag="$(jq -er '.tag' dist/release-manifest.json)"
           output="$RUNNER_TEMP/staged-adopter-acceptance"
           mkdir -p "$output"
+          resume_args=()
+          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
           tests/release/adopter_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --tag "$tag" \
             --target x86_64-unknown-linux-gnu \
             --candidate-dir dist \
             --source-repo "$GITHUB_WORKSPACE" \
+            "${resume_args[@]}" \
             --output "$output"
       - name: Upload staged adopter acceptance evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: staged-adopter-acceptance-${{ github.run_id }}
+          name: staged-adopter-acceptance-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/staged-adopter-acceptance/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 30
 
   staged_adopter_upgrade_acceptance:
@@ -544,8 +713,19 @@ jobs:
           path: dist
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: cockpit-release-acceptance-tool
+          name: cockpit-release-tool-ubuntu-x86_64
           path: tools
+      - name: Restore staged N-1 receipt on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/staged-adopter-upgrade"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "staged-adopter-upgrade-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --dir "$RUNNER_TEMP/staged-adopter-upgrade"
       - name: Resolve public N-1 and staged candidate pair
         id: staged_release_pair
         shell: bash
@@ -585,8 +765,11 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
           output="$RUNNER_TEMP/staged-adopter-upgrade"
           mkdir -p "$output"
+          resume_args=()
+          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
           tests/release/adopter_upgrade_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --from-tag "$FROM_TAG" \
@@ -594,6 +777,7 @@ jobs:
             --target x86_64-unknown-linux-gnu \
             --to-candidate-dir dist \
             --source-repo "$GITHUB_WORKSPACE" \
+            "${resume_args[@]}" \
             --output "$output"
       - name: Record staged N-1 not-applicable result
         if: steps.staged_release_pair.outputs.from_tag == ''
@@ -612,9 +796,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: staged-adopter-upgrade-${{ github.run_id }}
+          name: staged-adopter-upgrade-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/staged-adopter-upgrade/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 30
 
   attest:
@@ -655,24 +840,53 @@ jobs:
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: provider-release-state
+          path: provider-state
+      - name: Download the shared release helper
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
       - name: Recheck immutable tag and provider Release identity
         shell: bash
+        id: release_identity
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          test "$(jq -er '.state' provider-state/provider-release-state.json)" = reused -o \
+            "$(jq -er '.state' provider-state/provider-release-state.json)" = new
           tag="$(jq -er '.tag' dist/release-manifest.json)"
           test "$tag" = "$GITHUB_REF_NAME"
           test "$(jq -er '.commit' dist/release-manifest.json)" = "$GITHUB_SHA"
           test "$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')" = "$GITHUB_SHA"
-          release_response="$(gh api --include "repos/xinglun/ai-cockpit/releases/tags/${tag}" 2>&1 || true)"
-          release_status="$(printf '%s\n' "$release_response" | awk '$1 ~ /^HTTP\// {print $2; exit}')"
-          case "$release_status" in
-            404) ;;
-            2*|3*) echo "provider Release already exists for ${tag}" >&2; exit 1 ;;
-            *) echo "unable to determine provider Release state (HTTP ${release_status:-unknown})" >&2; exit 1 ;;
-          esac
+          state="$(jq -er '.state' provider-state/provider-release-state.json)"
+          release_json="$RUNNER_TEMP/provider-release-recheck.json"
+          release_error="$RUNNER_TEMP/provider-release-recheck.error"
+          set +e
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" > "$release_json" 2> "$release_error"
+          release_status=$?
+          set -e
+          if [[ "$release_status" -eq 0 ]]; then
+            tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
+            "$GITHUB_WORKSPACE/tools/cockpit-release" verify-provider-release \
+              --manifest dist/release-manifest.json \
+              --dist dist \
+              --release-json "$release_json" \
+              --tag-commit "$tag_commit" >/dev/null
+            state=reused
+          elif [[ "$state" != new ]] || ! grep -Eq 'HTTP 404|Not Found' "$release_error"; then
+            cat "$release_error" >&2
+            echo 'provider Release disappeared or could not be inspected; refusing to publish' >&2
+            exit 1
+          fi
+          echo "state=$state" >> "$GITHUB_OUTPUT"
       - uses: softprops/action-gh-release@fe965f7af51af5f2602596916f38a38df2e33de0
+        if: steps.release_identity.outputs.state == 'new'
         with:
           files: |
             dist/release-manifest.json
@@ -696,24 +910,27 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
-        with:
-          toolchain: 1.94.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-candidate
           path: dist
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
       - name: Create the post-publication handoff
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
           tag="$(jq -er '.tag' dist/release-manifest.json)"
           test "$tag" = "$GITHUB_REF_NAME"
           provider_release_id=''
           for attempt in {1..30}; do
-            provider_release_id="$(gh api "repos/xinglun/ai-cockpit/releases/tags/${tag}" --jq '.id' 2>/dev/null || true)"
+            provider_release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" --jq '.id' 2>/dev/null || true)"
             if [[ "$provider_release_id" =~ ^[1-9][0-9]*$ ]]; then break; fi
             sleep 2
           done
@@ -722,9 +939,9 @@ jobs:
           formula_sha="$(shasum -a 256 dist/Formula/ai-cockpit.rb | awk '{print $1}')"
           issued="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           expires="$(date -u -d '+24 hours' +%Y-%m-%dT%H:%M:%SZ)"
-          cargo run --locked --package cockpit-release -- handoff \
+          tools/cockpit-release handoff \
             --output dist/homebrew-handoff.json \
-            --workflow-ref "xinglun/ai-cockpit/.github/workflows/release.yml@${GITHUB_SHA}" \
+            --workflow-ref "$GITHUB_REPOSITORY/.github/workflows/release.yml@${GITHUB_SHA}" \
             --run-id "$GITHUB_RUN_ID" \
             --tag "$tag" \
             --commit "$GITHUB_SHA" \
@@ -740,7 +957,7 @@ jobs:
           subject-path: dist/homebrew-handoff.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: ai-cockpit-publish-handoff
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: dist/homebrew-handoff.json
           if-no-files-found: error
           retention-days: 7
@@ -750,7 +967,7 @@ jobs:
     # a Release; it fails the workflow if public assets drift from the source
     # version or the current trilingual installation docs.
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    needs: [publish_handoff]
+    needs: [publish]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -762,17 +979,48 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
+      - name: Restore version consistency receipt on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/post-release-version-consistency"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "post-release-version-consistency-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --dir "$RUNNER_TEMP/post-release-version-consistency"
       - name: Verify public Release and current documentation version
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          output="$RUNNER_TEMP/post-release-version-consistency"
+          mkdir -p "$output"
+          set +e
           tests/release/version_consistency.sh \
             --repo "$GITHUB_WORKSPACE" \
             --post-release \
             --repository "$GITHUB_REPOSITORY" \
-            --tag "$GITHUB_REF_NAME"
+            --tag "$GITHUB_REF_NAME" > "$output/version-consistency.log" 2>&1
+          result=$?
+          set -e
+          state=failed
+          [[ "$result" -eq 0 ]] && state=passed
+          jq -n --arg tag "$GITHUB_REF_NAME" --arg commit "$GITHUB_SHA" --arg state "$state" \
+            '{schemaVersion:1,phase:"public_version_consistency",tag:$tag,commit:$commit,state:$state}' \
+            > "$output/version-consistency.json"
+          cat "$output/version-consistency.log"
+          exit "$result"
+      - name: Upload version consistency receipt
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: post-release-version-consistency-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/post-release-version-consistency/
+          if-no-files-found: error
+          retention-days: 30
 
   adopter_acceptance:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
@@ -790,12 +1038,23 @@ jobs:
           toolchain: 1.94.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: cockpit-release-acceptance-tool
+          name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: ai-cockpit-publish-handoff
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
+      - name: Restore public install receipt on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --dir "$RUNNER_TEMP/release-adopter-acceptance"
       - name: Run public Release adopter acceptance
         shell: bash
         env:
@@ -804,21 +1063,26 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
           mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
+          resume_args=()
+          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
           tests/release/adopter_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
             --tag "$GITHUB_REF_NAME" \
             --target x86_64-unknown-linux-gnu \
             --source-repo "$GITHUB_WORKSPACE" \
             --publish-handoff "$GITHUB_WORKSPACE/handoff/homebrew-handoff.json" \
+            "${resume_args[@]}" \
             --output "$RUNNER_TEMP/release-adopter-acceptance"
       - name: Upload adopter acceptance evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}
+          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-adopter-acceptance/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 30
 
   adopter_upgrade_acceptance:
@@ -837,6 +1101,7 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -844,14 +1109,53 @@ jobs:
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: cockpit-release-acceptance-tool
+          name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - name: Download publication handoff for push-triggered public acceptance
         if: github.event_name == 'push'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: ai-cockpit-publish-handoff
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
+      - name: Download handoff from the requested publication run
+        if: github.event_name == 'workflow_dispatch'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
+        run: |
+          set -euo pipefail
+          [[ "$HANDOFF_RUN_ID" =~ ^[1-9][0-9]*$ ]] || {
+            echo 'manual public acceptance requires a completed handoff_run_id' >&2
+            exit 1
+          }
+          conclusion="$(gh run view "$HANDOFF_RUN_ID" --repo "$GITHUB_REPOSITORY" --json conclusion --jq '.conclusion')"
+          test "$conclusion" = success || {
+            echo 'manual public acceptance requires a successful publication run' >&2
+            exit 1
+          }
+          handoff_artifact="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$HANDOFF_RUN_ID/artifacts" \
+            --jq '[.artifacts[] | select(.expired == false and (.name | startswith("ai-cockpit-publish-handoff-"))) | {name,created_at}] | sort_by(.created_at) | last.name // empty')"
+          [[ -n "$handoff_artifact" ]] || {
+            echo 'manual public acceptance could not find a non-expired publication handoff artifact' >&2
+            exit 1
+          }
+          mkdir -p handoff
+          gh run download "$HANDOFF_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name "$handoff_artifact" \
+            --dir handoff
+      - name: Restore public upgrade receipt on rerun
+        if: github.run_attempt > 1
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/release-adopter-upgrade"
+          gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
+            --name "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --dir "$RUNNER_TEMP/release-adopter-upgrade"
       - name: Resolve immutable public Release pair
         id: release_pair
         shell: bash
@@ -903,9 +1207,12 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
+          (cd tools && sha256sum -c cockpit-release.sha256)
           mkdir -p "$RUNNER_TEMP/release-adopter-upgrade"
+          resume_args=()
+          if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
           handoff_args=()
-          if [[ "$EVENT_NAME" == push ]]; then
+          if [[ "$EVENT_NAME" == push || "$EVENT_NAME" == workflow_dispatch ]]; then
             handoff_args=(--publish-handoff "$GITHUB_WORKSPACE/handoff/homebrew-handoff.json")
           fi
           tests/release/adopter_upgrade_acceptance.sh \
@@ -915,6 +1222,7 @@ jobs:
             --target "$TARGET" \
             --source-repo "$GITHUB_WORKSPACE" \
             "${handoff_args[@]}" \
+            "${resume_args[@]}" \
             --output "$RUNNER_TEMP/release-adopter-upgrade"
       - name: Record N-1 not-applicable result
         if: steps.release_pair.outputs.from_tag == ''
@@ -937,9 +1245,10 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-adopter-upgrade-${{ github.ref_name || github.run_id }}-${{ github.run_id }}
+          name: release-adopter-upgrade-${{ github.ref_name || github.run_id }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-adopter-upgrade/
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 30
 
   release_close:
@@ -952,9 +1261,34 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: always()
+        continue-on-error: true
+        with:
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
+          path: close-inputs/handoff
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: always()
+        continue-on-error: true
+        with:
+          name: post-release-version-consistency-${{ github.run_id }}-${{ github.run_attempt }}
+          path: close-inputs/version
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: always()
+        continue-on-error: true
+        with:
+          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: close-inputs/install
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: always()
+        continue-on-error: true
+        with:
+          name: release-adopter-upgrade-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: close-inputs/upgrade
       - name: Write release close receipt
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
           HANDOFF: ${{ needs.publish_handoff.result }}
@@ -966,19 +1300,101 @@ jobs:
           output="$RUNNER_TEMP/release-close"
           mkdir -p "$output"
           state=passed
-          for result in "$HANDOFF" "$VERSION_CONSISTENCY" "$INSTALL"; do
-            [[ "$result" == success ]] || state=failed
-          done
-          [[ "$UPGRADE" == success || "$UPGRADE" == skipped ]] || state=failed
+          reasons=()
+          handoff_file=close-inputs/handoff/homebrew-handoff.json
+          version_file=close-inputs/version/version-consistency.json
+          install_file=close-inputs/install/acceptance.json
+          install_phases=close-inputs/install/phase-receipts.json
+          upgrade_file=close-inputs/upgrade/acceptance.json
+          upgrade_phases=close-inputs/upgrade/phase-receipts.json
+          require_receipt() {
+            local path="$1" status="$2" label="$3"
+            if [[ "$status" != success ]]; then
+              state=failed; reasons+=("${label}_job_failed")
+            elif [[ ! -f "$path" ]]; then
+              state=failed; reasons+=("missing_${label}_receipt")
+            fi
+          }
+          require_receipt "$handoff_file" "$HANDOFF" handoff
+          require_receipt "$version_file" "$VERSION_CONSISTENCY" version_consistency
+          require_receipt "$install_file" "$INSTALL" install
+          require_receipt "$install_phases" "$INSTALL" install_phases
+          if [[ "$UPGRADE" != success && "$UPGRADE" != skipped ]]; then
+            state=failed; reasons+=(upgrade_job_failed)
+          elif [[ "$UPGRADE" == success && ! -f "$upgrade_file" ]]; then
+            state=failed; reasons+=(missing_upgrade_receipt)
+          fi
+          provider_release_id=''
+          release_json="$RUNNER_TEMP/close-release.json"
+          set +e
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" > "$release_json" 2>/dev/null
+          release_lookup=$?
+          set -e
+          if [[ "$release_lookup" -eq 0 ]]; then
+            provider_release_id="$(jq -er '.id' "$release_json" 2>/dev/null || true)"
+          else
+            state=failed; reasons+=(provider_release_lookup_failed)
+          fi
+          if [[ -f "$handoff_file" ]]; then
+            jq -e --arg tag "$TAG" --arg commit "$COMMIT" --argjson providerId "${provider_release_id:-0}" \
+              '.release.tag == $tag and .release.commit == $commit and .release.providerReleaseId == $providerId' \
+              "$handoff_file" >/dev/null || { state=failed; reasons+=(handoff_binding_invalid); }
+          fi
+          if [[ -f "$version_file" ]]; then
+            jq -e --arg tag "$TAG" --arg commit "$COMMIT" \
+              '.tag == $tag and .commit == $commit and .state == "passed"' "$version_file" >/dev/null || {
+              state=failed; reasons+=(version_consistency_failed)
+            }
+          fi
+          validate_acceptance() {
+            local path="$1" phases="$2" label="$3"
+            [[ -f "$path" ]] || return 0
+            if jq -e '.adopterAcceptance == "not_applicable"' "$path" >/dev/null 2>&1; then
+              jq -e --arg tag "$TAG" \
+                '.schemaVersion == 1 and .adopterAcceptance == "not_applicable" and .releasePublished == true and .fromTag == null and .toTag == $tag and (.reason | type == "string" and length > 0)' \
+                "$path" >/dev/null || { state=failed; reasons+=("${label}_not_applicable_receipt_invalid"); }
+              return 0
+            fi
+            jq -e --arg tag "$TAG" \
+              '.tag == $tag and .adopterAcceptance == "passed" and .cleanupState == "passed" and .closeDecision.validated == true' \
+              "$path" >/dev/null || { state=failed; reasons+=("${label}_receipt_invalid"); }
+            [[ -f "$phases" ]] || { state=failed; reasons+=("${label}_phase_receipt_missing"); return; }
+            jq -e '.schemaVersion == 1 and ([.results[] | select(.phase == "close" and .status == "succeeded")] | length == 1)' "$phases" >/dev/null || {
+              state=failed; reasons+=("${label}_phase_receipt_invalid")
+            }
+          }
+          validate_acceptance "$install_file" "$install_phases" install
+          if [[ "$UPGRADE" == success ]]; then
+            validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade
+          fi
+          reason_json='[]'
+          if ((${#reasons[@]} > 0)); then
+            reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
+          fi
+          handoff_digest=null; version_digest=null; install_digest=null; install_phase_digest=null; upgrade_digest=null; upgrade_phase_digest=null
+          [[ -f "$handoff_file" ]] && handoff_digest="$(sha256sum "$handoff_file" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$version_file" ]] && version_digest="$(sha256sum "$version_file" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$install_file" ]] && install_digest="$(sha256sum "$install_file" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$install_phases" ]] && install_phase_digest="$(sha256sum "$install_phases" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$upgrade_file" ]] && upgrade_digest="$(sha256sum "$upgrade_file" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$upgrade_phases" ]] && upgrade_phase_digest="$(sha256sum "$upgrade_phases" | awk '{print "\"sha256:" $1 "\"'}')"
           jq -n \
             --arg tag "$TAG" \
             --arg commit "$COMMIT" \
             --arg state "$state" \
-            --arg handoff "$HANDOFF" \
-            --arg versionConsistency "$VERSION_CONSISTENCY" \
-            --arg install "$INSTALL" \
-            --arg upgrade "$UPGRADE" \
-            '{schemaVersion:1,phase:"close",tag:$tag,commit:$commit,state:$state,requiredReceipts:{publishHandoff:$handoff,versionConsistency:$versionConsistency,publicInstall:$install,publicUpgrade:$upgrade}}' \
+            --arg providerReleaseId "$provider_release_id" \
+            --arg handoffState "$HANDOFF" \
+            --arg versionState "$VERSION_CONSISTENCY" \
+            --arg installState "$INSTALL" \
+            --arg upgradeState "$UPGRADE" \
+            --argjson reasons "$reason_json" \
+            --argjson handoffDigest "$handoff_digest" \
+            --argjson versionDigest "$version_digest" \
+            --argjson installDigest "$install_digest" \
+            --argjson installPhaseDigest "$install_phase_digest" \
+            --argjson upgradeDigest "$upgrade_digest" \
+            --argjson upgradePhaseDigest "$upgrade_phase_digest" \
+            '{schemaVersion:2,phase:"close",tag:$tag,commit:$commit,state:$state,providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
             > "$output/release-close.json"
           sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
           [[ "$state" == passed ]] || { echo 'release close blocked: required acceptance did not pass' >&2; exit 1; }
@@ -986,7 +1402,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-close-${{ github.ref_name }}-${{ github.run_id }}
+          name: release-close-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-close/
           if-no-files-found: error
           retention-days: 30

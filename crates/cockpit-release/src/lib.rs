@@ -6,6 +6,7 @@ pub mod error;
 pub mod formula;
 pub mod handoff;
 pub mod manifest;
+pub mod provider;
 pub mod recovery;
 pub mod resume;
 pub mod sbom;

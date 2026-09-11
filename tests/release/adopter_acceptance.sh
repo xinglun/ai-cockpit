@@ -400,6 +400,9 @@ finalize() {
     overall_state=failed
     [[ -n "$failure_reason" ]] || failure_reason="command exited with status $exit_code"
   fi
+  if [[ "$exit_code" -ne 0 ]]; then
+    record_phase_failure_from_plan || exit_code=1
+  fi
   local steps='[]'
   if [[ -n "$steps_jsonl" && -s "$steps_jsonl" ]]; then
     steps="$(jq -s '.' "$steps_jsonl")"
@@ -463,6 +466,10 @@ finalize() {
   fi
   cleanup_run_root
   cleanup_result=$?
+  if [[ "$cleanup_result" -ne 0 ]]; then
+    failure_reason="cleanup failed: $cleanup_reason"
+    record_phase_failure_from_plan close cleanup || exit_code=1
+  fi
   update_acceptance_cleanup
   acceptance_update_result=$?
   write_cleanup_receipt
@@ -584,12 +591,41 @@ refresh_phase_plan() {
     --output "$phase_plan" || die 'identity-bound acceptance plan rejected the current receipt store'
 }
 
+record_phase_failure_from_plan() {
+  local phase="${1:-}" kind="${2:-${AI_COCKPIT_ACCEPTANCE_FAILURE_KIND:-runner}}"
+  [[ -f "$phase_plan" && -f "$phase_identity" ]] || return 0
+  if [[ -z "$phase" ]]; then
+    phase="$(jq -er '.actions[] | select(.action == "run" or .action == "retry") | .phase' "$phase_plan" 2>/dev/null | head -n 1)" || return 0
+  fi
+  [[ -n "$phase" ]] || return 0
+  case "$exit_code" in
+    130|143) kind=interruption ;;
+  esac
+  "$COCKPIT_RELEASE_BIN" acceptance-record-failure \
+    --scope "$acceptance_scope" \
+    --identity "$phase_identity" \
+    --receipts "$phase_receipts" \
+    --phase "$phase" \
+    --failure-kind "$kind" \
+    --failure-code acceptance_phase_failed \
+    --diagnostic "${failure_reason:-command exited with status $exit_code}" \
+    --attempt "${ACCEPTANCE_ATTEMPT:-1}" >/dev/null || {
+      failure_reason="could not persist identity-bound failure receipt for $phase"
+      return 1
+    }
+  return 0
+}
+
 record_phase_success() {
   local phase="$1"
   local evidence="$2"
   if ! phase_action_should_run "$phase"; then
       mark_passed "phase-$phase" 'reused identity-bound phase receipt'
       return 0
+  fi
+  if [[ "${AI_COCKPIT_ACCEPTANCE_FAIL_BEFORE_PHASE:-}" == "$phase" ]]; then
+    failure_reason="injected failure before $phase execution"
+    exit 96
   fi
   "$COCKPIT_RELEASE_BIN" acceptance-record \
     --scope "$acceptance_scope" \
@@ -611,7 +647,7 @@ validate_persisted_acceptance() {
   jq -e \
     --arg phase "$acceptance_phase" \
     --arg evidence "$acceptance_evidence" \
-    '[.results[] | select(.phase == $phase and .status == "succeeded" and .evidence.path == $evidence)] | length == 1' \
+    '[.results[] | select(.phase == $phase and .status == "succeeded" and (.evidence.path == $evidence or ((.evidence.path | split("/") | last) == ($evidence | split("/") | last))))] | length == 1' \
     "$phase_receipts" >/dev/null || die "persisted $acceptance_phase receipt does not bind its acceptance evidence"
   jq -e '.schemaVersion == 2 and .sourceUnchanged == true and .roots.HOME.unchanged == true and .roots.XDG_CONFIG_HOME.unchanged == true and .repositoryIsolation == true' \
     "$acceptance_evidence" >/dev/null || die "persisted $acceptance_phase evidence failed its isolation/source checks"

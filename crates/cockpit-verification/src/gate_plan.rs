@@ -36,6 +36,8 @@ pub struct GateDefinition {
     pub command: Vec<String>,
     #[serde(default)]
     pub covers: Option<Vec<String>>,
+    #[serde(default)]
+    pub depends_on: Vec<String>,
     pub id: String,
     pub minimum_profile: String,
 }
@@ -217,6 +219,15 @@ pub fn validate_manifest(manifest: &GateManifest) -> Result<(), GatePlanError> {
                 )));
             }
         }
+        let mut dependencies = BTreeSet::new();
+        for dependency in &gate.depends_on {
+            if dependency.trim().is_empty() || !dependencies.insert(dependency) {
+                return Err(GatePlanError::Manifest(format!(
+                    "gate {} dependsOn must contain unique non-empty IDs",
+                    gate.id
+                )));
+            }
+        }
     }
     if manifest
         .gates
@@ -225,6 +236,53 @@ pub fn validate_manifest(manifest: &GateManifest) -> Result<(), GatePlanError> {
     {
         return Err(GatePlanError::Manifest(
             "gate IDs must be sorted and unique".into(),
+        ));
+    }
+    let gate_positions: BTreeMap<&str, usize> = manifest
+        .gates
+        .iter()
+        .enumerate()
+        .map(|(index, gate)| (gate.id.as_str(), index))
+        .collect();
+    for gate in &manifest.gates {
+        for dependency in &gate.depends_on {
+            let Some(_dependency_index) = gate_positions.get(dependency.as_str()) else {
+                return Err(GatePlanError::Manifest(format!(
+                    "gate {} dependsOn unknown gate {}",
+                    gate.id, dependency
+                )));
+            };
+        }
+    }
+    let mut indegree = vec![0usize; manifest.gates.len()];
+    let mut dependents = vec![Vec::<usize>::new(); manifest.gates.len()];
+    for (index, gate) in manifest.gates.iter().enumerate() {
+        for dependency in &gate.depends_on {
+            let dependency_index = *gate_positions
+                .get(dependency.as_str())
+                .expect("dependency existence validated above");
+            indegree[index] += 1;
+            dependents[dependency_index].push(index);
+        }
+    }
+    let mut ready: BTreeSet<usize> = indegree
+        .iter()
+        .enumerate()
+        .filter_map(|(index, count)| (*count == 0).then_some(index))
+        .collect();
+    let mut visited = 0usize;
+    while let Some(index) = ready.pop_first() {
+        visited += 1;
+        for dependent in &dependents[index] {
+            indegree[*dependent] -= 1;
+            if indegree[*dependent] == 0 {
+                ready.insert(*dependent);
+            }
+        }
+    }
+    if visited != manifest.gates.len() {
+        return Err(GatePlanError::Manifest(
+            "gate dependencies must be acyclic".into(),
         ));
     }
     for profile in [
@@ -322,7 +380,7 @@ pub fn plan_gate_route(
         automatic = "strict".into();
         reasons.push(format!("risk {} requires strict", effective_risk));
     }
-    let selected = match &input.requested_profile {
+    let mut selected = match &input.requested_profile {
         None => automatic.clone(),
         Some(profile) => {
             validate_profile(profile)?;
@@ -338,6 +396,35 @@ pub fn plan_gate_route(
             profile.clone()
         }
     };
+    loop {
+        let mut dependency_profile = selected.clone();
+        for gate in manifest
+            .gates
+            .iter()
+            .filter(|gate| profile_rank(&selected) >= profile_rank(&gate.minimum_profile))
+        {
+            for dependency in &gate.depends_on {
+                let dependency_gate = manifest
+                    .gates
+                    .iter()
+                    .find(|candidate| candidate.id == *dependency)
+                    .expect("dependency existence validated above");
+                if profile_rank(&dependency_gate.minimum_profile)
+                    > profile_rank(&dependency_profile)
+                {
+                    dependency_profile = dependency_gate.minimum_profile.clone();
+                }
+            }
+        }
+        if dependency_profile == selected {
+            break;
+        }
+        reasons.push(format!(
+            "dependency closure requires at least {}",
+            dependency_profile
+        ));
+        selected = dependency_profile;
+    }
     reasons.sort();
     reasons.dedup();
     if reasons.is_empty() {
@@ -589,6 +676,7 @@ mod tests {
                     category: "ci".into(),
                     command: vec!["true".into()],
                     covers: None,
+                    depends_on: Vec::new(),
                     id: "ci_light".into(),
                     minimum_profile: "light".into(),
                 },
@@ -596,6 +684,7 @@ mod tests {
                     category: "workspace".into(),
                     command: vec!["cargo".into(), "test".into()],
                     covers: None,
+                    depends_on: vec!["ci_light".into()],
                     id: "workspace_standard".into(),
                     minimum_profile: "standard".into(),
                 },
@@ -641,6 +730,25 @@ mod tests {
     }
 
     #[test]
+    fn dependency_closure_escalates_a_route_before_execution() {
+        let mut manifest = manifest();
+        manifest.gates[0].minimum_profile = "strict".into();
+        manifest.gates[1].minimum_profile = "standard".into();
+        let plan = plan_gate_route(&manifest, &input(&["src/lib.rs"])).expect("plan");
+        assert_eq!(plan.automatic_profile, "standard");
+        assert_eq!(plan.selected_profile, "strict");
+        assert_eq!(
+            plan.required_gate_ids,
+            vec!["ci_light", "workspace_standard"]
+        );
+        assert!(
+            plan.reasons
+                .iter()
+                .any(|reason| reason.contains("dependency closure"))
+        );
+    }
+
+    #[test]
     fn rejects_unsafe_paths_before_rule_selection() {
         let error = plan_gate_route(&manifest(), &input(&["../outside.txt"]))
             .expect_err("path must be rejected");
@@ -659,6 +767,35 @@ mod tests {
             validate_gate_plan(&manifest, &changed, &plan),
             Err(GatePlanError::PlanMismatch)
         );
+    }
+
+    #[test]
+    fn manifest_dependencies_are_known_unique_and_acyclic() {
+        let mut unknown = manifest();
+        unknown.gates[1].depends_on = vec!["missing_gate".into()];
+        assert!(matches!(
+            validate_manifest(&unknown),
+            Err(GatePlanError::Manifest(detail)) if detail.contains("unknown gate")
+        ));
+
+        let mut later = manifest();
+        later.gates[1].depends_on = Vec::new();
+        later.gates[0].depends_on = vec!["workspace_standard".into()];
+        assert!(validate_manifest(&later).is_ok());
+
+        let mut cycle = manifest();
+        cycle.gates[0].depends_on = vec!["workspace_standard".into()];
+        cycle.gates[1].depends_on = vec!["ci_light".into()];
+        assert!(matches!(
+            validate_manifest(&cycle),
+            Err(GatePlanError::Manifest(detail)) if detail.contains("acyclic")
+        ));
+
+        let mut profile_conditional = manifest();
+        profile_conditional.gates[0].minimum_profile = "light".into();
+        profile_conditional.gates[1].minimum_profile = "standard".into();
+        profile_conditional.gates[1].depends_on = vec!["ci_light".into()];
+        assert!(validate_manifest(&profile_conditional).is_ok());
     }
 
     #[test]

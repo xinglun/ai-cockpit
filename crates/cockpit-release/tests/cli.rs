@@ -163,6 +163,30 @@ fn acceptance_commands_persist_resume_and_fail_closed_on_identity_change() {
     .unwrap();
     fs::write(&evidence, b"bound evidence\n").unwrap();
 
+    let failure = Command::new(binary())
+        .args([
+            "acceptance-record-failure",
+            "--identity",
+            identity.to_str().unwrap(),
+            "--receipts",
+            receipts.to_str().unwrap(),
+            "--phase",
+            "candidate_acceptance",
+            "--failure-kind",
+            "runner",
+            "--failure-code",
+            "fixture_runner_failed",
+            "--diagnostic",
+            "fixture runner failed",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        failure.status.success(),
+        "record failure failed: {}",
+        String::from_utf8_lossy(&failure.stderr)
+    );
+
     for (phase, id) in [
         ("prepare", "prepare"),
         ("source_verification_build", "build"),
@@ -189,6 +213,9 @@ fn acceptance_commands_persist_resume_and_fail_closed_on_identity_change() {
             String::from_utf8_lossy(&result.stderr)
         );
     }
+    let receipts_json: serde_json::Value =
+        serde_json::from_slice(&fs::read(&receipts).unwrap()).unwrap();
+    assert_eq!(receipts_json["history"].as_array().unwrap().len(), 1);
 
     let result = Command::new(binary())
         .args([

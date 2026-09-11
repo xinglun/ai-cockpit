@@ -123,7 +123,7 @@ def load_manifest(path: Path) -> dict[str, Any]:
             raise ValueError(f"gates[{index}] must be an object")
         if not {"category", "command", "id", "minimumProfile"}.issubset(gate):
             raise ValueError(f"gates[{index}] is missing required fields")
-        if set(gate) - {"category", "command", "covers", "id", "minimumProfile"}:
+        if set(gate) - {"category", "command", "covers", "dependsOn", "id", "minimumProfile"}:
             raise ValueError(f"gates[{index}] contains unknown fields")
         gate_id = gate["id"]
         if not isinstance(gate_id, str) or not gate_id:
@@ -133,12 +133,41 @@ def load_manifest(path: Path) -> dict[str, Any]:
             raise ValueError(f"gates[{index}].minimumProfile is invalid")
         if "covers" in gate:
             _string_list(gate["covers"], f"gates[{index}].covers")
+        if "dependsOn" in gate:
+            _string_list(gate["dependsOn"], f"gates[{index}].dependsOn", allow_empty=True)
         ids.append(gate_id)
         commands.append(command)
     if ids != sorted(ids) or len(ids) != len(set(ids)):
         raise ValueError("gate IDs must be sorted and unique")
     if len(commands) != len(set(commands)):
         raise ValueError("gate commands must be unique")
+    positions = {gate_id: index for index, gate_id in enumerate(ids)}
+    for index, gate in enumerate(gates):
+        dependencies = gate.get("dependsOn", [])
+        if len(dependencies) != len(set(dependencies)):
+            raise ValueError(f"gates[{index}].dependsOn must contain unique IDs")
+        for dependency in dependencies:
+            if dependency not in positions:
+                raise ValueError(f"gates[{index}].dependsOn references unknown gate")
+    indegree = [0] * len(gates)
+    dependents: list[list[int]] = [[] for _ in gates]
+    for index, gate in enumerate(gates):
+        for dependency in gate.get("dependsOn", []):
+            dependency_index = positions[dependency]
+            indegree[index] += 1
+            dependents[dependency_index].append(index)
+    ready = {index for index, count in enumerate(indegree) if count == 0}
+    visited = 0
+    while ready:
+        index = min(ready)
+        ready.remove(index)
+        visited += 1
+        for dependent in dependents[index]:
+            indegree[dependent] -= 1
+            if indegree[dependent] == 0:
+                ready.add(dependent)
+    if visited != len(gates):
+        raise ValueError("gate dependencies must be acyclic")
     return manifest
 
 
@@ -152,6 +181,33 @@ def _rank(profile: str) -> int:
 def profile_includes(manifest: dict[str, Any], selected: str, minimum: str) -> bool:
     del manifest
     return _rank(selected) >= _rank(minimum)
+
+
+def required_gate_ids(
+    manifest: dict[str, Any], selected: str
+) -> tuple[str, list[str]]:
+    """Return a profile and gate set that include the complete dependency closure."""
+    gates_by_id = {gate["id"]: gate for gate in manifest["gates"]}
+    selected_profile = selected
+    while True:
+        dependency_profile = selected_profile
+        for gate in manifest["gates"]:
+            if not profile_includes(manifest, selected_profile, gate["minimumProfile"]):
+                continue
+            for dependency in gate.get("dependsOn", []):
+                dependency_profile = max(
+                    dependency_profile,
+                    gates_by_id[dependency]["minimumProfile"],
+                    key=_rank,
+                )
+        if dependency_profile == selected_profile:
+            break
+        selected_profile = dependency_profile
+    return selected_profile, [
+        gate["id"]
+        for gate in manifest["gates"]
+        if profile_includes(manifest, selected_profile, gate["minimumProfile"])
+    ]
 
 
 def normalize_paths(paths: list[str], repository: Path | None = None) -> list[str]:
@@ -232,8 +288,17 @@ def select_route(manifest: dict[str, Any], *, paths: list[str], risk: str, stage
         if _rank(requested_profile) > _rank(automatic):
             selected = requested_profile
             reasons.append(f"explicit escalation to {requested_profile}")
-    required_gate_ids = [gate["id"] for gate in manifest["gates"] if profile_includes(manifest, selected, gate["minimumProfile"])]
+    selected, required_gate_ids = required_gate_ids_for_route(manifest, selected, reasons)
     return {"automaticProfile": automatic, "pathDecisions": decisions, "reasons": sorted(set(reasons)) or [f"empty diff defaults to {automatic}"], "requiredGateIds": required_gate_ids, "selectedProfile": selected}
+
+
+def required_gate_ids_for_route(
+    manifest: dict[str, Any], selected: str, reasons: list[str]
+) -> tuple[str, list[str]]:
+    selected_profile, gate_ids = required_gate_ids(manifest, selected)
+    if selected_profile != selected:
+        reasons.append(f"dependency closure requires at least {selected_profile}")
+    return selected_profile, gate_ids
 
 
 def _contract_binding(repository: Path, contract_path: Path | None) -> tuple[str | None, str | None, str | None]:

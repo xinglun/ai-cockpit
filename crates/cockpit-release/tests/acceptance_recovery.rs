@@ -3,7 +3,7 @@ use std::collections::BTreeMap;
 use cockpit_release::{
     acceptance::{
         AcceptancePath, AcceptanceScope, ArtifactIdentity, EvidenceReference, IsolationRootPolicy,
-        PhaseBoundaries, PhaseResult, ReleaseIdentity, ReleasePhase, RuntimeIdentity,
+        PhaseBoundaries, PhaseResult, PhaseStatus, ReleaseIdentity, ReleasePhase, RuntimeIdentity,
         SourceIdentity,
     },
     recovery::{
@@ -376,6 +376,94 @@ fn receipt_store_reuses_prepare_build_and_publish_after_interruption() {
         plan_for_phase(&plan, ReleasePhase::Publish),
         Some(PhaseAction::Reuse { .. })
     ));
+}
+
+#[test]
+fn failed_phase_is_recorded_and_success_replaces_only_the_latest_result() {
+    let expected = identity("91");
+    let temp = tempfile::tempdir().unwrap();
+    let evidence = temp.path().join("evidence.json");
+    std::fs::write(&evidence, b"recovered evidence").unwrap();
+
+    let mut store = PhaseReceiptStore::empty(expected.clone());
+    store
+        .record_success(ReleasePhase::Prepare, 1, "prepare", &evidence)
+        .unwrap();
+    store
+        .record_success(ReleasePhase::SourceVerificationBuild, 1, "build", &evidence)
+        .unwrap();
+    store
+        .record_failure(
+            ReleasePhase::CandidateAcceptance,
+            1,
+            PhaseFailure::new(
+                FailureKind::Timeout,
+                "candidate_timeout",
+                "runner timed out",
+            ),
+        )
+        .unwrap();
+    assert!(matches!(
+        plan_for_phase(&store.plan().unwrap(), ReleasePhase::CandidateAcceptance),
+        Some(PhaseAction::Retry { .. })
+    ));
+
+    store
+        .record_success(
+            ReleasePhase::CandidateAcceptance,
+            2,
+            "candidate-recovered",
+            &evidence,
+        )
+        .unwrap();
+    assert_eq!(store.results.len(), 3);
+    assert_eq!(store.history.len(), 1);
+    assert_eq!(
+        store
+            .results
+            .iter()
+            .find(|result| result.phase == ReleasePhase::CandidateAcceptance)
+            .unwrap()
+            .status,
+        PhaseStatus::Succeeded
+    );
+    assert_eq!(store.history[0].status, PhaseStatus::TimedOut);
+    assert!(matches!(
+        plan_for_phase(&store.plan().unwrap(), ReleasePhase::CandidateAcceptance),
+        Some(PhaseAction::Reuse { .. })
+    ));
+}
+
+#[test]
+fn receipt_evidence_can_be_revalidated_after_runner_artifact_relocation() {
+    let expected = identity("91");
+    let old = tempfile::tempdir().unwrap();
+    let new = tempfile::tempdir().unwrap();
+    let old_evidence = old.path().join("isolation.json");
+    let old_receipts = old.path().join("phase-receipts.json");
+    std::fs::write(&old_evidence, b"portable evidence").unwrap();
+
+    let mut store = PhaseReceiptStore::empty(expected.clone());
+    store
+        .record_success(ReleasePhase::Prepare, 1, "prepare", &old_evidence)
+        .unwrap();
+    store.write_atomic(&old_receipts).unwrap();
+    let new_receipts = new.path().join("phase-receipts.json");
+    std::fs::copy(&old_receipts, &new_receipts).unwrap();
+    std::fs::copy(&old_evidence, new.path().join("isolation.json")).unwrap();
+    std::fs::remove_file(old_evidence).unwrap();
+
+    let mut relocated = PhaseReceiptStore::load(&new_receipts, &expected).unwrap();
+    relocated
+        .record_success(
+            ReleasePhase::Prepare,
+            2,
+            "prepare",
+            &new.path().join("isolation.json"),
+        )
+        .unwrap();
+    assert!(relocated.history.is_empty());
+    assert_eq!(relocated.results.len(), 1);
 }
 
 #[test]

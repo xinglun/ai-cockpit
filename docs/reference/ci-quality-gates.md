@@ -84,6 +84,13 @@ raw command output is not a second failure count. Passing repository-gate
 receipts keep their existing schema so they remain valid post-finalize
 evidence.
 
+Runner reports additionally bind `executionOrder`, `launchedGateIds`, and
+`reusedGateIds`. A preflight error is written before any gate command starts;
+execution checkpoints are written atomically after each gate. Dependency
+failures block only dependent gates, and `--resume-report` reuses only passed
+gates whose route and command bindings still match. This makes interruption,
+timeout, and retry evidence explicit without rerunning unaffected checks.
+
 The same route and transition boundary is inherited by an adopter repository
 through its own `.ai/` and Contract. The shared Runtime and the policy
 manifest are external; Work Item state, evidence, and failure receipts remain

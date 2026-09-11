@@ -18,7 +18,7 @@ use crate::{
         AcceptanceScope, EvidenceReference, PhaseBoundaries, PhaseResult, PhaseStatus,
         ReleaseIdentity, ReleasePhase,
     },
-    recovery::{PhaseAction, RecoveryPlan},
+    recovery::{PhaseAction, PhaseFailure, RecoveryPlan},
 };
 
 pub const RECEIPT_SCHEMA_VERSION: u32 = 1;
@@ -45,6 +45,10 @@ pub enum ReceiptError {
     InvalidEvidence(String),
     #[error("receipt evidence digest does not match the current evidence file")]
     EvidenceDigestMismatch,
+    #[error("receipt phase result is missing a failure description")]
+    MissingFailure,
+    #[error("receipt phase result contains an inconsistent failure strategy")]
+    InconsistentFailure,
     #[error("cannot replace receipt atomically: {0}")]
     AtomicWrite(String),
     #[error("recovery plan is invalid: {0}")]
@@ -58,6 +62,8 @@ pub struct PhaseReceiptStore {
     pub identity: ReleaseIdentity,
     pub identity_digest: String,
     pub results: Vec<PhaseResult>,
+    #[serde(default)]
+    pub history: Vec<PhaseResult>,
 }
 
 impl PhaseReceiptStore {
@@ -68,6 +74,7 @@ impl PhaseReceiptStore {
             identity,
             identity_digest,
             results: Vec::new(),
+            history: Vec::new(),
         }
     }
 
@@ -87,11 +94,19 @@ impl PhaseReceiptStore {
             Err(error) => return Err(ReceiptError::Io(error)),
         }
         let store: Self = serde_json::from_slice(&fs::read(path)?)?;
-        store.validate_binding(expected)?;
+        store.validate_binding_at(expected, path.parent())?;
         Ok(store)
     }
 
     pub fn validate_binding(&self, expected: &ReleaseIdentity) -> Result<(), ReceiptError> {
+        self.validate_binding_at(expected, None)
+    }
+
+    fn validate_binding_at(
+        &self,
+        expected: &ReleaseIdentity,
+        evidence_base: Option<&Path>,
+    ) -> Result<(), ReceiptError> {
         if self.schema_version != RECEIPT_SCHEMA_VERSION {
             return Err(ReceiptError::CorruptIdentityDigest);
         }
@@ -107,20 +122,46 @@ impl PhaseReceiptStore {
             if !phases.insert(result.phase) {
                 return Err(ReceiptError::DuplicatePhase(result.phase));
             }
-            if result.identity != self.identity {
-                return Err(ReceiptError::ResultIdentityMismatch);
+            self.validate_result(result, evidence_base)?;
+        }
+        for result in &self.history {
+            self.validate_result(result, evidence_base)?;
+        }
+        Ok(())
+    }
+
+    fn validate_result(
+        &self,
+        result: &PhaseResult,
+        evidence_base: Option<&Path>,
+    ) -> Result<(), ReceiptError> {
+        if result.identity != self.identity {
+            return Err(ReceiptError::ResultIdentityMismatch);
+        }
+        if result.identity_digest != result.identity.digest() {
+            return Err(ReceiptError::ResultIdentityDigest);
+        }
+        if result.status == PhaseStatus::Succeeded {
+            let Some(evidence) = result.evidence.as_ref() else {
+                return Err(ReceiptError::InvalidEvidence(format!(
+                    "missing evidence for {}",
+                    result.phase.as_str()
+                )));
+            };
+            validate_evidence(evidence, evidence_base)?;
+        }
+        if matches!(
+            result.status,
+            PhaseStatus::Failed | PhaseStatus::Interrupted | PhaseStatus::TimedOut
+        ) {
+            let Some(failure) = result.failure.as_ref() else {
+                return Err(ReceiptError::MissingFailure);
+            };
+            if !failure.is_consistent() {
+                return Err(ReceiptError::InconsistentFailure);
             }
-            if result.identity_digest != result.identity.digest() {
-                return Err(ReceiptError::ResultIdentityDigest);
-            }
-            if result.status == PhaseStatus::Succeeded {
-                let Some(evidence) = result.evidence.as_ref() else {
-                    return Err(ReceiptError::InvalidEvidence(format!(
-                        "missing evidence for {}",
-                        result.phase.as_str()
-                    )));
-                };
-                validate_evidence(evidence)?;
+            if failure.status() != result.status {
+                return Err(ReceiptError::InconsistentFailure);
             }
         }
         Ok(())
@@ -158,17 +199,7 @@ impl PhaseReceiptStore {
             digest: format!("sha256:{evidence_digest}"),
         };
 
-        if let Some(existing) = self.results.iter().find(|result| result.phase == phase) {
-            if existing.status == PhaseStatus::Succeeded
-                && existing.evidence.as_ref() == Some(&evidence)
-                && existing.binding_matches(&self.identity)
-            {
-                return Ok(());
-            }
-            return Err(ReceiptError::DuplicatePhase(phase));
-        }
-
-        self.results.push(PhaseResult::succeeded(
+        let replacement = PhaseResult::succeeded(
             phase,
             self.identity.clone(),
             attempt,
@@ -178,8 +209,60 @@ impl PhaseReceiptStore {
                 elapsed_ms: Some(0),
             },
             evidence,
-        ));
+        );
+        if let Some(index) = self.results.iter().position(|result| result.phase == phase) {
+            let existing = &self.results[index];
+            if existing.status == PhaseStatus::Succeeded
+                && existing
+                    .evidence
+                    .as_ref()
+                    .zip(replacement.evidence.as_ref())
+                    .is_some_and(|(left, right)| left.id == right.id && left.digest == right.digest)
+                && existing.binding_matches(&self.identity)
+            {
+                return Ok(());
+            }
+            if existing.status == PhaseStatus::Succeeded {
+                return Err(ReceiptError::DuplicatePhase(phase));
+            }
+            let previous = self.results.remove(index);
+            self.history.push(previous);
+        }
+        self.results.push(replacement);
         self.results.sort_by_key(|result| result.phase);
+        self.validate_binding(&self.identity.clone())
+    }
+
+    /// Record a failed, interrupted, or timed-out phase without overwriting
+    /// the prior attempt. The latest result drives recovery; older attempts
+    /// remain in `history` for diagnosis and audit.
+    pub fn record_failure(
+        &mut self,
+        phase: ReleasePhase,
+        attempt: u32,
+        failure: PhaseFailure,
+    ) -> Result<(), ReceiptError> {
+        let result = PhaseResult::failed_with_status(
+            phase,
+            self.identity.clone(),
+            attempt,
+            PhaseBoundaries {
+                started_at: Utc::now().to_rfc3339(),
+                finished_at: Some(Utc::now().to_rfc3339()),
+                elapsed_ms: Some(0),
+            },
+            failure.status(),
+            failure,
+        );
+        if let Some(index) = self.results.iter().position(|stored| stored.phase == phase) {
+            if self.results[index].status == PhaseStatus::Succeeded {
+                return Err(ReceiptError::DuplicatePhase(phase));
+            }
+            let previous = self.results.remove(index);
+            self.history.push(previous);
+        }
+        self.results.push(result);
+        self.results.sort_by_key(|stored| stored.phase);
         self.validate_binding(&self.identity.clone())
     }
 
@@ -223,16 +306,26 @@ fn sha256_file(path: &Path) -> Result<String, ReceiptError> {
     Ok(hex::encode(digest.finalize()))
 }
 
-fn validate_evidence(evidence: &EvidenceReference) -> Result<(), ReceiptError> {
-    let path = Path::new(&evidence.path);
-    let metadata = fs::symlink_metadata(path)
-        .map_err(|_| ReceiptError::InvalidEvidence(evidence.path.clone()))?;
-    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
-        return Err(ReceiptError::InvalidEvidence(evidence.path.clone()));
+fn validate_evidence(
+    evidence: &EvidenceReference,
+    evidence_base: Option<&Path>,
+) -> Result<(), ReceiptError> {
+    let original = Path::new(&evidence.path);
+    let fallback =
+        evidence_base.and_then(|base| original.file_name().map(|filename| base.join(filename)));
+    let candidates = [Some(original), fallback.as_deref()];
+    for candidate in candidates.into_iter().flatten() {
+        let Ok(metadata) = fs::symlink_metadata(candidate) else {
+            continue;
+        };
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            return Err(ReceiptError::InvalidEvidence(evidence.path.clone()));
+        }
+        let actual = format!("sha256:{}", sha256_file(candidate)?);
+        if actual != evidence.digest {
+            return Err(ReceiptError::EvidenceDigestMismatch);
+        }
+        return Ok(());
     }
-    let actual = format!("sha256:{}", sha256_file(path)?);
-    if actual != evidence.digest {
-        return Err(ReceiptError::EvidenceDigestMismatch);
-    }
-    Ok(())
+    Err(ReceiptError::InvalidEvidence(evidence.path.clone()))
 }

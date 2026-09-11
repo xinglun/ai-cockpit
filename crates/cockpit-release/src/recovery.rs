@@ -81,6 +81,14 @@ impl PhaseFailure {
     pub fn is_consistent(&self) -> bool {
         self.strategy == self.kind.recommended_strategy()
     }
+
+    pub const fn status(&self) -> PhaseStatus {
+        match self.kind {
+            FailureKind::Interruption => PhaseStatus::Interrupted,
+            FailureKind::Timeout => PhaseStatus::TimedOut,
+            _ => PhaseStatus::Failed,
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, Deserialize, Eq, PartialEq, Serialize)]
