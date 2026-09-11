@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f215d10bd05884a882b54cb960d37ecf52a1621291a5e9fc5c5206facacf4e15",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "The repository owner explicitly authorized this bounded v0.2.91 release Work Item after reviewing its scope, acceptance, required immutable public/N-1 acceptance, and the requirement to find and fix root causes before release. This decision authorizes implementation only; it does not assert that tests, release artifacts, hosted checks, or adopter acceptance have passed.",
+  "recordedAt": "2026-09-11T20:21:04Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7840879511014723ef96c8fb5483e5b8535c056676fda4dbdab31af3cf024083",
+  "schemaVersion": 1,
+  "workItemId": "WI-801-release-v0-2-91"
+}

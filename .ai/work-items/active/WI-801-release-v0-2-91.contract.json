@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Cargo.toml and Cargo.lock consistently identify version 0.2.91 with no unrelated dependency changes.",
+    "The three WI-801 Work Item pages and tri-language parity rows are registered before verification.",
+    "Release preflight, source quality, candidate build and immutable public/N-1 acceptance can bind the published v0.2.91 artifacts to reviewed main."
+  ],
+  "authority": "explicit-user-authorization-root-cause-repair-and-release",
+  "baseRevision": "47a47a1d4025d92afcefdfb669f7922d0e70974b",
+  "createdAt": "2026-09-11T20:15:05Z",
+  "goal": "Align the workspace and lockfile version to 0.2.91, register the tri-language release Work Item projections, and pass the immutable release preflight without changing Runtime behavior.",
+  "intent": "Publish ai-cockpit v0.2.91 after the WI-799 root-cause repair",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    " historical records",
+    " existing Releases or tags",
+    " release workflow semantics",
+    " source feature changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eaef32e038da8e481ec4d443a9d6d08462003a1c3abc1f57fc47db8aee4830d7",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance",
+    "release publication",
+    "adopter acceptance"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-801-release-v0-2-91",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-801-release-v0-2-91"
+  },
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/work-items/WI-801-release-v0-2-91.md",
+    "docs/work-items/WI-801-release-v0-2-91.zh-CN.md",
+    "docs/work-items/WI-801-release-v0-2-91.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-801-release-v0-2-91"
+}
