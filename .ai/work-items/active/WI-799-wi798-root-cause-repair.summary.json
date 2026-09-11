@@ -318,14 +318,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-11T18:46:15Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T19:02:45Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:eff1ba95b1071ca35016791dfb6794989afc4a1e16bda284876b267854661a9d",
   "workItemId": "WI-799-wi798-root-cause-repair"
 }
