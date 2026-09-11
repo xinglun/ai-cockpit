@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.contract.json",
+    ".ai/work-items/archive/WI-796-wi795-doc-promotion-retry.summary.json"
+  ],
+  "checkpointAt": "2026-09-11T01:20:03Z",
+  "checkpointContractDigest": "sha256:1dd160c6010d67769958801dc1baf333982ed6b81f21033088067148644c71e9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7dc348388e212bea7aa6a1f52b29c634b2a1445ae740cf5ad24c3c106b7f74bc",
+  "createdAt": "2026-09-11T01:05:03Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:bc08537327c8949d2598bf6e9be08db8c6ccf08ab1b0ab86c983ed3910ffb34f",
+  "predecessorWorkItemId": "WI-795-wi794-doc-promotion",
+  "preflightAt": "2026-09-11T01:34:35Z",
+  "preflightContractDigest": "sha256:1dd160c6010d67769958801dc1baf333982ed6b81f21033088067148644c71e9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7dc348388e212bea7aa6a1f52b29c634b2a1445ae740cf5ad24c3c106b7f74bc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-795-wi794-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-11T01:34:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-796-wi795-doc-promotion-retry"
+}

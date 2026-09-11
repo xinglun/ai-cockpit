@@ -1,0 +1,136 @@
+{
+  "acceptanceResults": [
+    "All six WI-794/reference-parity projections reflect the Runtime-closed state and bind actual immutable evidence without invented claims.",
+    "English, Simplified Chinese, and Japanese retain equivalent governance facts and operational consequences.",
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-794-release-v0-2-90-closure --check passes.",
+    "bash tests/docs/documentation_acceptance.sh, bash tests/docs/parity_status_check.sh, python3 tests/docs/work_item_status_consistency.py --repo <repo>, and python3 tests/ci/governance_integrity_gate.py --repo <repo> pass."
+  ],
+  "createdAt": "2026-09-11T00:48:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:15b57c88d8483e48ab0702028a1c6205ae08d1afa7cdba44d5a43ecaf4321953",
+  "evidenceRefs": [
+    ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ef9ebf7043d6cd378b93b4db6428d1e1f44a5e81f9b11d08dfa8fbbb76b9f631",
+      "workItemId": "WI-795-wi794-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "No repository paths were observed as changed by the current Summary."
+        }
+      ],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-795-wi794-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Update the bounded tri-language WI-794 pages and reference-parity rows from in progress to truthful closed projections, bind the immutable Runtime archive, finalization, close, and release evidence, and make promote_closed_work_item --check-all pass."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-795-wi794-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-795-wi794-doc-promotion"
+  },
+  "taskReportDigest": "sha256:78648a1b7a5fb02e6b3876dafa51a6967d9197bd30ac7ce50778aff91fa75c20",
+  "taskReportMarkdownDigest": "sha256:3398ee2acdfcf5bb17f3e62195b691b992ca0b9b0e1daa4703a9e536eb0d275e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-795-wi794-doc-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-795-wi794-doc-promotion"
+}
