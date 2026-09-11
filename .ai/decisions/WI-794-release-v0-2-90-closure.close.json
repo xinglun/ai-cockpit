@@ -1,0 +1,908 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c431cbb812f90569d1b0e6495d6ebbcf9af19f01ff9ad7588692e03783110b5a",
+      "workItemId": "WI-794-release-v0-2-90-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-793-release-v0-2-90-recovery.recovery.9307e563a1c1f945ac61b2adadc91e94f553436eda76cb12fda0c7db5234c71e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/SHA256SUMS"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/SHA256SUMS.release"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/agent-doctor.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/agent-install.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/agent-list.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/attach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/first-adopter-smoke.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/inspect.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/cargo-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/cargo-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/home-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/home-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/source-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/source-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/tmp-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/tmp-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/xdg-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation-manifests/xdg-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/isolation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-checkpoint.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-finalize-plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-finalize-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-finish.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-preflight.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-start.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/lifecycle-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/profile-confirm.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/release-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/release.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/repository.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/runtime.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/verify-first.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/verify-reuse.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/first-adopter-smoke.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/lifecycle.evidence.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.close.binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.finalize-receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/adopter-aarch64-apple-darwin/work-items/release-adopter-lifecycle.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/release-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/SHA256SUMS"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/evidence-before.sha256"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-SHA256SUMS.release"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-agent-doctor.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-agent-install.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-attach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-profile.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-release-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/from-runtime.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/history-digest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/cargo-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/cargo-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/home-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/home-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/source-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/source-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/tmp-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/tmp-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/xdg-after.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation-manifests/xdg-before.manifest"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/isolation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/migration-state.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-agent-doctor.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-checkpoint.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-compatibility-after.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-compatibility.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-finalize-plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-finalize-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-finish.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-preflight.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-start.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/new-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-checkpoint.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-finalize-plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-finalize-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-finish.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-preflight.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-start.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/old-verify.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/to-SHA256SUMS.release"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/to-release-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/to-runtime.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-lifecycle.close.binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-lifecycle.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-lifecycle.finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-lifecycle.finalize-receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-post-migration.close.binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-post-migration.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-post-migration.finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.90/upgrade-v0.2.89-to-v0.2.90/work-items/n-minus-one-post-migration.finalize-receipt.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-793-release-v0-2-90-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-793-release-v0-2-90-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-793-release-v0-2-90-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-794-release-v0-2-90-closure.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json",
+            ".ai/decisions/WI-794-release-v0-2-90-closure.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by agent:codex via explicit-user-authorized-post-merge-close at 2026-09-11T00:33:42Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "Revalidate the immutable public release and N-1 adoption evidence from synchronized main, archive and explicitly finalize the successor closure, obtain the required human close decision, synchronize main, and verify exact cleanup without rewriting any predecessor or release bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-794-release-v0-2-90-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-794-release-v0-2-90-closure"
+  },
+  "finalReportDigest": "sha256:383795d37536f9f1559210bf6bd83f5f69a11339ae9fb89f94eb1afff96deac2",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d06b78108304b655bba21b1d5b5e467812ed3376e0657a7c1226b2f417e5217e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-794-release-v0-2-90-closure.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "agent:codex",
+    "authoritySource": "explicit-user-authorized-post-merge-close",
+    "decidedAt": "2026-09-11T00:33:42Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-794-release-v0-2-90-closure.verification.json",
+      ".ai/decisions/WI-794-release-v0-2-90-closure.finalize.json"
+    ],
+    "policyRefs": [
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "User explicitly authorized post-merge finalization, close, and exact resource cleanup; PR #772 merged as 2d27c9a6c4d3b2b243c5aa09e5048f498e26d0f6, main is synchronized, exact branch/worktree cleanup is recorded, finalize-verify is green, and release/adopter evidence remains immutable.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-11T00:33:51Z",
+  "workItemId": "WI-794-release-v0-2-90-closure"
+}

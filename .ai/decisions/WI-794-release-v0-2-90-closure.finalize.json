@@ -1,0 +1,58 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-post-merge-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2f0cbaf80ee61656541fa515726698466ce386a8",
+    "name": "codex/wi-794-release-v0-2-90-closure",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:bc36116f9df0dbc30c61c805881504145ae2241d23bf5203a1752e1acc1520c5",
+  "operationId": "github-pr-772-WI-794-release-v0-2-90-closure-resources-deleted-20260911T003103Z",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2d45d6f2e0c99131c6476bd1aa3b3dedc5d81921",
+    "headRevision": "2f0cbaf80ee61656541fa515726698466ce386a8",
+    "mergeCommit": "2d27c9a6c4d3b2b243c5aa09e5048f498e26d0f6",
+    "number": 772,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/772"
+  },
+  "reason": "After PR #772 was verified merged, the exact remote and local branch codex/wi-794-release-v0-2-90-closure and its clean dedicated worktree were removed; preserve the merged evidence and record Runtime cleanup postconditions.",
+  "receiptId": "ai-cockpit-WI-794-release-v0-2-90-closure-resources-deleted",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-794-release-v0-2-90-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/772",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-793-release-v0-2-90-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-11T00:31:03Z",
+  "workItemId": "WI-794-release-v0-2-90-closure",
+  "worktree": {
+    "branch": "codex/wi-794-release-v0-2-90-closure",
+    "headRevision": "2f0cbaf80ee61656541fa515726698466ce386a8",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-793-release-v0-2-90-recovery",
+    "worktreeId": "WI-794-release-v0-2-90-closure"
+  }
+}
