@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:6d42d9cbc4d4b3820dd0dbd4c1302c5d99dad0e815057aac8a548a4dc50f65cd",
+  "receipt": {
+    "actor": "human:xinglun",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "3e0fe12b084344ac63ef31baa8ca62f473ac9ff2",
+      "name": "codex/wi-795-wi794-doc-promotion",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:d6977cf6ba9281e19f48a5a492ec5d1f2e86194ae35db4bbddfc22f36ea4ed08",
+    "operationId": "github-pr-773-merge-cleanup-20260911",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "c004513b89bde9b7c63c490be427b92e5eb5988a",
+      "headRevision": "3e0fe12b084344ac63ef31baa8ca62f473ac9ff2",
+      "mergeCommit": "6e79850219d118dc7b3733c7b8e2d6a9cac9c4c3",
+      "number": 773,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/773"
+    },
+    "reason": "Reviewed PR #773 passed all hosted checks and was merged as 6e79850219d118dc7b3733c7b8e2d6a9cac9c4c3; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+    "receiptId": "ai-cockpit-WI-796-wi795-doc-promotion-retry-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-795-wi794-doc-promotion",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/773",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-795-wi794-doc-promotion"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:e820fdd89c2f4d675707abaf6ce84437edf7fc93282344ca26b5176411f75908",
+    "runtimeVersion": "0.2.90",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-11T01:48:00Z",
+    "workItemId": "WI-796-wi795-doc-promotion-retry",
+    "worktree": {
+      "branch": "codex/wi-795-wi794-doc-promotion",
+      "headRevision": "3e0fe12b084344ac63ef31baa8ca62f473ac9ff2",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-795-wi794-doc-promotion",
+      "worktreeId": "WI-796-wi795-doc-promotion-retry"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "wi796-resource-cleanup-20260911"
+}
