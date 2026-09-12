@@ -1,0 +1,62 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-805-release-tag-input.contract.json",
+    ".ai/work-items/active/WI-805-release-tag-input.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T11:51:31Z",
+  "checkpointContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+  "createdAt": "2026-09-12T11:49:20Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/release/workflow_policy.sh",
+      "target/quality-route-wi805.json"
+    ],
+    "reason": "The continuation Contract now binds the current branch and pull request before verification, while the workflow explicitly binds Release creation to the immutable recovery tag.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "preflightAt": "2026-09-12T11:57:14Z",
+  "preflightContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "target/quality-route-wi805.json",
+        ".ai/work-items/active/WI-805-release-tag-input.contract.json"
+      ],
+      "required": true,
+      "scenario": "continuation PR selects the current branch-bound Contract before quality execution",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "required": true,
+      "scenario": "recovery publish binds Release creation to the immutable requested tag",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T11:57:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-805-release-tag-input"
+}
