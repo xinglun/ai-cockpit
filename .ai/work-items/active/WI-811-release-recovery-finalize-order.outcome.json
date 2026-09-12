@@ -6,9 +6,9 @@
     "Regression tests cover standalone retry, bound successor, missing identity, and malformed bindings.",
     "The canonical English first-start procedure tells Agents how to choose retry versus successor before release recovery."
   ],
-  "createdAt": "2026-09-12T15:38:29Z",
+  "createdAt": "2026-09-12T15:44:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:29c4d009e9226ee00b5bdb89aa512dbafb06deedf04a050380eb716f50caec4c",
+  "evidenceDigest": "sha256:baf48e4a581db88c7b44cf0f8f6410742c53ff1f494fdea4d1ef85dabc275db3",
   "evidenceRefs": [
     ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
   ],

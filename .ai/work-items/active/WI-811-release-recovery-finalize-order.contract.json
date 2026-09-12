@@ -74,7 +74,8 @@
     "tests/ci/resolve_work_item_test.sh",
     "tests/ci/release_gate_policy_test.sh",
     "docs/reference/agent-first-start.md",
-    ".ai/decisions/observer-snapshot.json"
+    ".ai/decisions/observer-snapshot.json",
+    "tests/release/workflow_policy.sh"
   ],
   "sources": [],
   "state": "implementation_active",

@@ -5,8 +5,44 @@
     ".ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
   ],
   "checkpointAt": "2026-09-12T15:37:36Z",
-  "checkpointContractDigest": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+  "checkpointContractDigest": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:37:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "previousContractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "reason": "hosted Contract gate found an in-scope changed workflow policy file missing from the declared scope",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:43:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
   "createdAt": "2026-09-12T15:32:53Z",
   "intentAlignment": {
@@ -20,8 +56,8 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
   "predecessorWorkItemId": "WI-810-release-recovery-mode",
-  "preflightAt": "2026-09-12T15:38:24Z",
-  "preflightContractDigest": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+  "preflightAt": "2026-09-12T15:43:56Z",
+  "preflightContractDigest": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
   "preflightState": "green",
@@ -65,7 +101,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T15:38:29Z",
+  "updatedAt": "2026-09-12T15:44:02Z",
   "verification": [
     {
       "check": "project-command-0",
