@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-12T13:48:27Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/784",
+    ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:53655122ed8fcb1fa0a277a7e6e65a6045633c13510eaf2c3abe295b482cbf9f",
+  "predecessorSummaryDigest": "sha256:2a102e7a3d8d79ff9d7faed4a7cd1c3f569c680c3d14dd29df25d9c7759861e6",
+  "predecessorWorkItemId": "WI-807-release-preflight-clean-failure",
+  "reason": "The explicit PR finalization plan changed the Contract identity after the focused verification receipt was recorded. Runtime correctly classified that receipt as contradictory. Preserve the old receipt and record one same-Work-Item retry bound to the finalized Contract and current Runtime; do not repeat unrelated workspace verification or dispatch another release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and one focused Runtime-bound policy verification under the finalized PR context, then continue to hosted review. Do not alter v0.2.91 or repeat unrelated checks.",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}

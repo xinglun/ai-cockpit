@@ -82,15 +82,19 @@ jobs:
             --from-tag "$INPUT_FROM_TAG"
             --to-tag "$INPUT_TO_TAG"
             --publish-existing-tag "$PUBLISH_EXISTING_TAG"
-            --work-item-id "$INPUT_WORK_ITEM_ID"
-            --contract-path "$INPUT_CONTRACT_PATH"
-            --handoff-run-id "$INPUT_HANDOFF_RUN_ID"
             --output target/release-input-preflight.json
           )
+          if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then
+            selector_args+=(--work-item-id "$INPUT_WORK_ITEM_ID")
+          fi
+          if [[ -n "$INPUT_CONTRACT_PATH" ]]; then
+            selector_args+=(--contract-path "$INPUT_CONTRACT_PATH")
+          fi
+          if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
+            selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
+          fi
           if [[ "$EVENT_NAME" == push ]]; then
             selector_args+=(--github-repository "$GITHUB_REPOSITORY")
-          else
-            selector_args+=(--release-source-revision '')
           fi
           tests/ci/resolve_work_item.sh "${selector_args[@]}"
           echo "mode=$(jq -er '.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
@@ -1686,7 +1690,9 @@ jobs:
             '{schemaVersion:2,phase:"close",tag:$tag,commit:$commit,state:$state,providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
             > "$output/release-close.json"
           sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
-          [[ "$state" == passed ]] || { echo 'release close blocked: required acceptance did not pass' >&2; exit 1; }
+          if [[ "$state" != passed ]]; then
+            echo 'release close recorded failure; dependent acceptance was not executed' >&2
+          fi
       - name: Upload release close receipt
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

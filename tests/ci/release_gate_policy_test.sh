@@ -32,6 +32,13 @@ require 'target/release-quality-route.json' 'release route receipt must be retai
 require 'release_input_preflight:' 'cheap release input preflight must run before Runtime compilation'
 require 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
 require 'resolve_work_item.sh' 'release selection must use the shared explicit identity resolver'
+require 'if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then' 'optional Work Item input must be appended only when present'
+require 'if [[ -n "$INPUT_CONTRACT_PATH" ]]; then' 'optional Contract input must be appended only when present'
+require 'if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then' 'optional handoff input must be appended only when present'
+if grep -Fq -- "--release-source-revision ''" "$workflow"; then
+  printf 'release gate policy failure: empty optional resolver arguments are forbidden\n' >&2
+  exit 1
+fi
 grep -Fq 'work_item_id_required' "$resolver" || {
   printf 'release gate policy failure: recovery without an explicit Work Item identity must fail early\n' >&2
   exit 1

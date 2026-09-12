@@ -1,0 +1,69 @@
+{
+  "acceptanceCriteria": [
+    "The release preflight appends optional resolver arguments only when their values are non-empty, so workflow_dispatch recovery with work_item_id and no contract_path reaches the resolver.",
+    "The release close barrier always records a failed receipt when prerequisite jobs are skipped or fail, but exits successfully as a reporting step and never claims successful closure.",
+    "Focused policy tests cover empty optional inputs and failure-summary behavior, and the embedded close script remains syntactically valid.",
+    "A hosted PR run passes before merge and one post-merge recovery run demonstrates the corrected preflight and close dependency behavior without moving or overwriting v0.2.91."
+  ],
+  "authority": "authorized",
+  "baseRevision": "70ac6893c4fe208b338d0b9ea21baec1ed655ced",
+  "createdAt": "2026-09-12T13:31:36Z",
+  "goal": "Allow one explicit recovery run to stop at the earliest failed prerequisite, produce one structured failure report, and leave dependent acceptance unexecuted without a secondary close error.",
+  "intent": "Repair the two release-recovery control-flow roots exposed by run 34696556737: optional resolver arguments must be omitted when unset, and the release failure-summary barrier must record dependency failure without becoming a second failing job.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Release build contents",
+    " immutable tag or Release mutation",
+    " public artifact formats",
+    " Runtime Contract selection semantics",
+    " and unrelated object-engineering repositories."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+  "requiredEvidenceClasses": [
+    "Focused policy test output",
+    " Runtime preflight/checkpoint/verify/finish receipts",
+    " hosted PR checks",
+    " and the single post-merge recovery run with structured close evidence."
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-807-release-preflight-clean-failure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/784",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-807-release-preflight-clean-failure"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A recovery dispatch with work_item_id and no contract_path reaches the resolver and produces a ready release_recovery selection.",
+      "required": true,
+      "scenario": "workflow_dispatch recovery omits unset optional resolver arguments",
+      "status": "unverified",
+      "verificationPlan": "Run the focused release gate policy and resolver regression tests, then verify one hosted recovery preflight."
+    },
+    {
+      "evidence": [],
+      "expected": "When an upstream prerequisite is skipped or fails, release_close records state=failed and failureRoots without exiting as a second failure.",
+      "required": true,
+      "scenario": "preflight dependency failure produces one structured close report",
+      "status": "unverified",
+      "verificationPlan": "Run the embedded close-script policy regression and inspect the hosted recovery close artifact after an injected preflight failure."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}

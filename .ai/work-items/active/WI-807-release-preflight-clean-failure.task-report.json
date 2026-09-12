@@ -1,0 +1,123 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
+    "workItemId": "WI-807-release-preflight-clean-failure"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-807-release-preflight-clean-failure.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-807-release-preflight-clean-failure.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-807-release-preflight-clean-failure.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.contract.json"
+        ],
+        "inference": false,
+        "text": "Allow one explicit recovery run to stop at the earliest failed prerequisite, produce one structured failure report, and leave dependent acceptance unexecuted without a secondary close error."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-807-release-preflight-clean-failure.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}
