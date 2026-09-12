@@ -1,6 +1,6 @@
 # Task Outcome Report
 
-- Work Item: `WI-804-release-route-ordering`
+- Work Item: `WI-805-release-tag-input`
 - Status: `verified`
 - Human status color: `green`
 
@@ -10,15 +10,14 @@
 
 ## Task overview
 
-- Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start.
+- Bind the continuation Work Item to the current branch and pull request, catch publish-tag identity errors before expensive release work, and complete public v0.2.91 acceptance without moving the immutable tag.
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json
-- Changed path: .github/workflows/release.yml
-- Changed path: tests/release/workflow_policy.sh
+- Changed path: .ai/work-items/active/WI-805-release-tag-input.contract.json
+- Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json
 
 ## Findings
 
@@ -66,5 +65,5 @@
 
 ## Evidence
 
-- .ai/evidence/WI-804-release-route-ordering.verification.json
+- .ai/evidence/WI-805-release-tag-input.verification.json
 

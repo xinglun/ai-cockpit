@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T11:50:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34691774303",
+    "https://github.com/xinglun/ai-cockpit/pull/782",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorEventsDigest": "sha256:6354d2629c48ff5757c54880ac3f918c60a2d43a6a0b3ba29d7fb32d57802218",
+  "predecessorOutcomeDigest": "sha256:c6e19ee5bc48824cc55a1bd0cec53eafa2b9cd1be727eaf468cab48a455e138e",
+  "predecessorSummaryDigest": "sha256:7a5609a58efcdeebc25b89eac99d83a48eee642a055b4d6773b1bd290a36dcbb",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The first CI attempt for the corrected release recovery reached the dynamic route and stopped before expensive validation because the active Contract remained bound to the already-merged WI-804 branch and PR #781, while the immutable failed delivery now requires a continuation PR on a new branch. Record this as the single WI-804 successor lineage, bind the continuation to its current branch and PR, and preserve both the publish failure and the early route failure without rewriting history or creating a competing successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the Runtime-created successor with the same bounded release scope, bind its current branch/worktree/PR before verification, pass source quality, then publish and publicly validate immutable v0.2.91; do not move the tag or rewrite predecessor evidence.",
+  "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-805-release-tag-input",
+  "workItemId": "WI-804-release-route-ordering"
+}

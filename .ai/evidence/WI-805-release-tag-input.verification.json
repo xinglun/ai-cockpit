@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
-  "createdAt": "2026-09-12T11:42:05Z",
+  "contractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "createdAt": "2026-09-12T11:57:10Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 243426,
-      "executionElapsedMs": 242717,
+      "elapsedMs": 249597,
+      "executionElapsedMs": 249150,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 243426,
-    "executionElapsedMs": 242717,
-    "filesHashed": 14,
-    "filesRead": 16,
+    "elapsedMs": 249597,
+    "executionElapsedMs": 249150,
+    "filesHashed": 10,
+    "filesRead": 12,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,18 +36,15 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        ".github/workflows/release.yml",
-        "tests/release/workflow_policy.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
-      "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",
+      "baseRevision": "f0ed004fe684c1ca5e060f01403b7b6336fb099b",
       "dependencyConfidence": "unknown",
       "escalations": [],
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 242717,
+      "executionElapsedMs": 249150,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -64,7 +61,7 @@
       ],
       "sharedNodes": [],
       "stage": "task",
-      "workItemId": "WI-804-release-route-ordering"
+      "workItemId": "WI-805-release-tag-input"
     },
     "planningElapsedMs": 0,
     "processSpawnFailures": 0,
@@ -79,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ae48ba9ddb1585141a76926b009d004d3818de0b55d8d8708f90df5927b65749",
+        "outputDigest": "sha256:fcd4ce9a81517a8c93571cd7433b914d5cc509c0815d3bfa3c65dd9662151728",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -93,12 +90,12 @@
     ],
     "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
     "runtimeVersion": "0.2.91",
-    "workItemId": "WI-804-release-route-ordering"
+    "workItemId": "WI-805-release-tag-input"
   },
-  "receiptDigest": "sha256:f1e45cf564c33199c3e652829fefb22132c249842da3b432edbe798a4c236dc6",
+  "receiptDigest": "sha256:60fba34d6882e72b8c464768b404614af05b347ba0f8f95532063577c0edad2d",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
   "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
   "runtimeVersion": "0.2.91",
-  "workItemId": "WI-804-release-route-ordering"
+  "workItemId": "WI-805-release-tag-input"
 }

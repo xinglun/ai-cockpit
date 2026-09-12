@@ -29,16 +29,16 @@
     "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
     "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation."
   ],
-  "createdAt": "2026-09-12T11:42:37Z",
+  "createdAt": "2026-09-12T11:57:19Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:582aa2179af0129dbed1c01c68a13064db9ac25d8cb7caeacef6677f6d35a284",
+  "evidenceDigest": "sha256:4488b68065afa148a45df952e1454074e1dadc923381c45e4d18d081d14d1678",
   "evidenceRefs": [
-    ".ai/evidence/WI-804-release-route-ordering.verification.json"
+    ".ai/evidence/WI-805-release-tag-input.verification.json"
   ],
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [
-      ".ai/evidence/WI-804-release-route-ordering.verification.json"
+      ".ai/evidence/WI-805-release-tag-input.verification.json"
     ],
     "state": "unknown",
     "unknowns": [
@@ -54,11 +54,11 @@
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
-        ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ".ai/evidence/WI-805-release-tag-input.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
       "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
-      "workItemId": "WI-804-release-route-ordering"
+      "workItemId": "WI-805-release-tag-input"
     },
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "green",
@@ -68,47 +68,40 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+            ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+            ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+            ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+            ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
+          "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json"
         }
       ],
       "evidence": [
         {
           "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+            ".ai/evidence/WI-805-release-tag-input.verification.json"
           ],
           "inference": false,
-          "text": ".ai/evidence/WI-804-release-route-ordering.verification.json"
+          "text": ".ai/evidence/WI-805-release-tag-input.verification.json"
         }
       ],
       "findings": [],
@@ -126,7 +119,7 @@
       "outcomeSummary": [
         {
           "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+            ".ai/evidence/WI-805-release-tag-input.verification.json"
           ],
           "inference": false,
           "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
@@ -136,7 +129,7 @@
       "residualRisks": [
         {
           "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+            ".ai/evidence/WI-805-release-tag-input.verification.json"
           ],
           "inference": false,
           "text": "Remaining unknown: user_visible_benefit_not_declared"
@@ -145,7 +138,7 @@
       "resolutions": [
         {
           "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+            ".ai/evidence/WI-805-release-tag-input.verification.json"
           ],
           "inference": false,
           "text": "The current verification evidence is valid for this repository and Work Item."
@@ -155,16 +148,16 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+            ".ai/work-items/active/WI-805-release-tag-input.contract.json"
           ],
           "inference": false,
-          "text": "Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start."
+          "text": "Bind the continuation Work Item to the current branch and pull request, catch publish-tag identity errors before expensive release work, and complete public v0.2.91 acceptance without moving the immutable tag."
         }
       ],
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+            ".ai/work-items/active/WI-805-release-tag-input.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -172,17 +165,17 @@
       ]
     },
     "status": "verified",
-    "workItemId": "WI-804-release-route-ordering"
+    "workItemId": "WI-805-release-tag-input"
   },
-  "taskReportDigest": "sha256:6e140a752b89116fd62475d020dc388aa2d28dfc493f471e33b840a34d6e85fd",
-  "taskReportMarkdownDigest": "sha256:a0a281f2a3a9a180ee029c1cb1dddb079d0f5c1d9576b895866e951f2ea5c99c",
+  "taskReportDigest": "sha256:324cbd21194b2902e2fdeb213955b1d5057d5c4c60dad323efeab2f01b47846b",
+  "taskReportMarkdownDigest": "sha256:ad53a03e5a2f83cb1ca0ebb691cd09302750582ce41026973100c1a06ac48c45",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
   "verification": {
-    "evidencePath": ".ai/evidence/WI-804-release-route-ordering.verification.json",
+    "evidencePath": ".ai/evidence/WI-805-release-tag-input.verification.json",
     "required": true,
     "status": "verified"
   },
-  "workItemId": "WI-804-release-route-ordering"
+  "workItemId": "WI-805-release-tag-input"
 }

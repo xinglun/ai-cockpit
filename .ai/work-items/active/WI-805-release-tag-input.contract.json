@@ -1,5 +1,5 @@
 {
-  "acceptanceResults": [
+  "acceptanceCriteria": [
     "Manual publish_existing_tag recovery plans governance against the current workflow orchestration revision and selects the active Contract whose base is the merge parent, while the immutable target tag remains the artifact source identity.",
     "Build jobs cannot start unless release_preflight, source_quality, and release_tools all succeed; a source-quality failure stops dependent expensive work.",
     "Existing normal push/tag and non-recovery dispatch behavior remains compatible, and recovery source checkout still uses the requested immutable tag.",
@@ -29,160 +29,109 @@
     "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
     "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation."
   ],
-  "createdAt": "2026-09-12T11:42:37Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:582aa2179af0129dbed1c01c68a13064db9ac25d8cb7caeacef6677f6d35a284",
-  "evidenceRefs": [
-    ".ai/evidence/WI-804-release-route-ordering.verification.json"
+  "authority": "authorized",
+  "baseRevision": "f0ed004fe684c1ca5e060f01403b7b6336fb099b",
+  "createdAt": "2026-09-12T11:49:20Z",
+  "goal": "Bind the continuation Work Item to the current branch and pull request, catch publish-tag identity errors before expensive release work, and complete public v0.2.91 acceptance without moving the immutable tag.",
+  "intent": "Repair release recovery continuation identity after the early PR route rejected the new branch.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime semantics",
+    "release versioning",
+    "existing v0.2.91 tag or Release identity",
+    "historical WI-801/WI-802/WI-803 generated records",
+    "object-engineering performance measurements",
+    "object-engineering source repositories and their repository-local instruction files",
+    "global Agent or MCP configuration",
+    "provider-specific Agent prompt files outside the repository-owned adapter section"
   ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-804-release-route-ordering.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
-    "bindings": {
-      "evidenceRefs": [
-        ".ai/evidence/WI-804-release-route-ordering.verification.json"
-      ],
-      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
-      "workItemId": "WI-804-release-route-ordering"
-    },
-    "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "green",
-    "schemaVersion": 1,
-    "sections": {
-      "avoidedImpact": [],
-      "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
-        }
-      ],
-      "evidence": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
-          ],
-          "inference": false,
-          "text": ".ai/evidence/WI-804-release-route-ordering.verification.json"
-        }
-      ],
-      "findings": [],
-      "forbiddenClaims": [
-        "merge_authorized_without_human_decision",
-        "release_published_without_release_evidence",
-        "provider_or_enterprise_approval_inferred_from_local_records",
-        "user_visible_benefit_invented_from_implementation_facts"
-      ],
-      "forcedStops": [],
-      "humanDecisions": [],
-      "interventions": [],
-      "limitations": [],
-      "nonRiskExplanations": [],
-      "outcomeSummary": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
-          ],
-          "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
-        }
-      ],
-      "recurrencePrevention": [],
-      "residualRisks": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
-          ],
-          "inference": false,
-          "text": "Remaining unknown: user_visible_benefit_not_declared"
-        }
-      ],
-      "resolutions": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-804-release-route-ordering.verification.json"
-          ],
-          "inference": false,
-          "text": "The current verification evidence is valid for this repository and Work Item."
-        }
-      ],
-      "risks": [],
-      "taskOverview": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
-          ],
-          "inference": false,
-          "text": "Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start."
-        }
-      ],
-      "warnings": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
-          ],
-          "inference": false,
-          "text": "User-visible benefit is not declared by the Work Item owner."
-        }
-      ]
-    },
-    "status": "verified",
-    "workItemId": "WI-804-release-route-ordering"
-  },
-  "taskReportDigest": "sha256:6e140a752b89116fd62475d020dc388aa2d28dfc493f471e33b840a34d6e85fd",
-  "taskReportMarkdownDigest": "sha256:a0a281f2a3a9a180ee029c1cb1dddb079d0f5c1d9576b895866e951f2ea5c99c",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
+  "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+  "requiredEvidenceClasses": [
+    "hosted run 34672303796 failure log and route artifact",
+    "workflow diff and policy regression output",
+    "Runtime preflight/checkpoint/verify receipts",
+    "PR hosted checks",
+    "post-merge release run and public artifact acceptance evidence",
+    "CLI first-start help and output regression",
+    "CLI capability surface inventory",
+    "CLI command reference and capability index parity"
   ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-804-release-route-ordering.verification.json",
-    "required": true,
-    "status": "verified"
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-804-release-tag-input",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/782",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-804-release-route-ordering"
   },
-  "workItemId": "WI-804-release-route-ordering"
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The pull-request route selects WI-805-release-tag-input through its current branch and resource context, and does not reject the continuation because WI-804 retains its historical merged-branch binding.",
+      "required": true,
+      "scenario": "continuation PR selects the current branch-bound Contract before quality execution",
+      "status": "unverified",
+      "verificationPlan": "Run the hosted pull-request quality route for PR #782 and inspect the route receipt and job result before any release dispatch."
+    },
+    {
+      "evidence": [],
+      "expected": "The recovery workflow creates or reuses only the Release for immutable tag v0.2.91, even when dispatch runs from main, and refuses identity mismatch without moving the tag.",
+      "required": true,
+      "scenario": "recovery publish binds Release creation to the immutable requested tag",
+      "status": "unverified",
+      "verificationPlan": "Run the post-merge publish_existing_tag recovery and inspect the publish identity, Release metadata, manifest, and public artifact acceptance receipts."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "docs/reference/agent-first-start.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/agent.rs",
+    "docs/reference/commands.md",
+    "docs/capabilities.md",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "tests/ci/repository_gate_manifest.json",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/workspace_package_coverage_test.sh",
+    "tests/ci/repository_gate_manifest_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-805-release-tag-input"
 }
