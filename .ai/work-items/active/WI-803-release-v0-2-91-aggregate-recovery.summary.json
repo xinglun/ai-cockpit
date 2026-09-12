@@ -1,11 +1,7 @@
 {
-  "changedPaths": [
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.contract.json",
-    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.summary.json"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-09-12T02:18:11Z",
-  "checkpointContractDigest": "sha256:5a177ca8fee0d7196bf488234028903fdeb7977586706484bac301e547b26725",
+  "checkpointContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
   "createdAt": "2026-09-12T02:15:18Z",
@@ -19,16 +15,13 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
   "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
-  "preflightAt": "2026-09-12T02:37:20Z",
+  "preflightAt": "2026-09-12T02:46:01Z",
   "preflightContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
-  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
-  "preflightState": "red",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-802-release-v0-2-91-recovery.recovery.38eecf872b80c7a2b4a8c658269e9c2c1967627e068801060e96bd83a8210948.json",
-  "recoveryRetryDecisionDigest": "sha256:348939d1249ac7c2e59fcd63a7b107bdd01664597c54563347968ce45c1180aa",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -50,6 +43,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9e2f791029f3ba11e0031d2ad9f2401c944585cd7d847f8f219e52d5116653b1",
+  "verificationRecoveryReconciled": "sha256:56eeb080e4e731f83ffedec8100eadb672d1842590b7fe5ec5e124dffe61af0e",
   "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
 }
