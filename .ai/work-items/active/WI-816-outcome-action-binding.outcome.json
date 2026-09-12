@@ -2,11 +2,14 @@
   "acceptanceResults": [
     "Cleanup-pending and receipt-missing re-observation projections include the exact repository-bound Work Item finalize-verify command and never omit its binding arguments.",
     "The projection remains observe-only, does not recommend deletion, and uses the same action model consumed by human-facing rendering.",
-    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id."
+    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id.",
+    "A pull-request quality route for a Work Item without provider resourceContext resolves the unique active Contract encoded by the dedicated branch, without weakening exact resource-bound PR selection or release/recovery identity checks.",
+    "An absent or ambiguous branch-to-Work-Item mapping fails with one structured diagnostic before compilation or expensive quality jobs, and existing explicit release/recovery failures remain fail-closed.",
+    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection."
   ],
-  "createdAt": "2026-09-12T23:00:24Z",
+  "createdAt": "2026-09-12T23:22:25Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:1476ebbb32ba3502cb0cf5f98eec00cf399767a5750e7b2ff0f35b608d6bdb28",
+  "evidenceDigest": "sha256:200a50127cd547b34940a65e0e0e59f9fbe0af50336941029cab18591122f82a",
   "evidenceRefs": [
     ".ai/evidence/WI-816-outcome-action-binding.verification.json"
   ],
@@ -32,7 +35,7 @@
         ".ai/evidence/WI-816-outcome-action-binding.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:607945481f10a3d345323a1f2a3b582160ac2bed83f4c72fd717ac1d9cbd9167",
+      "repositorySnapshotDigest": "sha256:a3b9005b9c8e476d8aeaca95d7c38a73f0a1e129739d265acfef7bd45a2e697b",
       "workItemId": "WI-816-outcome-action-binding"
     },
     "format": "ai-cockpit.task-outcome",
@@ -67,7 +70,14 @@
             ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+          "text": "Changed path: tests/ci/resolve_work_item.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item_test.sh"
         }
       ],
       "evidence": [
@@ -142,8 +152,8 @@
     "status": "verified",
     "workItemId": "WI-816-outcome-action-binding"
   },
-  "taskReportDigest": "sha256:9acb095bf08c09b3fc51ee641b07c4fe72e76ae6d9e79796bf6b2df8f52604fc",
-  "taskReportMarkdownDigest": "sha256:b3e3dd8ed7cd40044a883bf3456695913c87a30102318115e5614e86530d416f",
+  "taskReportDigest": "sha256:4509ee45113c6d7332c7858eaf3ce09e2bdc9e33c34746f268a2eaf5482bc845",
+  "taskReportMarkdownDigest": "sha256:ef2ab1fa2e98cdd218c77423623d0a65a9147bf417b2697dad4854c9a4c1f331",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

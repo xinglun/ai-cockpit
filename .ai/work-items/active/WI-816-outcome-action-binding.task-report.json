@@ -4,7 +4,7 @@
       ".ai/evidence/WI-816-outcome-action-binding.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:607945481f10a3d345323a1f2a3b582160ac2bed83f4c72fd717ac1d9cbd9167",
+    "repositorySnapshotDigest": "sha256:a3b9005b9c8e476d8aeaca95d7c38a73f0a1e129739d265acfef7bd45a2e697b",
     "workItemId": "WI-816-outcome-action-binding"
   },
   "format": "ai-cockpit.task-outcome",
@@ -39,7 +39,14 @@
           ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+        "text": "Changed path: tests/ci/resolve_work_item.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/resolve_work_item_test.sh"
       }
     ],
     "evidence": [

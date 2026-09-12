@@ -17,7 +17,8 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-816-outcome-action-binding.contract.json
 - Changed path: .ai/work-items/active/WI-816-outcome-action-binding.summary.json
-- Changed path: crates/cockpit-repository/src/outcome_render.rs
+- Changed path: tests/ci/resolve_work_item.sh
+- Changed path: tests/ci/resolve_work_item_test.sh
 
 ## Findings
 

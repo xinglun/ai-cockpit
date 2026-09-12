@@ -54,6 +54,77 @@ jq -e \
   '.mode == "pull_request" and .workItemId == "WI-TEST" and .contractPath == ".ai/work-items/active/WI-TEST.contract.json" and .baseRevision == $base' \
   --arg base "$base" "$pull_request_output" >/dev/null
 
+cat > "$fixture/repo/.ai/work-items/active/WI-NO-RESOURCE.contract.json" <<JSON
+{
+  "workItemId": "WI-NO-RESOURCE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+no_resource_output="$fixture/no-resource-pull-request.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-no-resource \
+  --pr-url https://github.com/example/repo/pull/8 \
+  --output "$no_resource_output"
+jq -e \
+  '.mode == "pull_request" and .workItemId == "WI-NO-RESOURCE" and .selectionMethod == "pull_request_branch_work_item" and .contractPath == ".ai/work-items/active/WI-NO-RESOURCE.contract.json"' \
+  "$no_resource_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-AMBIGUOUS.contract.json" <<JSON
+{
+  "workItemId": "WI-AMBIGUOUS",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+cat > "$fixture/repo/.ai/work-items/active/WI-AMBIGUOUS-ALT.contract.json" <<JSON
+{
+  "workItemId": "WI-AMBIGUOUS-ALT",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/wi-ambiguous",
+    "worktree": "pending",
+    "baseBranch": "pending",
+    "baseRemote": "pending",
+    "provider": "pending",
+    "pullRequest": "pending"
+  },
+  "scope": ["README.md"]
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-ambiguous \
+  --pr-url https://github.com/example/repo/pull/9 \
+  --output "$fixture/ambiguous.json" >/dev/null 2>&1; then
+  echo 'expected ambiguous branch Work Item binding to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "work_item_contract_ambiguous" and (.message | contains("WI-AMBIGUOUS")) and (.message | contains("WI-AMBIGUOUS-ALT"))' "$fixture/ambiguous.json" >/dev/null
+
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-missing \
+  --pr-url https://github.com/example/repo/pull/10 \
+  --output "$fixture/unmatched.json" >/dev/null 2>&1; then
+  echo 'expected unmatched branch Work Item binding to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "work_item_contract_unresolved" and .state == "failed"' "$fixture/unmatched.json" >/dev/null
+
 recovery_output="$fixture/recovery.json"
 "$resolver" \
   --repo "$fixture/repo" \

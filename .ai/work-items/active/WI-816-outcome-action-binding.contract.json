@@ -2,7 +2,10 @@
   "acceptanceCriteria": [
     "Cleanup-pending and receipt-missing re-observation projections include the exact repository-bound Work Item finalize-verify command and never omit its binding arguments.",
     "The projection remains observe-only, does not recommend deletion, and uses the same action model consumed by human-facing rendering.",
-    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id."
+    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id.",
+    "A pull-request quality route for a Work Item without provider resourceContext resolves the unique active Contract encoded by the dedicated branch, without weakening exact resource-bound PR selection or release/recovery identity checks.",
+    "An absent or ambiguous branch-to-Work-Item mapping fails with one structured diagnostic before compilation or expensive quality jobs, and existing explicit release/recovery failures remain fail-closed.",
+    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection."
   ],
   "authority": "explicit-user-authorized-root-cause-repair-and-release",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -26,7 +29,11 @@
   ],
   "risk": "normal",
   "scope": [
-    "crates/cockpit-repository/src/outcome_render.rs"
+    "crates/cockpit-repository/src/outcome_render.rs",
+    ".github/workflows/ci.yml",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/quality_route_test.py"
   ],
   "sources": [],
   "state": "implementation_active",

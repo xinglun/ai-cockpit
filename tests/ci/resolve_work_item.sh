@@ -185,6 +185,45 @@ else
   fail unsupported_event 'event must be pull_request, push, or workflow_dispatch'
 fi
 
+if ((${#candidate_contracts[@]} == 0)) && [[ "$event" == pull_request ]]; then
+  # Ordinary code Work Items do not declare a provider resource context, but
+  # their dedicated branch still gives CI one explicit, repository-local
+  # identity. Use only the canonical codex/<workItemId> branch form here;
+  # resource-bound Contracts remain subject to the exact branch+PR binding
+  # above, and release/recovery paths never use this fallback.
+  branch_work_item_candidates=()
+  branch_key=$(printf '%s' "$pr_head_ref" | tr '[:upper:]' '[:lower:]')
+  for contract_path in "${all_contracts[@]}"; do
+    if ! contract_id=$(jq -er '.workItemId' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON or has no workItemId'
+    fi
+    if ! resource_context_kind=$(jq -r '
+      if (.resourceContext == null) then "absent"
+      elif ((.resourceContext | type) != "object") then "invalid"
+      elif (.resourceContext.pullRequest == "pending" or ((.resourceContext.pullRequest // "") | startswith("pending:"))) then "provisional"
+      else "bound"
+      end
+    ' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
+    contract_key=$(printf '%s' "$contract_id" | tr '[:upper:]' '[:lower:]')
+    [[ "$resource_context_kind" != invalid ]] || \
+      fail contract_invalid 'an active Contract resourceContext is not an object'
+    if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
+    if [[ "$resource_context_kind" == absent && "$branch_key" == "codex/$contract_key" ]]; then
+      branch_work_item_candidates+=("$contract_path")
+    elif [[ "$resource_context_kind" == provisional && "$branch" == "$pr_head_ref" ]]; then
+      branch_work_item_candidates+=("$contract_path")
+    fi
+  done
+  if ((${#branch_work_item_candidates[@]} > 0)); then
+    candidate_contracts=("${branch_work_item_candidates[@]}")
+    selection_method='pull_request_branch_work_item'
+  fi
+fi
+
 if ((${#candidate_contracts[@]} == 0)); then
   if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
     fail work_item_contract_missing 'the explicitly requested active Contract does not exist'
