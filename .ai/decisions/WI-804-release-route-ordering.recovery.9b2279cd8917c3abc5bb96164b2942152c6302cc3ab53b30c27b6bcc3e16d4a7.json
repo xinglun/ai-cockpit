@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T06:48:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+  "predecessorEventsDigest": "sha256:3c475af6853ce372c3e9a0be1506b78356ef955545405b0f0a36c1b7e895417e",
+  "predecessorOutcomeDigest": "sha256:a8475187ccde17e95589b3ebd77e9e36063b8b6f54924392dde980032c161114",
+  "predecessorSummaryDigest": "sha256:26aaabee4052232594c94fa1f037308dd29b7262160945b439ad8800e7526972",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The release Runtime was rebuilt after the canonical procedure update, changing its bound identity. Rebind the same Work Item retry to the current Runtime and current Contract/Summary/Outcome/Events, preserving prior receipts and avoiding unrelated repeat verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and the affected verification under the rebuilt Runtime, then continue only with current evidence. Do not publish before hosted review.",
+  "runtimeDigest": "sha256:6470ea2ee1baf78589d005aec727f0504ff838271fd3c32afbff1047a509c06c",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

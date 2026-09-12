@@ -46,11 +46,12 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 結果は非ゼロで終了し、リポジトリコマンドを認可しません。
 
 これは entry gate であり、lifecycle-completion gate ではありません。
-`requiredEvidenceClasses` は引き続き finish/archive/close の要件です。
-後続の release、public-adopter、close、cleanup stage でしか生成できない
-evidence は、現在の command を開始できるか判定する pre-execution gate では
-missing として扱いません。lifecycle evaluator は completion boundary で
-宣言されたすべての class を引き続き強制します。
+`requiredEvidenceClasses` は lifecycle の要件として残りますが、evaluator は
+stage-aware に判定します。preflight、checkpoint、verification refresh、
+`finish` では、現在の source-verification boundary を認可できる evidence
+だけを強制します。後続の release、public-adopter、close、cleanup stage でしか
+生成できない evidence は、実際に取得できる `archive`/`close` で検査します。
+これにより `finish` が将来の stage の事実に依存することを防ぎます。
 
 entry gate で human preflight review が必要な場合は、Work Item Summary に記録された
 canonical preflight decision digest を再利用します。stage 固有の quality projection は
@@ -88,6 +89,10 @@ gate runner は command output を捕捉し、fixture が意図的に出す nega
 そのまま再表示しません。失敗 report には root code ごとに重複排除した `failureRoots`
 （root code、対象 gate ID、remediation）が一件ずつ入り、raw output は二重の失敗数になりません。
 成功した repository-gate receipt の schema は維持され、post-finalize evidence として使えます。
+
+workspace package tests が失敗した場合、package receipt は失敗した package、終了コード、上限付きの診断末尾を記録し、gate receipt
+にもその事実を引き継ぎます。これにより最初の recovery で具体的な失敗を特定できます。`reference_inventory_mismatch` は canonical
+reference-inventory gate 専用であり、無関係な test output に同じ語が現れても root classification は変わりません。
 
 runner report は `executionOrder`、`launchedGateIds`、`reusedGateIds` も束縛します。
 preflight error は gate command を一つも起動する前に保存され、各 gate の後に checkpoint

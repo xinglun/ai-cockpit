@@ -45,9 +45,10 @@ decision state、verification tier 和 evidence assurance。黄色或红色结�
 非零退出，不能授权执行仓库命令。
 
 这是启动前 gate，不是生命周期完成 gate。`requiredEvidenceClasses` 仍然是
-finish/archive/close 的要求；只能由后续发布、公开 adopter、关闭或清理阶段
-产生的 evidence，在本启动前 gate 判断是否可以启动当前命令时不会被当作缺失。
-生命周期 evaluator 仍会在完成边界强制检查每一个已声明的类别。
+生命周期要求，但 evaluator 按阶段判断：preflight、checkpoint、验证刷新和
+`finish` 只强制当前源码验证边界能够取得的 evidence。只能由后续发布、公开
+adopter、关闭或清理阶段产生的 evidence，会在实际能够取得它们的
+`archive`/`close` 阶段检查。这样 `finish` 不会依赖未来阶段才存在的事实。
 
 如果启动前需要人工 preflight 审查，entry gate 会复用 Work Item Summary
 记录的 canonical preflight decision digest。阶段特定的 quality 投影不会
@@ -81,6 +82,10 @@ gate runner 会捕获命令输出，不再把每个 fixture 预期的负向诊�
 按根因去重的 `failureRoots`（根因代码、受影响 gate ID 和 remediation）；原始命令输出
 不会被计为第二个失败。通过的 repository-gate receipt 保持原有 schema，因此仍可作为
 post-finalize evidence。
+
+如果 workspace package tests 失败，package receipt 会记录失败包、退出码和有界诊断尾部，gate receipt
+也会携带这些事实，供第一次恢复尝试直接定位。`reference_inventory_mismatch` 只保留给 canonical
+reference-inventory gate；无关测试输出中偶然出现这些词，不会改变根因分类。
 
 runner 报告还绑定 `executionOrder`、`launchedGateIds` 和 `reusedGateIds`。任何
 preflight 错误都会在启动 gate 命令前写入；每个 gate 后都会原子写入执行 checkpoint。

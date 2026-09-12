@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T07:08:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    "crates/cockpit-agent/src/lib.rs",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+  "predecessorEventsDigest": "sha256:e5270bff42aae5947aad893d356a5e418691bf9656cc77cddc39a74e5ed59d41",
+  "predecessorOutcomeDigest": "sha256:5dc191a774a392d574788621129b449e15d04c1e41f7e0afdb2362e9a2017e26",
+  "predecessorSummaryDigest": "sha256:030f06132ecfefa885904e34f4b9d2d20bb060479fe330a92d742c8798c26e63",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The final adapter delivery-order correction was rebuilt into the release Runtime, changing its identity. Rebind the same Work Item retry to the current Runtime and current Contract/Summary/Outcome/Events; no further source changes are planned, so no unrelated verification should repeat.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run final preflight and one final Runtime-bound workspace verification for the frozen source, then submit for hosted review. Do not repeat verification after this identity is bound unless source changes.",
+  "runtimeDigest": "sha256:c0f6b2566746a8b511f3b77b4cfddaee358af3a033abf217748cc9dbb62a2044",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

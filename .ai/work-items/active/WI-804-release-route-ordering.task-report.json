@@ -1,0 +1,123 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-804-release-route-ordering.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+    "workItemId": "WI-804-release-route-ordering"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-804-release-route-ordering.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+        ],
+        "inference": false,
+        "text": "Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-804-release-route-ordering"
+}

@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T06:58:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+  "predecessorEventsDigest": "sha256:e5270bff42aae5947aad893d356a5e418691bf9656cc77cddc39a74e5ed59d41",
+  "predecessorOutcomeDigest": "sha256:598eff4ebb25e5d71d9022b5fd60a339afb228e2c782882f2910d6f3a1d14528",
+  "predecessorSummaryDigest": "sha256:f1bb61cbafa30a59cfc05f8b65b5695ec128b6cf1f2e02c6cc2a1df81960578c",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The frozen canonical procedure and adapter projection were rebuilt into the release Runtime, changing the Runtime identity. Rebind the same Work Item retry to the final Runtime and current Contract/Summary/Outcome/Events, preserving all earlier receipts and avoiding unrelated repeat execution.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run final preflight and one final Runtime-bound verification for the frozen source; then continue to hosted review. Do not repeat verification after this identity is bound unless source changes.",
+  "runtimeDigest": "sha256:ec9309b2a017a0f33c1ac2120bde0c6130ab3cf2e8b5ebca91637dc1bcdcc287",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

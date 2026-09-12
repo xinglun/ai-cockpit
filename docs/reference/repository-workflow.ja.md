@@ -29,13 +29,15 @@ AI Cockpit は、限定された変更ごとに 1 Work Item、1 専用 branch/wo
 5. 宣言した scope だけを変更し、同じ `--repo` と明示的な argv で verify を記録してから `finish`、`archive` を実行します。
 6. 正確な branch を push し、1 件のレビュー済み PR を作成して必要な hosted check を待ちます。local `main` への merge でレビューを代替してはいけません。
 
-### Finalization context は明示的に束縛する
+### Finalization context は条件付き
 
-`start` が書き込む `resourceContext` は、明示的な
-`work-item finalize-plan` でレビュー済み PR、provider、base、branch、worktree
-を束縛するまで provisional です。`pending` と `pending:<stable-reference>` はどちらも
-provisional sentinel であり、`finish` や `archive` を認可できません。実際のレビュー済み
-resource で `finalize-plan` を先に実行してから終端 step に進みます。
+`resourceContext` は optional です。`start` は外部 provider、Pull Request、release
+resource の context を推測して作成しません。そのような resource がない Work Item は、
+provider finalization evidence なしで通常の `finish → archive → close` lifecycle を
+使えます。Contract が provider、Pull Request、branch/worktree resource、または別の
+external resource を宣言する場合は、verification/終端 step の前に明示的な
+`work-item finalize-plan` で束縛します。`pending` と `pending:<stable-reference>` は
+引き続き provisional sentinel であり、`finish` や `archive` を認可できません。
 
 ## Repository 全体の serial 境界
 
@@ -43,17 +45,29 @@ resource で `finalize-plan` を先に実行してから終端 step に進みま
 
 ## Merge、close、cleanup
 
-手順は次の順序です。
+Contract が external resource を宣言するかどうかで順序が変わります。
 
 ```text
+resource-bound:
 最新 remote 既定 base → 専用 branch/worktree → 実装
-→ verify/finish/archive → レビュー済み PR → merge → finalize-verify → close
+→ finalize-plan → preflight → checkpoint → verify → finish
+→ レビュー済み PR → merge
+→ Contract が宣言した hosted、candidate、release、public-artifact evidence（該当する場合）
+→ archive → finalize → finalize-verify → close → 既定 branch 同期
+→ 正確な branch/worktree の削除
+
+no external resource:
+最新 remote 既定 base → 専用 branch/worktree → 実装
+→ preflight → checkpoint → verify → finish → archive → close
 → 既定 branch 同期 → 正確な branch/worktree の削除
 ```
 
-PR merge 前に branch を削除せず、provider の自動削除で finalization を迂回しません。新しい
-Work Item の `close` には structured human decision、archive evidence、merge 済み PR identity、
-削除済み finalization receipt、fast-forward 同期済みの既定 branch、clean worktree が必要です。
+resource-bound の場合、PR merge 前に branch を削除せず、provider の自動削除で finalization を
+迂回しません。すべての新しい Work Item の `close` には structured human decision、archive
+evidence、fast-forward 同期済みの既定 branch、clean worktree が必要です。`finish` は source
+verification readiness だけを確立します。Contract が後続の hosted、candidate、release、
+public-artifact evidence を宣言する場合、その段階を archive の前に完了させます。resource-bound
+Work Item にはさらに merge 済み PR identity と削除済み finalization receipt が必要です。
 検証済みの歴史 shared-worktree または direct-merge receipt は、`historical_low` assurance、
 明示的な human authority、repository に束縛された Git facts がある場合だけ狭い `retained`
 例外を使えます。新しい Work Item には適用されず、歴史 evidence を昇格させません。失敗した

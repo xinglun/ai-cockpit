@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T09:33:53Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-first-start.md"
+  ],
+  "predecessorContractDigest": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+  "predecessorEventsDigest": "sha256:5a639f77b1ab9bc7e60221bfbd6ea4f5a2b9d35a648529a47ee23561539cf474",
+  "predecessorOutcomeDigest": "sha256:1b039dbb61b3016b9d9d43e4e3e65c364a185525abd7a25321d02b8f5815453a",
+  "predecessorSummaryDigest": "sha256:8749e16b817d6b23c81a9826f9b25f0a59767d5ff79f717250c72959dc48df80",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The tri-language repository workflow correction changed the source snapshot after finish-ready. The Runtime correctly rejects preflight from finish-ready; record one same-Work-Item retry to refresh only the affected snapshot-bound verification and finish projection, preserving the prior finish-ready evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one fresh candidate-bound verification against the corrected snapshot, then finish; do not repeat unrelated checks or alter the release identity.",
+  "runtimeDigest": "sha256:8366061cb3a3b687f2a016b228487429c216a05c07947995d15f926e3d7c87a6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

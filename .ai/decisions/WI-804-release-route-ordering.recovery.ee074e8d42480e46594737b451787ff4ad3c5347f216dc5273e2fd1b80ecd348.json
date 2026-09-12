@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T06:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+  "predecessorEventsDigest": "sha256:6027f67bea9e9b18178bad65f3bc9acb7086e98cb18e19c24539908379285c3c",
+  "predecessorOutcomeDigest": "sha256:fbb9c0edb1b7488078386536ec0348eed0caa8f544cf2f5d1762bdf518fa4b55",
+  "predecessorSummaryDigest": "sha256:7324f195ea8267590dc2f70c28d9254518f71c7021c23ecfeae136dbb5107aa7",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The repository owner accepted a shared agent first-start CLI gate and requested an inventory of command-line capabilities. Reopen the same Work Item before amending its Contract so the new scope remains in the existing authority and recovery chain; preserve prior evidence and do not dispatch a release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Amend and revalidate the current Contract with the CLI first-start command, help guidance, focused regression tests, and the documented CLI surface inventory. Re-run only affected verification under the rebuilt Runtime before hosted review; do not repeat unrelated checks or publish yet.",
+  "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

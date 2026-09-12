@@ -165,3 +165,78 @@ fn cli_cursor_install_uses_mdc_without_overwriting_legacy_user_rules() {
             .is_file()
     );
 }
+
+#[test]
+fn agent_help_exposes_the_first_start_gate() {
+    let output = Command::new(binary())
+        .args(["agent", "--help"])
+        .output()
+        .expect("agent help");
+    assert!(output.status.success(), "stderr: {:?}", output.stderr);
+    let help = String::from_utf8_lossy(&output.stdout);
+    assert!(help.contains("first-start"), "help: {help}");
+    assert!(
+        help.contains("Before repository operations"),
+        "help: {help}"
+    );
+}
+
+#[test]
+fn first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo() {
+    let repository = repository();
+    let before = fs::read_dir(repository.path())
+        .expect("read repository")
+        .map(|entry| entry.expect("entry").file_name())
+        .collect::<Vec<_>>();
+    let output = run(repository.path(), &["agent", "first-start"]);
+    assert!(output.status.success(), "stderr: {:?}", output.stderr);
+    let procedure = String::from_utf8_lossy(&output.stdout);
+    assert!(procedure.contains("Agent First-Start Procedure"));
+    assert!(procedure.contains("Establish the exact repository root"));
+    assert!(procedure.contains("Do not repeat a failed command blindly"));
+    assert!(procedure.contains("candidate"));
+    assert!(procedure.contains("fresh-install and N-1 upgrade acceptance in"));
+    assert!(procedure.contains("parallel"));
+    assert!(procedure.contains("Contract without release or public-artifact"));
+    assert!(procedure.contains("artifact stages"));
+    assert!(procedure.contains("never invent"));
+    assert!(procedure.contains("publish or"));
+    assert!(procedure.contains("adopter-acceptance phase"));
+    assert!(procedure.contains("amend first,"));
+    assert!(procedure.contains("then record one retry bound to the amended Contract"));
+    assert!(procedure.contains("work-item finalize-plan"));
+    assert!(procedure.contains("before verification"));
+    assert!(procedure.contains("finalize-verify"));
+    assert!(procedure.contains("complete those declared stages before `archive`"));
+    assert!(procedure.contains("ai-cockpit capability show --repo <path>"));
+    assert!(procedure.contains("Low-level Rust library helpers"));
+    let after = fs::read_dir(repository.path())
+        .expect("read repository")
+        .map(|entry| entry.expect("entry").file_name())
+        .collect::<Vec<_>>();
+    assert_eq!(before, after);
+}
+
+#[test]
+fn first_start_output_matches_the_installed_adapter_projection() {
+    let repository = repository();
+    attach(repository.path());
+    fs::write(repository.path().join("AGENTS.md"), "human rules\n").expect("AGENTS");
+    let install = run(
+        repository.path(),
+        &["agent", "install", "--provider", "codex"],
+    );
+    assert!(install.status.success(), "stderr: {:?}", install.stderr);
+    let first_start = run(repository.path(), &["agent", "first-start"]);
+    assert!(
+        first_start.status.success(),
+        "stderr: {:?}",
+        first_start.stderr
+    );
+    let procedure = String::from_utf8_lossy(&first_start.stdout);
+    let adapter = fs::read_to_string(repository.path().join("AGENTS.md")).expect("adapter");
+    assert!(
+        adapter.contains(procedure.trim()),
+        "adapter does not contain first-start gate"
+    );
+}

@@ -67,7 +67,8 @@ require_match '^\s*push:\s*$' 'tag trigger is required'
 require_match 'tags:\s*\['"'"'v\*'"'"'\]' 'only semantic v tags trigger publication'
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match '^  release_tools:' 'shared release acceptance tooling must be built once'
-require_match '^    needs: \[release_preflight, release_tools\]$' 'build must wait for the release_tools producer before downloading helpers'
+require_match '^    needs: \[release_preflight, source_quality\]$' 'expensive release helper compilation must wait for source quality'
+require_match '^    needs: \[release_preflight, source_quality, release_tools\]$' 'build must wait for source quality and release_tools before expensive compilation'
 require_match 'cockpit-release-tool-ubuntu-x86_64' 'Linux release jobs must consume the prebuilt release helper'
 require_match 'artifact:[[:space:]]*macos-arm64' 'macOS ARM release jobs must consume a prebuilt platform helper'
 require_match 'artifact:[[:space:]]*windows-x86_64' 'Windows release jobs must consume a prebuilt platform helper'
@@ -104,6 +105,31 @@ require_match '^  staged_adopter_acceptance:' 'pre-publication staged adopter ac
 require_match '^  staged_adopter_upgrade_acceptance:' 'pre-publication staged N-1 acceptance job must be present'
 require_match 'tests/ci/run_repository_gates\.py' 'source quality must run the canonical repository gate manifest'
 require_match 'target/release/ai-cockpit gate-plan' 'release preflight must derive the typed repository route in Rust'
+
+# The manifest-backed source-quality job is the single execution owner for
+# repository gates. Keep release_preflight limited to route/tool preparation;
+# duplicating any of these commands there makes a failed run repeat work and
+# can report the same root twice.
+release_preflight_block="$(awk '
+  /^  release_preflight:/ { in_job=1; next }
+  in_job && /^  [A-Za-z0-9_-]+:/ { exit }
+  in_job { print }
+' "$workflow")"
+for duplicated_gate in \
+  'tests/release/action_runtime_policy_test.sh' \
+  'tests/release/version_consistency_test.sh' \
+  'tests/release/version_consistency.sh' \
+  'tests/release/workflow_policy.sh' \
+  'tests/docs/parity_status_check.sh'; do
+  if grep -Fq "$duplicated_gate" <<<"$release_preflight_block"; then
+    printf 'policy failure: release_preflight duplicates canonical gate %s; source_quality is its sole execution owner\n' "$duplicated_gate" >&2
+    exit 1
+  fi
+done
+if ! grep -Fq 'Build the shared Rust route tool once' <<<"$release_preflight_block"; then
+  printf 'policy failure: release_preflight must be limited to route/tool preparation\n' >&2
+  exit 1
+fi
 fail_if_match 'python3 tests/ci/quality_route\.py' 'release must not run the compatibility Python route'
 require_match '--stage release' 'source quality must use the release route floor'
 require_match '--profile strict' 'source quality must require the strict route'
@@ -174,6 +200,17 @@ for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgra
     exit 1
   fi
 done
+recovery_route_block="$(awk '
+  /workflow_dispatch/ && /PUBLISH_EXISTING_TAG/ && /true/ && /if/ {
+    in_recovery=1
+  }
+  in_recovery { print }
+  in_recovery && /^          else$/ { exit }
+' "$workflow")"
+if ! grep -Fq 'release_source_revision=' <<<"$recovery_route_block" || ! grep -Fq 'head_revision="$(git rev-parse "' <<<"$recovery_route_block" || ! grep -Fq 'GITHUB_SHA}^{commit}")"' <<<"$recovery_route_block"; then
+  printf 'policy failure: immutable-tag recovery must validate the tag separately and plan governance against the current orchestration revision\n' >&2
+  exit 1
+fi
 if grep -Fq '\"cockpit-release\"' "$workflow"; then
   printf 'policy failure: release helper checksum extraction must not contain escaped quotes in Bash awk source\n' >&2
   exit 1

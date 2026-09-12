@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T06:16:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/commands.md",
+    "docs/capabilities.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:4707a7713307f51a56ec7c9da1c3220012e1a1088ea977eafbf6fb3f20d62053",
+  "predecessorEventsDigest": "sha256:6027f67bea9e9b18178bad65f3bc9acb7086e98cb18e19c24539908379285c3c",
+  "predecessorOutcomeDigest": "sha256:fbb9c0edb1b7488078386536ec0348eed0caa8f544cf2f5d1762bdf518fa4b55",
+  "predecessorSummaryDigest": "sha256:b69381fbb59ab39f2142f585374c9acfdf9734daf9ec09e66acecf6e487d94c2",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The CLI first-start capability is now also named in the canonical command reference and capability index. Rebind the same Work Item retry to the amended Contract and preserve all earlier receipts without repeating unrelated verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and only affected CLI/Agent/repository verification under the rebuilt Runtime, then finish once current evidence is green. Do not repeat unrelated checks or publish before hosted review.",
+  "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

@@ -1,10 +1,11 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
-    checkpoint_work_item, finish_work_item, plan_resource_finalization, preflight_work_item,
-    preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
-    revalidate_contract_amendment, run_repository_verification, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item, attach, checkpoint_work_item, finish_work_item, plan_resource_finalization,
+    preflight_work_item, preflight_work_item_with_runtime, record_verification,
+    record_verification_with_runtime, revalidate_contract_amendment, run_repository_verification,
+    start_work_item_with_options,
 };
 use std::{fs, process::Command};
 
@@ -239,6 +240,69 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
             .get("verificationRecoveryReconciled")
             .is_none(),
         "finish must consume the recovery projection marker"
+    );
+}
+
+#[test]
+fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
+    let directory = repository();
+    let id = "WI-ORDER-FUTURE-EVIDENCE";
+    start(
+        directory.path(),
+        id,
+        &[
+            "hosted-ci",
+            "public-install",
+            "public-upgrade",
+            "release-close",
+            "cleanup",
+        ],
+    );
+    let contract_path = contract(directory.path(), id);
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+
+    let preflight = preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    assert_eq!(preflight.state, DecisionState::Green);
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true}),
+        "0.2.8",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{id}.summary.json")),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(summary["preflightState"], "green");
+    finish_work_item(directory.path(), id).expect("finish must not require future evidence");
+
+    let archive = archive_work_item(directory.path(), id)
+        .expect_err("archive must retain the later-stage evidence boundary");
+    assert!(
+        archive.to_string().contains("valid verification evidence")
+            || archive.to_string().contains("green governance"),
+        "unexpected archive error: {archive}"
     );
 }
 

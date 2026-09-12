@@ -34,6 +34,8 @@ state=passed
 failure_phase=""
 failed_package=""
 failed_index=""
+failed_exit_code=""
+failure_diagnostic_tail=""
 if [[ -z "$metadata" ]]; then
   metadata="$tmp/metadata.json"
   if ! (cd "$root" && "$cargo_bin" metadata --locked --format-version 1 --no-deps) >"$metadata"; then
@@ -92,6 +94,7 @@ if [[ "$state" == passed ]]; then
           failure_phase=package_test
           failed_package=${packages[$index]}
           failed_index=$index
+          failed_exit_code=$result
         fi
         unset 'pids[index]'
         ((active -= 1))
@@ -103,6 +106,7 @@ fi
 
 if [[ "$state" != passed && -n "$failed_index" ]]; then
   cat "$tmp/results/$failed_index.log" >&2
+  failure_diagnostic_tail=$(tail -n 80 "$tmp/results/$failed_index.log" | tail -c 12000)
 fi
 
 # Completion order is intentionally independent from the worker schedule so
@@ -117,7 +121,7 @@ if [[ "$state" == passed || -n "$failed_index" ]]; then
 fi
 
 mkdir -p "$(dirname "$report")"
-python3 - "$tmp/planned" "$tmp/executed" "$report" "$state" "$failure_phase" "$failed_package" <<'PY'
+python3 - "$tmp/planned" "$tmp/executed" "$report" "$state" "$failure_phase" "$failed_package" "$failed_exit_code" "$failure_diagnostic_tail" <<'PY'
 import json
 import sys
 
@@ -137,8 +141,15 @@ if sys.argv[5]:
     report["failurePhase"] = sys.argv[5]
 if sys.argv[6]:
     report["failedPackage"] = sys.argv[6]
+if sys.argv[7]:
+    report["failedExitCode"] = int(sys.argv[7])
+if sys.argv[8]:
+    report["failureDiagnosticTail"] = sys.argv[8]
 open(sys.argv[3], "w", encoding="utf-8").write(json.dumps(report, indent=2, sort_keys=True) + "\n")
 PY
 
-[[ "$state" == passed ]] || exit 1
+if [[ "$state" != passed ]]; then
+  printf 'workspace package coverage failed: package=%s exitCode=%s\n' "$failed_package" "$failed_exit_code" >&2
+  exit 1
+fi
 printf 'workspace package coverage passed: %s packages\n' "$(wc -l <"$tmp/executed" | tr -d ' ')"

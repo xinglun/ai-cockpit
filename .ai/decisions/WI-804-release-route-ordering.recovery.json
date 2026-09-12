@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T04:57:30Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34672303796",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+  "predecessorSummaryDigest": "sha256:f187d904fdec69a502ac19f3b475833287da20a8ab8fbc5feb4cb9afcb7ccbf8",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The first Runtime verification reached the 300-second execution ceiling while running the full workspace Cargo command. The output was truncated before any source assertion failure, and the changed paths are limited to release workflow and policy files. Preserve the timeout as evidence and retry the same Work Item only with affected focused workflow-policy validation; do not repeat unrelated workspace tests or create a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the focused workflow-policy checks under the same WI, then refresh preflight and continue only if the current Contract and evidence bindings are green. Do not dispatch a release from this retry.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

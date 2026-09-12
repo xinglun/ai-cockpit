@@ -9,9 +9,11 @@
 //! operation; no final Outcome projection is fabricated here.
 
 use cockpit_core::Digest;
+use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
-    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item, preflight_work_item,
-    record_verification, scaffold_work_item, start_work_item_with_options,
+    WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
+    plan_resource_finalization, preflight_work_item, record_verification, scaffold_work_item,
+    start_work_item_with_options,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -267,8 +269,8 @@ fn scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_messag
     );
 }
 
-/// SCN-016: finish rejected until finalize-plan binds a non-provisional
-/// resource finalization context.
+/// SCN-016: finish rejected when an explicitly bound resource context remains
+/// provisional and has not been replaced by a complete finalize-plan.
 #[test]
 fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
     let directory = repository();
@@ -287,6 +289,19 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
         },
     )
     .expect("start");
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "unknown".into(),
+            base_remote: "unknown".into(),
+            provider: "unknown".into(),
+            pull_request: "unknown".into(),
+        },
+    )
+    .expect("explicit provisional resource context");
     preflight_work_item(directory.path(), &contract(directory.path(), id)).expect("preflight");
     checkpoint_work_item(directory.path(), id).expect("checkpoint");
     record_verification(
@@ -298,8 +313,10 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
     )
     .expect("verification");
 
-    // Deliberately skip `plan_resource_finalization` -- that omission is
-    // exactly what SCN-016 observes and what this test protects.
+    // Deliberately leave the explicitly applicable resource context
+    // provisional -- that is what SCN-016 observes and what this test
+    // protects. A Work Item with no resourceContext follows the ordinary
+    // finish/archive/close path instead.
     let error = finish_work_item(directory.path(), id).expect_err("finish must reject");
     let message = state_message(error);
     let matrix = scenario_matrix();
@@ -456,4 +473,54 @@ fn required_scenarios_have_structured_expectations_and_live_matrix_mutation_guar
         next_action_matches(&mutated, &actual).is_err() && !actual.contains(changed_expected),
         "a changed matrix expectation must be rejected by the live assertion"
     );
+}
+
+#[test]
+fn repository_workflow_docs_preserve_conditional_finalization_semantics() {
+    let root = repository_root();
+    let documents = [
+        (
+            "repository-workflow.md",
+            [
+                "`resourceContext` is optional",
+                "no external resource",
+                "resource-bound:",
+                "finalization evidence",
+                "finish → archive → close",
+                "before `archive`",
+            ],
+        ),
+        (
+            "repository-workflow.zh-CN.md",
+            [
+                "`resourceContext` 是可选的",
+                "无外部资源",
+                "有外部资源",
+                "provider finalization 证据",
+                "finish → archive → close",
+                "`archive` 才会评估",
+            ],
+        ),
+        (
+            "repository-workflow.ja.md",
+            [
+                "`resourceContext` は optional",
+                "no external resource:",
+                "resource-bound:",
+                "provider finalization evidence",
+                "finish → archive → close",
+                "archive の前",
+            ],
+        ),
+    ];
+    for (name, required) in documents {
+        let path = root.join("docs/reference").join(name);
+        let text = fs::read_to_string(&path).unwrap_or_else(|error| panic!("{name}: {error}"));
+        for phrase in required {
+            assert!(
+                text.contains(phrase),
+                "{name} lost required phrase {phrase:?}"
+            );
+        }
+    }
 }

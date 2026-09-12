@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-224-ci-reference-parity
+lastVerifiedBy: WI-804-release-route-ordering
 ---
 
 # CI Runtime Verification Shadow
@@ -40,10 +40,11 @@ workspace package coverage，并且只在其 regular receipt 文件存在时上�
 route 既不要求也不上传该文件。
 
 在 `standard` 和 `strict` 中，独立 execution shadow 下载公开且不可变的 `v0.2.28`
-Runtime，验证各平台 archive/binary digest，再使用仓库规范 profile 执行验证。receipt
-绑定 tag、version、archive digest、binary digest、platform、download source 与
-Runtime 结果。它拒绝源码构建、workspace binary、任意 `--command` 替代、未固定制品、
-digest 不一致和格式错误输出。
+Runtime，验证各平台 archive/binary digest，再执行固定的 `git version` smoke。receipt
+绑定 tag、version、archive digest、binary digest、platform、download source、smoke
+command 与 Runtime 结果。仓库规范 profile 仍然是必需的，但由选定的 quality-gate
+执行者单独执行，不能在 immutable Runtime 身份探针中重复执行。shadow 拒绝源码构建、
+workspace binary、command 替代、未固定制品、digest 不一致和格式错误输出。
 
 这是仓库 CI/release 层策略，不宣称 Runtime 全局 T0–T3 路由、affected graph 完整性、
 跨 Work Item 物理执行或通用 CLI `verify --command` 语义；WI-224 未授权 `crates/**`，

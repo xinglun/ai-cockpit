@@ -48,11 +48,12 @@ receipt digest, decision state, verification tier, and evidence assurance.
 Yellow or red output exits non-zero and cannot authorize repository commands.
 
 This is an entry gate, not a lifecycle-completion gate. `requiredEvidenceClasses`
-remain requirements for finish/archive/close; evidence that can only be
-produced by later release, public-adopter, close, or cleanup stages is not
-treated as missing while this pre-execution gate is deciding whether to start
-the current command. The lifecycle evaluator still enforces every declared
-class at its completion boundary.
+remain lifecycle requirements, but the evaluator is stage-aware: preflight,
+checkpoint, verification refresh, and `finish` enforce only evidence that can
+authorize the current source-verification boundary. Evidence produced only by
+later release, public-adopter, close, or cleanup stages is enforced by
+`archive`/`close`, where it can actually be obtained. This prevents `finish`
+from depending on facts that do not exist until a future stage.
 
 When a human preflight review is required, an entry gate reuses the canonical
 preflight decision digest recorded by the Work Item Summary. The stage-specific
@@ -95,6 +96,12 @@ expected negative diagnostic. A failed report contains one de-duplicated
 raw command output is not a second failure count. Passing repository-gate
 receipts keep their existing schema so they remain valid post-finalize
 evidence.
+
+If workspace package tests fail, the package receipt records the failed package,
+exit code, and a bounded diagnostic tail, and the gate receipt carries those
+facts for the first recovery diagnosis. `reference_inventory_mismatch` is
+reserved for the canonical reference-inventory gate; words appearing in an
+unrelated test failure do not change its root classification.
 
 Runner reports additionally bind `executionOrder`, `launchedGateIds`, and
 `reusedGateIds`. A preflight error is written before any gate command starts;

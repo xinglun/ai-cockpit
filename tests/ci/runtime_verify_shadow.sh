@@ -6,10 +6,15 @@ output="${2:-${AI_COCKPIT_SHADOW_OUTPUT:-target/ci-runtime-verify-shadow.json}}"
 runtime_tag="${AI_COCKPIT_RUNTIME_TAG:-v0.2.28}"
 
 # Phase 1 is an execution smoke only. It proves that one immutable public
-# Runtime can execute a repository-bound verification command. It does not
-# claim policy-route/planner coverage, affected-graph completeness, or
-# cross-Work-Item physical execution/evidence-receipt coverage.
+# Runtime can execute a deterministic repository-bound command. The canonical
+# repository profile is owned by the quality gate; invoking the default full
+# profile here would duplicate expensive verification and can expire the old
+# public Runtime before the actual quality gate runs. This smoke does not claim
+# policy-route/planner coverage, affected-graph completeness, or cross-
+# Work-Item physical execution/evidence-receipt coverage.
 shadow_boundary="execution_smoke"
+smoke_program="git"
+smoke_arg="version"
 
 die() {
   printf 'runtime verify shadow: %s\n' "$1" >&2
@@ -76,11 +81,15 @@ version="$($binary --version | awk '{print $2}')"
 
 mkdir -p "$(dirname "$output")"
 verify_output="$run_root/verify.json"
-if ! "$binary" verify --repo "$repo" --workers 2 > "$verify_output"; then
+if ! "$binary" verify \
+  --repo "$repo" \
+  --command "$smoke_program" \
+  --args "$smoke_arg" \
+  --workers 1 > "$verify_output"; then
   die 'installed public Runtime verify command failed'
 fi
 jq -e --arg version "$version" --arg digest "$runtime_digest" \
-  '.passed == true and .runtimeVersion == $version and .runtimeDigest == $digest' \
+  '.passed == true and .runtimeVersion == $version and .runtimeDigest == $digest and (.results | length) == 1 and .results[0].passed == true' \
   "$verify_output" >/dev/null || die 'Runtime verify output is missing a passing result or identity'
 
 jq -n \
@@ -91,9 +100,11 @@ jq -n \
   --arg platform "$target" \
   --arg downloadSource "$download_source" \
   --arg boundary "$shadow_boundary" \
+  --arg smokeProgram "$smoke_program" \
+  --arg smokeArg "$smoke_arg" \
   --slurpfile verify "$verify_output" \
-  '{schemaVersion:1,phase:1,boundary:$boundary,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],canonicalProfileRequired:true,nonClaims:["runtime_global_route","affected_graph","physical_execution_receipt"]}' \
+  '{schemaVersion:1,phase:1,boundary:$boundary,tag:$tag,version:$version,archiveDigest:$archiveDigest,binaryDigest:$binaryDigest,platform:$platform,downloadSource:$downloadSource,verify:$verify[0],executionSmokeCommand:{program:$smokeProgram,args:[$smokeArg]},canonicalProfileRequired:true,canonicalProfileExecution:"delegated_to_quality_gate",nonClaims:["runtime_global_route","affected_graph","physical_execution_receipt"]}' \
   > "$output"
 jq -e --arg tag "$runtime_tag" --arg digest "$runtime_digest" \
-  '.phase == 1 and .boundary == "execution_smoke" and .tag == $tag and .binaryDigest == $digest and .canonicalProfileRequired == true and .verify.passed == true and (.nonClaims | index("runtime_global_route")) != null and (.nonClaims | index("affected_graph")) != null and (.nonClaims | index("physical_execution_receipt")) != null' \
+  '.phase == 1 and .boundary == "execution_smoke" and .tag == $tag and .binaryDigest == $digest and .canonicalProfileRequired == true and .canonicalProfileExecution == "delegated_to_quality_gate" and .executionSmokeCommand.program == "git" and .executionSmokeCommand.args == ["version"] and .verify.passed == true and (.nonClaims | index("runtime_global_route")) != null and (.nonClaims | index("affected_graph")) != null and (.nonClaims | index("physical_execution_receipt")) != null' \
   "$output" >/dev/null || die 'Runtime shadow receipt is malformed'

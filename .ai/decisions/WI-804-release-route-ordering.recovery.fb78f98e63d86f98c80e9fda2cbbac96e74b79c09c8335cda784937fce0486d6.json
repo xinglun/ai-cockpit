@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T10:03:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh",
+    "docs/reference/ci-runtime-shadow.md",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34686419190"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-first-start.md"
+  ],
+  "predecessorContractDigest": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
+  "predecessorEventsDigest": "sha256:c3702bc0048279b15b07039787c9b44891aa2ae869308803248dcc0ba6c924c9",
+  "predecessorOutcomeDigest": "sha256:b6d38717e79b3df2189b5c14710078df8b765706232ef4b2406c3d422ad3d98d",
+  "predecessorSummaryDigest": "sha256:b50a4f683107746824f1f914f52e63e94a3c7f5feb5ac5431e9e6aa5c14030fd",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The immutable Runtime shadow root cause was fixed in the same Work Item: the historical public Runtime was incorrectly asked to repeat the full workspace verification and expired before the canonical quality gate. Rebind one retry to the corrected pinned execution smoke, preserving the failed CI evidence and avoiding unrelated verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one candidate-bound verification against the corrected snapshot, then finish; do not repeat unrelated checks, manually rerun the failed CI, or alter the v0.2.91 release identity.",
+  "runtimeDigest": "sha256:8366061cb3a3b687f2a016b228487429c216a05c07947995d15f926e3d7c87a6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

@@ -29,12 +29,14 @@ AI Cockpit 对一个有界变更使用一个 Work Item、一个专用分支/work
 5. 只修改声明范围，用同一个 `--repo` 和显式 argv 记录验证，然后运行 `finish` 与 `archive`。
 6. 推送精确分支，创建一个经过评审的 PR，等待必需的托管检查。不能用本地合并到 `main` 替代评审。
 
-### Finalization 上下文必须明确
+### Finalization 上下文按条件适用
 
-`start` 写入的 `resourceContext` 在显式运行
-`work-item finalize-plan` 绑定已评审的 PR、provider、base、分支和 worktree
-之前都属于临时上下文。`pending` 和 `pending:<stable-reference>` 都是临时哨兵，
-不能授权 `finish` 或 `archive`。必须先用真实的已评审资源运行 `finalize-plan`，再执行终态步骤。
+`resourceContext` 是可选的。`start` 不会凭空创建外部 provider、Pull Request
+或发布资源上下文。没有这类资源的 Work Item 可以直接使用普通的
+`finish → archive → close` 生命周期，不需要 provider finalization 证据。如果
+Contract 声明了 provider、Pull Request、分支/worktree 资源或其他外部资源，必须在
+verification/终态步骤前使用显式的 `work-item finalize-plan` 绑定它。`pending` 和
+`pending:<stable-reference>` 仍是临时哨兵，不能授权 `finish` 或 `archive`。
 
 ## 仓库级串行边界
 
@@ -42,17 +44,28 @@ Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 det
 
 ## 合并、关闭和清理
 
-交付顺序为：
+交付顺序取决于 Contract 是否声明了外部资源：
 
 ```text
+有外部资源：
 最新远端默认基线 → 专用分支/worktree → 实现
-→ verify/finish/archive → 评审 PR → merge → finalize-verify → close
+→ finalize-plan → preflight → checkpoint → verify → finish
+→ 评审 PR → merge
+→ Contract 声明的 hosted、candidate、release 或 public-artifact 证据（如适用）
+→ archive → finalize → finalize-verify → close → 同步默认分支
+→ 删除精确分支/worktree
+
+无外部资源：
+最新远端默认基线 → 专用分支/worktree → 实现
+→ preflight → checkpoint → verify → finish → archive → close
 → 同步默认分支 → 删除精确分支/worktree
 ```
 
-PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。新的 Work Item 的
-`close` 需要结构化人工决定、归档证据、合并 PR identity、已删除的 finalization receipt、
-快进同步的默认分支和干净 worktree。已验证的历史 shared-worktree 或 direct-merge receipt
+有外部资源时，PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。新的
+Work Item 的 `close` 都需要结构化人工决定、归档证据、快进同步的默认分支和干净 worktree；
+`finish` 只建立源码验证就绪状态；如果 Contract 声明了后续 hosted、candidate、release 或
+public-artifact 证据，必须先完成这些阶段，`archive` 才会评估其严格完成边界。有外部资源的
+Work Item 还需要合并 PR identity 和已删除的 finalization receipt。已验证的历史 shared-worktree 或 direct-merge receipt
 可以在 `historical_low` assurance、明确人工授权和 repository 绑定的 Git 事实下使用窄化
 `retained` 例外；它不适用于新的 Work Item，也不会升级历史 evidence。任何失败的后置条件
 都会保持可见并 fail closed。

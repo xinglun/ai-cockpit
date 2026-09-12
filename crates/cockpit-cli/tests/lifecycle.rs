@@ -90,7 +90,7 @@ fn run_output(binary: &str, args: &[&str], repo: &std::path::Path) -> std::proce
 }
 
 #[test]
-fn finish_command_requires_finalize_plan_and_preserves_active_files() {
+fn finish_command_requires_finalize_plan_for_bound_resource_and_preserves_active_files() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");
     assert!(
@@ -119,6 +119,37 @@ fn finish_command_requires_finalize_plan_and_preserves_active_files() {
         .output()
         .expect("start");
     assert!(started.status.success());
+    let context_file = tempfile::NamedTempFile::new().expect("resource context");
+    fs::write(
+        context_file.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "branch": "feature/WI-ARCHIVE-PLAN",
+            "worktree": repo.display().to_string(),
+            "baseBranch": "unknown",
+            "baseRemote": "unknown",
+            "provider": "unknown",
+            "pullRequest": "unknown"
+        }))
+        .expect("context JSON"),
+    )
+    .expect("write context");
+    let context_path = context_file.path().to_string_lossy().into_owned();
+    assert!(
+        run_output(
+            binary,
+            &[
+                "work-item",
+                "finalize-plan",
+                "--id",
+                "WI-ARCHIVE-PLAN",
+                "--input",
+                context_path.as_str(),
+            ],
+            &repo,
+        )
+        .status
+        .success()
+    );
     assert!(
         run_output(
             binary,
@@ -137,20 +168,21 @@ fn finish_command_requires_finalize_plan_and_preserves_active_files() {
             .status
             .success()
     );
+    let verification = run_output(
+        binary,
+        &[
+            "verify",
+            "--work-item",
+            "WI-ARCHIVE-PLAN",
+            "--command",
+            "true",
+        ],
+        &repo,
+    );
     assert!(
-        run_output(
-            binary,
-            &[
-                "verify",
-                "--work-item",
-                "WI-ARCHIVE-PLAN",
-                "--command",
-                "true",
-            ],
-            &repo,
-        )
-        .status
-        .success()
+        verification.status.success(),
+        "verification stderr: {}",
+        String::from_utf8_lossy(&verification.stderr)
     );
     let active = repo.join(".ai/work-items/active");
     let contract_before =

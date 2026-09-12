@@ -3065,8 +3065,9 @@ pub fn evaluate_contract_quality_gate(
     // close, and cleanup evidence cannot be required before those stages can
     // produce it.  The mutable lifecycle gates still use the strict normal
     // governance path below and enforce every declared class.
-    let decision =
-        governance_decision_for_pre_execution_quality_gate(&root, &contract, &snapshot, stage)?;
+    let decision = governance_decision_for_pre_execution_quality_gate(
+        &root, &contract, &snapshot, stage, runtime,
+    )?;
     blockers.extend(decision.blockers.clone());
     blockers.sort();
     blockers.dedup();
@@ -3129,6 +3130,7 @@ fn governance_decision_for_pre_execution_quality_gate(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
     stage: VerificationStage,
+    _runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
     // Every current quality-gate stage is an entry check for work that has
     // not yet produced completion evidence.  Keep the match exhaustive so a
@@ -3139,7 +3141,12 @@ fn governance_decision_for_pre_execution_quality_gate(
         | VerificationStage::PullRequest
         | VerificationStage::Merge
         | VerificationStage::Release => {
-            pre_execution_quality_evidence_state(root, contract, snapshot)?
+            // This is a read-only hosted entry gate. Its own report is bound
+            // to `runtime`, but a receipt produced on a developer machine or
+            // another runner must not make the source gate contradictory.
+            // Runtime-bound lifecycle operations still pass their current
+            // identity and enforce replacement through an explicit retry.
+            pre_execution_quality_state(root, contract, snapshot, None)?
         }
     };
     let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
@@ -3193,15 +3200,19 @@ fn canonical_preflight_decision_digest(
         .and_then(|value| value.parse::<Digest>().ok()))
 }
 
-fn pre_execution_quality_evidence_state(
+/// Evidence that may authorize starting or finishing the current source
+/// verification. Later lifecycle evidence is intentionally not part of this
+/// boundary; archive/close continue to use the strict evaluator.
+pub(crate) fn pre_execution_quality_state(
     root: &Path,
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
 ) -> Result<EvidenceState, ObserverError> {
     // `verification` is the only completion class that can be meaningfully
     // required by the entry gate: an existing receipt can prove that the
     // current source was already verified, and a missing or stale one must
-    // remain visible.  Provider/release/adopter/close/cleanup classes are
+    // remain visible. Provider/release/adopter/close/cleanup classes are
     // produced after this gate and belong to the mutable lifecycle boundary.
     let requires_verification = contract.required_evidence_classes.iter().any(|class| {
         matches!(
@@ -3209,11 +3220,36 @@ fn pre_execution_quality_evidence_state(
             "verification" | "verification_receipt" | "verification-receipt"
         )
     });
-    if requires_verification {
-        verification_evidence_state(root, contract, snapshot, false, None)
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    if requires_verification || fs::symlink_metadata(&evidence_path).is_ok() {
+        verification_evidence_state(root, contract, snapshot, false, current_runtime)
     } else {
         Ok(EvidenceState::Complete)
     }
+}
+
+/// Evaluate governance at a pre-execution or finish boundary. Completion
+/// classes produced by later provider, release, adopter, close, and cleanup
+/// stages are deliberately excluded here.
+pub(crate) fn governance_decision_for_pre_execution_boundary(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    observation: Option<&ObservationContext>,
+) -> Result<GovernanceDecision, ObserverError> {
+    let evidence = pre_execution_quality_state(root, contract, snapshot, current_runtime)?;
+    governance_decision_for_contract_base_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        current_runtime,
+        false,
+        Some(evidence),
+        observation,
+    )
 }
 
 pub fn verification_operation_for_contract(contract: &cockpit_protocol::Contract) -> &str {
@@ -4286,6 +4322,27 @@ fn require_green_governance_internal(
     operation: &str,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<(), ObserverError> {
+    if operation == "finish" {
+        let decision = governance_decision_for_pre_execution_boundary(
+            root,
+            contract,
+            snapshot,
+            current_runtime,
+            None,
+        )?;
+        let decision =
+            apply_preflight_review_evidence(root, contract, snapshot, decision, false, None)?;
+        if decision.state != DecisionState::Green {
+            return Err(ObserverError::State {
+                path: contract_path.to_path_buf(),
+                message: format!(
+                    "{operation} requires a green governance decision (state={:?}, blockers={:?}, unknowns={:?})",
+                    decision.state, decision.blockers, decision.unknowns
+                ),
+            });
+        }
+        return Ok(());
+    }
     require_green_governance_internal_with_archive(
         root,
         contract_path,
@@ -5527,24 +5584,6 @@ fn archive_superseded_work_item(
     })
 }
 
-/// Return a best-effort local branch/worktree context for a newly started
-/// Work Item.  Provider/PR identity is intentionally provisional until an
-/// explicit `finalize-plan` receipt is supplied; no local fact is promoted to
-/// provider assurance implicitly.
-fn provisional_resource_context(root: &Path) -> ResourceFinalizationContext {
-    let branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
-        .filter(|value| !value.is_empty())
-        .unwrap_or_else(|| "detached".into());
-    ResourceFinalizationContext {
-        branch,
-        worktree: root.to_string_lossy().into_owned(),
-        base_branch: "unknown".into(),
-        base_remote: "unknown".into(),
-        provider: "unknown".into(),
-        pull_request: "unknown".into(),
-    }
-}
-
 fn git_text(root: &Path, args: &[&str]) -> Option<String> {
     let output = Command::new("git")
         .arg("-C")
@@ -5590,12 +5629,12 @@ fn require_explicit_resource_finalization_plan(
     operation: &str,
 ) -> Result<(), ObserverError> {
     let Some(context) = contract.resource_context.as_ref() else {
-        return Err(ObserverError::State {
-            path: contract_path.to_path_buf(),
-            message: format!(
-                "{operation} requires an explicit resource finalization plan; run finalize-plan before {operation}"
-            ),
-        });
+        // A Contract without resourceContext is an explicit no-external-
+        // resource boundary.  Object-engineering repositories and local-only
+        // Work Items must be able to complete their ordinary lifecycle without
+        // fabricating a provider/PR plan.  If a context is present, however,
+        // it remains subject to the strict checks below.
+        return Ok(());
     };
     if context.is_provisional() {
         return Err(ObserverError::State {
@@ -7500,9 +7539,24 @@ fn local_resources_deleted(
             message: "cannot determine local worktree state".into(),
         }
     })?;
+    // Git reports the canonical worktree path on platforms such as macOS,
+    // while a provider receipt may retain the path spelling captured before
+    // canonicalization (for example, /var versus /private/var).  Compare
+    // existing paths by filesystem identity so a live worktree cannot be
+    // mistaken for a removed one merely because its spelling differs.  A
+    // missing receipt path is intentionally compared literally: it cannot
+    // identify an existing worktree through canonicalization.
+    let receipt_worktree = Path::new(&receipt.worktree.path)
+        .canonicalize()
+        .unwrap_or_else(|_| PathBuf::from(&receipt.worktree.path));
     if worktrees.lines().any(|line| {
-        line.strip_prefix("worktree ")
-            .is_some_and(|path| path == receipt.worktree.path)
+        line.strip_prefix("worktree ").is_some_and(|path| {
+            let actual_worktree = Path::new(path);
+            actual_worktree
+                .canonicalize()
+                .map(|canonical| canonical == receipt_worktree)
+                .unwrap_or_else(|_| actual_worktree == receipt_worktree)
+        })
     }) {
         return Ok(false);
     }
@@ -8029,10 +8083,7 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
-        let finalization_path = resource_finalization_decision_path(&root, work_item_id);
-        if contract.resource_context.is_some()
-            && (current_runtime.is_some() || fs::symlink_metadata(&finalization_path).is_ok())
-        {
+        if contract.resource_context.is_some() {
             finalization_binding = Some(require_resource_finalization_for_close(
                 &root,
                 work_item_id,

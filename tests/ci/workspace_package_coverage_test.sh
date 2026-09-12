@@ -39,6 +39,29 @@ PACKAGE_LOG="$tmp/out-of-order-packages.log" WORKSPACE_TEST_WORKERS=2 WORKSPACE_
 jq -e '.state == "passed" and .planned == ["package-a", "package-b"] and .executed == .planned' \
   "$tmp/out-of-order-report.json" >/dev/null
 
+# Preserve the first useful diagnosis when one package fails.  The text is
+# intentionally similar to an unrelated inventory mention so the repository
+# gate classifier cannot mistake an arbitrary package failure for a conformance
+# ledger failure.
+cat >"$tmp/failing-diagnostic-cargo" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "$3" == package-a ]]; then
+  printf 'test oversized_reference_inventory_uses_its_strict_conformance_gate ... FAILED\n' >&2
+  printf 'assertion failed: package fixture failure\n' >&2
+  exit 17
+fi
+SH
+chmod +x "$tmp/failing-diagnostic-cargo"
+if WORKSPACE_TEST_WORKERS=1 WORKSPACE_TEST_THREADS=1 "$root/tests/ci/run_workspace_package_tests.sh" \
+  --metadata "$tmp/metadata.json" --cargo "$tmp/failing-diagnostic-cargo" --report "$tmp/diagnostic-report.json" \
+  >/dev/null 2>&1; then
+  printf 'workspace coverage accepted a diagnostic package failure\n' >&2
+  exit 1
+fi
+jq -e '.state == "failed" and .failedPackage == "package-a" and .failedExitCode == 17 and (.failureDiagnosticTail | contains("oversized_reference_inventory"))' \
+  "$tmp/diagnostic-report.json" >/dev/null
+
 # A failed package must stop the run and produce a fail-closed receipt that
 # exposes the omitted remainder.
 cat >"$tmp/failing-cargo" <<'SH'

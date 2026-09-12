@@ -340,7 +340,15 @@ enum AuditCommand {
 }
 
 #[derive(Debug, Subcommand)]
+#[command(
+    after_help = "Before repository operations, run `ai-cockpit agent first-start --repo <path>` and follow the canonical gate."
+)]
 enum AgentCommand {
+    /// Print the mandatory first-start procedure before any repository operation.
+    FirstStart {
+        #[arg(long)]
+        repo: PathBuf,
+    },
     List {
         #[arg(long)]
         repo: PathBuf,
@@ -2174,6 +2182,9 @@ fn run() -> Result<()> {
             .context("serve MCP")?;
         }
         CommandKind::Agent { command } => match command {
+            AgentCommand::FirstStart { repo: _ } => {
+                println!("{}", cockpit_agent::first_start_procedure());
+            }
             AgentCommand::List { repo } => {
                 require_compatible(&repo, &runtime_context)?;
                 let detected =

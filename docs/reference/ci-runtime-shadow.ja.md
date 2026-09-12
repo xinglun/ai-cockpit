@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-224-ci-reference-parity
+lastVerifiedBy: WI-804-release-route-ordering
 ---
 
 # CI Runtime verification shadow
@@ -44,10 +44,12 @@ non-light の場合は workspace package coverage が必須で、regular receipt
 場合だけ upload します。正当な `light` route はその file を要求も upload もしません。
 
 `standard` と `strict` では、独立した execution shadow が public immutable
-`v0.2.28` Runtime を download し、platform archive/binary digest を検証して、repository
-の canonical profile で verify を実行します。receipt は tag、version、archive digest、
-binary digest、platform、download source、Runtime result を bind します。source build、
-workspace binary、任意の `--command` 代替、unpinned artifact、digest mismatch、malformed
+`v0.2.28` Runtime を download し、platform archive/binary digest を検証して、固定した
+`git version` execution smoke を実行します。receipt は tag、version、archive digest、
+binary digest、platform、download source、smoke command、Runtime result を bind します。
+repository の canonical profile は引き続き必須ですが、この immutable Runtime identity
+probe で重複実行せず、選択された quality-gate owner が一度だけ実行します。source build、
+workspace binary、command substitution、unpinned artifact、digest mismatch、malformed
 output は拒否されます。
 
 これは repository CI/release layer の policy です。Runtime-global T0–T3 route、

@@ -1,0 +1,586 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "recovery identity and merge-parent selection assertions",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "build dependency assertion",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        },
+        {
+          "locator": "release gate dependency assertion",
+          "path": "tests/ci/release_gate_policy_test.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "normal and recovery source binding policy",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "workflow policy regression",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        },
+        {
+          "locator": "release gate policy regression",
+          "path": "tests/ci/release_gate_policy_test.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "canonical English first-start procedure and Runtime projection",
+          "path": "docs/reference/agent-first-start.md",
+          "type": "documentation",
+          "verification": "covered by cockpit-agent package tests"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "owned managed section, repository boundary, and byte-stable install",
+          "path": "crates/cockpit-agent/tests/install.rs",
+          "type": "test",
+          "verification": "passed: 9 tests"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "first-start gate content and idempotence regression",
+          "path": "crates/cockpit-agent/tests/install.rs",
+          "type": "test",
+          "verification": "passed: cargo test --locked -p cockpit-agent"
+        },
+        {
+          "locator": "Runtime-bound focused verification",
+          "path": ".ai/evidence/WI-804-release-route-ordering.verification.json",
+          "type": "verification",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "checkpointAt": "2026-09-12T04:42:18Z",
+  "checkpointContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "recorded": true,
+      "recordedAt": "2026-09-12T04:42:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:599983140ea4f544ea11c3c5a970ea5be3474608e9878cdc7a60ccee49af588a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "reason": "The repository owner clarified that the Agent First-Start procedure must be a shared installed Runtime capability for object-engineering repositories, not a Sentinel repository change. Add the canonical procedure and adapter projection to this Work Item before release, preserving the existing route repair and its evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T05:02:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:599983140ea4f544ea11c3c5a970ea5be3474608e9878cdc7a60ccee49af588a",
+      "reason": "The implementation audit found that preflight, checkpoint, verification refresh, and finish still used the strict completion-evidence evaluator. Add the lifecycle stage boundary fix and regression coverage so future release or close evidence cannot block current source verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T05:19:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1d27156926b9f2b5ee691ee658bece6d61c1256c19eeec6413247d965cd8e8cd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:e17573b6571de8536a9472d17f8c474fbcf2be5444b94224d3bfc5fcd50c6340",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+      "reason": "The repository owner requested a CLI first-start help entry and a completeness audit of command-line capabilities. Add the shared command/output and document why low-level embedder, diagnostic, and maintenance APIs remain non-exposed, within the existing Work Item authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T06:02:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18efa3f0b628e33118c5d3f68db5e661b2e22374040f097c8a28aa8f8f9ff01a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:4707a7713307f51a56ec7c9da1c3220012e1a1088ea977eafbf6fb3f20d62053",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:e17573b6571de8536a9472d17f8c474fbcf2be5444b94224d3bfc5fcd50c6340",
+      "reason": "The CLI surface audit found the new first-start capability must be named in the canonical command reference and capability index as well as binary help. Keep the documentation bound to the same shared procedure and current Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T06:14:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d7682c51aa9af0164968a20eb0ddf02786c3fce6361f49ed95c07efe76eb55d2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 15,
+      "contractHash": "sha256:6fe47703320502af316c18a0f052de71317bff50c8efbbb2a4a2d12a41e2555c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:4707a7713307f51a56ec7c9da1c3220012e1a1088ea977eafbf6fb3f20d62053",
+      "reason": "Add the hosted quality-gate regression test discovered during root-cause repair; keep the fix and its evidence inside the current Work Item scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T06:25:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e5d0a9950b4e9a1fa29859d9664beefcdfcf439d1c897a27a407f740d4377514",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 16,
+      "contractHash": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:6fe47703320502af316c18a0f052de71317bff50c8efbbb2a4a2d12a41e2555c",
+      "reason": "Add the ordering regression requirement discovered at finish: resource finalization planning must occur before verification, while repositories without resource context must not invent provider work.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T06:38:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b38c44dd0dc92dc40499bdad85b7cfa25fa303298d518bfcf8462e5e3573e784",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:796ad3bf33bff11cc529ce86d3e43a2172f5cff78f73b67d6693805988cd43b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+      "reason": "Hosted quality identified missing lastVerifiedBy metadata on the newly added canonical first-start procedure; record the gate-level regression boundary before repairing the in-scope document.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T07:20:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:45967278a71b8fb7fa787624d332b0a5ffd0334ef5cc5c0fe719feb85bd662b2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 19,
+      "contractHash": "sha256:f7f856e529e7c361641981af99a06133c48b163158681de8237e90645da669e2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:796ad3bf33bff11cc529ce86d3e43a2172f5cff78f73b67d6693805988cd43b1",
+      "reason": "Reviewer found two in-scope lifecycle and release-route root causes that require explicit regression coverage before merge.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T07:51:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6343fdb2fdb3fbdccb6fc061c741c92560d412e7242748deb213b0aaa2223d60",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 20,
+      "contractHash": "sha256:ffabd8ea22007a3f64041ad1742563e210109b4c92948ca8d26fcacefe811e8d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:f7f856e529e7c361641981af99a06133c48b163158681de8237e90645da669e2",
+      "reason": "Align the canonical tri-language repository workflow documentation with the corrected no-resource Contract boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T07:53:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ff63db59098edae92b3a93401dfd4589e52e6ef745cba1926e9ed8a317944b6f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 21,
+      "contractHash": "sha256:97c8ac5e08b8bfef14865fa1798c116c752be57c155f086b5792e7cd990f9a2a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:ffabd8ea22007a3f64041ad1742563e210109b4c92948ca8d26fcacefe811e8d",
+      "reason": "Tighten the release dependency order so expensive platform helper builds cannot start before the canonical source-quality gates pass.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T07:57:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e357a86435cc59f413dc3700eb339f0f7f8905a0f6e8a95a9ff1f0b17a094bee",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 22,
+      "contractHash": "sha256:cf9096347adf3d0706c5c7c3b41bed10f0628823f0584987769fe13330347f89",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:97c8ac5e08b8bfef14865fa1798c116c752be57c155f086b5792e7cd990f9a2a",
+      "reason": "Workspace verification exposed an existing CLI lifecycle regression test that must explicitly declare its applicable external resource context after scaffold no longer invents one.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:05:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:45f668b51b04c311b6f570138ca3b600a24664297c0a25deee6926cc7c239f47",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 23,
+      "contractHash": "sha256:3d354f7c1398c736f3ce6a76a9c045000846e095b026b1f749c4fcfa7dc51191",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:cf9096347adf3d0706c5c7c3b41bed10f0628823f0584987769fe13330347f89",
+      "reason": "Full workspace verification exposed the observed SCN-016 regression test that must bind an explicit provisional resource context after no-resource scaffolds stopped fabricating one.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:17:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:28818d7ab051ce254dfe3b30330e8339cb8aaa4e8dcf134b576479fab9739c86",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:8ccb673dde09036a32357ce577289ed416c4ba3583fa5b8c7b90537037157f14",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:3d354f7c1398c736f3ce6a76a9c045000846e095b026b1f749c4fcfa7dc51191",
+      "reason": "Cover public no-runtime close bypass with an explicit resource-context regression and preserve the no-resource closure boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:37:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:785779d8e033277551828122a4d762e96254e4d79a5a1e34c87da1d8b58de52c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:1fbed2c610cdd799afb0cebf7ec44ad0ce9065e2357be8c417c0d27bec9066a3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:8ccb673dde09036a32357ce577289ed416c4ba3583fa5b8c7b90537037157f14",
+      "reason": "Keep knowledge projection fixtures aligned with the no-external-resource close boundary after enforcing finalization for explicit resource contexts.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:43:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a90fdf60c19f782ca562de28d866bcdc405d252d0dd262e7082712245f912bb4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:597c0781751451138c507ef618207714fb57ff26da95e94d6f17f9f1c23f7968",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:1fbed2c610cdd799afb0cebf7ec44ad0ce9065e2357be8c417c0d27bec9066a3",
+      "reason": "Keep concurrency lifecycle fixtures independent of provider finalization so the close race tests the repository lock rather than relying on the removed bypass.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:47:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:925efd79cdb48b288ccf457cb36c4ef07a4a6ac73df962b5cc6b78ae8dcf4e74",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:0e4e0dc4bed50dd8168b185ad3f554eac6511284a6609dfb4ccea76cb9d63e38",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:597c0781751451138c507ef618207714fb57ff26da95e94d6f17f9f1c23f7968",
+      "reason": "Keep the terminal recovery successor fixture independent of provider resources so readiness validates successor closure rather than an unrelated finalization receipt.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:50:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:319f220c321cf93d6b806f0419193b3befbf987d51cca1cd34e6a3e38d16141a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 24,
+      "contractHash": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:0e4e0dc4bed50dd8168b185ad3f554eac6511284a6609dfb4ccea76cb9d63e38",
+      "reason": "Keep status projection tests truthful after close begins enforcing finalization for explicitly bound resources; retain resource-pending assertions and supply a deleted receipt before the terminal close.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T08:55:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5be26417f1ae705a6a49e70387bf4a85d3022b59ad70dec1860ecc1891b8407c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 26,
+      "contractHash": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+      "reason": "Hosted CI run 34686419190 proved the immutable Runtime shadow invoked the old public Runtime default full-workspace verification, which timed out with passed=false and caused an avoidable false failure. Narrow the shadow to its declared execution-smoke boundary and add regression/docs coverage without weakening canonical quality gates.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T09:59:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 28,
+      "contractHash": "sha256:c94a906f0b5bdf84870b87587c05376b5c6380283dad91868337415fab85ae81",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
+      "reason": "Hosted package-test failure was misclassified from incidental diagnostic wording and its concrete failing test was not preserved for first-attempt root-cause recovery.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T10:32:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b5d2a5d6f5640ac9292453f8959702c38042c39a1c59d5ce4568788556ac65dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 28,
+      "contractHash": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:c94a906f0b5bdf84870b87587c05376b5c6380283dad91868337415fab85ae81",
+      "reason": "The diagnostic regression test itself is part of the same CI failure-classification boundary and must be explicitly covered before verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T10:41:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13847738c748ea1ff980b2e6775e9b059723dd9c62f28a268d5b5a65961b0afe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+  "createdAt": "2026-09-12T04:41:38Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-agent/src/lib.rs",
+      "docs/reference/agent-first-start.md",
+      ".github/workflows/release.yml",
+      "tests/release/workflow_policy.sh"
+    ],
+    "reason": "The shared installed Runtime now projects the same English first-start gate into any explicitly installed repository-owned Agent adapter, while release recovery keeps governance identity separate from immutable artifact identity.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+  "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "preflightAt": "2026-09-12T11:09:11Z",
+  "preflightContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "manual immutable-tag recovery uses current orchestration Contract identity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "source-quality failure blocks expensive build scheduling",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "normal release source binding remains compatible",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T11:09:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-804-release-route-ordering"
+}
