@@ -18,6 +18,20 @@
           ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.5b029dc7a3f3bc349565f35e20d4ce8fb4a97deb59ae1b0594c692c949e2ea10.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -33,34 +47,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .github/workflows/release.yml"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-release/src/handoff.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-release/tests/handoff.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/release_gate_policy_test.sh"
       }
     ],
     "evidence": [

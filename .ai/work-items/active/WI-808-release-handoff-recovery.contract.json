@@ -31,6 +31,14 @@
     " immutable tag verification",
     " and receipt cleanup evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-808-release-handoff-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/785",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-808-release-handoff-recovery"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

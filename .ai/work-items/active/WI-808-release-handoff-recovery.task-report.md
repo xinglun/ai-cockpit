@@ -14,13 +14,11 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.5b029dc7a3f3bc349565f35e20d4ce8fb4a97deb59ae1b0594c692c949e2ea10.json
+- Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-808-release-handoff-recovery.contract.json
 - Changed path: .ai/work-items/active/WI-808-release-handoff-recovery.summary.json
-- Changed path: .github/workflows/release.yml
-- Changed path: crates/cockpit-release/src/handoff.rs
-- Changed path: crates/cockpit-release/tests/handoff.rs
-- Changed path: tests/ci/release_gate_policy_test.sh
 
 ## Findings
 

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
-  "createdAt": "2026-09-12T14:35:36Z",
+  "contractDigest": "sha256:37c4508fc84206a05774115f8f6a01e058455cb415009a40748fb3570dc30cc7",
+  "createdAt": "2026-09-12T14:45:02Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 1390,
-      "executionElapsedMs": 1185,
+      "elapsedMs": 1985,
+      "executionElapsedMs": 1784,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 1390,
-    "executionElapsedMs": 1185,
-    "filesHashed": 13,
-    "filesRead": 13,
+    "elapsedMs": 1985,
+    "executionElapsedMs": 1784,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,12 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        ".github/workflows/release.yml",
-        "crates/cockpit-release/src/handoff.rs",
-        "crates/cockpit-release/tests/handoff.rs",
-        "tests/ci/release_gate_policy_test.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "ee789f6f9b318756742c30b498158518e5dd1d47",
       "dependencyConfidence": "unknown",
@@ -49,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 1185,
+      "executionElapsedMs": 1784,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -81,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:16360a8b75d595bb8241ecee549e1ed7cd9e31a584c347355469752b101f82c0",
+        "outputDigest": "sha256:cde5da3d02dd8b247e81b8a23f929ca733b98e0199c9976cfdf89cc36b30ec90",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -97,7 +92,7 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-808-release-handoff-recovery"
   },
-  "receiptDigest": "sha256:3a2792601ede62b8cc8fd70bd6d9695ba7ef69f1d161169dfded9714d46dd0ba",
+  "receiptDigest": "sha256:dee62cfe85e1bfc359b996d410e719ecd62682a49357a55d26f021efe30f6bed",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
   "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",

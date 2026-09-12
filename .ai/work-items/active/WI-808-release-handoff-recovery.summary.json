@@ -1,21 +1,19 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-808-release-handoff-recovery.recovery.5b029dc7a3f3bc349565f35e20d4ce8fb4a97deb59ae1b0594c692c949e2ea10.json",
+    ".ai/decisions/WI-808-release-handoff-recovery.recovery.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-808-release-handoff-recovery.contract.json",
-    ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json",
-    ".github/workflows/release.yml",
-    "crates/cockpit-release/src/handoff.rs",
-    "crates/cockpit-release/tests/handoff.rs",
-    "tests/ci/release_gate_policy_test.sh"
+    ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-12T14:35:22Z",
-  "checkpointContractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
+  "checkpointContractDigest": "sha256:37c4508fc84206a05774115f8f6a01e058455cb415009a40748fb3570dc30cc7",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
   "createdAt": "2026-09-12T14:32:20Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-12T14:35:37Z",
-  "preflightContractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
+  "preflightAt": "2026-09-12T14:45:02Z",
+  "preflightContractDigest": "sha256:37c4508fc84206a05774115f8f6a01e058455cb415009a40748fb3570dc30cc7",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
   "preflightState": "green",
@@ -42,7 +40,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T14:35:45Z",
+  "updatedAt": "2026-09-12T14:45:15Z",
   "verification": [
     {
       "check": "project-command-0",

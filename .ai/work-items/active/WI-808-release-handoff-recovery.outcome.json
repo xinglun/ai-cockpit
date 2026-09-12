@@ -5,9 +5,9 @@
     "Release close downloads only receipts from jobs that actually succeeded and records skipped dependency results structurally without a second failure",
     "Focused Rust handoff, workflow policy, and failure-condition tests cover the discovered roots before another hosted release attempt"
   ],
-  "createdAt": "2026-09-12T14:35:45Z",
+  "createdAt": "2026-09-12T14:45:15Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:3db2f20a7b37b71257dabac83ea15376637cb7a102f290949d2616ab064ee482",
+  "evidenceDigest": "sha256:e7eb97db0529cc0511f8d5c6e2d5cc8395ca07793610c3beea5dc2b448284126",
   "evidenceRefs": [
     ".ai/evidence/WI-808-release-handoff-recovery.verification.json"
   ],
@@ -47,6 +47,20 @@
             ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.5b029dc7a3f3bc349565f35e20d4ce8fb4a97deb59ae1b0594c692c949e2ea10.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-808-release-handoff-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -62,34 +76,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-release/src/handoff.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-release/tests/handoff.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
         }
       ],
       "evidence": [
@@ -164,8 +150,8 @@
     "status": "verified",
     "workItemId": "WI-808-release-handoff-recovery"
   },
-  "taskReportDigest": "sha256:43afa78f717d2b4fc854d0bafce3cf75c2a0d54866c938720c380e73773c968a",
-  "taskReportMarkdownDigest": "sha256:dc871e2c450cf2cfe6f593e2302f69832ba3d5a2c2ccb6571418334e443f0620",
+  "taskReportDigest": "sha256:e5534dcf4a561c34a47dc27b2c900bed6e6474de1ab42acbc9e2fe928b39f9cb",
+  "taskReportMarkdownDigest": "sha256:5adac9cea5329070a793501eb4f85ca05fc0715bbd8aea5c5e23b1e245e470c4",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

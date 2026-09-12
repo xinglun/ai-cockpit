@@ -1,0 +1,24 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "human:authorized-development-instruction",
+  "decidedAt": "2026-09-12T14:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-808-release-handoff-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34699773026"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:37c4508fc84206a05774115f8f6a01e058455cb415009a40748fb3570dc30cc7",
+  "predecessorEventsDigest": "sha256:5430db00eae6f34b2938d568db95a15508342c518d70f6c905571360049e7706",
+  "predecessorOutcomeDigest": "sha256:c5f75a12b213aa8abd209e3e3dee7378414539a8fa8f37ccce80d4066b80dcc6",
+  "predecessorSummaryDigest": "sha256:6cb82b058a6f641b58e0415c418bbbeb1a1bfa523c7e371a9b6044db5395a992",
+  "predecessorWorkItemId": "WI-808-release-handoff-recovery",
+  "reason": "retry the same bounded Work Item after binding the existing PR before Contract-aware CI selection; the prior retry receipt was recorded before finalize-plan and is preserved as immutable evidence",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "refresh preflight, verification, and finish using the finalized Contract and existing PR binding",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-808-release-handoff-recovery"
+}
