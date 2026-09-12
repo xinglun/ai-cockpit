@@ -6,9 +6,9 @@
     "Normal tag release and standalone public acceptance behavior remain unchanged.",
     "Regression tests cover dual identity, default same-identity behavior, missing source, mismatched source, and downstream dependency gating."
   ],
-  "createdAt": "2026-09-12T16:26:06Z",
+  "createdAt": "2026-09-12T16:35:15Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:05ff89b088bfc021fdabce723b9f1e25cac2e7dbb920572970a51109446c912f",
+  "evidenceDigest": "sha256:5e76421e2fffce0c8fd2a62d7668e913a3f6982eabdbfcf7b815cee6f98cabf1",
   "evidenceRefs": [
     ".ai/evidence/WI-812-release-source-governance-split.verification.json"
   ],
@@ -43,6 +43,13 @@
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.scope-amend-input.json"
+        },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
@@ -137,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-812-release-source-governance-split"
   },
-  "taskReportDigest": "sha256:52ab278b346e5e4a3aa4a501260b5c376754572e1dc174b4444cf036f59af43e",
-  "taskReportMarkdownDigest": "sha256:a3cd14656510a5033abb59bacb867f884df21baf5000b7ad98f2d745a1571a94",
+  "taskReportDigest": "sha256:69f4e7aad13a826c93ec12b882223bc05d8c89958912b8b47ac04a063708ffba",
+  "taskReportMarkdownDigest": "sha256:6eeb2aed1b389850d48a2c497e3071b0640ff7256ac250427bab7280f69f70eb",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

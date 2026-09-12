@@ -81,7 +81,13 @@
   ],
   "scope": [
     ".github/workflows/release.yml;tests/ci/resolve_work_item.sh;tests/ci/resolve_work_item_test.sh;tests/release/workflow_policy.sh;tests/ci/release_gate_policy_test.sh;docs/reference/commands.md",
-    ".ai/decisions/observer-snapshot.json"
+    ".ai/decisions/observer-snapshot.json",
+    ".github/workflows/release.yml",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "docs/reference/commands.md"
   ],
   "sources": [],
   "state": "implementation_active",
