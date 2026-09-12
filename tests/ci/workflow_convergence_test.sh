@@ -36,6 +36,7 @@ assert "resolve_work_item.sh" in workflow
 assert workflow.index("name: Plan the dynamic quality route") < workflow.index("name: Build the shared Rust gate-plan tool once")
 assert "EVENT_BEFORE" not in workflow[workflow.index("name: Plan the dynamic quality route"):workflow.index("name: Upload the shared Rust gate-plan tool")]
 assert "no active or exact archived Contract is explicitly bound to this event identity" in resolver
+assert "jq -r '.baseRevision // empty' target/quality-selection.json" in workflow
 assert "work_item_id_required" in resolver
 assert "outputs:" in workflow and "profile:" in workflow
 assert "Verify the route plan is stable across jobs" in workflow

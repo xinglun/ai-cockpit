@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
-  "createdAt": "2026-09-12T18:43:40Z",
+  "createdAt": "2026-09-12T18:49:58Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 173577,
-      "executionElapsedMs": 173294,
+      "elapsedMs": 3968,
+      "executionElapsedMs": 3777,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 173577,
-    "executionElapsedMs": 173294,
-    "filesHashed": 7,
-    "filesRead": 7,
+    "elapsedMs": 3968,
+    "executionElapsedMs": 3777,
+    "filesHashed": 9,
+    "filesRead": 9,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,7 +37,8 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs"
+        ".github/workflows/ci.yml",
+        "tests/ci/workflow_convergence_test.sh"
       ],
       "assurance": "repository_verified",
       "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -46,13 +47,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 173294,
+      "executionElapsedMs": 3777,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
+      "repositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -78,8 +79,8 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:0175c20d59bf11fc90d7ba7ec2e0fa1751694f43a258c6654856195bda40e98f",
-        "outputTruncated": true,
+        "outputDigest": "sha256:7fa07a74d7593da91d700e5717a5e420cbe663a561a7c04f026ba028d3db1973",
+        "outputTruncated": false,
         "passed": true,
         "protected": false,
         "reason": "reuse_not_configured",
@@ -94,9 +95,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-814-archived-pr-gate"
   },
-  "receiptDigest": "sha256:c7b3c22b5683a5d40f9cb34c550930a2512621b601ab92de8b56e15b0e6bd365",
+  "receiptDigest": "sha256:cd4e94b7c9038f0fba3c6b3f7d69bd006a72b34371583ff0a260ad7377d896e2",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
+  "repositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
   "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-814-archived-pr-gate"

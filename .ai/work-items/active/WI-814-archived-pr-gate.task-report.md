@@ -14,10 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.9f506e48ec568ba9f7a17cfcea341016ee8ec7672ede135ddd2c2410523125ad.json
+- Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.33636722aaf589ece2ff27b22876ea71513559bc963b9ddd7533d1672ab873b3.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
+- Changed path: .github/workflows/ci.yml
+- Changed path: tests/ci/workflow_convergence_test.sh
 
 ## Findings
 
