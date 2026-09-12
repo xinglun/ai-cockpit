@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-812-release-source-governance-split.scope-amend-input.json",
+    ".ai/decisions/WI-812-release-source-governance-split.evidence-amend-input.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-812-release-source-governance-split.contract.json",
-    ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+    ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json",
+    ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
   ],
   "checkpointAt": "2026-09-12T16:00:26Z",
-  "checkpointContractDigest": "sha256:5bbd86acfb78865dcd4c57683d52d3311c0aba58a28f6ee96aba5103d56a1f8e",
+  "checkpointContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,6 +62,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-812-release-source-governance-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "previousContractHash": "sha256:5bbd86acfb78865dcd4c57683d52d3311c0aba58a28f6ee96aba5103d56a1f8e",
+      "reason": "Archive diagnosis found that the Contract listed only prose evidence descriptions and omitted the canonical verification class; add the Runtime-recognized verification requirement so finish and archive share the intended evidence boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T16:48:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-812-release-source-governance-split"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
@@ -77,8 +97,8 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-12T16:34:32Z",
-  "preflightContractDigest": "sha256:5bbd86acfb78865dcd4c57683d52d3311c0aba58a28f6ee96aba5103d56a1f8e",
+  "preflightAt": "2026-09-12T16:48:57Z",
+  "preflightContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
   "preflightState": "green",
@@ -144,7 +164,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T16:35:15Z",
+  "updatedAt": "2026-09-12T16:49:02Z",
   "verification": [
     {
       "check": "project-command-0",

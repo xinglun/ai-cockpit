@@ -6,9 +6,9 @@
     "Normal tag release and standalone public acceptance behavior remain unchanged.",
     "Regression tests cover dual identity, default same-identity behavior, missing source, mismatched source, and downstream dependency gating."
   ],
-  "createdAt": "2026-09-12T16:35:15Z",
+  "createdAt": "2026-09-12T16:49:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:5e76421e2fffce0c8fd2a62d7668e913a3f6982eabdbfcf7b815cee6f98cabf1",
+  "evidenceDigest": "sha256:391e9565ddbd90fa86cbc8a251247a732fff1d963ad3d1c4ba8d3e90e249f9fa",
   "evidenceRefs": [
     ".ai/evidence/WI-812-release-source-governance-split.verification.json"
   ],
@@ -45,31 +45,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.scope-amend-input.json"
+          "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.evidence-amend-input.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
         }
       ],
       "evidence": [
@@ -125,7 +125,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
           ],
           "inference": false,
           "text": "Separate the release governance Work Item identity from the source-verification Work Item identity so immutable-tag recovery can validate current orchestration changes without widening the published Release acceptance Contract."
@@ -134,7 +134,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+            ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -144,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-812-release-source-governance-split"
   },
-  "taskReportDigest": "sha256:69f4e7aad13a826c93ec12b882223bc05d8c89958912b8b47ac04a063708ffba",
-  "taskReportMarkdownDigest": "sha256:6eeb2aed1b389850d48a2c497e3071b0640ff7256ac250427bab7280f69f70eb",
+  "taskReportDigest": "sha256:fc1d4a43ab581b57e2d3884cf426cf95db8946552a47a87b8b699c6b6e0b98a1",
+  "taskReportMarkdownDigest": "sha256:e8462465c6938a1c4cf817119c8971bfff7ea4ecd5a6fb874c9a2a464e03956e",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

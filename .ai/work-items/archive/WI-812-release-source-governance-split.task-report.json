@@ -15,31 +15,31 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.scope-amend-input.json"
+        "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.evidence-amend-input.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
       }
     ],
     "evidence": [
@@ -95,7 +95,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
         ],
         "inference": false,
         "text": "Separate the release governance Work Item identity from the source-verification Work Item identity so immutable-tag recovery can validate current orchestration changes without widening the published Release acceptance Contract."
@@ -104,7 +104,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+          ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

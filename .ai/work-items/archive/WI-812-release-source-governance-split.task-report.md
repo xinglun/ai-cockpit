@@ -14,10 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-812-release-source-governance-split.scope-amend-input.json
+- Changed path: .ai/decisions/WI-812-release-source-governance-split.evidence-amend-input.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-812-release-source-governance-split.contract.json
-- Changed path: .ai/work-items/active/WI-812-release-source-governance-split.summary.json
+- Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.contract.json
+- Changed path: .ai/work-items/archive/WI-812-release-source-governance-split.summary.json
 
 ## Findings
 

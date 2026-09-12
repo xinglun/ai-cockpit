@@ -26,7 +26,8 @@
     " checkpoint",
     " verify",
     " and finish evidence",
-    "hosted pull-request checks"
+    "hosted pull-request checks",
+    "verification"
   ],
   "resourceContext": {
     "baseBranch": "main",
