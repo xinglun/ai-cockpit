@@ -68,6 +68,14 @@
     "CLI capability surface inventory",
     "CLI command reference and capability index parity"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-806-release-preflight-base",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/783",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-804-release-route-ordering"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
