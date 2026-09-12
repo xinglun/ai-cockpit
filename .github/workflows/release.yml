@@ -34,8 +34,8 @@ env:
 jobs:
   release_tools:
     # Helper compilation is an expensive prerequisite; do not start it until
-    # the cheap release-policy barriers have passed.
-    needs: release_preflight
+    # route preparation and the canonical source-quality gates have passed.
+    needs: [release_preflight, source_quality]
     strategy:
       fail-fast: false
       matrix:
@@ -98,26 +98,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Run cheap release preflight barriers
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p target
-          set +e
-          tests/release/action_runtime_policy_test.sh
-          result=$?
-          if [[ "$result" -eq 0 ]]; then tests/release/version_consistency_test.sh; result=$?; fi
-          if [[ "$result" -eq 0 ]]; then tests/release/version_consistency.sh --repo "$GITHUB_WORKSPACE"; result=$?; fi
-          if [[ "$result" -eq 0 ]]; then tests/release/workflow_policy.sh .github/workflows/release.yml; result=$?; fi
-          if [[ "$result" -eq 0 ]]; then tests/docs/parity_status_check.sh "$GITHUB_WORKSPACE" target/governance-integrity-report.json; result=$?; fi
-          set -e
-          if [[ "$result" -ne 0 ]]; then
-            jq -n --arg code release_preflight_barrier_failed --argjson exitCode "$result" \
-              '{schemaVersion:1,kind:"release_preflight_failure",state:"failed",failureCode:$code,exitCode:$exitCode}' \
-              > target/release-preflight-failure.json
-            exit "$result"
-          fi
-      - name: Build the shared Rust gate tool once
+      # The canonical repository gates run exactly once in source_quality from
+      # the typed route and manifest. This job only prepares that route before
+      # any platform helper or source build can start.
+      - name: Build the shared Rust route tool once
         shell: bash
         run: |
           set -euo pipefail

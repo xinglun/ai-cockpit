@@ -1,9 +1,8 @@
 use cockpit_core::Digest;
-use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    finish_work_item, generate_knowledge, plan_resource_finalization, preflight_work_item,
-    record_verification, start_work_item,
+    finish_work_item, generate_knowledge, preflight_work_item, record_verification,
+    start_work_item,
 };
 use std::{
     fs,
@@ -36,23 +35,14 @@ fn repository() -> std::path::PathBuf {
 
 fn archive_one(path: &std::path::Path, id: &str) {
     start_work_item(path, id, "cache topic", "cache goal", &["**".into()]).expect("start");
-    plan_resource_finalization(
-        path,
-        id,
-        &ResourceFinalizationContext {
-            branch: format!("feature/{id}"),
-            worktree: path.display().to_string(),
-            base_branch: "main".into(),
-            base_remote: "origin".into(),
-            provider: "github".into(),
-            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
-        },
-    )
-    .expect("finalization plan");
-    let contract = path
+    let contract_path = path
         .join(".ai/work-items/active")
         .join(format!("{id}.contract.json"));
-    preflight_work_item(path, &contract).expect("preflight");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    assert!(contract.get("resourceContext").is_none());
+    preflight_work_item(path, &contract_path).expect("preflight");
     checkpoint_work_item(path, id).expect("checkpoint");
     record_verification(
         path,

@@ -14,10 +14,31 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.6a879de1bef934a3678ba8cbf5efeddb4a6c89eed948d583261a3e034da35618.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.b7546082cc7288e23331f42dab2475d2e7fbc62a1637e2fe076950c8c0696d2e.json
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/evidence/WI-804-release-route-ordering.verification.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json
+- Changed path: .ai/work-items/active/WI-804-release-route-ordering.events.jsonl
+- Changed path: .ai/work-items/active/WI-804-release-route-ordering.outcome.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json
-- Changed path: docs/reference/agent-first-start.md
+- Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.json
+- Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.md
+- Changed path: .github/workflows/release.yml
+- Changed path: crates/cockpit-cli/tests/lifecycle.rs
+- Changed path: crates/cockpit-repository/src/lib.rs
+- Changed path: crates/cockpit-repository/src/lifecycle.rs
+- Changed path: crates/cockpit-repository/tests/archive_integrity.rs
+- Changed path: crates/cockpit-repository/tests/knowledge_cache.rs
+- Changed path: crates/cockpit-repository/tests/knowledge_projection.rs
+- Changed path: crates/cockpit-repository/tests/lifecycle_concurrency.rs
+- Changed path: crates/cockpit-repository/tests/recovery_decision.rs
+- Changed path: crates/cockpit-repository/tests/scenario_matrix_next_action.rs
+- Changed path: crates/cockpit-repository/tests/status_projection.rs
+- Changed path: docs/reference/repository-workflow.ja.md
+- Changed path: docs/reference/repository-workflow.md
+- Changed path: docs/reference/repository-workflow.zh-CN.md
+- Changed path: tests/release/workflow_policy.sh
 
 ## Findings
 

@@ -36,13 +36,16 @@ machines, but Contract, evidence, and repository identity are request-scoped.
 6. Push the exact branch, open one reviewed PR, and wait for its required
    hosted checks. Do not merge into local `main` as a substitute for review.
 
-### Finalization context is explicit
+### Finalization context is conditional
 
-The `resourceContext` written by `start` is provisional until an explicit
-`work-item finalize-plan` binds the reviewed PR, provider, base, branch, and
-worktree. Both `pending` and `pending:<stable-reference>` are provisional
-sentinels; neither can authorize `finish` or `archive`. Run
-`finalize-plan` with the real reviewed resource before those terminal steps.
+`resourceContext` is optional. `start` does not invent an external provider,
+Pull Request, or release resource context. A Work Item with no such resource
+can use the ordinary `finish → archive → close` lifecycle without provider
+finalization evidence. When a provider, Pull Request, branch/worktree resource,
+or other external resource applies, bind it with an explicit
+`work-item finalize-plan` before verification/terminal steps. Both `pending`
+and `pending:<stable-reference>` remain provisional sentinels and cannot
+authorize `finish` or `archive`.
 
 ## Repository-wide serial boundary
 
@@ -54,22 +57,37 @@ preserve the predecessor bytes.
 
 ## Merge, close, and cleanup
 
-The delivery order is:
+The delivery order depends on whether the Contract declares an external
+resource:
 
 ```text
+resource-bound:
 latest remote default base → dedicated branch/worktree → implement
-→ verify/finish/archive → reviewed PR → merge → finalize-verify → close
-→ synchronize default branch → remove exact branch/worktree
+→ finalize-plan → preflight → checkpoint → verify → finish
+→ reviewed PR → merge
+→ any Contract-declared hosted, candidate, release, or public-artifact evidence
+→ archive → finalize → finalize-verify → close → synchronize default branch
+→ remove exact branch/worktree
+
+no external resource:
+latest remote default base → dedicated branch/worktree → implement
+→ preflight → checkpoint → verify → finish → archive → close
+→ synchronize default branch
+→ remove exact branch/worktree
 ```
 
-Do not delete a branch before its PR is merged, and do not let provider-side
-auto-delete bypass finalization. New Work Items require a structured human
-decision, archived evidence, the merged PR identity, a deleted finalization
-receipt, a fast-forward-synchronized default branch, and clean worktrees. A
-verified historical shared-worktree or direct-merge receipt may use the narrow
-`retained` exception with `historical_low` assurance and explicit repository-
-bound Git facts; it never applies to new Work Items or upgrades historical
-evidence. Any failed postcondition remains visible and fail-closed.
+Do not delete a resource-bound branch before its PR is merged, and do not let
+provider-side auto-delete bypass finalization. Every new Work Item requires a
+structured human decision, archived evidence, a fast-forward-synchronized
+default branch, and clean worktrees. `finish` establishes source-verification
+readiness; when the Contract declares later hosted, candidate, release, or
+public-artifact evidence, those stages must complete before `archive` evaluates
+its strict completion boundary. A resource-bound Work Item additionally
+requires the merged PR identity and a deleted finalization receipt. A verified
+historical shared-worktree or direct-merge receipt may use the narrow retained
+exception with historical_low assurance and explicit repository-bound Git
+facts; it never applies to new Work Items or upgrades historical evidence. Any
+failed postcondition remains visible and fail-closed.
 
 Immediately after close, synchronize the documentation projection:
 

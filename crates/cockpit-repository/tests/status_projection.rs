@@ -4,10 +4,10 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
     finish_work_item, outcome_render_input_with_runtime, plan_resource_finalization,
-    preflight_work_item, record_verification, record_verification_with_runtime,
-    render_human_outcome, repository_id, run_repository_verification, start_work_item,
-    start_work_item_with_options, work_item_status_index_with_runtime,
-    work_item_status_snapshot_with_runtime,
+    preflight_work_item, record_resource_finalization, record_verification,
+    record_verification_with_runtime, render_human_outcome, repository_id,
+    run_repository_verification, start_work_item, start_work_item_with_options,
+    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
 
@@ -47,6 +47,71 @@ fn plan(directory: &tempfile::TempDir, work_item_id: &str) {
         },
     )
     .expect("finalization plan");
+}
+
+fn assert_no_resource_context(directory: &tempfile::TempDir, work_item_id: &str) {
+    let path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(path).expect("contract")).expect("contract JSON");
+    assert!(contract.get("resourceContext").is_none());
+}
+
+fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str) {
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/archive/{work_item_id}.contract.json"
+    ));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("archived contract"))
+            .expect("contract JSON");
+    let branch = format!("feature/{work_item_id}");
+    let context = ResourceFinalizationContext {
+        branch: branch.clone(),
+        worktree: directory.path().display().to_string(),
+        base_branch: "main".into(),
+        base_remote: "origin".into(),
+        provider: "github".into(),
+        pull_request: format!("https://github.com/example/ai-cockpit/pull/{work_item_id}"),
+    };
+    let receipt = serde_json::json!({
+        "schemaVersion": 1,
+        "receiptId": format!("{work_item_id}-finalize"),
+        "operationId": format!("{work_item_id}-finalize-operation"),
+        "repositoryId": repository_id(directory.path()).to_string(),
+        "workItemId": work_item_id,
+        "runtimeVersion": runtime().runtime_version,
+        "runtimeDigest": runtime().runtime_digest.to_string(),
+        "provider": "github",
+        "pullRequest": {
+            "number": 1,
+            "url": context.pull_request,
+            "headRevision": "head",
+            "baseBranch": "main",
+            "baseRemote": "origin",
+            "baseRevision": contract["baseRevision"],
+            "mergeCommit": "merge"
+        },
+        "branch": {"name": branch, "remote": "origin", "headRevision": "head"},
+        "worktree": {"worktreeId": "removed", "path": context.worktree, "branch": context.branch, "headRevision": "head"},
+        "before": {"pullRequest": "merged", "branch": "present", "worktree": "clean"},
+        "after": {"pullRequest": "merged", "branch": "deleted", "worktree": "removed"},
+        "result": {"disposition": "deleted", "failureCodes": [], "unknownCodes": []},
+        "actor": "human:test",
+        "authoritySource": "status-projection-test",
+        "reason": "clean up the test resource before close",
+        "timestamp": "2026-08-22T12:01:00Z",
+        "contractDigest": Digest::sha256_bytes(&fs::read(&contract_path).expect("contract bytes")),
+        "resourceContext": context
+    });
+    let input = directory.path().join("finalize-input.json");
+    fs::write(
+        &input,
+        serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
+    )
+    .expect("receipt input");
+    record_resource_finalization(directory.path(), work_item_id, &input, &runtime())
+        .expect("record deleted finalization");
 }
 
 #[test]
@@ -385,6 +450,7 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     assert!(handoff.contains("work-item finalize"));
     assert!(handoff.contains("close"));
 
+    record_deleted_finalization(&directory, work_item_id);
     close_work_item_with_structured_decision(
         directory.path(),
         work_item_id,
@@ -441,7 +507,7 @@ fn invalid_close_decision_never_promotes_archived_status() {
         &["**".into()],
     )
     .expect("start");
-    plan(&directory, work_item_id);
+    assert_no_resource_context(&directory, work_item_id);
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
@@ -492,7 +558,7 @@ fn foreign_close_repository_identity_never_promotes_archived_status() {
         &["**".into()],
     )
     .expect("start");
-    plan(&directory, work_item_id);
+    assert_no_resource_context(&directory, work_item_id);
     let contract = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));

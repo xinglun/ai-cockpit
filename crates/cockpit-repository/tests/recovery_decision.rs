@@ -11,7 +11,7 @@ use cockpit_repository::{
     repository_id, revalidate_contract_amendment, run_repository_verification, snapshot_digest,
     start_work_item_with_options, status,
 };
-use serde_json::json;
+use serde_json::{Value, json};
 use std::fs;
 use std::process::Command;
 
@@ -366,19 +366,13 @@ fn readiness_accepts_a_closed_terminal_recovery_successor() {
         },
     )
     .expect("activate recovery successor");
-    plan_resource_finalization(
-        directory.path(),
-        successor,
-        &ResourceFinalizationContext {
-            branch: "feature/successor".into(),
-            worktree: directory.path().display().to_string(),
-            base_branch: "main".into(),
-            base_remote: "origin".into(),
-            provider: "github".into(),
-            pull_request: "https://github.com/example/ai-cockpit/pull/341".into(),
-        },
-    )
-    .expect("successor finalization plan");
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let successor_contract_value: Value =
+        serde_json::from_slice(&fs::read(&successor_contract).expect("successor contract"))
+            .expect("successor contract JSON");
+    assert!(successor_contract_value.get("resourceContext").is_none());
     let contract_path = directory
         .path()
         .join(format!(".ai/work-items/active/{successor}.contract.json"));

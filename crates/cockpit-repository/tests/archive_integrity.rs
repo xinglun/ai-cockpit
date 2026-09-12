@@ -82,6 +82,19 @@ fn finish_rejects_provisional_resource_context_before_finish_ready() {
         &["**".into()],
     )
     .expect("start");
+    plan_resource_finalization(
+        &path,
+        work_item_id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{work_item_id}"),
+            worktree: path.display().to_string(),
+            base_branch: "unknown".into(),
+            base_remote: "unknown".into(),
+            provider: "unknown".into(),
+            pull_request: "unknown".into(),
+        },
+    )
+    .expect("record the explicitly applicable but provisional resource context");
     prepare_without_finalization_plan(&path, work_item_id);
     record_verification(
         &path,
@@ -108,6 +121,87 @@ fn finish_rejects_provisional_resource_context_before_finish_ready() {
         !path
             .join(".ai/work-items/active")
             .join(format!("{work_item_id}.task-report.json"))
+            .exists()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn no_resource_context_can_finish_archive_and_close_without_provider_evidence() {
+    let path = repository();
+    let work_item_id = "WI-NO-EXTERNAL-RESOURCE";
+    start_work_item(
+        &path,
+        work_item_id,
+        "local object-engineering change",
+        "complete without a provider release resource",
+        &["**".into()],
+    )
+    .expect("start");
+
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    assert!(contract.get("resourceContext").is_none());
+
+    let decision = preflight_work_item(&path, &contract_path).expect("preflight");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    checkpoint_work_item(&path, work_item_id).expect("checkpoint");
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish without external resource");
+    archive_work_item(&path, work_item_id).expect("archive without external resource");
+    close_work_item_with_decision(&path, work_item_id, "approved")
+        .expect("close without external resource finalization");
+
+    assert!(
+        path.join(".ai/decisions")
+            .join(format!("{work_item_id}.close.json"))
+            .is_file()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn public_close_rejects_bound_resource_without_finalization_receipt() {
+    let path = repository();
+    let work_item_id = "WI-CLOSE-REQUIRES-FINALIZATION";
+    start_work_item(
+        &path,
+        work_item_id,
+        "enforce resource finalization at close",
+        "prevent the public no-runtime API from bypassing cleanup evidence",
+        &["**".into()],
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive");
+
+    let error = close_work_item_with_decision(&path, work_item_id, "approved")
+        .expect_err("bound resources require finalization before close");
+    assert!(error.to_string().contains("resource finalization"));
+    assert!(
+        !path
+            .join(".ai/decisions")
+            .join(format!("{work_item_id}.close.json"))
             .exists()
     );
     fs::remove_dir_all(path).expect("cleanup");
@@ -1035,7 +1129,7 @@ fn verification_receipt_cannot_cross_work_items() {
 fn close_persists_a_structured_human_decision_and_recovery_condition() {
     let path = repository();
     start_work_item(&path, "WI-DECISION", "decision", "verify", &["**".into()]).expect("start");
-    prepare_for_verification(&path, "WI-DECISION");
+    prepare_without_finalization_plan(&path, "WI-DECISION");
     record_verification(
         &path,
         "WI-DECISION",
@@ -1105,7 +1199,7 @@ fn close_accepts_immutable_archived_evidence_after_a_post_archive_commit() {
         &["**".into()],
     )
     .expect("start");
-    prepare_for_verification(&path, "WI-ARCHIVE-MERGE");
+    prepare_without_finalization_plan(&path, "WI-ARCHIVE-MERGE");
     record_verification(
         &path,
         "WI-ARCHIVE-MERGE",
@@ -1201,7 +1295,7 @@ fn organization_policy_requires_a_bound_structured_decision_at_close() {
         },
     )
     .expect("start");
-    prepare_for_verification(&path, "WI-POLICY");
+    prepare_without_finalization_plan(&path, "WI-POLICY");
     let raw = br#"{"run":999}"#;
     import_delegated_evidence(
         &path,

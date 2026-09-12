@@ -4,7 +4,7 @@
       ".ai/evidence/WI-804-release-route-ordering.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:6343fdb2fdb3fbdccb6fc061c741c92560d412e7242748deb213b0aaa2223d60",
+    "repositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
     "workItemId": "WI-804-release-route-ordering"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,28 @@
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.6a879de1bef934a3678ba8cbf5efeddb4a6c89eed948d583261a3e034da35618.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.b7546082cc7288e23331f42dab2475d2e7fbc62a1637e2fe076950c8c0696d2e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-804-release-route-ordering.verification.json"
       },
       {
         "evidenceRefs": [
@@ -32,6 +53,20 @@
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
       },
       {
@@ -39,7 +74,119 @@
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/agent-first-start.md"
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .github/workflows/release.yml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/knowledge_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/release/workflow_policy.sh"
       }
     ],
     "evidence": [

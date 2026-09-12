@@ -5584,24 +5584,6 @@ fn archive_superseded_work_item(
     })
 }
 
-/// Return a best-effort local branch/worktree context for a newly started
-/// Work Item.  Provider/PR identity is intentionally provisional until an
-/// explicit `finalize-plan` receipt is supplied; no local fact is promoted to
-/// provider assurance implicitly.
-fn provisional_resource_context(root: &Path) -> ResourceFinalizationContext {
-    let branch = git_text(root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
-        .filter(|value| !value.is_empty())
-        .unwrap_or_else(|| "detached".into());
-    ResourceFinalizationContext {
-        branch,
-        worktree: root.to_string_lossy().into_owned(),
-        base_branch: "unknown".into(),
-        base_remote: "unknown".into(),
-        provider: "unknown".into(),
-        pull_request: "unknown".into(),
-    }
-}
-
 fn git_text(root: &Path, args: &[&str]) -> Option<String> {
     let output = Command::new("git")
         .arg("-C")
@@ -5647,12 +5629,12 @@ fn require_explicit_resource_finalization_plan(
     operation: &str,
 ) -> Result<(), ObserverError> {
     let Some(context) = contract.resource_context.as_ref() else {
-        return Err(ObserverError::State {
-            path: contract_path.to_path_buf(),
-            message: format!(
-                "{operation} requires an explicit resource finalization plan; run finalize-plan before {operation}"
-            ),
-        });
+        // A Contract without resourceContext is an explicit no-external-
+        // resource boundary.  Object-engineering repositories and local-only
+        // Work Items must be able to complete their ordinary lifecycle without
+        // fabricating a provider/PR plan.  If a context is present, however,
+        // it remains subject to the strict checks below.
+        return Ok(());
     };
     if context.is_provisional() {
         return Err(ObserverError::State {
@@ -8086,10 +8068,7 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
-        let finalization_path = resource_finalization_decision_path(&root, work_item_id);
-        if contract.resource_context.is_some()
-            && (current_runtime.is_some() || fs::symlink_metadata(&finalization_path).is_ok())
-        {
+        if contract.resource_context.is_some() {
             finalization_binding = Some(require_resource_finalization_for_close(
                 &root,
                 work_item_id,

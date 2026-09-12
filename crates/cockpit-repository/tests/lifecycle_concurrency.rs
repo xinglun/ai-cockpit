@@ -5,11 +5,10 @@
 //! when two CLI invocations advance the same Work Item at once.
 
 use cockpit_core::Digest;
-use cockpit_protocol::ResourceFinalizationContext;
 use cockpit_repository::{
     WorkItemStartOptions, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, finish_work_item, plan_resource_finalization,
-    preflight_work_item, record_verification, start_work_item_with_options,
+    close_work_item_with_decision, finish_work_item, preflight_work_item, record_verification,
+    start_work_item_with_options,
 };
 use serde_json::Value;
 use std::sync::{Arc, Barrier};
@@ -50,19 +49,10 @@ fn prepare_finish_ready(root: &Path, work_item_id: &str) {
         },
     )
     .expect("start");
-    plan_resource_finalization(
-        root,
-        work_item_id,
-        &ResourceFinalizationContext {
-            branch: format!("feature/{work_item_id}"),
-            worktree: root.display().to_string(),
-            base_branch: "main".into(),
-            base_remote: "origin".into(),
-            provider: "github".into(),
-            pull_request: format!("https://github.com/example/ai-cockpit/pull/{work_item_id}"),
-        },
-    )
-    .expect("finalization plan");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(contract_path(root, work_item_id)).expect("contract"))
+            .expect("contract JSON");
+    assert!(contract.get("resourceContext").is_none());
     preflight_work_item(root, &contract_path(root, work_item_id)).expect("preflight");
     checkpoint_work_item(root, work_item_id).expect("checkpoint");
     record_verification(

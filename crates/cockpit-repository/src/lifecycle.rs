@@ -158,11 +158,6 @@ fn activate_not_ready_scaffold(
                 message: error.to_string(),
             }
         })?;
-    contract["resourceContext"] = serde_json::to_value(provisional_resource_context(&root))
-        .map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: error.to_string(),
-        })?;
     summary["state"] = serde_json::json!("implementation_active");
     summary["repositoryId"] = serde_json::json!(profile.repository_id);
     summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
@@ -377,7 +372,6 @@ fn create_work_item_scaffold(
         "baseRevision": facts.base_revision,
         "projectProfileDigest": facts.project_profile_digest,
         "repositorySnapshotDigest": facts.repository_snapshot_digest,
-        "resourceContext": provisional_resource_context(&root),
         "createdAt": now,
     });
     let summary = serde_json::json!({
