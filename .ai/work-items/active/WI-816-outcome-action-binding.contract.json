@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Cleanup-pending and receipt-missing re-observation projections include the exact repository-bound Work Item finalize-verify command and never omit its binding arguments.",
+    "The projection remains observe-only, does not recommend deletion, and uses the same action model consumed by human-facing rendering.",
+    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id."
+  ],
+  "authority": "explicit-user-authorized-root-cause-repair-and-release",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T22:55:59Z",
+  "goal": "Make cleanup-pending Outcome recovery actionable without repeating deletion, widening authorization, or inventing a command.",
+  "intent": "Repair the confirmed cleanup re-observation action projection so an Agent can execute the reported Runtime entry point with the exact repository and Work Item binding.",
+  "mode": "code",
+  "outOfScope": [
+    "release workflows",
+    " published artifacts",
+    " historical records",
+    " global Agent or MCP configuration",
+    " unrelated Outcome wording or Runtime lifecycle behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-816-outcome-action-binding"
+}
