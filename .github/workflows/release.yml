@@ -25,6 +25,14 @@ on:
         required: false
         default: false
         type: boolean
+      work_item_id:
+        description: 'Active Work Item identity required for immutable-tag recovery'
+        required: false
+        type: string
+      contract_path:
+        description: 'Active Contract path alternative to work_item_id for recovery'
+        required: false
+        type: string
   push:
     tags: ['v*']
 
@@ -32,6 +40,72 @@ env:
   CARGO_TERM_COLOR: never
 
 jobs:
+  release_input_preflight:
+    # This job is intentionally shell/jq-only. It rejects malformed release
+    # input and unresolved Work Item identity before the Rust route tool or any
+    # platform compiler is built. The formal Rust gate still owns governance
+    # authorization after this cheap identity check succeeds.
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      mode: ${{ steps.resolve.outputs.mode }}
+      contract_path: ${{ steps.resolve.outputs.contract_path }}
+      base_revision: ${{ steps.resolve.outputs.base_revision }}
+      head_revision: ${{ steps.resolve.outputs.head_revision }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Resolve release identity before compilation
+        id: resolve
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_FROM_TAG: ${{ github.event.inputs.from_tag }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
+          INPUT_WORK_ITEM_ID: ${{ github.event.inputs.work_item_id }}
+          INPUT_CONTRACT_PATH: ${{ github.event.inputs.contract_path }}
+          INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
+          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+        run: |
+          set -euo pipefail
+          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          selector_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --event "$EVENT_NAME"
+            --head "$head_revision"
+            --from-tag "$INPUT_FROM_TAG"
+            --to-tag "$INPUT_TO_TAG"
+            --publish-existing-tag "$PUBLISH_EXISTING_TAG"
+            --work-item-id "$INPUT_WORK_ITEM_ID"
+            --contract-path "$INPUT_CONTRACT_PATH"
+            --handoff-run-id "$INPUT_HANDOFF_RUN_ID"
+            --output target/release-input-preflight.json
+          )
+          if [[ "$EVENT_NAME" == push ]]; then
+            selector_args+=(--github-repository "$GITHUB_REPOSITORY")
+          else
+            selector_args+=(--release-source-revision '')
+          fi
+          tests/ci/resolve_work_item.sh "${selector_args[@]}"
+          echo "mode=$(jq -er '.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "contract_path=$(jq -r '.contractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "base_revision=$(jq -r '.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "head_revision=$(jq -er '.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+      - name: Upload release input preflight evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: release-input-preflight
+          path: target/release-input-preflight.json
+          if-no-files-found: warn
+          retention-days: 7
+
   release_tools:
     # Helper compilation is an expensive prerequisite; do not start it until
     # route preparation and the canonical source-quality gates have passed.
@@ -90,6 +164,7 @@ jobs:
           retention-days: 7
 
   release_preflight:
+    needs: release_input_preflight
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -98,6 +173,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: release-input-preflight
+          path: target
       # The canonical repository gates run exactly once in source_quality from
       # the typed route and manifest. This job only prepares that route before
       # any platform helper or source build can start.
@@ -113,40 +192,9 @@ jobs:
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
-          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
-            release_source_revision="$(git ls-remote origin "refs/tags/$INPUT_TO_TAG^{}" | awk '{print $1}')"
-            test -n "$release_source_revision"
-            head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          else
-            head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          fi
-          all_contracts=()
-          if [[ -d .ai/work-items/active ]]; then
-            mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
-          fi
-          contracts=()
-          if (( ${#all_contracts[@]} > 1 )); then
-            selection_revision="$head_revision"
-            if [[ "$GITHUB_EVENT_NAME" == push || ( "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ) ]]; then
-              selection_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || true)"
-            fi
-            for contract_path in "${all_contracts[@]}"; do
-              contract_base_revision="$(jq -r '.baseRevision // empty' "$contract_path")"
-              [[ -n "$selection_revision" && "$contract_base_revision" == "$selection_revision" ]] && contracts+=("$contract_path")
-            done
-          else
-            contracts=("${all_contracts[@]}")
-          fi
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts match the release identity' >&2; exit 1; }
-          if (( ${#all_contracts[@]} > 1 && ${#contracts[@]} == 0 )); then
-            echo 'no active Contract matches the release identity' >&2
-            exit 1
-          fi
-          if (( ${#contracts[@]} == 1 )); then
-            base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
-          else
-            base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
-          fi
+          head_revision="$(jq -er '.headRevision' target/release-input-preflight.json)"
+          base_revision="$(jq -er '.baseRevision // .headRevision' target/release-input-preflight.json)"
+          contract_path="$(jq -r '.contractPath // empty' target/release-input-preflight.json)"
           route_args=(
             --repo "$GITHUB_WORKSPACE"
             --manifest tests/ci/repository_gate_manifest.json
@@ -157,7 +205,7 @@ jobs:
             --profile strict
             --receipt target/release-quality-route.json
           )
-          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
+          [[ -n "$contract_path" ]] && route_args+=(--contract "$contract_path")
           set +e
           target/release/ai-cockpit gate-plan "${route_args[@]}"
           result=$?
@@ -1257,8 +1305,14 @@ jobs:
         needs.publish.result == 'success' &&
         needs.publish_handoff.result == 'success') ||
        (github.event_name == 'workflow_dispatch' &&
+        github.event.inputs.publish_existing_tag == 'true' &&
+        needs.publish.result == 'success' &&
+        needs.publish_handoff.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' &&
+        github.event.inputs.publish_existing_tag != 'true' &&
         github.event.inputs.from_tag != '' &&
-        github.event.inputs.to_tag != ''))
+        github.event.inputs.to_tag != '' &&
+        github.event.inputs.handoff_run_id != ''))
     needs: [publish, publish_handoff, release_tools]
     runs-on: ubuntu-24.04
     permissions:

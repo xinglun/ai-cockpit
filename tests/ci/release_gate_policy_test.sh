@@ -4,6 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "$0")/../.." && pwd -P)"
 workflow="$repo_root/.github/workflows/release.yml"
 manifest="$repo_root/tests/ci/repository_gate_manifest.json"
+resolver="$repo_root/tests/ci/resolve_work_item.sh"
 
 [[ -f "$workflow" ]] || { printf 'release workflow is missing\n' >&2; exit 1; }
 
@@ -28,14 +29,29 @@ require '--stage release' 'release routing must use the release stage floor'
 require '--profile strict' 'release routing must explicitly require the strict profile'
 require '--route-receipt' 'release gate execution must consume the typed route receipt'
 require 'target/release-quality-route.json' 'release route receipt must be retained as evidence'
-require 'contracts=()' 'release route must define an empty contract set for a clean repository'
-require 'if [[ -d .ai/work-items/active ]]; then' 'release route must tolerate an absent active Work Item directory'
+require 'release_input_preflight:' 'cheap release input preflight must run before Runtime compilation'
+require 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
+require 'resolve_work_item.sh' 'release selection must use the shared explicit identity resolver'
+grep -Fq 'work_item_id_required' "$resolver" || {
+  printf 'release gate policy failure: recovery without an explicit Work Item identity must fail early\n' >&2
+  exit 1
+}
+grep -Fq 'all_contracts=()' "$resolver" || {
+  printf 'release gate policy failure: the shared resolver must inspect active Contracts\n' >&2
+  exit 1
+}
+grep -Fq 'work_item_contract_ambiguous' "$resolver" || {
+  printf 'release gate policy failure: ambiguous active Contracts must fail closed\n' >&2
+  exit 1
+}
 require 'staged_adopter_acceptance:' 'release must gate publication on staged adopter acceptance'
 require 'staged_adopter_upgrade_acceptance:' 'release must gate publication on staged N-1 acceptance'
 require '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
 require '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
 require 'adopterAcceptance == "not_applicable"' 'release close must validate the first-release N-1 not-applicable receipt'
 require 'releasePublished == true' 'release close must bind a not-applicable N-1 result to the published Release'
+require 'needs.publish.result == '\''success'\''' 'recovery public acceptance must wait for publication success'
+require 'needs.publish_handoff.result == '\''success'\''' 'recovery public acceptance must wait for the publication handoff'
 grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$manifest" || {
   printf 'release gate policy failure: canonical manifest must derive workspace packages from cargo metadata\n' >&2
   exit 1
