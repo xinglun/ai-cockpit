@@ -36,9 +36,9 @@
     "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority.",
     "Contract selection failures propagate as structured resolver failures without shell success fallbacks, so malformed or missing binding metadata cannot be mistaken for a successful match."
   ],
-  "createdAt": "2026-09-12T13:19:59Z",
+  "createdAt": "2026-09-12T14:09:25Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:6372592a4cf3c42fbba4f425c26bf4a3e3d4eb189104840d9298a3940f0aa900",
+  "evidenceDigest": "sha256:7ae854fb9a2e656d2bf3e035ca2eccefb26bb2e22ab0658265296cc608964417",
   "evidenceRefs": [
     ".ai/evidence/WI-806-release-preflight-base.verification.json"
   ],
@@ -64,7 +64,7 @@
         ".ai/evidence/WI-806-release-preflight-base.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+      "repositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
       "workItemId": "WI-806-release-preflight-base"
     },
     "format": "ai-cockpit.task-outcome",
@@ -78,6 +78,13 @@
             ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-806-release-preflight-base.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -85,7 +92,7 @@
             ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json"
+          "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.approach.json"
         },
         {
           "evidenceRefs": [
@@ -167,8 +174,8 @@
     "status": "verified",
     "workItemId": "WI-806-release-preflight-base"
   },
-  "taskReportDigest": "sha256:e9c622e47d641a01327646c949b0f8d56fa072275293b55c953f1680a8197be3",
-  "taskReportMarkdownDigest": "sha256:0713371a406a205b582cd0dc05160d70ecc4347891021e46938875f57651e36a",
+  "taskReportDigest": "sha256:8c3c46e0f7aeecf4886ccb585c907f1daaf7220ef2dac191a44da051d8d0796d",
+  "taskReportMarkdownDigest": "sha256:6f02660f3f29e4dcdb483243c66a1cc76421da121e20475c45a9ae5bef8b49a0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

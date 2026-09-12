@@ -4,7 +4,7 @@
       ".ai/evidence/WI-806-release-preflight-base.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+    "repositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
     "workItemId": "WI-806-release-preflight-base"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,6 +18,13 @@
           ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-806-release-preflight-base.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -25,7 +32,7 @@
           ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json"
+        "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.approach.json"
       },
       {
         "evidenceRefs": [

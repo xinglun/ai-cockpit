@@ -14,8 +14,9 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-806-release-preflight-base.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json
+- Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.approach.json
 - Changed path: .ai/work-items/active/WI-806-release-preflight-base.summary.json
 
 ## Findings

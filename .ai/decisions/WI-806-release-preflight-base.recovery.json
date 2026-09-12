@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-12T14:02:27Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34697848876",
+    "https://github.com/xinglun/ai-cockpit/pull/784",
+    ".ai/work-items/active/WI-806-release-preflight-base.contract.json",
+    ".ai/evidence/WI-806-release-preflight-base.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+  "predecessorEventsDigest": "sha256:a5ef3b2d260b5df99292c01d32752d28fc4d28ed74b9680e4198abf14569a28e",
+  "predecessorOutcomeDigest": "sha256:413fc31e7b24d4263fb82f265a50fb4109f0302fcd51a8da716714d8cf2b7684",
+  "predecessorSummaryDigest": "sha256:174ccc024345d711d3d03b0185adf37acba4c586832367eb1352ce61d13cae10",
+  "predecessorWorkItemId": "WI-806-release-preflight-base",
+  "reason": "The merged WI-807 recovery-control repair changed the repository snapshot while WI-806 remained active for its pending v0.2.91 release evidence. Runtime correctly classified WI-806 verification as stale before source-quality execution. Preserve the existing verification and record one same-Work-Item retry to refresh its declared full-workspace evidence against the new snapshot; do not repeat the release run or alter v0.2.91.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and the single declared cargo test --locked --workspace verification under the current Runtime, then continue the existing release recovery without repeating unrelated checks or changing v0.2.91.",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-806-release-preflight-base"
+}
