@@ -1,10 +1,11 @@
 {
   "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-812-release-source-governance-split.contract.json",
     ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
   ],
   "checkpointAt": "2026-09-12T16:00:26Z",
-  "checkpointContractDigest": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+  "checkpointContractDigest": "sha256:49dc4031ecdf828a7b16052f25bdb06dee5da95cb12ed40e87c28eb071e153a8",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,7 +43,7 @@
       "workItemId": "WI-812-release-source-governance-split"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "checkpointRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
   "createdAt": "2026-09-12T15:56:44Z",
   "intentAlignment": {
     "evidence": [
@@ -55,11 +56,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-12T16:00:20Z",
-  "preflightContractDigest": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+  "preflightAt": "2026-09-12T16:24:49Z",
+  "preflightContractDigest": "sha256:49dc4031ecdf828a7b16052f25bdb06dee5da95cb12ed40e87c28eb071e153a8",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -121,12 +122,13 @@
       "verificationPlan": "Run release workflow policy regression and inspect dependency conditions for skipped downstream jobs and structured close reporting."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-12T16:06:22.125810+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:4b2c68731c2dbea0dd8715fe7e9e44588f74ed74206b62a78192c1de303ec37d",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-12T16:04:54Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T16:26:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-812-release-source-governance-split"
 }

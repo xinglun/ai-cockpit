@@ -28,6 +28,14 @@
     " and finish evidence",
     "hosted pull-request checks"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-812-release-source-governance-split",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/790",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-812-release-source-governance-split"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

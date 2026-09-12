@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "Recovery accepts explicit governance work_item_id or contract_path and an optional explicit source_work_item_id or source_contract_path in one request.",
+    "Missing, partial, or mismatched source binding fails closed in the cheap release_input_preflight stage before the Rust build.",
+    "Source-quality planning and gate use the source Contract base, path, and digest; release/public acceptance retains the governance Work Item identity.",
+    "Normal tag release and standalone public acceptance behavior remain unchanged.",
+    "Regression tests cover dual identity, default same-identity behavior, missing source, mismatched source, and downstream dependency gating."
+  ],
+  "createdAt": "2026-09-12T16:26:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:05ff89b088bfc021fdabce723b9f1e25cac2e7dbb920572970a51109446c912f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+      "workItemId": "WI-812-release-source-governance-split"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-812-release-source-governance-split.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-812-release-source-governance-split.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+          ],
+          "inference": false,
+          "text": "Separate the release governance Work Item identity from the source-verification Work Item identity so immutable-tag recovery can validate current orchestration changes without widening the published Release acceptance Contract."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-812-release-source-governance-split.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-812-release-source-governance-split"
+  },
+  "taskReportDigest": "sha256:52ab278b346e5e4a3aa4a501260b5c376754572e1dc174b4444cf036f59af43e",
+  "taskReportMarkdownDigest": "sha256:a3cd14656510a5033abb59bacb867f884df21baf5000b7ad98f2d745a1571a94",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-812-release-source-governance-split.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-812-release-source-governance-split"
+}
