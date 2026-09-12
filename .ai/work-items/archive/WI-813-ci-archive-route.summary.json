@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-813-ci-archive-route.contract.json",
+    ".ai/work-items/archive/WI-813-ci-archive-route.summary.json",
+    ".github/workflows/ci.yml",
+    "docs/superpowers/plans/2026-09-13-ci-archive-route-recovery.md",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/workflow_convergence_test.sh"
+  ],
+  "checkpointAt": "2026-09-12T17:03:03Z",
+  "checkpointContractDigest": "sha256:47cc7a649afa21550075b18e2170926fd8e654987f69ab5bccbe63ec0a5dd7f1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:eaf015bc3cb9efe5f3c24d2844bbba6e7941cffc61fdcc6a6f1de6a8a0900a10",
+      "recorded": true,
+      "recordedAt": "2026-09-12T17:03:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-813-ci-archive-route"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:47cc7a649afa21550075b18e2170926fd8e654987f69ab5bccbe63ec0a5dd7f1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:eaf015bc3cb9efe5f3c24d2844bbba6e7941cffc61fdcc6a6f1de6a8a0900a10",
+      "previousContractHash": "sha256:eaf015bc3cb9efe5f3c24d2844bbba6e7941cffc61fdcc6a6f1de6a8a0900a10",
+      "reason": "The resolver fix exposed a consumer-side failure: ordinary merge selection legitimately has no Contract base, but CI still required a non-null base before the typed route could compute it.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T17:10:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8581f66a4fffc6f0724ba99bfa0bb40bb3085bb4393b0bff245817d77c3b499",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-813-ci-archive-route"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a8581f66a4fffc6f0724ba99bfa0bb40bb3085bb4393b0bff245817d77c3b499",
+  "createdAt": "2026-09-12T17:02:49Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-12T17:12:39Z",
+  "preflightContractDigest": "sha256:47cc7a649afa21550075b18e2170926fd8e654987f69ab5bccbe63ec0a5dd7f1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a8581f66a4fffc6f0724ba99bfa0bb40bb3085bb4393b0bff245817d77c3b499",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T17:13:09Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-813-ci-archive-route"
+}

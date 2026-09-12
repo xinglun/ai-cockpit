@@ -59,7 +59,10 @@ jobs:
           tests/ci/resolve_work_item.sh "${selector_args[@]}"
           contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"
           if [[ "$EVENT_NAME" != pull_request ]]; then
-            base_revision="$(jq -er '.baseRevision' target/quality-selection.json)"
+            # Ordinary merge routes intentionally have no Contract/base
+            # identity after a Work Item has been archived before its PR is
+            # reviewed.  The typed route computes the repository base below.
+            base_revision="$(jq -r '.baseRevision // empty' target/quality-selection.json)"
           fi
           echo "selection_method=$(jq -er '.selectionMethod' target/quality-selection.json)" >> "$GITHUB_OUTPUT"
           echo "work_item_id=$(jq -r '.workItemId // empty' target/quality-selection.json)" >> "$GITHUB_OUTPUT"

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-12T17:13:14Z",
+  "files": {
+    "contractDigest": "sha256:2ee09b64fb36ce2401d1f6b33ff864b73368992752bcd742e162b6441d027b73",
+    "contractPath": ".ai/work-items/archive/WI-813-ci-archive-route.contract.json",
+    "eventsDigest": "sha256:1660bb31f43918f364ad9bc087029efa277bf07d47f938e12ef7a2c2a421b11b",
+    "eventsPath": ".ai/work-items/archive/WI-813-ci-archive-route.events.jsonl",
+    "outcomeDigest": "sha256:599d5bf86fb0abcb9d1cc6740f95c65dded59f44611a584270bdd938c580e1d1",
+    "outcomePath": ".ai/work-items/archive/WI-813-ci-archive-route.outcome.json",
+    "summaryDigest": "sha256:e1d7aecd9d03852fd3a53755e9f4a30f9e305e39b9272921dabc492739c4dac0",
+    "summaryPath": ".ai/work-items/archive/WI-813-ci-archive-route.summary.json",
+    "taskReportDigest": "sha256:699fa1608d2e477a49513db1cd25c56c1024fbde8d16291b5c16b932767ad2ec",
+    "taskReportMarkdownDigest": "sha256:fe24092080709cb3d4e8166995a898e3c3573371a220cd6b0dd04225dc14a752",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-813-ci-archive-route.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-813-ci-archive-route.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-813-ci-archive-route"
+}

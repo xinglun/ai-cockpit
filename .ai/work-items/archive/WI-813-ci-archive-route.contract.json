@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "An archived post-finish pull request with no active Contract produces a ready ordinary-repository selection with no Contract identity and does not fail as unresolved.",
+    "A push to the protected default branch does not require a semantic Release tag or release source revision; it resolves merged PR identity when available and otherwise produces the ordinary repository route.",
+    "Exactly one matching active Contract remains selected with its identity and base; multiple matches remain fail-closed with a structured ambiguity failure.",
+    "Explicit immutable-tag recovery remains active-Contract-only and still rejects missing or archived recovery identities.",
+    "Regression tests prove the archived PR, ordinary push, active binding, ambiguity, and explicit recovery boundaries without invoking expensive repository gates.",
+    "The CI route consumer accepts a null Contract base for ordinary merge selection and delegates base computation to the typed repository quality route."
+  ],
+  "authority": "authorized",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T17:02:49Z",
+  "goal": "Allow archived Work Item pull requests and ordinary main pushes to run the ordinary repository route without guessing or reusing an active Contract, while preserving explicit Contract selection and fail-closed ambiguity.",
+  "intent": "Make CI selection honor the documented finish/archive-before-PR lifecycle and keep merge pushes separate from Release tag recovery.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".github/workflows/release.yml",
+    "crates/**",
+    "published Release tags and assets",
+    "existing archive and close records",
+    "object engineering repositories",
+    "performance migration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/workflow_convergence_test.sh",
+    "tests/ci/quality_route_test.py",
+    "docs/superpowers/plans/2026-09-13-ci-archive-route-recovery.md",
+    ".github/workflows/ci.yml"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-813-ci-archive-route"
+}

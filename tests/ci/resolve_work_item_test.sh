@@ -54,6 +54,65 @@ jq -e \
   '.mode == "pull_request" and .workItemId == "WI-TEST" and .contractPath == ".ai/work-items/active/WI-TEST.contract.json" and .baseRevision == $base' \
   --arg base "$base" "$pull_request_output" >/dev/null
 
+ordinary_pull_request_output="$fixture/ordinary-pull-request.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/archived-after-finish \
+  --pr-url https://github.com/example/repo/pull/8 \
+  --output "$ordinary_pull_request_output"
+jq -e \
+  '.state == "ready" and .mode == "pull_request" and .selectionMethod == "ordinary_repository_route" and .contractPath == null and .workItemId == null and .baseRevision == null and .contractDigest == null and .sourceWorkItemId == null and .sourceContractPath == null and .sourceContractDigest == null and .sourceBaseRevision == null' \
+  "$ordinary_pull_request_output" >/dev/null
+
+mkdir -p "$fixture/fake-bin"
+cat > "$fixture/fake-bin/gh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == api ]]; then
+  exit 0
+fi
+echo "unexpected fake gh invocation" >&2
+exit 1
+SH
+chmod +x "$fixture/fake-bin/gh"
+ordinary_push_output="$fixture/ordinary-push.json"
+PATH="$fixture/fake-bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/heads/main GITHUB_REF_NAME=main \
+  "$resolver" \
+    --repo "$fixture/repo" \
+    --event push \
+    --head "$head" \
+    --output "$ordinary_push_output"
+jq -e \
+  '.state == "ready" and .mode == "merge" and .selectionMethod == "ordinary_repository_route" and .contractPath == null and .workItemId == null and .baseRevision == null and .releaseSourceRevision == null' \
+  "$ordinary_push_output" >/dev/null
+
+tag_push_output="$fixture/tag-push.json"
+tag_fake_bin="$fixture/tag-fake-bin"
+mkdir -p "$tag_fake_bin"
+cat > "$tag_fake_bin/gh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == api ]]; then
+  printf 'https://github.com/example/repo/pull/7\tcodex/test-route\n'
+  exit 0
+fi
+echo "unexpected fake gh invocation" >&2
+exit 1
+SH
+chmod +x "$tag_fake_bin/gh"
+PATH="$tag_fake_bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/tags/v0.2.91 GITHUB_REF_NAME=v0.2.91 \
+  "$resolver" \
+    --repo "$fixture/repo" \
+    --event push \
+    --head "$head" \
+    --release-source-revision "$base" \
+    --output "$tag_push_output"
+jq -e \
+  '.state == "ready" and .mode == "tag_release" and .selectionMethod == "merged_pull_request_binding" and .workItemId == "WI-TEST" and .releaseSourceRevision == $source' \
+  --arg source "$base" "$tag_push_output" >/dev/null
+
 recovery_output="$fixture/recovery.json"
 "$resolver" \
   --repo "$fixture/repo" \

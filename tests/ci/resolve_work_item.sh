@@ -113,6 +113,11 @@ if [[ "$event" == pull_request ]]; then
   [[ -n "$pr_head_ref" && -n "$pr_url" ]] || fail pull_request_identity_required 'pull request branch and URL are required'
 fi
 
+release_tag_push=false
+if [[ "$event" == push && "${GITHUB_REF:-}" == refs/tags/* ]]; then
+  release_tag_push=true
+fi
+
 active_dir="$repo_root/.ai/work-items/active"
 all_contracts=()
 if [[ -d "$active_dir" ]]; then
@@ -167,20 +172,22 @@ elif [[ "$event" == push ]]; then
   while IFS= read -r merged_pr; do
     [[ -n "$merged_pr" ]] && merged_prs+=("$merged_pr")
   done <<< "$merged_pr_output"
-  for pr in "${merged_prs[@]}"; do
-    IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
-    for contract_path in "${all_contracts[@]}"; do
-      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
-        candidate_contracts+=("$contract_path")
-      fi
+  if ((${#merged_prs[@]} > 0)); then
+    for pr in "${merged_prs[@]}"; do
+      IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
+      for contract_path in "${all_contracts[@]}"; do
+        if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
+          candidate_contracts+=("$contract_path")
+        fi
+      done
     done
-  done
+  fi
 else
   fail unsupported_event 'event must be pull_request, push, or workflow_dispatch'
 fi
@@ -188,6 +195,17 @@ fi
 if ((${#candidate_contracts[@]} == 0)); then
   if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
     fail work_item_contract_missing 'the explicitly requested active Contract does not exist'
+  fi
+  if [[ "$event" == pull_request || ("$event" == push && "$release_tag_push" != true) ]]; then
+    ordinary_mode=pull_request
+    [[ "$event" == push ]] && ordinary_mode=merge
+    jq -n \
+      --arg event "$event" \
+      --arg mode "$ordinary_mode" \
+      --arg head "$head" \
+      '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:null,workItemId:null,contractPath:null,contractDigest:null,baseRevision:null,sourceWorkItemId:null,sourceContractPath:null,sourceContractDigest:null,sourceBaseRevision:null,sourceSelectionMethod:null,selectionMethod:"ordinary_repository_route",recoveryLineage:null,fromTag:null,toTag:null}' \
+      > "$output_path"
+    exit 0
   fi
   fail work_item_contract_unresolved 'no active Contract is explicitly bound to this event identity'
 fi
@@ -246,7 +264,7 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
 fi
 
 release_source_revision=''
-if [[ "$event" == push || "$event" == workflow_dispatch ]]; then
+if [[ "$release_tag_push" == true || "$event" == workflow_dispatch ]]; then
   tag="$to_tag"
   [[ -n "$tag" ]] || tag="${GITHUB_REF_NAME:-}"
   is_semver_tag "$tag" || fail invalid_release_tag 'release tag must be canonical'
@@ -262,8 +280,10 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
   mode=release_recovery
 elif [[ "$event" == pull_request ]]; then
   mode=pull_request
-else
+elif [[ "$release_tag_push" == true ]]; then
   mode=tag_release
+else
+  mode=merge
 fi
 contract_relative=${contract_path#"$repo_root/"}
 contract_digest="sha256:$(shasum -a 256 "$contract_path" | awk '{print $1}')"

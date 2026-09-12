@@ -1,0 +1,187 @@
+{
+  "acceptanceResults": [
+    "An archived post-finish pull request with no active Contract produces a ready ordinary-repository selection with no Contract identity and does not fail as unresolved.",
+    "A push to the protected default branch does not require a semantic Release tag or release source revision; it resolves merged PR identity when available and otherwise produces the ordinary repository route.",
+    "Exactly one matching active Contract remains selected with its identity and base; multiple matches remain fail-closed with a structured ambiguity failure.",
+    "Explicit immutable-tag recovery remains active-Contract-only and still rejects missing or archived recovery identities.",
+    "Regression tests prove the archived PR, ordinary push, active binding, ambiguity, and explicit recovery boundaries without invoking expensive repository gates.",
+    "The CI route consumer accepts a null Contract base for ordinary merge selection and delegates base computation to the typed repository quality route."
+  ],
+  "createdAt": "2026-09-12T17:13:09Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ebbd466752b21c94151af76a258326ea3af6c715f60c616877c21d5a80a10731",
+  "evidenceRefs": [
+    ".ai/evidence/WI-813-ci-archive-route.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-813-ci-archive-route.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-813-ci-archive-route.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a8581f66a4fffc6f0724ba99bfa0bb40bb3085bb4393b0bff245817d77c3b499",
+      "workItemId": "WI-813-ci-archive-route"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-813-ci-archive-route.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/ci.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-13-ci-archive-route-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/workflow_convergence_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-813-ci-archive-route.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-813-ci-archive-route.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-813-ci-archive-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-813-ci-archive-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-813-ci-archive-route.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow archived Work Item pull requests and ordinary main pushes to run the ordinary repository route without guessing or reusing an active Contract, while preserving explicit Contract selection and fail-closed ambiguity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-813-ci-archive-route.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-813-ci-archive-route"
+  },
+  "taskReportDigest": "sha256:699fa1608d2e477a49513db1cd25c56c1024fbde8d16291b5c16b932767ad2ec",
+  "taskReportMarkdownDigest": "sha256:fe24092080709cb3d4e8166995a898e3c3573371a220cd6b0dd04225dc14a752",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-813-ci-archive-route.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-813-ci-archive-route"
+}
