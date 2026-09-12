@@ -62,6 +62,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-806-release-preflight-base"
+    },
+    {
+      "acceptanceCount": 35,
+      "contractHash": "sha256:a541817f9b3ce5a6a64e33fed558230f8e3b935f8ea1a14e8f7b36d15c19168c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+      "previousContractHash": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+      "reason": "include the handoff implementation and its focused tests in the existing release-owner Contract after the final recovery gate correctly reported scope_exceeded",
+      "recorded": true,
+      "recordedAt": "2026-09-12T14:59:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-806-release-preflight-base"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
@@ -83,7 +103,7 @@
   "preflightContractDigest": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-805-release-tag-input.recovery.e7b9e804069d386a9b1877e8e0ec71ff4c0c29acdd77bc93f5338bb111dfa0e4.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -117,7 +137,7 @@
       "status": "verified"
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-12T14:09:25Z",
   "verification": [
     {
@@ -125,5 +145,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:a541817f9b3ce5a6a64e33fed558230f8e3b935f8ea1a14e8f7b36d15c19168c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-12T14:59:24Z"
+  },
   "workItemId": "WI-806-release-preflight-base"
 }

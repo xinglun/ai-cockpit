@@ -147,7 +147,9 @@
     "tests/ci/resolve_work_item_test.sh",
     "tests/ci/workflow_convergence_test.sh",
     "tests/ci/quality_route_test.py",
-    "tests/ci/release_gate_policy_test.sh"
+    "tests/ci/release_gate_policy_test.sh",
+    "crates/cockpit-release/src/handoff.rs",
+    "crates/cockpit-release/tests/handoff.rs"
   ],
   "sources": [],
   "state": "implementation_active",
