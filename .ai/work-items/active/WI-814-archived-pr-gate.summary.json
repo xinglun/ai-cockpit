@@ -1,12 +1,9 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-814-archived-pr-gate.recovery.json",
+    ".ai/decisions/WI-814-archived-pr-gate.recovery.9f506e48ec568ba9f7a17cfcea341016ee8ec7672ede135ddd2c2410523125ad.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-814-archived-pr-gate.contract.json",
     ".ai/work-items/active/WI-814-archived-pr-gate.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs"
+    "crates/cockpit-repository/src/lib.rs"
   ],
   "checkpointAt": "2026-09-12T17:33:46Z",
   "checkpointContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
@@ -67,7 +64,7 @@
       "workItemId": "WI-814-archived-pr-gate"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+  "checkpointRepositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
   "createdAt": "2026-09-12T17:24:33Z",
   "intentAlignment": {
     "evidence": [
@@ -77,10 +74,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-12T18:28:42Z",
+  "preflightAt": "2026-09-12T18:43:40Z",
   "preflightContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+  "preflightRepositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -165,7 +162,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T18:29:01Z",
+  "updatedAt": "2026-09-12T18:44:04Z",
   "verification": [
     {
       "check": "project-command-0",

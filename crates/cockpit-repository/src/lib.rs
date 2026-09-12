@@ -2843,7 +2843,7 @@ fn resolve_verification_route_for_contract(
     runner: &str,
     snapshot: &RepositorySnapshot,
 ) -> Result<VerificationRoute, ObserverError> {
-    let operation = verification_operation_for_contract(&contract).to_owned();
+    let operation = verification_operation_for_contract(contract).to_owned();
     let base_revision = if stage.requires_base_revision() {
         if !valid_git_object_id(&contract.base_revision) {
             return Err(ObserverError::State {
@@ -2858,7 +2858,7 @@ fn resolve_verification_route_for_contract(
     } else {
         valid_git_object_id(&contract.base_revision).then(|| contract.base_revision.clone())
     };
-    let policy_plan = if let Some(policy) = effective_policy_for_contract(&root, &contract)? {
+    let policy_plan = if let Some(policy) = effective_policy_for_contract(root, contract)? {
         // Existing policy files may govern approval/evidence without opting
         // into the typed verification route. Preserve that no-requirement
         // compatibility lane; a declared requirement is always planned and

@@ -9,9 +9,9 @@
     "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries.",
     "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed."
   ],
-  "createdAt": "2026-09-12T18:29:01Z",
+  "createdAt": "2026-09-12T18:44:04Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:b214245b98a09dd66c06d1d28b6ee66a48b1bf3f7a1468dcb55705a2f162ce92",
+  "evidenceDigest": "sha256:e4add36dd8ad52a5d46a654f7f0c413a3100362e7edce7319bc37818129d31e9",
   "evidenceRefs": [
     ".ai/evidence/WI-814-archived-pr-gate.verification.json"
   ],
@@ -37,7 +37,7 @@
         ".ai/evidence/WI-814-archived-pr-gate.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+      "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
       "workItemId": "WI-814-archived-pr-gate"
     },
     "format": "ai-cockpit.task-outcome",
@@ -51,7 +51,7 @@
             ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.9f506e48ec568ba9f7a17cfcea341016ee8ec7672ede135ddd2c2410523125ad.json"
         },
         {
           "evidenceRefs": [
@@ -59,13 +59,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
         },
         {
           "evidenceRefs": [
@@ -80,20 +73,6 @@
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
         }
       ],
       "evidence": [
@@ -168,8 +147,8 @@
     "status": "verified",
     "workItemId": "WI-814-archived-pr-gate"
   },
-  "taskReportDigest": "sha256:461d79749158e9b6f91865c33e79b94d24635d01152c884a36e8981990ee68e6",
-  "taskReportMarkdownDigest": "sha256:b39df0936ca98ef78b99b13c5ca2343f31a402ed55eabfb4c803306ea0fd7cb9",
+  "taskReportDigest": "sha256:c4901bb5c1058c9d178df115fb5b55149bca15a5ac61512ed5161ed82fa51cbc",
+  "taskReportMarkdownDigest": "sha256:c4ca6fd22159dfe95417ffd8013635b515fa4004dc366b98e3bcbbf9707ff6f4",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-814-archived-pr-gate.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+    "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
     "workItemId": "WI-814-archived-pr-gate"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,7 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.json"
+        "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.9f506e48ec568ba9f7a17cfcea341016ee8ec7672ede135ddd2c2410523125ad.json"
       },
       {
         "evidenceRefs": [
@@ -26,13 +26,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
       },
       {
         "evidenceRefs": [
@@ -47,20 +40,6 @@
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
       }
     ],
     "evidence": [

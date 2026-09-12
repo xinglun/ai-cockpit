@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
-  "createdAt": "2026-09-12T18:28:41Z",
+  "createdAt": "2026-09-12T18:43:40Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 167040,
-      "executionElapsedMs": 166804,
+      "elapsedMs": 173577,
+      "executionElapsedMs": 173294,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 167040,
-    "executionElapsedMs": 166804,
-    "filesHashed": 11,
-    "filesRead": 11,
+    "elapsedMs": 173577,
+    "executionElapsedMs": 173294,
+    "filesHashed": 7,
+    "filesRead": 7,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,9 +37,7 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/src/lifecycle.rs",
-        "crates/cockpit-repository/tests/recovery_decision.rs"
+        "crates/cockpit-repository/src/lib.rs"
       ],
       "assurance": "repository_verified",
       "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -48,13 +46,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 166804,
+      "executionElapsedMs": 173294,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+      "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -80,7 +78,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:cf3f7429b00f91191e02793a9d6a3b59c6aef37e973a3179a6fa5f8f1c2184cf",
+        "outputDigest": "sha256:0175c20d59bf11fc90d7ba7ec2e0fa1751694f43a258c6654856195bda40e98f",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -96,9 +94,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-814-archived-pr-gate"
   },
-  "receiptDigest": "sha256:b5d03ed4df3dec97342cde17e0ade9b9fdc3015211b429a308e0692960f8f63e",
+  "receiptDigest": "sha256:c7b3c22b5683a5d40f9cb34c550930a2512621b601ab92de8b56e15b0e6bd365",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+  "repositorySnapshotDigest": "sha256:b4e17f0c64b016be4de67780a0bd5d0c5808ec9fc4d1db28a7cc4ead655d95f0",
   "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-814-archived-pr-gate"
