@@ -8,11 +8,12 @@ use cockpit_repository::{
     outcome_render_input_with_runtime, outcome_v2, outcome_v2_with_runtime,
     plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
     record_recovery_decision, record_verification_with_runtime, render_human_outcome,
-    repository_id, revalidate_contract_amendment, run_repository_verification, snapshot_digest,
-    start_work_item_with_options, status,
+    repository_id, revalidate_contract_amendment, run_repository_verification, scaffold_work_item,
+    snapshot_digest, start_work_item_with_options, status,
 };
 use serde_json::{Value, json};
 use std::fs;
+use std::path::Path;
 use std::process::Command;
 
 fn commit(path: &std::path::Path, message: &str) {
@@ -146,6 +147,121 @@ fn current_runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"runtime-0.2.31"),
     }
+}
+
+fn git(root: &Path, args: &[&str]) {
+    assert!(
+        Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .status()
+            .expect("git command")
+            .success(),
+        "git {:?} failed",
+        args
+    );
+}
+
+fn git_output(root: &Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(root)
+        .output()
+        .expect("git command");
+    assert!(output.status.success(), "git {:?} failed", args);
+    String::from_utf8(output.stdout).expect("git output")
+}
+
+#[test]
+fn recovery_activation_binds_the_discovered_default_base() {
+    let directory = tempfile::tempdir().expect("repository");
+    git(directory.path(), &["init", "-q"]);
+    fs::write(directory.path().join("README.md"), "base\n").expect("base file");
+    git(directory.path(), &["add", "README.md"]);
+    git(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.invalid",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "base",
+        ],
+    );
+    git(directory.path(), &["branch", "-M", "main"]);
+    let base = git_output(directory.path(), &["rev-parse", "HEAD"])
+        .trim()
+        .to_owned();
+    git(
+        directory.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://example.invalid/origin.git",
+        ],
+    );
+    git(
+        directory.path(),
+        &["update-ref", "refs/remotes/origin/main", &base],
+    );
+    git(
+        directory.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    git(directory.path(), &["checkout", "-qb", "recovery"]);
+    scaffold_work_item(directory.path(), "WI-RECOVERY-BASE", "implementation")
+        .expect("recovery scaffold");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-RECOVERY-BASE.contract.json");
+    let mut contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    contract["predecessorWorkItemId"] = json!("WI-PREDECESSOR");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).unwrap(),
+    )
+    .unwrap();
+    git(directory.path(), &["add", "."]);
+    git(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.invalid",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "reserve recovery continuation",
+        ],
+    );
+
+    start_work_item_with_options(
+        directory.path(),
+        "WI-RECOVERY-BASE",
+        "continue the recovery",
+        "bind the continuation to the provider base",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["provider merge parent remains matchable".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("recovery continuation");
+
+    let contract: Value = serde_json::from_slice(&fs::read(&contract_path).unwrap()).unwrap();
+    assert_eq!(contract["baseRevision"], json!(base));
+    assert_ne!(
+        contract["baseRevision"],
+        json!(git_output(directory.path(), &["rev-parse", "HEAD"]).trim())
+    );
 }
 
 fn ready_archived_repository() -> tempfile::TempDir {
@@ -913,6 +1029,39 @@ fn retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed
     assert_eq!(recovered["recoveryRetryPending"], true);
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+}
+
+#[test]
+fn pending_retry_remains_idempotent_after_same_version_runtime_rebuild() {
+    let directory = repository();
+    let original_runtime = current_runtime();
+    let mut retry = receipt(&directory, "retry remains bound across a rebuild");
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(original_runtime.runtime_version);
+    retry["runtimeDigest"] = json!(original_runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:06:30Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &original_runtime)
+        .expect("initial retry recovery");
+
+    let rebuilt_runtime = RuntimeContext {
+        runtime_version: original_runtime.runtime_version.clone(),
+        protocol_version: original_runtime.protocol_version,
+        runtime_digest: Digest::sha256_bytes(b"rebuilt-runtime-0.2.31"),
+    };
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &rebuilt_runtime)
+        .expect("the exact pending retry marker remains idempotent after a same-version rebuild");
+
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let decision =
+        preflight_work_item_with_runtime(directory.path(), &contract_path, &rebuilt_runtime)
+            .expect("rebuilt Runtime should consume the current pending retry marker");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
 }
 
 #[test]

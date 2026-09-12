@@ -14,10 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json
+- Changed path: .ai/decisions/WI-805-release-tag-input.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-805-release-tag-input.contract.json
 - Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json
+- Changed path: crates/cockpit-repository/src/lifecycle.rs
+- Changed path: crates/cockpit-repository/tests/recovery_decision.rs
 
 ## Findings
 

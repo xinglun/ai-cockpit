@@ -29,9 +29,9 @@
     "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
     "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation."
   ],
-  "createdAt": "2026-09-12T11:57:19Z",
+  "createdAt": "2026-09-12T12:31:47Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:4488b68065afa148a45df952e1454074e1dadc923381c45e4d18d081d14d1678",
+  "evidenceDigest": "sha256:36edf1be3b11eb2280e2d5a1606ef54bb83dfd1556b85d60891f886a8faad86b",
   "evidenceRefs": [
     ".ai/evidence/WI-805-release-tag-input.verification.json"
   ],
@@ -57,7 +57,7 @@
         ".ai/evidence/WI-805-release-tag-input.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+      "repositorySnapshotDigest": "sha256:cbda7f3e5fdc35ad3ac6bfb688c4a14df445191f925989e61054595a6c141203",
       "workItemId": "WI-805-release-tag-input"
     },
     "format": "ai-cockpit.task-outcome",
@@ -71,7 +71,7 @@
             ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json"
+          "text": "Changed path: .ai/decisions/WI-805-release-tag-input.recovery.json"
         },
         {
           "evidenceRefs": [
@@ -85,14 +85,21 @@
             ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.contract.json"
+          "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-805-release-tag-input.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json"
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-805-release-tag-input.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
         }
       ],
       "evidence": [
@@ -167,8 +174,8 @@
     "status": "verified",
     "workItemId": "WI-805-release-tag-input"
   },
-  "taskReportDigest": "sha256:324cbd21194b2902e2fdeb213955b1d5057d5c4c60dad323efeab2f01b47846b",
-  "taskReportMarkdownDigest": "sha256:ad53a03e5a2f83cb1ca0ebb691cd09302750582ce41026973100c1a06ac48c45",
+  "taskReportDigest": "sha256:0eee2d4181de3d18662a0a4816cb9ca66f9ffab913672fa9fababebdd7d26bd7",
+  "taskReportMarkdownDigest": "sha256:db98de33c7fa39751474824b5d910c327b750acfcc6d2dfb56e4b395dfa2c818",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
-  "createdAt": "2026-09-12T11:57:10Z",
+  "createdAt": "2026-09-12T12:31:37Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 249597,
-      "executionElapsedMs": 249150,
+      "elapsedMs": 298732,
+      "executionElapsedMs": 298141,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+      "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
       "runtimeVersion": "0.2.91",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 249597,
-    "executionElapsedMs": 249150,
-    "filesHashed": 10,
-    "filesRead": 12,
+    "elapsedMs": 298732,
+    "executionElapsedMs": 298141,
+    "filesHashed": 14,
+    "filesRead": 16,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,7 +36,10 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [],
+      "affectedPaths": [
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
       "assurance": "repository_verified",
       "baseRevision": "f0ed004fe684c1ca5e060f01403b7b6336fb099b",
       "dependencyConfidence": "unknown",
@@ -44,13 +47,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 249150,
+      "executionElapsedMs": 298141,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+      "repositorySnapshotDigest": "sha256:cbda7f3e5fdc35ad3ac6bfb688c4a14df445191f925989e61054595a6c141203",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +79,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:fcd4ce9a81517a8c93571cd7433b914d5cc509c0815d3bfa3c65dd9662151728",
+        "outputDigest": "sha256:94cfaeb3cec7599a2b7dc4a24cc0cd0a0f2f0dae15155ca0d27de435dde4503a",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -88,14 +91,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+    "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-805-release-tag-input"
   },
-  "receiptDigest": "sha256:60fba34d6882e72b8c464768b404614af05b347ba0f8f95532063577c0edad2d",
+  "receiptDigest": "sha256:0e43fbba422d80cc230dca87fd5931b2bf05c8aba93e25fcf5d1465f82229b59",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
-  "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+  "repositorySnapshotDigest": "sha256:cbda7f3e5fdc35ad3ac6bfb688c4a14df445191f925989e61054595a6c141203",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-805-release-tag-input"
 }

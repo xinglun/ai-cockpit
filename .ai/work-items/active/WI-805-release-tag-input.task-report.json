@@ -4,7 +4,7 @@
       ".ai/evidence/WI-805-release-tag-input.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
+    "repositorySnapshotDigest": "sha256:cbda7f3e5fdc35ad3ac6bfb688c4a14df445191f925989e61054595a6c141203",
     "workItemId": "WI-805-release-tag-input"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,7 @@
           ".ai/work-items/active/WI-805-release-tag-input.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3c15260941b4b6e8b86d5fb22ec3da8e549cc0d5855f4891116002ebd0ee34c2.json"
+        "text": "Changed path: .ai/decisions/WI-805-release-tag-input.recovery.json"
       },
       {
         "evidenceRefs": [
@@ -32,14 +32,21 @@
           ".ai/work-items/active/WI-805-release-tag-input.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.contract.json"
+        "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-805-release-tag-input.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-805-release-tag-input.summary.json"
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-805-release-tag-input.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
       }
     ],
     "evidence": [
