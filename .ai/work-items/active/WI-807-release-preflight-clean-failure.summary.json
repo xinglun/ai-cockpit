@@ -1,0 +1,61 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-807-release-preflight-clean-failure.contract.json",
+    ".ai/work-items/active/WI-807-release-preflight-clean-failure.summary.json",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-12T13:34:51Z",
+  "checkpointContractDigest": "sha256:a0b81eeb0d80f7d3f8993aabe9bb9ceae930f6e1b2dabae9a3691d5d867abcad",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
+  "createdAt": "2026-09-12T13:31:36Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/ci/release_gate_policy_test.sh",
+      "tests/release/workflow_policy.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-12T13:45:05Z",
+  "preflightContractDigest": "sha256:a0b81eeb0d80f7d3f8993aabe9bb9ceae930f6e1b2dabae9a3691d5d867abcad",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/ci/resolve_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "workflow_dispatch recovery omits unset optional resolver arguments",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "required": true,
+      "scenario": "preflight dependency failure produces one structured close report",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-12T13:35:27.872981+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ad275be151a0f939ca64918e8d06d5773ef72a56072bb3be7051ae98f27b84cb",
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}
