@@ -1,0 +1,171 @@
+{
+  "acceptanceResults": [
+    "Cleanup-pending and receipt-missing re-observation projections include the exact repository-bound Work Item finalize-verify command and never omit its binding arguments.",
+    "The projection remains observe-only, does not recommend deletion, and uses the same action model consumed by human-facing rendering.",
+    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id.",
+    "A pull-request quality route for a Work Item without provider resourceContext resolves the unique active Contract encoded by the dedicated branch, without weakening exact resource-bound PR selection or release/recovery identity checks.",
+    "An absent or ambiguous branch-to-Work-Item mapping fails with one structured diagnostic before compilation or expensive quality jobs, and existing explicit release/recovery failures remain fail-closed.",
+    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection.",
+    "A pull-request branch fallback accepts only an active Contract with no resourceContext; provisional or otherwise resource-bound Contracts never qualify by branch alone.",
+    "When a no-resource branch candidate shares its branch with any resource-bound Contract whose PR identity is not an exact match, resolution fails closed with a structured branch-conflict diagnostic.",
+    "Regression coverage proves provisional-resource rejection, resource-bound same-branch conflict rejection, and that push/tag routes never use the pull-request branch fallback.",
+    "An ordinary push with no merged pull request emits its ordinary repository route without an unbound-array failure.",
+    "An empty active Contract inventory produces the resolver's structured unresolved diagnostic instead of a shell unbound-array failure."
+  ],
+  "createdAt": "2026-09-12T23:42:30Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7e8495bdd0127a3323bad91bd3619bd1e58161335d40cb7a2f028b8e7822a817",
+  "evidenceRefs": [
+    ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5e8f70ae8e4487e2ca425543c4d9d72b4c855cf7b757eeffc461dc8abc910942",
+      "workItemId": "WI-816-outcome-action-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-816-outcome-action-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-816-outcome-action-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make cleanup-pending Outcome recovery actionable without repeating deletion, widening authorization, or inventing a command."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-816-outcome-action-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-816-outcome-action-binding"
+  },
+  "taskReportDigest": "sha256:c513318f4d13ef9687edc8945ff8218f50f1a57a2f7afa0fc541bf9aca3a18f0",
+  "taskReportMarkdownDigest": "sha256:ef2ab1fa2e98cdd218c77423623d0a65a9147bf417b2697dad4854c9a4c1f331",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-816-outcome-action-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-816-outcome-action-binding"
+}

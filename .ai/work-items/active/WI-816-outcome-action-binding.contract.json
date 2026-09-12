@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "Cleanup-pending and receipt-missing re-observation projections include the exact repository-bound Work Item finalize-verify command and never omit its binding arguments.",
+    "The projection remains observe-only, does not recommend deletion, and uses the same action model consumed by human-facing rendering.",
+    "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id.",
+    "A pull-request quality route for a Work Item without provider resourceContext resolves the unique active Contract encoded by the dedicated branch, without weakening exact resource-bound PR selection or release/recovery identity checks.",
+    "An absent or ambiguous branch-to-Work-Item mapping fails with one structured diagnostic before compilation or expensive quality jobs, and existing explicit release/recovery failures remain fail-closed.",
+    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection.",
+    "A pull-request branch fallback accepts only an active Contract with no resourceContext; provisional or otherwise resource-bound Contracts never qualify by branch alone.",
+    "When a no-resource branch candidate shares its branch with any resource-bound Contract whose PR identity is not an exact match, resolution fails closed with a structured branch-conflict diagnostic.",
+    "Regression coverage proves provisional-resource rejection, resource-bound same-branch conflict rejection, and that push/tag routes never use the pull-request branch fallback.",
+    "An ordinary push with no merged pull request emits its ordinary repository route without an unbound-array failure.",
+    "An empty active Contract inventory produces the resolver's structured unresolved diagnostic instead of a shell unbound-array failure."
+  ],
+  "authority": "explicit-user-authorized-root-cause-repair-and-release",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T22:55:59Z",
+  "goal": "Make cleanup-pending Outcome recovery actionable without repeating deletion, widening authorization, or inventing a command.",
+  "intent": "Repair the confirmed cleanup re-observation action projection so an Agent can execute the reported Runtime entry point with the exact repository and Work Item binding.",
+  "mode": "code",
+  "outOfScope": [
+    "release workflows",
+    " published artifacts",
+    " historical records",
+    " global Agent or MCP configuration",
+    " unrelated Outcome wording or Runtime lifecycle behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    ".github/workflows/ci.yml",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/quality_route_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-816-outcome-action-binding"
+}

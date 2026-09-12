@@ -143,17 +143,19 @@ elif [[ -n "$work_item_id" ]]; then
   selection_method='explicit_work_item_id'
 elif [[ "$event" == pull_request ]]; then
   selection_method='pull_request_binding'
-  for contract_path in "${all_contracts[@]}"; do
-    if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
-      fail contract_invalid 'an active Contract is not valid JSON'
-    fi
-    if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
-      fail contract_invalid 'an active Contract is not valid JSON'
-    fi
-    if [[ "$branch" == "$pr_head_ref" && "$bound_pr" == "$pr_url" ]]; then
-      candidate_contracts+=("$contract_path")
-    fi
-  done
+  if ((${#all_contracts[@]} > 0)); then
+    for contract_path in "${all_contracts[@]}"; do
+      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an active Contract is not valid JSON'
+      fi
+      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an active Contract is not valid JSON'
+      fi
+      if [[ "$branch" == "$pr_head_ref" && "$bound_pr" == "$pr_url" ]]; then
+        candidate_contracts+=("$contract_path")
+      fi
+    done
+  fi
 elif [[ "$event" == push ]]; then
   [[ -n "$github_repository" ]] || fail github_repository_required 'tag/merge selection requires GITHUB_REPOSITORY'
   [[ -n "${GH_TOKEN:-}" ]] || fail github_token_required 'tag/merge selection requires GH_TOKEN'
@@ -167,22 +169,73 @@ elif [[ "$event" == push ]]; then
   while IFS= read -r merged_pr; do
     [[ -n "$merged_pr" ]] && merged_prs+=("$merged_pr")
   done <<< "$merged_pr_output"
-  for pr in "${merged_prs[@]}"; do
-    IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
-    for contract_path in "${all_contracts[@]}"; do
-      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
-        candidate_contracts+=("$contract_path")
-      fi
+  if ((${#merged_prs[@]} > 0)) && ((${#all_contracts[@]} > 0)); then
+    for pr in "${merged_prs[@]}"; do
+      IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
+      for contract_path in "${all_contracts[@]}"; do
+        if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
+          candidate_contracts+=("$contract_path")
+        fi
+      done
     done
-  done
+  fi
 else
   fail unsupported_event 'event must be pull_request, push, or workflow_dispatch'
+fi
+
+if ((${#candidate_contracts[@]} == 0)) && [[ "$event" == pull_request ]]; then
+  # Ordinary code Work Items do not declare a provider resource context, but
+  # their dedicated branch still gives CI one explicit, repository-local
+  # identity. Use only the canonical codex/<workItemId> branch form here;
+  # resource-bound Contracts remain subject to the exact branch+PR binding
+  # above, and release/recovery paths never use this fallback.
+  branch_work_item_candidates=()
+  branch_resource_conflicts=()
+  branch_key=$(printf '%s' "$pr_head_ref" | tr '[:upper:]' '[:lower:]')
+  if ((${#all_contracts[@]} > 0)); then
+    for contract_path in "${all_contracts[@]}"; do
+    if ! contract_id=$(jq -er '.workItemId' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON or has no workItemId'
+    fi
+    if ! resource_context_kind=$(jq -r '
+      if (.resourceContext == null) then "absent"
+      elif ((.resourceContext | type) != "object") then "invalid"
+      elif (.resourceContext.pullRequest == "pending" or ((.resourceContext.pullRequest // "") | startswith("pending:"))) then "provisional"
+      else "bound"
+      end
+    ' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
+    contract_key=$(printf '%s' "$contract_id" | tr '[:upper:]' '[:lower:]')
+    [[ "$resource_context_kind" != invalid ]] || \
+      fail contract_invalid 'an active Contract resourceContext is not an object'
+    if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
+    if [[ "$resource_context_kind" == absent && "$branch_key" == "codex/$contract_key" ]]; then
+      branch_work_item_candidates+=("$contract_path")
+    elif [[ "$resource_context_kind" != absent && "$branch" == "$pr_head_ref" ]]; then
+      # A resource-bound Contract owns this branch's provider identity. A
+      # mismatching PR must not be silently bypassed by a no-resource
+      # Contract with the same branch-shaped identity.
+      branch_resource_conflicts+=("$contract_path")
+    fi
+    done
+  fi
+  if ((${#branch_work_item_candidates[@]} > 0)) && ((${#branch_resource_conflicts[@]} > 0)); then
+    conflicts=$(printf '%s\n' "${branch_resource_conflicts[@]}" | sed 's#^.*/##' | paste -sd, -)
+    fail work_item_branch_conflict "branch is already claimed by resource-bound Contract(s): $conflicts"
+  fi
+  if ((${#branch_work_item_candidates[@]} > 0)); then
+    candidate_contracts=("${branch_work_item_candidates[@]}")
+    selection_method='pull_request_branch_work_item'
+  fi
 fi
 
 if ((${#candidate_contracts[@]} == 0)); then
