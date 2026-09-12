@@ -161,15 +161,15 @@ require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag c
 require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
 recovery_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.publish_existing_tag == '\''true'\'' && github.event.inputs.to_tag) || github.ref }}'
 for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgrade_acceptance adopter_acceptance adopter_upgrade_acceptance; do
-  if ! awk -v wanted="$source_job" -v expected="$recovery_source_ref" '
+  if [[ "$(awk -v wanted="$source_job" -v expected="$recovery_source_ref" '
     /^  [A-Za-z0-9_-]+:/ {
       job=$0
       sub(/^  /, "", job)
       sub(/:.*/, "", job)
     }
     job == wanted && index($0, expected) { found=1 }
-    END { exit(found ? 0 : 1) }
-  ' "$workflow"; then
+    END { print(found ? "found" : "missing") }
+  ' "$workflow")" != found ]]; then
     printf 'policy failure: %s must bind recovery build/acceptance to the requested immutable tag source\n' "$source_job" >&2
     exit 1
   fi
