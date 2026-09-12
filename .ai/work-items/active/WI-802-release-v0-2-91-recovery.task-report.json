@@ -1,0 +1,116 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:ccfeb1be947bbf2eb23eac460e7acc39bccda018635aab25e67e641ecc961a80",
+    "workItemId": "WI-802-release-v0-2-91-recovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.e1066a2ae6696e9d1dac804a8d8e42e2b118328c6cfc56a4f001e058bb86fb63.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "Make dependency, artifact-path, shell-diagnostic, and release rerun behavior deterministic; pass reviewed hosted checks and public downloaded-artifact acceptance for v0.2.91."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}
