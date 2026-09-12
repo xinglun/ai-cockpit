@@ -233,6 +233,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -414,6 +415,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -763,6 +765,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -828,6 +831,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -1184,6 +1188,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -1276,6 +1281,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
