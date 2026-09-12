@@ -1,0 +1,235 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.a574318027354c786a715211208e98a5cb8ed14915ba20344a2044bc8b52cee1.json",
+    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.bb983045d85bce5160313812ce031bea4d9f8be7363fde59aac242a8d4fb2e86.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json",
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json",
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.outcome.json",
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json",
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.task-report.json",
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.task-report.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-11T23:41:29Z",
+  "checkpointContractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "recorded": true,
+      "recordedAt": "2026-09-11T23:41:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b1e885412f05fa7d0d5f3a05f6a0b5bb9c51e6dc3930c9b38e02542200652543",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:08125892df8b60b56188214a2458bdb57e06267b468368fb8c049a5f8fcb5af4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "reason": "Declare high-risk release recovery scenarios and their concrete verification plans before expensive hosted execution.",
+      "recorded": true,
+      "recordedAt": "2026-09-11T23:58:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:17b4dfc9d3baaba301f344c5a4f747d1e08cb66011c2367ef631daeb817382d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:08125892df8b60b56188214a2458bdb57e06267b468368fb8c049a5f8fcb5af4",
+      "reason": "Hosted PR quality routing exposed a second active-contract root cause during successor recovery; bind selection to the current PR branch or merge-base so the earliest route barrier remains deterministic.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T00:23:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:1c4144911e1982e4e0b6f024057bbe7865136a2079041c788e2691cb58044bde",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:17b4dfc9d3baaba301f344c5a4f747d1e08cb66011c2367ef631daeb817382d2",
+      "reason": "Fix the discovered stage-boundary root cause: pre-execution quality routing must not block on future lifecycle evidence while finish/archive/close retain strict completion enforcement.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T00:41:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ccfeb1be947bbf2eb23eac460e7acc39bccda018635aab25e67e641ecc961a80",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:63c4fb7e82894065a89e8788a6d44642df5a760493160ae5fefd4367b225355b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:1c4144911e1982e4e0b6f024057bbe7865136a2079041c788e2691cb58044bde",
+      "reason": "Preserve the existing clean-repository compatibility contract: active Work Item discovery must safely handle an absent .ai/work-items/active directory in both CI and release routes.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T00:47:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:516921a92336d6ae8ca3c2697112281a0160366dc2fba0462ff4ba6136ade809",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:25d90e28e50246438db55e4baa865b3cd2bc4e1bd3bf8ee9ec19795a6ed1d3e4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:63c4fb7e82894065a89e8788a6d44642df5a760493160ae5fefd4367b225355b",
+      "reason": "Record the exact Runtime integration file changed by the stage-aware governance refactor; keep the Contract scope fail-closed and repository-bound.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T00:49:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:516921a92336d6ae8ca3c2697112281a0160366dc2fba0462ff4ba6136ade809",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:25d90e28e50246438db55e4baa865b3cd2bc4e1bd3bf8ee9ec19795a6ed1d3e4",
+      "reason": "Hosted quality verification exposed the remaining stage-specific preflight digest mismatch; bind entry gates to the canonical preflight decision while retaining fail-closed invalidation.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T01:15:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a7738089b30dff6b53c7c5554ea42135931c3933a8449f6e9014b45f82e7680",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+  "createdAt": "2026-09-11T23:39:53Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+    "reason": "The repository owner confirms the current verified source snapshot and canonical preflight decision, and authorizes the bounded hosted review; this does not authorize release or adopter success.",
+    "recordedAt": "2026-09-12T01:31:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+    "schemaVersion": 1,
+    "workItemId": "WI-802-release-v0-2-91-recovery"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "tests/release/workflow_policy.sh",
+      ".github/workflows/release.yml"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
+  "predecessorWorkItemId": "WI-801-release-v0-2-91",
+  "preflightAt": "2026-09-12T01:34:04Z",
+  "preflightContractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "release_tools_dependency",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "source_quality_artifact_permissions",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "release_close_failure_diagnostics",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "immutable_tag_recovery",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-12T01:34:23.866081+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:cc3dc216c2ae3ed06ce4a429048882d0c5c004994467aa9a7ca3f9f3ad60bb5c",
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:48c7a97159740c72c9261646ba07beee0a19a94186b8f7b70d2cd83c0af0288c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7126955f6dc2eaad8cae4523f48163217fcb59867057f7706248b553a7c5f02e",
+  "reason": "The repository owner confirms the bounded recovery repair and the reviewed PR resource binding for immutable v0.2.91 publication.",
+  "recordedAt": "2026-09-12T09:25:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+  "schemaVersion": 1,
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

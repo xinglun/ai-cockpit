@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "The repository owner confirms the bounded high-risk release recovery scope, its explicit out-of-scope boundary, and the evidence required to repair and republish v0.2.91.",
+  "recordedAt": "2026-09-12T08:45:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1e885412f05fa7d0d5f3a05f6a0b5bb9c51e6dc3930c9b38e02542200652543",
+  "schemaVersion": 1,
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

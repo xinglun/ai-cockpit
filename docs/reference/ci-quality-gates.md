@@ -47,6 +47,18 @@ projection. It emits `repository_contract_quality_gate` JSON with a stable
 receipt digest, decision state, verification tier, and evidence assurance.
 Yellow or red output exits non-zero and cannot authorize repository commands.
 
+This is an entry gate, not a lifecycle-completion gate. `requiredEvidenceClasses`
+remain requirements for finish/archive/close; evidence that can only be
+produced by later release, public-adopter, close, or cleanup stages is not
+treated as missing while this pre-execution gate is deciding whether to start
+the current command. The lifecycle evaluator still enforces every declared
+class at its completion boundary.
+
+When a human preflight review is required, an entry gate reuses the canonical
+preflight decision digest recorded by the Work Item Summary. The stage-specific
+quality projection does not create a second review binding; a Contract or
+source-snapshot change still invalidates the review and fails closed.
+
 The Python route and runner remain during this convergence phase. A future
 batch may remove duplicated policy only after hosted shadow comparisons prove
 semantic agreement. This gate does not implement the reference source's full

@@ -67,6 +67,7 @@ require_match '^\s*push:\s*$' 'tag trigger is required'
 require_match 'tags:\s*\['"'"'v\*'"'"'\]' 'only semantic v tags trigger publication'
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match '^  release_tools:' 'shared release acceptance tooling must be built once'
+require_match '^    needs: \[release_preflight, release_tools\]$' 'build must wait for the release_tools producer before downloading helpers'
 require_match 'cockpit-release-tool-ubuntu-x86_64' 'Linux release jobs must consume the prebuilt release helper'
 require_match 'artifact:[[:space:]]*macos-arm64' 'macOS ARM release jobs must consume a prebuilt platform helper'
 require_match 'artifact:[[:space:]]*windows-x86_64' 'Windows release jobs must consume a prebuilt platform helper'
@@ -76,6 +77,9 @@ require_match 'ai-cockpit-publish-handoff' 'public acceptance must consume the p
 require_match '\-\-publish-handoff' 'public acceptance must bind the publication handoff'
 require_match 'release-manifest\.json' 'canonical manifest must be emitted'
 require_match 'SHA256SUMS' 'canonical checksum set must be emitted'
+require_match 'all_contracts' 'release routing must inspect all active Contracts before selecting one'
+require_match 'selection_revision' 'release routing must bind Contract selection to immutable release identity'
+require_match 'no active Contract matches the release identity' 'release routing must fail closed when successor selection is ambiguous'
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
 require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
 require_match '(cockpit-release -- bind-sbom|tools/\$\{\{ matrix\.helper_binary \}\} bind-sbom)' 'each target SBOM must be bound to its packaged archive and executable'
@@ -94,6 +98,8 @@ require_match '^  post_release_version_consistency:' 'post-publication version c
 require_match '^  adopter_acceptance:' 'post-release adopter acceptance job must be present'
 require_match '^  adopter_upgrade_acceptance:' 'post-release N-1 upgrade acceptance job must be present'
 require_match '^  release_close:' 'release close barrier job must be present'
+require_match 'publish_existing_tag' 'immutable tag recovery must have an explicit workflow input'
+require_match 'github\.event\.inputs\.publish_existing_tag == '\''true'\''' 'immutable tag recovery must be explicitly enabled'
 require_match '^  staged_adopter_acceptance:' 'pre-publication staged adopter acceptance job must be present'
 require_match '^  staged_adopter_upgrade_acceptance:' 'pre-publication staged N-1 acceptance job must be present'
 require_match 'tests/ci/run_repository_gates\.py' 'source quality must run the canonical repository gate manifest'
@@ -138,7 +144,7 @@ require_match 'needs: \[publish, publish_handoff, release_tools\]' 'N-1 acceptan
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
 require_match 'tests/ci/repository_gate_manifest\.json' 'release workflow must bind all repository policy gates'
 require_match '--post-release' 'post-publication version consistency must validate public assets'
-require_match 'if: github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must be tag-only and post-publication'
+require_match 'github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must retain the tag-triggered post-publication path'
 require_match 'if: always\(\)' 'adopter acceptance evidence must upload after success or failure'
 require_match 'tests/release/adopter_upgrade_acceptance\.sh' 'N-1 post-release job must invoke the public-artifact upgrade harness'
 require_match 'INPUT_FROM_TAG' 'manual N-1 acceptance must receive an explicit from tag'
@@ -152,6 +158,22 @@ require_match 'release close blocked' 'release close must fail closed when requi
 require_match 'needs: \[publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance\]' 'release close must wait for public acceptance and consistency receipts'
 require_match '^    needs: \[publish\]$' 'public version consistency must run in parallel with post-release acceptance'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
+require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
+
+if ! bash -n <(
+  awk '
+    /^      - name: Write release close receipt$/ { in_step=1; next }
+    in_step && /^        run: \|$/ { in_run=1; next }
+    in_run && /^      - name:/ { exit }
+    in_run {
+      sub(/^          /, "")
+      print
+    }
+  ' "$workflow"
+); then
+  printf 'policy failure: release close embedded Bash is not syntactically valid\n' >&2
+  exit 1
+fi
 
 awk '
   /^  [A-Za-z0-9_-]+:/ {
@@ -178,15 +200,7 @@ if [[ "$handoff_jobs" != "publish_handoff" ]]; then
   exit 1
 fi
 
-awk '
-  /^jobs:/ { in_jobs=1 }
-  in_jobs && /^  publish:/ { in_publish=1 }
-  in_publish && /^  [A-Za-z0-9_-]+:/ && $0 !~ /^  publish:/ { in_publish=0 }
-  in_publish && /if:.*github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs\/tags\/'\''\)/ { found=1 }
-  END { exit(found ? 0 : 1) }
-' "$workflow" || {
-  printf 'policy failure: publish must be tag-gated\n' >&2
-  exit 1
-}
+require_match 'github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'publish must retain the tag-triggered path'
+require_match 'github\.event_name == '\''workflow_dispatch'\'' && github\.event\.inputs\.publish_existing_tag == '\''true'\''' 'publish recovery must require explicit immutable-tag mode'
 
 printf 'workflow policy passed: %s\n' "$workflow"

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T09:32:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34661601679",
+    "https://github.com/xinglun/ai-cockpit/pull/778"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:17b4dfc9d3baaba301f344c5a4f747d1e08cb66011c2367ef631daeb817382d2",
+  "predecessorEventsDigest": "sha256:c10d7fa793454664adc6fb1cf878ef62f334168f0bc89ca1677489bf6a0bfccf",
+  "predecessorOutcomeDigest": "sha256:f8127852be17369edc552b1d4b5aafddd8a3f3d8c2ed3d60ada0fb9700816557",
+  "predecessorSummaryDigest": "sha256:559a1e763499ac3f756e44b18d1cabe072670f98a9d21228c01a94f552b90f5d",
+  "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
+  "reason": "The failed finish attempt left a stale lifecycle transition marker after the Contract amendment and hosted route root-cause repair. Retry the same bounded Work Item through the Runtime recovery path so fresh preflight and verification can replace only the stale terminal projection; do not repeat publication or create another successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After Runtime recovery clears the stale transition marker, rerun the current Contract preflight and verification, then continue the reviewed PR and immutable v0.2.91 recovery without repeating already valid local checks.",
+  "runtimeDigest": "sha256:9b9647977c790b94aefde40da9432185550c7ec223b59959c1a8c68608b2c2a0",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

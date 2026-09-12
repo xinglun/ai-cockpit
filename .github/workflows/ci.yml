@@ -36,6 +36,7 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
@@ -52,8 +53,32 @@ jobs:
               base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
             fi
           fi
-          mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one quality route' >&2; exit 1; }
+          all_contracts=()
+          if [[ -d .ai/work-items/active ]]; then
+            mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          fi
+          contracts=()
+          if [[ "$EVENT_NAME" == pull_request ]]; then
+            for contract_path in "${all_contracts[@]}"; do
+              contract_branch="$(jq -r '.resourceContext.branch // empty' "$contract_path")"
+              [[ -n "$PR_HEAD_REF" && "$contract_branch" == "$PR_HEAD_REF" ]] && contracts+=("$contract_path")
+            done
+          elif (( ${#all_contracts[@]} > 1 )); then
+            # A merged successor and its predecessor can remain active until
+            # provider-side close. Select the Contract whose immutable base is
+            # the merge event's previous commit; ambiguity still fails closed.
+            for contract_path in "${all_contracts[@]}"; do
+              contract_base_revision="$(jq -r '.baseRevision // empty' "$contract_path")"
+              [[ -n "$EVENT_BEFORE" && "$contract_base_revision" == "$EVENT_BEFORE" ]] && contracts+=("$contract_path")
+            done
+          else
+            contracts=("${all_contracts[@]}")
+          fi
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts match the current quality route' >&2; exit 1; }
+          if (( ${#all_contracts[@]} > 1 && ${#contracts[@]} == 0 )); then
+            echo 'no active Contract matches the current PR branch or merge base' >&2
+            exit 1
+          fi
           if [[ "$EVENT_NAME" != pull_request && ${#contracts[@]} == 1 ]]; then
             contract_base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
             [[ "$contract_base_revision" =~ ^[0-9a-f]{40}$ ]] || {

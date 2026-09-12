@@ -1,7 +1,9 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
+use cockpit_git::GitRepository;
 use cockpit_protocol::{RuntimeContext, VerificationStage};
 use cockpit_repository::{
-    WorkItemStartOptions, attach, evaluate_contract_quality_gate, start_work_item_with_options,
+    WorkItemStartOptions, attach, evaluate_contract_quality_gate, governance_decision_for_contract,
+    preflight_work_item, record_work_item_governance_controls, start_work_item_with_options,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -132,6 +134,109 @@ fn valid_gate_is_identity_bound_and_read_only() {
         ai_bytes(directory.path()),
         "read-only gate changed .ai bytes"
     );
+}
+
+#[test]
+fn pre_execution_gate_defers_lifecycle_evidence_until_completion_stage() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let mut value =
+        serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap();
+    value["requiredEvidenceClasses"] = serde_json::json!([
+        "hosted-ci",
+        "release-preflight",
+        "public-install",
+        "public-upgrade",
+        "release-close",
+        "cleanup"
+    ]);
+    fs::write(&contract, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+    let base = value["baseRevision"].as_str().unwrap().to_owned();
+
+    for stage in [VerificationStage::PullRequest, VerificationStage::Release] {
+        let report = evaluate_contract_quality_gate(
+            root,
+            &contract,
+            stage,
+            "hosted",
+            Some(&base),
+            &runtime(),
+        )
+        .expect("pre-execution gate must not require future lifecycle evidence");
+        assert_eq!(report.state, "passed");
+        assert_eq!(report.decision_state, "green");
+    }
+
+    let snapshot = GitRepository::discover(root)
+        .expect("git repository")
+        .snapshot()
+        .expect("repository snapshot");
+    let lifecycle_decision = governance_decision_for_contract(
+        root,
+        &serde_json::from_slice(&fs::read(&contract).unwrap()).unwrap(),
+        &snapshot,
+    )
+    .expect("lifecycle governance decision");
+    assert_eq!(lifecycle_decision.state, DecisionState::Yellow);
+    assert!(
+        lifecycle_decision
+            .unknowns
+            .contains(&"required_evidence_missing".into()),
+        "completion governance must still require the declared lifecycle evidence"
+    );
+}
+
+#[test]
+fn pre_execution_gate_reuses_canonical_preflight_review() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let preflight = preflight_work_item(root, &contract).expect("preflight");
+    assert_eq!(preflight.state, DecisionState::Green);
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(root.join(".ai/work-items/active/WI-CI-GATE.summary.json")).expect("summary"),
+    )
+    .expect("summary JSON");
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract).expect("contract")).expect("contract JSON");
+    let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
+    let review = serde_json::json!({
+        "schemaVersion": 1,
+        "decisionId": "contract-preflight-review",
+        "decision": "confirm_review",
+        "workItemId": "WI-CI-GATE",
+        "repositoryId": cockpit_repository::repository_id(root),
+        "contractDigest": contract_digest,
+        "preflightDecisionDigest": summary["preflightDecisionDigest"].clone(),
+        "repositorySnapshotDigest": summary["preflightRepositorySnapshotDigest"].clone(),
+        "recordedAt": "2026-09-12T01:00:00Z",
+        "recordedBy": "human:owner",
+        "reason": "bounded preflight review confirmed"
+    });
+    record_work_item_governance_controls(
+        root,
+        "WI-CI-GATE",
+        &serde_json::json!({"decisionEvidence": review}),
+    )
+    .expect("record preflight review");
+
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("entry gate must reuse the canonical preflight review");
+    assert_eq!(report.state, "passed");
+    assert_eq!(report.decision_state, "green");
 }
 
 #[test]

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:25d90e28e50246438db55e4baa865b3cd2bc4e1bd3bf8ee9ec19795a6ed1d3e4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7126955f6dc2eaad8cae4523f48163217fcb59867057f7706248b553a7c5f02e",
+  "reason": "The repository owner confirms the current preflight result after the stage-boundary repair and authorizes the bounded hosted review; this does not authorize release or adopter success.",
+  "recordedAt": "2026-09-12T01:14:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:684f2b0a3a28c3bfd66d02d26087e22d909e560c0e07c58104cfd5ef025aaa2f",
+  "schemaVersion": 1,
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

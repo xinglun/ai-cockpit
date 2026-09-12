@@ -3060,7 +3060,13 @@ pub fn evaluate_contract_quality_gate(
     let route =
         resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?;
     let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
-    let decision = governance_decision_for_contract(&root, &contract, &snapshot)?;
+    // This gate runs before the command represented by the route.  Contract
+    // evidence classes describe lifecycle completion, so release, adopter,
+    // close, and cleanup evidence cannot be required before those stages can
+    // produce it.  The mutable lifecycle gates still use the strict normal
+    // governance path below and enforce every declared class.
+    let decision =
+        governance_decision_for_pre_execution_quality_gate(&root, &contract, &snapshot, stage)?;
     blockers.extend(decision.blockers.clone());
     blockers.sort();
     blockers.dedup();
@@ -3116,6 +3122,98 @@ pub fn evaluate_contract_quality_gate(
             message: error.to_string(),
         })?;
     Ok(report)
+}
+
+fn governance_decision_for_pre_execution_quality_gate(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    stage: VerificationStage,
+) -> Result<GovernanceDecision, ObserverError> {
+    // Every current quality-gate stage is an entry check for work that has
+    // not yet produced completion evidence.  Keep the match exhaustive so a
+    // future stage must explicitly define its evidence boundary.
+    let pre_execution_evidence = match stage {
+        VerificationStage::Task
+        | VerificationStage::PreCi
+        | VerificationStage::PullRequest
+        | VerificationStage::Merge
+        | VerificationStage::Release => {
+            pre_execution_quality_evidence_state(root, contract, snapshot)?
+        }
+    };
+    let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
+    let decision = governance_decision_for_contract_base_internal_with_archive(
+        root,
+        contract,
+        snapshot,
+        None,
+        false,
+        Some(pre_execution_evidence),
+        None,
+    )?;
+    apply_preflight_review_evidence(
+        root,
+        contract,
+        snapshot,
+        decision,
+        false,
+        canonical_preflight_digest.as_ref(),
+    )
+}
+
+fn canonical_preflight_decision_digest(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+) -> Result<Option<Digest>, ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    if !summary_path.is_file() {
+        return Ok(None);
+    }
+    let summary = read_json(&summary_path)?;
+    let expected_contract = contract_digest_for_evidence(root, contract)?;
+    let expected_snapshot = snapshot_digest(snapshot)?;
+    if summary
+        .get("preflightContractDigest")
+        .and_then(serde_json::Value::as_str)
+        != Some(expected_contract.to_string().as_str())
+        || summary
+            .get("preflightRepositorySnapshotDigest")
+            .and_then(serde_json::Value::as_str)
+            != Some(expected_snapshot.to_string().as_str())
+    {
+        return Ok(None);
+    }
+    Ok(summary
+        .get("preflightDecisionDigest")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok()))
+}
+
+fn pre_execution_quality_evidence_state(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+) -> Result<EvidenceState, ObserverError> {
+    // `verification` is the only completion class that can be meaningfully
+    // required by the entry gate: an existing receipt can prove that the
+    // current source was already verified, and a missing or stale one must
+    // remain visible.  Provider/release/adopter/close/cleanup classes are
+    // produced after this gate and belong to the mutable lifecycle boundary.
+    let requires_verification = contract.required_evidence_classes.iter().any(|class| {
+        matches!(
+            class.to_ascii_lowercase().as_str(),
+            "verification" | "verification_receipt" | "verification-receipt"
+        )
+    });
+    if requires_verification {
+        verification_evidence_state(root, contract, snapshot, false, None)
+    } else {
+        Ok(EvidenceState::Complete)
+    }
 }
 
 pub fn verification_operation_for_contract(contract: &cockpit_protocol::Contract) -> &str {
@@ -3667,6 +3765,7 @@ pub fn governance_decision_for_observation_context(
         observation.snapshot(),
         observation.runtime(),
         false,
+        None,
         Some(observation),
     )?;
     let decision = apply_preflight_review_evidence(
@@ -3675,6 +3774,7 @@ pub fn governance_decision_for_observation_context(
         observation.snapshot(),
         decision,
         false,
+        None,
     )?;
     observation.validate_current()?;
     Ok(decision)
@@ -3734,8 +3834,9 @@ fn governance_decision_for_contract_internal_with_archive(
         current_runtime,
         archived,
         None,
+        None,
     )?;
-    apply_preflight_review_evidence(root, contract, snapshot, decision, archived)
+    apply_preflight_review_evidence(root, contract, snapshot, decision, archived, None)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -3744,6 +3845,7 @@ fn governance_decision_for_contract_base_internal_with_archive(
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
     archived: bool,
+    evidence_override: Option<EvidenceState>,
     observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
     let expected_repository_id = observation
@@ -3769,13 +3871,13 @@ fn governance_decision_for_contract_base_internal_with_archive(
     } else {
         AuthorityState::Missing
     };
-    let evidence = evidence_state_for_contract_internal_with_archive(
+    let evidence = evidence_override.unwrap_or(evidence_state_for_contract_internal_with_archive(
         root,
         contract,
         snapshot,
         current_runtime,
         archived,
-    )?;
+    )?);
     let mut explicit_unknowns = signals.unknowns;
     explicit_unknowns.extend(contract_review_unknowns(contract));
     let project_unknowns = observation.map_or_else(
@@ -3819,6 +3921,7 @@ fn apply_preflight_review_evidence(
     snapshot: &RepositorySnapshot,
     mut decision: GovernanceDecision,
     archived: bool,
+    canonical_preflight_digest: Option<&Digest>,
 ) -> Result<GovernanceDecision, ObserverError> {
     if archived {
         return Ok(decision);
@@ -3847,12 +3950,13 @@ fn apply_preflight_review_evidence(
             path: contract_path.clone(),
             message: error.to_string(),
         })?;
+    let expected_decision_digest = canonical_preflight_digest.unwrap_or(&raw_decision_digest);
     let current_snapshot_digest = snapshot_digest(snapshot)?;
     match preflight_decision_evidence_state(
         root,
         &contract.work_item_id,
         &contract_digest,
-        &raw_decision_digest,
+        expected_decision_digest,
         &current_snapshot_digest,
     ) {
         governance_controls::PreflightDecisionEvidenceState::Missing => {}

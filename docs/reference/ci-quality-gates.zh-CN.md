@@ -44,6 +44,15 @@ intent/scenario/operation/stage 路由，以及当前 Agent-Risk/preflight 投�
 decision state、verification tier 和 evidence assurance。黄色或红色结果以
 非零退出，不能授权执行仓库命令。
 
+这是启动前 gate，不是生命周期完成 gate。`requiredEvidenceClasses` 仍然是
+finish/archive/close 的要求；只能由后续发布、公开 adopter、关闭或清理阶段
+产生的 evidence，在本启动前 gate 判断是否可以启动当前命令时不会被当作缺失。
+生命周期 evaluator 仍会在完成边界强制检查每一个已声明的类别。
+
+如果启动前需要人工 preflight 审查，entry gate 会复用 Work Item Summary
+记录的 canonical preflight decision digest。阶段特定的 quality 投影不会
+创建第二个审查绑定；Contract 或源码 snapshot 变化仍会使审查失效并 fail closed。
+
 在收敛阶段保留 Python 路由和 runner。只有 hosted shadow 对照证明语义一致后，
 后续批次才可以删除重复 policy。此 gate 不实现参考源完整 workflow 矩阵、依赖
 planner 或 release-preflight 顺序。

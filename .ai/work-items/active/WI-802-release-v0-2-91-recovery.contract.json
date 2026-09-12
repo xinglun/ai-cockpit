@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "Release build jobs cannot consume platform helpers before the release_tools producer has completed; a regression asserts the dependency.",
+    "Source quality restores executable permissions after artifact download and validates the shared gate tool before expensive checks; a regression asserts the path contract.",
+    "The release-close embedded Bash is syntax-checked by the earliest release policy and produces a structured failed receipt when upstream jobs are skipped or inputs are absent.",
+    "The existing immutable v0.2.91 tag remains bound to e48a887d24f5e1a640ef9b043b60f6c4dca23a31; no tag movement or Release overwrite occurs.",
+    "Reviewed hosted CI passes, the corrected release path publishes v0.2.91, and public downloaded-artifact install and N-1 upgrade acceptance pass with cleanup evidence.",
+    "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution.",
+    "PR and post-merge quality routing selects the active Contract bound to the current PR branch or merge base when a predecessor and successor are both active, and fails closed on zero or ambiguous matches before expensive gates.",
+    "The read-only pre-execution Contract quality gate does not require lifecycle evidence that can only be produced by later release, public-adopter, close, or cleanup stages; lifecycle completion gates continue to enforce those evidence classes.",
+    "PR and release quality routes treat a missing .ai/work-items/active directory as an empty Contract set and remain compatible with repositories that have no active Work Item.",
+    "Pre-execution quality gates reuse the current canonical preflight decision binding rather than a stage-specific evidence projection; a matching human review remains valid across entry stages, while Contract or snapshot changes invalidate it fail-closed."
+  ],
+  "authority": "explicit-user-authorization-root-cause-repair-and-release",
+  "baseRevision": "e48a887d24f5e1a640ef9b043b60f6c4dca23a31",
+  "createdAt": "2026-09-11T23:39:53Z",
+  "goal": "Make dependency, artifact-path, shell-diagnostic, and release rerun behavior deterministic; pass reviewed hosted checks and public downloaded-artifact acceptance for v0.2.91.",
+  "intent": "Repair the v0.2.91 release orchestration defects found in the immutable failed tag run and complete the existing tag release without retagging.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime semantics",
+    " source features",
+    " version changes",
+    " existing tag or Release identity",
+    " historical WI-801 bytes"
+  ],
+  "predecessorContractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
+  "predecessorWorkItemId": "WI-801-release-v0-2-91",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1e885412f05fa7d0d5f3a05f6a0b5bb9c51e6dc3930c9b38e02542200652543",
+  "requiredEvidenceClasses": [
+    "hosted-ci",
+    "release-preflight",
+    "public-install",
+    "public-upgrade",
+    "release-close",
+    "cleanup"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-802-release-v0-2-91-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/778",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-802-release-v0-2-91-recovery"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Every build matrix entry waits for the release_tools producer before downloading its helper.",
+      "required": true,
+      "scenario": "release_tools_dependency",
+      "status": "unverified",
+      "verificationPlan": "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+    },
+    {
+      "evidence": [],
+      "expected": "The shared Rust gate binary is executable after preflight artifact download.",
+      "required": true,
+      "scenario": "source_quality_artifact_permissions",
+      "status": "unverified",
+      "verificationPlan": "bash tests/release/workflow_policy.sh .github/workflows/release.yml"
+    },
+    {
+      "evidence": [],
+      "expected": "Skipped upstream jobs or missing receipts produce a structured release-close failure receipt.",
+      "required": true,
+      "scenario": "release_close_failure_diagnostics",
+      "status": "unverified",
+      "verificationPlan": "Extract the release-close run block and run bash -n; inspect the failure receipt path in the workflow."
+    },
+    {
+      "evidence": [],
+      "expected": "Recovery publishes only when the requested tag digest matches the candidate and never moves or overwrites the tag or Release.",
+      "required": true,
+      "scenario": "immutable_tag_recovery",
+      "status": "unverified",
+      "verificationPlan": "bash tests/release/workflow_policy.sh .github/workflows/release.yml plus hosted dispatch with publish_existing_tag=true"
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route_test.py",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "crates/cockpit-repository/src/lifecycle.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

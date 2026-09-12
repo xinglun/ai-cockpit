@@ -1,0 +1,183 @@
+{
+  "acceptanceResults": [
+    "Release build jobs cannot consume platform helpers before the release_tools producer has completed; a regression asserts the dependency.",
+    "Source quality restores executable permissions after artifact download and validates the shared gate tool before expensive checks; a regression asserts the path contract.",
+    "The release-close embedded Bash is syntax-checked by the earliest release policy and produces a structured failed receipt when upstream jobs are skipped or inputs are absent.",
+    "The existing immutable v0.2.91 tag remains bound to e48a887d24f5e1a640ef9b043b60f6c4dca23a31; no tag movement or Release overwrite occurs.",
+    "Reviewed hosted CI passes, the corrected release path publishes v0.2.91, and public downloaded-artifact install and N-1 upgrade acceptance pass with cleanup evidence.",
+    "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution.",
+    "PR and post-merge quality routing selects the active Contract bound to the current PR branch or merge base when a predecessor and successor are both active, and fails closed on zero or ambiguous matches before expensive gates.",
+    "The read-only pre-execution Contract quality gate does not require lifecycle evidence that can only be produced by later release, public-adopter, close, or cleanup stages; lifecycle completion gates continue to enforce those evidence classes.",
+    "PR and release quality routes treat a missing .ai/work-items/active directory as an empty Contract set and remain compatible with repositories that have no active Work Item.",
+    "Pre-execution quality gates reuse the current canonical preflight decision binding rather than a stage-specific evidence projection; a matching human review remains valid across entry stages, while Contract or snapshot changes invalidate it fail-closed."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cc3dc216c2ae3ed06ce4a429048882d0c5c004994467aa9a7ca3f9f3ad60bb5c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:31e14ffe2175bd446c0dc7d6bfa42ccb0460c29466d9d648d4f0e0f94eea9cd1",
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.a574318027354c786a715211208e98a5cb8ed14915ba20344a2044bc8b52cee1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make dependency, artifact-path, shell-diagnostic, and release rerun behavior deterministic; pass reviewed hosted checks and public downloaded-artifact acceptance for v0.2.91."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-802-release-v0-2-91-recovery"
+  },
+  "taskReportDigest": "sha256:23a0bc9aa582261f8cba1c55979cb4844200bcb68f42c34cb319038e8f1e8e0e",
+  "taskReportMarkdownDigest": "sha256:4ceee56c5c570cda0d4197e853c47d232659a66893e16b7a9ff2a4a928bb8efc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

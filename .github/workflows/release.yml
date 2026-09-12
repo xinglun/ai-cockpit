@@ -20,6 +20,11 @@ on:
         description: 'Completed publication run whose immutable handoff artifact must be consumed for manual acceptance'
         required: false
         type: string
+      publish_existing_tag:
+        description: 'Recover publication of an existing immutable tag after a failed tag-triggered run'
+        required: false
+        default: false
+        type: boolean
   push:
     tags: ['v*']
 
@@ -119,14 +124,39 @@ jobs:
           cargo build --locked --release --package cockpit-cli
       - name: Plan the strict release quality route
         shell: bash
+        env:
+          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
-          head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          contracts=()
-          if [[ -d .ai/work-items/active ]]; then
-            mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+            head_revision="$(git ls-remote origin "refs/tags/$INPUT_TO_TAG^{}" | awk '{print $1}')"
+            test -n "$head_revision"
+          else
+            head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           fi
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
+          all_contracts=()
+          if [[ -d .ai/work-items/active ]]; then
+            mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          fi
+          contracts=()
+          if (( ${#all_contracts[@]} > 1 )); then
+            selection_revision="$head_revision"
+            if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+              selection_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || true)"
+            fi
+            for contract_path in "${all_contracts[@]}"; do
+              contract_base_revision="$(jq -r '.baseRevision // empty' "$contract_path")"
+              [[ -n "$selection_revision" && "$contract_base_revision" == "$selection_revision" ]] && contracts+=("$contract_path")
+            done
+          else
+            contracts=("${all_contracts[@]}")
+          fi
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts match the release identity' >&2; exit 1; }
+          if (( ${#all_contracts[@]} > 1 && ${#contracts[@]} == 0 )); then
+            echo 'no active Contract matches the release identity' >&2
+            exit 1
+          fi
           if (( ${#contracts[@]} == 1 )); then
             base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
           else
@@ -167,7 +197,7 @@ jobs:
           retention-days: 7
 
   build:
-    needs: release_preflight
+    needs: [release_preflight, release_tools]
     strategy:
       fail-fast: false
       matrix:
@@ -306,6 +336,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          chmod +x target/release/ai-cockpit
           test -x target/release/ai-cockpit
       - name: Evaluate Rust Contract-aware quality gate
         shell: bash
@@ -399,6 +430,9 @@ jobs:
           path: tools
       - name: Aggregate and bind the candidate
         shell: bash
+        env:
+          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
           chmod +x tools/cockpit-release
@@ -412,8 +446,14 @@ jobs:
             echo "tag $GITHUB_REF_NAME does not match workspace version $version" >&2
             exit 1
           fi
-          commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          test "$commit" = "$GITHUB_SHA"
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+            test "$INPUT_TO_TAG" = "$tag"
+            commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
+            test -n "$commit"
+          else
+            commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+            test "$commit" = "$GITHUB_SHA"
+          fi
           lock_sha="$(shasum -a 256 Cargo.lock | awk '{print $1}')"
           "$COCKPIT_RELEASE_BIN" manifest \
             --dist dist \
@@ -463,6 +503,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
           chmod +x tools/cockpit-release
@@ -470,17 +512,19 @@ jobs:
           version="$(jq -er '.version' dist/release-manifest.json)"
           tag="v${version}"
           test "$(jq -er '.tag' dist/release-manifest.json)" = "$tag"
-          test "$(jq -er '.commit' dist/release-manifest.json)" = "$GITHUB_SHA"
           test "$(jq -er '.cargoLockSha256' dist/release-manifest.json)" = "$(shasum -a 256 Cargo.lock | awk '{print $1}')"
+          manifest_commit="$(jq -er '.commit' dist/release-manifest.json)"
+          tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
+          test -n "$tag_commit"
           if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            test "$manifest_commit" = "$GITHUB_SHA"
             test "$GITHUB_REF_NAME" = "$tag"
             before="$(jq -er '.before' "$GITHUB_EVENT_PATH")"
             test "$before" = "0000000000000000000000000000000000000000"
             test "$(git rev-parse "refs/tags/${GITHUB_REF_NAME}^{commit}")" = "$GITHUB_SHA"
             git fetch origin main --depth=1
             git merge-base --is-ancestor "$GITHUB_SHA" origin/main
-            tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
-            test "$tag_commit" = "$(jq -er '.commit' dist/release-manifest.json)"
+            test "$tag_commit" = "$manifest_commit"
             release_json="$RUNNER_TEMP/provider-release.json"
             release_error="$RUNNER_TEMP/provider-release.error"
             set +e
@@ -495,7 +539,32 @@ jobs:
                 --tag-commit "$tag_commit" | jq '. + {schemaVersion:1}' \
                 > "$RUNNER_TEMP/provider-release-state.json"
             elif grep -Eq 'HTTP 404|Not Found' "$release_error"; then
-              jq -n --arg tag "$tag" --arg commit "$GITHUB_SHA" \
+              jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
+                '{schemaVersion:1,state:"new",tag:$tag,commit:$commit}' \
+                > "$RUNNER_TEMP/provider-release-state.json"
+            else
+              cat "$release_error" >&2
+              echo 'unable to determine provider Release state; refusing to publish' >&2
+              exit 1
+            fi
+          elif [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+            test "$INPUT_TO_TAG" = "$tag"
+            test "$manifest_commit" = "$tag_commit"
+            release_json="$RUNNER_TEMP/provider-release.json"
+            release_error="$RUNNER_TEMP/provider-release.error"
+            set +e
+            gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" > "$release_json" 2> "$release_error"
+            release_status=$?
+            set -e
+            if [[ "$release_status" -eq 0 ]]; then
+              "$GITHUB_WORKSPACE/tools/cockpit-release" verify-provider-release \
+                --manifest dist/release-manifest.json \
+                --dist dist \
+                --release-json "$release_json" \
+                --tag-commit "$tag_commit" | jq '. + {schemaVersion:1}' \
+                > "$RUNNER_TEMP/provider-release-state.json"
+            elif grep -Eq 'HTTP 404|Not Found' "$release_error"; then
+              jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
                 '{schemaVersion:1,state:"new",tag:$tag,commit:$commit}' \
                 > "$RUNNER_TEMP/provider-release-state.json"
             else
@@ -504,7 +573,7 @@ jobs:
               exit 1
             fi
           else
-            jq -n --arg tag "$tag" --arg commit "$GITHUB_SHA" \
+            jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
               '{schemaVersion:1,state:"not_applicable",tag:$tag,commit:$commit}' \
               > "$RUNNER_TEMP/provider-release-state.json"
           fi
@@ -892,7 +961,9 @@ jobs:
             dist/Formula/ai-cockpit.rb
 
   publish:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: >-
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
     needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest]
     runs-on: ubuntu-24.04
     permissions:
@@ -920,6 +991,7 @@ jobs:
         id: release_identity
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           chmod +x tools/cockpit-release
@@ -927,9 +999,13 @@ jobs:
           test "$(jq -er '.state' provider-state/provider-release-state.json)" = reused -o \
             "$(jq -er '.state' provider-state/provider-release-state.json)" = new
           tag="$(jq -er '.tag' dist/release-manifest.json)"
-          test "$tag" = "$GITHUB_REF_NAME"
-          test "$(jq -er '.commit' dist/release-manifest.json)" = "$GITHUB_SHA"
-          test "$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')" = "$GITHUB_SHA"
+          test "$tag" = "$RELEASE_TAG"
+          manifest_commit="$(jq -er '.commit' dist/release-manifest.json)"
+          tag_commit="$(git ls-remote origin "refs/tags/$tag^{}" | awk '{print $1}')"
+          test "$manifest_commit" = "$tag_commit"
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            test "$manifest_commit" = "$GITHUB_SHA"
+          fi
           state="$(jq -er '.state' provider-state/provider-release-state.json)"
           release_json="$RUNNER_TEMP/provider-release-recheck.json"
           release_error="$RUNNER_TEMP/provider-release-recheck.error"
@@ -964,7 +1040,9 @@ jobs:
           generate_release_notes: true
 
   publish_handoff:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: >-
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
     needs: publish
     runs-on: ubuntu-24.04
     permissions:
@@ -988,12 +1066,13 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           chmod +x tools/cockpit-release
           (cd tools && sha256sum -c cockpit-release.sha256)
           tag="$(jq -er '.tag' dist/release-manifest.json)"
-          test "$tag" = "$GITHUB_REF_NAME"
+          test "$tag" = "$RELEASE_TAG"
           provider_release_id=''
           for attempt in {1..30}; do
             provider_release_id="$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" --jq '.id' 2>/dev/null || true)"
@@ -1001,6 +1080,7 @@ jobs:
             sleep 2
           done
           test "$provider_release_id" -gt 0
+          commit="$(jq -er '.commit' dist/release-manifest.json)"
           manifest_sha="$(shasum -a 256 dist/release-manifest.json | awk '{print $1}')"
           formula_sha="$(shasum -a 256 dist/Formula/ai-cockpit.rb | awk '{print $1}')"
           issued="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -1010,7 +1090,7 @@ jobs:
             --workflow-ref "$GITHUB_REPOSITORY/.github/workflows/release.yml@${GITHUB_SHA}" \
             --run-id "$GITHUB_RUN_ID" \
             --tag "$tag" \
-            --commit "$GITHUB_SHA" \
+            --commit "$commit" \
             --provider-release-id "$provider_release_id" \
             --manifest-sha256 "$manifest_sha" \
             --formula-sha256 "$formula_sha" \
@@ -1032,7 +1112,9 @@ jobs:
     # This is a post-publication truth check. It never rewrites or unpublishes
     # a Release; it fails the workflow if public assets drift from the source
     # version or the current trilingual installation docs.
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: >-
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
     needs: [publish]
     runs-on: ubuntu-24.04
     permissions:
@@ -1050,6 +1132,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/post-release-version-consistency"
@@ -1060,6 +1143,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           output="$RUNNER_TEMP/post-release-version-consistency"
@@ -1069,12 +1153,13 @@ jobs:
             --repo "$GITHUB_WORKSPACE" \
             --post-release \
             --repository "$GITHUB_REPOSITORY" \
-            --tag "$GITHUB_REF_NAME" > "$output/version-consistency.log" 2>&1
+            --tag "$RELEASE_TAG" > "$output/version-consistency.log" 2>&1
           result=$?
           set -e
           state=failed
           [[ "$result" -eq 0 ]] && state=passed
-          jq -n --arg tag "$GITHUB_REF_NAME" --arg commit "$GITHUB_SHA" --arg state "$state" \
+          commit="$(git ls-remote origin "refs/tags/$RELEASE_TAG^{}" | awk '{print $1}')"
+          jq -n --arg tag "$RELEASE_TAG" --arg commit "$commit" --arg state "$state" \
             '{schemaVersion:1,phase:"public_version_consistency",tag:$tag,commit:$commit,state:$state}' \
             > "$output/version-consistency.json"
           cat "$output/version-consistency.log"
@@ -1089,7 +1174,9 @@ jobs:
           retention-days: 30
 
   adopter_acceptance:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: >-
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
     needs: [publish_handoff, release_tools]
     runs-on: ubuntu-24.04
     permissions:
@@ -1116,6 +1203,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           if [[ ! -f handoff/homebrew-handoff.json ]]; then
@@ -1129,11 +1217,12 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/release-adopter-acceptance"
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
-            --name "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --name "release-adopter-acceptance-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
             --dir "$RUNNER_TEMP/release-adopter-acceptance"
       - name: Run public Release adopter acceptance
         shell: bash
@@ -1141,6 +1230,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           COCKPIT_RELEASE_BIN: ${{ github.workspace }}/tools/cockpit-release
           ACCEPTANCE_ATTEMPT: ${{ github.run_attempt }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           chmod +x "$COCKPIT_RELEASE_BIN"
@@ -1150,7 +1240,7 @@ jobs:
           if (( GITHUB_RUN_ATTEMPT > 1 )); then resume_args+=(--resume); fi
           tests/release/adopter_acceptance.sh \
             --repository "$GITHUB_REPOSITORY" \
-            --tag "$GITHUB_REF_NAME" \
+            --tag "$RELEASE_TAG" \
             --target x86_64-unknown-linux-gnu \
             --source-repo "$GITHUB_WORKSPACE" \
             --publish-handoff "$GITHUB_WORKSPACE/handoff/homebrew-handoff.json" \
@@ -1160,7 +1250,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-adopter-acceptance-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-adopter-acceptance/
           if-no-files-found: error
           include-hidden-files: true
@@ -1168,8 +1258,8 @@ jobs:
 
   adopter_upgrade_acceptance:
     # Pushes run only after the provider Release and publication handoff are
-    # successful. Manual runs never publish; they consume two explicitly
-    # named public Releases supplied as workflow inputs.
+    # successful. A recovery dispatch consumes the current run's publication
+    # handoff; an ordinary manual run consumes explicitly named public Releases.
     if: >-
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') &&
@@ -1199,6 +1289,12 @@ jobs:
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
+      - name: Download publication handoff for tag recovery
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
+          path: handoff
       - name: Restore publication handoff on rerun
         if: github.event_name == 'push' && github.run_attempt > 1
         shell: bash
@@ -1213,7 +1309,7 @@ jobs:
               --dir handoff
           fi
       - name: Download handoff from the requested publication run
-        if: github.event_name == 'workflow_dispatch'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag != 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -1245,11 +1341,12 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/release-adopter-upgrade"
           gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
-            --name "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
+            --name "release-adopter-upgrade-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
             --dir "$RUNNER_TEMP/release-adopter-upgrade"
       - name: Resolve immutable public Release pair
         id: release_pair
@@ -1351,7 +1448,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-adopter-upgrade-${{ github.ref_name || github.run_id }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-adopter-upgrade-${{ github.event.inputs.to_tag || github.ref_name || github.run_id }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-adopter-upgrade/
           if-no-files-found: error
           include-hidden-files: true
@@ -1361,12 +1458,19 @@ jobs:
     # The close barrier is deliberately after every public acceptance branch.
     # It records a failed close when any required receipt is absent; it never
     # rewrites a Release, moves a tag, or deletes historical evidence.
-    if: always() && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: >-
+      always() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'))
     needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         if: always()
         continue-on-error: true
@@ -1383,19 +1487,20 @@ jobs:
         if: always()
         continue-on-error: true
         with:
-          name: release-adopter-acceptance-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-adopter-acceptance-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/install
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         if: always()
         continue-on-error: true
         with:
-          name: release-adopter-upgrade-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-adopter-upgrade-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/upgrade
       - name: Restore missing close inputs on rerun
         if: github.run_attempt > 1
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
         run: |
           set -u
           restore() {
@@ -1412,18 +1517,18 @@ jobs:
           restore close-inputs/version/version-consistency.json \
             "post-release-version-consistency-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/version
           restore close-inputs/install/acceptance.json \
-            "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
+            "release-adopter-acceptance-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
           restore close-inputs/upgrade/acceptance.json \
-            "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
+            "release-adopter-upgrade-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
           restore close-inputs/install/phase-receipts.json \
-            "release-adopter-acceptance-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
+            "release-adopter-acceptance-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/install
           restore close-inputs/upgrade/phase-receipts.json \
-            "release-adopter-upgrade-${GITHUB_REF_NAME}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
+            "release-adopter-upgrade-${RELEASE_TAG}-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" close-inputs/upgrade
       - name: Write release close receipt
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ github.event.inputs.to_tag || github.ref_name }}
           COMMIT: ${{ github.sha }}
           HANDOFF: ${{ needs.publish_handoff.result }}
           VERSION_CONSISTENCY: ${{ needs.post_release_version_consistency.result }}
@@ -1431,6 +1536,12 @@ jobs:
           UPGRADE: ${{ needs.adopter_upgrade_acceptance.result }}
         run: |
           set -euo pipefail
+          release_commit="$(git ls-remote origin "refs/tags/$TAG^{}" | awk '{print $1}')"
+          test -n "$release_commit"
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            test "$release_commit" = "$COMMIT"
+          fi
+          COMMIT="$release_commit"
           output="$RUNNER_TEMP/release-close"
           mkdir -p "$output"
           state=passed
@@ -1504,12 +1615,12 @@ jobs:
             reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
           fi
           handoff_digest=null; version_digest=null; install_digest=null; install_phase_digest=null; upgrade_digest=null; upgrade_phase_digest=null
-          [[ -f "$handoff_file" ]] && handoff_digest="$(sha256sum "$handoff_file" | awk '{print "\"sha256:" $1 "\"'}')"
-          [[ -f "$version_file" ]] && version_digest="$(sha256sum "$version_file" | awk '{print "\"sha256:" $1 "\"'}')"
-          [[ -f "$install_file" ]] && install_digest="$(sha256sum "$install_file" | awk '{print "\"sha256:" $1 "\"'}')"
-          [[ -f "$install_phases" ]] && install_phase_digest="$(sha256sum "$install_phases" | awk '{print "\"sha256:" $1 "\"'}')"
-          [[ -f "$upgrade_file" ]] && upgrade_digest="$(sha256sum "$upgrade_file" | awk '{print "\"sha256:" $1 "\"'}')"
-          [[ -f "$upgrade_phases" ]] && upgrade_phase_digest="$(sha256sum "$upgrade_phases" | awk '{print "\"sha256:" $1 "\"'}')"
+          [[ -f "$handoff_file" ]] && handoff_digest="$(sha256sum "$handoff_file" | awk '{print "\"sha256:" $1 "\""}')"
+          [[ -f "$version_file" ]] && version_digest="$(sha256sum "$version_file" | awk '{print "\"sha256:" $1 "\""}')"
+          [[ -f "$install_file" ]] && install_digest="$(sha256sum "$install_file" | awk '{print "\"sha256:" $1 "\""}')"
+          [[ -f "$install_phases" ]] && install_phase_digest="$(sha256sum "$install_phases" | awk '{print "\"sha256:" $1 "\""}')"
+          [[ -f "$upgrade_file" ]] && upgrade_digest="$(sha256sum "$upgrade_file" | awk '{print "\"sha256:" $1 "\""}')"
+          [[ -f "$upgrade_phases" ]] && upgrade_phase_digest="$(sha256sum "$upgrade_phases" | awk '{print "\"sha256:" $1 "\""}')"
           jq -n \
             --arg tag "$TAG" \
             --arg commit "$COMMIT" \
@@ -1534,7 +1645,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: release-close-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
+          name: release-close-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: ${{ runner.temp }}/release-close/
           if-no-files-found: error
           retention-days: 30
