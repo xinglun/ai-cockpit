@@ -15,7 +15,8 @@
     "The CLI capability inventory covers agent-facing Runtime capabilities; low-level library utilities remain intentionally non-exposed when they are embedder, read-only diagnostic, or maintenance boundaries, and that boundary is documented.",
     "CLI first-start output and help are stable, idempotent, and cross-platform path safe.",
     "The canonical CLI command reference and capability index name agent first-start and direct Agents to the same shared procedure and capability-discovery order.",
-    "The first-start procedure requires an explicit resource finalization plan before verification when a provider, branch, worktree, PR, or external resource context applies, and explicitly skips provider finalization when no such context is declared."
+    "The first-start procedure requires an explicit resource finalization plan before verification when a provider, branch, worktree, PR, or external resource context applies, and explicitly skips provider finalization when no such context is declared.",
+    "The canonical first-start procedure passes documentation acceptance and work-item status-consistency gates, including required frontmatter metadata, before any release or close evidence is evaluated."
   ],
   "authority": "authorized",
   "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",

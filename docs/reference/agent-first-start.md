@@ -8,6 +8,7 @@ audience:
   - maintainer
 status: current
 authority: canonical
+lastVerifiedBy: WI-804-release-route-ordering
 capabilityClaims:
   - shared_agent_first_start_gate
 ---

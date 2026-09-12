@@ -97,35 +97,13 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-804-release-route-ordering.recovery.219155dee819bb5bc27c0b7a9eafe88e1a958466f039479f4b194c78cac96ffb.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.2fc18c301a3d6c4c67de7a3b559b0e99b5221ebdbfc08b7fb272759df86db99a.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.3b44dc14c58f9915ff602c7576d2f60829415c4364364a52d851026902b23e3f.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.5caf02c31ae30e54e74c45a8dfca9d2fcfc496919f2433fcba64e94dba88e609.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.658b7ccc957bfa3e73efbebc4520d4411ec91ca67821e4c4f436fccac97ebf5e.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.93695b67051f2bce440079c9a8017dca76d185a98fc14758a1e99b894f174b00.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.9b2279cd8917c3abc5bb96164b2942152c6302cc3ab53b30c27b6bcc3e16d4a7.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.9b694ea313ae37da6885789e398a5d16c7e8b432d59b3680137c04e71a36a60f.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.ee074e8d42480e46594737b451787ff4ad3c5347f216dc5273e2fd1b80ecd348.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-804-release-route-ordering.verification.json",
     ".ai/work-items/active/WI-804-release-route-ordering.contract.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.events.jsonl",
-    ".ai/work-items/active/WI-804-release-route-ordering.outcome.json",
     ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.task-report.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.task-report.md",
-    "crates/cockpit-agent/src/lib.rs",
-    "crates/cockpit-agent/tests/install.rs",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/agent.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/ci_quality_gate.rs",
-    "docs/capabilities.md",
-    "docs/reference/agent-first-start.md",
-    "docs/reference/commands.md"
+    "docs/reference/agent-first-start.md"
   ],
   "checkpointAt": "2026-09-12T04:42:18Z",
-  "checkpointContractDigest": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+  "checkpointContractDigest": "sha256:796ad3bf33bff11cc529ce86d3e43a2172f5cff78f73b67d6693805988cd43b1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -261,9 +239,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 17,
+      "contractHash": "sha256:796ad3bf33bff11cc529ce86d3e43a2172f5cff78f73b67d6693805988cd43b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+      "reason": "Hosted quality identified missing lastVerifiedBy metadata on the newly added canonical first-start procedure; record the gate-level regression boundary before repairing the in-scope document.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T07:20:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:45967278a71b8fb7fa787624d332b0a5ffd0334ef5cc5c0fe719feb85bd662b2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:45967278a71b8fb7fa787624d332b0a5ffd0334ef5cc5c0fe719feb85bd662b2",
+  "checkpointRepositorySnapshotDigest": "sha256:6343fdb2fdb3fbdccb6fc061c741c92560d412e7242748deb213b0aaa2223d60",
   "createdAt": "2026-09-12T04:41:38Z",
   "intentAlignment": {
     "evidence": [
@@ -278,10 +276,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
-  "preflightAt": "2026-09-12T07:06:58Z",
-  "preflightContractDigest": "sha256:574ec01bf688e51afd7c049d9827e6a3b305702fd11af6bd88212880c248ed9e",
+  "preflightAt": "2026-09-12T07:27:49Z",
+  "preflightContractDigest": "sha256:796ad3bf33bff11cc529ce86d3e43a2172f5cff78f73b67d6693805988cd43b1",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:45967278a71b8fb7fa787624d332b0a5ffd0334ef5cc5c0fe719feb85bd662b2",
+  "preflightRepositorySnapshotDigest": "sha256:6343fdb2fdb3fbdccb6fc061c741c92560d412e7242748deb213b0aaa2223d60",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
@@ -316,7 +314,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T07:07:10Z",
+  "updatedAt": "2026-09-12T07:28:05Z",
   "verification": [
     {
       "check": "project-command-0",
