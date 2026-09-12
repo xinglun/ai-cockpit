@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T06:06:08Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    "docs/reference/agent-first-start.md",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:e17573b6571de8536a9472d17f8c474fbcf2be5444b94224d3bfc5fcd50c6340",
+  "predecessorEventsDigest": "sha256:6027f67bea9e9b18178bad65f3bc9acb7086e98cb18e19c24539908379285c3c",
+  "predecessorOutcomeDigest": "sha256:fbb9c0edb1b7488078386536ec0348eed0caa8f544cf2f5d1762bdf518fa4b55",
+  "predecessorSummaryDigest": "sha256:19e8542d8231ffcbf34da6a330a3ccd6c6ec54d6331cb2e633759f361a830f59",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The previous same-Work-Item retry became invalid after the accepted additive Contract amendment changed the binding. Record one current retry bound to the amended Contract, preserving the old retry as historical evidence and avoiding repeated verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and only affected CLI/Agent/repository verification under the rebuilt Runtime, then finish once current evidence is green. Do not repeat unrelated checks or publish before hosted review.",
+  "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

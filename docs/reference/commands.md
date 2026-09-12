@@ -67,12 +67,19 @@ machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
 | Setup | `attach`, `profile confirm`, `profile propose` | Create/update protocol state, confirm a profile, or emit a read-only candidate. |
 | Migration | `migrate apply --approved` | Apply only the reviewed repository-schema migration and write a runtime-bound migration receipt. |
 | Governance | `preflight` | Read a Contract and return a green/yellow/red decision plus `reviewState`; incomplete or uncertain Contracts are human-review yellow and cannot cross checkpoint. |
-| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `revalidate-archived`, `finalize-recovery` | Read a request-scoped status projection or write explicit lifecycle records; `close` and recovery require explicit human decisions. |
+| Work Item | `work-item new`, `start`, `status`, `checkpoint`, `finish`, `archive`, `close`, `validate`, `controls`, `recover`, `revalidate-archived`, `finalize-plan`, `finalize`, `finalize-verify`, `finalize-recovery`, `finalize-recovery-plan` | Read a request-scoped status projection or write explicit lifecycle and resource-finalization records; `close` and recovery require explicit human decisions. |
 | Parallel Work Item | `work-item boundary`, `work-item declare`, `work-item slot acquire|release|list` | Bind Contract-owned concurrency paths and reserve repository-local slots; unknown boundaries serialize. |
 | Verification | `verify` | Execute bounded commands, record evidence, and optionally bind it to a Work Item. |
 | External evidence | `evidence import`, `evidence list`, `evidence policy`, `evidence purge-plan` | Bind exact provider bytes, declare bounded persistence, or produce a deterministic non-destructive disposal plan. |
 | Audit | `audit export` | Produce a stable repository-bound event bundle for an external retention owner; never claim local immutability. |
-| Adapter | `agent list/install/doctor/repair/detach`, `mcp` | Manage an explicitly selected repository-local Agent adapter or serve JSON-RPC over stdio; every operation binds `--repo`. |
+| Adapter | `agent first-start/list/install/doctor/repair/detach`, `mcp` | Print the mandatory first-start gate, manage an explicitly selected repository-local Agent adapter, or serve JSON-RPC over stdio; every repository operation binds `--repo`. |
+
+Before an Agent performs any repository operation, run
+`ai-cockpit agent first-start --repo <path>`. The command is read-only and
+prints the canonical English procedure also projected into installed adapter
+managed sections. Use `ai-cockpit --help`, the relevant group help, and
+`capability show --repo <path>` to discover exact command schemas; a listed
+capability is not authorization or readiness.
 
 ## Important options
 

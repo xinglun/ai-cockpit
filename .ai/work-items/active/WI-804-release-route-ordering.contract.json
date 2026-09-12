@@ -9,7 +9,13 @@
     "An installed adapter in an object-engineering repository receives the same first-start gate without copying or modifying that repository's business code, data, or unrelated instructions; ownership and digest binding remain intact and repeated installation is byte-stable.",
     "Focused adapter regression tests prove the first-start gate is present and that installation remains idempotent and repository-local.",
     "Preflight, checkpoint, verification refresh, and finish do not require evidence produced only by later release, adopter, close, or cleanup stages; archive and close retain strict completion evidence checks.",
-    "A regression test proves future lifecycle evidence does not block the current source-verification lifecycle and that completion boundaries still enforce it."
+    "A regression test proves future lifecycle evidence does not block the current source-verification lifecycle and that completion boundaries still enforce it.",
+    "The CLI help exposes the mandatory agent first-start command and short ordering gate before repository operations.",
+    "agent first-start prints the same canonical English procedure used by installed repository-owned adapters, is read-only, and is safe for attached and unattached object-engineering repositories.",
+    "The CLI capability inventory covers agent-facing Runtime capabilities; low-level library utilities remain intentionally non-exposed when they are embedder, read-only diagnostic, or maintenance boundaries, and that boundary is documented.",
+    "CLI first-start output and help are stable, idempotent, and cross-platform path safe.",
+    "The canonical CLI command reference and capability index name agent first-start and direct Agents to the same shared procedure and capability-discovery order.",
+    "The first-start procedure requires an explicit resource finalization plan before verification when a provider, branch, worktree, PR, or external resource context applies, and explicitly skips provider finalization when no such context is declared."
   ],
   "authority": "authorized",
   "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",
@@ -39,7 +45,10 @@
     "workflow diff and policy regression output",
     "Runtime preflight/checkpoint/verify receipts",
     "PR hosted checks",
-    "post-merge release run and public artifact acceptance evidence"
+    "post-merge release run and public artifact acceptance evidence",
+    "CLI first-start help and output regression",
+    "CLI capability surface inventory",
+    "CLI command reference and capability index parity"
   ],
   "resourceContext": {
     "baseBranch": "main",
@@ -87,7 +96,12 @@
     "crates/cockpit-repository/tests/lifecycle_order.rs",
     "docs/reference/ci-quality-gates.md",
     "docs/reference/ci-quality-gates.zh-CN.md",
-    "docs/reference/ci-quality-gates.ja.md"
+    "docs/reference/ci-quality-gates.ja.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/agent.rs",
+    "docs/reference/commands.md",
+    "docs/capabilities.md",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs"
   ],
   "sources": [],
   "state": "implementation_active",

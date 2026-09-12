@@ -3130,7 +3130,7 @@ fn governance_decision_for_pre_execution_quality_gate(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
     stage: VerificationStage,
-    runtime: &RuntimeContext,
+    _runtime: &RuntimeContext,
 ) -> Result<GovernanceDecision, ObserverError> {
     // Every current quality-gate stage is an entry check for work that has
     // not yet produced completion evidence.  Keep the match exhaustive so a
@@ -3141,7 +3141,12 @@ fn governance_decision_for_pre_execution_quality_gate(
         | VerificationStage::PullRequest
         | VerificationStage::Merge
         | VerificationStage::Release => {
-            pre_execution_quality_state(root, contract, snapshot, Some(runtime))?
+            // This is a read-only hosted entry gate. Its own report is bound
+            // to `runtime`, but a receipt produced on a developer machine or
+            // another runner must not make the source gate contradictory.
+            // Runtime-bound lifecycle operations still pass their current
+            // identity and enforce replacement through an explicit retry.
+            pre_execution_quality_state(root, contract, snapshot, None)?
         }
     };
     let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
@@ -3149,7 +3154,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         root,
         contract,
         snapshot,
-        Some(runtime),
+        None,
         false,
         Some(pre_execution_evidence),
         None,

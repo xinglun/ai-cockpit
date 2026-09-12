@@ -2,8 +2,10 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{RuntimeContext, VerificationStage};
 use cockpit_repository::{
-    WorkItemStartOptions, attach, evaluate_contract_quality_gate, governance_decision_for_contract,
-    preflight_work_item, record_work_item_governance_controls, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
+    checkpoint_work_item, evaluate_contract_quality_gate, governance_decision_for_contract,
+    preflight_work_item, record_verification_with_runtime, record_work_item_governance_controls,
+    run_repository_verification, start_work_item_with_options,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -185,6 +187,62 @@ fn pre_execution_gate_defers_lifecycle_evidence_until_completion_stage() {
             .contains(&"required_evidence_missing".into()),
         "completion governance must still require the declared lifecycle evidence"
     );
+}
+
+#[test]
+fn hosted_gate_does_not_block_on_a_local_runtime_receipt() {
+    let directory = repository();
+    let root = directory.path();
+    let contract = contract_path(root);
+    let base = serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap()
+        ["baseRevision"]
+        .as_str()
+        .unwrap()
+        .to_owned();
+    preflight_work_item(root, &contract).expect("preflight");
+    checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
+
+    let local_runtime = RuntimeContext {
+        runtime_version: "developer-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"developer-runtime"),
+    };
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "local-runtime-receipt".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["crates/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: local_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("local verification");
+    record_verification_with_runtime(
+        root,
+        "WI-CI-GATE",
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &local_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record local receipt");
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("hosted source gate must tolerate a local receipt identity");
+    assert_eq!(report.state, "passed");
+    assert_eq!(report.decision_state, "green");
 }
 
 #[test]

@@ -9,11 +9,17 @@
     "An installed adapter in an object-engineering repository receives the same first-start gate without copying or modifying that repository's business code, data, or unrelated instructions; ownership and digest binding remain intact and repeated installation is byte-stable.",
     "Focused adapter regression tests prove the first-start gate is present and that installation remains idempotent and repository-local.",
     "Preflight, checkpoint, verification refresh, and finish do not require evidence produced only by later release, adopter, close, or cleanup stages; archive and close retain strict completion evidence checks.",
-    "A regression test proves future lifecycle evidence does not block the current source-verification lifecycle and that completion boundaries still enforce it."
+    "A regression test proves future lifecycle evidence does not block the current source-verification lifecycle and that completion boundaries still enforce it.",
+    "The CLI help exposes the mandatory agent first-start command and short ordering gate before repository operations.",
+    "agent first-start prints the same canonical English procedure used by installed repository-owned adapters, is read-only, and is safe for attached and unattached object-engineering repositories.",
+    "The CLI capability inventory covers agent-facing Runtime capabilities; low-level library utilities remain intentionally non-exposed when they are embedder, read-only diagnostic, or maintenance boundaries, and that boundary is documented.",
+    "CLI first-start output and help are stable, idempotent, and cross-platform path safe.",
+    "The canonical CLI command reference and capability index name agent first-start and direct Agents to the same shared procedure and capability-discovery order.",
+    "The first-start procedure requires an explicit resource finalization plan before verification when a provider, branch, worktree, PR, or external resource context applies, and explicitly skips provider finalization when no such context is declared."
   ],
-  "createdAt": "2026-09-12T05:45:00Z",
+  "createdAt": "2026-09-12T07:07:10Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fee7955413292f79e39ce6d272133e1f885a143da19f4cc5479b5b18eac7c651",
+  "evidenceDigest": "sha256:5ca3ad6b199948c3272d7b4286d3f0bebba007ca591ce6e411801f682672638e",
   "evidenceRefs": [
     ".ai/evidence/WI-804-release-route-ordering.verification.json"
   ],
@@ -39,7 +45,7 @@
         ".ai/evidence/WI-804-release-route-ordering.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
+      "repositorySnapshotDigest": "sha256:45967278a71b8fb7fa787624d332b0a5ffd0334ef5cc5c0fe719feb85bd662b2",
       "workItemId": "WI-804-release-route-ordering"
     },
     "format": "ai-cockpit.task-outcome",
@@ -53,21 +59,63 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.b96edaae89a0942d49381063d50ec748640379c26db828b67b36afae49c075e6.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.219155dee819bb5bc27c0b7a9eafe88e1a958466f039479f4b194c78cac96ffb.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.cb02844f4deb941e12452903e07b03e0c225715bf6b0e2a1f5573fc682690458.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.2fc18c301a3d6c4c67de7a3b559b0e99b5221ebdbfc08b7fb272759df86db99a.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.debb6554735d1417a412d2f591806f0dfc62c1e42aa7efd6e31017fd7477ab90.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3b44dc14c58f9915ff602c7576d2f60829415c4364364a52d851026902b23e3f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.5caf02c31ae30e54e74c45a8dfca9d2fcfc496919f2433fcba64e94dba88e609.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.658b7ccc957bfa3e73efbebc4520d4411ec91ca67821e4c4f436fccac97ebf5e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.93695b67051f2bce440079c9a8017dca76d185a98fc14758a1e99b894f174b00.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.9b2279cd8917c3abc5bb96164b2942152c6302cc3ab53b30c27b6bcc3e16d4a7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.9b694ea313ae37da6885789e398a5d16c7e8b432d59b3680137c04e71a36a60f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.ee074e8d42480e46594737b451787ff4ad3c5347f216dc5273e2fd1b80ecd348.json"
         },
         {
           "evidenceRefs": [
@@ -144,6 +192,20 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/agent.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lib.rs"
         },
         {
@@ -151,14 +213,14 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+          "text": "Changed path: docs/capabilities.md"
         },
         {
           "evidenceRefs": [
@@ -172,21 +234,7 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/reference/ci-quality-gates.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/ci-quality-gates.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/ci-quality-gates.zh-CN.md"
+          "text": "Changed path: docs/reference/commands.md"
         }
       ],
       "evidence": [
@@ -261,8 +309,8 @@
     "status": "verified",
     "workItemId": "WI-804-release-route-ordering"
   },
-  "taskReportDigest": "sha256:dda2e7eef209e59450c2236c9fb2bfa7cd0349ce96693526261c58e20144a917",
-  "taskReportMarkdownDigest": "sha256:53223023f42081fda3ad42acd4d16fcad33c80d00e2cbbcc976f10aaf81b903b",
+  "taskReportDigest": "sha256:77a364110377b800de1873455a857da63831c87b527fcf432571a03e50cd8270",
+  "taskReportMarkdownDigest": "sha256:6bc3b14d56413b949ee45292f0dc1d87bd601f4745f0ff2ef8232ab30a2d93a5",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

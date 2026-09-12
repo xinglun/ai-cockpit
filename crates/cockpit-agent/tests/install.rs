@@ -71,15 +71,28 @@ fn install_creates_only_owned_managed_section() {
     assert!(content.contains("Do not repeat a failed command blindly"));
     assert!(content.contains("A technical"));
     assert!(content.contains("retry is not a new Work Item"));
+    assert!(content.contains("source and Contract gates;"));
+    assert!(content.contains("work-item finalize-plan"));
+    assert!(content.contains("before verification"));
+    assert!(content.contains("finalize-verify"));
+    // The managed procedure is Markdown and may wrap this ordered step;
+    // assert its stable semantic fragments rather than a presentation line.
+    assert!(content.contains("candidate"));
+    assert!(content.contains("fresh-install and N-1 upgrade acceptance in parallel"));
+    assert!(content.contains("archive and close only after all required"));
+    assert!(content.contains("evidence exists"));
     assert!(content.contains("Installation of an adapter changes only its owned managed section"));
     assert!(
         content.contains("Every repository-bound command must include an explicit --repo <path>.")
     );
     assert!(content.contains(
-        "start or work-item new → preflight → checkpoint → verify → finish → archive → close."
+        "start or work-item new → preflight → checkpoint → verify → finish → declared later stages → archive → finalize → finalize-verify → close."
     ));
     assert!(content.contains("latest remote default base → dedicated branch/worktree"));
-    assert!(content.contains("Never merge a feature branch into local main before PR review"));
+    assert!(
+        content.contains("Never attempt archive before the required evidence for its stage exists")
+    );
+    assert!(content.contains("never merge a feature branch into local main before PR review"));
     assert!(content.contains("preserve the retry checkout and identity"));
     assert!(content.contains("status=completed plus humanStatusColor=green"));
     assert!(content.contains("current Work Item"));

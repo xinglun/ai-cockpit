@@ -48,7 +48,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Compatibility and migration | Check whether an installed Runtime can safely use this repository, then apply an explicit schema migration when required. | `compatibility`, `migrate plan`, `migrate apply --approved` | `COMPATIBLE`, `MIGRATION_REQUIRED`, or `INCOMPATIBLE`; approved migrations emit a runtime-bound receipt. |
 | Observe | Read the attached profile and repository facts. | `ai-cockpit observe --repo <path>` | Observation and evolution signals. |
 | Preflight | Evaluate a Work Item contract before editing. | `ai-cockpit preflight --repo <path> --contract <file>` | A green, yellow, or red governance decision. |
-| Work Item lifecycle | Start, checkpoint, finish, archive, and close bounded work. | `start`, `checkpoint`, `finish`, `archive`, `close` | Explicit state transitions and receipts. |
+| Work Item lifecycle | Start, checkpoint, finish, archive, resource-finalize, and close bounded work. | `start`, `checkpoint`, `finish`, `archive`, `work-item finalize-plan/finalize/finalize-verify`, `close` | Explicit state transitions, provider cleanup receipts, and close bindings. |
 | Verification | Run allowlisted or profile-detected commands with limits. | `ai-cockpit verify --repo <path> ...` | Pass/fail/unknown result and execution evidence. |
 | Evidence reuse | Avoid a repeat run only when all identity bindings match. | Confirmed profile + automatic `verify` | Reuse, or a fail-closed rerun. |
 | Knowledge | Query completed repository-local evidence and explicitly materialize its derived projection. | `ai-cockpit knowledge query --repo <path>` | Filtered results plus a repository-local write boundary; never a second source of truth. |
@@ -57,7 +57,7 @@ missing. Review the attached profile before relying on evidence reuse.
 | Profile confirmation | Confirm a quality command for controlled reuse. | `ai-cockpit profile confirm --repo <path> --program cargo --args test,--workspace` | New reviewable profile version. |
 | Work Item scaffold | Create a validator-readable skeleton without inventing governance decisions. | `ai-cockpit work-item new --repo <path> --id <id> --mode <mode>` | `not_ready` Contract with snapshot-derived facts and a list of human inputs still required. |
 | Profile proposal | Derive a candidate profile amendment without changing the formal baseline. | `ai-cockpit profile propose --repo <path>` | Read-only `candidate`/`proposed` output. |
-| Agent adapter | Let a selected Agent host discover this repository through an owned, reversible section. | `ai-cockpit agent list/install/doctor --repo <path>` | Repository-bound discovery, ownership, state, and safe actions; no global configuration. |
+| Agent first-start and adapter | Give an Agent the mandatory first-start procedure, then let a selected host discover this repository through an owned, reversible section. | `ai-cockpit agent first-start/list/install/doctor/repair/detach --repo <path>` | The first-start command is read-only; adapter operations remain repository-bound and never change global configuration. |
 | Parallel boundary and slots | Declare Contract-owned path boundaries and reserve bounded repository-local execution slots. | `ai-cockpit work-item boundary/slot ...` | Compatibility, leases, and fail-closed serialization; independent from `verify --workers`. |
 
 ## User-facing paths

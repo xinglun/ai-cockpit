@@ -44,23 +44,70 @@ build files, governance files, or repository data.
    dedicated branch and worktree per Work Item. Parallel Agents are allowed
    only for disjoint scopes with isolated worktrees/evidence and an explicit
    compatible boundary; otherwise work serially.
+   If the Contract has a provider/branch/worktree/PR or other resource
+   finalization context, run `work-item finalize-plan` now, before verification,
+   and bind the exact context. Replaying the same context is idempotent; do not
+   postpone this plan until `finish` or `archive`. If no provider or external
+   resource finalization applies, record that boundary and continue without
+   inventing a plan.
 6. Run cheap, deterministic, scope-relevant checks before expensive builds or
    integration tests. Separate source-validation inputs from governance inputs;
    do not rerun unrelated source tests merely because a receipt or status record
-   changed. Stop dependent work after a prerequisite fails and emit the
+   changed. For a Contract that declares release or public-artifact stages, the
+   default expensive-path order is: source and Contract gates; build; candidate
+   fresh-install and N-1 upgrade acceptance in parallel; publish; then public
+   fresh-install, public N-1 upgrade, and version consistency checks in
+   parallel; archive and close only after all required evidence exists. For a
+   Contract without release or public-artifact stages, stop after its declared
+   source verification and lifecycle evidence; never invent a publish or
+   adopter-acceptance phase. In either path, do not start a later or more
+   expensive step while an earlier prerequisite is failed, unknown, or still
+   pending. Stop dependent work after a prerequisite fails and emit the
    structured failure report.
 7. On failure, preserve the exact output, identity, and evidence. Find and fix
    the root cause in the current Work Item when scope, authority, and base
    permit it. Retry the same operation only through a current Runtime recovery
    decision bound to the current Contract/Summary/evidence digests. A technical
-   retry is not a new Work Item. Do not repeat a failed command blindly. Use a successor only for a genuinely different
-   scope, authority, base, immutable delivery, unsafe repair, or explicit human
-   direction.
+   retry is not a new Work Item. Do not repeat a failed command blindly. If a
+   Contract amendment follows a recovered or finish-ready state, amend first,
+   then record one retry bound to the amended Contract; the older retry is
+   historical and must not be reused. Use a successor only for a genuinely
+   different scope, authority, base, immutable delivery, unsafe repair, or
+   explicit human direction.
 8. Before terminal handoff, run the declared verification and refresh all
-   bindings. Use `finish → archive → close` only after the visible human Outcome
-   includes status, unknowns, evidence, human decision, next action, issue
-   count, risks, and verification. Never claim green, completed, merged, or
-   released from a local pass or a folded machine record.
+   bindings. `finish` establishes source-verification readiness. If the
+   Contract declares hosted, candidate, release, or public-artifact evidence,
+   complete those declared stages before `archive`; do not ask archive to
+   accept evidence that only a later stage can produce. If no later evidence is
+   declared, archive after `finish`. When a resource finalization context is
+   bound, record the provider receipt after `archive` and run `finalize-verify`
+   before `close`; when no external resource applies, use `archive → close`
+   without fabricating provider evidence. Publish, review, and merge are
+   required only when the Contract declares those stages. The visible human
+   Outcome must include status, unknowns, evidence, human decision, next
+   action, issue count, risks, and verification. Never claim green, completed,
+   merged, or released from a local pass or a folded machine record.
+
+## CLI capability discovery
+
+The stable command-line surface is grouped by responsibility: repository
+discovery (`inspect`, `observe`, `status`, `compatibility`, `doctor`), setup and
+profiles (`attach`, `migrate`, `profile`), governance and verification
+(`preflight`, `gate`, `gate-plan`, `verify`), Work Item lifecycle and recovery
+(`start`, `checkpoint`, `finish`, `archive`, `close`, `work-item ...`), resource
+finalization (`work-item finalize-plan`, `finalize`, `finalize-verify`), evidence
+and audit (`evidence ...`, `audit export`), derived knowledge (`knowledge
+query`), parallel boundaries (`work-item boundary`, `work-item slot`), and Agent
+orchestration (`agent first-start`, `list`, `install`, `doctor`, `repair`,
+`detach`).
+
+Before guessing a command or argument, run `ai-cockpit --help` and the relevant
+`ai-cockpit <group> --help`; use `ai-cockpit capability show --repo <path>` for
+the repository-bound machine-readable registry. These surfaces expose
+capabilities, not authorization or readiness. Low-level Rust library helpers
+such as digest functions, identity parsers, internal planners, and test or
+maintenance utilities intentionally remain non-CLI APIs; use their owning
+Runtime command or MCP tool instead of invoking implementation details.
 
 ## Non-negotiable boundaries
 
