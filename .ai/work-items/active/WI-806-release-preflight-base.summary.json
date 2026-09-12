@@ -1,11 +1,10 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-805-release-tag-input.recovery.e7b9e804069d386a9b1877e8e0ec71ff4c0c29acdd77bc93f5338bb111dfa0e4.json",
-    ".ai/work-items/active/WI-806-release-preflight-base.contract.json",
+    ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
   ],
   "checkpointAt": "2026-09-12T12:52:24Z",
-  "checkpointContractDigest": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+  "checkpointContractDigest": "sha256:7cda4eecb5794557c59a3cd2665b06f4909e272dc12c2ceb63a8f0cb951e3655",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -43,7 +42,7 @@
       "workItemId": "WI-806-release-preflight-base"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:dc9f3aa0810ec66c31dbc21ee601db9c777829cbb2c1ab2e41fdeb5dd75e5dc1",
+  "checkpointRepositorySnapshotDigest": "sha256:7612510db5cab1755a3bc26e4bb4a47fdc5d5076072a3612cd0cb573baf95869",
   "createdAt": "2026-09-12T12:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -58,10 +57,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
   "predecessorWorkItemId": "WI-805-release-tag-input",
-  "preflightAt": "2026-09-12T12:53:04Z",
-  "preflightContractDigest": "sha256:f54def1304530d87d75715710a7b8e47fa77b1b55fd6e2bbc199a748daa2202d",
+  "preflightAt": "2026-09-12T12:59:59Z",
+  "preflightContractDigest": "sha256:7cda4eecb5794557c59a3cd2665b06f4909e272dc12c2ceb63a8f0cb951e3655",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:dc9f3aa0810ec66c31dbc21ee601db9c777829cbb2c1ab2e41fdeb5dd75e5dc1",
+  "preflightRepositorySnapshotDigest": "sha256:7612510db5cab1755a3bc26e4bb4a47fdc5d5076072a3612cd0cb573baf95869",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-805-release-tag-input.recovery.e7b9e804069d386a9b1877e8e0ec71ff4c0c29acdd77bc93f5338bb111dfa0e4.json",
@@ -96,12 +95,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-12T12:52:24Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:f54def1304530d87d75715710a7b8e47fa77b1b55fd6e2bbc199a748daa2202d",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-12T12:52:58Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T13:00:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-806-release-preflight-base"
 }
