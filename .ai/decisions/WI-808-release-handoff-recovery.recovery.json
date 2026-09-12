@@ -1,0 +1,24 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "human:authorized-development-instruction",
+  "decidedAt": "2026-09-12T14:40:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-808-release-handoff-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34699773026"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
+  "predecessorEventsDigest": "sha256:5430db00eae6f34b2938d568db95a15508342c518d70f6c905571360049e7706",
+  "predecessorOutcomeDigest": "sha256:c5f75a12b213aa8abd209e3e3dee7378414539a8fa8f37ccce80d4066b80dcc6",
+  "predecessorSummaryDigest": "sha256:1e801fcbb3054d143d0a24255370cf3a512b03ca172d421c42b2ebb4e377ce12",
+  "predecessorWorkItemId": "WI-808-release-handoff-recovery",
+  "reason": "retry the same bounded Work Item after the hosted route exposed that PR resource binding must be recorded before Contract-aware CI selection",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "bind the existing PR and worktree with finalize-plan, then refresh preflight and verification before retrying finish",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-808-release-handoff-recovery"
+}

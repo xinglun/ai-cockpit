@@ -184,11 +184,12 @@ impl HandoffDocument {
             .strip_prefix('v')
             .and_then(|value| semver::Version::parse(value).ok())
             .ok_or_else(|| ReleaseError::Invalid("invalid handoff release tag".into()))?;
-        if workflow_commit != Some(self.release.commit.as_str()) {
-            return Err(ReleaseError::Invalid(
-                "handoff workflow commit must match release commit".into(),
-            ));
-        }
+        // A tag-triggered run normally has one revision for both values. An
+        // immutable-tag recovery is deliberately different: the workflow
+        // revision is the orchestrator that performs the recovery, while the
+        // release commit is the immutable source named by the tag. The
+        // workflow boundary validates equality for tag pushes; the typed
+        // handoff keeps both identities instead of conflating them.
         if format!("v{version}") != self.release.tag
             || !is_commit(&self.release.commit)
             || self.release.provider_release_id == 0

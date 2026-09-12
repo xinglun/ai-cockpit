@@ -16,7 +16,7 @@
       "security"
     ],
     "dependencyFingerprint": "sha256:6bda34b6a5d77ca57c038edf9908193175e204ffb34e5a8543eebdfe1b685f39",
-    "filesRead": 68072,
+    "filesRead": 11383,
     "languages": [
       "Python",
       "Rust"
@@ -31,10 +31,10 @@
         "state": "detected"
       }
     ],
-    "snapshotDigest": "sha256:0be6aaf571fa48cafeab07ac7e8d2b57396fb2298cfa29e6742bb66861fc931f",
+    "snapshotDigest": "sha256:b142dc84cc7c833e700df3ab0255bcd86b749f918a82aaa1f665d36b28b38f39",
     "testRoots": [
       "tests/**"
     ]
   },
-  "treeDigest": "sha256:108471eedf0fc421a0ce8987242b0681f3f1c1256a3c29094bef1f428b1adca9"
+  "treeDigest": "sha256:098f3c751d03cb16179a66f8fea7ef9198085cf50e8502c9abeed60921e840c0"
 }
