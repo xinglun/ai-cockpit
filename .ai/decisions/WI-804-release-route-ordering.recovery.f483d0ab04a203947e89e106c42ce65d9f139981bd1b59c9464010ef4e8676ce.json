@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T11:03:21Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34689350623",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-first-start.md"
+  ],
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorEventsDigest": "sha256:b6c960ef878bcc3a0768ecde646c79c2a16240868d51ba9892c0a756f5440685",
+  "predecessorOutcomeDigest": "sha256:ef0df3a8032746f14a45e5d8f3fba2c267c92c491662b714630fc0a5558e90fd",
+  "predecessorSummaryDigest": "sha256:94051658ebedae21270722a2160952699baf2ec9c712278e898b15e4aaf3a429",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "Hosted workspace package execution identified the real root cause: the status projection fixture claimed a worktree was deleted while the repository root was still live, and the path comparison was platform-dependent. Use a non-existent linked-worktree path in the fixture and compare existing paths by normalized filesystem identity. Preserve the immutable hosted failure and do not rerun unrelated checks manually.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one candidate-bound verification against the corrected status-projection boundary, then finish; do not alter archived history or v0.2.91 identity.",
+  "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

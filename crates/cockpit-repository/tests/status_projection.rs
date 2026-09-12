@@ -33,13 +33,21 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+fn resource_worktree_path(directory: &tempfile::TempDir, work_item_id: &str) -> String {
+    directory
+        .path()
+        .join(format!("removed-worktree-{work_item_id}"))
+        .display()
+        .to_string()
+}
+
 fn plan(directory: &tempfile::TempDir, work_item_id: &str) {
     plan_resource_finalization(
         directory.path(),
         work_item_id,
         &ResourceFinalizationContext {
             branch: format!("feature/{work_item_id}"),
-            worktree: directory.path().display().to_string(),
+            worktree: resource_worktree_path(directory, work_item_id),
             base_branch: "main".into(),
             base_remote: "origin".into(),
             provider: "github".into(),
@@ -68,7 +76,7 @@ fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str
     let branch = format!("feature/{work_item_id}");
     let context = ResourceFinalizationContext {
         branch: branch.clone(),
-        worktree: directory.path().display().to_string(),
+        worktree: resource_worktree_path(directory, work_item_id),
         base_branch: "main".into(),
         base_remote: "origin".into(),
         provider: "github".into(),

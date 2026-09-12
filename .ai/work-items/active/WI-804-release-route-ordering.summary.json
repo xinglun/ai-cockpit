@@ -97,18 +97,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-804-release-route-ordering.recovery.50198d2fed14c58969efcf337842e4d8369e6e30600e735c6b0ab042ab2a8f54.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.95c8de7d9bbbdc5b6fa670e6ff8a74f9e6662e414696767e39ec2b692e42e4b8.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.contract.json",
     ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
-    "docs/reference/ci-quality-gates.ja.md",
-    "docs/reference/ci-quality-gates.md",
-    "docs/reference/ci-quality-gates.zh-CN.md",
-    "tests/ci/repository_gate_manifest_test.py",
-    "tests/ci/run_repository_gates.py",
-    "tests/ci/run_workspace_package_tests.sh",
-    "tests/ci/workspace_package_coverage_test.sh"
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
   ],
   "checkpointAt": "2026-09-12T04:42:18Z",
   "checkpointContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
@@ -529,7 +522,7 @@
       "workItemId": "WI-804-release-route-ordering"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:13847738c748ea1ff980b2e6775e9b059723dd9c62f28a268d5b5a65961b0afe",
+  "checkpointRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
   "createdAt": "2026-09-12T04:41:38Z",
   "intentAlignment": {
     "evidence": [
@@ -544,10 +537,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
-  "preflightAt": "2026-09-12T10:46:19Z",
+  "preflightAt": "2026-09-12T11:09:11Z",
   "preflightContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:13847738c748ea1ff980b2e6775e9b059723dd9c62f28a268d5b5a65961b0afe",
+  "preflightRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
@@ -582,7 +575,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T10:46:20Z",
+  "updatedAt": "2026-09-12T11:09:11Z",
   "verification": [
     {
       "check": "project-command-0",

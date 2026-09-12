@@ -14,18 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.50198d2fed14c58969efcf337842e4d8369e6e30600e735c6b0ab042ab2a8f54.json
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.95c8de7d9bbbdc5b6fa670e6ff8a74f9e6662e414696767e39ec2b692e42e4b8.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json
-- Changed path: docs/reference/ci-quality-gates.ja.md
-- Changed path: docs/reference/ci-quality-gates.md
-- Changed path: docs/reference/ci-quality-gates.zh-CN.md
-- Changed path: tests/ci/repository_gate_manifest_test.py
-- Changed path: tests/ci/run_repository_gates.py
-- Changed path: tests/ci/run_workspace_package_tests.sh
-- Changed path: tests/ci/workspace_package_coverage_test.sh
+- Changed path: crates/cockpit-repository/src/lib.rs
+- Changed path: crates/cockpit-repository/tests/status_projection.rs
 
 ## Findings
 

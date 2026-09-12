@@ -7539,9 +7539,24 @@ fn local_resources_deleted(
             message: "cannot determine local worktree state".into(),
         }
     })?;
+    // Git reports the canonical worktree path on platforms such as macOS,
+    // while a provider receipt may retain the path spelling captured before
+    // canonicalization (for example, /var versus /private/var).  Compare
+    // existing paths by filesystem identity so a live worktree cannot be
+    // mistaken for a removed one merely because its spelling differs.  A
+    // missing receipt path is intentionally compared literally: it cannot
+    // identify an existing worktree through canonicalization.
+    let receipt_worktree = Path::new(&receipt.worktree.path)
+        .canonicalize()
+        .unwrap_or_else(|_| PathBuf::from(&receipt.worktree.path));
     if worktrees.lines().any(|line| {
-        line.strip_prefix("worktree ")
-            .is_some_and(|path| path == receipt.worktree.path)
+        line.strip_prefix("worktree ").is_some_and(|path| {
+            let actual_worktree = Path::new(path);
+            actual_worktree
+                .canonicalize()
+                .map(|canonical| canonical == receipt_worktree)
+                .unwrap_or_else(|_| actual_worktree == receipt_worktree)
+        })
     }) {
         return Ok(false);
     }
