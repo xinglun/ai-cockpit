@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
-  "createdAt": "2026-09-12T03:24:16Z",
+  "createdAt": "2026-09-12T03:59:10Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 263563,
-      "executionElapsedMs": 263196,
+      "elapsedMs": 270548,
+      "executionElapsedMs": 270156,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 263563,
-    "executionElapsedMs": 263196,
+    "elapsedMs": 270548,
+    "executionElapsedMs": 270156,
     "filesHashed": 10,
     "filesRead": 12,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 263196,
+      "executionElapsedMs": 270156,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:7ba328080d9dddbd8e7c104c7e7ee7affb04eedf3ab068066395dcdf9bc42c91",
+      "repositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:7b38eea1f84440ed2bb6a29aa8d5028037a7c4987a49a4c2ba9d12d207480bdc",
+        "outputDigest": "sha256:71cca0f135538676d3e405ad0e1eb769b94f9d7cab3ce316affdc656aee9ef2b",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
   },
-  "receiptDigest": "sha256:f80e3a762ea5034b147c29495072edbac8e23c90f38ab767128ab82e26af4285",
+  "receiptDigest": "sha256:25838482e789d5f16dad46af76ca9c928f11f685b4c46330e9c676bb5e1c5649",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:7ba328080d9dddbd8e7c104c7e7ee7affb04eedf3ab068066395dcdf9bc42c91",
+  "repositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
   "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
