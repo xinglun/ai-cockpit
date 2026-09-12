@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
-  "createdAt": "2026-09-12T11:09:01Z",
+  "createdAt": "2026-09-12T11:42:05Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 289917,
-      "executionElapsedMs": 289356,
+      "elapsedMs": 243426,
+      "executionElapsedMs": 242717,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 289917,
-    "executionElapsedMs": 289356,
+    "elapsedMs": 243426,
+    "executionElapsedMs": 242717,
     "filesHashed": 14,
     "filesRead": 16,
     "gitCalls": 8,
@@ -37,8 +37,8 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/status_projection.rs"
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
       ],
       "assurance": "repository_verified",
       "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",
@@ -47,13 +47,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 289356,
+      "executionElapsedMs": 242717,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+      "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -79,7 +79,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:c3d968f3bf4c91f8e193786aba13fcf8621a88cf96d3fd09c05f0e867659b9bf",
+        "outputDigest": "sha256:ae48ba9ddb1585141a76926b009d004d3818de0b55d8d8708f90df5927b65749",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -95,9 +95,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-804-release-route-ordering"
   },
-  "receiptDigest": "sha256:f30d922138727086b1b18503d948c4a24e2b28e653b8aceed0345846cc29b2f5",
+  "receiptDigest": "sha256:f1e45cf564c33199c3e652829fefb22132c249842da3b432edbe798a4c236dc6",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+  "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
   "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-804-release-route-ordering"

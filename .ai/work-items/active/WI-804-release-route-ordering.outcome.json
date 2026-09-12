@@ -29,9 +29,9 @@
     "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
     "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation."
   ],
-  "createdAt": "2026-09-12T11:09:11Z",
+  "createdAt": "2026-09-12T11:42:37Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:d7a1073b8ebadeed0e7df0e3c3ec74c8eb2b63587f5b4b440fc386f3cfe2e48f",
+  "evidenceDigest": "sha256:582aa2179af0129dbed1c01c68a13064db9ac25d8cb7caeacef6677f6d35a284",
   "evidenceRefs": [
     ".ai/evidence/WI-804-release-route-ordering.verification.json"
   ],
@@ -57,7 +57,7 @@
         ".ai/evidence/WI-804-release-route-ordering.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+      "repositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
       "workItemId": "WI-804-release-route-ordering"
     },
     "format": "ai-cockpit.task-outcome",
@@ -71,7 +71,7 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json"
         },
         {
           "evidenceRefs": [
@@ -92,14 +92,14 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+          "text": "Changed path: .github/workflows/release.yml"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -174,8 +174,8 @@
     "status": "verified",
     "workItemId": "WI-804-release-route-ordering"
   },
-  "taskReportDigest": "sha256:743bed01e88c1d0eabebeea560c76a69577b89ac8ffd7e77a9042539f6775da3",
-  "taskReportMarkdownDigest": "sha256:23195a9aef08697409f1251fe333f9fba5b74fcbe73472f2c4822b4ab4b5e3c1",
+  "taskReportDigest": "sha256:6e140a752b89116fd62475d020dc388aa2d28dfc493f471e33b840a34d6e85fd",
+  "taskReportMarkdownDigest": "sha256:a0a281f2a3a9a180ee029c1cb1dddb079d0f5c1d9576b895866e951f2ea5c99c",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

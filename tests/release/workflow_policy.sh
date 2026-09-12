@@ -154,6 +154,7 @@ require_match 'gh api .*releases/tags' 'release policy must inspect an existing 
 require_match 'verify-provider-release' 'existing provider Releases must be checked by the shared Rust identity verifier'
 require_match 'provider-release-state' 'provider Release identity must be persisted for publish recovery'
 require_match "if: steps.release_identity.outputs.state == 'new'" 'publish must skip creation when the existing Release identity is reusable'
+require_match '^          tag_name: \$\{\{ github\.event\.inputs\.to_tag \|\| github\.ref_name \}\}$' 'publish must bind GitHub Release creation to the explicit recovery tag instead of the workflow ref'
 require_match '--provider-release-id' 'handoff must bind the provider Release identity'
 require_match 'actions/attest-build-provenance@' 'final candidate/handoff attestation must be defined'
 require_match 'dist/release-manifest\.json' 'published assets must include the canonical manifest'

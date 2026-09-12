@@ -14,11 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/status_projection.rs
+- Changed path: .github/workflows/release.yml
+- Changed path: tests/release/workflow_policy.sh
 
 ## Findings
 

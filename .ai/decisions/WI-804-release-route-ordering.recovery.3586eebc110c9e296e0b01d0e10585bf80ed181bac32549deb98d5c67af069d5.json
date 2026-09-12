@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T11:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34690681044",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-first-start.md"
+  ],
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorEventsDigest": "sha256:b599464bc1860adbc4e5630cc16df7b680ab667fd846b182659e6284ae2d8e06",
+  "predecessorOutcomeDigest": "sha256:2f5f67885059e2dc315d11881f58483ba1197ffdfe2393ae76f4b80647f2d65d",
+  "predecessorSummaryDigest": "sha256:cb99c170052ee3b70e0537e56eadc9f9b1ff43823b0b11b35fd8c83445b21800",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "Hosted release recovery reached publish after all preparation, builds, candidate checks, and attestations passed, but GitHub Release creation used the workflow branch ref because the action lacked an explicit tag_name. Add the immutable recovery tag binding and a source-quality workflow policy regression so this ordering/configuration error is caught before expensive release work. Preserve the failed run and do not move or overwrite v0.2.91.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one candidate-bound verification against the corrected publish identity boundary, then finish; do not alter archived history or v0.2.91 identity.",
+  "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

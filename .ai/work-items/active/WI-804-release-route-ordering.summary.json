@@ -97,11 +97,11 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-804-release-route-ordering.recovery.f483d0ab04a203947e89e106c42ce65d9f139981bd1b59c9464010ef4e8676ce.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.3586eebc110c9e296e0b01d0e10585bf80ed181bac32549deb98d5c67af069d5.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/status_projection.rs"
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-12T04:42:18Z",
   "checkpointContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
@@ -522,7 +522,7 @@
       "workItemId": "WI-804-release-route-ordering"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+  "checkpointRepositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
   "createdAt": "2026-09-12T04:41:38Z",
   "intentAlignment": {
     "evidence": [
@@ -537,10 +537,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
-  "preflightAt": "2026-09-12T11:09:11Z",
+  "preflightAt": "2026-09-12T11:42:16Z",
   "preflightContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:82003bbabedc55175c9500e63aded525741a7e565e7387db288714f4cf4e95a2",
+  "preflightRepositorySnapshotDigest": "sha256:b01603a389e70b22f33fe621ab1607814d850559fdd1b9d3c95b6be7d470ede1",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
@@ -575,7 +575,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T11:09:11Z",
+  "updatedAt": "2026-09-12T11:42:37Z",
   "verification": [
     {
       "check": "project-command-0",
