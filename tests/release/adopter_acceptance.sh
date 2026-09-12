@@ -904,6 +904,7 @@ release_api=''
 formula_url=''
 publish_formula_digest=''
 publish_handoff_digest=''
+release_source_commit=''
 cache_archive="$resume_cache/$archive_name"
 cache_manifest="$resume_cache/$manifest_name"
 cache_sums="$resume_cache/$sums_name"
@@ -959,6 +960,9 @@ else
   curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$manifest_url" -o "$manifest_path"
   curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$sums_url" -o "$sums_path"
 fi
+release_source_commit="$(jq -er '.commit' "$manifest_path")"
+source_revision="$(git -C "$source_repo" rev-parse 'HEAD^{commit}')"
+[[ "$release_source_commit" == "$source_revision" ]] || die 'release manifest commit does not match source checkout HEAD'
 if [[ -n "$release_api" && -z "$archive_url" ]]; then
   archive_url="$(jq -er --arg name "$archive_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
   manifest_url="$(jq -er --arg name "$manifest_name" '.assets[] | select(.name == $name) | .browser_download_url' "$release_api")"
@@ -1034,7 +1038,7 @@ mark_passed runtime-pin
 
 jq -n \
   --arg repository "$source_repository_id" \
-  --arg commit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg commit "$release_source_commit" \
   --arg lock "sha256:$(sha256_file "$source_repo/Cargo.lock")" \
   --arg version "$version" \
   --arg tag "$tag" \
@@ -1066,7 +1070,7 @@ if [[ -e "$source_repo/.ai" ]]; then source_ai_state=present; else source_ai_sta
 jq -n \
   --arg sourceRepository "$source_repo" \
   --arg sourceRepositoryId "$source_repository_id" \
-  --arg sourceCommit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg sourceCommit "$release_source_commit" \
   --arg sourceStatus "$source_before_status" \
   --arg sourceManifestDigest "sha256:$(sha256_file "$run_root/source-before.manifest")" \
   --arg runtimeVersion "$runtime_version" \

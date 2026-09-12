@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "The post-release recovery mode skips source quality, build, candidate acceptance, publish, and publish-side artifact creation when the immutable v0.2.91 Release already exists.",
+    "The recovery validates the immutable v0.2.91 tag, Release manifest, asset digests, and execution handoff identity before public acceptance.",
+    "Public fresh installation and public N-1 upgrade run in independent isolated environments and consume downloaded public Release artifacts, with the requested tag as their source identity.",
+    "Public acceptance and version consistency start only after their required handoff/public identity dependencies succeed; close records structured skipped dependencies and cannot report green closure from a green summary job.",
+    "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages."
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T19:34:26Z",
+  "goal": "add an explicit post-release acceptance recovery path that reuses valid publication evidence, runs public install and N-1 upgrade in parallel, fails early on invalid inputs, and prevents dependency-failure cascades",
+  "intent": "complete the already-published v0.2.91 handoff, public acceptance, and governed close without rebuilding or republishing",
+  "mode": "implementation",
+  "outOfScope": [
+    "tag or Release mutation",
+    "source implementation changes",
+    "Runtime semantics",
+    "object-engineering repositories",
+    "historical evidence rewriting",
+    "merging or reviewing other PRs",
+    "building or republishing v0.2.91"
+  ],
+  "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
+  "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "Runtime lifecycle records",
+    "hosted post-release recovery run",
+    "immutable tag and Release identity receipt",
+    "public installation receipt",
+    "public upgrade receipt",
+    "version consistency receipt",
+    "structured close receipt",
+    "workflow policy regression evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-815-post-release-acceptance",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-815-post-release-acceptance"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "An invalid or incomplete post-release request is rejected during the cheap input preflight before Runtime compilation or release-tool compilation starts.",
+      "required": true,
+      "scenario": "invalid_post_release_request_is_rejected_before_build",
+      "status": "unverified",
+      "verificationPlan": "Add a workflow policy regression that checks explicit post-release mode inputs and run the resolver/preflight fixture with missing and mismatched identities."
+    },
+    {
+      "evidence": [],
+      "expected": "An existing immutable v0.2.91 Release is verified and reused without rebuilding candidates, creating a Release, moving a tag, or overwriting assets.",
+      "required": true,
+      "scenario": "existing_public_release_is_reused_without_publication",
+      "status": "unverified",
+      "verificationPlan": "Add a post-release workflow path and policy assertions proving it has no build/publish dependency and consumes the existing Release manifest, checksum set, and asset identities."
+    },
+    {
+      "evidence": [],
+      "expected": "Public fresh installation and v0.2.90 to v0.2.91 upgrade run in independent isolated environments from downloaded public assets and bind the requested Release source identity.",
+      "required": true,
+      "scenario": "public_install_and_n_minus_one_upgrade_are_independent",
+      "status": "unverified",
+      "verificationPlan": "Add workflow policy and harness regressions for public-only execution, immutable tag checkout, isolated roots, and parallel acceptance dependencies."
+    },
+    {
+      "evidence": [],
+      "expected": "A failed handoff or public acceptance produces structured skipped dependency results and prevents close from claiming green closure.",
+      "required": true,
+      "scenario": "dependency_failure_stops_downstream_without_cascade",
+      "status": "unverified",
+      "verificationPlan": "Add job-condition and close-receipt policy assertions for each failed dependency and verify the close barrier remains a reporting failure rather than a second unrelated failure."
+    },
+    {
+      "evidence": [],
+      "expected": "Retrying a failed post-release stage reuses still-valid handoff and public identity evidence without repeating successful publication, deleting resources, or rebuilding the Runtime.",
+      "required": true,
+      "scenario": "recovery_reuses_successful_persisted_stages",
+      "status": "unverified",
+      "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-815-post-release-acceptance"
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-13T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "crates/cockpit-release/src/handoff.rs",
+    "crates/cockpit-release/tests/handoff.rs",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.91"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
+  "predecessorSummaryDigest": "sha256:224781ae4a97a760de400babb9fc4a9f58055ae631626cd36fbdcf02f6a3cee3",
+  "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
+  "reason": "WI-809 is bound to the already-merged PR #787 and cannot be reused for the new post-release recovery mode. Preserve its immutable evidence and continue the same release-acceptance objective on a fresh current-main successor without rebuilding or republishing v0.2.91.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue on the successor from the synchronized current main, complete the post-release acceptance path with immutable v0.2.91 identities, then perform the declared verification and closure. Do not rebuild or republish v0.2.91.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-815-post-release-acceptance",
+  "workItemId": "WI-809-release-v0-2-91-final-acceptance"
+}

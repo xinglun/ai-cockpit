@@ -131,4 +131,52 @@ if "$resolver" \
 fi
 jq -e '.failureCode == "work_item_id_required" and .state == "failed"' "$fixture/missing-id.json" >/dev/null
 
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --post-release-acceptance true \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$fixture/missing-reuse-run.json" >/dev/null 2>&1; then
+  echo 'expected post-release acceptance without a reusable run to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "reuse_run_id_required" and .state == "failed"' "$fixture/missing-reuse-run.json" >/dev/null
+
+post_release_output="$fixture/post-release.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --post-release-acceptance true \
+  --reuse-run-id 34698637044 \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$post_release_output"
+jq -e \
+  '.mode == "post_release_acceptance" and .workItemId == "WI-TEST" and .reuseRunId == "34698637044" and .releaseSourceRevision == $source and .headRevision == $head' \
+  --arg source "$base" --arg head "$head" "$post_release_output" >/dev/null
+
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --post-release-acceptance true \
+  --reuse-run-id 34698637044 \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$fixture/conflicting-modes.json" >/dev/null 2>&1; then
+  echo 'expected publication recovery and post-release acceptance modes to conflict' >&2
+  exit 1
+fi
+jq -e '.failureCode == "conflicting_release_modes" and .state == "failed"' "$fixture/conflicting-modes.json" >/dev/null
+
 printf 'work item resolution regression passed\n'

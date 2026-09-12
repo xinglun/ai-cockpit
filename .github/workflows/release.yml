@@ -25,6 +25,15 @@ on:
         required: false
         default: false
         type: boolean
+      post_release_acceptance:
+        description: 'Run post-release handoff, public install, upgrade, and close only; never rebuild or publish'
+        required: false
+        default: false
+        type: boolean
+      reuse_run_id:
+        description: 'Prior release run with a successful Ubuntu release-helper stage to reuse for post-release acceptance'
+        required: false
+        type: string
       work_item_id:
         description: 'Active Work Item identity required for immutable-tag recovery'
         required: false
@@ -54,6 +63,8 @@ jobs:
       contract_path: ${{ steps.resolve.outputs.contract_path }}
       base_revision: ${{ steps.resolve.outputs.base_revision }}
       head_revision: ${{ steps.resolve.outputs.head_revision }}
+      release_source_revision: ${{ steps.resolve.outputs.release_source_revision }}
+      reuse_run_id: ${{ steps.resolve.outputs.reuse_run_id }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -72,6 +83,8 @@ jobs:
           INPUT_CONTRACT_PATH: ${{ github.event.inputs.contract_path }}
           INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
           PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          INPUT_POST_RELEASE_ACCEPTANCE: ${{ github.event.inputs.post_release_acceptance || 'false' }}
+          INPUT_REUSE_RUN_ID: ${{ github.event.inputs.reuse_run_id }}
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
@@ -82,6 +95,7 @@ jobs:
             --from-tag "$INPUT_FROM_TAG"
             --to-tag "$INPUT_TO_TAG"
             --publish-existing-tag "$PUBLISH_EXISTING_TAG"
+            --post-release-acceptance "$INPUT_POST_RELEASE_ACCEPTANCE"
             --output target/release-input-preflight.json
           )
           if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then
@@ -93,6 +107,9 @@ jobs:
           if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
             selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
           fi
+          if [[ -n "$INPUT_REUSE_RUN_ID" ]]; then
+            selector_args+=(--reuse-run-id "$INPUT_REUSE_RUN_ID")
+          fi
           if [[ "$EVENT_NAME" == push ]]; then
             selector_args+=(--github-repository "$GITHUB_REPOSITORY")
           fi
@@ -101,6 +118,8 @@ jobs:
           echo "contract_path=$(jq -r '.contractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "base_revision=$(jq -r '.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "head_revision=$(jq -er '.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "release_source_revision=$(jq -r '.releaseSourceRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "reuse_run_id=$(jq -r '.reuseRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
       - name: Upload release input preflight evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -110,7 +129,74 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+  post_release_helper:
+    # post-release-only recovery reuses a helper from a known successful run;
+    # it never rebuilds the helper or depends on the failed publication graph.
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+    needs: [release_input_preflight]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Validate and restore the reusable release helper
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REUSE_RUN_ID: ${{ github.event.inputs.reuse_run_id }}
+          EXPECTED_MODE: ${{ needs.release_input_preflight.outputs.mode }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_MODE" == post_release_acceptance ]] || {
+            echo 'post-release helper requested outside post-release-only mode' >&2
+            exit 1
+          }
+          [[ "$REUSE_RUN_ID" =~ ^[1-9][0-9]*$ ]] || {
+            echo 'post-release-only recovery requires a numeric reuse_run_id' >&2
+            exit 1
+          }
+          [[ "$REUSE_RUN_ID" != "$GITHUB_RUN_ID" ]] || {
+            echo 'reuse_run_id must identify a prior workflow run, not the current run' >&2
+            exit 1
+          }
+          run_info="$(gh run view "$REUSE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json conclusion,event,workflowName,headSha,jobs)"
+          jq -e '
+            .workflowName == "ai-cockpit release evidence" and
+            (.event == "push" or .event == "workflow_dispatch") and
+            (.headSha | test("^[0-9a-f]{40}$")) and
+            ([.jobs[] | select(.name | startswith("release_tools (ubuntu-24.04, ubuntu-x86_64, cockpit-release)")) | select(.conclusion == "success")] | length == 1)
+          ' <<<"$run_info" >/dev/null || {
+            echo 'reuse_run_id must identify a release workflow run with a successful Ubuntu release-tool job and valid execution identity' >&2
+            exit 1
+          }
+          artifact_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$REUSE_RUN_ID/artifacts" \
+            --jq '[.artifacts[] | select(.expired == false and .name == "cockpit-release-tool-ubuntu-x86_64")] | sort_by(.created_at) | last.name // empty')"
+          [[ "$artifact_name" == cockpit-release-tool-ubuntu-x86_64 ]] || {
+            echo 'the requested reuse run has no unexpired Ubuntu release helper artifact' >&2
+            exit 1
+          }
+          mkdir -p tools
+          gh run download "$REUSE_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name "$artifact_name" \
+            --dir tools
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          jq -n --arg runId "$REUSE_RUN_ID" --arg artifact "$artifact_name" \
+            --arg workflowName "$(jq -er '.workflowName' <<<"$run_info")" \
+            --arg headSha "$(jq -er '.headSha' <<<"$run_info")" \
+            --arg releaseToolJob "$(jq -er '[.jobs[] | select(.name | startswith("release_tools (ubuntu-24.04, ubuntu-x86_64, cockpit-release)")) | select(.conclusion == "success") | .name][0]' <<<"$run_info")" \
+            '{schemaVersion:1,kind:"post_release_helper_reuse",state:"reused",runId:$runId,artifact:$artifact,workflowName:$workflowName,headSha:$headSha,releaseToolJob:$releaseToolJob}' \
+            > tools/post-release-helper.json
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: post-release-helper
+          path: tools/
+          if-no-files-found: error
+          retention-days: 30
+
   release_tools:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     # Helper compilation is an expensive prerequisite; do not start it until
     # route preparation and the canonical source-quality gates have passed.
     needs: [release_preflight, source_quality]
@@ -168,6 +254,7 @@ jobs:
           retention-days: 7
 
   release_preflight:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: release_input_preflight
     runs-on: ubuntu-24.04
     permissions:
@@ -234,6 +321,7 @@ jobs:
           retention-days: 7
 
   build:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [release_preflight, source_quality, release_tools]
     strategy:
       fail-fast: false
@@ -270,7 +358,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -354,6 +442,7 @@ jobs:
           retention-days: 7
 
   source_quality:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: release_preflight
     runs-on: ubuntu-24.04
     permissions:
@@ -445,6 +534,7 @@ jobs:
           retention-days: 7
 
   aggregate:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [build, release_tools]
     runs-on: ubuntu-24.04
     permissions:
@@ -452,7 +542,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -520,7 +610,9 @@ jobs:
 
   release_policy:
     needs: [aggregate, source_quality, release_tools]
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    if: >-
+      (github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) &&
+      (github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true')
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -627,6 +719,7 @@ jobs:
           retention-days: 7
 
   verify:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, source_quality, release_policy, release_tools]
     runs-on: ubuntu-24.04
     permissions:
@@ -661,6 +754,7 @@ jobs:
           done
 
   smoke_homebrew:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, verify]
     strategy:
       fail-fast: false
@@ -738,6 +832,7 @@ jobs:
           ! brew list --formula | grep -Fx ai-cockpit
 
   smoke_linux:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, verify]
     strategy:
       fail-fast: false
@@ -773,6 +868,7 @@ jobs:
           ./extracted/ai-cockpit --help >/dev/null
 
   smoke_windows:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, verify]
     runs-on: windows-2025
     permissions:
@@ -795,6 +891,7 @@ jobs:
           ./extracted/ai-cockpit.exe --help | Out-Null
 
   staged_adopter_acceptance:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, source_quality, release_policy, verify, release_tools]
     runs-on: ubuntu-24.04
     permissions:
@@ -802,7 +899,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -861,6 +958,7 @@ jobs:
           retention-days: 30
 
   staged_adopter_upgrade_acceptance:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [aggregate, source_quality, release_policy, verify, release_tools]
     runs-on: ubuntu-24.04
     permissions:
@@ -868,7 +966,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -979,6 +1077,7 @@ jobs:
           retention-days: 30
 
   attest:
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
     needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
@@ -1003,8 +1102,9 @@ jobs:
 
   publish:
     if: >-
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')) &&
+      (github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true')
     needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest]
     runs-on: ubuntu-24.04
     permissions:
@@ -1083,9 +1183,11 @@ jobs:
 
   publish_handoff:
     if: >-
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
-    needs: publish
+      always() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.post_release_helper.result == 'success' && needs.release_input_preflight.result == 'success'))
+    needs: [publish, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1097,13 +1199,52 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
         with:
           name: ai-cockpit-candidate
           path: dist
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        with:
+          name: post-release-helper
+          path: tools
+      - name: Download and verify the immutable public Release for recovery
+        # post-release-only recovery has no candidate artifact and no publish
+        # job; this is the public identity boundary for the existing Release.
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.to_tag }}
+        run: |
+          set -euo pipefail
+          chmod +x tools/cockpit-release
+          (cd tools && sha256sum -c cockpit-release.sha256)
+          mkdir -p dist/Formula
+          release_json="$RUNNER_TEMP/public-release.json"
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" > "$release_json"
+          jq -e --arg tag "$TAG" '.tag_name == $tag and .draft == false and .prerelease == false' "$release_json" >/dev/null
+          while IFS=$'\t' read -r name url; do
+            [[ "$url" == "https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG/"* ]] || {
+              echo "public Release asset URL is outside the immutable tag: $name" >&2
+              exit 1
+            }
+            if [[ "$name" == ai-cockpit.rb ]]; then destination="dist/Formula/$name"; else destination="dist/$name"; fi
+            curl --fail --silent --show-error --location --proto '=https' --tlsv1.2 "$url" -o "$destination"
+          done < <(jq -r '.assets[] | [.name, .browser_download_url] | @tsv' "$release_json")
+          tag_commit="$(git ls-remote origin "refs/tags/$TAG^{}" | awk '{print $1}')"
+          [[ "$tag_commit" =~ ^[0-9a-f]{40}$ ]] || { echo 'immutable public tag does not resolve' >&2; exit 1; }
+          tools/cockpit-release verify-provider-release \
+            --manifest dist/release-manifest.json \
+            --dist dist \
+            --release-json "$release_json" \
+            --tag-commit "$tag_commit" \
+            > dist/provider-release-state.json
       - name: Create the post-publication handoff
         shell: bash
         env:
@@ -1162,15 +1303,18 @@ jobs:
     # a Release; it fails the workflow if public assets drift from the source
     # version or the current trilingual installation docs.
     if: >-
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
-    needs: [publish]
+      always() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.release_input_preflight.result == 'success'))
+    needs: [publish, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -1224,24 +1368,32 @@ jobs:
 
   adopter_acceptance:
     if: >-
-      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')
-    needs: [publish_handoff, release_tools]
+      always() &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
+    needs: [publish_handoff, release_tools, post_release_helper]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        with:
+          name: post-release-helper
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         continue-on-error: ${{ github.run_attempt > 1 }}
@@ -1321,10 +1473,15 @@ jobs:
         needs.publish_handoff.result == 'success') ||
        (github.event_name == 'workflow_dispatch' &&
         github.event.inputs.publish_existing_tag != 'true' &&
+        github.event.inputs.post_release_acceptance != 'true' &&
         github.event.inputs.from_tag != '' &&
         github.event.inputs.to_tag != '' &&
-        github.event.inputs.handoff_run_id != ''))
-    needs: [publish, publish_handoff, release_tools]
+        github.event.inputs.handoff_run_id != '') ||
+       (github.event_name == 'workflow_dispatch' &&
+        github.event.inputs.post_release_acceptance == 'true' &&
+        needs.publish_handoff.result == 'success' &&
+        needs.post_release_helper.result == 'success'))
+    needs: [publish, publish_handoff, release_tools, post_release_helper]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1332,12 +1489,18 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
+          path: tools
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        with:
+          name: post-release-helper
           path: tools
       - name: Download publication handoff for push-triggered public acceptance
         if: github.event_name == 'push'
@@ -1348,6 +1511,12 @@ jobs:
           path: handoff
       - name: Download publication handoff for tag recovery
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
+          path: handoff
+      - name: Download publication handoff for post-release-only recovery
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
@@ -1366,7 +1535,7 @@ jobs:
               --dir handoff
           fi
       - name: Download handoff from the requested publication run
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag != 'true'
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag != 'true' && github.event.inputs.post_release_acceptance != 'true'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -1518,7 +1687,8 @@ jobs:
     if: >-
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'))
+       (github.event_name == 'workflow_dispatch' &&
+        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true')))
     needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
@@ -1708,3 +1878,12 @@ jobs:
           path: ${{ runner.temp }}/release-close/
           if-no-files-found: error
           retention-days: 30
+      - name: Fail when the close receipt is not passed
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -e '.state == "passed"' "$RUNNER_TEMP/release-close/release-close.json" >/dev/null || {
+            echo 'release close receipt is not passed; the close job must remain failed' >&2
+            exit 1
+          }

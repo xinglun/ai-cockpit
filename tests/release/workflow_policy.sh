@@ -189,8 +189,33 @@ require_match 'adopter_acceptance:[[:space:]]*$' 'post-release adopter acceptanc
 require_match 'tests/release/adopter_acceptance\.sh' 'post-release job must invoke the adopter acceptance harness'
 require_match '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
 require_match '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
-require_match 'needs: \[publish_handoff, release_tools\]' 'adopter acceptance must run after publication handoff and shared release tooling'
-require_match 'needs: \[publish, publish_handoff, release_tools\]' 'N-1 acceptance must run after publication and handoff'
+require_match 'needs: \[publish_handoff, release_tools, post_release_helper\]' 'adopter acceptance must run after publication handoff and mode-specific release tooling'
+require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper\]' 'N-1 acceptance must run after publication and mode-specific handoff'
+require_match 'Fail when the close receipt is not passed' 'close must fail when its persisted receipt is not passed'
+require_match '\.state == "passed"' 'close must distinguish a passed receipt from a green summary step'
+
+# Post-release acceptance is a distinct, non-publishing execution graph. It
+# must be selected explicitly and reuse a successful helper run without
+# depending on the failed publication handoff or rebuilding the candidate.
+require_match '^      post_release_acceptance:' 'post-release-only recovery input is required'
+require_match 'INPUT_POST_RELEASE_ACCEPTANCE' 'post-release-only mode must reach the input resolver'
+require_match 'INPUT_REUSE_RUN_ID' 'post-release-only mode must expose an explicit reusable-run identity'
+require_match '\-\-post-release-acceptance' 'resolver must receive the explicit post-release mode'
+require_match '\-\-reuse-run-id' 'resolver must receive the reusable-run identity'
+require_match '^  post_release_helper:' 'post-release-only mode must restore a prebuilt helper in a separate job'
+require_match 'gh run download "\$REUSE_RUN_ID"' 'post-release-only mode must reuse the requested prior run artifact'
+require_match 'verify-provider-release' 'post-release-only mode must verify public Release identity and assets'
+require_match 'workflowName' 'post-release-only mode must bind reused helper evidence to the release workflow identity'
+require_match 'headSha' 'post-release-only mode must retain the reused workflow execution identity'
+require_match 'releaseToolJob' 'post-release-only mode must bind the reused helper to its successful build job'
+require_match 'releases/download/\$TAG/' 'post-release-only mode must consume immutable public asset URLs'
+require_match 'github\.event\.inputs\.post_release_acceptance == '\''true'\''' 'post-release-only mode must be explicit in job conditions'
+require_match 'github\.event\.inputs\.post_release_acceptance != '\''true'\''' 'expensive publication jobs must be excluded from post-release-only mode'
+require_match 'needs: \[publish, release_input_preflight\]' 'public version consistency must support a post-release path without publication'
+require_match 'needs: \[publish_handoff, release_tools, post_release_helper\]' 'public install must select the helper for its execution mode'
+require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper\]' 'public upgrade must select the helper for its execution mode'
+require_match 'needs\.post_release_helper\.result' 'post-release acceptance must gate on helper restoration'
+require_match 'post-release-only recovery' 'workflow must document the non-publishing recovery boundary'
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
 require_match 'tests/ci/repository_gate_manifest\.json' 'release workflow must bind all repository policy gates'
 require_match '--post-release' 'post-publication version consistency must validate public assets'
@@ -209,11 +234,11 @@ require_match 'name: Upload N-1 upgrade acceptance evidence' 'N-1 evidence must 
 require_match 'release close recorded failure; dependent acceptance was not executed' 'release close must record dependency failure without becoming a second failure'
 fail_if_match '\[\[ "\$state" == passed \]\].*exit 1' 'release close failure summary must not fail a second time'
 require_match 'needs: \[publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance\]' 'release close must wait for public acceptance and consistency receipts'
-require_match '^    needs: \[publish\]$' 'public version consistency must run in parallel with post-release acceptance'
+require_match '^    needs: \[publish, release_input_preflight\]$' 'public version consistency must run in parallel with post-release acceptance'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
 require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
-recovery_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.publish_existing_tag == '\''true'\'' && github.event.inputs.to_tag) || github.ref }}'
-for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgrade_acceptance adopter_acceptance adopter_upgrade_acceptance; do
+recovery_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && (github.event.inputs.publish_existing_tag == '\''true'\'' || github.event.inputs.post_release_acceptance == '\''true'\'') && github.event.inputs.to_tag) || github.ref }}'
+for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
   if [[ "$(awk -v wanted="$source_job" -v expected="$recovery_source_ref" '
     /^  [A-Za-z0-9_-]+:/ {
       job=$0
@@ -224,6 +249,21 @@ for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgra
     END { print(found ? "found" : "missing") }
   ' "$workflow")" != found ]]; then
     printf 'policy failure: %s must bind recovery build/acceptance to the requested immutable tag source\n' "$source_job" >&2
+    exit 1
+  fi
+done
+public_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.to_tag) || github.ref }}'
+for source_job in adopter_acceptance adopter_upgrade_acceptance; do
+  if [[ "$(awk -v wanted="$source_job" -v expected="$public_source_ref" '
+    /^  [A-Za-z0-9_-]+:/ {
+      job=$0
+      sub(/^  /, "", job)
+      sub(/:.*/, "", job)
+    }
+    job == wanted && index($0, expected) { found=1 }
+    END { print(found ? "found" : "missing") }
+  ' "$workflow")" != found ]]; then
+    printf 'policy failure: %s must bind public acceptance to the requested immutable Release source\n' "$source_job" >&2
     exit 1
   fi
 done
