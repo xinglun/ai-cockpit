@@ -14,13 +14,12 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.a574318027354c786a715211208e98a5cb8ed14915ba20344a2044bc8b52cee1.json
+- Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.3a2f57b3500d6076c48a7b24f959fade4e9c733d070bbbb4979c34ab58ff3d94.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json
 - Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/src/lifecycle.rs
-- Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs
+- Changed path: .github/workflows/release.yml
+- Changed path: tests/release/workflow_policy.sh
 
 ## Findings
 

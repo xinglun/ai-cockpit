@@ -159,6 +159,10 @@ require_match 'needs: \[publish_handoff, post_release_version_consistency, adopt
 require_match '^    needs: \[publish\]$' 'public version consistency must run in parallel with post-release acceptance'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
 require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
+if grep -Fq '\"cockpit-release\"' "$workflow"; then
+  printf 'policy failure: release helper checksum extraction must not contain escaped quotes in Bash awk source\n' >&2
+  exit 1
+fi
 
 if ! bash -n <(
   awk '

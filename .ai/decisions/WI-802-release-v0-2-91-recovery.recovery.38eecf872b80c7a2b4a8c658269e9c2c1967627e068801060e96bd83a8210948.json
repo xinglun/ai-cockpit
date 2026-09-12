@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T02:14:53Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34665681384",
+    "https://github.com/xinglun/ai-cockpit/pull/778",
+    "https://github.com/xinglun/ai-cockpit/commit/3df2ada0b577c87ec9f5a5a4fcf5dd7e7a6e23d2"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
+  "predecessorEventsDigest": "sha256:c10d7fa793454664adc6fb1cf878ef62f334168f0bc89ca1677489bf6a0bfccf",
+  "predecessorOutcomeDigest": "sha256:e2179fb10d79aef0978f4f240a5d7d0e63a46c7d347bc13ac7e2040802114c7a",
+  "predecessorSummaryDigest": "sha256:fda533f222af955a0e0d330d84714dfe62f8f508949a94c7b1028138bd790df6",
+  "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
+  "reason": "Hosted recovery run 34665681384 exposed an immutable release-stage failure in the merged delivery: aggregate and the public acceptance checksum extraction contained invalid escaped-quote awk source. The repair is bounded to the existing release scope, but the predecessor PR is already merged and the v0.2.91 tag cannot be rewritten; continue through an explicitly linked successor from the current main base with a new reviewed PR before retrying publication.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Create and start the linked successor on a dedicated branch from the synchronized main, revalidate the checksum repair with local and hosted checks, then recover the immutable v0.2.91 release and retain all public install, upgrade, consistency, and cleanup evidence.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

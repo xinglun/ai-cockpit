@@ -436,7 +436,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x tools/cockpit-release
-          expected="$(awk '$2 == \"cockpit-release\" {print $1}' tools/cockpit-release.sha256)"
+          expected="$(awk -v name="cockpit-release" '$2 == name {print $1}' tools/cockpit-release.sha256)"
           if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum tools/cockpit-release | awk '{print $1}')"; else actual="$(shasum -a 256 tools/cockpit-release | awk '{print $1}')"; fi
           test -n "$expected" && test "$expected" = "$actual"
           export COCKPIT_RELEASE_BIN="$GITHUB_WORKSPACE/tools/cockpit-release"
@@ -680,7 +680,7 @@ jobs:
           port="$(cat /tmp/ai-cockpit-http-port)"
           curl --fail --silent "http://127.0.0.1:${port}/${tag}/${archive}" -o /dev/null
           chmod +x tools/cockpit-release
-          expected="$(awk '$2 == \"cockpit-release\" {print $1}' tools/cockpit-release.sha256)"
+          expected="$(awk -v name="cockpit-release" '$2 == name {print $1}' tools/cockpit-release.sha256)"
           if command -v sha256sum >/dev/null 2>&1; then actual="$(sha256sum tools/cockpit-release | awk '{print $1}')"; else actual="$(shasum -a 256 tools/cockpit-release | awk '{print $1}')"; fi
           test -n "$expected" && test "$expected" = "$actual"
           tools/cockpit-release formula \
