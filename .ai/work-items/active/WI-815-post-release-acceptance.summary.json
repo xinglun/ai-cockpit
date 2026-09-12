@@ -1,21 +1,11 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-815-post-release-acceptance.contract.json",
-    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json",
-    ".github/workflows/release.yml",
-    "tests/ci/release_gate_policy_test.sh",
-    "tests/ci/resolve_work_item.sh",
-    "tests/ci/resolve_work_item_test.sh",
-    "tests/release/adopter_acceptance.sh",
-    "tests/release/adopter_acceptance_test.sh",
-    "tests/release/adopter_upgrade_acceptance.sh",
-    "tests/release/adopter_upgrade_acceptance_test.sh",
-    "tests/release/workflow_policy.sh"
+    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
-  "checkpointContractDigest": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
+  "checkpointContractDigest": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -51,11 +41,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
+      "reason": "The real draft PR resource context was discovered after the initial verification; revalidate the current Work Item before recording replacement evidence bound to that reviewed resource.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T20:26:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:aac50c00f0ce47a11cd80bad4b4e8de0e81949098dc0dad10cb87288034f6808",
+  "checkpointRepositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
   "createdAt": "2026-09-12T19:34:26Z",
-  "failedGate": "finish.finalization",
   "intentAlignment": {
     "evidence": [
       "WI-815 Contract intent and acceptance criteria",
@@ -65,16 +74,14 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-12T20:14:57Z",
-  "preflightContractDigest": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
+  "preflightAt": "2026-09-12T20:30:13Z",
+  "preflightContractDigest": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:aac50c00f0ce47a11cd80bad4b4e8de0e81949098dc0dad10cb87288034f6808",
+  "preflightRepositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -143,14 +150,13 @@
       "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-12T20:15:30Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T20:30:21Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d306eb7bda311c3dc258568bea0cfa74cf4b4a021290a8a5a8a9dab6596aef0d",
   "workItemId": "WI-815-post-release-acceptance"
 }

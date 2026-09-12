@@ -4,16 +4,20 @@
     "The recovery validates the immutable v0.2.91 tag, Release manifest, asset digests, and execution handoff identity before public acceptance.",
     "Public fresh installation and public N-1 upgrade run in independent isolated environments and consume downloaded public Release artifacts, with the requested tag as their source identity.",
     "Public acceptance and version consistency start only after their required handoff/public identity dependencies succeed; close records structured skipped dependencies and cannot report green closure from a green summary job.",
-    "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages."
+    "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages.",
+    "The Work Item binds the reviewed PR resource context before its replacement verification evidence is recorded, and finish/archive consume that non-provisional binding."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-12T20:30:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:85643103609ae9a47567f8b51e95db337803a3a6327275c98e362c194959972e",
   "evidenceRefs": [
     ".ai/evidence/WI-815-post-release-acceptance.verification.json"
   ],
-  "failedGate": "finish.finalization",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,35 +25,25 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-815-post-release-acceptance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:aac50c00f0ce47a11cd80bad4b4e8de0e81949098dc0dad10cb87288034f6808",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
       "workItemId": "WI-815-post-release-acceptance"
     },
-    "failedGate": "finish.finalization",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json"
-        },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
@@ -70,69 +64,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/resolve_work_item.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/resolve_work_item_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_acceptance.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -151,15 +82,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -170,7 +93,7 @@
             ".ai/evidence/WI-815-post-release-acceptance.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -180,10 +103,18 @@
             ".ai/evidence/WI-815-post-release-acceptance.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -204,16 +135,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-815-post-release-acceptance"
   },
+  "taskReportDigest": "sha256:331fea743931ffa593df71aa9ec691e3c25579d1bb6f914297458afee92fead8",
+  "taskReportMarkdownDigest": "sha256:5f7c5321b64542e853ffd59fbc0835fa8dfc5ed76bb3fbd3d1cdce640111490a",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-815-post-release-acceptance.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-815-post-release-acceptance"
 }

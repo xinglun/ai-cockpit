@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
-  "createdAt": "2026-09-12T20:14:57Z",
+  "contractDigest": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+  "createdAt": "2026-09-12T20:30:13Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 237005,
-      "executionElapsedMs": 236414,
+      "elapsedMs": 235863,
+      "executionElapsedMs": 235567,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 237005,
-    "executionElapsedMs": 236414,
-    "filesHashed": 28,
-    "filesRead": 30,
+    "elapsedMs": 235863,
+    "executionElapsedMs": 235567,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,17 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        ".github/workflows/release.yml",
-        "tests/ci/release_gate_policy_test.sh",
-        "tests/ci/resolve_work_item.sh",
-        "tests/ci/resolve_work_item_test.sh",
-        "tests/release/adopter_acceptance.sh",
-        "tests/release/adopter_acceptance_test.sh",
-        "tests/release/adopter_upgrade_acceptance.sh",
-        "tests/release/adopter_upgrade_acceptance_test.sh",
-        "tests/release/workflow_policy.sh"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
       "dependencyConfidence": "unknown",
@@ -54,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 236414,
+      "executionElapsedMs": 235567,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:aac50c00f0ce47a11cd80bad4b4e8de0e81949098dc0dad10cb87288034f6808",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -80,21 +70,21 @@
     "protectedNodesSkipped": 0,
     "receiptCandidates": [],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "rerunStale": 1,
+    "rerunStale": 0,
     "rerunUnknown": 0,
     "results": [
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:f6f048b6e76b5a356b29993aba809a267a92097b8f06878c338cf9dcac5c812c",
+        "outputDigest": "sha256:8c6f32f395d1de566b532850dc42b61f4053a19f0274a582183dc068a0668492",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
-        "reason": "evidence_expired",
+        "reason": "reuse_not_configured",
         "receiptId": null,
         "reused": false,
         "satisfiedBy": "execution",
-        "state": "stale",
+        "state": "not_applicable",
         "timedOut": false
       }
     ],
@@ -102,9 +92,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-815-post-release-acceptance"
   },
-  "receiptDigest": "sha256:c39444831d8f78c0a3592a65915008424d60a628b8094e399e3b94ff1430dc06",
+  "receiptDigest": "sha256:915c9a851a9cc13414ccf9e9bff1e5d1c446b44170cce02c69c82a732a1d5699",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:aac50c00f0ce47a11cd80bad4b4e8de0e81949098dc0dad10cb87288034f6808",
+  "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
   "runtimeDigest": "sha256:88a6097c38df9a13fe4744fa56e62ff4ccb12fae7619dea24acbe6842a78217f",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-815-post-release-acceptance"
