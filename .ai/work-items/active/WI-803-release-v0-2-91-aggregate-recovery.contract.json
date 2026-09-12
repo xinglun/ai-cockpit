@@ -4,7 +4,10 @@
     "Workflow policy rejects escaped-quote checksum expressions before hosted release execution.",
     "Reviewed hosted CI passes on the successor PR.",
     "The immutable v0.2.91 tag remains bound to e48a887d24f5e1a640ef9b043b60f6c4dca23a31 and is never overwritten.",
-    "The release recovery completes public downloaded-artifact install, N-1 upgrade, consistency, and cleanup acceptance."
+    "The release recovery completes public downloaded-artifact install, N-1 upgrade, consistency, and cleanup acceptance.",
+    "Immutable-tag recovery must build artifact source and run staged candidate/N-1 acceptance against the requested to_tag commit, while tag-triggered releases continue to use github.ref.",
+    "Workflow policy must reject a recovery path that compares a candidate manifest bound to the immutable tag with a main-branch checkout identity.",
+    "A regression test must exercise the recovery checkout binding before expensive candidate installation or upgrade execution."
   ],
   "authority": "authorized",
   "baseRevision": "748ff4fee425556f1466054fac9b33a3b5f9e2dc",
@@ -31,7 +34,9 @@
     "public-install",
     "public-upgrade",
     "release-close",
-    "cleanup"
+    "cleanup",
+    "hosted-staged-candidate-identity",
+    "hosted-staged-upgrade-identity"
   ],
   "resourceContext": {
     "baseBranch": "main",

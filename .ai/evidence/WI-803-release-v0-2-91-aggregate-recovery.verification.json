@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
-  "createdAt": "2026-09-12T02:45:47Z",
+  "contractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+  "createdAt": "2026-09-12T03:59:10Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 239394,
-      "executionElapsedMs": 239068,
+      "elapsedMs": 270548,
+      "executionElapsedMs": 270156,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,11 +25,11 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 239394,
-    "executionElapsedMs": 239068,
+    "elapsedMs": 270548,
+    "executionElapsedMs": 270156,
     "filesHashed": 10,
     "filesRead": 12,
-    "gitCalls": 6,
+    "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
     "nodesPlanned": 1,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 239068,
-      "finalTier": "T0",
-      "initialTier": "T0",
+      "executionElapsedMs": 270156,
+      "finalTier": "T2",
+      "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+      "repositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -60,7 +60,7 @@
         "cli_route_stage_explicit"
       ],
       "sharedNodes": [],
-      "stage": "task",
+      "stage": "release",
       "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
     },
     "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:17aa82879ba14afab40b4f7361d1ccef8b4dbbfc6545de484266c12623ab4c00",
+        "outputDigest": "sha256:71cca0f135538676d3e405ad0e1eb769b94f9d7cab3ce316affdc656aee9ef2b",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
   },
-  "receiptDigest": "sha256:8f689c93c338ace9df6d8f81e32054f5db802ad8a1590b8ce4d7bd1a8561d8f8",
+  "receiptDigest": "sha256:25838482e789d5f16dad46af76ca9c928f11f685b4c46330e9c676bb5e1c5649",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+  "repositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
   "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"

@@ -1,9 +1,48 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.summary.json"
+  ],
   "checkpointAt": "2026-09-12T02:18:11Z",
-  "checkpointContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+  "checkpointContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+      "recorded": true,
+      "recordedAt": "2026-09-12T02:18:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+      "previousContractHash": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+      "reason": "Hosted staged candidate and N-1 acceptance both failed before installation because recovery manifest identity was the immutable target tag while the workflow checkout remained main; bind recovery build and staged acceptance to the target tag and add an early policy regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T03:08:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1f7644f23573541bd604dbc4ca9472f6eb79aaf99394ee3ccbb01434b91275d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
   "createdAt": "2026-09-12T02:15:18Z",
   "intentAlignment": {
     "evidence": [
@@ -15,10 +54,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
   "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
-  "preflightAt": "2026-09-12T02:46:01Z",
-  "preflightContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+  "preflightAt": "2026-09-12T03:59:10Z",
+  "preflightContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+  "preflightRepositorySnapshotDigest": "sha256:276e5aadc4f9b6e6ad4904bf88807e1a506825e0e3dbe83e631d00445d15b032",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-802-release-v0-2-91-recovery.recovery.38eecf872b80c7a2b4a8c658269e9c2c1967627e068801060e96bd83a8210948.json",
@@ -43,6 +82,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:56eeb080e4e731f83ffedec8100eadb672d1842590b7fe5ec5e124dffe61af0e",
+  "verificationRecoveryReconciled": "sha256:5ae5501a72cfe48cb8af3e9e9903a6c31fa684d98f07dc87fa454707d138fe0c",
   "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
 }

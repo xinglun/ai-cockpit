@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T03:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/780",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34668923210",
+    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.contract.json",
+    ".ai/evidence/WI-803-release-v0-2-91-aggregate-recovery.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+  "predecessorSummaryDigest": "sha256:3648380906bcb1eae6c0e6263516d8dc9e05a73be6ac20956d2481b66f1d5547",
+  "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "reason": "The hosted recovery run exposed one shared source-identity defect after PR #779 had already merged: immutable-tag recovery bound the manifest to the v0.2.91 tag while build and staged acceptance checked out main. The in-scope correction is now under review as PR #780. Preserve the #779 evidence and use one same-WI retry boundary to bind and verify the corrected PR context; do not create a successor or dispatch another release until review passes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "After PR #780 is reviewed and hosted checks pass, finalize the same Work Item to that PR context, then run one fresh preflight and verification cycle. Do not reuse verification evidence bound to PR #779.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+}
