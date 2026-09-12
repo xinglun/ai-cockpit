@@ -4,7 +4,7 @@
       ".ai/evidence/WI-804-release-route-ordering.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b5d2a5d6f5640ac9292453f8959702c38042c39a1c59d5ce4568788556ac65dd",
+    "repositorySnapshotDigest": "sha256:13847738c748ea1ff980b2e6775e9b059723dd9c62f28a268d5b5a65961b0afe",
     "workItemId": "WI-804-release-route-ordering"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,14 @@
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.fb78f98e63d86f98c80e9fda2cbbac96e74b79c09c8335cda784937fce0486d6.json"
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.50198d2fed14c58969efcf337842e4d8369e6e30600e735c6b0ab042ab2a8f54.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.95c8de7d9bbbdc5b6fa670e6ff8a74f9e6662e414696767e39ec2b692e42e4b8.json"
       },
       {
         "evidenceRefs": [
@@ -46,35 +53,49 @@
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
+        "text": "Changed path: docs/reference/ci-quality-gates.ja.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.md"
+        "text": "Changed path: docs/reference/ci-quality-gates.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
+        "text": "Changed path: docs/reference/ci-quality-gates.zh-CN.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: tests/ci/runtime_verify_shadow.sh"
+        "text": "Changed path: tests/ci/repository_gate_manifest_test.py"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: tests/ci/runtime_verify_shadow_test.sh"
+        "text": "Changed path: tests/ci/run_repository_gates.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/run_workspace_package_tests.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/workspace_package_coverage_test.sh"
       }
     ],
     "evidence": [

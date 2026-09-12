@@ -90,6 +90,10 @@ gate runner は command output を捕捉し、fixture が意図的に出す nega
 （root code、対象 gate ID、remediation）が一件ずつ入り、raw output は二重の失敗数になりません。
 成功した repository-gate receipt の schema は維持され、post-finalize evidence として使えます。
 
+workspace package tests が失敗した場合、package receipt は失敗した package、終了コード、上限付きの診断末尾を記録し、gate receipt
+にもその事実を引き継ぎます。これにより最初の recovery で具体的な失敗を特定できます。`reference_inventory_mismatch` は canonical
+reference-inventory gate 専用であり、無関係な test output に同じ語が現れても root classification は変わりません。
+
 runner report は `executionOrder`、`launchedGateIds`、`reusedGateIds` も束縛します。
 preflight error は gate command を一つも起動する前に保存され、各 gate の後に checkpoint
 を atomic に保存します。依存先の失敗はその依存 gate だけを block し、

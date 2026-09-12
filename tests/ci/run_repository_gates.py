@@ -153,7 +153,11 @@ def failure_code(gate_id: str, *, launch_error: bool = False, detail: str = "") 
         return "invalid_premerge_finalize"
     if "required_evidence_missing" in normalized:
         return "required_evidence_missing"
-    if "reference" in normalized and "inventory" in normalized:
+    if (
+        gate_id == "conformance_reference_file_inventory"
+        and "reference" in normalized
+        and "inventory" in normalized
+    ):
         return "reference_inventory_mismatch"
     if "lifecycle_transition_stale" in normalized:
         return "lifecycle_transition_stale"
@@ -177,6 +181,22 @@ def failure_remediation(code: str, gate_id: str) -> str:
     if code.startswith("gate_launch_failed:"):
         return f"restore the executable command for gate {gate_id} and rerun this route"
     return f"run gate {gate_id} locally and repair its declared failing check"
+
+
+def attach_workspace_package_failure(
+    result: dict[str, Any], *, repository: Path
+) -> None:
+    """Copy bounded package failure facts into the canonical gate receipt."""
+    if result.get("id") != "workspace_package_tests":
+        return
+    report_path = repository / "target/workspace-package-coverage.json"
+    try:
+        report = load_receipt(report_path)
+    except (OSError, ValueError, KeyError, TypeError):
+        return
+    for key in ("failedPackage", "failedExitCode", "failureDiagnosticTail"):
+        if key in report:
+            result[key] = report[key]
 
 
 def run_gate(command: list[str], repository: Path, timeout: float | None) -> subprocess.CompletedProcess[str]:
@@ -602,6 +622,7 @@ def main() -> int:
                             code = failure_code(result["id"], detail=detail)
                             result["failureCode"] = code
                             result["remediation"] = failure_remediation(code, result["id"])
+                            attach_workspace_package_failure(result, repository=repository)
                             if detail:
                                 result["diagnosticDigest"] = "sha256:" + hashlib.sha256(
                                     detail.encode("utf-8", errors="replace")

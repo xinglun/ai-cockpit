@@ -97,6 +97,12 @@ raw command output is not a second failure count. Passing repository-gate
 receipts keep their existing schema so they remain valid post-finalize
 evidence.
 
+If workspace package tests fail, the package receipt records the failed package,
+exit code, and a bounded diagnostic tail, and the gate receipt carries those
+facts for the first recovery diagnosis. `reference_inventory_mismatch` is
+reserved for the canonical reference-inventory gate; words appearing in an
+unrelated test failure do not change its root classification.
+
 Runner reports additionally bind `executionOrder`, `launchedGateIds`, and
 `reusedGateIds`. A preflight error is written before any gate command starts;
 execution checkpoints are written atomically after each gate. Dependency

@@ -83,6 +83,10 @@ gate runner 会捕获命令输出，不再把每个 fixture 预期的负向诊�
 不会被计为第二个失败。通过的 repository-gate receipt 保持原有 schema，因此仍可作为
 post-finalize evidence。
 
+如果 workspace package tests 失败，package receipt 会记录失败包、退出码和有界诊断尾部，gate receipt
+也会携带这些事实，供第一次恢复尝试直接定位。`reference_inventory_mismatch` 只保留给 canonical
+reference-inventory gate；无关测试输出中偶然出现这些词，不会改变根因分类。
+
 runner 报告还绑定 `executionOrder`、`launchedGateIds` 和 `reusedGateIds`。任何
 preflight 错误都会在启动 gate 命令前写入；每个 gate 后都会原子写入执行 checkpoint。
 依赖失败只阻断依赖它的 gate；`--resume-report` 只复用 route 与 command 绑定仍一致的

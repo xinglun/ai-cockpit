@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T10:41:36Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/workspace_package_coverage_test.sh",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34687830072"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-first-start.md"
+  ],
+  "predecessorContractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "predecessorEventsDigest": "sha256:1a1969e2ba51f6c6c8aeb0043413cf2c4d84c7ecd3ff024d63efde65d9a67efe",
+  "predecessorOutcomeDigest": "sha256:4f735bf4496427a079483ed7d8411d18c9aefa89795dd89f9b055983c8710ac1",
+  "predecessorSummaryDigest": "sha256:ea5ae3e284aa9b850317b61f566841dfb94a51f806b3c82475dba6b3d4def35c",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "Hosted workspace package execution identified cockpit-repository as the failed package, but the gate classified incidental reference-inventory wording as the root and did not retain the concrete package diagnostic. Add bounded first-failure diagnostics and gate-specific classification in the same Work Item; preserve the immutable hosted failure and do not rerun unrelated checks manually. The diagnostic regression test was then added to the Contract scope before resuming.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one candidate-bound verification against the amended diagnostic boundary, then finish; do not alter archived history or v0.2.91 identity.",
+  "runtimeDigest": "sha256:8366061cb3a3b687f2a016b228487429c216a05c07947995d15f926e3d7c87a6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

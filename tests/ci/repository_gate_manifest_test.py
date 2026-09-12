@@ -114,6 +114,20 @@ spec = importlib.util.spec_from_file_location("quality_route", root / "tests/ci/
 assert spec is not None and spec.loader is not None
 route = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(route)
+runner_spec = importlib.util.spec_from_file_location(
+    "repository_gate_runner", root / "tests/ci/run_repository_gates.py"
+)
+assert runner_spec is not None and runner_spec.loader is not None
+runner = importlib.util.module_from_spec(runner_spec)
+runner_spec.loader.exec_module(runner)
+assert runner.failure_code(
+    "workspace_package_tests",
+    detail="test oversized_reference_inventory_uses_its_strict_conformance_gate ... FAILED",
+) == "quality_gate_failed:workspace_package_tests"
+assert runner.failure_code(
+    "conformance_reference_file_inventory",
+    detail="reference inventory mismatch",
+) == "reference_inventory_mismatch"
 with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     fixture = Path(temporary)
     repository = fixture / "repo"

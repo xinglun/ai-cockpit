@@ -25,7 +25,9 @@
     "The observed SCN-016 next-action regression remains covered against an explicitly provisional resource context, while the no-resource lifecycle remains allowed and distinct.",
     "The public no-runtime close API must enforce provider finalization whenever the archived Contract explicitly binds a resource context, while ordinary no-resource Work Items remain closable without provider evidence.",
     "The immutable Runtime shadow uses a deterministic explicit execution-smoke command and does not re-run the current repository's full verification profile; full repository correctness remains owned by the canonical quality gates.",
-    "Shadow regression coverage proves the smoke command is pinned, identity-bound, bounded in cost, and cannot silently fall back to a source build, workspace binary, arbitrary command, or moving artifact."
+    "Shadow regression coverage proves the smoke command is pinned, identity-bound, bounded in cost, and cannot silently fall back to a source build, workspace binary, arbitrary command, or moving artifact.",
+    "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
+    "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation."
   ],
   "authority": "authorized",
   "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",
@@ -128,7 +130,11 @@
     "tests/ci/runtime_verify_shadow_test.sh",
     "docs/reference/ci-runtime-shadow.md",
     "docs/reference/ci-runtime-shadow.zh-CN.md",
-    "docs/reference/ci-runtime-shadow.ja.md"
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "tests/ci/run_workspace_package_tests.sh",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/workspace_package_coverage_test.sh",
+    "tests/ci/repository_gate_manifest_test.py"
   ],
   "sources": [],
   "state": "implementation_active",

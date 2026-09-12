@@ -14,15 +14,18 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.fb78f98e63d86f98c80e9fda2cbbac96e74b79c09c8335cda784937fce0486d6.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.50198d2fed14c58969efcf337842e4d8369e6e30600e735c6b0ab042ab2a8f54.json
+- Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.95c8de7d9bbbdc5b6fa670e6ff8a74f9e6662e414696767e39ec2b692e42e4b8.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json
 - Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json
-- Changed path: docs/reference/ci-runtime-shadow.ja.md
-- Changed path: docs/reference/ci-runtime-shadow.md
-- Changed path: docs/reference/ci-runtime-shadow.zh-CN.md
-- Changed path: tests/ci/runtime_verify_shadow.sh
-- Changed path: tests/ci/runtime_verify_shadow_test.sh
+- Changed path: docs/reference/ci-quality-gates.ja.md
+- Changed path: docs/reference/ci-quality-gates.md
+- Changed path: docs/reference/ci-quality-gates.zh-CN.md
+- Changed path: tests/ci/repository_gate_manifest_test.py
+- Changed path: tests/ci/run_repository_gates.py
+- Changed path: tests/ci/run_workspace_package_tests.sh
+- Changed path: tests/ci/workspace_package_coverage_test.sh
 
 ## Findings
 
