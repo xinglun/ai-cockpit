@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T02:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/779",
+    ".ai/evidence/WI-803-release-v0-2-91-aggregate-recovery.verification.json",
+    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+  "predecessorSummaryDigest": "sha256:4d5e3b1556d8c98c92c550b873a8fe7a8da67072288e7575bf69fcac710ea024",
+  "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "reason": "Runtime correctly detected evidence_contradictory after finalize-plan changed the resource context; use an explicit retry boundary to preserve the pre-finalization verification evidence and re-run verification under the bound PR context on the same Work Item.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the retry marker only for one fresh preflight, checkpoint, and verification cycle under the finalized PR context; do not reuse the pre-finalization verification evidence.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+}
