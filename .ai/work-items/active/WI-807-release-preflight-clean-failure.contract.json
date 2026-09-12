@@ -28,6 +28,14 @@
     " hosted PR checks",
     " and the single post-merge recovery run with structured close evidence."
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-807-release-preflight-clean-failure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/784",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-807-release-preflight-clean-failure"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
