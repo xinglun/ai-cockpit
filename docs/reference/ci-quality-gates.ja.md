@@ -52,6 +52,11 @@ evidence は、現在の command を開始できるか判定する pre-execution
 missing として扱いません。lifecycle evaluator は completion boundary で
 宣言されたすべての class を引き続き強制します。
 
+entry gate で human preflight review が必要な場合は、Work Item Summary に記録された
+canonical preflight decision digest を再利用します。stage 固有の quality projection は
+二つ目の review binding を作りませんが、Contract または source snapshot が変われば
+review は無効になり fail closed になります。
+
 収束期間中は Python route と runner を残します。hosted shadow 比較で意味の一致を
 確認した後の別 batch でのみ、重複した policy を削除します。この gate は参照源の
 全 workflow matrix、依存 planner、release-preflight 順序を実装するものではありません。

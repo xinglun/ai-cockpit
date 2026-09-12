@@ -8,7 +8,8 @@
     "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution.",
     "PR and post-merge quality routing selects the active Contract bound to the current PR branch or merge base when a predecessor and successor are both active, and fails closed on zero or ambiguous matches before expensive gates.",
     "The read-only pre-execution Contract quality gate does not require lifecycle evidence that can only be produced by later release, public-adopter, close, or cleanup stages; lifecycle completion gates continue to enforce those evidence classes.",
-    "PR and release quality routes treat a missing .ai/work-items/active directory as an empty Contract set and remain compatible with repositories that have no active Work Item."
+    "PR and release quality routes treat a missing .ai/work-items/active directory as an empty Contract set and remain compatible with repositories that have no active Work Item.",
+    "Pre-execution quality gates reuse the current canonical preflight decision binding rather than a stage-specific evidence projection; a matching human review remains valid across entry stages, while Contract or snapshot changes invalidate it fail-closed."
   ],
   "authority": "explicit-user-authorization-root-cause-repair-and-release",
   "baseRevision": "e48a887d24f5e1a640ef9b043b60f6c4dca23a31",

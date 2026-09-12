@@ -3142,6 +3142,7 @@ fn governance_decision_for_pre_execution_quality_gate(
             pre_execution_quality_evidence_state(root, contract, snapshot)?
         }
     };
+    let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
     let decision = governance_decision_for_contract_base_internal_with_archive(
         root,
         contract,
@@ -3151,7 +3152,45 @@ fn governance_decision_for_pre_execution_quality_gate(
         Some(pre_execution_evidence),
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, snapshot, decision, false)
+    apply_preflight_review_evidence(
+        root,
+        contract,
+        snapshot,
+        decision,
+        false,
+        canonical_preflight_digest.as_ref(),
+    )
+}
+
+fn canonical_preflight_decision_digest(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+) -> Result<Option<Digest>, ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    if !summary_path.is_file() {
+        return Ok(None);
+    }
+    let summary = read_json(&summary_path)?;
+    let expected_contract = contract_digest_for_evidence(root, contract)?;
+    let expected_snapshot = snapshot_digest(snapshot)?;
+    if summary
+        .get("preflightContractDigest")
+        .and_then(serde_json::Value::as_str)
+        != Some(expected_contract.to_string().as_str())
+        || summary
+            .get("preflightRepositorySnapshotDigest")
+            .and_then(serde_json::Value::as_str)
+            != Some(expected_snapshot.to_string().as_str())
+    {
+        return Ok(None);
+    }
+    Ok(summary
+        .get("preflightDecisionDigest")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok()))
 }
 
 fn pre_execution_quality_evidence_state(
@@ -3735,6 +3774,7 @@ pub fn governance_decision_for_observation_context(
         observation.snapshot(),
         decision,
         false,
+        None,
     )?;
     observation.validate_current()?;
     Ok(decision)
@@ -3796,7 +3836,7 @@ fn governance_decision_for_contract_internal_with_archive(
         None,
         None,
     )?;
-    apply_preflight_review_evidence(root, contract, snapshot, decision, archived)
+    apply_preflight_review_evidence(root, contract, snapshot, decision, archived, None)
 }
 
 fn governance_decision_for_contract_base_internal_with_archive(
@@ -3881,6 +3921,7 @@ fn apply_preflight_review_evidence(
     snapshot: &RepositorySnapshot,
     mut decision: GovernanceDecision,
     archived: bool,
+    canonical_preflight_digest: Option<&Digest>,
 ) -> Result<GovernanceDecision, ObserverError> {
     if archived {
         return Ok(decision);
@@ -3909,12 +3950,13 @@ fn apply_preflight_review_evidence(
             path: contract_path.clone(),
             message: error.to_string(),
         })?;
+    let expected_decision_digest = canonical_preflight_digest.unwrap_or(&raw_decision_digest);
     let current_snapshot_digest = snapshot_digest(snapshot)?;
     match preflight_decision_evidence_state(
         root,
         &contract.work_item_id,
         &contract_digest,
-        &raw_decision_digest,
+        expected_decision_digest,
         &current_snapshot_digest,
     ) {
         governance_controls::PreflightDecisionEvidenceState::Missing => {}

@@ -1120,8 +1120,14 @@ fn preflight_work_item_internal(
         None,
         Some(&observation_context),
     )?;
-    let decision =
-        apply_preflight_review_evidence(&root, &contract, &snapshot, raw_decision.clone(), false)?;
+    let decision = apply_preflight_review_evidence(
+        &root,
+        &contract,
+        &snapshot,
+        raw_decision.clone(),
+        false,
+        None,
+    )?;
     observation_context.validate_current()?;
 
     let active = root.join(".ai/work-items/active");
@@ -3129,6 +3135,7 @@ fn record_verification_internal(
         &refreshed_snapshot,
         raw_decision.clone(),
         false,
+        None,
     )?;
     let reconcile_blocked_outcome = recovery_retry_pending
         || contract_amendment_pending
