@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "The immutable v0.2.91 tag and existing public Release remain unchanged and their identities are verified",
+    "The published handoff is bound to the immutable v0.2.91 source and current workflow orchestration identity",
+    "Public fresh installation and public N-1 upgrade consume downloaded Release artifacts in isolated environments and retain clean receipts",
+    "Version consistency and release close pass with structured dependency results and no absent-artifact download noise",
+    "A failed recovery stage can resume from the applicable persisted stage without repeating successful publication or deleting resources"
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "d2741d24c2d7a500d955d639ad3663f2d26ee047",
+  "createdAt": "2026-09-12T15:02:05Z",
+  "goal": "prove the v0.2.91 handoff, public fresh installation, public N-1 upgrade, version consistency, and structured close without mutating the existing tag or Release",
+  "intent": "complete the already-published v0.2.91 recovery acceptance against its immutable public artifacts",
+  "mode": "implementation",
+  "outOfScope": [
+    "source implementation changes",
+    "Runtime semantics",
+    "object-engineering repositories",
+    "tag or Release mutation",
+    "historical record rewriting"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+  "requiredEvidenceClasses": [
+    "Runtime lifecycle records",
+    "hosted recovery run",
+    "public installation receipt",
+    "public upgrade receipt",
+    "version consistency receipt",
+    "release close receipt",
+    "immutable tag verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/34698637044",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.91"
+      ],
+      "expected": "the recovery confirms the existing Release and does not overwrite its tag or assets",
+      "required": true,
+      "scenario": "existing immutable Release is reused after publication handoff failure",
+      "status": "unverified",
+      "verificationPlan": "inspect the final hosted recovery log and compare the immutable tag, Release manifest, and asset digests before and after recovery"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/34698637044"
+      ],
+      "expected": "handoff failure prevents public acceptance and close downloads only successful dependency receipts",
+      "required": true,
+      "scenario": "public acceptance starts only after a successful publication handoff",
+      "status": "unverified",
+      "verificationPlan": "inspect the final recovery job graph and release close receipt for dependency-gated acceptance and structured skipped results"
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "crates/cockpit-release/src/handoff.rs",
+    "crates/cockpit-release/tests/handoff.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-809-release-v0-2-91-final-acceptance"
+}
