@@ -23,11 +23,13 @@
     "The expensive platform release-helper build waits for the single canonical source-quality gate in addition to route preparation, so deterministic source-policy failures stop it before compilation.",
     "The CLI lifecycle regression distinguishes a no-resource Work Item from an explicitly applicable provisional resource context: no-resource completion is allowed, while finish remains fail-closed until finalize-plan binds the external context.",
     "The observed SCN-016 next-action regression remains covered against an explicitly provisional resource context, while the no-resource lifecycle remains allowed and distinct.",
-    "The public no-runtime close API must enforce provider finalization whenever the archived Contract explicitly binds a resource context, while ordinary no-resource Work Items remain closable without provider evidence."
+    "The public no-runtime close API must enforce provider finalization whenever the archived Contract explicitly binds a resource context, while ordinary no-resource Work Items remain closable without provider evidence.",
+    "The immutable Runtime shadow uses a deterministic explicit execution-smoke command and does not re-run the current repository's full verification profile; full repository correctness remains owned by the canonical quality gates.",
+    "Shadow regression coverage proves the smoke command is pinned, identity-bound, bounded in cost, and cannot silently fall back to a source build, workspace binary, arbitrary command, or moving artifact."
   ],
-  "createdAt": "2026-09-12T09:38:38Z",
+  "createdAt": "2026-09-12T10:10:56Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:9209bf4791bea71636edd150a85c568d72269b6add6690e48e8ed6ebd6f378b5",
+  "evidenceDigest": "sha256:72f429a48399c18beb024b64291a37b04e7865a815b007b9c1e8312791d4e8e3",
   "evidenceRefs": [
     ".ai/evidence/WI-804-release-route-ordering.verification.json"
   ],
@@ -53,7 +55,7 @@
         ".ai/evidence/WI-804-release-route-ordering.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
+      "repositorySnapshotDigest": "sha256:b5d2a5d6f5640ac9292453f8959702c38042c39a1c59d5ce4568788556ac65dd",
       "workItemId": "WI-804-release-route-ordering"
     },
     "format": "ai-cockpit.task-outcome",
@@ -67,14 +69,7 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.6a879de1bef934a3678ba8cbf5efeddb4a6c89eed948d583261a3e034da35618.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.b7546082cc7288e23331f42dab2475d2e7fbc62a1637e2fe076950c8c0696d2e.json"
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.fb78f98e63d86f98c80e9fda2cbbac96e74b79c09c8335cda784937fce0486d6.json"
         },
         {
           "evidenceRefs": [
@@ -88,28 +83,7 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-804-release-route-ordering.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.events.jsonl"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.outcome.json"
         },
         {
           "evidenceRefs": [
@@ -123,119 +97,35 @@
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.json"
+          "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.md"
+          "text": "Changed path: docs/reference/ci-runtime-shadow.md"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
+          "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+          "text": "Changed path: tests/ci/runtime_verify_shadow.sh"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/knowledge_projection.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_concurrency.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/repository-workflow.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/repository-workflow.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/repository-workflow.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
+          "text": "Changed path: tests/ci/runtime_verify_shadow_test.sh"
         }
       ],
       "evidence": [
@@ -310,8 +200,8 @@
     "status": "verified",
     "workItemId": "WI-804-release-route-ordering"
   },
-  "taskReportDigest": "sha256:22c70105ec6b58b5ecf466b4e03f281911f3ff54640cb594da19f9d3b1d50346",
-  "taskReportMarkdownDigest": "sha256:7cfcad9a53835a955ae74ee4f14216cc20de0ef95367beeadef3fd6bb031f7f4",
+  "taskReportDigest": "sha256:0979834bee72a56ec6ac59a89f724d784d53ff896f3521157e20acc4172b71e8",
+  "taskReportMarkdownDigest": "sha256:8672707ba8af4176b8f78b8c64c8c78bd975c4e8ec9c9a4f0e946504c300df16",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

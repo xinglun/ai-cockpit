@@ -8,7 +8,7 @@ audience:
   - maintainer
 status: implemented
 authority: canonical
-lastVerifiedBy: WI-224-ci-reference-parity
+lastVerifiedBy: WI-804-release-route-ordering
 ---
 
 # CI Runtime verification shadow
@@ -48,11 +48,13 @@ receipt file exists; a valid `light` route neither requires nor uploads it.
 
 For `standard` and `strict`, the independent execution shadow downloads the
 public immutable `v0.2.28` Runtime, verifies the platform archive and binary
-digests, and runs canonical repository-profile verification. Its receipt binds
-the tag, version, archive digest, binary digest, platform, download source, and
-Runtime result. It rejects source builds, workspace binaries, arbitrary
-`--command` substitution, unpinned artifacts, digest mismatch, and malformed
-output.
+digests, and runs the pinned `git version` execution smoke. Its receipt binds
+the tag, version, archive digest, binary digest, platform, download source,
+smoke command, and Runtime result. The canonical repository profile remains
+required, but is executed once by the selected quality-gate owner rather than
+duplicated inside this immutable-runtime identity probe. The shadow rejects
+source builds, workspace binaries, command substitution, unpinned artifacts,
+digest mismatch, and malformed output.
 
 This is a repository CI/release policy. It does not claim Runtime-global T0–T3
 route selection, affected-graph completeness, cross-Work-Item physical

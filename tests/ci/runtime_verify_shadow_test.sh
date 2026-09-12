@@ -18,11 +18,16 @@ grep -q -- 'runtime_global_route' "$script"
 grep -q -- 'affected_graph' "$script"
 grep -q -- 'physical_execution_receipt' "$script"
 grep -q -- 'Phase 1 is an execution smoke only' "$script"
+grep -q -- 'smoke_program="git"' "$script"
+grep -q -- 'smoke_arg="version"' "$script"
+grep -q -- '--command "$smoke_program"' "$script"
+grep -q -- '--args "$smoke_arg"' "$script"
+grep -q -- 'canonicalProfileExecution:"delegated_to_quality_gate"' "$script"
 grep -q -- '--proto' "$script"
 grep -q -- 'https://github.com/xinglun/ai-cockpit/releases/download' "$script"
 grep -q -- 'v0.2.28' "$script"
-if grep -Fq -- '--command' "$script"; then
-  printf 'Runtime shadow must use the repository canonical profile, not an arbitrary command\n' >&2
+if grep -Eq -- '^(smoke_program|smoke_arg)=.*\$\{' "$script"; then
+  printf 'Runtime shadow smoke command must be pinned in the script\n' >&2
   exit 1
 fi
 

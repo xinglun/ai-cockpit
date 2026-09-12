@@ -97,34 +97,18 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-804-release-route-ordering.recovery.6a879de1bef934a3678ba8cbf5efeddb4a6c89eed948d583261a3e034da35618.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.b7546082cc7288e23331f42dab2475d2e7fbc62a1637e2fe076950c8c0696d2e.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.fb78f98e63d86f98c80e9fda2cbbac96e74b79c09c8335cda784937fce0486d6.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-804-release-route-ordering.verification.json",
     ".ai/work-items/active/WI-804-release-route-ordering.contract.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.events.jsonl",
-    ".ai/work-items/active/WI-804-release-route-ordering.outcome.json",
     ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.task-report.json",
-    ".ai/work-items/active/WI-804-release-route-ordering.task-report.md",
-    ".github/workflows/release.yml",
-    "crates/cockpit-cli/tests/lifecycle.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/archive_integrity.rs",
-    "crates/cockpit-repository/tests/knowledge_cache.rs",
-    "crates/cockpit-repository/tests/knowledge_projection.rs",
-    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs",
-    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "docs/reference/repository-workflow.ja.md",
-    "docs/reference/repository-workflow.md",
-    "docs/reference/repository-workflow.zh-CN.md",
-    "tests/release/workflow_policy.sh"
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "tests/ci/runtime_verify_shadow.sh",
+    "tests/ci/runtime_verify_shadow_test.sh"
   ],
   "checkpointAt": "2026-09-12T04:42:18Z",
-  "checkpointContractDigest": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+  "checkpointContractDigest": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -480,9 +464,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 26,
+      "contractHash": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+      "reason": "Hosted CI run 34686419190 proved the immutable Runtime shadow invoked the old public Runtime default full-workspace verification, which timed out with passed=false and caused an avoidable false failure. Narrow the shadow to its declared execution-smoke boundary and add regression/docs coverage without weakening canonical quality gates.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T09:59:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
+  "checkpointRepositorySnapshotDigest": "sha256:b5d2a5d6f5640ac9292453f8959702c38042c39a1c59d5ce4568788556ac65dd",
   "createdAt": "2026-09-12T04:41:38Z",
   "intentAlignment": {
     "evidence": [
@@ -497,10 +501,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
-  "preflightAt": "2026-09-12T09:38:38Z",
-  "preflightContractDigest": "sha256:a7aa9db7512f3f4cd9eb6fffffb01674eef83b9d3482e980286814ead4514f59",
+  "preflightAt": "2026-09-12T10:10:48Z",
+  "preflightContractDigest": "sha256:86f12fc141915a882a59a7cd14b569f54d965776cfd41891be97a06b933eadef",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:610f79f994002f4e7866b5d9c35a365eabe772229ce84bea7377292045808f41",
+  "preflightRepositorySnapshotDigest": "sha256:b5d2a5d6f5640ac9292453f8959702c38042c39a1c59d5ce4568788556ac65dd",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
@@ -535,7 +539,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T09:38:38Z",
+  "updatedAt": "2026-09-12T10:10:56Z",
   "verification": [
     {
       "check": "project-command-0",
