@@ -33,6 +33,14 @@ on:
         description: 'Active Contract path alternative to work_item_id for recovery'
         required: false
         type: string
+      source_work_item_id:
+        description: 'Source-verification Work Item identity when it differs from the release governance identity'
+        required: false
+        type: string
+      source_contract_path:
+        description: 'Source-verification Contract path alternative to source_work_item_id'
+        required: false
+        type: string
   push:
     tags: ['v*']
 
@@ -54,6 +62,12 @@ jobs:
       contract_path: ${{ steps.resolve.outputs.contract_path }}
       base_revision: ${{ steps.resolve.outputs.base_revision }}
       head_revision: ${{ steps.resolve.outputs.head_revision }}
+      governance_work_item_id: ${{ steps.resolve.outputs.work_item_id }}
+      governance_contract_digest: ${{ steps.resolve.outputs.contract_digest }}
+      source_work_item_id: ${{ steps.resolve.outputs.source_work_item_id }}
+      source_contract_path: ${{ steps.resolve.outputs.source_contract_path }}
+      source_contract_digest: ${{ steps.resolve.outputs.source_contract_digest }}
+      source_base_revision: ${{ steps.resolve.outputs.source_base_revision }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -70,6 +84,8 @@ jobs:
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
           INPUT_WORK_ITEM_ID: ${{ github.event.inputs.work_item_id }}
           INPUT_CONTRACT_PATH: ${{ github.event.inputs.contract_path }}
+          INPUT_SOURCE_WORK_ITEM_ID: ${{ github.event.inputs.source_work_item_id }}
+          INPUT_SOURCE_CONTRACT_PATH: ${{ github.event.inputs.source_contract_path }}
           INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
           PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
         run: |
@@ -90,6 +106,12 @@ jobs:
           if [[ -n "$INPUT_CONTRACT_PATH" ]]; then
             selector_args+=(--contract-path "$INPUT_CONTRACT_PATH")
           fi
+          if [[ -n "$INPUT_SOURCE_WORK_ITEM_ID" ]]; then
+            selector_args+=(--source-work-item-id "$INPUT_SOURCE_WORK_ITEM_ID")
+          fi
+          if [[ -n "$INPUT_SOURCE_CONTRACT_PATH" ]]; then
+            selector_args+=(--source-contract-path "$INPUT_SOURCE_CONTRACT_PATH")
+          fi
           if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
             selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
           fi
@@ -101,6 +123,12 @@ jobs:
           echo "contract_path=$(jq -r '.contractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "base_revision=$(jq -r '.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "head_revision=$(jq -er '.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "work_item_id=$(jq -r '.workItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "contract_digest=$(jq -r '.contractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_work_item_id=$(jq -r '.sourceWorkItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_contract_path=$(jq -r '.sourceContractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_contract_digest=$(jq -r '.sourceContractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_base_revision=$(jq -r '.sourceBaseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
       - name: Upload release input preflight evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -197,8 +225,8 @@ jobs:
         run: |
           set -euo pipefail
           head_revision="$(jq -er '.headRevision' target/release-input-preflight.json)"
-          base_revision="$(jq -er '.baseRevision // .headRevision' target/release-input-preflight.json)"
-          contract_path="$(jq -r '.contractPath // empty' target/release-input-preflight.json)"
+          base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .headRevision' target/release-input-preflight.json)"
+          contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
           route_args=(
             --repo "$GITHUB_WORKSPACE"
             --manifest tests/ci/repository_gate_manifest.json
@@ -220,6 +248,8 @@ jobs:
               > target/release-preflight-failure.json
             exit "$result"
           fi
+          jq '{schemaVersion:1,kind:"release_governance_binding",state:"ready",governance:{workItemId:.workItemId,contractPath:.contractPath,contractDigest:.contractDigest,baseRevision:.baseRevision},sourceVerification:{workItemId:.sourceWorkItemId,contractPath:.sourceContractPath,contractDigest:.sourceContractDigest,baseRevision:.sourceBaseRevision,selectionMethod:.sourceSelectionMethod}}' \
+            target/release-input-preflight.json > target/release-governance-binding.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         continue-on-error: ${{ github.run_attempt > 1 }}
@@ -227,6 +257,8 @@ jobs:
           name: release-preflight-receipts
           path: |
             target/governance-integrity-report.json
+            target/release-governance-binding.json
+            target/release-input-preflight.json
             target/release-quality-route.json
             target/release-preflight-failure.json
             target/release/ai-cockpit

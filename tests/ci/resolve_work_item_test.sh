@@ -42,6 +42,16 @@ cat > "$fixture/repo/.ai/decisions/WI-TEST.recovery.json" <<'JSON'
 {"decision":"successor","predecessorWorkItemId":"WI-PREVIOUS","successorWorkItemId":"WI-TEST"}
 JSON
 
+cat > "$fixture/repo/.ai/work-items/active/WI-SOURCE.contract.json" <<JSON
+{
+  "workItemId": "WI-SOURCE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$head",
+  "scope": ["README.md"]
+}
+JSON
+
 pull_request_output="$fixture/pull-request.json"
 "$resolver" \
   --repo "$fixture/repo" \
@@ -68,6 +78,70 @@ recovery_output="$fixture/recovery.json"
 jq -e \
   '.mode == "release_recovery" and .workItemId == "WI-TEST" and .recoveryLineage == "successor" and .releaseSourceRevision == $source and .headRevision == $head' \
   --arg source "$base" --arg head "$head" "$recovery_output" >/dev/null
+
+dual_identity_output="$fixture/dual-identity.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-TEST \
+  --source-work-item-id WI-SOURCE \
+  --release-source-revision "$base" \
+  --output "$dual_identity_output"
+jq -e \
+  '.workItemId == "WI-TEST" and .contractPath == ".ai/work-items/active/WI-TEST.contract.json" and .sourceWorkItemId == "WI-SOURCE" and .sourceContractPath == ".ai/work-items/active/WI-SOURCE.contract.json" and .sourceBaseRevision == $source_base and .sourceSelectionMethod == "explicit_source_work_item_id" and .contractDigest != .sourceContractDigest' \
+  --arg source_base "$head" "$dual_identity_output" >/dev/null
+
+default_source_output="$fixture/default-source.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$default_source_output"
+jq -e \
+  '.sourceWorkItemId == .workItemId and .sourceContractPath == .contractPath and .sourceContractDigest == .contractDigest and .sourceBaseRevision == .baseRevision and .sourceSelectionMethod == "same_as_governance"' \
+  "$default_source_output" >/dev/null
+
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-TEST \
+  --source-work-item-id WI-MISSING \
+  --release-source-revision "$base" \
+  --output "$fixture/missing-source.json" >/dev/null 2>&1; then
+  echo 'expected missing source Work Item to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "source_contract_not_regular" and .state == "failed"' "$fixture/missing-source.json" >/dev/null
+
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-TEST \
+  --source-work-item-id WI-SOURCE \
+  --source-contract-path .ai/work-items/active/WI-TEST.contract.json \
+  --release-source-revision "$base" \
+  --output "$fixture/mismatched-source.json" >/dev/null 2>&1; then
+  echo 'expected mismatched source identity to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "source_work_item_id_mismatch" and .state == "failed"' "$fixture/mismatched-source.json" >/dev/null
 
 cat > "$fixture/repo/.ai/work-items/active/WI-STANDALONE.contract.json" <<JSON
 {
