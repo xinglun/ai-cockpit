@@ -103,15 +103,27 @@ fn expiry_and_clock_skew_are_fail_closed() {
 }
 
 #[test]
-fn workflow_ref_commit_must_match_release_commit() {
+fn immutable_tag_recovery_allows_distinct_workflow_and_release_commits() {
     let mut changed = handoff();
     changed.issuer.workflow_ref =
         "xinglun/ai-cockpit/.github/workflows/release.yml@1111111111111111111111111111111111111111"
             .into();
+    changed.request_id = changed.recompute_request_id().unwrap();
+    changed
+        .validate(Utc.with_ymd_and_hms(2026, 8, 21, 0, 30, 0).unwrap())
+        .expect("recovery keeps orchestration and published-source identities separate");
+}
+
+#[test]
+fn invalid_workflow_revision_is_still_rejected() {
+    let mut changed = handoff();
+    changed.issuer.workflow_ref =
+        "xinglun/ai-cockpit/.github/workflows/release.yml@NOT-A-COMMIT".into();
+    changed.request_id = changed.recompute_request_id().unwrap();
     let error = changed
         .validate(Utc.with_ymd_and_hms(2026, 8, 21, 0, 30, 0).unwrap())
-        .expect_err("workflow and release commits must match");
-    assert!(error.to_string().contains("commit"));
+        .expect_err("workflow revision must remain a full lowercase commit");
+    assert!(error.to_string().contains("issuer"));
 }
 
 #[test]

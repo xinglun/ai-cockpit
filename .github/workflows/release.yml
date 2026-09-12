@@ -1123,6 +1123,13 @@ jobs:
           done
           test "$provider_release_id" -gt 0
           commit="$(jq -er '.commit' dist/release-manifest.json)"
+          # Tag pushes publish the tag's source commit directly. Recovery runs
+          # intentionally execute from the current orchestration revision, so
+          # the typed handoff carries both identities and this equality guard
+          # applies only to the direct tag-triggered path.
+          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            test "$GITHUB_SHA" = "$commit"
+          fi
           manifest_sha="$(shasum -a 256 dist/release-manifest.json | awk '{print $1}')"
           formula_sha="$(shasum -a 256 dist/Formula/ai-cockpit.rb | awk '{print $1}')"
           issued="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -1522,25 +1529,25 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: always()
+        if: always() && needs.publish_handoff.result == 'success'
         continue-on-error: true
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/handoff
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: always()
+        if: always() && needs.post_release_version_consistency.result == 'success'
         continue-on-error: true
         with:
           name: post-release-version-consistency-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/version
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: always()
+        if: always() && needs.adopter_acceptance.result == 'success'
         continue-on-error: true
         with:
           name: release-adopter-acceptance-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: close-inputs/install
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: always()
+        if: always() && needs.adopter_upgrade_acceptance.result == 'success'
         continue-on-error: true
         with:
           name: release-adopter-upgrade-${{ github.event.inputs.to_tag || github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}

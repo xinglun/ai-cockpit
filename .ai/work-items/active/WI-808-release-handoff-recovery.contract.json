@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "Manual immutable-tag recovery accepts distinct orchestration workflow and published release source commits while retaining strict issuer, tag, provider, and asset bindings",
+    "Tag-triggered release continues to require the workflow revision and published commit to match",
+    "Release close downloads only receipts from jobs that actually succeeded and records skipped dependency results structurally without a second failure",
+    "Focused Rust handoff, workflow policy, and failure-condition tests cover the discovered roots before another hosted release attempt"
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "ee789f6f9b318756742c30b498158518e5dd1d47",
+  "createdAt": "2026-09-12T14:32:20Z",
+  "goal": "Make manual immutable-tag recovery produce a valid identity-bound handoff when orchestration and release source revisions differ, and make release close report dependency skips without artifact-download noise.",
+  "intent": "Fix release recovery handoff identity and conditional close inputs",
+  "mode": "implementation",
+  "outOfScope": [
+    "release tags and provider Releases",
+    " adopter harness semantics",
+    " Runtime lifecycle semantics",
+    " main CI push routing",
+    " object repositories",
+    " historical records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ec8f22049148ff20e1c6c3eba5e57aba6f53f9c5890f702d91b88ea9021addc7",
+  "requiredEvidenceClasses": [
+    "Runtime lifecycle records",
+    " focused test output",
+    " hosted PR checks",
+    " hosted release recovery result after the fix",
+    " immutable tag verification",
+    " and receipt cleanup evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-release/tests/handoff.rs",
+        ".github/workflows/release.yml"
+      ],
+      "required": true,
+      "scenario": "manual immutable-tag recovery uses distinct orchestration and release-source revisions",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "release close records skipped acceptance without downloading absent receipts",
+      "status": "verified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-release/src/handoff.rs",
+    "crates/cockpit-release/tests/handoff.rs",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-808-release-handoff-recovery"
+}

@@ -1,0 +1,53 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-808-release-handoff-recovery.contract.json",
+    ".ai/work-items/active/WI-808-release-handoff-recovery.summary.json",
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/handoff.rs",
+    "crates/cockpit-release/tests/handoff.rs",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "checkpointAt": "2026-09-12T14:35:22Z",
+  "checkpointContractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+  "createdAt": "2026-09-12T14:32:20Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-12T14:35:37Z",
+  "preflightContractDigest": "sha256:39b3465693a10b6e607d7a3eca2dfa893f3746a741311db275955b4fa7630a29",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-release/tests/handoff.rs",
+        ".github/workflows/release.yml"
+      ],
+      "required": true,
+      "scenario": "manual immutable-tag recovery uses distinct orchestration and release-source revisions",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "release close records skipped acceptance without downloading absent receipts",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T14:35:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-808-release-handoff-recovery"
+}

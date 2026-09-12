@@ -59,6 +59,11 @@ require 'adopterAcceptance == "not_applicable"' 'release close must validate the
 require 'releasePublished == true' 'release close must bind a not-applicable N-1 result to the published Release'
 require 'needs.publish.result == '\''success'\''' 'recovery public acceptance must wait for publication success'
 require 'needs.publish_handoff.result == '\''success'\''' 'recovery public acceptance must wait for the publication handoff'
+require 'if: always() && needs.publish_handoff.result == '\''success'\''' 'close must download the handoff receipt only after a successful handoff job'
+require 'if: always() && needs.post_release_version_consistency.result == '\''success'\''' 'close must download the version receipt only after a successful consistency job'
+require 'if: always() && needs.adopter_acceptance.result == '\''success'\''' 'close must download the install receipt only after a successful acceptance job'
+require 'if: always() && needs.adopter_upgrade_acceptance.result == '\''success'\''' 'close must download the upgrade receipt only after a successful acceptance job'
+require 'if [[ "$GITHUB_EVENT_NAME" == push ]]; then' 'tag-triggered handoff must retain the source/workflow identity equality guard'
 grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$manifest" || {
   printf 'release gate policy failure: canonical manifest must derive workspace packages from cargo metadata\n' >&2
   exit 1
