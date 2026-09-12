@@ -1,23 +1,14 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.a574318027354c786a715211208e98a5cb8ed14915ba20344a2044bc8b52cee1.json",
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.bb983045d85bce5160313812ce031bea4d9f8be7363fde59aac242a8d4fb2e86.json",
+    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.3a2f57b3500d6076c48a7b24f959fade4e9c733d070bbbb4979c34ab58ff3d94.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json",
     ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json",
-    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.outcome.json",
     ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json",
-    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.task-report.json",
-    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.task-report.md",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/ci_quality_gate.rs",
-    "docs/reference/ci-quality-gates.ja.md",
-    "docs/reference/ci-quality-gates.md",
-    "docs/reference/ci-quality-gates.zh-CN.md"
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-11T23:41:29Z",
-  "checkpointContractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+  "checkpointContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -153,20 +144,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+      "reason": "Hosted recovery run 34665681384 exposed invalid escaped-quote awk source in aggregate and public acceptance helper checksum extraction; keep the repair in the existing release-recovery scope and bind the regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T01:59:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+  "checkpointRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
   "createdAt": "2026-09-11T23:39:53Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+    "contractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-    "reason": "The repository owner confirms the current verified source snapshot and canonical preflight decision, and authorizes the bounded hosted review; this does not authorize release or adopter success.",
-    "recordedAt": "2026-09-12T01:31:00Z",
+    "reason": "The repository owner confirms the amended release-recovery Contract, the current verified source snapshot, and the canonical preflight decision after fresh verification; this does not authorize release or adopter success.",
+    "recordedAt": "2026-09-12T02:10:30Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+    "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
     "schemaVersion": 1,
     "workItemId": "WI-802-release-v0-2-91-recovery"
   },
@@ -180,10 +191,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
   "predecessorWorkItemId": "WI-801-release-v0-2-91",
-  "preflightAt": "2026-09-12T01:34:04Z",
-  "preflightContractDigest": "sha256:33526afa6bdcad9e9a0128eee7d2c17e0769067196a634efc941c80548178187",
+  "preflightAt": "2026-09-12T02:10:34Z",
+  "preflightContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
   "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:2179370d123c7a2b816aa0759eb2278d55ce50de36a73ce3da40dc9610cc890b",
+  "preflightRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json",
@@ -223,13 +234,13 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-12T01:34:23.866081+00:00",
+  "updatedAt": "2026-09-12T02:10:33.771240+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:cc3dc216c2ae3ed06ce4a429048882d0c5c004994467aa9a7ca3f9f3ad60bb5c",
+  "verificationRecoveryReconciled": "sha256:23efd0fd72856d18744e19fa3a67dc2c2697ae89d16915e4862dfaa12dfeb846",
   "workItemId": "WI-802-release-v0-2-91-recovery"
 }

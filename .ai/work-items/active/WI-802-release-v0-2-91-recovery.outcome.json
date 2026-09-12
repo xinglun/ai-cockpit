@@ -9,10 +9,11 @@
     "PR and post-merge quality routing selects the active Contract bound to the current PR branch or merge base when a predecessor and successor are both active, and fails closed on zero or ambiguous matches before expensive gates.",
     "The read-only pre-execution Contract quality gate does not require lifecycle evidence that can only be produced by later release, public-adopter, close, or cleanup stages; lifecycle completion gates continue to enforce those evidence classes.",
     "PR and release quality routes treat a missing .ai/work-items/active directory as an empty Contract set and remain compatible with repositories that have no active Work Item.",
-    "Pre-execution quality gates reuse the current canonical preflight decision binding rather than a stage-specific evidence projection; a matching human review remains valid across entry stages, while Contract or snapshot changes invalidate it fail-closed."
+    "Pre-execution quality gates reuse the current canonical preflight decision binding rather than a stage-specific evidence projection; a matching human review remains valid across entry stages, while Contract or snapshot changes invalidate it fail-closed.",
+    "Candidate aggregation and post-publication helper checksum extraction use shell-valid awk source; the workflow policy regression rejects escaped-quote checksum expressions before hosted release execution."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:cc3dc216c2ae3ed06ce4a429048882d0c5c004994467aa9a7ca3f9f3ad60bb5c",
+  "evidenceDigest": "sha256:23efd0fd72856d18744e19fa3a67dc2c2697ae89d16915e4862dfaa12dfeb846",
   "evidenceRefs": [
     ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
   ],
@@ -38,7 +39,7 @@
         ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:31e14ffe2175bd446c0dc7d6bfa42ccb0460c29466d9d648d4f0e0f94eea9cd1",
+      "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
       "workItemId": "WI-802-release-v0-2-91-recovery"
     },
     "format": "ai-cockpit.task-outcome",
@@ -52,7 +53,7 @@
             ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.a574318027354c786a715211208e98a5cb8ed14915ba20344a2044bc8b52cee1.json"
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.3a2f57b3500d6076c48a7b24f959fade4e9c733d070bbbb4979c34ab58ff3d94.json"
         },
         {
           "evidenceRefs": [
@@ -80,21 +81,14 @@
             ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+          "text": "Changed path: .github/workflows/release.yml"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -169,8 +163,8 @@
     "status": "verified",
     "workItemId": "WI-802-release-v0-2-91-recovery"
   },
-  "taskReportDigest": "sha256:23a0bc9aa582261f8cba1c55979cb4844200bcb68f42c34cb319038e8f1e8e0e",
-  "taskReportMarkdownDigest": "sha256:4ceee56c5c570cda0d4197e853c47d232659a66893e16b7a9ff2a4a928bb8efc",
+  "taskReportDigest": "sha256:55bce5d1090da4e4f1875acd9eb94a4f1da3c047b6c82b3798f4e82c09050a79",
+  "taskReportMarkdownDigest": "sha256:9308386c5a7a023f30311f8637df28fa11bd1d5bf92fe410571e0af1b8293c90",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
