@@ -74,7 +74,13 @@ build files, governance files, or repository data.
    then record one retry bound to the amended Contract; the older retry is
    historical and must not be reused. Use a successor only for a genuinely
    different scope, authority, base, immutable delivery, unsafe repair, or
-   explicit human direction.
+   explicit human direction. For immutable Release recovery, pass the explicit
+   existing Work Item or Contract identity: an unlinked active Contract means
+   retry the same Work Item, while a Contract with predecessor fields must
+   validate its matching successor recovery decision. If a new successor is
+   actually required, create it through `work-item recover` so Runtime writes
+   the predecessor binding before provider finalization; do not use a bare
+   `start` and infer the relationship later.
 8. Before terminal handoff, run the declared verification and refresh all
    bindings. `finish` establishes source-verification readiness. If the
    Contract declares hosted, candidate, release, or public-artifact evidence,

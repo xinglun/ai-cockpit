@@ -96,6 +96,14 @@ grep -Fq 'work_item_id_required' "$work_item_resolver" || {
   printf 'policy failure: recovery must fail without an explicit Work Item identity\n' >&2
   exit 1
 }
+grep -Fq 'standalone_retry' "$work_item_resolver" || {
+  printf 'policy failure: recovery must distinguish a same-Work-Item technical retry\n' >&2
+  exit 1
+}
+grep -Fq 'recovery_binding_missing' "$work_item_resolver" || {
+  printf 'policy failure: partial successor bindings must fail closed\n' >&2
+  exit 1
+}
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
 require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
 require_match '(cockpit-release -- bind-sbom|tools/\$\{\{ matrix\.helper_binary \}\} bind-sbom)' 'each target SBOM must be bound to its packaged archive and executable'

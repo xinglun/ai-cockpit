@@ -1,0 +1,60 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-12T15:19:28Z",
+  "checkpointContractDigest": "sha256:82d51c5c62e8800efcf8cb9de8b88fac68d4ddf8d30b29ea24afea921754ede6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:82d51c5c62e8800efcf8cb9de8b88fac68d4ddf8d30b29ea24afea921754ede6",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:19:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-810-release-recovery-mode"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:82d51c5c62e8800efcf8cb9de8b88fac68d4ddf8d30b29ea24afea921754ede6",
+      "previousContractHash": "sha256:82d51c5c62e8800efcf8cb9de8b88fac68d4ddf8d30b29ea24afea921754ede6",
+      "reason": "include the Runtime-owned observer snapshot that is refreshed by request-scoped governance diagnostics",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:22:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-810-release-recovery-mode"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:65ef68fbc038b3f06eb0b0090971aa8f241e657da7ae160da73456ab8659db5d",
+  "createdAt": "2026-09-12T15:18:45Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-12T15:22:16Z",
+  "preflightContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "preflightDecisionDigest": "sha256:aa080f886bfc2d8259cc0d2a00d056e2cfdba4ff8a89c36768c7d824b3d42a7b",
+  "preflightRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-12T15:19:28Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-12T15:22:11Z"
+  },
+  "workItemId": "WI-810-release-recovery-mode"
+}

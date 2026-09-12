@@ -66,8 +66,57 @@ recovery_output="$fixture/recovery.json"
   --release-source-revision "$base" \
   --output "$recovery_output"
 jq -e \
-  '.mode == "release_recovery" and .workItemId == "WI-TEST" and .releaseSourceRevision == $source and .headRevision == $head' \
+  '.mode == "release_recovery" and .workItemId == "WI-TEST" and .recoveryLineage == "successor" and .releaseSourceRevision == $source and .headRevision == $head' \
   --arg source "$base" --arg head "$head" "$recovery_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-STANDALONE.contract.json" <<JSON
+{
+  "workItemId": "WI-STANDALONE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+standalone_output="$fixture/standalone-retry.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-STANDALONE \
+  --release-source-revision "$base" \
+  --output "$standalone_output"
+jq -e \
+  '.mode == "release_recovery" and .workItemId == "WI-STANDALONE" and .recoveryLineage == "standalone_retry"' \
+  "$standalone_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-PARTIAL.contract.json" <<JSON
+{
+  "workItemId": "WI-PARTIAL",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "predecessorWorkItemId": "WI-PREVIOUS",
+  "scope": ["README.md"]
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-PARTIAL \
+  --release-source-revision "$base" \
+  --output "$fixture/partial-binding.json" >/dev/null 2>&1; then
+  echo 'expected partial successor binding to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "recovery_binding_missing" and .state == "failed"' "$fixture/partial-binding.json" >/dev/null
 
 if "$resolver" \
   --repo "$fixture/repo" \
