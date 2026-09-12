@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T08:35:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34657988196",
+    ".ai/work-items/active/WI-801-release-v0-2-91.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
+  "predecessorEventsDigest": "sha256:cecb7c232b78c68baccca519f3499044ec63f8d9a827f67274ef701e1afc1f15",
+  "predecessorOutcomeDigest": "sha256:694bb39d95de527d9599e9482f0da0498730c39547b9bca0fec2c4ef98d19fce",
+  "predecessorSummaryDigest": "sha256:ad59aa111de6f7bef67a2a324985598197485aeed22201a9f3bb8a0d0f56a7fb",
+  "predecessorWorkItemId": "WI-801-release-v0-2-91",
+  "reason": "The reviewed v0.2.91 merge is immutable and its first tag-triggered release attempt exposed three workflow defects before publication: build jobs consumed a sibling release-tools artifact without depending on its producer, source-quality assumed an executable bit on a downloaded gate-tool artifact, and release_close executed after skipped upstream jobs and hit a shell syntax error. These are post-merge release-delivery defects, so repair must use a new reviewed base while preserving the failed run and WI-801 evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Repair the release workflow with earliest-stage regression coverage, pass local and hosted pre-merge gates, then rerun v0.2.91 acceptance from the existing immutable tag without moving or overwriting the tag or Release; close the successor only after public install, public N-1 upgrade, attestation, close, documentation promotion, and exact cleanup are verified.",
+  "runtimeDigest": "sha256:9b9647977c790b94aefde40da9432185550c7ec223b59959c1a8c68608b2c2a0",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-802-release-v0-2-91-recovery",
+  "workItemId": "WI-801-release-v0-2-91"
+}

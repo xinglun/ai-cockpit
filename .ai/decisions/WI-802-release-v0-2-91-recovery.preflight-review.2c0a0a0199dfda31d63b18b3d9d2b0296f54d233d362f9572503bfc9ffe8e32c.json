@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:7dd5c123f112e5c653d9998af4b980f13750a57bfc4cedf755b475331b43b6a4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:7126955f6dc2eaad8cae4523f48163217fcb59867057f7706248b553a7c5f02e",
+  "reason": "The repository owner confirms the resource-bound Contract and authorizes fresh verification of the bounded release workflow repair.",
+  "recordedAt": "2026-09-12T09:10:00+09:00",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+  "schemaVersion": 1,
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

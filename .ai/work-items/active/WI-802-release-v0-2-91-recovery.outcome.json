@@ -1,0 +1,206 @@
+{
+  "acceptanceResults": [
+    "Release build jobs cannot consume platform helpers before the release_tools producer has completed; a regression asserts the dependency.",
+    "Source quality restores executable permissions after artifact download and validates the shared gate tool before expensive checks; a regression asserts the path contract.",
+    "The release-close embedded Bash is syntax-checked by the earliest release policy and produces a structured failed receipt when upstream jobs are skipped or inputs are absent.",
+    "The existing immutable v0.2.91 tag remains bound to e48a887d24f5e1a640ef9b043b60f6c4dca23a31; no tag movement or Release overwrite occurs.",
+    "Reviewed hosted CI passes, the corrected release path publishes v0.2.91, and public downloaded-artifact install and N-1 upgrade acceptance pass with cleanup evidence.",
+    "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+  ],
+  "failedGate": "finish.finalization",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    "failedGate": "finish.finalization",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.2c0a0a0199dfda31d63b18b3d9d2b0296f54d233d362f9572503bfc9ffe8e32c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.4930833c32e826da84904ed6c4c4026c6f874049c61d8edcec624f2f175d4e2e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.9314dffb58471d10d31262e819696275adc4e82fda77b079955d88f88c600ea8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Make dependency, artifact-path, shell-diagnostic, and release rerun behavior deterministic; pass reviewed hosted checks and public downloaded-artifact acceptance for v0.2.91."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-802-release-v0-2-91-recovery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}
