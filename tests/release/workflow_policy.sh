@@ -232,7 +232,7 @@ require_match 'steps\.release_pair\.outputs\.from_tag' 'N-1 execution must use t
 require_match 'adopterAcceptance:"not_applicable"' 'first-release N-1 boundary must be explicit'
 require_match 'name: Upload N-1 upgrade acceptance evidence' 'N-1 evidence must be uploaded independently'
 require_match 'release close recorded failure; dependent acceptance was not executed' 'release close must record dependency failure without becoming a second failure'
-fail_if_match '\[\[ "\$state" == passed \]\].*exit 1' 'release close failure summary must not fail a second time'
+require_match 'Fail when the close receipt is not passed' 'release close must fail when its persisted receipt is not passed'
 require_match 'needs: \[publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance\]' 'release close must wait for public acceptance and consistency receipts'
 require_match '^    needs: \[publish, release_input_preflight\]$' 'public version consistency must run in parallel with post-release acceptance'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'

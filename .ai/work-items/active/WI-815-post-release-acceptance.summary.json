@@ -2,10 +2,12 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-815-post-release-acceptance.contract.json",
-    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json",
+    "tests/release/version_consistency_test.sh",
+    "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
-  "checkpointContractDigest": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+  "checkpointContractDigest": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -61,9 +63,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+      "reason": "The hosted repository gate exposed an affected release version-consistency policy test that still encoded the pre-recovery dependency graph; include and update that test in the same bounded workflow change.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T20:37:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+  "checkpointRepositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
   "createdAt": "2026-09-12T19:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -76,10 +98,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-12T20:30:13Z",
-  "preflightContractDigest": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+  "preflightAt": "2026-09-12T20:42:39Z",
+  "preflightContractDigest": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+  "preflightRepositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
@@ -151,7 +173,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T20:30:21Z",
+  "updatedAt": "2026-09-12T20:42:46Z",
   "verification": [
     {
       "check": "project-command-0",

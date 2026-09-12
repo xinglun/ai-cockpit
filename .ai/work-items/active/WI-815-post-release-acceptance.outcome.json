@@ -7,9 +7,9 @@
     "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages.",
     "The Work Item binds the reviewed PR resource context before its replacement verification evidence is recorded, and finish/archive consume that non-provisional binding."
   ],
-  "createdAt": "2026-09-12T20:30:21Z",
+  "createdAt": "2026-09-12T20:42:46Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:85643103609ae9a47567f8b51e95db337803a3a6327275c98e362c194959972e",
+  "evidenceDigest": "sha256:5a11bbeff69499d7f875d0839469a661384560fbac9bdcc9dbefc0cb759d2aba",
   "evidenceRefs": [
     ".ai/evidence/WI-815-post-release-acceptance.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-815-post-release-acceptance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+      "repositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
       "workItemId": "WI-815-post-release-acceptance"
     },
     "format": "ai-cockpit.task-outcome",
@@ -64,6 +64,20 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/version_consistency_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -138,8 +152,8 @@
     "status": "verified",
     "workItemId": "WI-815-post-release-acceptance"
   },
-  "taskReportDigest": "sha256:331fea743931ffa593df71aa9ec691e3c25579d1bb6f914297458afee92fead8",
-  "taskReportMarkdownDigest": "sha256:5f7c5321b64542e853ffd59fbc0835fa8dfc5ed76bb3fbd3d1cdce640111490a",
+  "taskReportDigest": "sha256:bdd153a701c0fee2afde03faaa3f4301e1cd43560aae1df5aa50960eafc0013e",
+  "taskReportMarkdownDigest": "sha256:7c0d1d13e2d432f526f5869321dbd1409c29c140dff464fdb339cad88d1268af",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

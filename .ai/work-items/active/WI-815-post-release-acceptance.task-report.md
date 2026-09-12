@@ -17,6 +17,8 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-815-post-release-acceptance.contract.json
 - Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json
+- Changed path: tests/release/version_consistency_test.sh
+- Changed path: tests/release/workflow_policy.sh
 
 ## Findings
 

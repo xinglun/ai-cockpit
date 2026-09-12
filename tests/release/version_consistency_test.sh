@@ -15,7 +15,7 @@ grep -Fq '"tests/release/version_consistency.sh", "--repo", "."' tests/ci/reposi
 grep -Fq 'release_version_consistency_policy' tests/ci/repository_gate_manifest.json
 grep -Fq 'tests/release/version_consistency.sh' "$workflow"
 grep -Fq 'post_release_version_consistency:' "$workflow"
-grep -Fq 'needs: [publish]' "$workflow"
+grep -Fq 'needs: [publish, release_input_preflight]' "$workflow"
 for document in \
   docs/release/distribution.md \
   docs/release/distribution.ja.md \
