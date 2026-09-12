@@ -143,8 +143,12 @@ elif [[ -n "$work_item_id" ]]; then
 elif [[ "$event" == pull_request ]]; then
   selection_method='pull_request_binding'
   for contract_path in "${all_contracts[@]}"; do
-    branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null || true)
-    bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null || true)
+    if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
+    if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+      fail contract_invalid 'an active Contract is not valid JSON'
+    fi
     if [[ "$branch" == "$pr_head_ref" && "$bound_pr" == "$pr_url" ]]; then
       candidate_contracts+=("$contract_path")
     fi
@@ -165,8 +169,12 @@ elif [[ "$event" == push ]]; then
   for pr in "${merged_prs[@]}"; do
     IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
     for contract_path in "${all_contracts[@]}"; do
-      branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null || true)
-      bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null || true)
+      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an active Contract is not valid JSON'
+      fi
+      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an active Contract is not valid JSON'
+      fi
       if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
         candidate_contracts+=("$contract_path")
       fi
