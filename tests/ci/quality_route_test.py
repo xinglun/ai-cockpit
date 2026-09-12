@@ -270,6 +270,7 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-quality-route-") as temporar
 
 ci_workflow = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 release_workflow = (ROOT / ".github/workflows/release.yml").read_text(encoding="utf-8")
+resolver = (ROOT / "tests/ci/resolve_work_item.sh").read_text(encoding="utf-8")
 assert "tests/ci/quality_route.py" in ci_workflow
 for workflow in (ci_workflow,):
     assert "tests/ci/quality_route.py" in workflow
@@ -279,10 +280,12 @@ for workflow in (ci_workflow,):
 assert "stage=pull_request" in ci_workflow
 assert '--stage "$stage"' in ci_workflow
 assert "PR_HEAD_REF" in ci_workflow
-assert "'.resourceContext.branch // empty'" in ci_workflow
-assert "no active Contract matches the current PR branch or merge base" in ci_workflow
-assert 'contract_base_revision="$(jq -er' in ci_workflow
-assert 'base_revision="$(git rev-parse "${contract_base_revision}^{commit}")"' in ci_workflow
+assert "PR_URL" in ci_workflow
+assert "resolve_work_item.sh" in ci_workflow
+assert "'.resourceContext.branch // empty'" in resolver
+assert "work_item_contract_ambiguous" in resolver
+assert "work_item_id_required" in resolver
+assert "EVENT_BEFORE" not in ci_workflow
 assert "  push:\n    branches:\n      - main" in ci_workflow
 assert "--stage release" in release_workflow
 assert "--profile strict" in release_workflow
@@ -295,10 +298,13 @@ assert ci_workflow.count("--route-receipt target/quality-route.json") == 1
 assert "target/release-quality-route.json" in release_workflow
 assert "target/release/ai-cockpit gate-plan" in release_workflow
 assert "python3 tests/ci/quality_route.py" not in release_workflow
-assert "contracts=()" in release_workflow
-assert "all_contracts" in release_workflow
-assert "selection_revision" in release_workflow
-assert "no active Contract matches the release identity" in release_workflow
+assert "release_input_preflight:" in release_workflow
+assert "work_item_id:" in release_workflow
+assert "contract_path:" in release_workflow
+assert "release-input-preflight" in release_workflow
+assert "resolve_work_item.sh" in release_workflow
+assert "work_item_id_required" in resolver
+assert "no active Contract is explicitly bound to this event identity" in resolver
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
 assert "name: Bind the shared typed repository quality route" in ci_workflow

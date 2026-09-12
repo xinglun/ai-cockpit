@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
     outputs:
-      profile: ${{ steps.plan.outputs.profile }}
+      profile: ${{ steps.execute.outputs.profile }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -28,16 +28,16 @@ jobs:
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
-      - name: Build the shared Rust gate-plan tool once
-        run: cargo build --locked --package cockpit-cli --release
       - name: Plan the dynamic quality route
         id: plan
         shell: bash
         env:
           EVENT_NAME: ${{ github.event_name }}
-          EVENT_BEFORE: ${{ github.event.before }}
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
@@ -45,58 +45,51 @@ jobs:
             base_revision="$(git rev-parse "${PR_BASE_SHA}^{commit}")"
             stage=pull_request
           else
-            base_revision="$EVENT_BEFORE"
             stage=merge
-            if [[ ! "$base_revision" =~ ^[0-9a-f]{40}$ ]] ||
-               [[ "$base_revision" == 0000000000000000000000000000000000000000 ]] ||
-               ! git cat-file -e "${base_revision}^{commit}" 2>/dev/null; then
-              base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
-            fi
           fi
-          all_contracts=()
-          if [[ -d .ai/work-items/active ]]; then
-            mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
-          fi
-          contracts=()
+          selector_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --event "$EVENT_NAME"
+            --head "$head_revision"
+            --output target/quality-selection.json
+          )
           if [[ "$EVENT_NAME" == pull_request ]]; then
-            for contract_path in "${all_contracts[@]}"; do
-              contract_branch="$(jq -r '.resourceContext.branch // empty' "$contract_path")"
-              [[ -n "$PR_HEAD_REF" && "$contract_branch" == "$PR_HEAD_REF" ]] && contracts+=("$contract_path")
-            done
-          elif (( ${#all_contracts[@]} > 1 )); then
-            # A merged successor and its predecessor can remain active until
-            # provider-side close. Select the Contract whose immutable base is
-            # the merge event's previous commit; ambiguity still fails closed.
-            for contract_path in "${all_contracts[@]}"; do
-              contract_base_revision="$(jq -r '.baseRevision // empty' "$contract_path")"
-              [[ -n "$EVENT_BEFORE" && "$contract_base_revision" == "$EVENT_BEFORE" ]] && contracts+=("$contract_path")
-            done
-          else
-            contracts=("${all_contracts[@]}")
+            selector_args+=(--pr-head-ref "$PR_HEAD_REF" --pr-url "$PR_URL")
           fi
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts match the current quality route' >&2; exit 1; }
-          if (( ${#all_contracts[@]} > 1 && ${#contracts[@]} == 0 )); then
-            echo 'no active Contract matches the current PR branch or merge base' >&2
-            exit 1
+          tests/ci/resolve_work_item.sh "${selector_args[@]}"
+          contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"
+          if [[ "$EVENT_NAME" != pull_request ]]; then
+            base_revision="$(jq -er '.baseRevision' target/quality-selection.json)"
           fi
-          if [[ "$EVENT_NAME" != pull_request && ${#contracts[@]} == 1 ]]; then
-            contract_base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
-            [[ "$contract_base_revision" =~ ^[0-9a-f]{40}$ ]] || {
-              echo 'active Contract baseRevision is not a valid commit' >&2
-              exit 1
-            }
-            base_revision="$(git rev-parse "${contract_base_revision}^{commit}")"
-          fi
+          echo "selection_method=$(jq -er '.selectionMethod' target/quality-selection.json)" >> "$GITHUB_OUTPUT"
+          echo "work_item_id=$(jq -r '.workItemId // empty' target/quality-selection.json)" >> "$GITHUB_OUTPUT"
+          echo "base_revision=$base_revision" >> "$GITHUB_OUTPUT"
+          echo "head_revision=$head_revision" >> "$GITHUB_OUTPUT"
+      - name: Build the shared Rust gate-plan tool once
+        run: cargo build --locked --package cockpit-cli --release
+      - name: Execute the dynamic quality route
+        id: execute
+        shell: bash
+        env:
+          ROUTE_BASE_REVISION: ${{ steps.plan.outputs.base_revision }}
+          ROUTE_HEAD_REVISION: ${{ steps.plan.outputs.head_revision }}
+        run: |
+          set -euo pipefail
+          head_revision="$ROUTE_HEAD_REVISION"
+          base_revision="$ROUTE_BASE_REVISION"
+          stage=pull_request
+          [[ "$GITHUB_EVENT_NAME" == pull_request ]] || stage=merge
           route_args=(
             --repo "$GITHUB_WORKSPACE"
             --manifest tests/ci/repository_gate_manifest.json
-            --base "$base_revision"
+            --base "${base_revision:-$(git rev-parse "${head_revision}^")}"
             --head "$head_revision"
             --stage "$stage"
             --risk normal
             --receipt target/quality-route.json
           )
-          if (( ${#contracts[@]} == 1 )); then route_args+=(--contract "${contracts[0]}"); fi
+          contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"
+          [[ -n "$contract_path" ]] && route_args+=(--contract "$contract_path")
           python3 tests/ci/quality_route.py "${route_args[@]}" --rust-bin target/release/ai-cockpit >/dev/null
           echo "profile=$(jq -er '.selectedProfile' target/quality-route.json)" >> "$GITHUB_OUTPUT"
       - name: Upload the shared Rust gate-plan tool
@@ -105,6 +98,7 @@ jobs:
           name: ci-gate-plan-tool
           path: |
             target/release/ai-cockpit
+            target/quality-selection.json
             target/quality-route.json
           if-no-files-found: error
           retention-days: 7

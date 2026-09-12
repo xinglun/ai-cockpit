@@ -1,0 +1,128 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-806-release-preflight-base.contract.json",
+    ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T12:52:24Z",
+  "checkpointContractDigest": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 34,
+      "contractHash": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+      "recorded": true,
+      "recordedAt": "2026-09-12T12:52:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc9f3aa0810ec66c31dbc21ee601db9c777829cbb2c1ab2e41fdeb5dd75e5dc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-806-release-preflight-base"
+    },
+    {
+      "acceptanceCount": 34,
+      "contractHash": "sha256:f54def1304530d87d75715710a7b8e47fa77b1b55fd6e2bbc199a748daa2202d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+      "previousContractHash": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+      "reason": "Add explicit Contract selection, cheap release input preflight, CI merged-PR binding, downstream recovery barriers, and their regression matrix.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T12:52:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc9f3aa0810ec66c31dbc21ee601db9c777829cbb2c1ab2e41fdeb5dd75e5dc1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-806-release-preflight-base"
+    },
+    {
+      "acceptanceCount": 35,
+      "contractHash": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:39397f26d0352328df0bd3b4f99a2b0d5bfb41982d31842a2173e26385208177",
+      "previousContractHash": "sha256:f54def1304530d87d75715710a7b8e47fa77b1b55fd6e2bbc199a748daa2202d",
+      "reason": "Hosted CI exposed a governance detector failure in the resolver's error propagation; record the bounded root-cause correction before refreshing verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T13:15:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-806-release-preflight-base"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+  "createdAt": "2026-09-12T12:34:26Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/ci.yml",
+      ".github/workflows/release.yml",
+      "tests/ci/resolve_work_item.sh",
+      "tests/ci/resolve_work_item_test.sh"
+    ],
+    "reason": "The current Work Item now covers the explicit identity resolver, cheap release input preflight, merged-PR CI binding, and dependent recovery barriers required before the v0.2.91 recovery retry.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "predecessorWorkItemId": "WI-805-release-tag-input",
+  "preflightAt": "2026-09-12T13:19:43Z",
+  "preflightContractDigest": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-805-release-tag-input.recovery.e7b9e804069d386a9b1877e8e0ec71ff4c0c29acdd77bc93f5338bb111dfa0e4.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "successor activation binds the Contract to the discovered remote default instead of the ahead continuation HEAD",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/decisions/WI-805-release-tag-input.recovery.json"
+      ],
+      "required": true,
+      "scenario": "same-version Runtime rebuild consumes one exact pending retry without appending a duplicate recovery candidate",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "required": true,
+      "scenario": "recovery publish binds Release creation to the immutable requested tag",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T13:19:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-806-release-preflight-base"
+}

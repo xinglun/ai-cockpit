@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T12:34:04Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34692649343",
+    ".ai/evidence/WI-805-release-tag-input.verification.json",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "predecessorEventsDigest": "sha256:a6c0224fed4781b0e0b4cf079edffd6d26352986973a2f03908471a168165d08",
+  "predecessorOutcomeDigest": "sha256:1648e4ece8250e9a161e75a26f21a9dadfef422b6bdf240c07b3565b8e687787",
+  "predecessorSummaryDigest": "sha256:2bab6bd364e4c8d2f56ce158b1ca18837b1a018a7f3f9dc34427dd341a81e414",
+  "predecessorWorkItemId": "WI-805-release-tag-input",
+  "reason": "WI-805 completed the scoped Runtime root-cause repair and fresh verification. Its resource context is permanently bound to the already-merged PR #782 and cannot be rewritten for the new continuation PR; create exactly one successor so the release workflow fix and the Runtime fix are verified against the current default-base merge parent.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-806, bind its new continuation branch and PR before verification, pass hosted checks, merge the reviewed PR, then run one immutable-tag recovery release and complete public adopter acceptance before archive and close.",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-806-release-preflight-base",
+  "workItemId": "WI-805-release-tag-input"
+}

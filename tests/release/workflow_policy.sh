@@ -4,6 +4,7 @@ set -euo pipefail
 workflow=${1:?usage: workflow_policy.sh <workflow>}
 repo_root="$(cd "$(dirname "$workflow")/../.." && pwd -P)"
 gate_manifest="$repo_root/tests/ci/repository_gate_manifest.json"
+work_item_resolver="$repo_root/tests/ci/resolve_work_item.sh"
 
 if command -v rg >/dev/null 2>&1; then
   search() { rg -n --pcre2 -- "$1" "$2"; }
@@ -78,9 +79,23 @@ require_match 'ai-cockpit-publish-handoff' 'public acceptance must consume the p
 require_match '\-\-publish-handoff' 'public acceptance must bind the publication handoff'
 require_match 'release-manifest\.json' 'canonical manifest must be emitted'
 require_match 'SHA256SUMS' 'canonical checksum set must be emitted'
-require_match 'all_contracts' 'release routing must inspect all active Contracts before selecting one'
-require_match 'selection_revision' 'release routing must bind Contract selection to immutable release identity'
-require_match 'no active Contract matches the release identity' 'release routing must fail closed when successor selection is ambiguous'
+require_match '^  release_input_preflight:' 'cheap identity preflight must run before Runtime compilation'
+require_match 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
+require_match 'contract_path:' 'recovery must accept an explicit Contract path'
+require_match 'resolve_work_item\.sh' 'release routing must use the shared explicit identity resolver'
+require_match 'name: Upload release input preflight evidence' 'identity failures must persist a structured preflight result'
+grep -Fq 'all_contracts=()' "$work_item_resolver" || {
+  printf 'policy failure: shared resolver must inspect active Contracts\n' >&2
+  exit 1
+}
+grep -Fq 'work_item_contract_ambiguous' "$work_item_resolver" || {
+  printf 'policy failure: shared resolver must fail closed on ambiguous identity\n' >&2
+  exit 1
+}
+grep -Fq 'work_item_id_required' "$work_item_resolver" || {
+  printf 'policy failure: recovery must fail without an explicit Work Item identity\n' >&2
+  exit 1
+}
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
 require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
 require_match '(cockpit-release -- bind-sbom|tools/\$\{\{ matrix\.helper_binary \}\} bind-sbom)' 'each target SBOM must be bound to its packaged archive and executable'
@@ -201,14 +216,9 @@ for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgra
     exit 1
   fi
 done
-recovery_route_block="$(awk '
-  /workflow_dispatch/ && /PUBLISH_EXISTING_TAG/ && /true/ && /if/ {
-    in_recovery=1
-  }
-  in_recovery { print }
-  in_recovery && /^          else$/ { exit }
-' "$workflow")"
-if ! grep -Fq 'release_source_revision=' <<<"$recovery_route_block" || ! grep -Fq 'head_revision="$(git rev-parse "' <<<"$recovery_route_block" || ! grep -Fq 'GITHUB_SHA}^{commit}")"' <<<"$recovery_route_block"; then
+if ! grep -Fq 'release_source_revision=' "$work_item_resolver" ||
+   ! grep -Fq 'head_revision' "$work_item_resolver" ||
+   ! grep -Fq 'mode=release_recovery' "$work_item_resolver"; then
   printf 'policy failure: immutable-tag recovery must validate the tag separately and plan governance against the current orchestration revision\n' >&2
   exit 1
 fi

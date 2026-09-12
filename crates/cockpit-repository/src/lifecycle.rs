@@ -121,8 +121,19 @@ fn activate_not_ready_scaffold(
     let profile_digest = attached_profile_digest(&profile, &profile_path)?;
     let current_snapshot_digest = snapshot_digest(&snapshot)?;
     contract["repositoryId"] = serde_json::json!(profile.repository_id);
-    contract["baseRevision"] =
-        serde_json::json!(snapshot.head.clone().unwrap_or_else(|| "unborn".into()));
+    // A recovery continuation is allowed to activate on its existing ahead
+    // branch, but that exception applies only to the entry gate.  The
+    // Contract baseline must remain the discovered remote default so a later
+    // PR/release preflight can match the provider's merge parent.  Reuse the
+    // canonical status projection rather than reimplementing default-base
+    // discovery; only an unattached local recovery with no discoverable
+    // remote base falls back to its observed head.
+    let base_revision = super::status_projection::status(&root)
+        .ok()
+        .and_then(|status| status.readiness.default_revision)
+        .or_else(|| snapshot.head.clone())
+        .unwrap_or_else(|| "unborn".into());
+    contract["baseRevision"] = serde_json::json!(base_revision);
     contract["projectProfileDigest"] = serde_json::json!(profile_digest);
     contract["repositorySnapshotDigest"] = serde_json::json!(current_snapshot_digest);
     contract["state"] = serde_json::json!("implementation_active");
@@ -1919,9 +1930,17 @@ pub(super) fn validate_recovery_predecessor_bindings(
             "decidedAt must be RFC3339",
         ));
     }
+    let summary = read_json(summary_path)?;
+    let retry_binding =
+        retry_recovery_binding_matches(root, work_item_id, &summary, receipt, candidate_path)?;
     if let Some(runtime) = current_runtime
         && (receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest)
+        // A pending retry is already an explicit human-authorized recovery
+        // boundary.  Permit the same semantic Runtime version to consume its
+        // exact marker after a binary rebuild, while still rejecting a
+        // protocol-version transition or an unbound receipt.
+        && !(retry_binding && receipt.runtime_version == runtime.runtime_version)
     {
         return Err(recovery_decision_error(
             decisions,
@@ -1960,14 +1979,11 @@ pub(super) fn validate_recovery_predecessor_bindings(
                 .expect("revalidation evidence binding validated"),
         )?;
     }
-    let summary = read_json(summary_path)?;
     let expected_summary_digest =
         cockpit_protocol::digest_json(&summary).map_err(|error| ObserverError::State {
             path: summary_path.into(),
             message: error.to_string(),
         })?;
-    let retry_binding =
-        retry_recovery_binding_matches(root, work_item_id, &summary, receipt, candidate_path)?;
     if receipt.predecessor_summary_digest != expected_summary_digest && !retry_binding {
         return Err(recovery_decision_error(
             summary_path,
@@ -2044,8 +2060,18 @@ fn retry_recovery_binding_matches(
     {
         return Ok(false);
     }
-    let Some(candidate_path) = candidate_path else {
-        return Ok(false);
+    let candidate_path = match candidate_path {
+        Some(path) => path.to_path_buf(),
+        None => {
+            let Some(relative) = summary["recoveryRetryDecisionPath"].as_str() else {
+                return Ok(false);
+            };
+            let path = root.join(relative);
+            if !path.starts_with(root) {
+                return Ok(false);
+            }
+            path
+        }
     };
     let Some(file_name) = candidate_path.file_name().and_then(|value| value.to_str()) else {
         return Ok(false);
@@ -2058,7 +2084,7 @@ fn retry_recovery_binding_matches(
         return Ok(false);
     }
     let expected_path = summary["recoveryRetryDecisionPath"].as_str();
-    if expected_path != Some(repository_relative_path(root, candidate_path).as_str()) {
+    if expected_path != Some(repository_relative_path(root, &candidate_path).as_str()) {
         return Ok(false);
     }
     let value = serde_json::to_value(receipt).map_err(|error| ObserverError::State {
@@ -2069,7 +2095,26 @@ fn retry_recovery_binding_matches(
         path: root.join(".ai/decisions"),
         message: error.to_string(),
     })?;
-    Ok(summary["recoveryRetryDecisionDigest"] == serde_json::json!(digest.to_string()))
+    if summary["recoveryRetryDecisionDigest"] != serde_json::json!(digest.to_string()) {
+        return Ok(false);
+    }
+    // `record_recovery_decision` has no candidate path because it consumes a
+    // parsed receipt.  When a Runtime rebuild retries the already-persisted
+    // marker, verify that the marker still points at the exact immutable
+    // receipt before allowing its stale Summary binding to be consumed.
+    if !is_regular_non_symlink(&candidate_path).is_ok_and(|is_file| is_file) {
+        return Ok(false);
+    }
+    let stored = read_json(&candidate_path)?;
+    let stored_digest =
+        cockpit_protocol::digest_json(&stored).map_err(|error| ObserverError::State {
+            path: candidate_path.clone(),
+            message: error.to_string(),
+        })?;
+    if stored_digest != digest || stored != value {
+        return Ok(false);
+    }
+    Ok(true)
 }
 
 /// Verify that a pending retry marker is backed by the current Runtime-owned
@@ -2674,6 +2719,17 @@ pub fn record_recovery_decision(
     })?;
     let canonical_path = decisions_dir.join(format!("{work_item_id}.recovery.json"));
     let path = if fs::symlink_metadata(&canonical_path).is_ok() {
+        // Replaying the exact current retry receipt is an idempotent
+        // recovery operation, even after the Summary has been projected into
+        // its pending state.  Do not append a duplicate candidate merely
+        // because the canonical slot is already occupied; duplicate retry
+        // candidates can make an older Runtime identity look like a current
+        // competing decision after a Runtime rebuild.
+        if is_regular_non_symlink(&canonical_path).is_ok_and(|is_file| is_file)
+            && read_json(&canonical_path).is_ok_and(|existing| existing == value)
+        {
+            return Ok(value);
+        }
         let digest =
             cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
                 path: canonical_path.clone(),

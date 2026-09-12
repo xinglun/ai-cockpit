@@ -1,0 +1,181 @@
+{
+  "acceptanceResults": [
+    "Manual publish_existing_tag recovery plans governance against the current workflow orchestration revision and selects the active Contract whose base is the merge parent, while the immutable target tag remains the artifact source identity.",
+    "Build jobs cannot start unless release_preflight, source_quality, and release_tools all succeed; a source-quality failure stops dependent expensive work.",
+    "Existing normal push/tag and non-recovery dispatch behavior remains compatible, and recovery source checkout still uses the requested immutable tag.",
+    "The workflow policy regression fails on the old dependency/identity wiring and passes on the corrected wiring.",
+    "Local focused tests, Runtime preflight/checkpoint/verify, hosted PR checks, and a single post-merge recovery run provide evidence without moving or overwriting v0.2.91.",
+    "The shared Runtime owns one canonical English Agent First-Start procedure and injects its actionable gate into every repository-owned provider adapter during explicit agent installation.",
+    "An installed adapter in an object-engineering repository receives the same first-start gate without copying or modifying that repository's business code, data, or unrelated instructions; ownership and digest binding remain intact and repeated installation is byte-stable.",
+    "Focused adapter regression tests prove the first-start gate is present and that installation remains idempotent and repository-local.",
+    "Preflight, checkpoint, verification refresh, and finish do not require evidence produced only by later release, adopter, close, or cleanup stages; archive and close retain strict completion evidence checks.",
+    "A regression test proves future lifecycle evidence does not block the current source-verification lifecycle and that completion boundaries still enforce it.",
+    "The CLI help exposes the mandatory agent first-start command and short ordering gate before repository operations.",
+    "agent first-start prints the same canonical English procedure used by installed repository-owned adapters, is read-only, and is safe for attached and unattached object-engineering repositories.",
+    "The CLI capability inventory covers agent-facing Runtime capabilities; low-level library utilities remain intentionally non-exposed when they are embedder, read-only diagnostic, or maintenance boundaries, and that boundary is documented.",
+    "CLI first-start output and help are stable, idempotent, and cross-platform path safe.",
+    "The canonical CLI command reference and capability index name agent first-start and direct Agents to the same shared procedure and capability-discovery order.",
+    "The first-start procedure requires an explicit resource finalization plan before verification when a provider, branch, worktree, PR, or external resource context applies, and explicitly skips provider finalization when no such context is declared.",
+    "The canonical first-start procedure passes documentation acceptance and work-item status-consistency gates, including required frontmatter metadata, before any release or close evidence is evaluated.",
+    "A newly started Work Item does not invent an external resource context; object-engineering repositories with no provider or release resource can complete finish, archive, and close without fabricating finalization evidence, while explicitly bound or pending resource contexts remain fail-closed.",
+    "Release preflight does not execute gates that the canonical repository gate manifest executes in source_quality; each canonical gate has one execution owner per release run, and the workflow policy regression detects duplicate wiring.",
+    "The tri-language repository workflow documentation states that resourceContext is optional: start does not invent external provider context, no-resource Work Items use the ordinary lifecycle, and explicit provider contexts still require finalize-plan before terminal steps.",
+    "The expensive platform release-helper build waits for the single canonical source-quality gate in addition to route preparation, so deterministic source-policy failures stop it before compilation.",
+    "The CLI lifecycle regression distinguishes a no-resource Work Item from an explicitly applicable provisional resource context: no-resource completion is allowed, while finish remains fail-closed until finalize-plan binds the external context.",
+    "The observed SCN-016 next-action regression remains covered against an explicitly provisional resource context, while the no-resource lifecycle remains allowed and distinct.",
+    "The public no-runtime close API must enforce provider finalization whenever the archived Contract explicitly binds a resource context, while ordinary no-resource Work Items remain closable without provider evidence.",
+    "The immutable Runtime shadow uses a deterministic explicit execution-smoke command and does not re-run the current repository's full verification profile; full repository correctness remains owned by the canonical quality gates.",
+    "Shadow regression coverage proves the smoke command is pinned, identity-bound, bounded in cost, and cannot silently fall back to a source build, workspace binary, arbitrary command, or moving artifact.",
+    "Workspace package failures persist the failed package, exit code, and bounded diagnostic tail so the first recovery attempt can identify the concrete failing test without rerunning the entire route.",
+    "reference_inventory_mismatch is emitted only by the canonical reference inventory gate; a different gate whose output merely contains those words retains its gate-specific failure identity and remediation.",
+    "CI pull-request routes select exactly the Contract bound to the pull-request branch and URL; main-merge routes resolve the merged pull request binding and never select by EVENT_BEFORE or head^.",
+    "Immutable-tag recovery requires an explicit work_item_id or Contract path and validates repository identity, Contract digest inputs, recovery state, scope, base revision, and tag identity before Runtime compilation.",
+    "Release input identity failures emit one structured preflight failure artifact and prevent the Rust route tool, platform helper builds, candidate builds, publication, and public acceptance from starting.",
+    "Recovery public acceptance starts only after the current publish and publication handoff succeed; independent public N-1 acceptance requires an explicit completed handoff run.",
+    "The release identity event matrix covers merged PR after main advances, multiple active predecessor/successor Contracts, unpublished immutable-tag recovery, reusable existing Release, preflight failure, and publication failure without unconditional upstream rerun.",
+    "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority.",
+    "Contract selection failures propagate as structured resolver failures without shell success fallbacks, so malformed or missing binding metadata cannot be mistaken for a successful match."
+  ],
+  "createdAt": "2026-09-12T13:19:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:6372592a4cf3c42fbba4f425c26bf4a3e3d4eb189104840d9298a3940f0aa900",
+  "evidenceRefs": [
+    ".ai/evidence/WI-806-release-preflight-base.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-806-release-preflight-base.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-806-release-preflight-base.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
+      "workItemId": "WI-806-release-preflight-base"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-806-release-preflight-base.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-806-release-preflight-base.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-806-release-preflight-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-806-release-preflight-base.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-806-release-preflight-base.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind the continuation to the synchronized default base, validate the reviewed PR, publish immutable v0.2.91 once, and prove public installation and upgrade acceptance"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-806-release-preflight-base"
+  },
+  "taskReportDigest": "sha256:e9c622e47d641a01327646c949b0f8d56fa072275293b55c953f1680a8197be3",
+  "taskReportMarkdownDigest": "sha256:0713371a406a205b582cd0dc05160d70ecc4347891021e46938875f57651e36a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-806-release-preflight-base.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-806-release-preflight-base"
+}

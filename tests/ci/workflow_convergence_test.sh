@@ -5,8 +5,9 @@ root=$(cd "$(dirname "$0")/../.." && pwd -P)
 workflow="$root/.github/workflows/ci.yml"
 route="$root/tests/ci/quality_route.py"
 runner="$root/tests/ci/run_repository_gates.py"
+resolver="$root/tests/ci/resolve_work_item.sh"
 
-python3 - "$workflow" "$route" "$runner" <<'PY'
+python3 - "$workflow" "$route" "$runner" "$resolver" <<'PY'
 from pathlib import Path
 import importlib.util
 import json
@@ -17,6 +18,7 @@ import sys
 workflow = Path(sys.argv[1]).read_text(encoding="utf-8")
 route = Path(sys.argv[2]).read_text(encoding="utf-8")
 runner = Path(sys.argv[3]).read_text(encoding="utf-8")
+resolver = Path(sys.argv[4]).read_text(encoding="utf-8") if Path(sys.argv[4]).exists() else ""
 
 # Pull-request runs must converge by cancelling only superseded runs for the
 # same PR.  Main pushes and release workflow truth must not be cancellable by
@@ -30,6 +32,11 @@ assert "cancel-in-progress: ${{ github.event_name == 'pull_request' }}" in workf
 assert "needs: route" in workflow
 assert "needs.route.outputs.profile != 'light'" in workflow
 assert "name: Plan the dynamic quality route" in workflow
+assert "resolve_work_item.sh" in workflow
+assert workflow.index("name: Plan the dynamic quality route") < workflow.index("name: Build the shared Rust gate-plan tool once")
+assert "EVENT_BEFORE" not in workflow[workflow.index("name: Plan the dynamic quality route"):workflow.index("name: Upload the shared Rust gate-plan tool")]
+assert "no active Contract is explicitly bound to this event identity" in resolver
+assert "work_item_id_required" in resolver
 assert "outputs:" in workflow and "profile:" in workflow
 assert "Verify the route plan is stable across jobs" in workflow
 

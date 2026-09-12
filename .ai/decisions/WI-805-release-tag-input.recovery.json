@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T12:15:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34692649343",
+    ".ai/work-items/active/WI-805-release-tag-input.contract.json",
+    "crates/cockpit-repository/src/lifecycle.rs"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "predecessorEventsDigest": "sha256:998cec9f5be10caccfb718d6d4867a60179f857eda0fe8c05cc868f5a8151f1f",
+  "predecessorOutcomeDigest": "sha256:1f4c601f8543bef337c31892b2a3f5d3dce85043b302d7357955ddf5494a067a",
+  "predecessorSummaryDigest": "sha256:8720497c73839481ed8c63beada334c978ccee1a3ea705a0903b4721c675854b",
+  "predecessorWorkItemId": "WI-805-release-tag-input",
+  "reason": "The corrected publish identity was never reached because release preflight found no Contract whose baseRevision matched the merge-parent identity: the recovery successor activation had captured the continuation branch HEAD instead of the discovered remote default base. Retry the current successor only to implement the scoped Runtime base-binding fix, preserve the early release-preflight failure, and create no competing successor until the corrected base semantics are verified.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and test default-base binding for recovery-generated successors, then finish this retry and use one strictly bound continuation successor for the new PR/release identity; do not move v0.2.91 or rerun 34692649343.",
+  "runtimeDigest": "sha256:1e034cbe264220562cf8c227f6335e5d0e5803889f1d6303ddeca2eeadd07b2f",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-805-release-tag-input"
+}
