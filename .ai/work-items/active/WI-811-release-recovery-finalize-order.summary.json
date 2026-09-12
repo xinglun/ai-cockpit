@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-810-release-recovery-mode.recovery.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-12T15:32:53Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "predecessorWorkItemId": "WI-810-release-recovery-mode",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-810-release-recovery-mode.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-12T15:32:53Z",
+  "workItemId": "WI-811-release-recovery-finalize-order"
+}

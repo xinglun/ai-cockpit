@@ -1,0 +1,27 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-12T15:27:41Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-810-release-recovery-mode.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-first-start.md",
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "predecessorEventsDigest": "sha256:12059b38d509666b67037ac98b3d3ee3118381e742663f612e346164b8c6357f",
+  "predecessorOutcomeDigest": "sha256:d212bf2982c116ef4044eb25fe21f4c3c2a744bf445c5372acf8a4f8b8d3bf53",
+  "predecessorSummaryDigest": "sha256:b8bab666b4f262abe34e62b98822b6fbdefe22301043cb82cbb37aa5977d85a7",
+  "predecessorWorkItemId": "WI-810-release-recovery-mode",
+  "reason": "The provider resource context was not finalized before verification; preserve the immutable WI-810 evidence and continue on a successor with a fresh PR binding.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the successor PR and finalization plan before any verification, then continue the reviewed hosted checks.",
+  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-811-release-recovery-finalize-order",
+  "workItemId": "WI-810-release-recovery-mode"
+}
