@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
-  "createdAt": "2026-09-12T18:04:11Z",
+  "contractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+  "createdAt": "2026-09-12T18:28:41Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 149692,
-      "executionElapsedMs": 149072,
+      "elapsedMs": 167040,
+      "executionElapsedMs": 166804,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+      "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
       "runtimeVersion": "0.2.91",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 149692,
-    "executionElapsedMs": 149072,
-    "filesHashed": 37,
-    "filesRead": 37,
+    "elapsedMs": 167040,
+    "executionElapsedMs": 166804,
+    "filesHashed": 11,
+    "filesRead": 11,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,22 +37,9 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        ".github/workflows/ci.yml",
-        "AGENTS.md",
         "crates/cockpit-repository/src/lib.rs",
-        "crates/cockpit-repository/tests/ci_quality_gate.rs",
-        "docs/reference/agent-workflow.ja.md",
-        "docs/reference/agent-workflow.md",
-        "docs/reference/agent-workflow.zh-CN.md",
-        "docs/reference/ci-runtime-shadow.ja.md",
-        "docs/reference/ci-runtime-shadow.md",
-        "docs/reference/ci-runtime-shadow.zh-CN.md",
-        "tests/ci/quality_route.py",
-        "tests/ci/quality_route_test.py",
-        "tests/ci/resolve_work_item.sh",
-        "tests/ci/resolve_work_item_test.sh",
-        "tests/ci/run_repository_gates.py",
-        "tests/ci/workflow_convergence_test.sh"
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
       ],
       "assurance": "repository_verified",
       "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -61,13 +48,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 149072,
+      "executionElapsedMs": 166804,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+      "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -93,8 +80,8 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:9107d6568131584d8cf9815fd935e476eb6481d4691bdf537cce0c7b3252133c",
-        "outputTruncated": false,
+        "outputDigest": "sha256:cf3f7429b00f91191e02793a9d6a3b59c6aef37e973a3179a6fa5f8f1c2184cf",
+        "outputTruncated": true,
         "passed": true,
         "protected": false,
         "reason": "reuse_not_configured",
@@ -105,14 +92,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+    "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-814-archived-pr-gate"
   },
-  "receiptDigest": "sha256:412605722b0f7f33506b54d0d94498d87c7b33d2ae2921bb2c93b7f3c45cd752",
+  "receiptDigest": "sha256:b5d03ed4df3dec97342cde17e0ade9b9fdc3015211b429a308e0692960f8f63e",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
-  "runtimeDigest": "sha256:f01fb1bcf3e22dcf4ff4f0c577ed43aa62061bad02ef756e40793fa866fd8814",
+  "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
+  "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-814-archived-pr-gate"
 }

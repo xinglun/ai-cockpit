@@ -4,7 +4,7 @@
       ".ai/evidence/WI-814-archived-pr-gate.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+    "repositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
     "workItemId": "WI-814-archived-pr-gate"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,7 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/README.md"
+        "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.json"
       },
       {
         "evidenceRefs": [
@@ -26,13 +26,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-814-archived-pr-gate.verification.json"
       },
       {
         "evidenceRefs": [
@@ -53,20 +46,6 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .github/workflows/ci.yml"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: AGENTS.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: crates/cockpit-repository/src/lib.rs"
       },
       {
@@ -74,91 +53,14 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/agent-workflow.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/agent-workflow.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/quality_route.py"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/quality_route_test.py"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/resolve_work_item.sh"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/resolve_work_item_test.sh"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/run_repository_gates.py"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/workflow_convergence_test.sh"
+        "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
       }
     ],
     "evidence": [

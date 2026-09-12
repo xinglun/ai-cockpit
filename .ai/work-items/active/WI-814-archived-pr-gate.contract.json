@@ -6,7 +6,8 @@
     "A tag push and explicit immutable-tag recovery remain active-Contract-only and fail closed on missing, archived, ambiguous, or mismatched identity.",
     "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
     "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
-    "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries."
+    "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries.",
+    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed."
   ],
   "authority": "authorized",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -30,6 +31,14 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-814-archived-pr-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/792",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-814-archived-pr-gate"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
@@ -87,6 +96,14 @@
       "scenario": "conditional lifecycle guidance is parity-consistent",
       "status": "unverified",
       "verificationPlan": "Run the documentation parity and workflow guidance tests, then compare the normalized lifecycle assertions across all declared documents."
+    },
+    {
+      "evidence": [],
+      "expected": "A retry receipt bound to the pre-plan Contract remains valid after finalize-plan adds the exact resource context, while unrelated Contract edits are rejected.",
+      "required": true,
+      "scenario": "pending retry survives a controlled resource finalization binding",
+      "status": "unverified",
+      "verificationPlan": "Run the Rust recovery regression for a pending retry followed by finalize-plan and a tampered Contract variant, then inspect the lifecycle decision and failure code."
     }
   ],
   "scope": [
@@ -109,7 +126,9 @@
     "docs/reference/agent-workflow.md",
     "docs/reference/agent-workflow.zh-CN.md",
     "docs/reference/agent-workflow.ja.md",
-    "tests/ci/quality_route_test.py"
+    "tests/ci/quality_route_test.py",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
   ],
   "sources": [],
   "state": "implementation_active",

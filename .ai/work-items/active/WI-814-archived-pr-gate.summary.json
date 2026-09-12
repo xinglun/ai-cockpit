@@ -1,29 +1,15 @@
 {
   "changedPaths": [
-    ".ai/README.md",
+    ".ai/decisions/WI-814-archived-pr-gate.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-814-archived-pr-gate.verification.json",
     ".ai/work-items/active/WI-814-archived-pr-gate.contract.json",
     ".ai/work-items/active/WI-814-archived-pr-gate.summary.json",
-    ".github/workflows/ci.yml",
-    "AGENTS.md",
     "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/ci_quality_gate.rs",
-    "docs/reference/agent-workflow.ja.md",
-    "docs/reference/agent-workflow.md",
-    "docs/reference/agent-workflow.zh-CN.md",
-    "docs/reference/ci-runtime-shadow.ja.md",
-    "docs/reference/ci-runtime-shadow.md",
-    "docs/reference/ci-runtime-shadow.zh-CN.md",
-    "tests/ci/quality_route.py",
-    "tests/ci/quality_route_test.py",
-    "tests/ci/resolve_work_item.sh",
-    "tests/ci/resolve_work_item_test.sh",
-    "tests/ci/run_repository_gates.py",
-    "tests/ci/workflow_convergence_test.sh"
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
   ],
   "checkpointAt": "2026-09-12T17:33:46Z",
-  "checkpointContractDigest": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
+  "checkpointContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -59,23 +45,42 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "previousContractHash": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
+      "reason": "Include the retry binding validation and regression needed to preserve an authorized recovery across the controlled finalize-plan Contract update.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T18:14:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-814-archived-pr-gate"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+  "checkpointRepositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
   "createdAt": "2026-09-12T17:24:33Z",
   "intentAlignment": {
     "evidence": [
-      "crates/cockpit-repository/src/lib.rs",
-      "tests/ci/resolve_work_item.sh",
-      "docs/reference/agent-workflow.md"
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs"
     ],
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-12T18:04:12Z",
-  "preflightContractDigest": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
+  "preflightAt": "2026-09-12T18:28:42Z",
+  "preflightContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+  "preflightRepositorySnapshotDigest": "sha256:66aa66c74068f3c8011d94670d4e86a971406e863fad0291ff4a53e695f793f6",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -148,10 +153,19 @@
       "required": true,
       "scenario": "conditional lifecycle guidance is parity-consistent",
       "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "pending retry survives a controlled resource finalization binding",
+      "status": "verified"
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T18:04:48Z",
+  "updatedAt": "2026-09-12T18:29:01Z",
   "verification": [
     {
       "check": "project-command-0",

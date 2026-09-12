@@ -5766,6 +5766,20 @@ pub fn plan_resource_finalization(
                     .into(),
         });
     }
+    let retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    if retry_pending {
+        let recovery = load_recovery_decision(&root, work_item_id, None)?;
+        if recovery
+            .as_ref()
+            .is_none_or(|decision| decision.decision != "retry")
+        {
+            return Err(recovery_decision_error(
+                root.join(".ai/decisions"),
+                "retry_binding_missing",
+                "pending retry cannot be advanced by finalize-plan without its exact recovery receipt",
+            ));
+        }
+    }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
@@ -5789,6 +5803,12 @@ pub fn plan_resource_finalization(
                 source,
             })?,
         );
+    if retry_pending {
+        let mut summary = read_json(&summary_path)?;
+        summary["recoveryRetryContractDigest"] =
+            serde_json::json!(contract_digest(&contract_path)?.to_string());
+        atomic_json(&summary_path, &summary)?;
+    }
     Ok(serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
