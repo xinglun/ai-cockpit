@@ -26,6 +26,7 @@ publish_existing_tag=false
 handoff_run_id=''
 github_repository="${GITHUB_REPOSITORY:-}"
 release_source_revision_arg=''
+recovery_lineage=''
 
 while (($# > 0)); do
   case "$1" in
@@ -220,18 +221,28 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
   predecessor_id=$(jq -r '.predecessorWorkItemId // empty' "$contract_path")
   predecessor_digest=$(jq -r '.predecessorContractDigest // empty' "$contract_path")
   decision_relative=$(jq -r '.recoveryDecisionPath // empty' "$contract_path")
-  [[ -n "$predecessor_id" && -n "$predecessor_digest" && -n "$decision_relative" ]] || \
-    fail recovery_binding_missing 'recovery Contract has no complete predecessor binding'
-  decision_path="$repo_root/$decision_relative"
-  [[ "$decision_path" == "$repo_root/.ai/decisions/"* ]] || \
-    fail recovery_binding_invalid 'recovery decision path is outside the repository decision directory'
-  [[ -f "$decision_path" && ! -L "$decision_path" ]] || \
-    fail recovery_binding_invalid 'recovery decision must be a regular non-symlink file'
-  jq -e \
-    --arg predecessor "$predecessor_id" \
-    --arg successor "$contract_id" \
-    '.decision == "successor" and .predecessorWorkItemId == $predecessor and .successorWorkItemId == $successor' \
-    "$decision_path" >/dev/null || fail recovery_binding_invalid 'recovery decision does not bind the selected predecessor and successor'
+  if [[ -z "$predecessor_id" && -z "$predecessor_digest" && -z "$decision_relative" ]]; then
+    # An explicitly selected Work Item without predecessor fields is a
+    # technical retry of that same Work Item, not an implicit successor.
+    # A human/provider still selected the identity explicitly above; do not
+    # manufacture lineage merely because an immutable Release is being
+    # recovered.
+    recovery_lineage=standalone_retry
+  else
+    [[ -n "$predecessor_id" && -n "$predecessor_digest" && -n "$decision_relative" ]] || \
+      fail recovery_binding_missing 'recovery Contract has no complete predecessor binding'
+    decision_path="$repo_root/$decision_relative"
+    [[ "$decision_path" == "$repo_root/.ai/decisions/"* ]] || \
+      fail recovery_binding_invalid 'recovery decision path is outside the repository decision directory'
+    [[ -f "$decision_path" && ! -L "$decision_path" ]] || \
+      fail recovery_binding_invalid 'recovery decision must be a regular non-symlink file'
+    jq -e \
+      --arg predecessor "$predecessor_id" \
+      --arg successor "$contract_id" \
+      '.decision == "successor" and .predecessorWorkItemId == $predecessor and .successorWorkItemId == $successor' \
+      "$decision_path" >/dev/null || fail recovery_binding_invalid 'recovery decision does not bind the selected predecessor and successor'
+    recovery_lineage=successor
+  fi
 fi
 
 release_source_revision=''
@@ -266,7 +277,8 @@ jq -n \
   --arg digest "$contract_digest" \
   --arg base "$base_revision" \
   --arg method "$selection_method" \
+  --arg lineage "$recovery_lineage" \
   --arg from "$from_tag" \
   --arg to "$to_tag" \
-  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,selectionMethod:$method,fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
+  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
   > "$output_path"

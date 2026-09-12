@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "A standalone active Contract selected by explicit work_item_id is classified as a technical retry for immutable-tag recovery.",
+    "A successor Contract with complete predecessor and recovery decision bindings remains required and accepted.",
+    "Partial or malformed successor bindings fail closed with structured recovery_binding_missing or recovery_binding_invalid.",
+    "Regression tests cover standalone retry, bound successor, missing identity, and malformed bindings.",
+    "The canonical English first-start procedure tells Agents how to choose retry versus successor before release recovery."
+  ],
+  "createdAt": "2026-09-12T15:44:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:baf48e4a581db88c7b44cf0f8f6410742c53ff1f494fdea4d1ef85dabc275db3",
+  "evidenceRefs": [
+    ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-811-release-recovery-finalize-order.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-811-release-recovery-finalize-order.contract.json"
+          ],
+          "inference": false,
+          "text": "Land the release-recovery retry-versus-successor resolver fix through a correctly PR-bound Work Item, then validate it without reopening or mutating v0.2.91."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-811-release-recovery-finalize-order.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-811-release-recovery-finalize-order"
+  },
+  "taskReportDigest": "sha256:954ab51d5cea0df235006f4f52cba6491e35c78bf9b39be810c30735dc3ac194",
+  "taskReportMarkdownDigest": "sha256:9df32fcaf640740ac83953ef4e9295a3dc94b4eb5c2a62cc20430f5d082aab99",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-811-release-recovery-finalize-order.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-811-release-recovery-finalize-order"
+}

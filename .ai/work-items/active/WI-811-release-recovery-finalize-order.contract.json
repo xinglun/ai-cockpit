@@ -1,0 +1,86 @@
+{
+  "acceptanceCriteria": [
+    "A standalone active Contract selected by explicit work_item_id is classified as a technical retry for immutable-tag recovery.",
+    "A successor Contract with complete predecessor and recovery decision bindings remains required and accepted.",
+    "Partial or malformed successor bindings fail closed with structured recovery_binding_missing or recovery_binding_invalid.",
+    "Regression tests cover standalone retry, bound successor, missing identity, and malformed bindings.",
+    "The canonical English first-start procedure tells Agents how to choose retry versus successor before release recovery."
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "c23f15b14269487372a2c717bf91886ef512da37",
+  "createdAt": "2026-09-12T15:32:53Z",
+  "goal": "Land the release-recovery retry-versus-successor resolver fix through a correctly PR-bound Work Item, then validate it without reopening or mutating v0.2.91.",
+  "intent": "Continue the verified recovery fix on a fresh PR-bound Work Item, preserving the predecessor evidence and enforcing finalize-plan before any verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "release tag or Release mutation",
+    "published artifacts",
+    "Runtime lifecycle semantics",
+    "unrelated CI push routing",
+    "object-engineering repositories",
+    "historical records",
+    "global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "predecessorWorkItemId": "WI-810-release-recovery-mode",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-810-release-recovery-mode.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "resolver regression output",
+    "workflow policy regression output",
+    "Runtime preflight/checkpoint/verify records",
+    "hosted PR checks"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-811-release-recovery-finalize-order",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/789",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-811-release-recovery-finalize-order"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "a valid active Contract with no predecessor lineage is accepted only when selected explicitly, and the receipt identifies retry rather than successor",
+      "required": true,
+      "scenario": "explicit standalone Work Item is treated as a technical retry for immutable-tag recovery",
+      "status": "unverified",
+      "verificationPlan": "run the resolver regression with a standalone Contract and inspect the structured selection receipt"
+    },
+    {
+      "evidence": [],
+      "expected": "a complete successor Contract and matching recovery decision are accepted, while missing or mismatched bindings fail before release compilation",
+      "required": true,
+      "scenario": "explicit successor Work Item still requires complete predecessor binding",
+      "status": "unverified",
+      "verificationPlan": "run bound-successor, missing-binding, and mismatched-decision resolver cases"
+    },
+    {
+      "evidence": [],
+      "expected": "resolver failure is persisted as one structured preflight result and build, publication, and public acceptance remain skipped",
+      "required": true,
+      "scenario": "failed release identity preflight stops dependent work without an expensive rerun",
+      "status": "unverified",
+      "verificationPlan": "inspect the failed hosted run graph and run the local release workflow policy regression"
+    }
+  ],
+  "scope": [
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "docs/reference/agent-first-start.md",
+    ".ai/decisions/observer-snapshot.json",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-811-release-recovery-finalize-order"
+}

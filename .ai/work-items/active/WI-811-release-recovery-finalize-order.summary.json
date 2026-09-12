@@ -1,0 +1,112 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-811-release-recovery-finalize-order.contract.json",
+    ".ai/work-items/active/WI-811-release-recovery-finalize-order.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T15:37:36Z",
+  "checkpointContractDigest": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:37:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "previousContractHash": "sha256:4bc7bb21adb5735be967cbcc072b8cb1930828e449bc6c49b93e330860452666",
+      "reason": "hosted Contract gate found an in-scope changed workflow policy file missing from the declared scope",
+      "recorded": true,
+      "recordedAt": "2026-09-12T15:43:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "createdAt": "2026-09-12T15:32:53Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/resolve_work_item.sh",
+      "tests/ci/resolve_work_item_test.sh",
+      "docs/reference/agent-first-start.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "predecessorWorkItemId": "WI-810-release-recovery-mode",
+  "preflightAt": "2026-09-12T15:43:56Z",
+  "preflightContractDigest": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-810-release-recovery-mode.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item.sh",
+        "tests/ci/resolve_work_item_test.sh"
+      ],
+      "expected": "a valid active Contract with no predecessor lineage is accepted only when selected explicitly, and the receipt identifies retry rather than successor",
+      "required": true,
+      "scenario": "explicit standalone Work Item is treated as a technical retry for immutable-tag recovery",
+      "status": "verified",
+      "verificationPlan": "run the resolver regression with a standalone Contract and inspect the structured selection receipt"
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item.sh",
+        "tests/ci/resolve_work_item_test.sh"
+      ],
+      "expected": "a complete successor Contract and matching recovery decision are accepted, while missing or mismatched bindings fail before release compilation",
+      "required": true,
+      "scenario": "explicit successor Work Item still requires complete predecessor binding",
+      "status": "verified",
+      "verificationPlan": "run bound-successor, missing-binding, and mismatched-decision resolver cases"
+    },
+    {
+      "evidence": [
+        "https://github.com/xinglun/ai-cockpit/actions/runs/34701411208",
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "resolver failure is persisted as one structured preflight result and build, publication, and public acceptance remain skipped",
+      "required": true,
+      "scenario": "failed release identity preflight stops dependent work without an expensive rerun",
+      "status": "verified",
+      "verificationPlan": "inspect the failed hosted run graph and run the local release workflow policy regression"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T15:44:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-811-release-recovery-finalize-order"
+}
