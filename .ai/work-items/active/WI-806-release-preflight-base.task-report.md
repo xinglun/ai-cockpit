@@ -15,6 +15,7 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json
 - Changed path: .ai/work-items/active/WI-806-release-preflight-base.summary.json
 
 ## Findings

@@ -33,11 +33,12 @@
     "Release input identity failures emit one structured preflight failure artifact and prevent the Rust route tool, platform helper builds, candidate builds, publication, and public acceptance from starting.",
     "Recovery public acceptance starts only after the current publish and publication handoff succeed; independent public N-1 acceptance requires an explicit completed handoff run.",
     "The release identity event matrix covers merged PR after main advances, multiple active predecessor/successor Contracts, unpublished immutable-tag recovery, reusable existing Release, preflight failure, and publication failure without unconditional upstream rerun.",
-    "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority."
+    "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority.",
+    "Contract selection failures propagate as structured resolver failures without shell success fallbacks, so malformed or missing binding metadata cannot be mistaken for a successful match."
   ],
-  "createdAt": "2026-09-12T13:00:11Z",
+  "createdAt": "2026-09-12T13:19:59Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fb1a839727f7d14bce56037df47d903eeb37d68a1077b080fd2cd5682d91ffeb",
+  "evidenceDigest": "sha256:6372592a4cf3c42fbba4f425c26bf4a3e3d4eb189104840d9298a3940f0aa900",
   "evidenceRefs": [
     ".ai/evidence/WI-806-release-preflight-base.verification.json"
   ],
@@ -63,7 +64,7 @@
         ".ai/evidence/WI-806-release-preflight-base.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:7612510db5cab1755a3bc26e4bb4a47fdc5d5076072a3612cd0cb573baf95869",
+      "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
       "workItemId": "WI-806-release-preflight-base"
     },
     "format": "ai-cockpit.task-outcome",
@@ -78,6 +79,13 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json"
         },
         {
           "evidenceRefs": [
@@ -159,8 +167,8 @@
     "status": "verified",
     "workItemId": "WI-806-release-preflight-base"
   },
-  "taskReportDigest": "sha256:b8d20023667fa62173d2f776355b4ce410aca3a146b921086c5b6dec144f50d7",
-  "taskReportMarkdownDigest": "sha256:63d9d6e423e08efdbc037991bbdb60d8e8c4f78e0555c86a7f482d6550a3dcdc",
+  "taskReportDigest": "sha256:e9c622e47d641a01327646c949b0f8d56fa072275293b55c953f1680a8197be3",
+  "taskReportMarkdownDigest": "sha256:0713371a406a205b582cd0dc05160d70ecc4347891021e46938875f57651e36a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

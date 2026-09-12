@@ -33,7 +33,8 @@
     "Release input identity failures emit one structured preflight failure artifact and prevent the Rust route tool, platform helper builds, candidate builds, publication, and public acceptance from starting.",
     "Recovery public acceptance starts only after the current publish and publication handoff succeed; independent public N-1 acceptance requires an explicit completed handoff run.",
     "The release identity event matrix covers merged PR after main advances, multiple active predecessor/successor Contracts, unpublished immutable-tag recovery, reusable existing Release, preflight failure, and publication failure without unconditional upstream rerun.",
-    "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority."
+    "The lightweight identity resolver is read-only with respect to source and governance records; it writes only its structured invocation receipt and never grants Runtime execution authority.",
+    "Contract selection failures propagate as structured resolver failures without shell success fallbacks, so malformed or missing binding metadata cannot be mistaken for a successful match."
   ],
   "authority": "authorized",
   "baseRevision": "749eb028a4ad29a92af518eafac46ba83d7d4760",

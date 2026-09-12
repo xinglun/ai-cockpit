@@ -4,7 +4,7 @@
       ".ai/evidence/WI-806-release-preflight-base.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:7612510db5cab1755a3bc26e4bb4a47fdc5d5076072a3612cd0cb573baf95869",
+    "repositorySnapshotDigest": "sha256:35e4a3e6a7f393861ff44667587a5a2cbf6e95e17f59753ecc6873a296a8cc65",
     "workItemId": "WI-806-release-preflight-base"
   },
   "format": "ai-cockpit.task-outcome",
@@ -19,6 +19,13 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-806-release-preflight-base.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-806-release-preflight-base.contract.json"
       },
       {
         "evidenceRefs": [
