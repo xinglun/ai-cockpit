@@ -131,7 +131,7 @@ jobs:
 
   post_release_helper:
     # post-release-only recovery reuses a helper from a known successful run;
-    # it never rebuilds the helper or depends on the failed publication graph.
+    # only a protocol-incompatible helper may trigger one helper-only rebuild.
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
     needs: [release_input_preflight]
     runs-on: ubuntu-24.04
@@ -139,6 +139,14 @@ jobs:
       contents: read
       actions: read
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
+        with:
+          toolchain: 1.94.1
       - name: Validate and restore the reusable release helper
         shell: bash
         env:
@@ -188,7 +196,117 @@ jobs:
             --arg releaseToolJob "$(jq -er '[.jobs[] | select(.name | startswith("release_tools (ubuntu-24.04, ubuntu-x86_64, cockpit-release)")) | select(.conclusion == "success") | .name][0]' <<<"$run_info")" \
             '{schemaVersion:1,kind:"post_release_helper_reuse",state:"reused",runId:$runId,artifact:$artifact,workflowName:$workflowName,headSha:$headSha,releaseToolJob:$releaseToolJob}' \
             > tools/post-release-helper.json
+      - name: Preflight helper handoff protocol compatibility
+        shell: bash
+        env:
+          REUSE_RUN_ID: ${{ github.event.inputs.reuse_run_id }}
+        run: |
+          set -euo pipefail
+          compatibility_dir="$RUNNER_TEMP/post-release-helper-compatibility"
+          mkdir -p "$compatibility_dir"
+          workflow_sha="$GITHUB_SHA"
+          [[ "$workflow_sha" =~ ^[0-9a-f]{40}$ ]] || {
+            echo 'current workflow SHA is not a full lowercase commit' >&2
+            exit 1
+          }
+          probe_release_commit=0000000000000000000000000000000000000001
+          if [[ "$probe_release_commit" == "$workflow_sha" ]]; then
+            probe_release_commit=0000000000000000000000000000000000000002
+          fi
+          workflow_ref="$GITHUB_REPOSITORY/.github/workflows/release.yml@${workflow_sha}"
+          issued_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          expires_at="$(date -u -d '+1 hour' +%Y-%m-%dT%H:%M:%SZ)"
+
+          probe_helper() {
+            local helper=$1
+            local output=$2
+            "$helper" handoff \
+              --output "$output" \
+              --workflow-ref "$workflow_ref" \
+              --run-id "$GITHUB_RUN_ID" \
+              --tag v0.0.0 \
+              --commit "$probe_release_commit" \
+              --provider-release-id 1 \
+              --manifest-sha256 1111111111111111111111111111111111111111111111111111111111111111 \
+              --formula-sha256 2222222222222222222222222222222222222222222222222222222222222222 \
+              --issued-at "$issued_at" \
+              --expires-at "$expires_at" \
+              > "$compatibility_dir/stdout.json" \
+              2> "$compatibility_dir/stderr.txt"
+            jq -e \
+              --arg workflowRef "$workflow_ref" \
+              --arg releaseCommit "$probe_release_commit" \
+              '.issuer.workflowRef == $workflowRef and
+               .release.commit == $releaseCommit and
+               (.issuer.workflowRef | split("@")[1]) != .release.commit' \
+              "$output" >/dev/null
+          }
+
+          set +e
+          probe_helper tools/cockpit-release "$compatibility_dir/initial-handoff.json"
+          probe_status=$?
+          set -e
+          repair_applied=false
+          if [[ "$probe_status" -ne 0 ]]; then
+            jq -n \
+              --arg runId "$REUSE_RUN_ID" \
+              --arg workflowSha "$workflow_sha" \
+              --arg releaseCommit "$probe_release_commit" \
+              --arg diagnostic "$(sed -n '1,4p' "$compatibility_dir/stderr.txt")" \
+              '{schemaVersion:1,kind:"post_release_helper_compatibility",state:"failed",runId:$runId,probe:{workflowSha:$workflowSha,releaseCommit:$releaseCommit,distinctCommits:true,remoteWrites:false},failureCode:"helper_handoff_protocol_incompatible",diagnostic:$diagnostic}' \
+              > tools/post-release-helper-compatibility.initial.json
+            set +e
+            cargo build --locked --release --package cockpit-release > "$compatibility_dir/helper-rebuild.log" 2>&1
+            rebuild_status=$?
+            set -e
+            if [[ "$rebuild_status" -ne 0 ]]; then
+              jq -n \
+                --arg runId "$REUSE_RUN_ID" \
+                --arg workflowSha "$workflow_sha" \
+                --arg releaseCommit "$probe_release_commit" \
+                --arg diagnostic "$(sed -n '1,8p' "$compatibility_dir/helper-rebuild.log")" \
+                '{schemaVersion:1,kind:"post_release_helper_compatibility",state:"failed",runId:$runId,probe:{workflowSha:$workflowSha,releaseCommit:$releaseCommit,distinctCommits:true,remoteWrites:false},failureCode:"helper_repair_build_failed",diagnostic:$diagnostic}' \
+                > tools/post-release-helper-compatibility.json
+              cat "$compatibility_dir/helper-rebuild.log" >&2
+              exit "$rebuild_status"
+            fi
+            cp target/release/cockpit-release tools/cockpit-release
+            chmod +x tools/cockpit-release
+            sha256sum tools/cockpit-release | awk '{print $1 "  cockpit-release"}' > tools/cockpit-release.sha256
+            repair_applied=true
+            set +e
+            probe_helper tools/cockpit-release "$compatibility_dir/repaired-handoff.json"
+            repaired_probe_status=$?
+            set -e
+            if [[ "$repaired_probe_status" -ne 0 ]]; then
+              jq -n \
+                --arg runId "$REUSE_RUN_ID" \
+                --arg workflowSha "$workflow_sha" \
+                --arg releaseCommit "$probe_release_commit" \
+                --arg diagnostic "$(sed -n '1,4p' "$compatibility_dir/stderr.txt")" \
+                '{schemaVersion:1,kind:"post_release_helper_compatibility",state:"failed",runId:$runId,probe:{workflowSha:$workflowSha,releaseCommit:$releaseCommit,distinctCommits:true,remoteWrites:false},failureCode:"repaired_helper_protocol_incompatible",diagnostic:$diagnostic}' \
+                > tools/post-release-helper-compatibility.json
+              cat "$compatibility_dir/stderr.txt" >&2
+              exit "$repaired_probe_status"
+            fi
+          fi
+          jq -n \
+            --arg runId "$REUSE_RUN_ID" \
+            --arg workflowSha "$workflow_sha" \
+            --arg releaseCommit "$probe_release_commit" \
+            --arg repairApplied "$repair_applied" \
+            '{schemaVersion:1,kind:"post_release_helper_compatibility",state:"passed",runId:$runId,probe:{workflowSha:$workflowSha,releaseCommit:$releaseCommit,distinctCommits:true,remoteWrites:false},repairApplied:($repairApplied == "true")}' \
+            > tools/post-release-helper-compatibility.json
+          helper_digest="$(sha256sum tools/cockpit-release | awk '{print $1}')"
+          jq -n \
+            --arg runId "$REUSE_RUN_ID" \
+            --arg workflowSha "$workflow_sha" \
+            --arg helperDigest "sha256:$helper_digest" \
+            --arg repairApplied "$repair_applied" \
+            '{schemaVersion:1,kind:"post_release_helper_repair",state:(if $repairApplied == "true" then "built_once" else "not_needed" end),runId:$runId,sourceWorkflowSha:$workflowSha,package:"cockpit-release",helperDigest:$helperDigest,buildCount:(if $repairApplied == "true" then 1 else 0 end),productPackagesRebuilt:false}' \
+            > tools/post-release-helper-repair.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always()
         with:
           name: post-release-helper
           path: tools/

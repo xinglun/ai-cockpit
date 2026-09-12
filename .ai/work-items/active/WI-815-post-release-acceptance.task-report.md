@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
+- Verification evidence is valid; user-visible benefit remains explicitly unknown.
 
 ## Task overview
 
@@ -17,7 +17,8 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-815-post-release-acceptance.contract.json
 - Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json
-- Changed path: tests/release/version_consistency_test.sh
+- Changed path: .github/workflows/release.yml
+- Changed path: tests/ci/release_gate_policy_test.sh
 - Changed path: tests/release/workflow_policy.sh
 
 ## Findings

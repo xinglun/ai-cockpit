@@ -3,11 +3,12 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-815-post-release-acceptance.contract.json",
     ".ai/work-items/active/WI-815-post-release-acceptance.summary.json",
-    "tests/release/version_consistency_test.sh",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
     "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
-  "checkpointContractDigest": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+  "checkpointContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -83,9 +84,49 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6744d98b341062f297cae8a341543d4e2836056ef61b4634adbf94f8d0a84bb4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+      "reason": "The actual helper artifact from release run 34698637044 (cockpit-release 0.2.91) rejects immutable-tag recovery when workflow and release commits differ; record and fix this root cause before using helper reuse.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T22:24:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:6744d98b341062f297cae8a341543d4e2836056ef61b4634adbf94f8d0a84bb4",
+      "reason": "The compatibility probe confirmed the historical helper rejects distinct workflow and release identities; recovery must repair only that helper and continue without repeating product publication.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T22:31:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
+  "checkpointRepositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
   "createdAt": "2026-09-12T19:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -98,10 +139,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-12T20:42:39Z",
-  "preflightContractDigest": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+  "preflightAt": "2026-09-12T22:37:04Z",
+  "preflightContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
+  "preflightRepositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
@@ -172,7 +213,7 @@
       "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-12T20:42:46Z",
   "verification": [
     {
@@ -180,5 +221,6 @@
       "result": "passed"
     }
   ],
+  "verificationRecoveryReconciled": "sha256:321dd6795e14240eff089acd67e6a01786267468357d210b847745affd26e014",
   "workItemId": "WI-815-post-release-acceptance"
 }

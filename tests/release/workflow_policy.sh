@@ -208,6 +208,16 @@ require_match 'verify-provider-release' 'post-release-only mode must verify publ
 require_match 'workflowName' 'post-release-only mode must bind reused helper evidence to the release workflow identity'
 require_match 'headSha' 'post-release-only mode must retain the reused workflow execution identity'
 require_match 'releaseToolJob' 'post-release-only mode must bind the reused helper to its successful build job'
+require_match 'Preflight helper handoff protocol compatibility' 'reused helper protocol must be checked before public acceptance'
+require_match 'tools/cockpit-release handoff' 'helper compatibility must exercise the actual restored helper'
+require_match 'probe_release_commit' 'helper compatibility must use a distinct synthetic release commit'
+require_match 'post-release-helper-compatibility' 'helper compatibility result must be persisted'
+require_match 'helper_handoff_protocol_incompatible' 'helper protocol failures must have a structured failure code'
+require_match 'remoteWrites:false' 'helper compatibility probe must declare that it performs no remote writes'
+require_match 'cargo build --locked --release --package cockpit-release' 'incompatible helper recovery may rebuild only the release helper'
+require_match 'post-release-helper-repair' 'helper-only repair result must be persisted'
+require_match 'buildCount' 'helper-only repair result must record its build count'
+require_match 'productPackagesRebuilt:false' 'helper-only repair must not rebuild product packages'
 require_match 'releases/download/\$TAG/' 'post-release-only mode must consume immutable public asset URLs'
 require_match 'github\.event\.inputs\.post_release_acceptance == '\''true'\''' 'post-release-only mode must be explicit in job conditions'
 require_match 'github\.event\.inputs\.post_release_acceptance != '\''true'\''' 'expensive publication jobs must be excluded from post-release-only mode'
@@ -311,7 +321,7 @@ handoff_jobs="$(awk '
     sub(/^  /, "", job)
     sub(/:.*/, "", job)
   }
-  /cargo run .*-- handoff|tools\/cockpit-release handoff/ { print job }
+  job != "post_release_helper" && /cargo run .*-- handoff|tools\/cockpit-release handoff/ { print job }
 ' "$workflow")"
 if [[ "$handoff_jobs" != "publish_handoff" ]]; then
   printf 'policy failure: handoff generation must occur only after publication (jobs: %s)\n' "${handoff_jobs:-none}" >&2
