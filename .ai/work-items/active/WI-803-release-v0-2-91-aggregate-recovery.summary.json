@@ -1,7 +1,10 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.summary.json"
+  ],
   "checkpointAt": "2026-09-12T02:18:11Z",
-  "checkpointContractDigest": "sha256:681795c5865d899c190baeced53f6457ca796ede8e18f65bb8cf017ae6bd45a6",
+  "checkpointContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -39,7 +42,7 @@
       "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+  "checkpointRepositorySnapshotDigest": "sha256:7ba328080d9dddbd8e7c104c7e7ee7affb04eedf3ab068066395dcdf9bc42c91",
   "createdAt": "2026-09-12T02:15:18Z",
   "intentAlignment": {
     "evidence": [
@@ -51,11 +54,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
   "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
-  "preflightAt": "2026-09-12T03:12:36Z",
+  "preflightAt": "2026-09-12T03:24:16Z",
   "preflightContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
-  "preflightDecisionDigest": "sha256:6378c9dad97e78b812ad4d8858a45fe5452286b7ea9ef42568cbcf5bb406fac2",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:7ba328080d9dddbd8e7c104c7e7ee7affb04eedf3ab068066395dcdf9bc42c91",
-  "preflightState": "red",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-802-release-v0-2-91-recovery.recovery.38eecf872b80c7a2b4a8c658269e9c2c1967627e068801060e96bd83a8210948.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -79,11 +82,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-12T03:08:40Z"
-  },
-  "verificationRecoveryReconciled": "sha256:56eeb080e4e731f83ffedec8100eadb672d1842590b7fe5ec5e124dffe61af0e",
+  "verificationRecoveryReconciled": "sha256:d79b6bf4c8531cd84c1f102b8e743857e876836e4703cada3fece0d8f328f528",
   "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
 }
