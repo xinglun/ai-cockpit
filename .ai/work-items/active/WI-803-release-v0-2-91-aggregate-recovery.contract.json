@@ -1,0 +1,32 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "3df2ada0b577c87ec9f5a5a4fcf5dd7e7a6e23d2",
+  "createdAt": "2026-09-12T02:15:18Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
+  "predecessorWorkItemId": "WI-802-release-v0-2-91-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-802-release-v0-2-91-recovery.recovery.38eecf872b80c7a2b4a8c658269e9c2c1967627e068801060e96bd83a8210948.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:983ba6f6c86d3923e70a7358a56bc1724e8c9e9fb82218be08fea4450ca659a5",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-802-release-v0-2-91-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-802-release-v0-2-91-recovery"
+  },
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+}
