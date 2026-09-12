@@ -5,7 +5,12 @@
     "A regression test fails before the fix and passes after it for the exact argv, including --repo and --id.",
     "A pull-request quality route for a Work Item without provider resourceContext resolves the unique active Contract encoded by the dedicated branch, without weakening exact resource-bound PR selection or release/recovery identity checks.",
     "An absent or ambiguous branch-to-Work-Item mapping fails with one structured diagnostic before compilation or expensive quality jobs, and existing explicit release/recovery failures remain fail-closed.",
-    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection."
+    "Regression coverage proves ordinary no-resource PR selection, exact resource-bound PR precedence, and ambiguous/unmatched branch rejection.",
+    "A pull-request branch fallback accepts only an active Contract with no resourceContext; provisional or otherwise resource-bound Contracts never qualify by branch alone.",
+    "When a no-resource branch candidate shares its branch with any resource-bound Contract whose PR identity is not an exact match, resolution fails closed with a structured branch-conflict diagnostic.",
+    "Regression coverage proves provisional-resource rejection, resource-bound same-branch conflict rejection, and that push/tag routes never use the pull-request branch fallback.",
+    "An ordinary push with no merged pull request emits its ordinary repository route without an unbound-array failure.",
+    "An empty active Contract inventory produces the resolver's structured unresolved diagnostic instead of a shell unbound-array failure."
   ],
   "authority": "explicit-user-authorized-root-cause-repair-and-release",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
