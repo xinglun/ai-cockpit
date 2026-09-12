@@ -1,0 +1,228 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-804-release-route-ordering.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
+    "workItemId": "WI-804-release-route-ordering"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.b96edaae89a0942d49381063d50ec748640379c26db828b67b36afae49c075e6.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.cb02844f4deb941e12452903e07b03e0c225715bf6b0e2a1f5573fc682690458.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.debb6554735d1417a412d2f591806f0dfc62c1e42aa7efd6e31017fd7477ab90.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-804-release-route-ordering.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/install.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-first-start.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/ci-quality-gates.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/ci-quality-gates.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/ci-quality-gates.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-804-release-route-ordering.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+        ],
+        "inference": false,
+        "text": "Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-804-release-route-ordering"
+}

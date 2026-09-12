@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T05:26:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    ".ai/evidence/WI-804-release-route-ordering.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+  "predecessorEventsDigest": "sha256:5c1ffabfa654b8c29d713f244f33382c63e467a6075b72262b3267f3e70121e8",
+  "predecessorOutcomeDigest": "sha256:dea9dd758e0631c01eb2e6c2157c6485728483e072cc3944d7724eeff18cafe9",
+  "predecessorSummaryDigest": "sha256:8ad8d8a3109d5fcfe804bd3684dfe452467d31dfb958870ef008f275912c5f69",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The successful finish projection was generated while temporary amendment and control input files were still present. Reopen the same Work Item once to remove those temporary inputs, refresh the repository-local report, and finish again without repeating unrelated verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Delete only the named temporary input files, run fresh preflight and affected focused verification, then retry finish once. Do not dispatch a release from this retry.",
+  "runtimeDigest": "sha256:1ab03b03c937446b45793b60a2c1dd6703d538f3612a385d70fc6938cf12c662",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

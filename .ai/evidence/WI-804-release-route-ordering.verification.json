@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
-  "createdAt": "2026-09-12T04:58:34Z",
+  "contractDigest": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+  "createdAt": "2026-09-12T05:44:51Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 637,
-      "executionElapsedMs": 416,
+      "elapsedMs": 16562,
+      "executionElapsedMs": 16270,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -20,15 +20,15 @@
       "processesSpawned": 1,
       "protectedNodesExecuted": 0,
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+      "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
       "runtimeVersion": "0.2.91",
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 637,
-    "executionElapsedMs": 416,
-    "filesHashed": 9,
-    "filesRead": 9,
+    "elapsedMs": 16562,
+    "executionElapsedMs": 16270,
+    "filesHashed": 23,
+    "filesRead": 23,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -37,8 +37,15 @@
     "passed": true,
     "planReceipt": {
       "affectedPaths": [
-        ".github/workflows/release.yml",
-        "tests/release/workflow_policy.sh"
+        "crates/cockpit-agent/src/lib.rs",
+        "crates/cockpit-agent/tests/install.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/lifecycle_order.rs",
+        "docs/reference/agent-first-start.md",
+        "docs/reference/ci-quality-gates.ja.md",
+        "docs/reference/ci-quality-gates.md",
+        "docs/reference/ci-quality-gates.zh-CN.md"
       ],
       "assurance": "repository_verified",
       "baseRevision": "1b5d8a6923d1005efa270285ed25926ab9165559",
@@ -47,13 +54,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 416,
+      "executionElapsedMs": 16270,
       "finalTier": "T2",
       "initialTier": "T2",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "repositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -79,7 +86,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:12f927067a99d65b122720aa78216efcc041d7cf4221c7c3795504ea5d6f5255",
+        "outputDigest": "sha256:dee6bf308bdac005cada20808af3d5126347831603d3ee8379b92282fb6cf3dd",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -91,14 +98,14 @@
         "timedOut": false
       }
     ],
-    "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+    "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-804-release-route-ordering"
   },
-  "receiptDigest": "sha256:d0de07a63b04e65b084256c4efda30ad3a9325b9f80ca52027afba36820e1823",
+  "receiptDigest": "sha256:c9b5bdc45359bcfbdba7a9ddad1890fcbaad2eba26c8d7687fbeb6e024e222a4",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
-  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "repositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
+  "runtimeDigest": "sha256:b1bd622f5cb2af1c8c14f8950bd253043e2a9bf6b78b0c32fcaedba1e5d80d70",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-804-release-route-ordering"
 }

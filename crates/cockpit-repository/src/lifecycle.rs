@@ -1066,11 +1066,11 @@ pub fn amend_work_item_contract(
 /// Evaluate and persist the preflight decision for an active Work Item.
 ///
 /// Preflight is intentionally a repository-local receipt rather than process
-/// state.  A yellow result may be recorded before verification (for example,
+/// state. A yellow result may be recorded before verification (for example,
 /// when the Contract requires a verification receipt that does not exist yet),
-/// but `finish` requires a fresh green result.  This keeps the documented
-/// start -> preflight -> checkpoint -> verify path usable without weakening the
-/// finish gate.
+/// while evidence produced only by later release/adopter/close stages is
+/// deferred to those completion boundaries. `finish` requires a fresh green
+/// result for the current source-verification boundary.
 pub fn preflight_work_item(
     root: &Path,
     contract_path: &Path,
@@ -1111,13 +1111,11 @@ fn preflight_work_item_internal(
         &contract_path,
     )?;
     let snapshot = observation_context.snapshot().clone();
-    let raw_decision = governance_decision_for_contract_base_internal_with_archive(
+    let raw_decision = governance_decision_for_pre_execution_boundary(
         &root,
         &contract,
         &snapshot,
         current_runtime,
-        false,
-        None,
         Some(&observation_context),
     )?;
     let decision = apply_preflight_review_evidence(
@@ -1255,7 +1253,10 @@ fn require_green_or_yellow_preflight_governance(
     snapshot: &RepositorySnapshot,
     preflight_state: &str,
 ) -> Result<(), ObserverError> {
-    let decision = governance_decision_for_contract(root, contract, snapshot)?;
+    let decision =
+        governance_decision_for_pre_execution_boundary(root, contract, snapshot, None, None)?;
+    let decision =
+        super::apply_preflight_review_evidence(root, contract, snapshot, decision, false, None)?;
     let current_state = decision_state_name(decision.state.clone());
     if current_state == "red" || preflight_state == "red" {
         return Err(ObserverError::State {
@@ -3120,13 +3121,11 @@ fn record_verification_internal(
         path: root.clone(),
         message: error.to_string(),
     })?;
-    let raw_decision = governance_decision_for_contract_base_internal_with_archive(
+    let raw_decision = governance_decision_for_pre_execution_boundary(
         &root,
         &contract,
         &refreshed_snapshot,
         current_runtime,
-        false,
-        None,
         None,
     )?;
     let decision = apply_preflight_review_evidence(

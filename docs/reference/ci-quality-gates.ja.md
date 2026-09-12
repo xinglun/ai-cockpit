@@ -46,11 +46,12 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 結果は非ゼロで終了し、リポジトリコマンドを認可しません。
 
 これは entry gate であり、lifecycle-completion gate ではありません。
-`requiredEvidenceClasses` は引き続き finish/archive/close の要件です。
-後続の release、public-adopter、close、cleanup stage でしか生成できない
-evidence は、現在の command を開始できるか判定する pre-execution gate では
-missing として扱いません。lifecycle evaluator は completion boundary で
-宣言されたすべての class を引き続き強制します。
+`requiredEvidenceClasses` は lifecycle の要件として残りますが、evaluator は
+stage-aware に判定します。preflight、checkpoint、verification refresh、
+`finish` では、現在の source-verification boundary を認可できる evidence
+だけを強制します。後続の release、public-adopter、close、cleanup stage でしか
+生成できない evidence は、実際に取得できる `archive`/`close` で検査します。
+これにより `finish` が将来の stage の事実に依存することを防ぎます。
 
 entry gate で human preflight review が必要な場合は、Work Item Summary に記録された
 canonical preflight decision digest を再利用します。stage 固有の quality projection は

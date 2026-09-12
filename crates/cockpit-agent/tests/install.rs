@@ -66,6 +66,12 @@ fn install_creates_only_owned_managed_section() {
     assert!(content.contains("AI_COCKPIT_ADAPTER_BEGIN"));
     assert!(content.contains("Do not infer AI Cockpit state from this file."));
     assert!(content.contains("Read .ai/README.md before acting"));
+    assert!(content.contains("## Agent First-Start Gate"));
+    assert!(content.contains("Establish the exact repository root"));
+    assert!(content.contains("Do not repeat a failed command blindly"));
+    assert!(content.contains("A technical"));
+    assert!(content.contains("retry is not a new Work Item"));
+    assert!(content.contains("Installation of an adapter changes only its owned managed section"));
     assert!(
         content.contains("Every repository-bound command must include an explicit --repo <path>.")
     );

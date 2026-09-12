@@ -1,39 +1,203 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "recovery identity and merge-parent selection assertions",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "build dependency assertion",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        },
+        {
+          "locator": "release gate dependency assertion",
+          "path": "tests/ci/release_gate_policy_test.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "normal and recovery source binding policy",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "workflow policy regression",
+          "path": "tests/release/workflow_policy.sh",
+          "type": "test",
+          "verification": "passed locally"
+        },
+        {
+          "locator": "release gate policy regression",
+          "path": "tests/ci/release_gate_policy_test.sh",
+          "type": "test",
+          "verification": "passed locally"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "canonical English first-start procedure and Runtime projection",
+          "path": "docs/reference/agent-first-start.md",
+          "type": "documentation",
+          "verification": "covered by cockpit-agent package tests"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "owned managed section, repository boundary, and byte-stable install",
+          "path": "crates/cockpit-agent/tests/install.rs",
+          "type": "test",
+          "verification": "passed: 9 tests"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A8",
+      "evidence": [
+        {
+          "locator": "first-start gate content and idempotence regression",
+          "path": "crates/cockpit-agent/tests/install.rs",
+          "type": "test",
+          "verification": "passed: cargo test --locked -p cockpit-agent"
+        },
+        {
+          "locator": "Runtime-bound focused verification",
+          "path": ".ai/evidence/WI-804-release-route-ordering.verification.json",
+          "type": "verification",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
-    ".ai/decisions/.WI-803-to-WI-804-recovery-input.json",
-    ".ai/decisions/.WI-804-retry-input.json",
-    ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
-    ".ai/decisions/WI-804-release-route-ordering.recovery.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.b96edaae89a0942d49381063d50ec748640379c26db828b67b36afae49c075e6.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.cb02844f4deb941e12452903e07b03e0c225715bf6b0e2a1f5573fc682690458.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.debb6554735d1417a412d2f591806f0dfc62c1e42aa7efd6e31017fd7477ab90.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-804-release-route-ordering.verification.json",
     ".ai/work-items/active/WI-804-release-route-ordering.contract.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.events.jsonl",
+    ".ai/work-items/active/WI-804-release-route-ordering.outcome.json",
     ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
-    ".github/workflows/release.yml",
-    "tests/release/workflow_policy.sh"
+    ".ai/work-items/active/WI-804-release-route-ordering.task-report.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.task-report.md",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/ci-quality-gates.ja.md",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/ci-quality-gates.zh-CN.md"
   ],
   "checkpointAt": "2026-09-12T04:42:18Z",
-  "checkpointContractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+  "checkpointContractDigest": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "recorded": true,
+      "recordedAt": "2026-09-12T04:42:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:599983140ea4f544ea11c3c5a970ea5be3474608e9878cdc7a60ccee49af588a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "reason": "The repository owner clarified that the Agent First-Start procedure must be a shared installed Runtime capability for object-engineering repositories, not a Sentinel repository change. Add the canonical procedure and adapter projection to this Work Item before release, preserving the existing route repair and its evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T05:02:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+      "previousContractHash": "sha256:599983140ea4f544ea11c3c5a970ea5be3474608e9878cdc7a60ccee49af588a",
+      "reason": "The implementation audit found that preflight, checkpoint, verification refresh, and finish still used the strict completion-evidence evaluator. Add the lifecycle stage boundary fix and regression coverage so future release or close evidence cannot block current source verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T05:19:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1d27156926b9f2b5ee691ee658bece6d61c1256c19eeec6413247d965cd8e8cd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-804-release-route-ordering"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
   "createdAt": "2026-09-12T04:41:38Z",
-  "failedGate": "finish.finalization",
   "intentAlignment": {
     "evidence": [
+      "crates/cockpit-agent/src/lib.rs",
+      "docs/reference/agent-first-start.md",
       ".github/workflows/release.yml",
       "tests/release/workflow_policy.sh"
     ],
+    "reason": "The shared installed Runtime now projects the same English first-start gate into any explicitly installed repository-owned Agent adapter, while release recovery keeps governance identity separate from immutable artifact identity.",
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
   "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
-  "preflightAt": "2026-09-12T04:58:34Z",
-  "preflightContractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-12T05:44:52Z",
+  "preflightContractDigest": "sha256:64beb7f77bebf394720c246ef4743db4a3e96bdbed6ce74d72c228d90c2afe38",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a67dc07e07c8e1b128e1e9b2fc5813aa998f884d4eec37a457fef37d2f1377a7",
+  "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
   "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -65,14 +229,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-12T04:59:11Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T05:45:00Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:903f65f194055a568af2b708047d1ba2ca6122f2a0bb96e8102ff8f64c304c52",
   "workItemId": "WI-804-release-route-ordering"
 }

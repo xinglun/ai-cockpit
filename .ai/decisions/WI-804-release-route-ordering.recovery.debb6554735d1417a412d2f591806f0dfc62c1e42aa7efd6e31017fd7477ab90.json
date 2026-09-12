@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T05:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/781",
+    ".ai/evidence/WI-804-release-route-ordering.verification.json",
+    ".ai/decisions/WI-804-release-route-ordering.finalize.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f88001592437bc64927b1c065893413e3938c1dd90da909836895eb12f4ddbc0",
+  "predecessorEventsDigest": "sha256:5cdaa0a4e55d709461222835155b30ea807056d89733b877f470867a5b4aa88b",
+  "predecessorOutcomeDigest": "sha256:95acb6d00db848ed49c75759a81471357db1e07bf2927161342760bdcb3b6b49",
+  "predecessorSummaryDigest": "sha256:8d1e8bc59d9e8f831cd95e329090ae678dc528ef15391af0e4350f52bd72b90d",
+  "predecessorWorkItemId": "WI-804-release-route-ordering",
+  "reason": "The explicit PR finalization plan correctly bound the current branch, worktree, and PR, but it changed the Contract identity after a prior verification receipt existed. Runtime therefore failed closed with evidence_contradictory. Preserve the old receipt and retry the same Work Item once under the finalized PR context; do not create a successor or repeat unrelated checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and focused cockpit-agent verification under the finalized PR context, then retry finish only after the current evidence is green. Do not dispatch a release.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-804-release-route-ordering"
+}

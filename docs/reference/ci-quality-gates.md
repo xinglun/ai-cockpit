@@ -48,11 +48,12 @@ receipt digest, decision state, verification tier, and evidence assurance.
 Yellow or red output exits non-zero and cannot authorize repository commands.
 
 This is an entry gate, not a lifecycle-completion gate. `requiredEvidenceClasses`
-remain requirements for finish/archive/close; evidence that can only be
-produced by later release, public-adopter, close, or cleanup stages is not
-treated as missing while this pre-execution gate is deciding whether to start
-the current command. The lifecycle evaluator still enforces every declared
-class at its completion boundary.
+remain lifecycle requirements, but the evaluator is stage-aware: preflight,
+checkpoint, verification refresh, and `finish` enforce only evidence that can
+authorize the current source-verification boundary. Evidence produced only by
+later release, public-adopter, close, or cleanup stages is enforced by
+`archive`/`close`, where it can actually be obtained. This prevents `finish`
+from depending on facts that do not exist until a future stage.
 
 When a human preflight review is required, an entry gate reuses the canonical
 preflight decision digest recorded by the Work Item Summary. The stage-specific
