@@ -2825,11 +2825,29 @@ pub fn resolve_verification_route(
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    resolve_verification_route_for_contract(
+        &root,
+        &contract_path,
+        &contract,
+        stage,
+        runner,
+        snapshot,
+    )
+}
+
+fn resolve_verification_route_for_contract(
+    root: &Path,
+    contract_path: &Path,
+    contract: &cockpit_protocol::Contract,
+    stage: VerificationStage,
+    runner: &str,
+    snapshot: &RepositorySnapshot,
+) -> Result<VerificationRoute, ObserverError> {
     let operation = verification_operation_for_contract(&contract).to_owned();
     let base_revision = if stage.requires_base_revision() {
         if !valid_git_object_id(&contract.base_revision) {
             return Err(ObserverError::State {
-                path: contract_path.clone(),
+                path: contract_path.to_path_buf(),
                 message: format!(
                     "verification stage {} requires a valid Contract baseRevision",
                     stage.as_str()
@@ -2945,7 +2963,7 @@ pub fn resolve_verification_route(
     affected_paths.sort();
     affected_paths.dedup();
     Ok(VerificationRoute {
-        work_item_id: work_item_id.into(),
+        work_item_id: contract.work_item_id.clone(),
         operation,
         stage,
         policy_plan,
@@ -3014,6 +3032,42 @@ pub fn evaluate_contract_quality_gate(
             message: "Contract repositoryId does not match the repository context".into(),
         });
     }
+    let archive_dir = root.join(".ai/work-items/archive");
+    let archived_contract = contract_path.parent() == Some(archive_dir.as_path());
+    if archived_contract {
+        if stage != VerificationStage::PullRequest {
+            return Err(ObserverError::State {
+                path: contract_path.clone(),
+                message: "archived Contract quality gate is restricted to pull-request stage"
+                    .into(),
+            });
+        }
+        if contract.resource_context.is_none() {
+            return Err(ObserverError::State {
+                path: contract_path.clone(),
+                message: "archived Contract quality gate requires an external resource context"
+                    .into(),
+            });
+        }
+        let active_contract = root
+            .join(".ai/work-items/active")
+            .join(format!("{}.contract.json", contract.work_item_id));
+        if fs::symlink_metadata(&active_contract).is_ok() {
+            return Err(ObserverError::State {
+                path: active_contract,
+                message: "active and archived Contract identities collide".into(),
+            });
+        }
+        let archive_manifest = archive_dir.join(format!("{}.archive.json", contract.work_item_id));
+        if !is_regular_non_symlink(&archive_manifest)? {
+            return Err(ObserverError::State {
+                path: archive_manifest,
+                message: "archived Contract requires a regular archive manifest".into(),
+            });
+        }
+        let manifest = read_json(&archive_manifest)?;
+        verify_archive_manifest(&root, &contract.work_item_id, &manifest)?;
+    }
     let comparison_base_revision = expected_base_revision
         .map(str::to_owned)
         .unwrap_or_else(|| contract.base_revision.clone());
@@ -3057,17 +3111,36 @@ pub fn evaluate_contract_quality_gate(
             source,
         },
     )?);
-    let route =
-        resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?;
+    let route = if archived_contract {
+        resolve_verification_route_for_contract(
+            &root,
+            &contract_path,
+            &contract,
+            stage,
+            runner,
+            &snapshot,
+        )?
+    } else {
+        resolve_verification_route(&root, &contract.work_item_id, stage, runner, &snapshot)?
+    };
     let mut blockers = contract_freshness_findings(&root, &contract, &snapshot)?;
     // This gate runs before the command represented by the route.  Contract
     // evidence classes describe lifecycle completion, so release, adopter,
     // close, and cleanup evidence cannot be required before those stages can
     // produce it.  The mutable lifecycle gates still use the strict normal
     // governance path below and enforce every declared class.
-    let decision = governance_decision_for_pre_execution_quality_gate(
-        &root, &contract, &snapshot, stage, runtime,
-    )?;
+    let decision = if archived_contract {
+        governance_decision_for_archived_contract_internal(
+            &root,
+            &contract,
+            &snapshot,
+            Some(runtime),
+        )?
+    } else {
+        governance_decision_for_pre_execution_quality_gate(
+            &root, &contract, &snapshot, stage, runtime,
+        )?
+    };
     blockers.extend(decision.blockers.clone());
     blockers.sort();
     blockers.dedup();
@@ -8303,6 +8376,12 @@ fn verify_archive_manifest_with_options(
     let archive = root.join(".ai/work-items/archive");
     for name in ["contract", "summary", "outcome"] {
         let path = archive.join(format!("{work_item_id}.{name}.json"));
+        if !is_regular_non_symlink(&path)? {
+            return Err(ObserverError::State {
+                path,
+                message: format!("archived {name} must be a regular non-symlink file"),
+            });
+        }
         let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,
@@ -8355,6 +8434,12 @@ fn verify_archive_manifest_with_options(
             continue;
         }
         let path = archive.join(format!("{work_item_id}.{suffix}"));
+        if !optional_regular_artifact(&path, "archived manifest file")? {
+            return Err(ObserverError::State {
+                path,
+                message: format!("archived {name} is missing"),
+            });
+        }
         let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
             path: path.clone(),
             source,

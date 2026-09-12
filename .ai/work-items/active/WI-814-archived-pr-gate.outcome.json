@@ -1,0 +1,279 @@
+{
+  "acceptanceResults": [
+    "A current resource-bound PR with an active matching Contract still selects that active Contract and runs the existing Contract-aware gate.",
+    "A historical archived resource-bound PR is selected only by exact branch/PR identity and a valid archive manifest; the Rust gate is PR-only, read-only, and never changes mutable lifecycle evidence.",
+    "An archived no-resource PR and an ordinary main push without an active binding use the ordinary repository route without requiring a semantic Release tag or Contract base.",
+    "A tag push and explicit immutable-tag recovery remain active-Contract-only and fail closed on missing, archived, ambiguous, or mismatched identity.",
+    "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
+    "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
+    "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries."
+  ],
+  "createdAt": "2026-09-12T18:04:48Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c96c12522a0894fa1c74025a93ea576d8169eae9364b8097ebf22c4b5dc1356a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/README.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-814-archived-pr-gate.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/ci.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: AGENTS.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-runtime-shadow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/quality_route_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_repository_gates.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/workflow_convergence_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Separate no-resource ordinary archived routes from historical resource-bound PR routes, validate archived identity and manifest bindings in a Rust read-only gate, and remove contradictory lifecycle instructions that cause agents or CI to skip governance or retry from the wrong stage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-814-archived-pr-gate"
+  },
+  "taskReportDigest": "sha256:64155ff81f3aa1e00d9e1a71837ffdb71c807b14ec5a5e5357640c46b3b50466",
+  "taskReportMarkdownDigest": "sha256:ea345158a12411ab6182192bd8c099dd6c41bbc2bc0d6cf2578111d964406674",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-814-archived-pr-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-814-archived-pr-gate"
+}

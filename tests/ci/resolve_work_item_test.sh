@@ -54,6 +54,146 @@ jq -e \
   '.mode == "pull_request" and .workItemId == "WI-TEST" and .contractPath == ".ai/work-items/active/WI-TEST.contract.json" and .baseRevision == $base' \
   --arg base "$base" "$pull_request_output" >/dev/null
 
+mkdir -p "$fixture/repo/.ai/work-items/archive"
+cp "$fixture/repo/.ai/work-items/active/WI-TEST.contract.json" \
+  "$fixture/repo/.ai/work-items/archive/WI-TEST.contract.json"
+collision_contract_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-TEST.contract.json" | awk '{print $1}')"
+cat > "$fixture/repo/.ai/work-items/archive/WI-TEST.archive.json" <<JSON
+{
+  "workItemId": "WI-TEST",
+  "state": "archived",
+  "files": {
+    "contractPath": ".ai/work-items/archive/WI-TEST.contract.json",
+    "contractDigest": "$collision_contract_digest"
+  }
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/test-route \
+  --pr-url https://github.com/example/repo/pull/7 \
+  --output "$fixture/collision.json" >/dev/null 2>&1; then
+  echo 'expected active/archive Contract collision to fail closed' >&2
+  exit 1
+fi
+jq -e '.failureCode == "work_item_contract_ambiguous" and .state == "failed"' \
+  "$fixture/collision.json" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED.contract.json" <<JSON
+{
+  "workItemId": "WI-ARCHIVED",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/archived-route",
+    "pullRequest": "https://github.com/example/repo/pull/8"
+  },
+  "scope": ["README.md"]
+}
+JSON
+archived_contract_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED.contract.json" | awk '{print $1}')"
+cat > "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED.archive.json" <<JSON
+{
+  "workItemId": "WI-ARCHIVED",
+  "state": "archived",
+  "files": {
+    "contractPath": ".ai/work-items/archive/WI-ARCHIVED.contract.json",
+    "contractDigest": "$archived_contract_digest"
+  }
+}
+JSON
+archived_pull_request_output="$fixture/archived-pull-request.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/archived-route \
+  --pr-url https://github.com/example/repo/pull/8 \
+  --output "$archived_pull_request_output"
+jq -e \
+  '.state == "ready" and .mode == "pull_request" and .selectionMethod == "archived_contract_read_only" and .workItemId == "WI-ARCHIVED" and .contractPath == ".ai/work-items/archive/WI-ARCHIVED.contract.json" and .baseRevision == $base' \
+  --arg base "$base" "$archived_pull_request_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED-NO-RESOURCE.contract.json" <<JSON
+{
+  "workItemId": "WI-ARCHIVED-NO-RESOURCE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+no_resource_contract_digest="sha256:$(shasum -a 256 "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED-NO-RESOURCE.contract.json" | awk '{print $1}')"
+cat > "$fixture/repo/.ai/work-items/archive/WI-ARCHIVED-NO-RESOURCE.archive.json" <<JSON
+{
+  "workItemId": "WI-ARCHIVED-NO-RESOURCE",
+  "state": "archived",
+  "files": {
+    "contractPath": ".ai/work-items/archive/WI-ARCHIVED-NO-RESOURCE.contract.json",
+    "contractDigest": "$no_resource_contract_digest"
+  }
+}
+JSON
+no_resource_pull_request_output="$fixture/archived-no-resource-pull-request.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/archived-no-resource \
+  --pr-url https://github.com/example/repo/pull/9 \
+  --output "$no_resource_pull_request_output"
+jq -e \
+  '.state == "ready" and .mode == "pull_request" and .selectionMethod == "ordinary_repository_route" and .contractPath == null and .workItemId == null' \
+  "$no_resource_pull_request_output" >/dev/null
+
+mkdir -p "$fixture/fake-bin"
+cat > "$fixture/fake-bin/gh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == api ]]; then
+  exit 0
+fi
+echo "unexpected fake gh invocation" >&2
+exit 1
+SH
+chmod +x "$fixture/fake-bin/gh"
+ordinary_push_output="$fixture/ordinary-push.json"
+PATH="$fixture/fake-bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/heads/main GITHUB_REF_NAME=main \
+  "$resolver" \
+    --repo "$fixture/repo" \
+    --event push \
+    --head "$head" \
+    --output "$ordinary_push_output"
+jq -e \
+  '.state == "ready" and .mode == "merge" and .selectionMethod == "ordinary_repository_route" and .contractPath == null and .workItemId == null and .baseRevision == null and .releaseSourceRevision == null' \
+  "$ordinary_push_output" >/dev/null
+
+cat > "$fixture/fake-bin/gh" <<'SH'
+#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" == api ]]; then
+  printf 'https://github.com/example/repo/pull/7\tcodex/test-route\n'
+  exit 0
+fi
+echo "unexpected fake gh invocation" >&2
+exit 1
+SH
+chmod +x "$fixture/fake-bin/gh"
+tag_push_output="$fixture/tag-push.json"
+PATH="$fixture/fake-bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/tags/v0.2.91 GITHUB_REF_NAME=v0.2.91 \
+  "$resolver" \
+    --repo "$fixture/repo" \
+    --event push \
+    --head "$head" \
+    --release-source-revision "$base" \
+    --output "$tag_push_output"
+jq -e \
+  '.state == "ready" and .mode == "tag_release" and .selectionMethod == "merged_pull_request_binding" and .workItemId == "WI-TEST" and .releaseSourceRevision == $source' \
+  --arg source "$base" "$tag_push_output" >/dev/null
+
 recovery_output="$fixture/recovery.json"
 "$resolver" \
   --repo "$fixture/repo" \

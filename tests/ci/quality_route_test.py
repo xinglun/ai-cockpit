@@ -304,7 +304,7 @@ assert "contract_path:" in release_workflow
 assert "release-input-preflight" in release_workflow
 assert "resolve_work_item.sh" in release_workflow
 assert "work_item_id_required" in resolver
-assert "no active Contract is explicitly bound to this event identity" in resolver
+assert "no active or exact archived Contract is explicitly bound to this event identity" in resolver
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
 assert "name: Bind the shared typed repository quality route" in ci_workflow
@@ -313,10 +313,9 @@ assert (
     "if: steps.quality_route.outputs.profile != 'light' && "
     "steps.quality_route.outputs.contract_path != ''"
 ) in ci_workflow
-assert ci_workflow.count(
-    "steps.quality_route.outputs.profile != 'light' && "
-    "steps.quality_route.outputs.contract_path != ''"
-) == 4
+assert "if: steps.quality_route.outputs.contract_path != ''" in ci_workflow
+assert "if: always() && steps.quality_route.outputs.contract_path != ''" in ci_workflow
+assert 'if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then' in ci_workflow
 assert "name: Plan the initial typed repository quality route" not in ci_workflow
 assert "name: Finalize the typed repository quality route" not in ci_workflow
 assert "target/quality-route-initial.json" not in ci_workflow

@@ -54,15 +54,23 @@ out-of-scope boundary, evidence, and verification commands current. If an
 in-scope defect is discovered, amend and verify the current Contract before
 opening another Work Item; do not hide it in a later task.
 
-The canonical delivery order is latest remote default base → dedicated
-branch/worktree → implement → finish/archive → push → reviewed PR → merge →
-close → synchronize and clean. Never merge a feature branch into local `main`
-before PR review, delete its branch before merge, or let a provider auto-delete
-it to bypass finalization. If a remote step fails, preserve the retry checkout
-and identity until recovery is complete. A repository is `ready_on_base` only
-after the reviewed merge, synchronized default branch, and exact cleanup have
-been verified; a detached or otherwise unbound worktree is not ready for the
-next Work Item.
+The delivery order is conditional on the Contract. A Work Item with no
+external resource uses latest remote default base → dedicated branch/worktree
+→ implement → preflight → checkpoint → verify → finish → archive → close →
+synchronize and clean. A resource-bound Work Item uses latest remote default
+base → dedicated branch/worktree → implement → finalize-plan → preflight →
+checkpoint → verify → finish → reviewed PR → merge → declared hosted,
+candidate, release, or public-artifact evidence → archive → finalize →
+finalize-verify → close → synchronize and clean. Never merge a feature branch
+into local `main` before PR review, delete its branch before merge, or let a
+provider auto-delete it to bypass finalization. If a remote step fails,
+preserve the retry checkout and identity until recovery is complete. A
+repository is `ready_on_base` only after the reviewed merge when applicable,
+synchronized default branch, and exact cleanup have been verified; a detached
+or otherwise unbound worktree is not ready for the next Work Item. Historical
+resource-bound PRs are read-only archive routes: they require an exact
+archived Contract and valid archive manifest, and must not be reclassified as
+ordinary no-Contract work.
 
 Merge only the reviewed PR after its hosted checks pass. Do not use local-main
 as a substitute for pre-merge review. After merge, synchronize the default

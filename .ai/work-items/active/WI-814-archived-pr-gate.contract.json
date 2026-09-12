@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "A current resource-bound PR with an active matching Contract still selects that active Contract and runs the existing Contract-aware gate.",
+    "A historical archived resource-bound PR is selected only by exact branch/PR identity and a valid archive manifest; the Rust gate is PR-only, read-only, and never changes mutable lifecycle evidence.",
+    "An archived no-resource PR and an ordinary main push without an active binding use the ordinary repository route without requiring a semantic Release tag or Contract base.",
+    "A tag push and explicit immutable-tag recovery remain active-Contract-only and fail closed on missing, archived, ambiguous, or mismatched identity.",
+    "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
+    "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
+    "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries."
+  ],
+  "authority": "authorized",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T17:24:33Z",
+  "goal": "Separate no-resource ordinary archived routes from historical resource-bound PR routes, validate archived identity and manifest bindings in a Rust read-only gate, and remove contradictory lifecycle instructions that cause agents or CI to skip governance or retry from the wrong stage.",
+  "intent": "Make archived historical PR quality checks explicit and read-only while preserving active Contract governance for current resource-bound Work Items.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".github/workflows/release.yml",
+    "crates/cockpit-cli/src/main.rs",
+    "tests/release/**",
+    "published Release tags and assets",
+    "existing archive/evidence/decision bytes",
+    "object engineering repositories",
+    "performance migration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A current resource-bound pull request selects exactly its matching active Contract and runs the existing Contract-aware gate.",
+      "required": true,
+      "scenario": "active resource-bound pull request selects its active Contract",
+      "status": "unverified",
+      "verificationPlan": "Run the resolver and hosted-route regression with an active branch and pull-request binding, then inspect the selection and gate receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "A historical pull request selects an archived Contract only through exact branch and pull-request identity plus a valid archive manifest; the Rust gate remains pull-request-only and performs no mutable lifecycle writes.",
+      "required": true,
+      "scenario": "historical resource-bound pull request uses a read-only archived Contract gate",
+      "status": "unverified",
+      "verificationPlan": "Add and run a Rust and shell regression using a valid archived resource-bound Contract, then compare all .ai bytes before and after the gate."
+    },
+    {
+      "evidence": [],
+      "expected": "An archived Contract without an external resource does not force a historical governance gate; the pull request uses the ordinary repository route.",
+      "required": true,
+      "scenario": "archived no-resource pull request remains on the ordinary repository route",
+      "status": "unverified",
+      "verificationPlan": "Run the resolver regression with an archived no-resource Work Item and inspect the selection method and route receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "An ordinary push to the main branch with no matching active Contract selects the ordinary merge route and does not apply Release-tag validation.",
+      "required": true,
+      "scenario": "ordinary main push does not require a Contract or Release tag",
+      "status": "unverified",
+      "verificationPlan": "Run the main-push resolver and workflow convergence regression with an empty merged-PR result and verify the typed ordinary route."
+    },
+    {
+      "evidence": [],
+      "expected": "Tag pushes and explicit immutable-tag recovery reject missing, archived, ambiguous, or mismatched Contract identity before any expensive gate execution.",
+      "required": true,
+      "scenario": "tag and explicit recovery routes remain active-Contract-only",
+      "status": "unverified",
+      "verificationPlan": "Run the tag and recovery resolver matrix with active, archived, missing, and ambiguous bindings and inspect each structured failure."
+    },
+    {
+      "evidence": [],
+      "expected": "A collision between active and archived Contracts, or any repository, base, digest, symlink, branch, or pull-request mismatch, produces one deterministic blocking diagnostic.",
+      "required": true,
+      "scenario": "active and archived identity collisions fail closed",
+      "status": "unverified",
+      "verificationPlan": "Run collision and tamper fixtures through the shell resolver and Rust Contract gate, confirming no fallback to an ungoverned ordinary route."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, Japanese, AGENTS.md, and .ai/README.md state the same resource-bound versus no-resource order and archived pull-request exception.",
+      "required": true,
+      "scenario": "conditional lifecycle guidance is parity-consistent",
+      "status": "unverified",
+      "verificationPlan": "Run the documentation parity and workflow guidance tests, then compare the normalized lifecycle assertions across all declared documents."
+    }
+  ],
+  "scope": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".github/workflows/ci.yml",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/ci/quality_route.py",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/workflow_convergence_test.sh",
+    "docs/reference/ci-runtime-shadow.md",
+    "docs/reference/ci-runtime-shadow.zh-CN.md",
+    "docs/reference/ci-runtime-shadow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "tests/ci/quality_route_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-814-archived-pr-gate"
+}

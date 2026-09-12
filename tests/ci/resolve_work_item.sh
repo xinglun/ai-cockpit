@@ -75,6 +75,50 @@ is_semver_tag() {
   [[ "$1" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]
 }
 
+is_release_tag_push() {
+  [[ "$event" == push && "${GITHUB_REF:-}" == refs/tags/* ]]
+}
+
+emit_ordinary_route() {
+  local method=$1 mode=$2
+  jq -n \
+    --arg event "$event" \
+    --arg mode "$mode" \
+    --arg head "$head" \
+    --arg method "$method" \
+    '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:null,workItemId:null,contractPath:null,contractDigest:null,baseRevision:null,selectionMethod:$method,recoveryLineage:null,fromTag:null,toTag:null}' \
+    > "$output_path"
+  exit 0
+}
+
+validate_archived_contract_anchor() {
+  local archive_contract=$1
+  local archive_id=$2
+  local archive_manifest="$archive_dir/$archive_id.archive.json"
+  [[ -f "$archive_contract" && ! -L "$archive_contract" ]] || \
+    fail archived_contract_not_regular 'selected archived Contract must be a regular non-symlink file'
+  [[ -f "$archive_manifest" && ! -L "$archive_manifest" ]] || \
+    fail archive_manifest_missing 'selected archived Contract has no regular archive manifest'
+  local manifest_id manifest_state manifest_path expected_digest actual_digest
+  manifest_id=$(jq -er '.workItemId' "$archive_manifest" 2>/dev/null) || \
+    fail archive_manifest_invalid 'selected archive manifest has no valid workItemId'
+  [[ "$manifest_id" == "$archive_id" ]] || \
+    fail archive_manifest_identity_mismatch 'archive manifest Work Item identity does not match the selected Contract'
+  manifest_state=$(jq -er '.state' "$archive_manifest" 2>/dev/null) || \
+    fail archive_manifest_invalid 'selected archive manifest has no state'
+  [[ "$manifest_state" == archived || "$manifest_state" == superseded ]] || \
+    fail archive_manifest_invalid 'selected archive manifest state is not archived or superseded'
+  manifest_path=$(jq -er '.files.contractPath' "$archive_manifest" 2>/dev/null) || \
+    fail archive_manifest_invalid 'selected archive manifest has no contractPath'
+  [[ "$manifest_path" == ".ai/work-items/archive/$archive_id.contract.json" ]] || \
+    fail archive_manifest_identity_mismatch 'archive manifest contractPath does not match the selected Contract'
+  expected_digest="sha256:$(shasum -a 256 "$archive_contract" | awk '{print $1}')"
+  actual_digest=$(jq -er '.files.contractDigest' "$archive_manifest" 2>/dev/null) || \
+    fail archive_manifest_invalid 'selected archive manifest has no contractDigest'
+  [[ "$actual_digest" == "$expected_digest" ]] || \
+    fail archive_manifest_digest_mismatch 'archive manifest Contract digest does not match the selected Contract'
+}
+
 [[ "$head" =~ ^[0-9a-f]{40}$ ]] || fail invalid_head_revision 'head revision must be a full commit SHA'
 git -C "$repo_root" cat-file -e "${head}^{commit}" 2>/dev/null || fail invalid_head_revision 'head revision is not present in the checkout'
 
@@ -114,6 +158,7 @@ if [[ "$event" == pull_request ]]; then
 fi
 
 active_dir="$repo_root/.ai/work-items/active"
+archive_dir="$repo_root/.ai/work-items/archive"
 all_contracts=()
 if [[ -d "$active_dir" ]]; then
   while IFS= read -r contract_path_from_find; do
@@ -121,7 +166,15 @@ if [[ -d "$active_dir" ]]; then
   done < <(find "$active_dir" -maxdepth 1 -type f -name '*.contract.json' -print | sort)
 fi
 
+archive_contracts=()
+if [[ -d "$archive_dir" ]]; then
+  while IFS= read -r contract_path_from_find; do
+    [[ -n "$contract_path_from_find" ]] && archive_contracts+=("$contract_path_from_find")
+  done < <(find "$archive_dir" -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+fi
+
 candidate_contracts=()
+archived_candidate_contracts=()
 selection_method=''
 if [[ -n "$contract_path_arg" ]]; then
   if [[ "$contract_path_arg" = /* ]]; then
@@ -154,6 +207,27 @@ elif [[ "$event" == pull_request ]]; then
       candidate_contracts+=("$contract_path")
     fi
   done
+  if ((${#archive_contracts[@]} > 0)); then
+    for contract_path in "${archive_contracts[@]}"; do
+      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an archived Contract is not valid JSON'
+      fi
+      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+        fail contract_invalid 'an archived Contract is not valid JSON'
+      fi
+      [[ -n "$branch" && -n "$bound_pr" ]] || continue
+      if [[ "$branch" == "$pr_head_ref" && "$bound_pr" == "$pr_url" ]]; then
+        archived_candidate_contracts+=("$contract_path")
+      fi
+    done
+  fi
+  if ((${#archived_candidate_contracts[@]} > 0)); then
+    if ((${#candidate_contracts[@]} > 0)); then
+      fail work_item_contract_ambiguous 'active and archived Contracts are bound to the same pull request identity'
+    fi
+    candidate_contracts=("${archived_candidate_contracts[@]}")
+    selection_method='archived_contract_read_only'
+  fi
 elif [[ "$event" == push ]]; then
   [[ -n "$github_repository" ]] || fail github_repository_required 'tag/merge selection requires GITHUB_REPOSITORY'
   [[ -n "${GH_TOKEN:-}" ]] || fail github_token_required 'tag/merge selection requires GH_TOKEN'
@@ -167,20 +241,22 @@ elif [[ "$event" == push ]]; then
   while IFS= read -r merged_pr; do
     [[ -n "$merged_pr" ]] && merged_prs+=("$merged_pr")
   done <<< "$merged_pr_output"
-  for pr in "${merged_prs[@]}"; do
-    IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
-    for contract_path in "${all_contracts[@]}"; do
-      if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
-        fail contract_invalid 'an active Contract is not valid JSON'
-      fi
-      if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
-        candidate_contracts+=("$contract_path")
-      fi
+  if ((${#merged_prs[@]} > 0)); then
+    for pr in "${merged_prs[@]}"; do
+      IFS=$'\t' read -r merged_pr_url merged_pr_ref <<< "$pr"
+      for contract_path in "${all_contracts[@]}"; do
+        if ! branch=$(jq -r '.resourceContext.branch // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if ! bound_pr=$(jq -r '.resourceContext.pullRequest // empty' "$contract_path" 2>/dev/null); then
+          fail contract_invalid 'an active Contract is not valid JSON'
+        fi
+        if [[ "$branch" == "$merged_pr_ref" && "$bound_pr" == "$merged_pr_url" ]]; then
+          candidate_contracts+=("$contract_path")
+        fi
+      done
     done
-  done
+  fi
 else
   fail unsupported_event 'event must be pull_request, push, or workflow_dispatch'
 fi
@@ -189,7 +265,13 @@ if ((${#candidate_contracts[@]} == 0)); then
   if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
     fail work_item_contract_missing 'the explicitly requested active Contract does not exist'
   fi
-  fail work_item_contract_unresolved 'no active Contract is explicitly bound to this event identity'
+  if [[ "$event" == pull_request ]]; then
+    emit_ordinary_route ordinary_repository_route pull_request
+  fi
+  if [[ "$event" == push ]] && ! is_release_tag_push; then
+    emit_ordinary_route ordinary_repository_route merge
+  fi
+  fail work_item_contract_unresolved 'no active or exact archived Contract is explicitly bound to this event identity'
 fi
 if ((${#candidate_contracts[@]} > 1)); then
   candidates=$(printf '%s\n' "${candidate_contracts[@]}" | sed 's#^.*/##' | paste -sd, -)
@@ -198,6 +280,14 @@ fi
 
 contract_path=${candidate_contracts[0]}
 [[ -f "$contract_path" && ! -L "$contract_path" ]] || fail contract_not_regular 'selected Contract must be a regular non-symlink file'
+contract_relative_candidate=${contract_path#"$repo_root/"}
+archived_contract_selected=false
+if [[ "$contract_relative_candidate" == .ai/work-items/archive/*.contract.json ]]; then
+  archived_contract_selected=true
+  [[ "$event" == pull_request && "$selection_method" == archived_contract_read_only ]] || \
+    fail contract_path_out_of_scope 'archived Contracts are allowed only for exact pull-request history routes'
+  validate_archived_contract_anchor "$contract_path" "$(basename "$contract_path" .contract.json)"
+fi
 contract_id=$(jq -er '.workItemId' "$contract_path") || fail contract_invalid 'selected Contract is not valid JSON or has no workItemId'
 if [[ -n "$work_item_id" && "$contract_id" != "$work_item_id" ]]; then
   fail work_item_id_mismatch 'selected Contract workItemId does not match the requested work_item_id'
@@ -208,8 +298,10 @@ contract_repository_id=$(jq -er '.repositoryId' "$contract_path") || fail contra
 [[ "$contract_repository_id" == "$expected_repository_id" ]] || \
   fail contract_repository_mismatch 'selected Contract belongs to a different repository'
 contract_state=$(jq -er '.state' "$contract_path") || fail contract_invalid 'selected Contract has no state'
-[[ "$contract_state" != archived && "$contract_state" != closed ]] || \
-  fail contract_not_active 'selected Contract is archived or closed'
+if [[ "$archived_contract_selected" != true ]]; then
+  [[ "$contract_state" != archived && "$contract_state" != closed ]] || \
+    fail contract_not_active 'selected Contract is archived or closed'
+fi
 base_revision=$(jq -er '.baseRevision' "$contract_path") || fail contract_invalid 'selected Contract has no baseRevision'
 [[ "$base_revision" =~ ^[0-9a-f]{40}$ ]] || fail contract_base_invalid 'selected Contract baseRevision is not a full commit SHA'
 git -C "$repo_root" cat-file -e "${base_revision}^{commit}" 2>/dev/null || \
@@ -246,7 +338,7 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
 fi
 
 release_source_revision=''
-if [[ "$event" == push || "$event" == workflow_dispatch ]]; then
+if [[ "$event" == workflow_dispatch ]] || is_release_tag_push; then
   tag="$to_tag"
   [[ -n "$tag" ]] || tag="${GITHUB_REF_NAME:-}"
   is_semver_tag "$tag" || fail invalid_release_tag 'release tag must be canonical'
@@ -262,8 +354,10 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
   mode=release_recovery
 elif [[ "$event" == pull_request ]]; then
   mode=pull_request
-else
+elif is_release_tag_push; then
   mode=tag_release
+else
+  mode=merge
 fi
 contract_relative=${contract_path#"$repo_root/"}
 contract_digest="sha256:$(shasum -a 256 "$contract_path" | awk '{print $1}')"

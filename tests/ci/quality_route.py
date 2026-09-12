@@ -380,6 +380,11 @@ def validate_lifecycle_boundary(repository: Path, contract_relative: str | None)
     """
     if not contract_relative:
         return
+    if contract_relative.startswith(".ai/work-items/archive/"):
+        # Historical resource-bound PRs are validated by the Rust archive gate.
+        # They have no mutable active Summary to inspect, and CI must not
+        # reconstruct one from archived bytes.
+        return
     contract_name = Path(contract_relative).name
     if not contract_name.endswith(".contract.json"):
         return
