@@ -53,7 +53,10 @@ jobs:
               base_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || printf '%s' "$head_revision")"
             fi
           fi
-          mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          all_contracts=()
+          if [[ -d .ai/work-items/active ]]; then
+            mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          fi
           contracts=()
           if [[ "$EVENT_NAME" == pull_request ]]; then
             for contract_path in "${all_contracts[@]}"; do

@@ -45,6 +45,13 @@ intent/scenario/operation/stage route、Agent-Risk/preflight 投影を検証し�
 を含む `repository_contract_quality_gate` JSON を出力します。黄色または赤の
 結果は非ゼロで終了し、リポジトリコマンドを認可しません。
 
+これは entry gate であり、lifecycle-completion gate ではありません。
+`requiredEvidenceClasses` は引き続き finish/archive/close の要件です。
+後続の release、public-adopter、close、cleanup stage でしか生成できない
+evidence は、現在の command を開始できるか判定する pre-execution gate では
+missing として扱いません。lifecycle evaluator は completion boundary で
+宣言されたすべての class を引き続き強制します。
+
 収束期間中は Python route と runner を残します。hosted shadow 比較で意味の一致を
 確認した後の別 batch でのみ、重複した policy を削除します。この gate は参照源の
 全 workflow matrix、依存 planner、release-preflight 順序を実装するものではありません。

@@ -1117,6 +1117,7 @@ fn preflight_work_item_internal(
         &snapshot,
         current_runtime,
         false,
+        None,
         Some(&observation_context),
     )?;
     let decision =
@@ -3119,6 +3120,7 @@ fn record_verification_internal(
         &refreshed_snapshot,
         current_runtime,
         false,
+        None,
         None,
     )?;
     let decision = apply_preflight_review_evidence(
