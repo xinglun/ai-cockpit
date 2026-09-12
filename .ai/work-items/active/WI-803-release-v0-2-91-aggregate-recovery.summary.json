@@ -61,6 +61,9 @@
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-802-release-v0-2-91-recovery.recovery.38eecf872b80c7a2b4a8c658269e9c2c1967627e068801060e96bd83a8210948.json",
+  "recoveryRetryDecisionDigest": "sha256:07981f509f301e94e7dbbe38f5c2ad780c2e1cb4ddb9176788b4b2961c8fbed7",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.07981f509f301e94e7dbbe38f5c2ad780c2e1cb4ddb9176788b4b2961c8fbed7.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
