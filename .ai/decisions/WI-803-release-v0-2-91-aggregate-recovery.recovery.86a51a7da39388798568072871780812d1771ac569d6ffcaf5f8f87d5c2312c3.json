@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-12T04:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34672303796",
+    "https://github.com/xinglun/ai-cockpit/pull/780",
+    ".ai/work-items/active/WI-803-release-v0-2-91-aggregate-recovery.contract.json",
+    ".ai/evidence/WI-803-release-v0-2-91-aggregate-recovery.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+  "predecessorSummaryDigest": "sha256:be049a2d2b882dd12fb64398221b95f069876253fdd46cc73fbaef969c252789",
+  "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "reason": "A new root cause was discovered after PR #780 merged and changed the orchestration base: manual immutable-tag recovery planned governance against the target tag and selected predecessor WI-802, while source quality actually ran against main; independently, build jobs were allowed to start after source quality failed. This is a bounded corrective scope on the new main base, so continue through a linked successor without rewriting WI-803 history or redispatching release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-804 from the current main base, declare executable scenario plans before checkpoint, complete its workflow policy regression and Runtime verification, then use one reviewed PR and one post-merge recovery run; keep the immutable v0.2.91 tag and any existing Release unchanged.",
+  "runtimeDigest": "sha256:d01ce104426cfbfac5b6e2e48a2115a356f65937e5060d2f760917f256278dc6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-804-release-route-ordering",
+  "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+}

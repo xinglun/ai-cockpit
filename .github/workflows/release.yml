@@ -130,8 +130,9 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
-            head_revision="$(git ls-remote origin "refs/tags/$INPUT_TO_TAG^{}" | awk '{print $1}')"
-            test -n "$head_revision"
+            release_source_revision="$(git ls-remote origin "refs/tags/$INPUT_TO_TAG^{}" | awk '{print $1}')"
+            test -n "$release_source_revision"
+            head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           else
             head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           fi
@@ -142,7 +143,7 @@ jobs:
           contracts=()
           if (( ${#all_contracts[@]} > 1 )); then
             selection_revision="$head_revision"
-            if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+            if [[ "$GITHUB_EVENT_NAME" == push || ( "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ) ]]; then
               selection_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || true)"
             fi
             for contract_path in "${all_contracts[@]}"; do
@@ -197,7 +198,7 @@ jobs:
           retention-days: 7
 
   build:
-    needs: [release_preflight, release_tools]
+    needs: [release_preflight, source_quality, release_tools]
     strategy:
       fail-fast: false
       matrix:

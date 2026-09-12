@@ -1,0 +1,191 @@
+{
+  "acceptanceResults": [
+    "Manual publish_existing_tag recovery plans governance against the current workflow orchestration revision and selects the active Contract whose base is the merge parent, while the immutable target tag remains the artifact source identity.",
+    "Build jobs cannot start unless release_preflight, source_quality, and release_tools all succeed; a source-quality failure stops dependent expensive work.",
+    "Existing normal push/tag and non-recovery dispatch behavior remains compatible, and recovery source checkout still uses the requested immutable tag.",
+    "The workflow policy regression fails on the old dependency/identity wiring and passes on the corrected wiring.",
+    "Local focused tests, Runtime preflight/checkpoint/verify, hosted PR checks, and a single post-merge recovery run provide evidence without moving or overwriting v0.2.91."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-804-release-route-ordering.verification.json"
+  ],
+  "failedGate": "finish.finalization",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-804-release-route-ordering.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    "failedGate": "finish.finalization",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.WI-803-to-WI-804-recovery-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.WI-804-retry-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-804-release-route-ordering.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-804-release-route-ordering.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-804-release-route-ordering.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-804-release-route-ordering.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+          ],
+          "inference": false,
+          "text": "Make recovery route planning bind to the current orchestration main Contract while artifact jobs remain bound to the immutable requested tag, and require source quality to pass before the build matrix can start."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-804-release-route-ordering.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-804-release-route-ordering"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-804-release-route-ordering.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-804-release-route-ordering"
+}

@@ -1,0 +1,78 @@
+{
+  "changedPaths": [
+    ".ai/decisions/.WI-803-to-WI-804-recovery-input.json",
+    ".ai/decisions/.WI-804-retry-input.json",
+    ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
+    ".ai/decisions/WI-804-release-route-ordering.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.contract.json",
+    ".ai/work-items/active/WI-804-release-route-ordering.summary.json",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-12T04:42:18Z",
+  "checkpointContractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+  "createdAt": "2026-09-12T04:41:38Z",
+  "failedGate": "finish.finalization",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/release/workflow_policy.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "predecessorContractDigest": "sha256:f582514f95ec455971e7e8bcd2a47dd5ca48d1ab15f8ad575d4078e1835c2876",
+  "predecessorWorkItemId": "WI-803-release-v0-2-91-aggregate-recovery",
+  "preflightAt": "2026-09-12T04:58:34Z",
+  "preflightContractDigest": "sha256:08f1f4f88ae7506a073446cb40ec50d28e63111a47c2229481844e0afb5cf2d2",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:dc7458764a59b21db6240cd383c2be9f51330e93cfaa9e83460ae7bcec77e95c",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "recoveryDecisionPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.recovery.86a51a7da39388798568072871780812d1771ac569d6ffcaf5f8f87d5c2312c3.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "manual immutable-tag recovery uses current orchestration Contract identity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "source-quality failure blocks expensive build scheduling",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "required": true,
+      "scenario": "normal release source binding remains compatible",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-12T04:59:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:903f65f194055a568af2b708047d1ba2ca6122f2a0bb96e8102ff8f64c304c52",
+  "workItemId": "WI-804-release-route-ordering"
+}

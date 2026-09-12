@@ -67,7 +67,7 @@ require_match '^\s*push:\s*$' 'tag trigger is required'
 require_match 'tags:\s*\['"'"'v\*'"'"'\]' 'only semantic v tags trigger publication'
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match '^  release_tools:' 'shared release acceptance tooling must be built once'
-require_match '^    needs: \[release_preflight, release_tools\]$' 'build must wait for the release_tools producer before downloading helpers'
+require_match '^    needs: \[release_preflight, source_quality, release_tools\]$' 'build must wait for source quality and release_tools before expensive compilation'
 require_match 'cockpit-release-tool-ubuntu-x86_64' 'Linux release jobs must consume the prebuilt release helper'
 require_match 'artifact:[[:space:]]*macos-arm64' 'macOS ARM release jobs must consume a prebuilt platform helper'
 require_match 'artifact:[[:space:]]*windows-x86_64' 'Windows release jobs must consume a prebuilt platform helper'
@@ -174,6 +174,17 @@ for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgra
     exit 1
   fi
 done
+recovery_route_block="$(awk '
+  /workflow_dispatch/ && /PUBLISH_EXISTING_TAG/ && /true/ && /if/ {
+    in_recovery=1
+  }
+  in_recovery { print }
+  in_recovery && /^          else$/ { exit }
+' "$workflow")"
+if ! grep -Fq 'release_source_revision=' <<<"$recovery_route_block" || ! grep -Fq 'head_revision="$(git rev-parse "' <<<"$recovery_route_block" || ! grep -Fq 'GITHUB_SHA}^{commit}")"' <<<"$recovery_route_block"; then
+  printf 'policy failure: immutable-tag recovery must validate the tag separately and plan governance against the current orchestration revision\n' >&2
+  exit 1
+fi
 if grep -Fq '\"cockpit-release\"' "$workflow"; then
   printf 'policy failure: release helper checksum extraction must not contain escaped quotes in Bash awk source\n' >&2
   exit 1
