@@ -278,6 +278,9 @@ for workflow in (ci_workflow,):
     assert "--command" not in workflow
 assert "stage=pull_request" in ci_workflow
 assert '--stage "$stage"' in ci_workflow
+assert "PR_HEAD_REF" in ci_workflow
+assert "'.resourceContext.branch // empty'" in ci_workflow
+assert "no active Contract matches the current PR branch or merge base" in ci_workflow
 assert 'contract_base_revision="$(jq -er' in ci_workflow
 assert 'base_revision="$(git rev-parse "${contract_base_revision}^{commit}")"' in ci_workflow
 assert "  push:\n    branches:\n      - main" in ci_workflow
@@ -293,7 +296,9 @@ assert "target/release-quality-route.json" in release_workflow
 assert "target/release/ai-cockpit gate-plan" in release_workflow
 assert "python3 tests/ci/quality_route.py" not in release_workflow
 assert "contracts=()" in release_workflow
-assert "if [[ -d .ai/work-items/active ]]; then" in release_workflow
+assert "all_contracts" in release_workflow
+assert "selection_revision" in release_workflow
+assert "no active Contract matches the release identity" in release_workflow
 assert "manual to_tag does not match staged candidate identity" in release_workflow
 assert "name: workspace-package-coverage" in ci_workflow
 assert "name: Bind the shared typed repository quality route" in ci_workflow

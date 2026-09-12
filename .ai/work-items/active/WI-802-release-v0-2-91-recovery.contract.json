@@ -5,7 +5,8 @@
     "The release-close embedded Bash is syntax-checked by the earliest release policy and produces a structured failed receipt when upstream jobs are skipped or inputs are absent.",
     "The existing immutable v0.2.91 tag remains bound to e48a887d24f5e1a640ef9b043b60f6c4dca23a31; no tag movement or Release overwrite occurs.",
     "Reviewed hosted CI passes, the corrected release path publishes v0.2.91, and public downloaded-artifact install and N-1 upgrade acceptance pass with cleanup evidence.",
-    "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution."
+    "The workflow policy test extracts and syntax-checks the release-close script and rejects missing release_tools dependency or missing post-download chmod before hosted execution.",
+    "PR and post-merge quality routing selects the active Contract bound to the current PR branch or merge base when a predecessor and successor are both active, and fails closed on zero or ambiguous matches before expensive gates."
   ],
   "authority": "explicit-user-authorization-root-cause-repair-and-release",
   "baseRevision": "e48a887d24f5e1a640ef9b043b60f6c4dca23a31",
@@ -40,7 +41,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-802-release-v0-2-91-recovery",
     "provider": "github",
-    "pullRequest": "pending",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/778",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-802-release-v0-2-91-recovery"
   },
   "risk": "high",
@@ -80,7 +81,9 @@
   ],
   "scope": [
     ".github/workflows/release.yml",
-    "tests/release/workflow_policy.sh"
+    "tests/release/workflow_policy.sh",
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route_test.py"
   ],
   "sources": [],
   "state": "implementation_active",

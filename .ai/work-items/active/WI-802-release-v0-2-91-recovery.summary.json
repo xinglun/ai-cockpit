@@ -1,19 +1,12 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json",
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.2c0a0a0199dfda31d63b18b3d9d2b0296f54d233d362f9572503bfc9ffe8e32c.json",
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.4930833c32e826da84904ed6c4c4026c6f874049c61d8edcec624f2f175d4e2e.json",
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.9314dffb58471d10d31262e819696275adc4e82fda77b079955d88f88c600ea8.json",
-    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.json",
+    ".ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.44bc270f0ead5dbd232d8876bd9f342fbad871417f2aa5cc2318b94ee1dcbbd0.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json",
     ".ai/work-items/active/WI-802-release-v0-2-91-recovery.contract.json",
-    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json",
-    ".github/workflows/release.yml",
-    "tests/release/workflow_policy.sh"
+    ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-11T23:41:29Z",
-  "checkpointContractDigest": "sha256:7dd5c123f112e5c653d9998af4b980f13750a57bfc4cedf755b475331b43b6a4",
+  "checkpointContractDigest": "sha256:48c7a97159740c72c9261646ba07beee0a19a94186b8f7b70d2cd83c0af0288c",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -49,24 +42,44 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:17b4dfc9d3baaba301f344c5a4f747d1e08cb66011c2367ef631daeb817382d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:100fdd0add7e33dcd8f0da339cc6d2b720c8b1b5e384e8bc44d34d3795df7e79",
+      "previousContractHash": "sha256:08125892df8b60b56188214a2458bdb57e06267b468368fb8c049a5f8fcb5af4",
+      "reason": "Hosted PR quality routing exposed a second active-contract root cause during successor recovery; bind selection to the current PR branch or merge-base so the earliest route barrier remains deterministic.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T00:23:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-802-release-v0-2-91-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
   "createdAt": "2026-09-11T23:39:53Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:7dd5c123f112e5c653d9998af4b980f13750a57bfc4cedf755b475331b43b6a4",
+    "contractDigest": "sha256:48c7a97159740c72c9261646ba07beee0a19a94186b8f7b70d2cd83c0af0288c",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-    "reason": "The repository owner confirms the current verification evidence and authorizes the final fresh preflight for this bounded release repair.",
-    "recordedAt": "2026-09-12T09:20:00+09:00",
+    "preflightDecisionDigest": "sha256:7126955f6dc2eaad8cae4523f48163217fcb59867057f7706248b553a7c5f02e",
+    "reason": "The repository owner confirms the bounded recovery repair and the reviewed PR resource binding for immutable v0.2.91 publication.",
+    "recordedAt": "2026-09-12T09:25:00+09:00",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
     "schemaVersion": 1,
     "workItemId": "WI-802-release-v0-2-91-recovery"
   },
-  "failedGate": "finish.finalization",
+  "failedGate": "finish.preflight",
   "intentAlignment": {
     "evidence": [
       "tests/release/workflow_policy.sh",
@@ -78,13 +91,13 @@
   "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:a388388ff483337e4f11cd1a2c1958176f2c5ef01fb16a395a272ce205495c0e",
   "predecessorWorkItemId": "WI-801-release-v0-2-91",
-  "preflightAt": "2026-09-12T00:13:21Z",
-  "preflightContractDigest": "sha256:7dd5c123f112e5c653d9998af4b980f13750a57bfc4cedf755b475331b43b6a4",
+  "preflightAt": "2026-09-12T00:22:12Z",
+  "preflightContractDigest": "sha256:48c7a97159740c72c9261646ba07beee0a19a94186b8f7b70d2cd83c0af0288c",
   "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
   "preflightRepositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "recoveryDecisionPath": ".ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -122,13 +135,18 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-12T00:13:30Z",
+  "updatedAt": "2026-09-12T00:22:24Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:17b4dfc9d3baaba301f344c5a4f747d1e08cb66011c2367ef631daeb817382d2",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-12T00:23:42Z"
+  },
   "verificationRecoveryReconciled": "sha256:31bc1ae6b147861385265075c6f67ed8584afc84b0767b6ba7bfb98cfda913e3",
   "workItemId": "WI-802-release-v0-2-91-recovery"
 }

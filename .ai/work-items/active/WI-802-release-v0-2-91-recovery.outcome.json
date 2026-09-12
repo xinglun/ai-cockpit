@@ -11,7 +11,7 @@
   "evidenceRefs": [
     ".ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
   ],
-  "failedGate": "finish.finalization",
+  "failedGate": "finish.preflight",
   "humanBenefitReport": {
     "affectedUsers": [],
     "evidenceRefs": [],
@@ -22,7 +22,7 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
   "state": "blocked",
@@ -36,10 +36,10 @@
       "repositorySnapshotDigest": "sha256:4e8f4d26913c89ebb0f0779e6bd00c5a7614d2ea7a3ed7b4ad7710e50cd6ac4d",
       "workItemId": "WI-802-release-v0-2-91-recovery"
     },
-    "failedGate": "finish.finalization",
+    "failedGate": "finish.preflight",
     "format": "ai-cockpit.task-outcome",
     "humanStatusColor": "red",
-    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "recoveryCondition": "Record a fresh non-red preflight result, then retry finish.",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -49,35 +49,7 @@
             ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-801-release-v0-2-91.recovery.64d2318f3e912fc18fda8756648895e3a6639fb0ed2760abbb749e5b0a5b96d8.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.2c0a0a0199dfda31d63b18b3d9d2b0296f54d233d362f9572503bfc9ffe8e32c.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.4930833c32e826da84904ed6c4c4026c6f874049c61d8edcec624f2f175d4e2e.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.9314dffb58471d10d31262e819696275adc4e82fda77b079955d88f88c600ea8.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.json"
+          "text": "Changed path: .ai/decisions/WI-802-release-v0-2-91-recovery.preflight-review.44bc270f0ead5dbd232d8876bd9f342fbad871417f2aa5cc2318b94ee1dcbbd0.json"
         },
         {
           "evidenceRefs": [
@@ -85,13 +57,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-802-release-v0-2-91-recovery.verification.json"
         },
         {
           "evidenceRefs": [
@@ -106,20 +71,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-802-release-v0-2-91-recovery.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [

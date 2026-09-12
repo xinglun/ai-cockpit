@@ -135,11 +135,25 @@ jobs:
           else
             head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
           fi
+          mapfile -t all_contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
           contracts=()
-          if [[ -d .ai/work-items/active ]]; then
-            mapfile -t contracts < <(find .ai/work-items/active -maxdepth 1 -type f -name '*.contract.json' -print | sort)
+          if (( ${#all_contracts[@]} > 1 )); then
+            selection_revision="$head_revision"
+            if [[ "$GITHUB_EVENT_NAME" == push ]]; then
+              selection_revision="$(git rev-parse "${head_revision}^" 2>/dev/null || true)"
+            fi
+            for contract_path in "${all_contracts[@]}"; do
+              contract_base_revision="$(jq -r '.baseRevision // empty' "$contract_path")"
+              [[ -n "$selection_revision" && "$contract_base_revision" == "$selection_revision" ]] && contracts+=("$contract_path")
+            done
+          else
+            contracts=("${all_contracts[@]}")
           fi
-          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts cannot select one release route' >&2; exit 1; }
+          (( ${#contracts[@]} <= 1 )) || { echo 'multiple active Contracts match the release identity' >&2; exit 1; }
+          if (( ${#all_contracts[@]} > 1 && ${#contracts[@]} == 0 )); then
+            echo 'no active Contract matches the release identity' >&2
+            exit 1
+          fi
           if (( ${#contracts[@]} == 1 )); then
             base_revision="$(jq -er '.baseRevision' "${contracts[0]}")"
           else
