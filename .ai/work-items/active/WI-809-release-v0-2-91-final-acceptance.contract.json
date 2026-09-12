@@ -32,6 +32,14 @@
     "release close receipt",
     "immutable tag verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-809-release-v0-2-91-final-acceptance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/787",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-809-release-v0-2-91-final-acceptance"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
