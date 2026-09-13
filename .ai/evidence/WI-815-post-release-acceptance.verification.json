@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
-  "createdAt": "2026-09-13T00:33:19Z",
+  "contractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+  "createdAt": "2026-09-13T00:57:15Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 805,
-      "executionElapsedMs": 614,
+      "elapsedMs": 3117,
+      "executionElapsedMs": 2985,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 805,
-    "executionElapsedMs": 614,
+    "elapsedMs": 3117,
+    "executionElapsedMs": 2985,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,13 +44,13 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 614,
+      "executionElapsedMs": 2985,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
       "policyRefs": [],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+      "repositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
       "requiredAssurance": null,
       "requiredTier": null,
       "reusedNodes": [],
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:12f927067a99d65b122720aa78216efcc041d7cf4221c7c3795504ea5d6f5255",
+        "outputDigest": "sha256:703ec8df514c32c1a3944d929ccf8fb70c479ab22070fdb2c40798a76bc6d038",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -92,9 +92,9 @@
     "runtimeVersion": "0.2.91",
     "workItemId": "WI-815-post-release-acceptance"
   },
-  "receiptDigest": "sha256:05631fe4acddb82cf60d50c238b1b546c7e8a2f6e4370d3ed9c0a76d7ec8ec3b",
+  "receiptDigest": "sha256:143833495626e21be248029b723cf279873102c591e6cdeca419686874d83311",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+  "repositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
   "runtimeDigest": "sha256:ad67c6ef8372a483e03aa7b6150c371ace69ed383593cdc7c7b697a18037c43f",
   "runtimeVersion": "0.2.91",
   "workItemId": "WI-815-post-release-acceptance"

@@ -7,7 +7,10 @@
     "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages.",
     "The Work Item binds the reviewed PR resource context before its replacement verification evidence is recorded, and finish/archive consume that non-provisional binding.",
     "Before any public Release asset download or acceptance, post-release recovery executes the selected helper against a local no-remote handoff fixture with distinct workflow and release commits, persists the compatibility result, and stops on protocol incompatibility.",
-    "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release."
+    "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release.",
+    "Release close validates public installation receipts by tag and N-minus-one upgrade receipts by toTag.",
+    "A regression test accepts both receipt schemas and rejects a receipt bound to a different public tag.",
+    "The new receipt-schema regression is registered exactly once in the canonical repository gate manifest."
   ],
   "authority": "human_authorized",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -40,7 +43,9 @@
     "version consistency receipt",
     "structured close receipt",
     "workflow policy regression evidence",
-    "helper protocol compatibility receipt"
+    "helper protocol compatibility receipt",
+    "receipt-schema-regression",
+    "canonical-gate-registration"
   ],
   "resourceContext": {
     "baseBranch": "main",
@@ -103,7 +108,10 @@
     "tests/release/adopter_upgrade_acceptance_test.sh",
     "tests/ci/resolve_work_item.sh",
     "tests/ci/resolve_work_item_test.sh",
-    "tests/release/version_consistency_test.sh"
+    "tests/release/version_consistency_test.sh",
+    "tests/release/validate_adopter_acceptance_receipt.sh",
+    "tests/release/validate_adopter_acceptance_receipt_test.sh",
+    "tests/ci/repository_gate_manifest.json"
   ],
   "sources": [],
   "state": "implementation_active",

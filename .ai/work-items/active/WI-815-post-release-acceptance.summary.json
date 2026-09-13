@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
-  "checkpointContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+  "checkpointContractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -120,9 +120,49 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+      "reason": "Close discovered a schema mismatch: public install receipts bind tag, while public N-minus-one upgrade receipts bind toTag; add a shared validator and regression coverage within the existing release acceptance scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T00:51:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:3854da5d7a9df25d618e4399f46702e86acc22ea99e2f9fa2d488c9992499525",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+      "reason": "The new regression test must be registered in the canonical repository gate manifest; otherwise the manifest integrity gate rejects the correct test addition after expensive workspace checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T01:05:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77aab252bd02632a5b4a13b20af65e0951b3283121d4d7542a36535e154910ed",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+  "checkpointRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
   "createdAt": "2026-09-12T19:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -135,11 +175,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-13T00:33:19Z",
-  "preflightContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+  "preflightAt": "2026-09-13T00:57:15Z",
+  "preflightContractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
-  "preflightState": "green",
+  "preflightRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -209,7 +249,7 @@
       "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-13T00:33:40Z",
   "verification": [
     {
@@ -217,5 +257,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3854da5d7a9df25d618e4399f46702e86acc22ea99e2f9fa2d488c9992499525",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-13T01:05:19Z"
+  },
+  "verificationRecoveryReconciled": "sha256:1a6acf00e94edd852459378f0b8cf011a21cd0a761f47ba29478843ea9757f66",
   "workItemId": "WI-815-post-release-acceptance"
 }

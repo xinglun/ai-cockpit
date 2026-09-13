@@ -1972,18 +1972,23 @@ jobs:
             local path="$1" phases="$2" label="$3"
             [[ -f "$path" ]] || return 0
             if jq -e '.adopterAcceptance == "not_applicable"' "$path" >/dev/null 2>&1; then
-              jq -e --arg tag "$TAG" \
-                '.schemaVersion == 1 and .adopterAcceptance == "not_applicable" and .releasePublished == true and .fromTag == null and .toTag == $tag and (.reason | type == "string" and length > 0)' \
-                "$path" >/dev/null || { state=failed; reasons+=("${label}_not_applicable_receipt_invalid"); }
+              if ! tests/release/validate_adopter_acceptance_receipt.sh \
+                --receipt "$path" \
+                --phases "$phases" \
+                --tag "$TAG" \
+                --kind "$label" >/dev/null 2>&1; then
+                state=failed; reasons+=("${label}_not_applicable_receipt_invalid")
+              fi
               return 0
             fi
-            jq -e --arg tag "$TAG" \
-              '.tag == $tag and .adopterAcceptance == "passed" and .cleanupState == "passed" and .closeDecision.validated == true' \
-              "$path" >/dev/null || { state=failed; reasons+=("${label}_receipt_invalid"); }
             [[ -f "$phases" ]] || { state=failed; reasons+=("${label}_phase_receipt_missing"); return; }
-            jq -e '.schemaVersion == 1 and ([.results[] | select(.phase == "close" and .status == "succeeded")] | length == 1)' "$phases" >/dev/null || {
-              state=failed; reasons+=("${label}_phase_receipt_invalid")
-            }
+            if ! tests/release/validate_adopter_acceptance_receipt.sh \
+              --receipt "$path" \
+              --phases "$phases" \
+              --tag "$TAG" \
+              --kind "$label" >/dev/null 2>&1; then
+              state=failed; reasons+=("${label}_receipt_invalid")
+            fi
           }
           validate_acceptance "$install_file" "$install_phases" install
           validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade

@@ -5,8 +5,10 @@ repo_root="$(cd "$(dirname "$0")/../.." && pwd -P)"
 workflow="$repo_root/.github/workflows/release.yml"
 manifest="$repo_root/tests/ci/repository_gate_manifest.json"
 resolver="$repo_root/tests/ci/resolve_work_item.sh"
+receipt_validator="$repo_root/tests/release/validate_adopter_acceptance_receipt.sh"
 
 [[ -f "$workflow" ]] || { printf 'release workflow is missing\n' >&2; exit 1; }
+[[ -f "$receipt_validator" ]] || { printf 'acceptance receipt validator is missing\n' >&2; exit 1; }
 
 require() {
   local pattern=$1
@@ -71,7 +73,12 @@ require 'staged_adopter_upgrade_acceptance:' 'release must gate publication on s
 require '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
 require '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
 require 'adopterAcceptance == "not_applicable"' 'release close must validate the first-release N-1 not-applicable receipt'
-require 'releasePublished == true' 'release close must bind a not-applicable N-1 result to the published Release'
+require 'tests/release/validate_adopter_acceptance_receipt.sh' 'release close must use the shared acceptance receipt validator'
+require '--kind "$label"' 'release close must validate install and N-1 receipt schemas separately'
+grep -Fq -- 'releasePublished == true' "$receipt_validator" || {
+  printf 'release gate policy failure: receipt validator must bind not-applicable N-1 results to the published Release\n' >&2
+  exit 1
+}
 require 'needs.publish.result == '\''success'\''' 'recovery public acceptance must wait for publication success'
 require 'needs.publish_handoff.result == '\''success'\''' 'recovery public acceptance must wait for the publication handoff'
 require 'if: always() && needs.publish_handoff.result == '\''success'\''' 'close must download the handoff receipt only after a successful handoff job'
