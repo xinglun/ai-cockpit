@@ -2,14 +2,15 @@ use cockpit_core::Digest;
 use cockpit_protocol::{HumanDecision, OutcomeState, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
-    finish_work_item, finish_work_item_with_runtime, outcome_render_input,
-    outcome_render_input_with_runtime, outcome_v2, outcome_v2_with_runtime,
-    plan_resource_finalization, preflight_work_item, preflight_work_item_with_runtime,
-    record_recovery_decision, record_verification_with_runtime, render_human_outcome,
-    repository_id, revalidate_contract_amendment, run_repository_verification, scaffold_work_item,
-    snapshot_digest, start_work_item_with_options, status,
+    amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
+    checkpoint_work_item, close_work_item_with_structured_decision,
+    close_work_item_with_structured_decision_and_runtime, finish_work_item,
+    finish_work_item_with_runtime, outcome_render_input, outcome_render_input_with_runtime,
+    outcome_v2, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
+    preflight_work_item_with_runtime, record_recovery_decision, record_verification_with_runtime,
+    render_human_outcome, repository_id, revalidate_contract_amendment,
+    run_repository_verification, scaffold_work_item, snapshot_digest, start_work_item_with_options,
+    status,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -1061,6 +1062,108 @@ fn pending_retry_remains_idempotent_after_same_version_runtime_rebuild() {
     let decision =
         preflight_work_item_with_runtime(directory.path(), &contract_path, &rebuilt_runtime)
             .expect("rebuilt Runtime should consume the current pending retry marker");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+}
+
+#[test]
+fn pending_retry_survives_finalize_plan_but_rejects_unbound_contract_mutation() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+    let mut retry = receipt(&directory, "retry before binding the reviewed resource");
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-28T05:03:00Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/recovery-binding-finalize-plan".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request:
+                "https://github.com/example/ai-cockpit/pull/recovery-binding-finalize-plan".into(),
+        },
+    )
+    .expect("finalize-plan should preserve the authorized retry");
+
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect("preflight should consume the retry after finalize-plan");
+    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
+    contract["title"] = json!("unbound contract mutation");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract JSON"),
+    )
+    .expect("tamper contract");
+    let error = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect_err("unbound Contract mutation must invalidate the pending retry");
+    assert!(
+        error.to_string().contains("retry_binding_missing"),
+        "unexpected error: {error}"
+    );
+}
+
+#[test]
+fn pending_retry_survives_a_bounded_contract_amendment() {
+    let directory = repository();
+    let id = "WI-BLOCKED";
+    let runtime = current_runtime();
+    let mut retry = receipt(&directory, "retry before a bounded Contract amendment");
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-28T05:03:30Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
+    plan_resource_finalization(
+        directory.path(),
+        id,
+        &ResourceFinalizationContext {
+            branch: "feature/recovery-binding-amendment".into(),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/recovery-binding-amendment"
+                .into(),
+        },
+    )
+    .expect("finalize-plan");
+    amend_work_item_contract(
+        directory.path(),
+        id,
+        &json!({
+            "acceptanceAppend": ["the bounded amendment remains linked to the retry"]
+        }),
+        "cover a bounded Contract amendment after retry",
+    )
+    .expect("bounded Contract amendment");
+
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let decision = preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect("preflight should consume the retry after a bounded amendment");
     assert_ne!(decision.state, cockpit_core::DecisionState::Red);
 }
 

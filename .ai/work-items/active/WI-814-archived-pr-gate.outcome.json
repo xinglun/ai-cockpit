@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "A current resource-bound PR with an active matching Contract still selects that active Contract and runs the existing Contract-aware gate.",
+    "A historical archived resource-bound PR is selected only by exact branch/PR identity and a valid archive manifest; the Rust gate is PR-only, read-only, and never changes mutable lifecycle evidence.",
+    "An archived no-resource PR and an ordinary main push without an active binding use the ordinary repository route without requiring a semantic Release tag or Contract base.",
+    "A tag push and explicit immutable-tag recovery remain active-Contract-only and fail closed on missing, archived, ambiguous, or mismatched identity.",
+    "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
+    "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
+    "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries.",
+    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed.",
+    "After synchronization with the current main branch, active exact binding remains ahead of archived exact binding, no-resource branch fallback, and ordinary routing; the combined resolver regression passes without shell errors on empty inventories.",
+    "A provisional or mismatched resource-bound Contract cannot be selected by branch fallback, and a same-branch no-resource/resource-bound collision fails with a structured conflict rather than silently bypassing provider identity."
+  ],
+  "createdAt": "2026-09-13T00:05:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:37d76618c78662c6e556168168d100320d81863e76605424cc20cd365845785c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-814-archived-pr-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "Separate no-resource ordinary archived routes from historical resource-bound PR routes, validate archived identity and manifest bindings in a Rust read-only gate, and remove contradictory lifecycle instructions that cause agents or CI to skip governance or retry from the wrong stage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-814-archived-pr-gate"
+  },
+  "taskReportDigest": "sha256:6e53b9f00fa987fa7aaaed9ae7dd35ebc47654495a770f258d0fc31eb9425e3d",
+  "taskReportMarkdownDigest": "sha256:5f51cce9fbeed3be0de34af2740a50c350b8cd2019059b007b195704e2bffcb5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-814-archived-pr-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-814-archived-pr-gate"
+}

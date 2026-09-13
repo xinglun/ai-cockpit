@@ -938,6 +938,20 @@ pub fn amend_work_item_contract(
         .join(format!("{work_item_id}.summary.json"));
     let mut contract = read_json(&path)?;
     let summary = read_json(&summary_path)?;
+    let retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    if retry_pending {
+        let recovery = load_recovery_decision(&root, work_item_id, None)?;
+        if recovery
+            .as_ref()
+            .is_none_or(|decision| decision.decision != "retry")
+        {
+            return Err(recovery_decision_error(
+                root.join(".ai/decisions"),
+                "retry_binding_missing",
+                "pending retry cannot be advanced by a Contract amendment without its exact recovery receipt",
+            ));
+        }
+    }
     for key in input
         .as_object()
         .into_iter()
@@ -1065,7 +1079,14 @@ pub fn amend_work_item_contract(
         });
     }
     atomic_json(&path, &contract)?;
-    revalidate_contract_amendment(&root, work_item_id, reason)
+    let result = revalidate_contract_amendment(&root, work_item_id, reason)?;
+    if retry_pending {
+        let mut summary = read_json(&summary_path)?;
+        summary["recoveryRetryContractDigest"] =
+            serde_json::json!(contract_digest(&path)?.to_string());
+        atomic_json(&summary_path, &summary)?;
+    }
+    Ok(result)
 }
 
 /// Evaluate and persist the preflight decision for an active Work Item.
@@ -1573,6 +1594,10 @@ fn finish_work_item_internal_unlocked(
             .as_object_mut()
             .expect("Work Item Summary is an object")
             .remove("recoveryRetryDecisionDigest");
+        summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object")
+            .remove("recoveryRetryContractDigest");
         if let Err(error) = atomic_json(&summary_path, &summary) {
             // marker の削除に失敗した場合は元の Summary と今回のレポートを戻し、
             // finish_ready と retry marker の矛盾した投影を残さない。
@@ -1931,8 +1956,14 @@ pub(super) fn validate_recovery_predecessor_bindings(
         ));
     }
     let summary = read_json(summary_path)?;
-    let retry_binding =
-        retry_recovery_binding_matches(root, work_item_id, &summary, receipt, candidate_path)?;
+    let retry_binding = retry_recovery_binding_matches(
+        root,
+        work_item_id,
+        &summary,
+        receipt,
+        candidate_path,
+        contract_path,
+    )?;
     if let Some(runtime) = current_runtime
         && (receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest)
@@ -1954,7 +1985,7 @@ pub(super) fn validate_recovery_predecessor_bindings(
         .current_contract_digest
         .as_ref()
         .unwrap_or(&receipt.predecessor_contract_digest);
-    if contract_binding != &expected_contract_digest {
+    if contract_binding != &expected_contract_digest && !retry_binding {
         return Err(recovery_decision_error(
             contract_path,
             "predecessor_contract_mismatch",
@@ -2053,6 +2084,7 @@ fn retry_recovery_binding_matches(
     summary: &serde_json::Value,
     receipt: &RecoveryDecisionReceipt,
     candidate_path: Option<&Path>,
+    contract_path: &Path,
 ) -> Result<bool, ObserverError> {
     if receipt.decision != "retry"
         || summary["state"] != serde_json::json!("checkpointed")
@@ -2114,7 +2146,65 @@ fn retry_recovery_binding_matches(
     if stored_digest != digest || stored != value {
         return Ok(false);
     }
-    Ok(true)
+    retry_contract_transition_is_bound(summary, receipt, contract_path)
+}
+
+/// A retry normally remains bound to the exact Contract that existed when the
+/// human decision was recorded.  A controlled `finalize-plan` or bounded
+/// Contract amendment may advance that Contract before the fresh verification
+/// cycle starts, however.  The generated Summary marker tracks the latest
+/// Contract accepted by those Runtime operations; the narrow historical
+/// checkpoint-evidence fallback keeps an interrupted pre-marker migration
+/// recoverable without trusting an arbitrary Contract edit.
+fn retry_contract_transition_is_bound(
+    summary: &serde_json::Value,
+    receipt: &RecoveryDecisionReceipt,
+    contract_path: &Path,
+) -> Result<bool, ObserverError> {
+    let current_digest = contract_digest(contract_path)?;
+    if current_digest == receipt.predecessor_contract_digest {
+        return Ok(true);
+    }
+    if summary["recoveryRetryContractDigest"]
+        .as_str()
+        .is_some_and(|value| value == current_digest.to_string())
+    {
+        return Ok(true);
+    }
+
+    // Compatibility for the one migration window in which finalize-plan
+    // could update the Contract before the current-Contract marker existed.
+    // It is only accepted when the current Contract is resource-bound and the
+    // latest Runtime amendment record explicitly links it to this retry's
+    // predecessor Contract.  Any unrelated edit changes the current digest
+    // and fails this exact match.
+    let current_contract = read_contract(contract_path)?;
+    let resource_bound = current_contract
+        .resource_context
+        .as_ref()
+        .is_some_and(|context| !context.is_provisional());
+    if !resource_bound {
+        return Ok(false);
+    }
+    let expected_previous = receipt.predecessor_contract_digest.to_string();
+    let expected_current = current_digest.to_string();
+    Ok(summary
+        .get("checkpointEvidence")
+        .and_then(serde_json::Value::as_array)
+        .is_some_and(|entries| {
+            entries.iter().rev().any(|entry| {
+                entry.get("stage").and_then(serde_json::Value::as_str)
+                    == Some("contract_amendment_revalidation")
+                    && entry
+                        .get("previousContractHash")
+                        .and_then(serde_json::Value::as_str)
+                        == Some(expected_previous.as_str())
+                    && entry
+                        .get("contractHash")
+                        .and_then(serde_json::Value::as_str)
+                        == Some(expected_current.as_str())
+            })
+        }))
 }
 
 /// Verify that a pending retry marker is backed by the current Runtime-owned
@@ -2774,6 +2864,8 @@ pub fn record_recovery_decision(
         summary["recoveryRetryDecisionPath"] =
             serde_json::json!(repository_relative_path(&root, &path));
         summary["recoveryRetryDecisionDigest"] = serde_json::json!(retry_digest.to_string());
+        summary["recoveryRetryContractDigest"] =
+            serde_json::json!(contract_digest(&contract_path)?.to_string());
         if let Err(error) = atomic_json(&summary_path, &summary) {
             if let Some((summary_path, original_summary)) = retry_summary_backup {
                 let _ = atomic_json(&summary_path, &original_summary);
@@ -3269,6 +3361,7 @@ fn record_verification_internal(
         summary_object.remove("recoveryRetryPending");
         summary_object.remove("recoveryRetryDecisionPath");
         summary_object.remove("recoveryRetryDecisionDigest");
+        summary_object.remove("recoveryRetryContractDigest");
         // Bind the replacement verification to the explicit retry boundary.
         // outcome_v2 revalidates this digest against the current evidence and
         // full identity before superseding a blocked Outcome projection.

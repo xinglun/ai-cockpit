@@ -1,11 +1,13 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
-use cockpit_protocol::{RuntimeContext, VerificationStage};
+use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext, VerificationStage};
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions, attach,
-    checkpoint_work_item, evaluate_contract_quality_gate, governance_decision_for_contract,
-    preflight_work_item, record_verification_with_runtime, record_work_item_governance_controls,
-    run_repository_verification, start_work_item_with_options,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
+    archive_work_item_with_runtime, attach, checkpoint_work_item, evaluate_contract_quality_gate,
+    finish_work_item_with_runtime, governance_decision_for_contract, plan_resource_finalization,
+    preflight_work_item, preflight_work_item_with_runtime, record_verification_with_runtime,
+    record_work_item_governance_controls, run_repository_verification,
+    start_work_item_with_options,
 };
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -75,6 +77,56 @@ fn contract_path(root: &Path) -> PathBuf {
     root.join(".ai/work-items/active/WI-CI-GATE.contract.json")
 }
 
+fn archived_resource_repository() -> (tempfile::TempDir, PathBuf) {
+    let directory = repository();
+    let root = directory.path();
+    plan_resource_finalization(
+        root,
+        "WI-CI-GATE",
+        &ResourceFinalizationContext {
+            branch: "codex/archived-ci-gate".into(),
+            worktree: root.to_string_lossy().into_owned(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/repo/pull/814".into(),
+        },
+    )
+    .expect("resource finalization plan");
+    let current_runtime = runtime();
+    let contract = contract_path(root);
+    preflight_work_item_with_runtime(root, &contract, &current_runtime).expect("preflight");
+    checkpoint_work_item(root, "WI-CI-GATE").expect("checkpoint");
+    let run = run_repository_verification(
+        root,
+        &RepositoryVerificationRequest {
+            node_id: "archived-ci-gate-verification".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["README.md".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification");
+    record_verification_with_runtime(
+        root,
+        "WI-CI-GATE",
+        &serde_json::to_value(&run.receipt).expect("verification JSON"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+    finish_work_item_with_runtime(root, "WI-CI-GATE", &current_runtime).expect("finish");
+    archive_work_item_with_runtime(root, "WI-CI-GATE", &current_runtime).expect("archive");
+    let archived_contract = root.join(".ai/work-items/archive/WI-CI-GATE.contract.json");
+    (directory, archived_contract)
+}
+
 fn ai_bytes(root: &Path) -> Vec<(String, Vec<u8>)> {
     fn visit(root: &Path, current: &Path, output: &mut Vec<(String, Vec<u8>)>) {
         let mut entries = fs::read_dir(current)
@@ -136,6 +188,152 @@ fn valid_gate_is_identity_bound_and_read_only() {
         ai_bytes(directory.path()),
         "read-only gate changed .ai bytes"
     );
+}
+
+#[test]
+fn archived_resource_pull_request_gate_is_read_only() {
+    let (directory, archived_contract) = archived_resource_repository();
+    let root = directory.path();
+    let before = ai_bytes(root);
+    let value = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&archived_contract).expect("archived Contract"),
+    )
+    .expect("archived Contract JSON");
+    let base = value["baseRevision"]
+        .as_str()
+        .expect("Contract base")
+        .to_owned();
+
+    let report = evaluate_contract_quality_gate(
+        root,
+        &archived_contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(&base),
+        &runtime(),
+    )
+    .expect("archived resource Contract must be accepted by the read-only PR gate");
+    assert_eq!(report.state, "passed");
+    assert_eq!(report.decision_state, "green");
+    assert_eq!(report.work_item_id, "WI-CI-GATE");
+    assert_eq!(
+        before,
+        ai_bytes(root),
+        "archived gate changed mutable .ai bytes"
+    );
+}
+
+#[test]
+fn archived_resource_contract_is_restricted_to_pull_request_stage() {
+    let (directory, archived_contract) = archived_resource_repository();
+    let root = directory.path();
+    let value = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&archived_contract).expect("archived Contract"),
+    )
+    .expect("archived Contract JSON");
+    let base = value["baseRevision"].as_str().expect("Contract base");
+    let error = evaluate_contract_quality_gate(
+        root,
+        &archived_contract,
+        VerificationStage::Merge,
+        "hosted",
+        Some(base),
+        &runtime(),
+    )
+    .expect_err("archived Contract must not authorize a merge gate");
+    assert!(
+        error
+            .to_string()
+            .contains("restricted to pull-request stage")
+    );
+}
+
+#[test]
+fn archived_resource_contract_rejects_active_collision() {
+    let (directory, archived_contract) = archived_resource_repository();
+    let root = directory.path();
+    let active_contract = root.join(".ai/work-items/active/WI-CI-GATE.contract.json");
+    fs::copy(&archived_contract, &active_contract).expect("active collision Contract");
+    let value = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&archived_contract).expect("archived Contract"),
+    )
+    .expect("archived Contract JSON");
+    let base = value["baseRevision"].as_str().expect("Contract base");
+    let error = evaluate_contract_quality_gate(
+        root,
+        &archived_contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(base),
+        &runtime(),
+    )
+    .expect_err("active/archive collision must fail closed");
+    assert!(
+        error
+            .to_string()
+            .contains("active and archived Contract identities collide")
+    );
+}
+
+#[test]
+fn archived_resource_contract_rejects_manifest_digest_mismatch() {
+    let (directory, archived_contract) = archived_resource_repository();
+    let root = directory.path();
+    let manifest_path = root.join(".ai/work-items/archive/WI-CI-GATE.archive.json");
+    let mut manifest = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&manifest_path).expect("archive manifest"),
+    )
+    .expect("archive manifest JSON");
+    manifest["files"]["contractDigest"] = serde_json::json!("sha256:tampered");
+    fs::write(
+        &manifest_path,
+        serde_json::to_vec_pretty(&manifest).expect("manifest bytes"),
+    )
+    .expect("tamper archive manifest");
+    let value = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&archived_contract).expect("archived Contract"),
+    )
+    .expect("archived Contract JSON");
+    let base = value["baseRevision"].as_str().expect("Contract base");
+    let error = evaluate_contract_quality_gate(
+        root,
+        &archived_contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(base),
+        &runtime(),
+    )
+    .expect_err("archive manifest digest mismatch must fail closed");
+    assert!(error.to_string().contains("digest"));
+}
+
+#[cfg(unix)]
+#[test]
+fn archived_resource_contract_rejects_symlinked_manifest_file() {
+    use std::os::unix::fs::symlink;
+
+    let (directory, archived_contract) = archived_resource_repository();
+    let root = directory.path();
+    let events = root.join(".ai/work-items/archive/WI-CI-GATE.events.jsonl");
+    let target = root.join("archived-events-copy.jsonl");
+    fs::copy(&events, &target).expect("copy archive events");
+    fs::remove_file(&events).expect("remove archive events");
+    symlink(&target, &events).expect("symlink archive events");
+    let value = serde_json::from_slice::<serde_json::Value>(
+        &fs::read(&archived_contract).expect("archived Contract"),
+    )
+    .expect("archived Contract JSON");
+    let base = value["baseRevision"].as_str().expect("Contract base");
+    let error = evaluate_contract_quality_gate(
+        root,
+        &archived_contract,
+        VerificationStage::PullRequest,
+        "hosted",
+        Some(base),
+        &runtime(),
+    )
+    .expect_err("symlinked archived manifest file must fail closed");
+    assert!(error.to_string().contains("regular non-symlink"));
 }
 
 #[test]
