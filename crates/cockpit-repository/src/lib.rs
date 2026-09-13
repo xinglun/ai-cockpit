@@ -5387,15 +5387,14 @@ fn evidence_state_for_contract_internal_with_archive(
         ) {
             continue;
         }
-        if normalized.starts_with("delegated:")
+        if (normalized.starts_with("delegated:")
             || matches!(
                 normalized.as_str(),
                 "delegated_evidence" | "external_evidence"
-            )
+            ))
+            && !delegated_evidence_satisfies(&root, &contract.work_item_id, &normalized)?
         {
-            if !delegated_evidence_satisfies(&root, &contract.work_item_id, &normalized)? {
-                return Ok(EvidenceState::Missing);
-            }
+            return Ok(EvidenceState::Missing);
         }
     }
     Ok(EvidenceState::Complete)
