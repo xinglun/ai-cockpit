@@ -1,0 +1,40 @@
+{
+  "attemptId": "sha256:026e3a39d413f2c10e7e9c3162fb8e11da8d2613d78c2a521a0e0f185dcebf82",
+  "commands": [
+    {
+      "args": [
+        "tests/release/adopter_acceptance_test.sh"
+      ],
+      "baseCommit": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+      "commandDigest": "sha256:b4933edb3602aee238bdf2a1146115127bf4175915cf186b6b5f78fa2c716b79",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "contractExecutionScopeDigest": "sha256:b252e45a4cba802d5cb79cd1d5c3caa0485380ff3ada5b12ffe6911c160a9d83",
+  "createdAt": "2026-09-13T19:26:14Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi833-release-script-provenance/.ai/work-items/active/WI-833-release-script-provenance.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c9bd090689a9834c4158e8a58aeb1b821b6f09dc0477f6262c451f37a5f6604c",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-833-release-script-provenance"
+}
