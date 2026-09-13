@@ -31,7 +31,10 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 このページは、**release で何を trust し、どう runtime を install し、Homebrew がどこで止まるか**を説明します。
 
-公開は、レビュー済みで同期された default branch から annotated tag を push した場合だけ開始します。provider Release は source、artifact、staged acceptance の gate がすべて通った後に workflow が作成します。workflow 前に `gh release create` で provider Release を作成してはいけません。lightweight tag、または peeled commit がレビュー済み source commit と異なる tag は拒否され、失敗した semantic tag は永久に予約されます。
+公開は、レビュー済みで同期された default branch から明示的な workflow dispatch で開始します。annotated tag は不変の入力として先に push し、
+dispatch は明示的な Work Item identity を持ちます。provider Release は source、artifact、staged acceptance の gate がすべて通った後に
+workflow が作成します。workflow 前に `gh release create` で provider Release を作成してはいけません。lightweight tag、Work Item identity の欠落、
+または peeled commit がレビュー済み source commit と異なる tag は拒否され、失敗した semantic tag は永久に予約されます。tag の push だけでは公開を開始しません。
 
 ## 対象読者
 

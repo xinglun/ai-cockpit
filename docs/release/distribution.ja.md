@@ -78,7 +78,8 @@ generic CLI `verify --command` semantics は WI-224 の non-`crates/**` scope �
 
 ## Candidate の公開
 
-レビュー済み Work Item を merge し default branch を同期した後、annotated Git tag の push だけが公開を開始します。
+レビュー済み Work Item を merge し default branch を同期した後、明示的な workflow dispatch で公開を開始します。
+annotated Git tag を不変の入力として先に push し、dispatch に governance Work Item identity を指定します。
 workflow の検証前に provider Release と lightweight tag を作成する可能性があるため、`gh release create` は使わず、次のように実行します。
 
 ```bash
@@ -87,10 +88,16 @@ git tag -a v0.2.92 -m 'ai-cockpit v0.2.92'
 test "$(git cat-file -t v0.2.92)" = tag
 test "$(git rev-parse v0.2.92^{})" = "$(git rev-parse HEAD)"
 git push origin v0.2.92
+gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
+  -f from_tag=v0.2.91 \
+  -f to_tag=v0.2.92 \
+  -f publish_existing_tag=true \
+  -f work_item_id=WI-829-release-trigger-repair
 ```
 
-workflow は lightweight tag、既存の provider Release、または peeled commit がレビュー済み source commit と一致しない tag を拒否します。
-公開失敗後の tag は永久に保持され、次の candidate は patch version を一つ進めます。
+tag の push だけでは公開を開始しません。dispatch-only workflow は lightweight tag、Work Item identity
+の欠落、identity 検証に失敗した既存 provider Release、または peeled commit がレビュー済み source commit
+と一致しない tag を拒否します。公開失敗後の tag は永久に保持され、次の candidate は patch version を一つ進めます。
 
 ## 開始前
 
@@ -221,7 +228,7 @@ v0.2.0 Runtime は隣接 chain receipt field より前のため current harness 
 publication 前の staged N-1 job は public N-1 archive と staged candidate archive を使い、
 source build や任意 verification command に置換しません。publication 後、release workflow は
 publication handoff の後に独立した
-`adopter_upgrade_acceptance` job でこの harness を実行します。tag push の場合は provider
+`adopter_upgrade_acceptance` job でこの harness を実行します。明示的な publication dispatch では provider
 API から直前の published semantic Release を解決します。最初の public Release では checksum
 付き receipt に `adopterAcceptance: not_applicable` を記録します。maintainer は `from_tag`、
 `to_tag`、任意の `target` を指定して workflow を手動実行することもできます。manual dispatch

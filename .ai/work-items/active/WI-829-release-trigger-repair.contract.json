@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "Tag creation and publication use an explicit workflow dispatch with work_item_id and immutable tag identity.",
+    "A malformed, missing, or ambiguous release identity is rejected before compilation or publication.",
+    "The release policy and tri-language documentation describe the same dispatch-only publication boundary.",
+    "Existing public-artifact installation, upgrade, handoff, attestation, and close barriers remain required.",
+    "The regression suite proves the old implicit tag-trigger route is unavailable and explicit recovery remains identity-bound."
+  ],
+  "authority": "authorized",
+  "baseRevision": "31c463e5fca27a67bf10fde8db1062c078115a6b",
+  "createdAt": "2026-09-13T17:19:29Z",
+  "goal": "Prevent a known pre-build release resolver failure and preserve immutable tag and Work Item bindings before any expensive release job starts.",
+  "intent": "Make v0.2.92 publication use an explicit, identity-bound dispatch path so a tag event cannot start an unresolved release.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime protocol changes",
+    " product behavior changes",
+    " historical Work Item migration",
+    " existing Release/tag rewriting",
+    " user-global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:62c742a0e9148f031cbced977732ff9a33632b9d8400f87f8bd282b8f4fd040e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/resolve_work_item.sh"
+      ],
+      "expected": "A publication dispatch must carry an explicit Work Item identity and bind the tag, source commit, Contract, and workflow revision before any release job runs.",
+      "required": true,
+      "scenario": "dispatch_identity_binding",
+      "status": "unverified",
+      "verificationPlan": "Run the cheap release input preflight with valid and invalid identity inputs and retain its structured receipt."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "Missing, malformed, lightweight, moved, or ambiguous release inputs are rejected before compilation or publication.",
+      "required": true,
+      "scenario": "prebuild_rejection",
+      "status": "unverified",
+      "verificationPlan": "Exercise static policy and inspect the dispatch preflight guards; assert no release compilation job is eligible after rejection."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "docs/architecture/release-distribution.md"
+      ],
+      "expected": "A tag push alone cannot start publication; only the explicit dispatch path can publish an identity-bound immutable tag.",
+      "required": true,
+      "scenario": "dispatch_only_publication",
+      "status": "unverified",
+      "verificationPlan": "Run workflow and action runtime policies and inspect the hosted trigger configuration on the reviewed merge."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Publication retains candidate and public fresh-install, N-1 upgrade, handoff, attestation, and close barriers.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Use one explicit v0.2.92 dispatch and retain the public artifact acceptance and close receipts."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        ".ai/work-items"
+      ],
+      "expected": "A failed dispatch resumes from the first invalid phase without rewriting the tag or Release and preserves all prior valid evidence.",
+      "required": true,
+      "scenario": "failure_recovery_and_close",
+      "status": "unverified",
+      "verificationPlan": "Inspect the release workflow recovery inputs and, if needed, use close-only or post-release recovery without rebuilding valid product artifacts."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/release/action_runtime_policy.sh",
+    "docs/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/work-items/WI-829-release-trigger-repair.md",
+    "docs/work-items/WI-829-release-trigger-repair.zh-CN.md",
+    "docs/work-items/WI-829-release-trigger-repair.ja.md",
+    ".ai/work-items/active/WI-829-release-trigger-repair.*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-829-release-trigger-repair"
+}

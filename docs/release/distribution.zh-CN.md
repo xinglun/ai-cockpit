@@ -80,7 +80,8 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 
 ## 发布候选版本
 
-审查合并 Work Item 且同步默认分支后，通过推送 annotated Git tag 触发发布。使用以下命令；不要使用
+审查合并 Work Item 且同步默认分支后，通过显式 workflow dispatch 启动发布。先创建并推送
+annotated Git tag 作为不可变输入，再在 dispatch 中携带治理 Work Item identity。不要使用
 `gh release create`，因为它可能在 workflow 验证候选版本之前创建 provider Release 和 lightweight tag：
 
 ```bash
@@ -89,9 +90,15 @@ git tag -a v0.2.92 -m 'ai-cockpit v0.2.92'
 test "$(git cat-file -t v0.2.92)" = tag
 test "$(git rev-parse v0.2.92^{})" = "$(git rev-parse HEAD)"
 git push origin v0.2.92
+gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
+  -f from_tag=v0.2.91 \
+  -f to_tag=v0.2.92 \
+  -f publish_existing_tag=true \
+  -f work_item_id=WI-829-release-trigger-repair
 ```
 
-workflow 会拒绝 lightweight tag、已存在的 provider Release，或 peeled commit 不是已审查 source commit 的 tag。
+tag push 本身不会启动发布。dispatch-only workflow 会拒绝缺失或 lightweight tag、缺失 Work Item
+identity、已存在但未通过身份校验的 provider Release，或 peeled commit 不是已审查 source commit 的 tag。
 发布失败后 tag 永久保留；下一个候选版本必须递增一个 patch 版本。
 
 ## 开始前
@@ -254,7 +261,7 @@ Release truth。迁移验收 artifact 与 adopter 安装路径分开维护。
 
 发布前 staged N-1 job 使用公开 N-1 archive 与 staged candidate archive，不使用源码构建
 或任意 verification command。发布后，release workflow 会在 publication handoff 之后用独立的
-`adopter_upgrade_acceptance` job 执行这个 harness。对于 tag push，workflow 通过 provider
+`adopter_upgrade_acceptance` job 执行这个 harness。对于显式 publication dispatch，workflow 通过 provider
 API 解析紧邻的上一个已发布 semantic Release。第一个公开 Release 会写入带 checksum 的
 `adopterAcceptance: not_applicable` receipt。维护者也可以手动触发 workflow，提供
 `from_tag`、`to_tag` 和可选的 `target`；手动触发只消费已经发布的 artifact，永远不会发布

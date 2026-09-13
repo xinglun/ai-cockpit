@@ -60,12 +60,15 @@ promotion was missing before tagging, and it is not an installation baseline.
 This page answers: **what is trusted during release, how can a person install
 the runtime, and where does Homebrew stop?**
 
-Publication starts only from a reviewed, synchronized default branch by
-pushing an annotated tag. The provider Release is created by the workflow after
-all source, artifact, and staged-acceptance gates pass; maintainers must not
-pre-create it with `gh release create`. A lightweight tag or a tag whose peeled
-commit is not the reviewed source commit is rejected, and a failed semantic tag
-is permanently reserved.
+Publication starts only from a reviewed, synchronized default branch through
+an explicit workflow dispatch. The annotated tag is pushed first as an
+immutable input, and the dispatch carries the explicit Work Item identity.
+The provider Release is created by the workflow after all source, artifact, and
+staged-acceptance gates pass; maintainers must not pre-create it with
+`gh release create`. A missing or lightweight tag, an omitted Work Item
+identity, or a tag whose peeled commit is not the reviewed source commit is
+rejected, and a failed semantic tag is permanently reserved. A tag push alone
+does not start publication.
 
 ## Audience
 
