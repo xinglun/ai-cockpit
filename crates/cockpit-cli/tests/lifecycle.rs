@@ -309,7 +309,7 @@ fn work_item_lifecycle_is_atomic_and_archive_is_content_bound() {
             "--id",
             "WI-TEST",
             "--human-decision",
-            "approved-by-test",
+            "approved",
             "--actor",
             "human:test",
             "--authority-source",

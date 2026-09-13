@@ -1,0 +1,92 @@
+{
+  "acceptanceCriteria": [
+    "Canonical close decisions are validated before any close receipt is written and invalid decision tokens fail with the allowed vocabulary.",
+    "The two documentation gates use one identity-bound promotion execution per request; documentation acceptance consumes that result without repeating the scan.",
+    "A failed documentation gate reports the gate id, command, exit status, diagnostic path, and the first structured failure details including file, field, expected value, and actual value when available.",
+    "WI-812 immutable bytes remain unchanged and its recovery relationship is explicit and repository-bound.",
+    "Focused and workspace tests cover normal close, superseded or failed-delivery close semantics, historical recovery, documentation gate failure diagnostics, and no-duplicate execution.",
+    "Existing CLI close and multilingual outcome tests use the canonical decision vocabulary and remain green.",
+    "A non-canonical close token is rejected without creating a receipt while canonical approved close remains compatible across CLI paths."
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "437ca6c4c101418183452ee08636ea2f6c9b41f1",
+  "createdAt": "2026-09-13T03:19:51Z",
+  "goal": "Restore main quality convergence after v0.2.91 by preserving WI-812 history through successor recovery, validating canonical close decisions, and reusing one identity-bound documentation promotion result instead of repeating the same scan.",
+  "intent": "Make documentation gate failures directly diagnosable and execute promotion once per request while preventing future close receipts with non-canonical decision tokens.",
+  "mode": "implementation",
+  "outOfScope": [
+    "rewriting WI-812 historical Contract archive evidence or close bytes",
+    "release tags and published assets",
+    "rerunning v0.2.91 release acceptance",
+    "object repositories",
+    "unrelated documentation failures",
+    "global Agent or MCP configuration"
+  ],
+  "predecessorContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+  "predecessorWorkItemId": "WI-812-release-source-governance-split",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-812-release-source-governance-split.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0124183f0f333673a5dd0e8da85a6fb0c528a95060e3e642496636436d82c820",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A non-canonical close decision is rejected before any close receipt is written.",
+      "required": true,
+      "scenario": "invalid_close_decision",
+      "status": "unverified",
+      "verificationPlan": "Run the focused Rust lifecycle regression with a closed decision token."
+    },
+    {
+      "evidence": [],
+      "expected": "An immutable historical close with a non-canonical token is recovered through an explicit repository-bound successor.",
+      "required": true,
+      "scenario": "historical_close_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run the documentation promotion and recovery regression against the WI-812 fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "The repository gate route executes documentation promotion once and documentation acceptance consumes its bound result.",
+      "required": true,
+      "scenario": "single_promotion_execution",
+      "status": "unverified",
+      "verificationPlan": "Run the gate runner and manifest regression with a promotion invocation counter."
+    },
+    {
+      "evidence": [],
+      "expected": "A failed documentation gate reports its command, exit status, diagnostic path, and structured file/field/expected/actual details when present.",
+      "required": true,
+      "scenario": "structured_gate_diagnostics",
+      "status": "unverified",
+      "verificationPlan": "Run the gate runner diagnostic regression with a controlled structured failure."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "tests/ci/repository_gate_manifest_test.py",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-819-docs-gate-convergence"
+}

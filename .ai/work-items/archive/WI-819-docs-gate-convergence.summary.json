@@ -1,0 +1,142 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-812-release-source-governance-split.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-819-docs-gate-convergence.contract.json",
+    ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/run_repository_gates.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "checkpointAt": "2026-09-13T03:54:08Z",
+  "checkpointContractDigest": "sha256:77f9d32ed4f8998ff18dc1721ab07a2169db799377de282fc62fff4761c017e4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:13bcb8df97440ab75930038dfb0ab7eae035a86632be245b42afa1223898beb7",
+      "recorded": true,
+      "recordedAt": "2026-09-13T03:54:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b29fbf29098db31edc7da798389938b181a3941f28b2f3887b96c9f49c6c5cd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-819-docs-gate-convergence"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:77f9d32ed4f8998ff18dc1721ab07a2169db799377de282fc62fff4761c017e4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:13bcb8df97440ab75930038dfb0ab7eae035a86632be245b42afa1223898beb7",
+      "previousContractHash": "sha256:13bcb8df97440ab75930038dfb0ab7eae035a86632be245b42afa1223898beb7",
+      "reason": "The new pre-write canonical close validation exposed two existing CLI fixtures using non-canonical approved-by-* tokens; keep the compatibility correction within this close-validation Contract and revalidate all affected CLI projections.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T03:59:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2b29fbf29098db31edc7da798389938b181a3941f28b2f3887b96c9f49c6c5cd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-819-docs-gate-convergence"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:58efa48b1523c06d7903212560e77dfd907f95a2ab7e00f927bacd89a40e7cd2",
+  "createdAt": "2026-09-13T03:19:51Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs:3596-3613",
+      "tests/docs/documentation_acceptance.sh:278",
+      "crates/cockpit-repository/tests/status_projection.rs",
+      "tests/ci/repository_gate_manifest_test.py"
+    ],
+    "reason": "The scanner regression proves the historical test_weakening hit was a false positive from rule contains_skip_marker matching the xit( substring in tests/docs/documentation_acceptance.sh:278 SystemExit(. Standalone xit( remains blocked; promotion remains a single dependency with bound receipt consumption.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+  "predecessorWorkItemId": "WI-812-release-source-governance-split",
+  "preflightAt": "2026-09-13T06:49:18Z",
+  "preflightContractDigest": "sha256:77f9d32ed4f8998ff18dc1721ab07a2169db799377de282fc62fff4761c017e4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:58efa48b1523c06d7903212560e77dfd907f95a2ab7e00f927bacd89a40e7cd2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-812-release-source-governance-split.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "cargo test --locked -p cockpit-repository --test status_projection -- --nocapture"
+      ],
+      "expected": "A non-canonical close decision is rejected before any close receipt is written.",
+      "required": true,
+      "scenario": "invalid_close_decision",
+      "status": "verified",
+      "verificationPlan": "Run the focused Rust lifecycle regression with a closed decision token."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh",
+        ".ai/decisions/WI-812-release-source-governance-split.recovery.json",
+        "bash tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "An immutable historical close with a non-canonical token is recovered through an explicit repository-bound successor.",
+      "required": true,
+      "scenario": "historical_close_recovery",
+      "status": "verified",
+      "verificationPlan": "Run the documentation promotion and recovery regression against the WI-812 fixture."
+    },
+    {
+      "evidence": [
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/repository_gate_manifest.json",
+        "tests/ci/repository_gate_manifest_test.py",
+        "bash tests/ci/repository_gate_manifest_test.sh"
+      ],
+      "expected": "The repository gate route executes documentation promotion once and documentation acceptance consumes its bound result.",
+      "required": true,
+      "scenario": "single_promotion_execution",
+      "status": "verified",
+      "verificationPlan": "Run the gate runner and manifest regression with a promotion invocation counter."
+    },
+    {
+      "evidence": [
+        "tests/ci/run_repository_gates.py",
+        "tests/ci/repository_gate_manifest_test.py",
+        "structured diagnostic fixture: file=docs/index.md field=state expected=ok actual=bad diagnosticTruncated=true",
+        "bash tests/ci/repository_gate_manifest_test.sh"
+      ],
+      "expected": "A failed documentation gate reports its command, exit status, diagnostic path, and structured file/field/expected/actual details when present.",
+      "required": true,
+      "scenario": "structured_gate_diagnostics",
+      "status": "verified",
+      "verificationPlan": "Run the gate runner diagnostic regression with a controlled structured failure."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T06:49:47Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-819-docs-gate-convergence"
+}
