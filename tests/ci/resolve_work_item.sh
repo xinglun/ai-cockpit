@@ -188,6 +188,10 @@ if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$po
   [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
     fail work_item_id_required 'recovery requires an explicit work_item_id or contract path'
   [[ -n "$to_tag" ]] || fail invalid_to_tag 'recovery requires to_tag'
+  if [[ "$publish_existing_tag" == true || "$close_only" != true ]]; then
+    [[ -n "$source_work_item_id" || -n "$source_contract_path_arg" ]] || \
+      fail source_identity_required 'publication and post-release acceptance require an explicit source Work Item or Contract identity'
+  fi
 fi
 
 if [[ "$event" == pull_request ]]; then

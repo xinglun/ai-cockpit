@@ -65,9 +65,17 @@ grep -Fq 'source_work_item_id_mismatch' "$resolver" || {
   printf 'release gate policy failure: mismatched source identity must fail closed\n' >&2
   exit 1
 }
+grep -Fq 'source_identity_required' "$resolver" || {
+  printf 'release gate policy failure: publication and post-release acceptance must require an explicit source identity\n' >&2
+  exit 1
+}
 require 'sourceBaseRevision' 'release route must bind the source-verification baseline'
 require 'sourceContractPath' 'release route must bind the source-verification Contract path'
 require 'release-governance-binding.json' 'release must retain the governance identity binding'
+require 'Checkout immutable release source' 'release must checkout the immutable source before route planning'
+require 'source_quality' 'release must have a source-quality phase'
+require 'needs.release_preflight.outputs.source_revision' 'source-quality must consume the immutable source identity from preflight'
+require '--repo "$source_repo"' 'source-quality Contract verification must use the immutable source checkout'
 require 'staged_adopter_acceptance:' 'release must gate publication on staged adopter acceptance'
 require 'staged_adopter_upgrade_acceptance:' 'release must gate publication on staged N-1 acceptance'
 require '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'

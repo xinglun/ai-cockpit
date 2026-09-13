@@ -3,7 +3,11 @@
     "All workspace package versions and release metadata identify v0.2.92",
     "Hosted source verification, build, candidate acceptance, and public artifact installation and N-1 upgrade pass",
     "Release tag and public Release identity match the verified source and manifests",
-    "Failure and recovery evidence remains bound and close is confirmed"
+    "Failure and recovery evidence remains bound and close is confirmed",
+    "workflow_dispatch release verification checks the immutable to_tag source checkout with the source Contract baseline, while retaining the current workflow commit as a separate execution identity",
+    "the route receipt repository snapshot, Contract gate, and canonical source gates all bind to the same immutable release-source checkout",
+    "policy regression tests fail if source-quality Contract verification uses the current orchestration checkout or the current workflow SHA as the release-source head",
+    "publication and post-release recovery inputs require an explicit source Work Item or source Contract identity; they never silently reuse the governance identity"
   ],
   "authority": "authorized",
   "baseRevision": "cd02be16a23bccccb93763c564d3664ff94c3b3e",
@@ -23,7 +27,8 @@
   "repositorySnapshotDigest": "sha256:9b155856ff65ff72fb29df6a1fd66354bbb11d778acf31dd950520b65ffce7dc",
   "requiredEvidenceClasses": [
     "verification",
-    "verification_receipt"
+    "verification_receipt",
+    "policy"
   ],
   "risk": "high",
   "scenarioCoverage": [
@@ -96,7 +101,12 @@
     "docs/reference/reference-file-comparison.ja.md",
     "docs/work-items/WI-828-release-v0-2-92.md",
     "docs/work-items/WI-828-release-v0-2-92.zh-CN.md",
-    "docs/work-items/WI-828-release-v0-2-92.ja.md"
+    "docs/work-items/WI-828-release-v0-2-92.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh"
   ],
   "sources": [],
   "state": "implementation_active",

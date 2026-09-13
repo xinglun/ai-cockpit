@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:1cd10d9a2ce519ef72d9b9e80bb9e5615d7949f67d63dba515e631d173d9590e",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "cd02be16a23bccccb93763c564d3664ff94c3b3e",
+      "commandDigest": "sha256:5413b52c58a73d7e68424b0fdc03d0f17112ac6cc977dce2fa6496629d706c03",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "release"
+    }
+  ],
+  "contractDigest": "sha256:0e88d9365015534655cd8f8097e128b94d601c1df05fb19586ddea4131302052",
+  "contractExecutionScopeDigest": "sha256:e0b596897ad9703ac7d030a002898ed9e5524e49e4ff1b63c73bec841ef5e32a",
+  "createdAt": "2026-09-13T23:13:22Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi828-source-identity/.ai/work-items/active/WI-828-release-v0-2-92.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, evidence_classes_repository_context_required"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:899e40e4d3e18c6127e53a58fb4c76ed21756484a8c68712abe28eeac7429e56",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-828-release-v0-2-92"
+}
