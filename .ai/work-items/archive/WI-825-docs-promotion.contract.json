@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "WI-824 has truthful regular English, Simplified Chinese, and Japanese pages bound to its immutable archive, verification receipt, and close decision.",
+    "Reference parity contains exactly one language-appropriate row for WI-824 and points to the same evidence paths.",
+    "The documentation promotion helper passes for WI-824 and the repository-wide check after close; no historical evidence is rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2867ae033cf532db0d208b9249e80a30ec48b89e",
+  "createdAt": "2026-09-13T14:10:10Z",
+  "goal": "Add truthful English, Simplified Chinese, and Japanese Work Item pages plus one parity row for WI-824, bound to its immutable archive, verification receipt, and close decision.",
+  "intent": "Restore the mandatory post-close documentation projection for WI-824 without rewriting historical evidence.",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/**",
+    "crates/**",
+    "tests/**",
+    "historical evidence bytes",
+    "release publication",
+    "other Work Item documentation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4645793737f6e95859fe9b8549b88bb126aa85dd8511fa2c52c9e0b306321da4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-824-verification-preconditions.md",
+    "docs/work-items/WI-824-verification-preconditions.zh-CN.md",
+    "docs/work-items/WI-824-verification-preconditions.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-825-docs-promotion.md",
+    "docs/work-items/WI-825-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-825-docs-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-825-docs-promotion"
+}
