@@ -2,8 +2,11 @@
 set -euo pipefail
 
 script="$(cd "$(dirname "$0")" && pwd)/adopter_upgrade_acceptance.sh"
+receipt_validator_test="$(cd "$(dirname "$0")" && pwd)/validate_adopter_acceptance_receipt_test.sh"
 workflow="$(cd "$(dirname "$0")/../.." && pwd)/.github/workflows/release.yml"
 bash -n "$script"
+bash -n "$receipt_validator_test"
+bash "$receipt_validator_test"
 grep -F -A8 -- 'name: Run staged candidate adopter acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
 grep -F -A8 -- 'name: Run public-to-staged N-1 acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
 grep -F -A8 -- 'name: Run public Release adopter acceptance' "$workflow" | grep -q -- 'GH_TOKEN:'
