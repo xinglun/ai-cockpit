@@ -10,8 +10,8 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item_with_runtime, attach, checkpoint_work_item,
-    close_work_item_with_decision_and_runtime,
+    archive_historical_work_item_with_runtime, archive_work_item_with_runtime, attach,
+    checkpoint_work_item, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
     record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
@@ -161,6 +161,18 @@ enum CommandKind {
         #[arg(long)]
         id: String,
         /// Emit machine-only output without the human Outcome handoff on stderr.
+        #[arg(long)]
+        json: bool,
+    },
+    /// Archive complete schema-v2 evidence produced by an older Runtime.
+    /// This explicit compatibility route does not rerun source verification;
+    /// finalization and close remain required after archive.
+    ArchiveHistorical {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// Emit machine-only output without the human Outcome handoff.
         #[arg(long)]
         json: bool,
     },
@@ -1219,6 +1231,12 @@ fn run() -> Result<()> {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive work item")?;
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
+        }
+        CommandKind::ArchiveHistorical { repo, id, json } => {
+            require_compatible(&repo, &runtime_context)?;
+            let receipt = archive_historical_work_item_with_runtime(&repo, &id, &runtime_context)
+                .context("archive historical Work Item")?;
             print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
         }
         CommandKind::Close {

@@ -7,11 +7,12 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     ActiveArtifactReconciliationReceipt, ArchivedVerificationRecoveryRequest, WorkItemStartOptions,
-    acquire_parallel_slot, amend_work_item_contract, archive_work_item, attach,
-    checkpoint_work_item, close_work_item_with_decision, close_work_item_with_structured_decision,
-    evidence_purge_plan, evidence_state_for_contract, export_audit_events, finish_work_item,
-    governance_decision_for_contract, implementation_approach, import_delegated_evidence,
-    plan_resource_finalization, preflight_work_item, reconcile_active_artifacts,
+    acquire_parallel_slot, amend_work_item_contract, archive_historical_work_item_with_runtime,
+    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
+    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
+    export_audit_events, finish_work_item, governance_decision_for_contract,
+    implementation_approach, import_delegated_evidence, plan_resource_finalization,
+    preflight_work_item, reconcile_active_artifacts,
     record_archived_verification_recovery_with_runtime, record_verification,
     record_verification_with_runtime, record_work_item_governance_controls, release_parallel_slot,
     render_human_outcome, run_repository_verification, set_evidence_retention_policy,
@@ -172,6 +173,189 @@ fn no_resource_context_can_finish_archive_and_close_without_provider_evidence() 
             .join(format!("{work_item_id}.close.json"))
             .is_file()
     );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+fn record_old_typed_verification(
+    path: &std::path::Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) {
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    preflight_work_item(path, &contract_path).expect("preflight");
+    checkpoint_work_item(path, work_item_id).expect("checkpoint");
+    let snapshot = GitRepository::discover(path)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let run = run_repository_verification(
+        path,
+        &cockpit_repository::RepositoryVerificationRequest {
+            node_id: format!("{work_item_id}-verification"),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("old verification");
+    record_verification_with_runtime(
+        path,
+        work_item_id,
+        &serde_json::to_value(run.receipt).expect("verification receipt JSON"),
+        runtime,
+        &snapshot,
+    )
+    .expect("record old verification");
+    finish_work_item(path, work_item_id).expect("finish");
+}
+
+#[test]
+fn explicit_historical_archive_preserves_typed_old_runtime_evidence() {
+    let path = repository();
+    let work_item_id = "WI-HISTORICAL-ARCHIVE";
+    let old_runtime = RuntimeContext {
+        runtime_version: "0.2.90".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"old-runtime"),
+    };
+    let current_runtime = RuntimeContext {
+        runtime_version: "0.2.91".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"current-runtime"),
+    };
+    start_work_item(
+        &path,
+        work_item_id,
+        "historical archive",
+        "reconcile old evidence",
+        &["**".into()],
+    )
+    .expect("start");
+    record_old_typed_verification(&path, work_item_id, &old_runtime);
+    let evidence_path = path
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    let evidence_before = fs::read(&evidence_path).expect("evidence before archive");
+
+    archive_historical_work_item_with_runtime(&path, work_item_id, &current_runtime)
+        .expect("explicit historical archive");
+
+    assert_eq!(
+        fs::read(&evidence_path).expect("evidence after archive"),
+        evidence_before
+    );
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.archive.json")),
+        )
+        .expect("archive manifest"),
+    )
+    .expect("manifest JSON");
+    assert_eq!(
+        manifest["archiveRoute"],
+        "historical_evidence_compatibility"
+    );
+    assert_eq!(
+        manifest["historicalEvidence"]["path"],
+        format!(".ai/evidence/{work_item_id}.verification.json")
+    );
+    assert_eq!(manifest["historicalEvidence"]["runtimeVersion"], "0.2.90");
+    assert_eq!(
+        manifest["historicalEvidence"]["runtimeDigest"],
+        old_runtime.runtime_digest.to_string()
+    );
+    assert_eq!(
+        manifest["historicalEvidence"]["fileDigest"],
+        Digest::sha256_bytes(&evidence_before).to_string()
+    );
+    reconcile_active_artifacts(&path, work_item_id).expect("historical manifest validates");
+    fs::write(&evidence_path, b"tampered").expect("tamper historical evidence");
+    let error = reconcile_active_artifacts(&path, work_item_id)
+        .expect_err("tampered historical evidence must fail closed");
+    assert!(error.to_string().contains("digest"));
+
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn historical_archive_rejects_current_runtime_and_invalid_evidence_without_mutation() {
+    let path = repository();
+    let current_runtime = RuntimeContext {
+        runtime_version: "0.2.91".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"current-runtime"),
+    };
+    let work_item_id = "WI-HISTORICAL-ARCHIVE-REJECT";
+    start_work_item(
+        &path,
+        work_item_id,
+        "reject invalid archive",
+        "preserve active state",
+        &["**".into()],
+    )
+    .expect("start");
+    record_old_typed_verification(&path, work_item_id, &current_runtime);
+    let active_contract = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let active_contract_before = fs::read(&active_contract).expect("active Contract");
+    let error = archive_historical_work_item_with_runtime(&path, work_item_id, &current_runtime)
+        .expect_err("current Runtime evidence must use normal archive");
+    assert!(error.to_string().contains("different Runtime identity"));
+    assert_eq!(
+        fs::read(&active_contract).expect("Contract after rejection"),
+        active_contract_before
+    );
+    assert!(
+        !path
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"))
+            .exists()
+    );
+
+    let invalid_id = "WI-HISTORICAL-ARCHIVE-MALFORMED";
+    start_work_item(
+        &path,
+        invalid_id,
+        "reject malformed archive",
+        "preserve malformed evidence",
+        &["**".into()],
+    )
+    .expect("start malformed");
+    record_old_typed_verification(
+        &path,
+        invalid_id,
+        &RuntimeContext {
+            runtime_version: "0.2.90".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"old-runtime"),
+        },
+    );
+    let invalid_evidence = path
+        .join(".ai/evidence")
+        .join(format!("{invalid_id}.verification.json"));
+    fs::write(&invalid_evidence, b"{\"passed\":true}").expect("malformed evidence");
+    let error = archive_historical_work_item_with_runtime(&path, invalid_id, &current_runtime)
+        .expect_err("malformed evidence must be rejected");
+    assert!(
+        error.to_string().contains("typed schema-v2") || error.to_string().contains("complete")
+    );
+    assert!(
+        !path
+            .join(".ai/work-items/archive")
+            .join(format!("{invalid_id}.archive.json"))
+            .exists()
+    );
+
     fs::remove_dir_all(path).expect("cleanup");
 }
 

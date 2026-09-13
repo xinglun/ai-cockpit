@@ -37,6 +37,11 @@ capabilityClaims:
   は ready ではありません。外部 resource を持つ歴史的 PR は、正確な archived Contract
   と有効な archive manifest による read-only archive route とし、通常の no-Contract
   route に分類してはいけません。
+- active Work Item に完全な typed schema-v2 verification evidence があり、それが旧 Runtime
+  で生成された場合は、明示的な `ai-cockpit archive-historical --repo <repository> --id <work-item>`
+  compatibility command を使います。旧 receipt と repository、Contract、source の binding
+  だけを検証し、source verification の再実行や evidence bytes の書き換えは行いません。
+  通常の `archive` は current Runtime に bind されたままで、finalization と close も必要です。
 - Work Item ごとに一つの Contract、専用 branch/worktree、一つの PR を使います。
   scope、evidence ownership、repository context、serialized projection が分離し、
   Runtime が compatible と判定した独立 Work Item だけを並行できます。

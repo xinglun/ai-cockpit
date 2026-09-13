@@ -1,0 +1,127 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-827-wi826-docs-promotion.contract.json",
+    ".ai/work-items/archive/WI-827-wi826-docs-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-826-historical-lifecycle-reconciliation.ja.md",
+    "docs/work-items/WI-826-historical-lifecycle-reconciliation.md",
+    "docs/work-items/WI-826-historical-lifecycle-reconciliation.zh-CN.md",
+    "docs/work-items/WI-827-wi826-docs-promotion.ja.md",
+    "docs/work-items/WI-827-wi826-docs-promotion.md",
+    "docs/work-items/WI-827-wi826-docs-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-13T16:07:12Z",
+  "checkpointContractDigest": "sha256:fe30a542c44321bfe6586dd6e7aebc02b952c4b5b58e510fa8478949bda6fd00",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:975d18f3a693cdca088ca30f0c8b63717cdd9ad27aa4fb0a11c24b49342e60a3",
+  "createdAt": "2026-09-13T16:05:27Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:fe30a542c44321bfe6586dd6e7aebc02b952c4b5b58e510fa8478949bda6fd00",
+    "items": [
+      {
+        "class": "governance",
+        "evidence": [
+          {
+            "digest": "sha256:fab8c5e3e1346188863fb5759dad794cc64ca4c95cef0467d6b26572d008f45d",
+            "locator": "WI-826 and WI-827 parity rows",
+            "path": "docs/reference/reference-parity.md",
+            "type": "implementation",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "documentation",
+        "evidence": [
+          {
+            "digest": "sha256:148aa2cb8733a943f804fc3b980484c8d6a37387cc8815566196e60b5e93a60b",
+            "locator": "terminal documentation projection",
+            "path": "docs/work-items/WI-826-historical-lifecycle-reconciliation.md",
+            "type": "projection",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:f8038585a690eae37433efe1e4c1adc8606b48adeb18d922434c35af9c130112",
+            "locator": "terminal documentation projection",
+            "path": "docs/work-items/WI-826-historical-lifecycle-reconciliation.zh-CN.md",
+            "type": "projection",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:82a0632f92f620c3dc215753b5164449c959b783d9ede932aacaa4b5a68dbd59",
+            "locator": "terminal documentation projection",
+            "path": "docs/work-items/WI-826-historical-lifecycle-reconciliation.ja.md",
+            "type": "projection",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-826-historical-lifecycle-reconciliation.md",
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "The bounded documentation route closes the known WI-826 projection gap without changing source behavior or immutable historical evidence.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T16:07:23Z",
+  "preflightContractDigest": "sha256:fe30a542c44321bfe6586dd6e7aebc02b952c4b5b58e510fa8478949bda6fd00",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:975d18f3a693cdca088ca30f0c8b63717cdd9ad27aa4fb0a11c24b49342e60a3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "docs/work-items/WI-826-historical-lifecycle-reconciliation.md",
+        "docs/work-items/WI-826-historical-lifecycle-reconciliation.zh-CN.md",
+        "docs/work-items/WI-826-historical-lifecycle-reconciliation.ja.md"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese pages are regular files with truthful content and stable cross-language links.",
+      "required": true,
+      "scenario": "WI-826 has a complete tri-language terminal projection",
+      "status": "verified",
+      "verificationPlan": "Run the focused promotion regression and inspect all three WI-826 pages."
+    },
+    {
+      "evidence": [
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "The promoted pages and parity rows refer to WI-826 archive, verification, and close records without changing evidence bytes.",
+      "required": true,
+      "scenario": "WI-826 documentation is bound to immutable terminal evidence",
+      "status": "verified",
+      "verificationPlan": "After the implementation branch is present, run the promotion helper and compare historical evidence digests."
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "expected": "The helper rejects missing, malformed, or inconsistent terminal documentation rather than silently accepting it.",
+      "required": true,
+      "scenario": "documentation promotion remains fail-closed",
+      "status": "verified",
+      "verificationPlan": "Run the focused promote_closed_work_item regression suite."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T16:09:51.784718+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-827-wi826-docs-promotion"
+}
