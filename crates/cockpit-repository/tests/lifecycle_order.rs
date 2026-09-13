@@ -247,17 +247,19 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
 fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
     let directory = repository();
     let id = "WI-ORDER-FUTURE-EVIDENCE";
-    start(
+    start_work_item_with_options(
         directory.path(),
         id,
-        &[
-            "hosted-ci",
-            "public-install",
-            "public-upgrade",
-            "release-close",
-            "cleanup",
-        ],
-    );
+        "lifecycle ordering",
+        "preserve serial governance",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["delegated:github".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
     let contract_path = contract(directory.path(), id);
     plan_resource_finalization(
         directory.path(),
@@ -303,6 +305,37 @@ fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
         archive.to_string().contains("valid verification evidence")
             || archive.to_string().contains("green governance"),
         "unexpected archive error: {archive}"
+    );
+}
+
+#[test]
+fn future_lifecycle_stage_labels_are_rejected_at_entry_boundary() {
+    let directory = repository();
+    let id = "WI-ORDER-FUTURE-LABEL";
+    let error = start_work_item_with_options(
+        directory.path(),
+        id,
+        "lifecycle ordering",
+        "reject future-stage labels before verification",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["public-install".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect_err("future lifecycle labels must fail before verification");
+    let message = error.to_string();
+    assert!(
+        message.contains("unsupported required evidence class"),
+        "{message}"
+    );
+    assert!(message.contains("public-install"), "{message}");
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json"))
+            .exists()
     );
 }
 
