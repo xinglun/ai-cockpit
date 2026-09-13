@@ -1493,10 +1493,7 @@ fn validate_resource_finalization_identity(
                 "historical finalization must bind Contract base in historical.contractBaseRevision",
             ));
         }
-        validate_resource_finalization_revision(
-            contract_base_revision,
-            "contractBaseRevision",
-        )?;
+        validate_resource_finalization_revision(contract_base_revision, "contractBaseRevision")?;
     }
     if receipt.pull_request.number == 0 {
         let Some(historical) = receipt.historical.as_ref() else {

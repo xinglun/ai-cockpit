@@ -419,7 +419,8 @@ fn canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bo
     let contract_path = directory
         .path()
         .join(format!(".ai/work-items/archive/{ID}.contract.json"));
-    let archived_contract: Value = serde_json::from_slice(&fs::read(contract_path).unwrap()).unwrap();
+    let archived_contract: Value =
+        serde_json::from_slice(&fs::read(contract_path).unwrap()).unwrap();
     let contract_base = archived_contract["baseRevision"].as_str().unwrap();
     let mut receipt = blocked(&repository_id, &context, &contract);
     receipt["pullRequest"]["baseRevision"] = "provider-comparison-base".into();
@@ -430,10 +431,18 @@ fn canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bo
         .expect("an explicitly bound Contract base permits a distinct provider PR base");
     assert_eq!(recorded["state"], "recorded");
     let stored: Value = serde_json::from_slice(
-        &fs::read(directory.path().join(format!(".ai/decisions/{ID}.finalize.json"))).unwrap(),
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/decisions/{ID}.finalize.json")),
+        )
+        .unwrap(),
     )
     .unwrap();
-    assert_eq!(stored["pullRequest"]["baseRevision"], "provider-comparison-base");
+    assert_eq!(
+        stored["pullRequest"]["baseRevision"],
+        "provider-comparison-base"
+    );
     assert_eq!(stored["contractBaseRevision"], contract_base);
 }
 

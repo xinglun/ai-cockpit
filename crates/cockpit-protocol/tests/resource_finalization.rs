@@ -629,7 +629,9 @@ fn contract_base_revision_is_an_optional_independent_identity() {
     invalid.contract_base_revision = Some("  ".into());
     assert_eq!(
         validate_resource_finalization_receipt(&invalid),
-        Err(ResourceFinalizationError::EmptyField("contractBaseRevision"))
+        Err(ResourceFinalizationError::EmptyField(
+            "contractBaseRevision"
+        ))
     );
 }
 
