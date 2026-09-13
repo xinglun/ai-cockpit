@@ -7,7 +7,8 @@ usage: resolve_work_item.sh --repo ROOT --event EVENT --head SHA --output FILE
   [--pr-head-ref REF] [--pr-url URL] [--work-item-id ID]
   [--contract-path PATH] [--from-tag TAG] [--to-tag TAG]
   [--publish-existing-tag true|false] [--post-release-acceptance true|false]
-  [--reuse-run-id ID] [--handoff-run-id ID]
+  [--close-only true|false] [--reuse-run-id ID] [--reuse-acceptance-run-id ID]
+  [--handoff-run-id ID]
   [--source-work-item-id ID] [--source-contract-path PATH]
   [--github-repository OWNER/REPO] [--release-source-revision SHA]
 EOF
@@ -28,7 +29,9 @@ from_tag=''
 to_tag=''
 publish_existing_tag=false
 post_release_acceptance=false
+close_only=false
 reuse_run_id=''
+reuse_acceptance_run_id=''
 handoff_run_id=''
 github_repository="${GITHUB_REPOSITORY:-}"
 release_source_revision_arg=''
@@ -50,7 +53,9 @@ while (($# > 0)); do
     --to-tag) to_tag=${2:?missing value for --to-tag}; shift 2 ;;
     --publish-existing-tag) publish_existing_tag=${2:?missing value for --publish-existing-tag}; shift 2 ;;
     --post-release-acceptance) post_release_acceptance=${2:?missing value for --post-release-acceptance}; shift 2 ;;
+    --close-only) close_only=${2:?missing value for --close-only}; shift 2 ;;
     --reuse-run-id) reuse_run_id=${2:?missing value for --reuse-run-id}; shift 2 ;;
+    --reuse-acceptance-run-id) reuse_acceptance_run_id=${2:?missing value for --reuse-acceptance-run-id}; shift 2 ;;
     --handoff-run-id) handoff_run_id=${2:?missing value for --handoff-run-id}; shift 2 ;;
     --github-repository) github_repository=${2:?missing value for --github-repository}; shift 2 ;;
     --release-source-revision) release_source_revision_arg=${2:?missing value for --release-source-revision}; shift 2 ;;
@@ -142,11 +147,22 @@ if [[ "$event" == workflow_dispatch ]]; then
     fail invalid_publish_mode 'publish_existing_tag must be true or false'
   [[ "$post_release_acceptance" == true || "$post_release_acceptance" == false ]] || \
     fail invalid_post_release_mode 'post_release_acceptance must be true or false'
+  [[ "$close_only" == true || "$close_only" == false ]] || \
+    fail invalid_close_only_mode 'close_only must be true or false'
   [[ ! ( "$publish_existing_tag" == true && "$post_release_acceptance" == true ) ]] || \
     fail conflicting_release_modes 'publish_existing_tag and post_release_acceptance cannot both be true'
+  [[ ! ( "$close_only" == true && "$publish_existing_tag" == true ) ]] || \
+    fail conflicting_release_modes 'close-only recovery cannot publish or recover publication'
 fi
 
-if [[ "$event" == workflow_dispatch && "$post_release_acceptance" == true ]]; then
+if [[ "$event" == workflow_dispatch && "$close_only" == true ]]; then
+  [[ "$post_release_acceptance" == true ]] || \
+    fail invalid_close_only_mode 'close-only recovery requires post_release_acceptance=true'
+  [[ -n "$reuse_acceptance_run_id" && "$reuse_acceptance_run_id" =~ ^[1-9][0-9]*$ ]] || \
+    fail reuse_acceptance_run_id_required 'close-only recovery requires an explicit prior acceptance run'
+  [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
+    fail work_item_id_required 'close-only recovery requires an explicit Work Item identity'
+elif [[ "$event" == workflow_dispatch && "$post_release_acceptance" == true ]]; then
   [[ "$publish_existing_tag" != true ]] || \
     fail conflicting_release_modes 'post-release-only acceptance cannot publish or recover publication'
   [[ -n "$reuse_run_id" && "$reuse_run_id" =~ ^[1-9][0-9]*$ ]] || \
@@ -487,7 +503,11 @@ fi
 
 if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
   mode=release_recovery
-  [[ "$post_release_acceptance" == true ]] && mode=post_release_acceptance
+  if [[ "$close_only" == true ]]; then
+    mode=close_only
+  elif [[ "$post_release_acceptance" == true ]]; then
+    mode=post_release_acceptance
+  fi
 elif [[ "$event" == pull_request ]]; then
   mode=pull_request
 elif is_release_tag_push; then
@@ -514,7 +534,9 @@ jq -n \
   --arg method "$selection_method" \
   --arg lineage "$recovery_lineage" \
   --arg reuse "$reuse_run_id" \
+  --arg reuseAcceptance "$reuse_acceptance_run_id" \
+  --argjson closeOnly "$close_only" \
   --arg from "$from_tag" \
   --arg to "$to_tag" \
-  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,sourceWorkItemId:$sourceId,sourceContractPath:$sourcePath,sourceContractDigest:$sourceDigest,sourceBaseRevision:$sourceBase,sourceSelectionMethod:$sourceMethod,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),reuseRunId:(if $reuse == "" then null else $reuse end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
+  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,sourceWorkItemId:$sourceId,sourceContractPath:$sourcePath,sourceContractDigest:$sourceDigest,sourceBaseRevision:$sourceBase,sourceSelectionMethod:$sourceMethod,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),reuseRunId:(if $reuse == "" then null else $reuse end),reuseAcceptanceRunId:(if $reuseAcceptance == "" then null else $reuseAcceptance end),closeOnly:$closeOnly,fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
   > "$output_path"
