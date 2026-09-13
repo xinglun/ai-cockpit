@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Every recently closed Work Item lacking projection has a truthful regular English, Simplified Chinese, and Japanese page bound to its own immutable archive, verification evidence, and close decision.",
+    "Reference parity contains exactly one language-appropriate row for each repaired Work Item and points to the same evidence paths.",
+    "The documentation promotion helper passes for WI-818, WI-822, and the repository-wide check after this Work Item closes; WI-820 superseded history is not revalidated or rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "7eef11ae050279c49be385135f05bbde45780014",
+  "createdAt": "2026-09-13T13:11:08Z",
+  "goal": "Add truthful tri-language Work Item pages and parity references for WI-818, WI-820, and WI-822, and register this documentation repair under its own bounded lifecycle.",
+  "intent": "Restore the mandatory post-close documentation projection for recently closed Work Items without rewriting historical evidence.",
+  "mode": "docs",
+  "outOfScope": [
+    ".ai/**",
+    "crates/**",
+    "tests/**",
+    "historical evidence bytes",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bd8bb8b9f1552304f3cfc1b0ccc2936b7bd88adca980f36106f9ec3ff85139cb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-818-evidence-contract-repair.md",
+    "docs/work-items/WI-818-evidence-contract-repair.zh-CN.md",
+    "docs/work-items/WI-818-evidence-contract-repair.ja.md",
+    "docs/work-items/WI-820-verification-execution-boundary.md",
+    "docs/work-items/WI-820-verification-execution-boundary.zh-CN.md",
+    "docs/work-items/WI-820-verification-execution-boundary.ja.md",
+    "docs/work-items/WI-822-resource-finalization-base-binding.md",
+    "docs/work-items/WI-822-resource-finalization-base-binding.zh-CN.md",
+    "docs/work-items/WI-822-resource-finalization-base-binding.ja.md",
+    "docs/work-items/WI-823-docs-promotion.md",
+    "docs/work-items/WI-823-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-823-docs-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-823-docs-promotion"
+}
