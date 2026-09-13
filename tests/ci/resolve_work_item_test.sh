@@ -22,6 +22,25 @@ git -C "$fixture/repo" add README.md
 git -C "$fixture/repo" commit -qm head
 head=$(git -C "$fixture/repo" rev-parse HEAD)
 
+empty_inventory_output="$fixture/empty-inventory.json"
+set +e
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --to-tag v0.2.91 \
+  --publish-existing-tag true \
+  --work-item-id WI-NO-CONTRACT \
+  --output "$empty_inventory_output" >/dev/null 2>&1
+empty_inventory_result=$?
+set -e
+if [[ "$empty_inventory_result" -eq 0 ]]; then
+  echo 'expected empty active Contract inventory to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "contract_not_regular" and .state == "failed"' \
+  "$empty_inventory_output" >/dev/null
+
 cat > "$fixture/repo/.ai/work-items/active/WI-TEST.contract.json" <<JSON
 {
   "workItemId": "WI-TEST",
@@ -53,6 +72,133 @@ pull_request_output="$fixture/pull-request.json"
 jq -e \
   '.mode == "pull_request" and .workItemId == "WI-TEST" and .contractPath == ".ai/work-items/active/WI-TEST.contract.json" and .baseRevision == $base' \
   --arg base "$base" "$pull_request_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-NO-RESOURCE.contract.json" <<JSON
+{
+  "workItemId": "WI-NO-RESOURCE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+no_resource_output="$fixture/no-resource-pull-request.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-no-resource \
+  --pr-url https://github.com/example/repo/pull/8 \
+  --output "$no_resource_output"
+jq -e \
+  '.mode == "pull_request" and .workItemId == "WI-NO-RESOURCE" and .selectionMethod == "pull_request_branch_work_item" and .contractPath == ".ai/work-items/active/WI-NO-RESOURCE.contract.json"' \
+  "$no_resource_output" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-PROVISIONAL.contract.json" <<JSON
+{
+  "workItemId": "WI-PROVISIONAL",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/wi-provisional",
+    "pullRequest": "pending"
+  },
+  "scope": ["README.md"]
+}
+JSON
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-provisional \
+  --pr-url https://github.com/example/repo/pull/11 \
+  --output "$fixture/provisional.json"
+jq -e '.state == "ready" and .selectionMethod == "ordinary_repository_route" and .workItemId == null' \
+  "$fixture/provisional.json" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-SHADOW.contract.json" <<JSON
+{
+  "workItemId": "WI-SHADOW",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+cat > "$fixture/repo/.ai/work-items/active/WI-SHADOW-BOUND.contract.json" <<JSON
+{
+  "workItemId": "WI-SHADOW-BOUND",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/wi-shadow",
+    "pullRequest": "https://github.com/example/repo/pull/12"
+  },
+  "scope": ["README.md"]
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-shadow \
+  --pr-url https://github.com/example/repo/pull/13 \
+  --output "$fixture/shadow-conflict.json" >/dev/null 2>&1; then
+  echo 'expected same-branch resource Contract conflict to fail closed' >&2
+  exit 1
+fi
+jq -e '.failureCode == "work_item_branch_conflict" and .state == "failed"' \
+  "$fixture/shadow-conflict.json" >/dev/null
+
+cat > "$fixture/repo/.ai/work-items/active/WI-AMBIGUOUS.contract.json" <<JSON
+{
+  "workItemId": "WI-AMBIGUOUS",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/wi-ambiguous",
+    "pullRequest": "https://github.com/example/repo/pull/14"
+  },
+  "scope": ["README.md"]
+}
+JSON
+cat > "$fixture/repo/.ai/work-items/active/WI-AMBIGUOUS-ALT.contract.json" <<JSON
+{
+  "workItemId": "WI-AMBIGUOUS-ALT",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "resourceContext": {
+    "branch": "codex/wi-ambiguous",
+    "pullRequest": "https://github.com/example/repo/pull/14"
+  },
+  "scope": ["README.md"]
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-ambiguous \
+  --pr-url https://github.com/example/repo/pull/14 \
+  --output "$fixture/ambiguous.json" >/dev/null 2>&1; then
+  echo 'expected ambiguous branch Work Item binding to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "work_item_contract_ambiguous" and (.message | contains("WI-AMBIGUOUS")) and (.message | contains("WI-AMBIGUOUS-ALT"))' \
+  "$fixture/ambiguous.json" >/dev/null
+
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event pull_request \
+  --head "$head" \
+  --pr-head-ref codex/wi-missing \
+  --pr-url https://github.com/example/repo/pull/10 \
+  --output "$fixture/unmatched.json"
+jq -e '.state == "ready" and .selectionMethod == "ordinary_repository_route" and .workItemId == null' "$fixture/unmatched.json" >/dev/null
 
 mkdir -p "$fixture/repo/.ai/work-items/archive"
 cp "$fixture/repo/.ai/work-items/active/WI-TEST.contract.json" \
@@ -161,7 +307,7 @@ exit 1
 SH
 chmod +x "$fixture/fake-bin/gh"
 ordinary_push_output="$fixture/ordinary-push.json"
-PATH="$fixture/fake-bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/heads/main GITHUB_REF_NAME=main \
+PATH="$fixture/fake-bin:$PATH" GH_TOKEN=test-token GITHUB_REPOSITORY=example/repo GITHUB_REF=refs/heads/codex/wi-push-no-resource GITHUB_REF_NAME=codex/wi-push-no-resource \
   "$resolver" \
     --repo "$fixture/repo" \
     --event push \
