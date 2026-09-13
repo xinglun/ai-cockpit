@@ -124,8 +124,9 @@ jobs:
               exit 1
             }
             tag_revision="$(git rev-parse "$INPUT_TO_TAG^{}")"
-            test "$tag_revision" = "$head_revision" || {
-              echo 'publication tag must resolve to the reviewed dispatch commit' >&2
+            remote_tag_revision="$(git ls-remote origin "refs/tags/$INPUT_TO_TAG^{}" | awk '{print $1}')"
+            test "$tag_revision" = "$remote_tag_revision" || {
+              echo 'publication tag must match the remote immutable peeled commit' >&2
               exit 1
             }
           fi
@@ -830,7 +831,6 @@ jobs:
           if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
             test "$INPUT_TO_TAG" = "$tag"
             test "$manifest_commit" = "$tag_commit"
-            test "$manifest_commit" = "$GITHUB_SHA"
             release_json="$RUNNER_TEMP/provider-release.json"
             release_error="$RUNNER_TEMP/provider-release.error"
             set +e

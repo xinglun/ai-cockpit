@@ -126,6 +126,9 @@ schema が変わる pair だけが approval-gated migration branch に進みま�
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
 - Homebrew は delivery path であり governance authority ではありません。repository facts と human decision
   は attach 済み repository と Work Item から来ます。
+- 成果物のソース識別子とオーケストレーション実行識別子は別々に束ねます。不変な
+  tag は高コストな公開処理の前にリモートの peeled commit と照合し、現在の
+  dispatch commit は独立して記録します。tag の書き換えや置換は許可しません。
 
 ## Stop conditions
 

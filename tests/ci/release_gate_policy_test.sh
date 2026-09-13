@@ -120,8 +120,8 @@ require 'needs: [publish_handoff, release_tools, post_release_helper]' 'install 
 require 'needs: [publish, publish_handoff, release_tools, post_release_helper]' 'upgrade must use the mode-specific helper dependency'
 require 'needs.post_release_helper.result' 'public acceptance must wait for helper restoration'
 require 'if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then' 'publication must use the explicit dispatch identity guard'
-require 'publication tag must resolve to the reviewed dispatch commit' 'publication must reject a tag that does not match the reviewed dispatch commit before compilation'
-require 'test "$manifest_commit" = "$GITHUB_SHA"' 'publication must bind the manifest to the explicit dispatch commit'
+require 'publication tag must match the remote immutable peeled commit' 'publication must bind the local tag to the remote immutable tag identity before compilation'
+require 'test "$manifest_commit" = "$tag_commit"' 'publication must bind the manifest to the remote tag commit'
 require "(github.event_name == 'workflow_dispatch' &&" 'release close must use a valid dispatch expression'
 require "(github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true'))" 'release close expression must have balanced parentheses'
 if grep -Fq "github.event.inputs.close_only == 'true')))" "$workflow"; then

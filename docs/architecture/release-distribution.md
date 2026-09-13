@@ -170,6 +170,10 @@ approval-gated migration branch.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
 - Homebrew is a delivery path, not a governance authority. Repository facts and
   human decisions still come from the attached repository and its Work Items.
+- Artifact source identity and orchestration execution identity are separate
+  bindings. An immutable tag is checked against its remote peeled commit before
+  expensive release work; the current dispatch commit is recorded independently
+  and cannot rewrite or replace the tag identity.
 
 ## Stop conditions
 
