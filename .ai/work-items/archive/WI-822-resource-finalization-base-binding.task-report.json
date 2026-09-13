@@ -4,7 +4,7 @@
       ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
+    "repositorySnapshotDigest": "sha256:bd8bb8b9f1552304f3cfc1b0ccc2936b7bd88adca980f36106f9ec3ff85139cb",
     "workItemId": "WI-822-resource-finalization-base-binding"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,42 @@
           ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json"
+        "text": "Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.b7da4e3649d638c05434280108dc8ff2e01063b2d847fbbd666f21cff8a5b92a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.d373c93583b73923a11735682f36339cad271f8dd62146ef6e8af19b49e44ba7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.archive.json"
       },
       {
         "evidenceRefs": [
@@ -32,7 +67,35 @@
           ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.md"
       }
     ],
     "evidence": [

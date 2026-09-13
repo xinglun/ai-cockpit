@@ -14,9 +14,18 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json
-- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json
+- Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.b7da4e3649d638c05434280108dc8ff2e01063b2d847fbbd666f21cff8a5b92a.json
+- Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.d373c93583b73923a11735682f36339cad271f8dd62146ef6e8af19b49e44ba7.json
+- Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.approach.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.archive.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.events.jsonl
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.outcome.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.json
+- Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.md
 
 ## Findings
 
@@ -65,5 +74,4 @@
 ## Evidence
 
 - .ai/evidence/WI-822-resource-finalization-base-binding.verification.json
-
 

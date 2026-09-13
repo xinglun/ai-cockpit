@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T12:36:34Z",
+  "files": {
+    "approachDigest": "sha256:26c6ff9ea658c084b12d478816399b448848e0cd3074207229fff35fdc1683d5",
+    "approachPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.approach.json",
+    "contractDigest": "sha256:c3cb99ef08f8aef0371f7cd43d856880f9de49623fdd8984d5c132c0fa17099c",
+    "contractPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json",
+    "eventsDigest": "sha256:13502b8c68006f980fa6876e5fc6d47b0b6b0b98ea37ba130689bb702bcfb74f",
+    "eventsPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.events.jsonl",
+    "outcomeDigest": "sha256:1897d9941084d4a6acd791dce91ed17f42cbd3091b974ef3caa3d8fe44a6e524",
+    "outcomePath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.outcome.json",
+    "summaryDigest": "sha256:7ec0378f498ec056cf1eea980e0359d13d03bb6bf20b7f5c757708e85408b35b",
+    "summaryPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json",
+    "taskReportDigest": "sha256:1b44d9a6c8bead13a81d2bebabfcaec371df6d43efa69e1ea258359489c70376",
+    "taskReportMarkdownDigest": "sha256:092ff0b5270eafbc7e182ac4e83b28dbac275376c71924677f7b5cf923cf1bfd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

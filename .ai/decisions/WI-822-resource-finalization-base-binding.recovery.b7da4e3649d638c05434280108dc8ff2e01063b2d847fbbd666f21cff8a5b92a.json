@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized recovery",
+  "decidedAt": "2026-09-13T11:55:28Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.outcome.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/802"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
+  "predecessorEventsDigest": "sha256:eed84815f91ea707c6ba4ce711c856435c6574f3c8a3453b4098df801ee140fe",
+  "predecessorOutcomeDigest": "sha256:660f060a1413e07169c9098bd23d716f8ae76d2cba8867a3d9ab42f67ecce983",
+  "predecessorSummaryDigest": "sha256:651ba2709d624d9bfec42d815d21ffa31fe7bfcaf523c85b9d3fb1d493ec5210",
+  "predecessorWorkItemId": "WI-822-resource-finalization-base-binding",
+  "reason": "The prior retry receipt is valid historical evidence but is bound to Runtime 0.2.87 and the preflight Summary. Append a current 0.2.91 retry binding for the already authorized, unchanged WI-822 scope without rewriting the prior receipt or republishing.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run current-snapshot preflight, execute the formal workspace verification once, then finish/archive and complete reviewed PR delivery without repeating a passed stage.",
+  "runtimeDigest": "sha256:5d49112ba2f1fee799fda6e0143b34b5266b1d1d647354af128f81705651a93a",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}
