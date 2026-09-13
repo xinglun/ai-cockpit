@@ -1342,31 +1342,6 @@ fn run() -> Result<()> {
                 }
                 None
             };
-            if let Some(work_item_id) = work_item.as_deref()
-                && !archived_recovery
-            {
-                cockpit_repository::require_policy_for_verification(&root, work_item_id)
-                    .context("enforce verification policy")?;
-                // Governance projections and ordering prerequisites are cheap
-                // and deterministic. Reject them before starting the build or
-                // test command so a missing registration cannot surface only
-                // at finish after the expensive verification has completed.
-                cockpit_repository::require_verification_preconditions(
-                    &root,
-                    work_item_id,
-                    &runtime_context,
-                    &initial_snapshot,
-                )
-                .context("check verification preconditions")?;
-            } else if let Some(work_item_id) = work_item.as_deref() {
-                cockpit_repository::require_archived_verification_recovery_preconditions(
-                    &root,
-                    work_item_id,
-                    &initial_snapshot,
-                    &runtime_context,
-                )
-                .context("check archived verification recovery preconditions")?;
-            }
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {
                 (command, args)
@@ -1401,9 +1376,7 @@ fn run() -> Result<()> {
                     // Detected Work Item commands use the same exact,
                     // identity-bound profile authorization as bare `verify`.
                     // Explicit custom commands remain fresh unless a future
-                    // explicit reuse contract is added; this keeps dynamic
-                    // reuse precise without treating arbitrary commands as
-                    // cacheable.
+                    // explicit reuse contract is added.
                     policy: if explicit {
                         RepositoryVerificationPolicy::NeverReuse
                     } else {
@@ -1411,9 +1384,83 @@ fn run() -> Result<()> {
                     },
                 })
                 .collect::<Vec<_>>();
+            if let Some(work_item_id) = work_item.as_deref()
+                && !archived_recovery
+            {
+                let precondition =
+                    cockpit_repository::require_policy_for_verification(&root, work_item_id)
+                        .and_then(|_| {
+                            // Governance projections and ordering prerequisites are cheap
+                            // and deterministic. Reject them before starting the build or
+                            // test command so a missing registration cannot surface only
+                            // at finish after the expensive verification has completed.
+                            cockpit_repository::require_verification_preconditions(
+                                &root,
+                                work_item_id,
+                                &runtime_context,
+                                &initial_snapshot,
+                            )
+                        });
+                if let Err(error) = precondition {
+                    let attempt = cockpit_repository::persist_verification_attempt(
+                        &root,
+                        work_item_id,
+                        &requests,
+                        &initial_snapshot,
+                        &runtime_context,
+                        "precondition_rejected",
+                        Some(("verification_preconditions", &error.to_string())),
+                        None,
+                    );
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&json!({
+                            "state": "blocked",
+                            "workItemId": work_item_id,
+                            "gate": "verification_preconditions",
+                            "diagnostic": error.to_string(),
+                            "attempt": match attempt {
+                                Ok(value) => value,
+                                Err(persist_error) => json!({
+                                    "state": "persistence_failed",
+                                    "diagnostic": persist_error.to_string(),
+                                }),
+                            },
+                        }))?
+                    );
+                    anyhow::bail!("verification preconditions rejected: {error}");
+                }
+            } else if let Some(work_item_id) = work_item.as_deref() {
+                cockpit_repository::require_archived_verification_recovery_preconditions(
+                    &root,
+                    work_item_id,
+                    &initial_snapshot,
+                    &runtime_context,
+                )
+                .context("check archived verification recovery preconditions")?;
+            }
             let (requests, coverage_manifest) = if !explicit && requests.len() == 1 {
-                let plan = cockpit_repository::plan_repository_verification(&root, &requests[0])
-                    .context("plan repository verification coverage")?;
+                let plan =
+                    match cockpit_repository::plan_repository_verification(&root, &requests[0]) {
+                        Ok(plan) => plan,
+                        Err(error) => {
+                            if let Some(work_item_id) = work_item.as_deref() {
+                                let _ = cockpit_repository::persist_verification_attempt(
+                                    &root,
+                                    work_item_id,
+                                    &requests,
+                                    &initial_snapshot,
+                                    &runtime_context,
+                                    "precondition_rejected",
+                                    Some(("verification_plan", &error.to_string())),
+                                    None,
+                                );
+                            }
+                            return Err(anyhow::anyhow!(
+                                "plan repository verification coverage: {error}"
+                            ));
+                        }
+                    };
                 (plan.requests, plan.coverage_manifest)
             } else {
                 (requests, None)
@@ -1436,35 +1483,84 @@ fn run() -> Result<()> {
             let mut runs = Vec::with_capacity(requests.len());
             let mut planning_elapsed_ms = 0_u128;
             let mut execution_elapsed_ms = 0_u128;
-            for batch in requests.chunks(workers.max(1)) {
-                let batch_runs = std::thread::scope(|scope| {
-                    batch
-                        .iter()
-                        .map(|request| scope.spawn(|| run_repository_verification(&root, request)))
-                        .collect::<Vec<_>>()
-                        .into_iter()
-                        .map(|worker| worker.join())
-                        .collect::<Vec<_>>()
-                });
-                let mut completed_batch = Vec::with_capacity(batch_runs.len());
-                for run in batch_runs {
-                    let run = run
-                        .map_err(|_| anyhow::anyhow!("repository verification worker panicked"))?
-                        .context("execute repository verification")?;
-                    completed_batch.push(run);
+            let reusable_attempt = if let Some(work_item_id) = work_item.as_deref()
+                && !archived_recovery
+            {
+                cockpit_repository::load_reusable_verification_attempt(
+                    &root,
+                    work_item_id,
+                    &requests,
+                    &initial_snapshot,
+                    &runtime_context,
+                )
+                .context("load identity-bound verification attempt")?
+            } else {
+                None
+            };
+            if let Some(attempt) = reusable_attempt {
+                let receipt_value = attempt
+                    .get("receipt")
+                    .cloned()
+                    .ok_or_else(|| anyhow::anyhow!("reusable attempt has no receipt"))?;
+                let mut receipt: cockpit_verification::VerificationReceipt =
+                    serde_json::from_value(receipt_value)
+                        .context("decode reusable verification receipt")?;
+                for result in &mut receipt.results {
+                    result.reused = true;
+                    result.action = cockpit_verification::PlannedAction::Reuse;
+                    result.state = cockpit_verification::PlannedState::Fresh;
+                    result.reason = "fresh_exact_binding".into();
+                    result.satisfied_by = cockpit_verification::PlannedSatisfaction::ReusedReceipt;
                 }
-                planning_elapsed_ms = planning_elapsed_ms.saturating_add(concurrent_phase_elapsed(
-                    completed_batch
-                        .iter()
-                        .map(|run| run.receipt.planning_elapsed_ms),
-                ));
-                execution_elapsed_ms =
-                    execution_elapsed_ms.saturating_add(concurrent_phase_elapsed(
-                        completed_batch
+                receipt.execution_records.clear();
+                receipt.receipt_candidates.clear();
+                receipt.nodes_executed = 0;
+                receipt.nodes_reused = receipt.nodes_planned;
+                receipt.processes_spawned = 0;
+                receipt.max_concurrent_processes = 0;
+                receipt.execution_elapsed_ms = 0;
+                receipt.elapsed_ms = 0;
+                receipt.passed = true;
+                runs.push(cockpit_repository::RepositoryVerificationRun {
+                    receipt,
+                    final_snapshot: initial_snapshot.clone(),
+                });
+            } else {
+                for batch in requests.chunks(workers.max(1)) {
+                    let batch_runs = std::thread::scope(|scope| {
+                        batch
                             .iter()
-                            .map(|run| run.receipt.execution_elapsed_ms),
-                    ));
-                runs.extend(completed_batch);
+                            .map(|request| {
+                                scope.spawn(|| run_repository_verification(&root, request))
+                            })
+                            .collect::<Vec<_>>()
+                            .into_iter()
+                            .map(|worker| worker.join())
+                            .collect::<Vec<_>>()
+                    });
+                    let mut completed_batch = Vec::with_capacity(batch_runs.len());
+                    for run in batch_runs {
+                        let run = run
+                            .map_err(|_| {
+                                anyhow::anyhow!("repository verification worker panicked")
+                            })?
+                            .context("execute repository verification")?;
+                        completed_batch.push(run);
+                    }
+                    planning_elapsed_ms =
+                        planning_elapsed_ms.saturating_add(concurrent_phase_elapsed(
+                            completed_batch
+                                .iter()
+                                .map(|run| run.receipt.planning_elapsed_ms),
+                        ));
+                    execution_elapsed_ms =
+                        execution_elapsed_ms.saturating_add(concurrent_phase_elapsed(
+                            completed_batch
+                                .iter()
+                                .map(|run| run.receipt.execution_elapsed_ms),
+                        ));
+                    runs.extend(completed_batch);
+                }
             }
             let mut run = merge_verification_runs(runs).context("merge verification runs")?;
             run.receipt.planning_elapsed_ms = planning_elapsed_ms;
@@ -1572,6 +1668,24 @@ fn run() -> Result<()> {
                     .filter(|result| !result.passed)
                     .map(|result| format!("{} ({})", result.node_id, result.reason))
                     .collect::<Vec<_>>();
+                if let Some(work_item_id) = work_item.as_deref() {
+                    let attempt = cockpit_repository::persist_verification_attempt(
+                        &root,
+                        work_item_id,
+                        &requests,
+                        &initial_snapshot,
+                        &runtime_context,
+                        "execution_failed",
+                        Some((
+                            "verification_execution",
+                            "one or more verification nodes failed",
+                        )),
+                        Some(&output),
+                    );
+                    if let Err(error) = &attempt {
+                        eprintln!("could not persist failed verification attempt: {error}");
+                    }
+                }
                 println!("{}", serde_json::to_string_pretty(&output)?);
                 anyhow::bail!(
                     "verification command failed for {}; structured failure receipt emitted",
@@ -1583,8 +1697,23 @@ fn run() -> Result<()> {
                 );
             }
             if let Some(work_item) = work_item {
+                // Persist the execution boundary before attempting to promote
+                // it into completion evidence.  A later governance/schema
+                // rejection must therefore retain the child results for a
+                // safe reclassification or reuse decision.
+                let _attempt = cockpit_repository::persist_verification_attempt(
+                    &root,
+                    &work_item,
+                    &requests,
+                    &initial_snapshot,
+                    &runtime_context,
+                    "execution_completed",
+                    None,
+                    Some(&output),
+                )
+                .context("persist verification attempt")?;
                 if archived_recovery {
-                    cockpit_repository::record_archived_verification_recovery_with_runtime(
+                    if let Err(error) = cockpit_repository::record_archived_verification_recovery_with_runtime(
                         &root,
                         &work_item,
                         &cockpit_repository::ArchivedVerificationRecoveryRequest {
@@ -1603,17 +1732,47 @@ fn run() -> Result<()> {
                         },
                         &runtime_context,
                         &run.final_snapshot,
-                    )
-                    .context("record archived verification recovery")?;
+                    ) {
+                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
+                            &root,
+                            &work_item,
+                            &requests,
+                            &initial_snapshot,
+                            &runtime_context,
+                            "formal_receipt_rejected",
+                            Some(("formal_receipt", &error.to_string())),
+                            Some(&output),
+                        );
+                        if let Err(persist_error) = recovery_attempt {
+                            eprintln!("could not persist receipt rejection attempt: {persist_error}");
+                        }
+                        anyhow::bail!("record archived verification recovery: {error}");
+                    }
                 } else {
-                    cockpit_repository::record_verification_with_runtime(
+                    if let Err(error) = cockpit_repository::record_verification_with_runtime(
                         &root,
                         &work_item,
                         &output,
                         &runtime_context,
                         &run.final_snapshot,
-                    )
-                    .context("record verification evidence")?;
+                    ) {
+                        let recovery_attempt = cockpit_repository::persist_verification_attempt(
+                            &root,
+                            &work_item,
+                            &requests,
+                            &initial_snapshot,
+                            &runtime_context,
+                            "formal_receipt_rejected",
+                            Some(("formal_receipt", &error.to_string())),
+                            Some(&output),
+                        );
+                        if let Err(persist_error) = recovery_attempt {
+                            eprintln!(
+                                "could not persist receipt rejection attempt: {persist_error}"
+                            );
+                        }
+                        anyhow::bail!("record verification evidence: {error}");
+                    }
                 }
             }
             println!("{}", serde_json::to_string_pretty(&output)?);

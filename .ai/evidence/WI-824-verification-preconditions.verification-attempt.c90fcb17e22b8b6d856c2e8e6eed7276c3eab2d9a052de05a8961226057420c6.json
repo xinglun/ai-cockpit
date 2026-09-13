@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:c90fcb17e22b8b6d856c2e8e6eed7276c3eab2d9a052de05a8961226057420c6",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "61ebc8742ffd61b1e1aae5bd4044ca042d964b36",
+      "commandDigest": "sha256:e1f212048cf8aced9dcf06e805c53efe45bb6aae2cc057780c3ee86b84f9ed44",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:cf95b126db5fc2feadd81f014fa03810b5f2aa1790bfea50d59fdacd6b189fbc",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:daa5e938d7aeda0bddbfe1c34352693fba23d566e16db8f0f1ca2f9c52de5fe3",
+  "contractExecutionScopeDigest": "sha256:3bb4dd42798e0195641d75e0e11577d4db0886329f4231f9fb5cca33547cf9e2",
+  "createdAt": "2026-09-13T13:44:14Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi824/.ai/work-items/active/WI-824-verification-preconditions.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:019f6c03ac1dedf2b5442f3f0d6155146e3825c38cd29a6e0def73849ee5a24f",
+  "runtimeDigest": "sha256:cf95b126db5fc2feadd81f014fa03810b5f2aa1790bfea50d59fdacd6b189fbc",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-824-verification-preconditions"
+}

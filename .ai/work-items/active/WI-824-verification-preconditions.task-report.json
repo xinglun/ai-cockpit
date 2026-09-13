@@ -1,0 +1,172 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-824-verification-preconditions.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4645793737f6e95859fe9b8549b88bb126aa85dd8511fa2c52c9e0b306321da4",
+    "workItemId": "WI-824-verification-preconditions"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.0ea22034140363cc3ff8317d79186f15cd50219cc2f195997e6b5c2327a6f0bd.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.c90fcb17e22b8b6d856c2e8e6eed7276c3eab2d9a052de05a8961226057420c6.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.d81e3309d8c93d0b70d942f50a61f0fb9c46147305d83d43f3f3d21c46565282.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/verification_attempts.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-824-verification-preconditions.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-824-verification-preconditions.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-824-verification-preconditions.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-824-verification-preconditions.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-824-verification-preconditions.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.contract.json"
+        ],
+        "inference": false,
+        "text": "Implement identity-bound verification precondition rejection and durable attempt-result persistence with focused regression coverage, without weakening formal receipt validation or changing historical records."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-824-verification-preconditions.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-824-verification-preconditions"
+}

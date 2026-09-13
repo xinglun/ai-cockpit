@@ -1,10 +1,20 @@
 {
   "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-824-verification-preconditions.verification-attempt.0ea22034140363cc3ff8317d79186f15cd50219cc2f195997e6b5c2327a6f0bd.json",
+    ".ai/evidence/WI-824-verification-preconditions.verification-attempt.c90fcb17e22b8b6d856c2e8e6eed7276c3eab2d9a052de05a8961226057420c6.json",
+    ".ai/evidence/WI-824-verification-preconditions.verification-attempt.d81e3309d8c93d0b70d942f50a61f0fb9c46147305d83d43f3f3d21c46565282.json",
+    ".ai/evidence/WI-824-verification-preconditions.verification.json",
     ".ai/work-items/active/WI-824-verification-preconditions.contract.json",
-    ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+    ".ai/work-items/active/WI-824-verification-preconditions.events.jsonl",
+    ".ai/work-items/active/WI-824-verification-preconditions.outcome.json",
+    ".ai/work-items/active/WI-824-verification-preconditions.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/verification_attempts.rs"
   ],
   "checkpointAt": "2026-09-13T13:30:21Z",
-  "checkpointContractDigest": "sha256:6ba7879093ad2033473a98ed6f64e35b6e31eed41c0677918a1237db89cde3d9",
+  "checkpointContractDigest": "sha256:654c34f495929b56b1cd9e1f1864e51260ba47d5cc86b9d042933c1222705f71",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,9 +50,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-824-verification-preconditions"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:654c34f495929b56b1cd9e1f1864e51260ba47d5cc86b9d042933c1222705f71",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6ba7879093ad2033473a98ed6f64e35b6e31eed41c0677918a1237db89cde3d9",
+      "previousContractHash": "sha256:daa5e938d7aeda0bddbfe1c34352693fba23d566e16db8f0f1ca2f9c52de5fe3",
+      "reason": "Make focused test-directory scope recursive so new regression files are covered before verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T13:45:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b7bf6cef5fb734e7dcdd4566f7b3d8995fc94b524a1a437096493cdb3e4cb796",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-824-verification-preconditions"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:beab911f4ac72c8b3c2f9329ed134874f8e1ff7f174146b69394c85dcf1dbfc3",
+  "checkpointRepositorySnapshotDigest": "sha256:4645793737f6e95859fe9b8549b88bb126aa85dd8511fa2c52c9e0b306321da4",
   "createdAt": "2026-09-13T13:26:30Z",
   "intentAlignment": {
     "evidence": [
@@ -52,53 +82,66 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-13T13:33:12Z",
-  "preflightContractDigest": "sha256:daa5e938d7aeda0bddbfe1c34352693fba23d566e16db8f0f1ca2f9c52de5fe3",
-  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
-  "preflightRepositorySnapshotDigest": "sha256:e7e6a36007bd57487261ae7fabf7b74a2885fcb8efc252459b7095da08e37a86",
-  "preflightState": "red",
+  "preflightAt": "2026-09-13T13:53:59Z",
+  "preflightContractDigest": "sha256:654c34f495929b56b1cd9e1f1864e51260ba47d5cc86b9d042933c1222705f71",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4645793737f6e95859fe9b8549b88bb126aa85dd8511fa2c52c9e0b306321da4",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-824-verification-preconditions.verification-attempt.c90fcb17e22b8b6d856c2e8e6eed7276c3eab2d9a052de05a8961226057420c6.json",
+        "crates/cockpit-repository/tests/verification_attempts.rs"
+      ],
       "expected": "Invalid persisted preconditions are rejected before any verification child process starts and the diagnostic binds repository, Work Item, Contract, snapshot, command, and failure reason.",
       "required": true,
       "scenario": "preconditions_reject_before_spawn",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Use a fixture with an invalid preflight or coverage binding, invoke the repository verification entry point, and assert zero spawned processes plus a durable failed-attempt record."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-824-verification-preconditions.verification-attempt.0ea22034140363cc3ff8317d79186f15cd50219cc2f195997e6b5c2327a6f0bd.json",
+        "crates/cockpit-repository/tests/verification_attempts.rs"
+      ],
       "expected": "Every executed node retains exit code, timeout state, elapsed time, bounded stdout/stderr, and input identity when completion evidence is rejected or cannot be written.",
       "required": true,
       "scenario": "attempt_result_survives_formal_receipt_failure",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run a failing and a timed-out command in a controlled fixture, force completion-evidence rejection, and validate the independent attempt record."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/WI-824-verification-preconditions.verification-attempt.d81e3309d8c93d0b70d942f50a61f0fb9c46147305d83d43f3f3d21c46565282.json",
+        "crates/cockpit-repository/tests/verification_attempts.rs"
+      ],
       "expected": "An attempt is reusable only when command, source, Runtime, Contract, and relevant dependency identities match; governance-only correction does not rerun the process.",
       "required": true,
       "scenario": "governance_only_correction_reuses_attempt",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Compare a matching governance-only correction with changes to command, source, Runtime, Contract, and dependency identities; assert only the matching case reuses."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "crates/cockpit-repository/tests/verification_attempts.rs",
+        ".ai/evidence/WI-824-verification-preconditions.verification.json"
+      ],
       "expected": "A stale, malformed, or foreign attempt cannot satisfy current verification or completion evidence.",
       "required": true,
       "scenario": "stale_or_foreign_attempt_is_rejected",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Mutate each bound identity and validate that the attempt is retained as history but rejected for current completion."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-13T13:31:21.377311+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:daa5e938d7aeda0bddbfe1c34352693fba23d566e16db8f0f1ca2f9c52de5fe3",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-13T13:33:04Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T13:54:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-824-verification-preconditions"
 }
