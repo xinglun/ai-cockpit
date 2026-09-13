@@ -33,7 +33,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-822-resource-finalization-base-binding",
     "provider": "github",
-    "pullRequest": "pending:WI-822-resource-finalization-base-binding",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/802",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-822-resource-finalization-base-binding"
   },
   "risk": "high",
