@@ -1,0 +1,206 @@
+{
+  "acceptanceResults": [
+    "A new Work Item with an unsupported required evidence class is rejected or marked blocked before verification starts, with the supported forms listed.",
+    "A Contract declaring verification and delegated:github requires both evidence classes; one missing class remains incomplete.",
+    "Existing historical Contracts remain readable and are not rewritten by the new validation.",
+    "The CLI and documentation expose the same evidence-class vocabulary and recovery action."
+  ],
+  "createdAt": "2026-09-13T02:57:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8f2265121ea01595bca094d0117ba5bcf60781e3ab6c0d6dc12c18dbf3ac63ed",
+  "evidenceRefs": [
+    ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:020d745414f3a5a5aa6fe13400e4c2bc0efc45a2ad30fcbfed5406e1f66545ad",
+      "workItemId": "WI-818-evidence-contract-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-818-evidence-contract-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/ci-quality-gates.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-818-evidence-contract-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Make required-evidence authoring fail early with an actionable diagnostic, evaluate all declared classes without short-circuiting, and preserve compatibility for historical Contracts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-818-evidence-contract-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-818-evidence-contract-repair"
+  },
+  "taskReportDigest": "sha256:6e6a2d1f04dacf04fb914a31ba3bf957c91fed0dab16b3b82b870ca85a5bbb7b",
+  "taskReportMarkdownDigest": "sha256:7dacd5df6651ca54ce25d5add00c414e13027376d836ed4822c636ca9f72353b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-818-evidence-contract-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-818-evidence-contract-repair"
+}

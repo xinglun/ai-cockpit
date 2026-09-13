@@ -609,6 +609,71 @@ pub struct WorkItemStartOptions {
     pub required_evidence_classes: Vec<String>,
 }
 
+/// The built-in required-evidence vocabulary is intentionally small and
+/// stable. Contracts may also name a non-empty custom evidence class; its
+/// projection is still required to bind regular repository files and digests.
+/// Exact lifecycle-stage labels are kept out of new Contracts because those
+/// facts do not exist at the entry boundary.
+pub const SUPPORTED_REQUIRED_EVIDENCE_CLASS_FORMS: &[&str] = &[
+    "verification",
+    "verification_receipt",
+    "verification-receipt",
+    "delegated:<provider>",
+    "delegated_evidence",
+    "external_evidence",
+    "custom:<label>",
+];
+
+const DEFERRED_LIFECYCLE_EVIDENCE_CLASS_NAMES: &[&str] = &[
+    "hosted-ci",
+    "release-preflight",
+    "public-install",
+    "public-upgrade",
+    "release-close",
+    "cleanup",
+];
+
+fn is_valid_custom_required_evidence_class(class: &str) -> bool {
+    let normalized = class.trim().to_ascii_lowercase();
+    !normalized.is_empty()
+        && !normalized.chars().any(char::is_control)
+        && !DEFERRED_LIFECYCLE_EVIDENCE_CLASS_NAMES.contains(&normalized.as_str())
+}
+
+pub fn validate_required_evidence_classes(classes: &[String]) -> Result<(), String> {
+    let unsupported = classes
+        .iter()
+        .filter(|class| {
+            let normalized = class.trim().to_ascii_lowercase();
+            let built_in = matches!(
+                normalized.as_str(),
+                "verification"
+                    | "verification_receipt"
+                    | "verification-receipt"
+                    | "delegated_evidence"
+                    | "external_evidence"
+            );
+            !built_in
+                && !normalized
+                    .strip_prefix("delegated:")
+                    .is_some_and(|provider| {
+                        !provider.is_empty() && !provider.chars().any(char::is_whitespace)
+                    })
+                && !is_valid_custom_required_evidence_class(class)
+        })
+        .map(|class| class.as_str())
+        .collect::<Vec<_>>();
+    if unsupported.is_empty() {
+        Ok(())
+    } else {
+        Err(format!(
+            "unsupported required evidence class(es): {}; supported forms: {}",
+            unsupported.join(", "),
+            SUPPORTED_REQUIRED_EVIDENCE_CLASS_FORMS.join(", ")
+        ))
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WorkItemScaffoldFacts {
@@ -5360,17 +5425,10 @@ fn evidence_state_for_contract_internal_with_archive(
             "verification" | "verification_receipt" | "verification-receipt"
         )
     });
-    if requires_verification {
-        let state =
-            verification_evidence_state(&root, contract, snapshot, archived, current_runtime)?;
-        if state != EvidenceState::Complete {
-            return Ok(state);
-        }
-    }
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
-    if fs::symlink_metadata(&evidence_path).is_ok() {
+    if requires_verification || fs::symlink_metadata(&evidence_path).is_ok() {
         let state =
             verification_evidence_state(&root, contract, snapshot, archived, current_runtime)?;
         if state != EvidenceState::Complete {
