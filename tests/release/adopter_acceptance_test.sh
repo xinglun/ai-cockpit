@@ -3,6 +3,7 @@ set -euo pipefail
 
 script="$(cd "$(dirname "$0")" && pwd)/adopter_acceptance.sh"
 repo="$(git rev-parse --show-toplevel)"
+workflow="$(cd "$(dirname "$0")/../.." && pwd)/.github/workflows/release.yml"
 manifest_test="$(cd "$(dirname "$0")" && pwd)/isolation_manifest_test.sh"
 resume_test="$(cd "$(dirname "$0")" && pwd)/adopter_acceptance_resume_test.sh"
 
@@ -10,6 +11,35 @@ bash -n "$script"
 bash -n "$manifest_test"
 bash -n "$resume_test"
 bash "$manifest_test"
+assert_release_identity_checkouts() {
+  local job="$1"
+  local block
+  block="$(awk -v job="$job" '
+    $0 == "  " job ":" { found = 1; next }
+    found && $0 ~ /^  [[:alnum:]_]+:/ { exit }
+    found { print }
+  ' "$workflow")"
+  [[ -n "$block" ]] || { printf 'release workflow job is missing: %s\n' "$job" >&2; exit 1; }
+  grep -Fq 'ref: ${{ github.sha }}' <<<"$block" || {
+    printf '%s must execute the harness from the workflow commit\n' "$job" >&2
+    exit 1
+  }
+  grep -Fq 'path: release-source' <<<"$block" || {
+    printf '%s must checkout the immutable release source separately\n' "$job" >&2
+    exit 1
+  }
+  grep -Fq 'ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.to_tag) || github.ref }}' <<<"$block" || {
+    printf '%s must bind its source checkout to the requested Release tag\n' "$job" >&2
+    exit 1
+  }
+  grep -Fq -- '--source-repo "$GITHUB_WORKSPACE/release-source"' <<<"$block" || {
+    printf '%s must pass the separate immutable source checkout\n' "$job" >&2
+    exit 1
+  }
+}
+for release_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance adopter_acceptance adopter_upgrade_acceptance; do
+  assert_release_identity_checkouts "$release_job"
+done
 grep -q -- '--repository OWNER/REPOSITORY' "$script"
 grep -q -- '--candidate-dir DIRECTORY' "$script"
 grep -q -- '--publish-handoff FILE' "$script"

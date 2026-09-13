@@ -265,34 +265,44 @@ require_match '^    needs: \[publish, release_input_preflight\]$' 'public versio
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
 require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
 recovery_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && (github.event.inputs.publish_existing_tag == '\''true'\'' || github.event.inputs.post_release_acceptance == '\''true'\'') && github.event.inputs.to_tag) || github.ref }}'
-for source_job in build aggregate staged_adopter_acceptance staged_adopter_upgrade_acceptance; do
-  if [[ "$(awk -v wanted="$source_job" -v expected="$recovery_source_ref" '
+job_block() {
+  local wanted=$1
+  awk -v wanted="$wanted" '
     /^  [A-Za-z0-9_-]+:/ {
       job=$0
       sub(/^  /, "", job)
       sub(/:.*/, "", job)
     }
-    job == wanted && index($0, expected) { found=1 }
-    END { print(found ? "found" : "missing") }
-  ' "$workflow")" != found ]]; then
-    printf 'policy failure: %s must bind recovery build/acceptance to the requested immutable tag source\n' "$source_job" >&2
+    job == wanted { print }
+  ' "$workflow"
+}
+for source_job in build aggregate; do
+  block="$(job_block "$source_job")"
+  if ! grep -Fq -- "$recovery_source_ref" <<<"$block"; then
+    printf 'policy failure: %s must bind build inputs to the requested immutable tag source\n' "$source_job" >&2
     exit 1
   fi
 done
+execution_source_ref='ref: ${{ github.sha }}'
 public_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.to_tag) || github.ref }}'
-for source_job in adopter_acceptance adopter_upgrade_acceptance; do
-  if [[ "$(awk -v wanted="$source_job" -v expected="$public_source_ref" '
-    /^  [A-Za-z0-9_-]+:/ {
-      job=$0
-      sub(/^  /, "", job)
-      sub(/:.*/, "", job)
-    }
-    job == wanted && index($0, expected) { found=1 }
-    END { print(found ? "found" : "missing") }
-  ' "$workflow")" != found ]]; then
-    printf 'policy failure: %s must bind public acceptance to the requested immutable Release source\n' "$source_job" >&2
+for source_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance adopter_acceptance adopter_upgrade_acceptance; do
+  block="$(job_block "$source_job")"
+  grep -Fq -- "$execution_source_ref" <<<"$block" || {
+    printf 'policy failure: %s must execute orchestration from github.sha\n' "$source_job" >&2
     exit 1
-  fi
+  }
+  grep -Fq -- "$public_source_ref" <<<"$block" || {
+    printf 'policy failure: %s must bind source identity to the requested immutable Release tag\n' "$source_job" >&2
+    exit 1
+  }
+  grep -Fq -- 'path: release-source' <<<"$block" || {
+    printf 'policy failure: %s must checkout immutable release source separately\n' "$source_job" >&2
+    exit 1
+  }
+  grep -Fq -- '--source-repo "$GITHUB_WORKSPACE/release-source"' <<<"$block" || {
+    printf 'policy failure: %s must pass the separate immutable source checkout\n' "$source_job" >&2
+    exit 1
+  }
 done
 if ! grep -Fq 'release_source_revision=' "$work_item_resolver" ||
    ! grep -Fq 'head_revision' "$work_item_resolver" ||

@@ -1,0 +1,108 @@
+{
+  "acceptanceCriteria": [
+    "Each staged and public adopter acceptance job runs its harness from the workflow execution checkout while --source-repo points to a separate immutable target-tag checkout.",
+    "A regression test fails if an acceptance job uses the target tag as its harness checkout or fails to provide the separate source checkout, and passes when both identities are explicit.",
+    "Source and workflow identities are both recorded in hosted acceptance evidence, and the existing staged/public acceptance behavior remains unchanged.",
+    "The release workflow policy gate enforces the same split: product/build jobs retain their target-source binding, while all adopter jobs use github.sha for orchestration and release-source for immutable source identity."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+  "createdAt": "2026-09-13T19:16:07Z",
+  "goal": "Separate workflow execution identity from immutable release source identity in every staged and public adopter acceptance job, with regression coverage that prevents an old tag script from being executed.",
+  "intent": "Ensure release acceptance executes the current workflow orchestration while validating source and artifact identity from the immutable target Release.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime reuse semantics",
+    " release binaries",
+    " product build artifacts",
+    " immutable tags and Releases",
+    " historical Work Items",
+    " unrelated branch and worktree cleanup"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:83b94345647999ede31cd2bc34e2c6c10154f5e8462238e3c4d9e7a2944d9351",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi833-release-script-provenance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/813",
+    "worktree": "/private/tmp/ai-cockpit-wi833-release-script-provenance"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "Staged install and N-1 jobs execute the acceptance harness from github.sha while passing a separate target-tag checkout as --source-repo.",
+      "required": true,
+      "scenario": "staged_acceptance_uses_execution_harness",
+      "status": "unverified",
+      "verificationPlan": "Run both release acceptance regression scripts and inspect the workflow job blocks."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "Public install and public-artifact N-1 jobs use the workflow execution checkout for orchestration and the immutable target tag only for source identity.",
+      "required": true,
+      "scenario": "public_acceptance_uses_execution_harness",
+      "status": "unverified",
+      "verificationPlan": "Run both release acceptance regression scripts and inspect all four public and staged job blocks."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "The separate release-source checkout is bound to the requested to_tag and remains the source repository supplied to the harness.",
+      "required": true,
+      "scenario": "target_tag_source_identity_remains_immutable",
+      "status": "unverified",
+      "verificationPlan": "Inspect workflow ref and path bindings and run the harness static regressions."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance_test.sh",
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "expected": "A regression fails when a release acceptance job checks out the target tag as its harness source or omits the separate immutable source checkout.",
+      "required": true,
+      "scenario": "old_tag_harness_cannot_recur",
+      "status": "unverified",
+      "verificationPlan": "Run the assertions against the pre-fix shape and then the fixed workflow."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "docs/work-items/WI-833-release-script-provenance.md",
+    "docs/work-items/WI-833-release-script-provenance.zh-CN.md",
+    "docs/work-items/WI-833-release-script-provenance.ja.md",
+    ".ai/work-items/active/WI-833-release-script-provenance.contract.json",
+    ".ai/work-items/active/WI-833-release-script-provenance.summary.json",
+    ".ai/work-items/active/WI-833-release-script-provenance.events.jsonl",
+    ".ai/evidence/WI-833-release-script-provenance.verification.json",
+    ".ai/decisions/WI-833-release-script-provenance.finalize.json",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-833-release-script-provenance"
+}

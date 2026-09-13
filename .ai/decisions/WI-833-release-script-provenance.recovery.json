@@ -1,0 +1,25 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "human:authorized-development-instruction",
+  "decidedAt": "2026-09-14T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-833-release-script-provenance.verification.json"
+  ],
+  "policyRefs": [
+    "WI-833 amended Contract: workflow policy and release-script provenance remain in scope"
+  ],
+  "predecessorContractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "predecessorEventsDigest": "sha256:382125049fbfaedfd9c4302e48659b9481fa1f5b9dd73bd8e0d86d6d064bbccf",
+  "predecessorOutcomeDigest": "sha256:6b92c0fd1dd2db13a4fed4c31ebde3224fc4737986253b09c1aa36b1b4c2bb1f",
+  "predecessorSummaryDigest": "sha256:caf11ceb5bdbbfa4c8f2880f40bf2aa391e718e1a8fa195b339eb802cec351b7",
+  "predecessorWorkItemId": "WI-833-release-script-provenance",
+  "reason": "Retry the same Work Item after fixing the hosted release policy gate SIGPIPE failure; the fix remains within the amended workflow-provenance Contract scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the minimal current-runtime verification, then finish and proceed to reviewed PR integration.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-833-release-script-provenance"
+}
