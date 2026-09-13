@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-801-release-v0-2-91
+lastVerifiedBy: WI-828-release-v0-2-92
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.91` with binary digest
-`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`.
+and the reviewed Runtime `ai-cockpit v0.2.92` with binary digest
+`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1023,3 +1023,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-825 — WI-824 documentation promotion | Implemented | [Work Item](../work-items/WI-825-docs-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-825-docs-promotion.contract.json`; verification `.ai/evidence/WI-825-docs-promotion.verification.json`; close `.ai/decisions/WI-825-docs-promotion.close.json`. |
 | WI-826 — historical evidence archive compatibility | Implemented | [Work Item](../work-items/WI-826-historical-lifecycle-reconciliation.md); terminal lifecycle: archive `.ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json`; verification `.ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json`; close `.ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json`. |
 | WI-827 — WI-826 documentation promotion | In progress → Implemented after verified close | [Work Item](../work-items/WI-827-wi826-docs-promotion.md); archive `.ai/work-items/archive/WI-827-wi826-docs-promotion.contract.json`; verification `.ai/evidence/WI-827-wi826-docs-promotion.verification.json`; close `.ai/decisions/WI-827-wi826-docs-promotion.close.json`. |
+| WI-828 — governed v0.2.92 release | In progress → Implemented after verified close | [Work Item](../work-items/WI-828-release-v0-2-92.md); archive `.ai/work-items/archive/WI-828-release-v0-2-92.contract.json`; verification `.ai/evidence/WI-828-release-v0-2-92.verification.json`; finalization `.ai/decisions/WI-828-release-v0-2-92.finalize.json`; close `.ai/decisions/WI-828-release-v0-2-92.close.json`. |

@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:b01f099cc797201e262cdf48349d2735554420af904c177234a077e4202dd74d",
+  "commands": [
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        "/private/tmp/ai-cockpit-wi828-release"
+      ],
+      "baseCommit": "cd02be16a23bccccb93763c564d3664ff94c3b3e",
+      "commandDigest": "sha256:0664154995631c32376a223f9728cd84dbe27602c2fc8684fe0b5a143cc87571",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a22a219cd3c7c7563814a2b8531902957ba65e6a3633502997a86d4daee5e4e",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:321723c630a9a8e3017db45676d7ff8592a794457ec2ae2ae4a3809a152235be",
+  "contractExecutionScopeDigest": "sha256:a5d18009480da0c25c9218c3d2b15c6801eb82a941f22146e2d755dc1b82c481",
+  "createdAt": "2026-09-13T16:39:13Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi828-release/.ai/work-items/active/WI-828-release-v0-2-92.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8c931577be1ff03f002e3582063fab083807755b50cbca89007ab48ad98a6bc9",
+  "runtimeDigest": "sha256:4a22a219cd3c7c7563814a2b8531902957ba65e6a3633502997a86d4daee5e4e",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-828-release-v0-2-92"
+}

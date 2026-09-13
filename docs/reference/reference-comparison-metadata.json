@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "lastVerifiedBy": "WI-801-release-v0-2-91",
+  "lastVerifiedBy": "WI-828-release-v0-2-92",
   "referenceCommit": "a9224aed77b5c317b53c4551a9eec306d91ee330",
   "rustBaselineCommit": "47a47a1d4025d92afcefdfb669f7922d0e70974b",
-  "runtimeVersion": "0.2.91",
-  "runtimeBinaryDigest": "sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc",
+  "runtimeVersion": "0.2.92",
+  "runtimeBinaryDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
   "currentPathCount": 5175,
   "classifiedPathCount": 5175,
   "semanticDecisionCount": 913,

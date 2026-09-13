@@ -1,0 +1,105 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions and release metadata identify v0.2.92",
+    "Hosted source verification, build, candidate acceptance, and public artifact installation and N-1 upgrade pass",
+    "Release tag and public Release identity match the verified source and manifests",
+    "Failure and recovery evidence remains bound and close is confirmed"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cd02be16a23bccccb93763c564d3664ff94c3b3e",
+  "createdAt": "2026-09-13T16:33:19Z",
+  "goal": "Release v0.2.92 with version consistency, hosted verification, candidate and public artifact acceptance, and evidence-preserving close",
+  "intent": "Prepare and publish the next AI Cockpit release from the latest reviewed main",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical Work Item migration",
+    " unrelated runtime performance work",
+    " changing v0.2.91",
+    " and modifying user-global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9b155856ff65ff72fb29df6a1fd66354bbb11d778acf31dd950520b65ffce7dc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "tests/release/version_consistency.sh",
+        "docs/release",
+        "docs/architecture"
+      ],
+      "expected": "Cargo metadata, lockfile, current release and architecture documentation identify v0.2.92 consistently.",
+      "required": true,
+      "scenario": "version_metadata_consistency",
+      "status": "unverified",
+      "verificationPlan": "Run the source version consistency gate and inspect Cargo metadata before hosted execution."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "crates/cockpit-release",
+        "tests/release"
+      ],
+      "expected": "Reviewed main produces identity-bound release assets and candidate fresh-install and N-1 upgrade acceptance pass in isolated roots.",
+      "required": true,
+      "scenario": "hosted_build_and_candidate_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Use the release workflow from the reviewed merge and retain build, manifest, candidate install, and upgrade receipts."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "The immutable public v0.2.92 Release, not a local build, passes public fresh install, N-1 upgrade, and version consistency checks.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "After publication, consume only downloaded v0.2.92 artifacts and preserve isolation manifests and cleanup receipts."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "crates/cockpit-release/tests",
+        ".ai/work-items"
+      ],
+      "expected": "Injected failure resumes from the earliest invalid phase without unnecessary rebuild or republish, and final close is bound to all required evidence.",
+      "required": true,
+      "scenario": "failure_recovery_and_close",
+      "status": "unverified",
+      "verificationPlan": "Use existing phase-bound recovery inputs where applicable, verify identity and receipt reuse, then complete finalize, archive, close, and documentation checks."
+    }
+  ],
+  "scope": [
+    "Cargo workspace package version declarations",
+    " release metadata and workflow inputs required for v0.2.92",
+    " and the Work Item lifecycle evidence for this release",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/**",
+    ".ai/work-items/active/WI-828-release-v0-2-92.*",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/work-items/WI-828-release-v0-2-92.md",
+    "docs/work-items/WI-828-release-v0-2-92.zh-CN.md",
+    "docs/work-items/WI-828-release-v0-2-92.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-828-release-v0-2-92"
+}
