@@ -1,0 +1,175 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-812-release-source-governance-split.evidence-amend-input.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json",
+    ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T16:00:26Z",
+  "checkpointContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "recorded": true,
+      "recordedAt": "2026-09-12T16:00:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-812-release-source-governance-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4b2c68731c2dbea0dd8715fe7e9e44588f74ed74206b62a78192c1de303ec37d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "previousContractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "reason": "Bind the Runtime-generated observer snapshot changed by this Work Item",
+      "recorded": true,
+      "recordedAt": "2026-09-12T16:04:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-812-release-source-governance-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5bbd86acfb78865dcd4c57683d52d3311c0aba58a28f6ee96aba5103d56a1f8e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "previousContractHash": "sha256:4b2c68731c2dbea0dd8715fe7e9e44588f74ed74206b62a78192c1de303ec37d",
+      "reason": "Hosted quality gate exposed that the initial scope argument used a semicolon-delimited string instead of separate scope entries; bind each changed path explicitly so source-governance-split is evaluated against the real PR diff.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T16:33:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-812-release-source-governance-split"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:77d4d8877e178c67631de93b94f2e3ff0827371a7df49e56e454f030618eae33",
+      "previousContractHash": "sha256:5bbd86acfb78865dcd4c57683d52d3311c0aba58a28f6ee96aba5103d56a1f8e",
+      "reason": "Archive diagnosis found that the Contract listed only prose evidence descriptions and omitted the canonical verification class; add the Runtime-recognized verification requirement so finish and archive share the intended evidence boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T16:48:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-812-release-source-governance-split"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+  "createdAt": "2026-09-12T15:56:44Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/ci/resolve_work_item.sh",
+      "tests/ci/resolve_work_item_test.sh",
+      "docs/reference/commands.md"
+    ],
+    "reason": "The explicit dual identity route prevents a release governance Contract from being reused as the source-verification baseline after recovery orchestration changes.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-12T16:48:57Z",
+  "preflightContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e28e339d27acfa4cc497ca4bd84026d97879e385a3feecc5f935f98e23b66eda",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "expected": "A recovery request can bind governance/release identity and source-verification identity independently.",
+      "required": true,
+      "scenario": "dual identity recovery",
+      "status": "verified",
+      "verificationPlan": "Run resolver fixture and hosted workflow policy tests with distinct governance and source Work Items; verify both identities and source baseline are emitted."
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/ci/resolve_work_item.sh"
+      ],
+      "expected": "A technical retry with no source selector defaults source verification to the governance identity.",
+      "required": true,
+      "scenario": "same Work Item technical retry",
+      "status": "verified",
+      "verificationPlan": "Run resolver regression fixture without source selector and assert source fields equal governance fields."
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "expected": "Unknown or partial source identity is rejected in release_input_preflight before the Rust build.",
+      "required": true,
+      "scenario": "missing or partial source binding",
+      "status": "verified",
+      "verificationPlan": "Run resolver cases for missing source ID/path and mismatched ID/path; assert nonzero structured diagnostic and policy assertions for cheap-stage gating."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "docs/reference/commands.md"
+      ],
+      "expected": "Source quality validates changed paths against the source Contract while release acceptance remains bound to the governance Contract.",
+      "required": true,
+      "scenario": "source and governance scope divergence",
+      "status": "verified",
+      "verificationPlan": "Inspect workflow route construction and gate arguments; run static policy tests and a fixture with distinct Contract bases."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "expected": "When cheap input preflight fails, build, publish, public acceptance, and close do not act as if inputs exist.",
+      "required": true,
+      "scenario": "preflight failure downstream skip",
+      "status": "verified",
+      "verificationPlan": "Run release workflow policy regression and inspect dependency conditions for skipped downstream jobs and structured close reporting."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-12T16:49:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-812-release-source-governance-split"
+}

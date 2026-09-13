@@ -1,0 +1,99 @@
+{
+  "acceptanceCriteria": [
+    "Recovery accepts explicit governance work_item_id or contract_path and an optional explicit source_work_item_id or source_contract_path in one request.",
+    "Missing, partial, or mismatched source binding fails closed in the cheap release_input_preflight stage before the Rust build.",
+    "Source-quality planning and gate use the source Contract base, path, and digest; release/public acceptance retains the governance Work Item identity.",
+    "Normal tag release and standalone public acceptance behavior remain unchanged.",
+    "Regression tests cover dual identity, default same-identity behavior, missing source, mismatched source, and downstream dependency gating."
+  ],
+  "authority": "human_authorized",
+  "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+  "createdAt": "2026-09-12T15:56:44Z",
+  "goal": "Separate the release governance Work Item identity from the source-verification Work Item identity so immutable-tag recovery can validate current orchestration changes without widening the published Release acceptance Contract.",
+  "intent": "Make recovery source validation and release acceptance bindings explicit and independently verifiable while preserving fail-closed scope and immutable artifact boundaries.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**;Runtime lifecycle semantics;tag or Release mutation;published assets;public acceptance scripts;object repositories;main-push routing;historical records;global configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+  "requiredEvidenceClasses": [
+    "resolver regression output",
+    "release workflow policy regression output",
+    "Runtime preflight",
+    " checkpoint",
+    " verify",
+    " and finish evidence",
+    "hosted pull-request checks",
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-812-release-source-governance-split",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/790",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-812-release-source-governance-split"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A recovery request can bind governance/release identity and source-verification identity independently.",
+      "required": true,
+      "scenario": "dual identity recovery",
+      "status": "unverified",
+      "verificationPlan": "Run resolver fixture and hosted workflow policy tests with distinct governance and source Work Items; verify both identities and source baseline are emitted."
+    },
+    {
+      "evidence": [],
+      "expected": "A technical retry with no source selector defaults source verification to the governance identity.",
+      "required": true,
+      "scenario": "same Work Item technical retry",
+      "status": "unverified",
+      "verificationPlan": "Run resolver regression fixture without source selector and assert source fields equal governance fields."
+    },
+    {
+      "evidence": [],
+      "expected": "Unknown or partial source identity is rejected in release_input_preflight before the Rust build.",
+      "required": true,
+      "scenario": "missing or partial source binding",
+      "status": "unverified",
+      "verificationPlan": "Run resolver cases for missing source ID/path and mismatched ID/path; assert nonzero structured diagnostic and policy assertions for cheap-stage gating."
+    },
+    {
+      "evidence": [],
+      "expected": "Source quality validates changed paths against the source Contract while release acceptance remains bound to the governance Contract.",
+      "required": true,
+      "scenario": "source and governance scope divergence",
+      "status": "unverified",
+      "verificationPlan": "Inspect workflow route construction and gate arguments; run static policy tests and a fixture with distinct Contract bases."
+    },
+    {
+      "evidence": [],
+      "expected": "When cheap input preflight fails, build, publish, public acceptance, and close do not act as if inputs exist.",
+      "required": true,
+      "scenario": "preflight failure downstream skip",
+      "status": "unverified",
+      "verificationPlan": "Run release workflow policy regression and inspect dependency conditions for skipped downstream jobs and structured close reporting."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml;tests/ci/resolve_work_item.sh;tests/ci/resolve_work_item_test.sh;tests/release/workflow_policy.sh;tests/ci/release_gate_policy_test.sh;docs/reference/commands.md",
+    ".ai/decisions/observer-snapshot.json",
+    ".github/workflows/release.yml",
+    "tests/ci/resolve_work_item.sh",
+    "tests/ci/resolve_work_item_test.sh",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "docs/reference/commands.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-812-release-source-governance-split"
+}

@@ -6,6 +6,7 @@ usage() {
 usage: resolve_work_item.sh --repo ROOT --event EVENT --head SHA --output FILE
   [--pr-head-ref REF] [--pr-url URL] [--work-item-id ID]
   [--contract-path PATH] [--from-tag TAG] [--to-tag TAG]
+  [--source-work-item-id ID] [--source-contract-path PATH]
   [--publish-existing-tag true|false] [--handoff-run-id ID]
   [--github-repository OWNER/REPO] [--release-source-revision SHA]
 EOF
@@ -20,6 +21,8 @@ pr_head_ref=''
 pr_url=''
 work_item_id=''
 contract_path_arg=''
+source_work_item_id=''
+source_contract_path_arg=''
 from_tag=''
 to_tag=''
 publish_existing_tag=false
@@ -38,6 +41,8 @@ while (($# > 0)); do
     --pr-url) pr_url=${2:?missing value for --pr-url}; shift 2 ;;
     --work-item-id) work_item_id=${2:?missing value for --work-item-id}; shift 2 ;;
     --contract-path) contract_path_arg=${2:?missing value for --contract-path}; shift 2 ;;
+    --source-work-item-id) source_work_item_id=${2:?missing value for --source-work-item-id}; shift 2 ;;
+    --source-contract-path) source_contract_path_arg=${2:?missing value for --source-contract-path}; shift 2 ;;
     --from-tag) from_tag=${2:?missing value for --from-tag}; shift 2 ;;
     --to-tag) to_tag=${2:?missing value for --to-tag}; shift 2 ;;
     --publish-existing-tag) publish_existing_tag=${2:?missing value for --publish-existing-tag}; shift 2 ;;
@@ -330,7 +335,9 @@ if ((${#candidate_contracts[@]} > 1)); then
 fi
 
 contract_path=${candidate_contracts[0]}
-[[ -f "$contract_path" && ! -L "$contract_path" ]] || fail contract_not_regular 'selected Contract must be a regular non-symlink file'
+expected_repository_id=$(jq -er '.repositoryId' "$repo_root/.ai/agent-interface.json") || \
+  fail repository_identity_missing 'repository interface has no repositoryId'
+
 contract_relative_candidate=${contract_path#"$repo_root/"}
 archived_contract_selected=false
 if [[ "$contract_relative_candidate" == .ai/work-items/archive/*.contract.json ]]; then
@@ -339,26 +346,87 @@ if [[ "$contract_relative_candidate" == .ai/work-items/archive/*.contract.json ]
     fail contract_path_out_of_scope 'archived Contracts are allowed only for exact pull-request history routes'
   validate_archived_contract_anchor "$contract_path" "$(basename "$contract_path" .contract.json)"
 fi
-contract_id=$(jq -er '.workItemId' "$contract_path") || fail contract_invalid 'selected Contract is not valid JSON or has no workItemId'
-if [[ -n "$work_item_id" && "$contract_id" != "$work_item_id" ]]; then
-  fail work_item_id_mismatch 'selected Contract workItemId does not match the requested work_item_id'
+
+validate_contract() {
+  local selected_path=$1 requested_id=$2 kind=$3 allow_archived=${4:-false}
+  local selected_id selected_repository_id selected_state selected_base selected_digest
+  [[ -f "$selected_path" && ! -L "$selected_path" ]] || \
+    fail "${kind}_not_regular" "$kind must be a regular non-symlink file"
+  if ! selected_id=$(jq -er '.workItemId' "$selected_path" 2>/dev/null); then
+    fail "${kind}_invalid" "$kind is not valid JSON or has no workItemId"
+  fi
+  if [[ -n "$requested_id" && "$selected_id" != "$requested_id" ]]; then
+    if [[ "$kind" == contract ]]; then
+      fail work_item_id_mismatch 'selected Contract workItemId does not match the requested work_item_id'
+    fi
+    fail source_work_item_id_mismatch 'source Contract workItemId does not match the requested source_work_item_id'
+  fi
+  if ! selected_repository_id=$(jq -er '.repositoryId' "$selected_path" 2>/dev/null); then
+    fail "${kind}_invalid" "$kind has no repositoryId"
+  fi
+  [[ "$selected_repository_id" == "$expected_repository_id" ]] || \
+    fail "${kind}_repository_mismatch" "$kind belongs to a different repository"
+  if ! selected_state=$(jq -er '.state' "$selected_path" 2>/dev/null); then
+    fail "${kind}_invalid" "$kind has no state"
+  fi
+  if [[ "$allow_archived" != true ]]; then
+    [[ "$selected_state" != archived && "$selected_state" != closed ]] || \
+      fail "${kind}_not_active" "$kind is archived or closed"
+  fi
+  if ! selected_base=$(jq -er '.baseRevision' "$selected_path" 2>/dev/null); then
+    fail "${kind}_invalid" "$kind has no baseRevision"
+  fi
+  [[ "$selected_base" =~ ^[0-9a-f]{40}$ ]] || \
+    fail "${kind}_base_invalid" "$kind baseRevision is not a full commit SHA"
+  git -C "$repo_root" cat-file -e "${selected_base}^{commit}" 2>/dev/null || \
+    fail "${kind}_base_missing" "$kind baseRevision is not present in the checkout"
+  jq -e '.scope | type == "array" and length > 0' "$selected_path" >/dev/null 2>&1 || \
+    fail "${kind}_scope_missing" "$kind has no non-empty scope"
+  selected_digest="sha256:$(shasum -a 256 "$selected_path" | awk '{print $1}')"
+  validated_contract_id=$selected_id
+  validated_contract_base=$selected_base
+  validated_contract_digest=$selected_digest
+}
+
+validate_contract "$contract_path" "$work_item_id" contract "$archived_contract_selected"
+contract_id=$validated_contract_id
+base_revision=$validated_contract_base
+contract_digest=$validated_contract_digest
+
+source_contract_path="$contract_path"
+source_contract_id="$contract_id"
+source_base_revision="$base_revision"
+source_contract_digest="$contract_digest"
+source_selection_method='same_as_governance'
+source_allow_archived="$archived_contract_selected"
+if [[ -n "$source_work_item_id" || -n "$source_contract_path_arg" ]]; then
+  if [[ -n "$source_work_item_id" ]]; then
+    [[ "$source_work_item_id" =~ ^WI-[A-Za-z0-9][A-Za-z0-9._-]*$ ]] || \
+      fail invalid_source_work_item_id 'source_work_item_id is not a safe Work Item identifier'
+  fi
+  if [[ -n "$source_contract_path_arg" ]]; then
+    if [[ "$source_contract_path_arg" = /* ]]; then
+      source_contract_path="$source_contract_path_arg"
+    else
+      source_contract_path="$repo_root/$source_contract_path_arg"
+    fi
+    source_contract_dir=$(dirname "$source_contract_path")
+    [[ -d "$source_contract_dir" ]] || \
+      fail source_contract_path_missing 'source Contract path parent directory does not exist'
+    source_contract_path=$(cd "$source_contract_dir" && pwd -P)/$(basename "$source_contract_path")
+    [[ "$source_contract_path" == "$active_dir/"*.contract.json ]] || \
+      fail source_contract_path_out_of_scope 'source Contract path must point into the active Work Item directory'
+    source_selection_method='explicit_source_contract_path'
+  else
+    source_contract_path="$active_dir/$source_work_item_id.contract.json"
+    source_selection_method='explicit_source_work_item_id'
+  fi
+  source_allow_archived=false
+  validate_contract "$source_contract_path" "$source_work_item_id" source_contract "$source_allow_archived"
+  source_contract_id=$validated_contract_id
+  source_base_revision=$validated_contract_base
+  source_contract_digest=$validated_contract_digest
 fi
-expected_repository_id=$(jq -er '.repositoryId' "$repo_root/.ai/agent-interface.json") || \
-  fail repository_identity_missing 'repository interface has no repositoryId'
-contract_repository_id=$(jq -er '.repositoryId' "$contract_path") || fail contract_invalid 'selected Contract has no repositoryId'
-[[ "$contract_repository_id" == "$expected_repository_id" ]] || \
-  fail contract_repository_mismatch 'selected Contract belongs to a different repository'
-contract_state=$(jq -er '.state' "$contract_path") || fail contract_invalid 'selected Contract has no state'
-if [[ "$archived_contract_selected" != true ]]; then
-  [[ "$contract_state" != archived && "$contract_state" != closed ]] || \
-    fail contract_not_active 'selected Contract is archived or closed'
-fi
-base_revision=$(jq -er '.baseRevision' "$contract_path") || fail contract_invalid 'selected Contract has no baseRevision'
-[[ "$base_revision" =~ ^[0-9a-f]{40}$ ]] || fail contract_base_invalid 'selected Contract baseRevision is not a full commit SHA'
-git -C "$repo_root" cat-file -e "${base_revision}^{commit}" 2>/dev/null || \
-  fail contract_base_missing 'selected Contract baseRevision is not present in the checkout'
-jq -e '.scope | type == "array" and length > 0' "$contract_path" >/dev/null || \
-  fail contract_scope_missing 'selected Contract has no non-empty scope'
 
 if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
   predecessor_id=$(jq -r '.predecessorWorkItemId // empty' "$contract_path")
@@ -411,7 +479,7 @@ else
   mode=merge
 fi
 contract_relative=${contract_path#"$repo_root/"}
-contract_digest="sha256:$(shasum -a 256 "$contract_path" | awk '{print $1}')"
+source_contract_relative=${source_contract_path#"$repo_root/"}
 jq -n \
   --arg event "$event" \
   --arg mode "$mode" \
@@ -421,9 +489,14 @@ jq -n \
   --arg path "$contract_relative" \
   --arg digest "$contract_digest" \
   --arg base "$base_revision" \
+  --arg sourceId "$source_contract_id" \
+  --arg sourcePath "$source_contract_relative" \
+  --arg sourceDigest "$source_contract_digest" \
+  --arg sourceBase "$source_base_revision" \
+  --arg sourceMethod "$source_selection_method" \
   --arg method "$selection_method" \
   --arg lineage "$recovery_lineage" \
   --arg from "$from_tag" \
   --arg to "$to_tag" \
-  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
+  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,sourceWorkItemId:$sourceId,sourceContractPath:$sourcePath,sourceContractDigest:$sourceDigest,sourceBaseRevision:$sourceBase,sourceSelectionMethod:$sourceMethod,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
   > "$output_path"
