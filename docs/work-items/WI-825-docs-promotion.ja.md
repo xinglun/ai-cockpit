@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-825 — WI-824 documentation promotion"
 description: "WI-824 の terminal tri-language documentation projection を登録する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-825-docs-promotion
 lastVerifiedBy: WI-825-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-825-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-825-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-825-docs-promotion.close.json
 ---
 
 [English](WI-825-docs-promotion.md) · [简体中文](WI-825-docs-promotion.zh-CN.md)

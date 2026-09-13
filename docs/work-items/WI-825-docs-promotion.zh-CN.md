@@ -3,10 +3,13 @@ author: AI Cockpit 维护者
 title: "WI-825——WI-824 文档 promotion"
 description: "登记 WI-824 的终态三语文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-825-docs-promotion
 lastVerifiedBy: WI-825-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-825-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-825-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-825-docs-promotion.close.json
 ---
 
 [English](WI-825-docs-promotion.md) · [日本語](WI-825-docs-promotion.ja.md)
