@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "The post-release recovery mode skips source quality, build, candidate acceptance, publish, and publish-side artifact creation when the immutable v0.2.91 Release already exists.",
+    "The recovery validates the immutable v0.2.91 tag, Release manifest, asset digests, and execution handoff identity before public acceptance.",
+    "Public fresh installation and public N-1 upgrade run in independent isolated environments and consume downloaded public Release artifacts, with the requested tag as their source identity.",
+    "Public acceptance and version consistency start only after their required handoff/public identity dependencies succeed; close records structured skipped dependencies and cannot report green closure from a green summary job.",
+    "A failed recovery stage resumes from valid persisted evidence without rebuilding, republishing, deleting resources, or rerunning successful stages.",
+    "The Work Item binds the reviewed PR resource context before its replacement verification evidence is recorded, and finish/archive consume that non-provisional binding.",
+    "Before any public Release asset download or acceptance, post-release recovery executes the selected helper against a local no-remote handoff fixture with distinct workflow and release commits, persists the compatibility result, and stops on protocol incompatibility.",
+    "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release."
+  ],
+  "createdAt": "2026-09-13T00:33:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:80c48632c51a781512d0ee65e445fc9c3c524fa07f7035efcfd11df8a40218ed",
+  "evidenceRefs": [
+    ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-815-post-release-acceptance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "add an explicit post-release acceptance recovery path that reuses valid publication evidence, runs public install and N-1 upgrade in parallel, fails early on invalid inputs, and prevents dependency-failure cascades"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-815-post-release-acceptance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-815-post-release-acceptance"
+  },
+  "taskReportDigest": "sha256:f7175e5a759d370a0d0ad641b3e9c76c3f53b62d2751e5c952aac624629d1852",
+  "taskReportMarkdownDigest": "sha256:46141b8cd820d7912d48d5de059bd0f32ac8a4758baca68a567d7ce9da2f0b9f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-815-post-release-acceptance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-815-post-release-acceptance"
+}

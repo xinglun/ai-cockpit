@@ -811,6 +811,9 @@ expected_fail() {
 
 download "$from_tag" from "$from_root"
 download "$to_tag" to "$to_root"
+release_source_commit="$(jq -er '.commit' "$output/to-release-manifest.json")"
+source_revision="$(git -C "$source_repo" rev-parse 'HEAD^{commit}')"
+[[ "$release_source_commit" == "$source_revision" ]] || die 'target release manifest commit does not match source checkout HEAD'
 if [[ -n "$publish_handoff" ]]; then
   [[ -f "$download_root/to-release.json" && ! -L "$download_root/to-release.json" ]] || die 'publish handoff requires public target Release metadata'
   formula_url="$(jq -er '.assets[] | select(.name == "ai-cockpit.rb") | .browser_download_url' "$download_root/to-release.json")"
@@ -844,7 +847,7 @@ from_archive_name="ai-cockpit-$from_tag-$target.$archive_ext"
 to_archive_name="ai-cockpit-$to_tag-$target.$archive_ext"
 jq -n \
   --arg repository "$source_repository_id" \
-  --arg commit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg commit "$release_source_commit" \
   --arg lock "sha256:$(sha256_file "$source_repo/Cargo.lock")" \
   --arg toVersion "$to_version" \
   --arg toTag "$to_tag" \
@@ -878,7 +881,7 @@ record_phase_success prepare "$output/to-release-manifest.json"
 jq -n \
   --arg sourceRepository "$source_repo" \
   --arg sourceRepositoryId "$source_repository_id" \
-  --arg sourceCommit "$(git -C "$source_repo" rev-parse 'HEAD^{commit}')" \
+  --arg sourceCommit "$release_source_commit" \
   --arg sourceStatus "$source_before_status" \
   --arg sourceManifestDigest "sha256:$(sha256_file "$run_root/source-before.manifest")" \
   --arg runtimeVersion "$to_version" \

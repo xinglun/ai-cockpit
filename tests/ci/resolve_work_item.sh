@@ -6,8 +6,9 @@ usage() {
 usage: resolve_work_item.sh --repo ROOT --event EVENT --head SHA --output FILE
   [--pr-head-ref REF] [--pr-url URL] [--work-item-id ID]
   [--contract-path PATH] [--from-tag TAG] [--to-tag TAG]
+  [--publish-existing-tag true|false] [--post-release-acceptance true|false]
+  [--reuse-run-id ID] [--handoff-run-id ID]
   [--source-work-item-id ID] [--source-contract-path PATH]
-  [--publish-existing-tag true|false] [--handoff-run-id ID]
   [--github-repository OWNER/REPO] [--release-source-revision SHA]
 EOF
   exit 64
@@ -26,6 +27,8 @@ source_contract_path_arg=''
 from_tag=''
 to_tag=''
 publish_existing_tag=false
+post_release_acceptance=false
+reuse_run_id=''
 handoff_run_id=''
 github_repository="${GITHUB_REPOSITORY:-}"
 release_source_revision_arg=''
@@ -46,6 +49,8 @@ while (($# > 0)); do
     --from-tag) from_tag=${2:?missing value for --from-tag}; shift 2 ;;
     --to-tag) to_tag=${2:?missing value for --to-tag}; shift 2 ;;
     --publish-existing-tag) publish_existing_tag=${2:?missing value for --publish-existing-tag}; shift 2 ;;
+    --post-release-acceptance) post_release_acceptance=${2:?missing value for --post-release-acceptance}; shift 2 ;;
+    --reuse-run-id) reuse_run_id=${2:?missing value for --reuse-run-id}; shift 2 ;;
     --handoff-run-id) handoff_run_id=${2:?missing value for --handoff-run-id}; shift 2 ;;
     --github-repository) github_repository=${2:?missing value for --github-repository}; shift 2 ;;
     --release-source-revision) release_source_revision_arg=${2:?missing value for --release-source-revision}; shift 2 ;;
@@ -135,9 +140,20 @@ if [[ "$event" == workflow_dispatch ]]; then
   fi
   [[ "$publish_existing_tag" == true || "$publish_existing_tag" == false ]] || \
     fail invalid_publish_mode 'publish_existing_tag must be true or false'
+  [[ "$post_release_acceptance" == true || "$post_release_acceptance" == false ]] || \
+    fail invalid_post_release_mode 'post_release_acceptance must be true or false'
+  [[ ! ( "$publish_existing_tag" == true && "$post_release_acceptance" == true ) ]] || \
+    fail conflicting_release_modes 'publish_existing_tag and post_release_acceptance cannot both be true'
 fi
 
-if [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true ]]; then
+if [[ "$event" == workflow_dispatch && "$post_release_acceptance" == true ]]; then
+  [[ "$publish_existing_tag" != true ]] || \
+    fail conflicting_release_modes 'post-release-only acceptance cannot publish or recover publication'
+  [[ -n "$reuse_run_id" && "$reuse_run_id" =~ ^[1-9][0-9]*$ ]] || \
+    fail reuse_run_id_required 'post-release-only acceptance requires an explicit successful helper run'
+  [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
+    fail work_item_id_required 'post-release-only acceptance requires an explicit Work Item identity'
+elif [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true ]]; then
   [[ -n "$handoff_run_id" && "$handoff_run_id" =~ ^[1-9][0-9]*$ ]] || \
     fail handoff_run_id_required 'independent public acceptance requires a completed handoff_run_id'
   jq -n \
@@ -152,7 +168,7 @@ if [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true ]]; then
   exit 0
 fi
 
-if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
   [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
     fail work_item_id_required 'recovery requires an explicit work_item_id or contract path'
   [[ -n "$to_tag" ]] || fail invalid_to_tag 'recovery requires to_tag'
@@ -318,7 +334,7 @@ if ((${#candidate_contracts[@]} == 0)) && [[ "$event" == pull_request ]]; then
 fi
 
 if ((${#candidate_contracts[@]} == 0)); then
-  if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
+  if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
     fail work_item_contract_missing 'the explicitly requested active Contract does not exist'
   fi
   if [[ "$event" == pull_request ]]; then
@@ -428,7 +444,7 @@ if [[ -n "$source_work_item_id" || -n "$source_contract_path_arg" ]]; then
   source_contract_digest=$validated_contract_digest
 fi
 
-if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
   predecessor_id=$(jq -r '.predecessorWorkItemId // empty' "$contract_path")
   predecessor_digest=$(jq -r '.predecessorContractDigest // empty' "$contract_path")
   decision_relative=$(jq -r '.recoveryDecisionPath // empty' "$contract_path")
@@ -469,8 +485,9 @@ if [[ "$event" == workflow_dispatch ]] || is_release_tag_push; then
   [[ "$release_source_revision" =~ ^[0-9a-f]{40}$ ]] || fail release_tag_missing 'immutable release tag does not resolve to a commit'
 fi
 
-if [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
   mode=release_recovery
+  [[ "$post_release_acceptance" == true ]] && mode=post_release_acceptance
 elif [[ "$event" == pull_request ]]; then
   mode=pull_request
 elif is_release_tag_push; then
@@ -496,7 +513,8 @@ jq -n \
   --arg sourceMethod "$source_selection_method" \
   --arg method "$selection_method" \
   --arg lineage "$recovery_lineage" \
+  --arg reuse "$reuse_run_id" \
   --arg from "$from_tag" \
   --arg to "$to_tag" \
-  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,sourceWorkItemId:$sourceId,sourceContractPath:$sourcePath,sourceContractDigest:$sourceDigest,sourceBaseRevision:$sourceBase,sourceSelectionMethod:$sourceMethod,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
+  '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:$mode,headRevision:$head,releaseSourceRevision:$source,workItemId:$id,contractPath:$path,contractDigest:$digest,baseRevision:$base,sourceWorkItemId:$sourceId,sourceContractPath:$sourcePath,sourceContractDigest:$sourceDigest,sourceBaseRevision:$sourceBase,sourceSelectionMethod:$sourceMethod,selectionMethod:$method,recoveryLineage:(if $lineage == "" then null else $lineage end),reuseRunId:(if $reuse == "" then null else $reuse end),fromTag:(if $from == "" then null else $from end),toTag:(if $to == "" then null else $to end)}' \
   > "$output_path"

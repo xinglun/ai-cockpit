@@ -1,0 +1,221 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T19:39:52Z",
+  "checkpointContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "recorded": true,
+      "recordedAt": "2026-09-12T19:39:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "reason": "The explicit post-release-only mode must be selected and validated by the shared resolver; add only its resolver implementation and regression test to this Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T19:44:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5b4575a554453ecce2d5b7a9335e12889796a1a85ece4e025b6f06751d7546ef",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:16757124d4a28e784f4878b7261b88e3cab31dabe64c7e48bb0a205924ac8d0c",
+      "reason": "The real draft PR resource context was discovered after the initial verification; revalidate the current Work Item before recording replacement evidence bound to that reviewed resource.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T20:26:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:e7fd1e30d6621e86e05db843b2bdd0f4d1c785968e9905743fc638fefee5f39f",
+      "reason": "The hosted repository gate exposed an affected release version-consistency policy test that still encoded the pre-recovery dependency graph; include and update that test in the same bounded workflow change.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T20:37:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc6e2318200d532f081b1caeb17086327c1b011d1978d232947771aa17608654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6744d98b341062f297cae8a341543d4e2836056ef61b4634adbf94f8d0a84bb4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:82a3e6503147014022e51b388d6d61287b7d7e78a41b6a14e11d0c961d09c538",
+      "reason": "The actual helper artifact from release run 34698637044 (cockpit-release 0.2.91) rejects immutable-tag recovery when workflow and release commits differ; record and fix this root cause before using helper reuse.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T22:24:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:49ab829095d739140f138779ddfbbd43d084d9097b4b20038051fab067e4b725",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:6744d98b341062f297cae8a341543d4e2836056ef61b4634adbf94f8d0a84bb4",
+      "reason": "The compatibility probe confirmed the historical helper rejects distinct workflow and release identities; recovery must repair only that helper and continue without repeating product publication.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T22:31:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+  "createdAt": "2026-09-12T19:34:26Z",
+  "intentAlignment": {
+    "evidence": [
+      "WI-815 Contract intent and acceptance criteria",
+      ".github/workflows/release.yml",
+      "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.91"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
+  "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
+  "preflightAt": "2026-09-13T00:33:19Z",
+  "preflightContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item.sh",
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "An invalid or incomplete post-release request is rejected during the cheap input preflight before Runtime compilation or release-tool compilation starts.",
+      "required": true,
+      "scenario": "invalid_post_release_request_is_rejected_before_build",
+      "status": "verified",
+      "verificationPlan": "Add a workflow policy regression that checks explicit post-release mode inputs and run the resolver/preflight fixture with missing and mismatched identities."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/release/workflow_policy.sh",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.91"
+      ],
+      "expected": "An existing immutable v0.2.91 Release is verified and reused without rebuilding candidates, creating a Release, moving a tag, or overwriting assets.",
+      "required": true,
+      "scenario": "existing_public_release_is_reused_without_publication",
+      "status": "verified",
+      "verificationPlan": "Add a post-release workflow path and policy assertions proving it has no build/publish dependency and consumes the existing Release manifest, checksum set, and asset identities."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "Public fresh installation and v0.2.90 to v0.2.91 upgrade run in independent isolated environments from downloaded public assets and bind the requested Release source identity.",
+      "required": true,
+      "scenario": "public_install_and_n_minus_one_upgrade_are_independent",
+      "status": "verified",
+      "verificationPlan": "Add workflow policy and harness regressions for public-only execution, immutable tag checkout, isolated roots, and parallel acceptance dependencies."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/release/workflow_policy.sh",
+        "crates/cockpit-release/tests/acceptance_recovery.rs"
+      ],
+      "expected": "A failed handoff or public acceptance produces structured skipped dependency results and prevents close from claiming green closure.",
+      "required": true,
+      "scenario": "dependency_failure_stops_downstream_without_cascade",
+      "status": "verified",
+      "verificationPlan": "Add job-condition and close-receipt policy assertions for each failed dependency and verify the close barrier remains a reporting failure rather than a second unrelated failure."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/resolve_work_item_test.sh",
+        "crates/cockpit-release/tests/acceptance_recovery.rs",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/34698637044"
+      ],
+      "expected": "Retrying a failed post-release stage reuses still-valid handoff and public identity evidence without repeating successful publication, deleting resources, or rebuilding the Runtime.",
+      "required": true,
+      "scenario": "recovery_reuses_successful_persisted_stages",
+      "status": "verified",
+      "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T00:33:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-815-post-release-acceptance"
+}
