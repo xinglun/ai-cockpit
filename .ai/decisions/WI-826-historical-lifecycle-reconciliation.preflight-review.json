@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Explicitly authorize the bounded historical evidence compatibility implementation and its fail-closed regression tests; no historical evidence bytes or external resources may be rewritten.",
+  "recordedAt": "2026-09-13T15:18:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8d695d10a438aa252ccda7c0c926fa076f2b351662f0e9fefaebc5798bcb68d8",
+  "schemaVersion": 1,
+  "workItemId": "WI-826-historical-lifecycle-reconciliation"
+}

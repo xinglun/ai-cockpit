@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "Valid schema-v2 historical evidence is integrity-checked and can enter an explicit historical archive route without source verification rerun.",
+    "Missing malformed contradictory foreign or digest-mismatched evidence is rejected before any active-to-archive mutation.",
+    "Historical archive output preserves original evidence bytes and binds Work Item Contract evidence digest repository identity and historical Runtime identity.",
+    "Normal archive remains current-Runtime-bound; historical route is explicit and cannot bypass finalization close or cleanup.",
+    "WI-809 remains evidence_missing and is not migrated."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4907824b1d6716f8f319fabed9a883f9d1c8c293",
+  "createdAt": "2026-09-13T15:17:38Z",
+  "goal": "Archive only integrity-valid historical Work Items without rerunning workspace verification or rewriting historical bytes while preserving fail-closed behavior for missing malformed contradictory or foreign evidence.",
+  "intent": "Provide a bounded historical lifecycle reconciliation path for valid old-Runtime Work Item evidence",
+  "mode": "implementation",
+  "outOfScope": [
+    "Historical evidence bytes and generated archive records",
+    "Release tags providers branches and worktree deletion",
+    "Source verification reruns and broad historical exemptions"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8d695d10a438aa252ccda7c0c926fa076f2b351662f0e9fefaebc5798bcb68d8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance",
+    "historical_evidence_compatibility",
+    "fail_closed_regression"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests",
+    "crates/cockpit-cli/tests",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/tests/**",
+    ".ai/decisions/**",
+    ".ai/work-items/active/**",
+    ".ai/evidence/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-826-historical-lifecycle-reconciliation"
+}

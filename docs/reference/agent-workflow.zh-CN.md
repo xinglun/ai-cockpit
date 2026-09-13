@@ -34,6 +34,10 @@ Rust Runtime 与本仓库的 Protocol 词汇。
   reviewed merge、default branch 同步和精确清理完成后才是 `ready_on_base`，detached
   worktree 不算 ready。历史上有外部资源的 PR 只能通过精确 archived Contract 与有效
   archive manifest 走只读归档路线，不能伪装成普通无 Contract 路线。
+- 如果 active Work Item 的完整 typed schema-v2 verification evidence 来自旧 Runtime，
+  使用显式的 `ai-cockpit archive-historical --repo <repository> --id <work-item>` 兼容命令。
+  它只校验旧 receipt 以及 repository、Contract、源码绑定，不重跑源码验证，也不改写 evidence。
+  普通 `archive` 仍绑定 current Runtime，之后仍必须完成 finalization 和 close。
 - 每个 Work Item 使用一个 Contract、一个专用 branch/worktree 和一个 PR。
   只有 scope、evidence ownership、repository context 与串行投影均隔离且
   Runtime 判定兼容时，独立 Work Item 才能并行。

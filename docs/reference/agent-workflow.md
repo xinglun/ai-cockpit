@@ -39,6 +39,13 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   A historical resource-bound PR is a read-only archive route requiring its
   exact archived Contract and a valid archive manifest; it is not an ordinary
   no-Contract route.
+- When an active Work Item has complete typed schema-v2 verification evidence
+  from an older Runtime, use the explicit `ai-cockpit archive-historical
+  --repo <repository> --id <work-item>` compatibility command. It validates
+  the old receipt and its repository, Contract, and source bindings without
+  rerunning source verification or rewriting evidence. The normal `archive`
+  command remains current-Runtime-bound, and finalization/close are still
+  required.
 - Use one Contract, one dedicated branch/worktree, and one PR per Work Item.
   Compatible independent Work Items may run concurrently when scope, evidence
   ownership, repository context, and serialized projections are isolated.
