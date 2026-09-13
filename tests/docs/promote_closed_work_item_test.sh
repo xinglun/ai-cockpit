@@ -263,6 +263,77 @@ if python3 "$helper" --repo "$tmp/self-terminal" --check-all \
 fi
 grep -Fq 'promotion required' "$tmp/self-terminal-drift.err"
 
+# A valid local/no-resource Work Item has no provider finalization receipt.
+# Promotion must accept both an absent and an explicit null resourceContext,
+# while never inventing terminalFinalization references.
+for variant in absent null; do
+  cp -R "$tmp/unpromoted" "$tmp/no-resource-$variant"
+  python3 - "$tmp/no-resource-$variant" "$variant" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+variant = sys.argv[2]
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+if variant == "absent":
+    contract.pop("resourceContext", None)
+else:
+    contract["resourceContext"] = None
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+
+close_path = root / ".ai/decisions" / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+for field in (
+    "resourceFinalizationSequence",
+    "resourceFinalizationHeadPath",
+    "resourceFinalizationHeadDigest",
+):
+    close.pop(field, None)
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+for path in (root / ".ai/decisions").glob(f"{work_item}.finalize*.json"):
+    path.unlink()
+PY
+  python3 "$helper" --repo "$tmp/no-resource-$variant" --work-item WI-999-closed-docs-fixture
+  python3 "$helper" --repo "$tmp/no-resource-$variant" --work-item WI-999-closed-docs-fixture --check
+  for document in "$tmp/no-resource-$variant"/docs/work-items/WI-999-closed-docs-fixture*.md; do
+    if grep -Fq 'terminalFinalization:' "$document"; then
+      echo "no-resource promotion fabricated finalization for $variant" >&2
+      exit 1
+    fi
+  done
+done
+
+# A resource-bound Work Item still requires its root finalization receipt.
+cp -R "$tmp/unpromoted" "$tmp/resource-finalization-required"
+python3 - "$tmp/resource-finalization-required" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+for path in (root / ".ai/decisions").glob(f"{work_item}.finalize*.json"):
+    if path.name == f"{work_item}.finalize.json":
+        path.unlink()
+        break
+PY
+if python3 "$helper" --repo "$tmp/resource-finalization-required" --work-item WI-999-closed-docs-fixture \
+  >"$tmp/resource-finalization-required.out" 2>"$tmp/resource-finalization-required.err"; then
+  echo 'resource-bound promotion accepted missing finalization' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/resource-finalization-required.err"
+
 if python3 "$helper" --repo "$fixture" --work-item WI-999-closed-docs-fixture --check \
   >"$tmp/precheck.out" 2>"$tmp/precheck.err"; then
   echo 'promotion check accepted stale pre-close documentation' >&2
