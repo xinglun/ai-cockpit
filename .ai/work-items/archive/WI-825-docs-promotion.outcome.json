@@ -1,0 +1,212 @@
+{
+  "acceptanceResults": [
+    "WI-824 has truthful regular English, Simplified Chinese, and Japanese pages bound to its immutable archive, verification receipt, and close decision.",
+    "Reference parity contains exactly one language-appropriate row for WI-824 and points to the same evidence paths.",
+    "The documentation promotion helper passes for WI-824 and the repository-wide check after close; no historical evidence is rewritten."
+  ],
+  "createdAt": "2026-09-13T14:14:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:7ea5efb0ea7c0ee446b7825106e27f195b7e7aed8b2c7faafbee14eba1a17c84",
+  "evidenceRefs": [
+    ".ai/evidence/WI-825-docs-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-825-docs-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-825-docs-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be01fb8083d3f8febaf34bf5ca556f773e40b7aed131ad3fea4c7d391f160553",
+      "workItemId": "WI-825-docs-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-825-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-825-docs-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-824-verification-preconditions.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-824-verification-preconditions.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-824-verification-preconditions.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-825-docs-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-825-docs-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-825-docs-promotion.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-825-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-825-docs-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-825-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-825-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-825-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Add truthful English, Simplified Chinese, and Japanese Work Item pages plus one parity row for WI-824, bound to its immutable archive, verification receipt, and close decision."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-825-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-825-docs-promotion"
+  },
+  "taskReportDigest": "sha256:0474694e41a39abb7a1f6ab6455ab8a5d8f7d629c224effdce42204935e5ce9b",
+  "taskReportMarkdownDigest": "sha256:ec3c73b1bd2bcf49f9bbf74edfda8b686d08f4319b4abdd68f60666f902aeea2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-825-docs-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-825-docs-promotion"
+}

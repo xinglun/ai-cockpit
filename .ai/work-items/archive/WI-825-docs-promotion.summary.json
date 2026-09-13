@@ -1,0 +1,74 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-825-docs-promotion.contract.json",
+    ".ai/work-items/archive/WI-825-docs-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-824-verification-preconditions.ja.md",
+    "docs/work-items/WI-824-verification-preconditions.md",
+    "docs/work-items/WI-824-verification-preconditions.zh-CN.md",
+    "docs/work-items/WI-825-docs-promotion.ja.md",
+    "docs/work-items/WI-825-docs-promotion.md",
+    "docs/work-items/WI-825-docs-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-13T14:10:17Z",
+  "checkpointContractDigest": "sha256:5d5982a29450e35449606cc93b16c85ff051293f22afeae253977e171d16b837",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:bad104329476af1198d07e8ae0c2d210599b3d4a48460cdf30fbeffecdad2850",
+      "recorded": true,
+      "recordedAt": "2026-09-13T14:10:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4645793737f6e95859fe9b8549b88bb126aa85dd8511fa2c52c9e0b306321da4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-825-docs-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:5d5982a29450e35449606cc93b16c85ff051293f22afeae253977e171d16b837",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bad104329476af1198d07e8ae0c2d210599b3d4a48460cdf30fbeffecdad2850",
+      "previousContractHash": "sha256:bad104329476af1198d07e8ae0c2d210599b3d4a48460cdf30fbeffecdad2850",
+      "reason": "Include the Work Item self-projection pages so terminal promotion remains bounded and verifiable.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T14:13:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be01fb8083d3f8febaf34bf5ca556f773e40b7aed131ad3fea4c7d391f160553",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-825-docs-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:be01fb8083d3f8febaf34bf5ca556f773e40b7aed131ad3fea4c7d391f160553",
+  "createdAt": "2026-09-13T14:10:10Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T14:14:05Z",
+  "preflightContractDigest": "sha256:5d5982a29450e35449606cc93b16c85ff051293f22afeae253977e171d16b837",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:be01fb8083d3f8febaf34bf5ca556f773e40b7aed131ad3fea4c7d391f160553",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T14:14:06Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-825-docs-promotion"
+}
