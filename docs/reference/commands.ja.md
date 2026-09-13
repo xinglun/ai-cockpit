@@ -200,7 +200,11 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `work-item new` は `not_ready` の skeleton を作ります。これを `preflight` すると意図的に
   `yellow` と `reviewState: needs_human_confirmation` になり、人の項目を埋めてから再度 preflight して checkpoint します。
 - `close --human-decision approved|confirmed|rejected` は human decision record であり verification evidence ではありません。
-  `approved` と明示的な `confirmed` は正の terminal choice ですが、`rejected` は Work Item を Implemented に昇格させません。
+  Runtime が受け付ける canonical token は `approved`、`confirmed`、`rejected`、
+  `superseded`、`superseded_failed_delivery` だけです。自由な説明は `--reason` に
+  記録します。`approved` と明示的な `confirmed` は正の terminal choice ですが、
+  `rejected` は Work Item を Implemented に昇格させず、二つの `superseded` token は
+  明示された履歴または abandoned-delivery の close path に限ります。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` は strict な `DelegatedEvidence` metadata を exact raw-byte
   digest と照合し、`.ai/evidence/external/` に repository/Work Item-bound receipt を書きます。

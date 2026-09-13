@@ -34,6 +34,10 @@ LANGUAGES = (
 class PromotionError(RuntimeError):
     """A fail-closed promotion validation error."""
 
+    def __init__(self, message: str, *, diagnostic: dict[str, Any] | None = None) -> None:
+        super().__init__(message)
+        self.diagnostic = diagnostic
+
 
 def reject_duplicate_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     result: dict[str, Any] = {}
@@ -434,18 +438,57 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         and close.get("repositoryId") == repository_id,
         "close identity mismatch",
     )
-    require(
-        close.get("state") == "closed"
-        and close.get("decisionState") == "confirmed"
-        and close.get("humanDecision") in {"approved", "confirmed"},
-        "close is not a confirmed approved/confirmed decision",
-    )
+    if close.get("state") != "closed":
+        raise PromotionError(
+            "close state is not closed",
+            diagnostic={
+                "file": close_path,
+                "field": "state",
+                "expected": "closed",
+                "actual": close.get("state"),
+            },
+        )
+    if close.get("decisionState") != "confirmed":
+        raise PromotionError(
+            "close decisionState is not confirmed",
+            diagnostic={
+                "file": close_path,
+                "field": "decisionState",
+                "expected": "confirmed",
+                "actual": close.get("decisionState"),
+            },
+        )
+    if close.get("humanDecision") not in {"approved", "confirmed"}:
+        raise PromotionError(
+            "close is not a confirmed approved/confirmed decision",
+            diagnostic={
+                "file": close_path,
+                "field": "humanDecision",
+                "expected": ["approved", "confirmed"],
+                "actual": close.get("humanDecision"),
+            },
+        )
     structured = close.get("structuredDecision")
-    require(
-        isinstance(structured, dict)
-        and structured.get("decision") in {"approved", "confirmed"},
-        "structured close decision is missing",
-    )
+    if not isinstance(structured, dict):
+        raise PromotionError(
+            "structured close decision is missing",
+            diagnostic={
+                "file": close_path,
+                "field": "structuredDecision",
+                "expected": "object with decision approved or confirmed",
+                "actual": structured,
+            },
+        )
+    if structured.get("decision") not in {"approved", "confirmed"}:
+        raise PromotionError(
+            "structured close decision is not approved/confirmed",
+            diagnostic={
+                "file": close_path,
+                "field": "structuredDecision.decision",
+                "expected": ["approved", "confirmed"],
+                "actual": structured.get("decision"),
+            },
+        )
     structured_refs = structured.get("evidenceRefs")
     require(
         isinstance(structured_refs, list)
@@ -865,6 +908,19 @@ def main() -> int:
             print(json.dumps(promote(repository, args.work_item, check=args.check), indent=2))
     except PromotionError as error:
         print(f"closed Work Item promotion failed: {error}", file=sys.stderr)
+        if error.diagnostic is not None:
+            print(
+                json.dumps(
+                    {
+                        "diagnostic": error.diagnostic,
+                        "failureCode": "documentation_promotion_invalid",
+                        "remediation": "repair the bound close or recovery evidence, then rerun this promotion gate",
+                        "state": "failed",
+                    },
+                    sort_keys=True,
+                ),
+                file=sys.stderr,
+            )
         return 1
     return 0
 

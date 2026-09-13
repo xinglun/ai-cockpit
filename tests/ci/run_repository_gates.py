@@ -57,6 +57,82 @@ def write_report(path: Path, report: dict[str, Any]) -> None:
         raise
 
 
+def write_text_atomically(path: Path, payload: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+    )
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as stream:
+            stream.write(payload)
+            stream.flush()
+            os.fsync(stream.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def persist_gate_diagnostic(
+    repository: Path, artifact_root: Path, gate_id: str, output: str
+) -> tuple[str, str, bool] | None:
+    """Persist a bounded diagnostic and return path, digest, and truncation."""
+    if not output.strip():
+        return None
+    limit = 32 * 1024
+    truncated = len(output) > limit
+    bounded = output[:limit]
+    if truncated:
+        bounded += "\n[diagnostic truncated]\n"
+    path = artifact_root / "repository-gate-diagnostics" / f"{gate_id}.log"
+    write_text_atomically(path, bounded)
+    try:
+        display_path = path.relative_to(repository).as_posix()
+    except ValueError:
+        display_path = str(path)
+    return (
+        display_path,
+        "sha256:" + hashlib.sha256(bounded.encode("utf-8")).hexdigest(),
+        truncated,
+    )
+
+
+def parse_gate_diagnostic(output: str) -> dict[str, Any] | None:
+    """Read the first structured diagnostic emitted by a repository gate."""
+    for line in output.splitlines():
+        try:
+            value = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        diagnostic = value.get("diagnostic") if isinstance(value, dict) else None
+        if isinstance(diagnostic, dict):
+            return diagnostic
+    return None
+
+
+def write_gate_receipt(
+    artifact_root: Path,
+    gate: dict[str, Any],
+    result: dict[str, Any],
+    route: dict[str, Any],
+) -> None:
+    """Publish one route-bound result for dependent gates in this request."""
+    receipt = {
+        "command": result["command"],
+        "exitCode": result.get("exitCode"),
+        "gateId": result["id"],
+        "kind": "repository_gate_receipt",
+        "route": route,
+        "schemaVersion": 1,
+        "state": result["state"],
+    }
+    path = artifact_root / "repository-gate-receipts" / f"{gate['id']}.json"
+    write_report(path, receipt)
+
+
 def preflight_failure(
     report_path: Path,
     code: str,
@@ -199,7 +275,13 @@ def attach_workspace_package_failure(
             result[key] = report[key]
 
 
-def run_gate(command: list[str], repository: Path, timeout: float | None) -> subprocess.CompletedProcess[str]:
+def run_gate(
+    command: list[str],
+    repository: Path,
+    timeout: float | None,
+    *,
+    environment: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     """Run a gate in its own process group so timeout cleanup is bounded."""
     process = subprocess.Popen(
         command,
@@ -208,6 +290,7 @@ def run_gate(command: list[str], repository: Path, timeout: float | None) -> sub
         stderr=subprocess.PIPE,
         text=True,
         start_new_session=os.name == "posix",
+        env=environment,
     )
     try:
         stdout, stderr = process.communicate(timeout=timeout)
@@ -346,6 +429,7 @@ def main() -> int:
     report_path = Path(args.report)
     if not report_path.is_absolute():
         report_path = repository / report_path
+    artifact_root = report_path.parent
 
     try:
         manifest = load_manifest(manifest_path)
@@ -570,7 +654,6 @@ def main() -> int:
                 result = dict(resume_results[gate["id"]])
                 result["reused"] = True
                 reused_gate_ids.append(gate["id"])
-                print(f"repository gate {gate['id']}: reused", flush=True)
             else:
                 blocked_by = [
                     dependency
@@ -586,10 +669,6 @@ def main() -> int:
                     )
                     result["state"] = "blocked"
                     failed = True
-                    print(
-                        f"repository gate {result['id']}: blocked [prerequisite_failed]",
-                        flush=True,
-                    )
                 else:
                     command = list(gate["command"])
                     if command[0].endswith(".sh"):
@@ -597,14 +676,48 @@ def main() -> int:
                     launched_gate_ids.append(result["id"])
                     active_result = result
                     try:
-                        completed = run_gate(command, repository, args.gate_timeout_seconds)
-                    except subprocess.TimeoutExpired:
+                        gate_environment = os.environ.copy()
+                        gate_environment.update(
+                            {
+                                "AI_COCKPIT_GATE_ID": result["id"],
+                                "AI_COCKPIT_GATE_MANIFEST_DIGEST": route_binding[
+                                    "manifestDigest"
+                                ],
+                                "AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST": route_binding.get(
+                                    "receiptDigest", ""
+                                ),
+                            }
+                        )
+                        completed = run_gate(
+                            command,
+                            repository,
+                            args.gate_timeout_seconds,
+                            environment=gate_environment,
+                        )
+                    except subprocess.TimeoutExpired as error:
+                        diagnostic = "\n".join(
+                            part
+                            for part in (
+                                getattr(error, "stderr", None),
+                                getattr(error, "output", None),
+                            )
+                            if part
+                        )
                         result["timedOut"] = True
                         result["state"] = "failed"
                         result["failureCode"] = "gate_timeout"
                         result["remediation"] = (
                             f"repair or split gate {result['id']}, then rerun this route"
                         )
+                        persisted = persist_gate_diagnostic(
+                            repository, artifact_root, result["id"], diagnostic
+                        )
+                        if persisted is not None:
+                            (
+                                result["diagnosticPath"],
+                                result["diagnosticDigest"],
+                                result["diagnosticTruncated"],
+                            ) = persisted
                         failed = True
                     except OSError as error:
                         detail = str(error)
@@ -618,15 +731,27 @@ def main() -> int:
                         result["exitCode"] = completed.returncode
                         result["state"] = "passed" if completed.returncode == 0 else "failed"
                         if completed.returncode != 0:
-                            detail = (completed.stderr or completed.stdout or "").strip()
+                            detail = "\n".join(
+                                part
+                                for part in (completed.stderr, completed.stdout)
+                                if part
+                            ).strip()
                             code = failure_code(result["id"], detail=detail)
                             result["failureCode"] = code
                             result["remediation"] = failure_remediation(code, result["id"])
                             attach_workspace_package_failure(result, repository=repository)
-                            if detail:
-                                result["diagnosticDigest"] = "sha256:" + hashlib.sha256(
-                                    detail.encode("utf-8", errors="replace")
-                                ).hexdigest()
+                            persisted = persist_gate_diagnostic(
+                                repository, artifact_root, result["id"], detail
+                            )
+                            if persisted is not None:
+                                (
+                                    result["diagnosticPath"],
+                                    result["diagnosticDigest"],
+                                    result["diagnosticTruncated"],
+                                ) = persisted
+                            structured = parse_gate_diagnostic(detail)
+                            if structured is not None:
+                                result["diagnostic"] = structured
                             failed = True
                     active_result = None
                 if result["state"] == "failed":
@@ -637,11 +762,26 @@ def main() -> int:
                                 "code": code,
                                 "gateId": result["id"],
                                 "remediation": result["remediation"],
+                                **(
+                                    {"diagnosticPath": result["diagnosticPath"]}
+                                    if result.get("diagnosticPath")
+                                    else {}
+                                ),
                             }
                         )
-                status = result["state"]
-                code_suffix = f" [{result['failureCode']}]" if status == "failed" else ""
-                print(f"repository gate {result['id']}: {status}{code_suffix}", flush=True)
+            write_gate_receipt(artifact_root, gate, result, route_binding)
+            status = result["state"]
+            code_suffix = f" [{result['failureCode']}]" if status == "failed" else ""
+            diagnostic_suffix = (
+                f"; diagnostic: {result['diagnosticPath']}"
+                if result.get("diagnosticPath")
+                else ""
+            )
+            reused_suffix = "; reused" if result.get("reused") else ""
+            print(
+                f"repository gate {result['id']}: {status}{reused_suffix}{code_suffix}{diagnostic_suffix}",
+                flush=True,
+            )
             results.append(result)
             results_by_id[result["id"]] = result
             active_result = None
