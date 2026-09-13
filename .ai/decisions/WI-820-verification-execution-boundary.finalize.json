@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e84f29bc583b65b19f189d89a0d6c3ab3513b88b",
+    "name": "codex/wi-820-verification-execution-boundary",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "437ca6c4c101418183452ee08636ea2f6c9b41f1",
+  "contractDigest": "sha256:be121bfeaa11359dce772d22a2e330069c6542c67b910accb209416f522be2e0",
+  "operationId": "github-pr-798-WI-820-verification-execution-boundary-cleanup-20260913T125745Z",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0a32b2fc5bed89ae78d6978a389ac7a230ca1592",
+    "headRevision": "e84f29bc583b65b19f189d89a0d6c3ab3513b88b",
+    "mergeCommit": "9403265d61f0b9d22ad0beb564561921d2b3b967",
+    "number": 798,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/798"
+  },
+  "reason": "Reviewed PR #798 was merged; its historical verification evidence remains immutable, and the exact clean Work Item worktree and remote/local branch are removed after the merge was observed.",
+  "receiptId": "github-pr-798-WI-820-verification-execution-boundary-cleanup-20260913T125745Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-820-verification-execution-boundary",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/798",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-820-verification-execution-boundary"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d49112ba2f1fee799fda6e0143b34b5266b1d1d647354af128f81705651a93a",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-13T12:57:45Z",
+  "workItemId": "WI-820-verification-execution-boundary",
+  "worktree": {
+    "branch": "codex/wi-820-verification-execution-boundary",
+    "headRevision": "e84f29bc583b65b19f189d89a0d6c3ab3513b88b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-820-verification-execution-boundary",
+    "worktreeId": "WI-820-verification-execution-boundary"
+  }
+}

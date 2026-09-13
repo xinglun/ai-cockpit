@@ -1,0 +1,266 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3690a9f0dd05893d2117ca0c7d590944753f9961d962f37167d3f9a59e3f30ed",
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-820-verification-execution-boundary.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-820-verification-execution-boundary.focused-tests.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-820-verification-execution-boundary.measurements.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-820-verification-execution-boundary.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-820-verification-execution-boundary.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/governance_controls.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/recovery_decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-820-verification-execution-boundary.recovery.e32d46b7f9dc633f05616acf63aea043c28edbd461257af1ebbe082eacd79aad.json",
+            ".ai/decisions/WI-822-resource-finalization-base-binding.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-13T13:20:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Replace the single-node verification bottleneck with an identity-bound fail-closed execution boundary that preserves the full workspace test requirement while allowing bounded nodes and reliable evidence capture."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-820-verification-execution-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-820-verification-execution-boundary"
+  },
+  "finalReportDigest": "sha256:65c25cee837aa2af16395a52d4350bc6fefa4464b37087fa3d1381f5275e4f7b",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-13T13:20:00Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-820-verification-execution-boundary.recovery.e32d46b7f9dc633f05616acf63aea043c28edbd461257af1ebbe082eacd79aad.json",
+      ".ai/decisions/WI-822-resource-finalization-base-binding.close.json"
+    ],
+    "policyRefs": [],
+    "reason": "Supersede the historical WI-820 lifecycle after its bounded successor WI-822 completed. The original verification bytes remain preserved and are not treated as a current result; no historical workspace rerun is required.",
+    "resumeCondition": "Continue future verification only under a new Contract and current Runtime identity."
+  },
+  "timestamp": "2026-09-13T13:09:34Z",
+  "workItemId": "WI-820-verification-execution-boundary"
+}
