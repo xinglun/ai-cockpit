@@ -3,17 +3,61 @@
     ".ai/work-items/active/WI-824-verification-preconditions.contract.json",
     ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-13T13:30:21Z",
+  "checkpointContractDigest": "sha256:6ba7879093ad2033473a98ed6f64e35b6e31eed41c0677918a1237db89cde3d9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:beab911f4ac72c8b3c2f9329ed134874f8e1ff7f174146b69394c85dcf1dbfc3",
   "createdAt": "2026-09-13T13:26:30Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-824-verification-preconditions.contract.json"
+    ],
+    "reason": "The implementation boundary directly matches the declared verification precondition and attempt persistence intent.",
+    "state": "resolved"
+  },
   "mode": "code",
-  "preflightAt": "2026-09-13T13:29:16Z",
+  "preflightAt": "2026-09-13T13:30:21Z",
   "preflightContractDigest": "sha256:6ba7879093ad2033473a98ed6f64e35b6e31eed41c0677918a1237db89cde3d9",
-  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
-  "preflightRepositorySnapshotDigest": "sha256:4b221f509d7191c7dca3a99fb195163649611da1bb37bb73a676eaa10eba38cb",
-  "preflightState": "red",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:beab911f4ac72c8b3c2f9329ed134874f8e1ff7f174146b69394c85dcf1dbfc3",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-13T13:26:48Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Invalid persisted preconditions are rejected before any verification child process starts and the diagnostic binds repository, Work Item, Contract, snapshot, command, and failure reason.",
+      "required": true,
+      "scenario": "preconditions_reject_before_spawn",
+      "status": "unverified",
+      "verificationPlan": "Use a fixture with an invalid preflight or coverage binding, invoke the repository verification entry point, and assert zero spawned processes plus a durable failed-attempt record."
+    },
+    {
+      "evidence": [],
+      "expected": "Every executed node retains exit code, timeout state, elapsed time, bounded stdout/stderr, and input identity when completion evidence is rejected or cannot be written.",
+      "required": true,
+      "scenario": "attempt_result_survives_formal_receipt_failure",
+      "status": "unverified",
+      "verificationPlan": "Run a failing and a timed-out command in a controlled fixture, force completion-evidence rejection, and validate the independent attempt record."
+    },
+    {
+      "evidence": [],
+      "expected": "An attempt is reusable only when command, source, Runtime, Contract, and relevant dependency identities match; governance-only correction does not rerun the process.",
+      "required": true,
+      "scenario": "governance_only_correction_reuses_attempt",
+      "status": "unverified",
+      "verificationPlan": "Compare a matching governance-only correction with changes to command, source, Runtime, Contract, and dependency identities; assert only the matching case reuses."
+    },
+    {
+      "evidence": [],
+      "expected": "A stale, malformed, or foreign attempt cannot satisfy current verification or completion evidence.",
+      "required": true,
+      "scenario": "stale_or_foreign_attempt_is_rejected",
+      "status": "unverified",
+      "verificationPlan": "Mutate each bound identity and validate that the attempt is retained as history but rejected for current completion."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-13T13:31:21.377311+00:00",
   "workItemId": "WI-824-verification-preconditions"
 }
