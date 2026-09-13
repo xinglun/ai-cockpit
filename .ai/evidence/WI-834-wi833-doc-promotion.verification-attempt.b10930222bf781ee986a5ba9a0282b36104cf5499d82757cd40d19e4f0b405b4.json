@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:b10930222bf781ee986a5ba9a0282b36104cf5499d82757cd40d19e4f0b405b4",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        "/private/tmp/ai-cockpit-wi834-doc-promotion",
+        "--check-all"
+      ],
+      "baseCommit": "e6d71cd9745cb78be174727449a6185cb9b75c02",
+      "commandDigest": "sha256:69c25760a0de47de7e0b875d5ab4b8c2a7b1b02192fc202b7bda14ecc17c9187",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
+  "contractExecutionScopeDigest": "sha256:d964c8f3aea3070cf70c6fbf1a7c230a3e1117d19d2d6664d3061743a0762ea9",
+  "createdAt": "2026-09-13T20:57:50Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi834-doc-promotion/.ai/work-items/active/WI-834-wi833-doc-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f3fd74afb90962b05dbb1028b4b035fb1287af89dce6d551925af543c0351e9c",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-834-wi833-doc-promotion"
+}

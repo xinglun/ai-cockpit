@@ -5,9 +5,9 @@
     "No historical receipt, archive, or release artifact is modified.",
     "The Work Item has truthful English, Simplified Chinese, and Japanese reader pages and its own pre-archive parity registrations before verification."
   ],
-  "createdAt": "2026-09-13T20:51:22Z",
+  "createdAt": "2026-09-13T20:59:10Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:7a9752acd2aea9bf8202ecb54d46e85021ba339cc79c7e5346d258e0dd27731e",
+  "evidenceDigest": "sha256:462ca3a7d5ffb8dd9f8c49e9d2b5e1c722b6cea00a80d56e68afcc944372d864",
   "evidenceRefs": [
     ".ai/evidence/WI-834-wi833-doc-promotion.verification.json"
   ],
@@ -33,7 +33,7 @@
         ".ai/evidence/WI-834-wi833-doc-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:311e649a5bb14cc86a528dc7eb2abfdf90af5bcc793589f874110548a3db6e57",
+      "repositorySnapshotDigest": "sha256:f3fd74afb90962b05dbb1028b4b035fb1287af89dce6d551925af543c0351e9c",
       "workItemId": "WI-834-wi833-doc-promotion"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,6 +47,13 @@
             ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.63e3124eb48c870fedb84a7c146cbe19654e80bce4bfeed046f2857d25c7fb4a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -54,7 +61,7 @@
             ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.contract.json"
+          "text": "Changed path: .ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.b10930222bf781ee986a5ba9a0282b36104cf5499d82757cd40d19e4f0b405b4.json"
         },
         {
           "evidenceRefs": [
@@ -83,27 +90,6 @@
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-834-wi833-doc-promotion.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-834-wi833-doc-promotion.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-834-wi833-doc-promotion.zh-CN.md"
         }
       ],
       "evidence": [
@@ -178,8 +164,8 @@
     "status": "verified",
     "workItemId": "WI-834-wi833-doc-promotion"
   },
-  "taskReportDigest": "sha256:91edbffd308f35ee731a140d739f94cc3ee621ed75059e83ce9ae72eb202d34f",
-  "taskReportMarkdownDigest": "sha256:c96a9360282d48f766e8908ff798030a18eb254af695466898b26d39fbed96d6",
+  "taskReportDigest": "sha256:585d39f725d3aaffccc04793e1fa8ad5dcb700ef74df9262e9dd6288c0280d7e",
+  "taskReportMarkdownDigest": "sha256:928438ca38539f4841d214952de28985b45d39447ccf9f71fe181aaa655e27a7",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

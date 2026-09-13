@@ -14,15 +14,13 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.63e3124eb48c870fedb84a7c146cbe19654e80bce4bfeed046f2857d25c7fb4a.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.contract.json
+- Changed path: .ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.b10930222bf781ee986a5ba9a0282b36104cf5499d82757cd40d19e4f0b405b4.json
 - Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.summary.json
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-834-wi833-doc-promotion.ja.md
-- Changed path: docs/work-items/WI-834-wi833-doc-promotion.md
-- Changed path: docs/work-items/WI-834-wi833-doc-promotion.zh-CN.md
 
 ## Findings
 
