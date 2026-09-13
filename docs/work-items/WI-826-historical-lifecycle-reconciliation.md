@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-826 — historical evidence archive compatibility"
 description: "Provide an explicit, fail-closed archive route for typed evidence captured by an older Runtime without rewriting historical bytes."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-826-historical-lifecycle-reconciliation
-lastVerifiedBy: WI-827-wi826-docs-promotion
+lastVerifiedBy: WI-826-historical-lifecycle-reconciliation
+terminalArchive: .ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json
+terminalDecision: .ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json
 ---
 
 [简体中文](WI-826-historical-lifecycle-reconciliation.zh-CN.md) · [日本語](WI-826-historical-lifecycle-reconciliation.ja.md)

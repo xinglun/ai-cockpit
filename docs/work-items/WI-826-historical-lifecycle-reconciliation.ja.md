@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-826 — 過去 Runtime の evidence archive 互換性"
 description: "古い Runtime が取得した typed evidence を履歴バイトを書き換えずに明示的かつ fail-closed に archive する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-826-historical-lifecycle-reconciliation
-lastVerifiedBy: WI-827-wi826-docs-promotion
+lastVerifiedBy: WI-826-historical-lifecycle-reconciliation
+terminalArchive: .ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json
+terminalDecision: .ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json
 ---
 
 [English](WI-826-historical-lifecycle-reconciliation.md) · [简体中文](WI-826-historical-lifecycle-reconciliation.zh-CN.md)

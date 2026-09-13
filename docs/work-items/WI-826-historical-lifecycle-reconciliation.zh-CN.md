@@ -3,10 +3,13 @@ author: AI Cockpit 维护者
 title: "WI-826——历史 evidence 归档兼容性"
 description: "为旧 Runtime 捕获的 typed evidence 提供显式、fail-closed 的归档路径，不改写历史字节。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-826-historical-lifecycle-reconciliation
-lastVerifiedBy: WI-827-wi826-docs-promotion
+lastVerifiedBy: WI-826-historical-lifecycle-reconciliation
+terminalArchive: .ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json
+terminalDecision: .ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json
 ---
 
 [English](WI-826-historical-lifecycle-reconciliation.md) · [日本語](WI-826-historical-lifecycle-reconciliation.ja.md)
