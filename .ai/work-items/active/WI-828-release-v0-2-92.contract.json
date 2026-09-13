@@ -7,7 +7,9 @@
     "workflow_dispatch release verification checks the immutable to_tag source checkout with the source Contract baseline, while retaining the current workflow commit as a separate execution identity",
     "the route receipt repository snapshot, Contract gate, and canonical source gates all bind to the same immutable release-source checkout",
     "policy regression tests fail if source-quality Contract verification uses the current orchestration checkout or the current workflow SHA as the release-source head",
-    "publication and post-release recovery inputs require an explicit source Work Item or source Contract identity; they never silently reuse the governance identity"
+    "publication and post-release recovery inputs require an explicit source Work Item or source Contract identity; they never silently reuse the governance identity",
+    "all route receipts consumed by source-quality validation are located under the immutable release-source repository root, so Runtime repository-boundary validation cannot reject a receipt merely because the source checkout is nested",
+    "source-quality preflight failures persist and upload the canonical report from the exact source repository path, including the root failure code and diagnostic binding"
   ],
   "authority": "authorized",
   "baseRevision": "cd02be16a23bccccb93763c564d3664ff94c3b3e",
@@ -19,7 +21,8 @@
     "Historical Work Item migration",
     " unrelated runtime performance work",
     " changing v0.2.91",
-    " and modifying user-global configuration"
+    " and modifying user-global configuration",
+    "changing the immutable release tag, rebuilding already-valid product artifacts, or changing the separation between governance and source execution identities"
   ],
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
@@ -28,7 +31,8 @@
   "requiredEvidenceClasses": [
     "verification",
     "verification_receipt",
-    "policy"
+    "policy",
+    "diagnostic"
   ],
   "risk": "high",
   "scenarioCoverage": [
