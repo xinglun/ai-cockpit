@@ -52,11 +52,11 @@ on:
         required: false
         type: string
       source_work_item_id:
-        description: 'Source-verification Work Item identity when it differs from the release governance identity'
+        description: 'Required source-verification Work Item identity for publication and post-release acceptance when the source differs from release governance'
         required: false
         type: string
       source_contract_path:
-        description: 'Source-verification Contract path alternative to source_work_item_id'
+        description: 'Required source-verification Contract path alternative for publication and post-release acceptance'
         required: false
         type: string
 env:

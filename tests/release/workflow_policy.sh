@@ -114,6 +114,10 @@ grep -Fq 'source_work_item_id_mismatch' "$work_item_resolver" || {
   printf 'policy failure: source and governance identities must not be conflated\n' >&2
   exit 1
 }
+grep -Fq 'source_identity_required' "$work_item_resolver" || {
+  printf 'policy failure: publication and post-release acceptance must require an explicit source identity\n' >&2
+  exit 1
+}
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
 require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
 require_match '(cockpit-release -- bind-sbom|tools/\$\{\{ matrix\.helper_binary \}\} bind-sbom)' 'each target SBOM must be bound to its packaged archive and executable'

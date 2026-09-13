@@ -65,6 +65,10 @@ grep -Fq 'source_work_item_id_mismatch' "$resolver" || {
   printf 'release gate policy failure: mismatched source identity must fail closed\n' >&2
   exit 1
 }
+grep -Fq 'source_identity_required' "$resolver" || {
+  printf 'release gate policy failure: publication and post-release acceptance must require an explicit source identity\n' >&2
+  exit 1
+}
 require 'sourceBaseRevision' 'release route must bind the source-verification baseline'
 require 'sourceContractPath' 'release route must bind the source-verification Contract path'
 require 'release-governance-binding.json' 'release must retain the governance identity binding'

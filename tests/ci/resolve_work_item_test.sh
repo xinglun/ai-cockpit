@@ -31,6 +31,7 @@ set +e
   --to-tag v0.2.91 \
   --publish-existing-tag true \
   --work-item-id WI-NO-CONTRACT \
+  --source-work-item-id WI-SOURCE \
   --output "$empty_inventory_output" >/dev/null 2>&1
 empty_inventory_result=$?
 set -e
@@ -372,6 +373,7 @@ recovery_output="$fixture/recovery.json"
   --to-tag v0.2.91 \
   --publish-existing-tag true \
   --work-item-id WI-TEST \
+  --source-work-item-id WI-SOURCE \
   --release-source-revision "$base" \
   --output "$recovery_output"
 jq -e \
@@ -395,7 +397,7 @@ jq -e \
   --arg source_base "$head" "$dual_identity_output" >/dev/null
 
 default_source_output="$fixture/default-source.json"
-"$resolver" \
+if "$resolver" \
   --repo "$fixture/repo" \
   --event workflow_dispatch \
   --head "$head" \
@@ -404,10 +406,30 @@ default_source_output="$fixture/default-source.json"
   --publish-existing-tag true \
   --work-item-id WI-TEST \
   --release-source-revision "$base" \
-  --output "$default_source_output"
-jq -e \
-  '.sourceWorkItemId == .workItemId and .sourceContractPath == .contractPath and .sourceContractDigest == .contractDigest and .sourceBaseRevision == .baseRevision and .sourceSelectionMethod == "same_as_governance"' \
+  --output "$default_source_output" >/dev/null 2>&1; then
+  echo 'expected publication recovery without an explicit source identity to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "source_identity_required" and .state == "failed"' \
   "$default_source_output" >/dev/null
+
+post_release_missing_source_output="$fixture/post-release-missing-source.json"
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --post-release-acceptance true \
+  --reuse-run-id 34698637044 \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$post_release_missing_source_output" >/dev/null 2>&1; then
+  echo 'expected post-release acceptance without an explicit source identity to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "source_identity_required" and .state == "failed"' \
+  "$post_release_missing_source_output" >/dev/null
 
 if "$resolver" \
   --repo "$fixture/repo" \
@@ -460,6 +482,7 @@ standalone_output="$fixture/standalone-retry.json"
   --to-tag v0.2.91 \
   --publish-existing-tag true \
   --work-item-id WI-STANDALONE \
+  --source-work-item-id WI-SOURCE \
   --release-source-revision "$base" \
   --output "$standalone_output"
 jq -e \
@@ -484,6 +507,7 @@ if "$resolver" \
   --to-tag v0.2.91 \
   --publish-existing-tag true \
   --work-item-id WI-PARTIAL \
+  --source-work-item-id WI-SOURCE \
   --release-source-revision "$base" \
   --output "$fixture/partial-binding.json" >/dev/null 2>&1; then
   echo 'expected partial successor binding to fail' >&2
@@ -512,6 +536,7 @@ if "$resolver" \
   --to-tag v0.2.91 \
   --post-release-acceptance true \
   --work-item-id WI-TEST \
+  --source-work-item-id WI-SOURCE \
   --release-source-revision "$base" \
   --output "$fixture/missing-reuse-run.json" >/dev/null 2>&1; then
   echo 'expected post-release acceptance without a reusable run to fail' >&2
@@ -563,6 +588,7 @@ post_release_output="$fixture/post-release.json"
   --post-release-acceptance true \
   --reuse-run-id 34698637044 \
   --work-item-id WI-TEST \
+  --source-work-item-id WI-SOURCE \
   --release-source-revision "$base" \
   --output "$post_release_output"
 jq -e \
