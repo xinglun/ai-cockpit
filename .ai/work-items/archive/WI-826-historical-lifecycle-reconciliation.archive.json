@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T15:51:00Z",
+  "files": {
+    "contractDigest": "sha256:fff489a63f8843d536f044facbeca914518d3001a136e08a633d988618225108",
+    "contractPath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json",
+    "eventsDigest": "sha256:0e8482cb51606c9c02bb53b6baa35d0ba3c9628ba94fcfb52edf2e64209cb726",
+    "eventsPath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:cd3898ca9efe20cf701c54f06c274ecd601c16475ecb3ae21169f60109ff3ecd",
+    "outcomePath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.outcome.json",
+    "summaryDigest": "sha256:618b867029c37b1e1119c46071e0229742f41894be8271c08ed56dd57f68a1ca",
+    "summaryPath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.summary.json",
+    "taskReportDigest": "sha256:a030d521a9d09268ea242db1ae1771ad7ebde9e64770c8d5d4a1bafd8fa15955",
+    "taskReportMarkdownDigest": "sha256:6e935655ba4c392e2294430206a49dd2044b0787dced95ef363e3cec53f1c11f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-826-historical-lifecycle-reconciliation"
+}
