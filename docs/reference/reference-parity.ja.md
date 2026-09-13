@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-801-release-v0-2-91
+lastVerifiedBy: WI-828-release-v0-2-92
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.91`（binary digest
-`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`）を使用します。
+review 済み `ai-cockpit v0.2.92`（binary digest
+`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -888,3 +888,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-825 — WI-824 documentation promotion | Implemented | [Work Item](../work-items/WI-825-docs-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-825-docs-promotion.contract.json`; verification `.ai/evidence/WI-825-docs-promotion.verification.json`; close `.ai/decisions/WI-825-docs-promotion.close.json`. |
 | WI-826 — historical evidence archive compatibility | Implemented | [Work Item](../work-items/WI-826-historical-lifecycle-reconciliation.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json`; verification `.ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json`; close `.ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json`. |
 | WI-827 — WI-826 documentation promotion | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-827-wi826-docs-promotion.ja.md); archive `.ai/work-items/archive/WI-827-wi826-docs-promotion.contract.json`; verification `.ai/evidence/WI-827-wi826-docs-promotion.verification.json`; close `.ai/decisions/WI-827-wi826-docs-promotion.close.json`. |
+| WI-828 — governed v0.2.92 release | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-828-release-v0-2-92.ja.md); archive `.ai/work-items/archive/WI-828-release-v0-2-92.contract.json`; verification `.ai/evidence/WI-828-release-v0-2-92.verification.json`; finalization `.ai/decisions/WI-828-release-v0-2-92.finalize.json`; close `.ai/decisions/WI-828-release-v0-2-92.close.json`. |

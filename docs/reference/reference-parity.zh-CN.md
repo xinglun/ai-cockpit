@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-801-release-v0-2-91
+lastVerifiedBy: WI-828-release-v0-2-92
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.91` Runtime（二进制摘要
-`sha256:75a262eed94fa705530946b64fac93ce441a5b7eeeb2cdb36d0f409346a420fc`）。
+`ai-cockpit v0.2.92` Runtime（二进制摘要
+`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -862,3 +862,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-825——WI-824 文档 promotion | 已实现 | [Work Item](../work-items/WI-825-docs-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-825-docs-promotion.contract.json`; verification `.ai/evidence/WI-825-docs-promotion.verification.json`; close `.ai/decisions/WI-825-docs-promotion.close.json`. |
 | WI-826——历史 evidence 归档兼容性 | 已实现 | [Work Item](../work-items/WI-826-historical-lifecycle-reconciliation.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-826-historical-lifecycle-reconciliation.contract.json`; verification `.ai/evidence/WI-826-historical-lifecycle-reconciliation.verification.json`; close `.ai/decisions/WI-826-historical-lifecycle-reconciliation.close.json`. |
 | WI-827——WI-826 文档 promotion | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-827-wi826-docs-promotion.zh-CN.md); archive `.ai/work-items/archive/WI-827-wi826-docs-promotion.contract.json`; verification `.ai/evidence/WI-827-wi826-docs-promotion.verification.json`; close `.ai/decisions/WI-827-wi826-docs-promotion.close.json`. |
+| WI-828——受治理的 v0.2.92 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-828-release-v0-2-92.zh-CN.md); archive `.ai/work-items/archive/WI-828-release-v0-2-92.contract.json`; verification `.ai/evidence/WI-828-release-v0-2-92.verification.json`; finalization `.ai/decisions/WI-828-release-v0-2-92.finalize.json`; close `.ai/decisions/WI-828-release-v0-2-92.close.json`. |
