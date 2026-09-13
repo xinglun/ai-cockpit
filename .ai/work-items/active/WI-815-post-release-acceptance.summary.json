@@ -1,11 +1,7 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-815-post-release-acceptance.contract.json",
-    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json",
-    ".github/workflows/release.yml",
-    "tests/ci/release_gate_policy_test.sh",
-    "tests/release/workflow_policy.sh"
+    ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
   "checkpointContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
@@ -126,7 +122,7 @@
       "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
+  "checkpointRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
   "createdAt": "2026-09-12T19:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -139,10 +135,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-12T22:37:04Z",
+  "preflightAt": "2026-09-13T00:33:19Z",
   "preflightContractDigest": "sha256:0a4b8f433721df62711ec33b59b11f152619d384416ce5e74c4544d156ad68c0",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
+  "preflightRepositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
@@ -213,14 +209,13 @@
       "verificationPlan": "Add explicit persisted-run input validation and a recovery fixture that asserts stage reuse and identity mismatch fail closed."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-12T20:42:46Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T00:33:40Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:321dd6795e14240eff089acd67e6a01786267468357d210b847745affd26e014",
   "workItemId": "WI-815-post-release-acceptance"
 }

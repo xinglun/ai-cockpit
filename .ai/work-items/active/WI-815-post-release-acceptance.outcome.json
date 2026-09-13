@@ -9,8 +9,9 @@
     "Before any public Release asset download or acceptance, post-release recovery executes the selected helper against a local no-remote handoff fixture with distinct workflow and release commits, persists the compatibility result, and stops on protocol incompatibility.",
     "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release."
   ],
+  "createdAt": "2026-09-13T00:33:40Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:321dd6795e14240eff089acd67e6a01786267468357d210b847745affd26e014",
+  "evidenceDigest": "sha256:80c48632c51a781512d0ee65e445fc9c3c524fa07f7035efcfd11df8a40218ed",
   "evidenceRefs": [
     ".ai/evidence/WI-815-post-release-acceptance.verification.json"
   ],
@@ -28,15 +29,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-815-post-release-acceptance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:6f616b7ea31c65b67568aa018c4bb3f167266cb253dc317cbf5a12d3c3be0e59",
+      "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
       "workItemId": "WI-815-post-release-acceptance"
     },
     "format": "ai-cockpit.task-outcome",
@@ -57,35 +58,7 @@
             ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-815-post-release-acceptance.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
         }
       ],
       "evidence": [
@@ -115,7 +88,7 @@
             ".ai/evidence/WI-815-post-release-acceptance.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -160,8 +133,8 @@
     "status": "verified",
     "workItemId": "WI-815-post-release-acceptance"
   },
-  "taskReportDigest": "sha256:462188a42a2cb27f119a6a1e55169ba542b5a00286cd9c94a44a19604c597177",
-  "taskReportMarkdownDigest": "sha256:99ca64e8e7a5fcf73f9bd43c0cc569de722bd9635429fdc7b5a1d4500732bc16",
+  "taskReportDigest": "sha256:f7175e5a759d370a0d0ad641b3e9c76c3f53b62d2751e5c952aac624629d1852",
+  "taskReportMarkdownDigest": "sha256:46141b8cd820d7912d48d5de059bd0f32ac8a4758baca68a567d7ce9da2f0b9f",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
