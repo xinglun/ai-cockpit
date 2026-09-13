@@ -1,0 +1,200 @@
+{
+  "acceptanceResults": [
+    "The full declared workspace verification requirement remains enforced and is represented by one or more explicit Runtime verification nodes without silently dropping packages, targets, or test classes.",
+    "Every verification node has an identity-bound receipt containing command identity, repository snapshot, Runtime identity, exit status, bounded logs, elapsed time, and timeout state; a lost or unknown exit status cannot become a pass.",
+    "The execution boundary distinguishes per-node timeout from plan timeout, terminates descendants, leaves no test subprocess or lock leak, and records a structured failure when a node times out or is interrupted.",
+    "A successful bounded plan is accepted by the normal Work Item lifecycle as formal verification evidence and can proceed to finish without hand-written or imported substitute receipts.",
+    "Recovery reuses only complete, identity-matching node evidence; an interrupted or partial plan reruns only missing or invalid nodes and preserves prior evidence.",
+    "Focused regressions cover node splitting or aggregation, timeout and interruption, exit-code and log persistence, descendant cleanup, stale or foreign receipts, and CLI/MCP parity.",
+    "The documented command surface explains the supported long-running verification route without instructing Agents to bypass the Runtime."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+  ],
+  "failedGate": "finish.finalization",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de6be84c5617b6b43a012c3d1b9889c673808e4896931f14cbe20b5faa0d9415",
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    "failedGate": "finish.finalization",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Inspect the finalization plan and resource facts, then retry finish only under the Runtime rules.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-820-verification-execution-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/governance_controls.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/verification_service.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/tests/execution.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Replace the single-node verification bottleneck with an identity-bound fail-closed execution boundary that preserves the full workspace test requirement while allowing bounded nodes and reliable evidence capture."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-820-verification-execution-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-820-verification-execution-boundary"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-820-verification-execution-boundary"
+}

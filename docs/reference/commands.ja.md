@@ -95,6 +95,9 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `verify --command <program> --args <comma-separated>` は explicit command を常に fresh に実行します。
   `--work-item <id>` は receipt を記録しますが、検出された Cargo/npm command は dynamic な
   profile-authorized path を使い、explicit custom command は常に fresh です。
+- `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
+  Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
+  formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。
 - `--command` なしの `verify` は Cargo または npm を検出し、confirmed profile で cross-process reuse できます。
   現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
   identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。

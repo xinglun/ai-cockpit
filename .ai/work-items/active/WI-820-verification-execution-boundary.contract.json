@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "The full declared workspace verification requirement remains enforced and is represented by one or more explicit Runtime verification nodes without silently dropping packages, targets, or test classes.",
+    "Every verification node has an identity-bound receipt containing command identity, repository snapshot, Runtime identity, exit status, bounded logs, elapsed time, and timeout state; a lost or unknown exit status cannot become a pass.",
+    "The execution boundary distinguishes per-node timeout from plan timeout, terminates descendants, leaves no test subprocess or lock leak, and records a structured failure when a node times out or is interrupted.",
+    "A successful bounded plan is accepted by the normal Work Item lifecycle as formal verification evidence and can proceed to finish without hand-written or imported substitute receipts.",
+    "Recovery reuses only complete, identity-matching node evidence; an interrupted or partial plan reruns only missing or invalid nodes and preserves prior evidence.",
+    "Focused regressions cover node splitting or aggregation, timeout and interruption, exit-code and log persistence, descendant cleanup, stale or foreign receipts, and CLI/MCP parity.",
+    "The documented command surface explains the supported long-running verification route without instructing Agents to bypass the Runtime."
+  ],
+  "authority": "authorized",
+  "baseRevision": "437ca6c4c101418183452ee08636ea2f6c9b41f1",
+  "createdAt": "2026-09-13T04:36:04Z",
+  "goal": "Replace the single-node verification bottleneck with an identity-bound fail-closed execution boundary that preserves the full workspace test requirement while allowing bounded nodes and reliable evidence capture.",
+  "intent": "Make long-running repository verification complete through the Runtime without losing exit status, logs, child-process cleanup, or formal verification receipt.",
+  "mode": "code",
+  "outOfScope": [
+    "WI-819 documentation-gate fixes and its Contract",
+    "published v0.2.91 Release and assets",
+    "weakening or lowering workspace test requirements",
+    "arbitrary external evidence as a substitute for local verification",
+    "global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0124183f0f333673a5dd0e8da85a6fb0c528a95060e3e642496636436d82c820",
+  "requiredEvidenceClasses": [
+    "full workspace coverage manifest and deterministic node plan",
+    "successful formal verification receipt bound to WI-820",
+    "timeout and interruption regression receipts with no leaked descendants",
+    "focused and workspace test results",
+    "before/after elapsed time and process-count measurements"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/wi-820-verification-execution-boundary",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-820-verification-execution-boundary"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "expected": "The declared cargo test --locked --workspace requirement is represented by a deterministic set of Runtime nodes with no package, target, or test-class omission.",
+      "required": true,
+      "scenario": "full_workspace_node_partition",
+      "status": "unverified",
+      "verificationPlan": "Compare the node manifest and aggregate command coverage with Cargo workspace metadata and run the bounded plan in the same repository snapshot."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/src/lib.rs",
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "expected": "A node timeout or interruption records a structured failure, preserves bounded output, terminates descendants, and leaves no test process or lock behind.",
+      "required": true,
+      "scenario": "verification_node_timeout_cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the controlled timeout and descendant fixtures, inspect the receipt fields, and check process and lock state after termination."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "A successful bounded verification plan is recorded as current identity-bound Work Item verification evidence; unknown exit status or direct cargo output cannot pass as a receipt.",
+      "required": true,
+      "scenario": "formal_verification_receipt",
+      "status": "unverified",
+      "verificationPlan": "Exercise the CLI lifecycle with a successful bounded plan, a failed command, and an unavailable exit status, then validate the persisted receipt bindings."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "expected": "An interrupted plan reruns only missing or stale nodes and reuses complete identity-matching node evidence without rewriting prior evidence.",
+      "required": true,
+      "scenario": "partial_plan_recovery",
+      "status": "unverified",
+      "verificationPlan": "Provide a mixed receipt store containing fresh, stale, foreign, and missing node results and assert the planned execution and persisted recovery evidence."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-verification/tests/execution.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-repository/src/governance_controls.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-820-verification-execution-boundary"
+}

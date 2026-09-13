@@ -404,6 +404,95 @@ pub struct VerificationResult {
     pub satisfied_by: PlannedSatisfaction,
 }
 
+/// A bounded attempt record is the durable execution boundary between an OS
+/// process and a Runtime verification receipt.  The output bytes are kept in
+/// bounded hexadecimal form so non-UTF8 diagnostics remain recoverable while
+/// the output digest continues to bind the complete captured identity.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationExecutionRecord {
+    pub node_id: String,
+    pub command_digest: String,
+    pub spawned: bool,
+    pub passed: bool,
+    pub exit_code: Option<i32>,
+    #[serde(rename = "stdout")]
+    pub stdout_hex: String,
+    #[serde(rename = "stderr")]
+    pub stderr_hex: String,
+    pub stdout_truncated: bool,
+    pub stderr_truncated: bool,
+    pub timed_out: bool,
+    pub elapsed_ms: u128,
+}
+
+pub const VERIFICATION_COVERAGE_MANIFEST_SCHEMA_VERSION: u32 = 1;
+
+/// Identity-bound coverage facts for a partitioned project verification.  A
+/// package node is only meaningful together with the exact source command and
+/// metadata digest used to derive the partition.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct VerificationCoverageManifest {
+    pub schema_version: u32,
+    pub source_program: String,
+    pub source_args: Vec<String>,
+    pub planning_program: String,
+    pub planning_args: Vec<String>,
+    pub planning_processes_spawned: usize,
+    pub metadata_digest: String,
+    pub workspace_members: Vec<String>,
+    pub node_ids: Vec<String>,
+    pub command_digests: Vec<String>,
+}
+
+impl VerificationCoverageManifest {
+    pub fn validate(&self) -> Result<(), String> {
+        if self.schema_version != VERIFICATION_COVERAGE_MANIFEST_SCHEMA_VERSION {
+            return Err(format!(
+                "unsupported verification coverage manifest schema {}",
+                self.schema_version
+            ));
+        }
+        if self.source_program.trim().is_empty()
+            || self.planning_program.trim().is_empty()
+            || self.planning_processes_spawned != 1
+            || !is_sha256_digest(&self.metadata_digest)
+            || self.workspace_members.is_empty()
+            || self.workspace_members.len() != self.node_ids.len()
+            || self.workspace_members.len() != self.command_digests.len()
+        {
+            return Err("verification coverage manifest identity or cardinality is invalid".into());
+        }
+        if self
+            .workspace_members
+            .windows(2)
+            .any(|pair| pair[0] >= pair[1])
+            || self.node_ids.windows(2).any(|pair| pair[0] >= pair[1])
+            || self
+                .workspace_members
+                .iter()
+                .any(|member| member.trim().is_empty())
+            || self.node_ids.iter().any(|node| node.trim().is_empty())
+        {
+            return Err("verification coverage manifest members must be sorted and unique".into());
+        }
+        if self
+            .workspace_members
+            .iter()
+            .zip(&self.node_ids)
+            .any(|(member, node)| !node.ends_with(&format!("-package-{member}")))
+            || self
+                .command_digests
+                .iter()
+                .any(|digest| !is_sha256_digest(digest))
+        {
+            return Err("verification coverage manifest node/member mapping is invalid".into());
+        }
+        Ok(())
+    }
+}
+
 impl VerificationNode {
     pub fn new(id: &str, kind: VerificationNodeKind, dependencies: Vec<String>) -> Self {
         Self {
@@ -912,6 +1001,12 @@ pub struct VerificationReceipt {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub runtime_digest: Option<String>,
     pub results: Vec<VerificationResult>,
+    /// One record for every process the bounded scheduler actually spawned.
+    /// Historical receipts may omit this field; current formal verification
+    /// emits it so exit status, logs, and timing cannot be lost between the
+    /// child process and lifecycle evidence.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub execution_records: Vec<VerificationExecutionRecord>,
     pub receipt_candidates: Vec<ReusableReceipt>,
     pub nodes_planned: usize,
     pub nodes_executed: usize,
@@ -1133,6 +1228,8 @@ pub struct VerificationPlanReceipt {
     pub planning_elapsed_ms: u128,
     pub execution_elapsed_ms: u128,
     pub saved_executions: usize,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub coverage_manifest: Option<VerificationCoverageManifest>,
 }
 
 impl VerificationPlanReceipt {
@@ -1170,6 +1267,7 @@ impl VerificationPlanReceipt {
             planning_elapsed_ms: 0,
             execution_elapsed_ms: 0,
             saved_executions: 0,
+            coverage_manifest: None,
         })
     }
 
@@ -1967,10 +2065,26 @@ fn execute_verification_plan_bounded_with_budget_at(
         started.elapsed().as_millis()
     };
     let mut results = Vec::with_capacity(result_plan.len());
+    let mut execution_records = Vec::new();
     let mut receipt_candidates = Vec::new();
     for entry in result_plan {
         let reused = entry.action == PlannedAction::Reuse;
         let outcome = metrics.outcomes.get(&entry.command.id);
+        if !reused && let Some(outcome) = outcome {
+            execution_records.push(VerificationExecutionRecord {
+                node_id: entry.command.id.clone(),
+                command_digest: entry.command.command_digest(),
+                spawned: outcome.spawned,
+                passed: outcome.passed,
+                exit_code: outcome.exit_code,
+                stdout_hex: encode_hex(&outcome.stdout),
+                stderr_hex: encode_hex(&outcome.stderr),
+                stdout_truncated: outcome.stdout_truncated,
+                stderr_truncated: outcome.stderr_truncated,
+                timed_out: outcome.timed_out,
+                elapsed_ms: outcome.elapsed_ms,
+            });
+        }
         let mut receipt_id = reused.then_some(entry.receipt_id).flatten();
         if !reused
             && entry.command.reuse_policy == VerificationReusePolicy::Reusable
@@ -2009,12 +2123,14 @@ fn execute_verification_plan_bounded_with_budget_at(
             satisfied_by: entry.satisfied_by,
         });
     }
+    execution_records.sort_by(|left, right| left.node_id.cmp(&right.node_id));
     Ok(VerificationReceipt {
         work_item_id: None,
         repository_id: None,
         runtime_version: None,
         runtime_digest: None,
         results,
+        execution_records,
         receipt_candidates,
         nodes_planned: planned_count,
         nodes_executed: metrics.nodes_executed,
@@ -2094,13 +2210,29 @@ fn classify_command(
     )
 }
 
+fn encode_hex(bytes: &[u8]) -> String {
+    const HEX: &[u8; 16] = b"0123456789abcdef";
+    let mut encoded = String::with_capacity(bytes.len().saturating_mul(2));
+    for byte in bytes {
+        encoded.push(HEX[(byte >> 4) as usize] as char);
+        encoded.push(HEX[(byte & 0x0f) as usize] as char);
+    }
+    encoded
+}
+
 #[derive(Clone, Debug)]
 struct ExecutionOutcome {
     spawned: bool,
     passed: bool,
+    exit_code: Option<i32>,
+    stdout: Vec<u8>,
+    stderr: Vec<u8>,
+    stdout_truncated: bool,
+    stderr_truncated: bool,
     output_digest: Option<String>,
     output_truncated: bool,
     timed_out: bool,
+    elapsed_ms: u128,
 }
 
 #[derive(Serialize)]
@@ -2128,6 +2260,7 @@ struct CaptureWorker {
 }
 
 fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
+    let started = Instant::now();
     let mut process = Command::new(&command.program);
     process
         .args(&command.args)
@@ -2157,9 +2290,15 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             return ExecutionOutcome {
                 spawned: false,
                 passed: false,
+                exit_code: None,
+                stdout: Vec::new(),
+                stderr: Vec::new(),
+                stdout_truncated: false,
+                stderr_truncated: false,
                 output_digest: None,
                 output_truncated: false,
                 timed_out: false,
+                elapsed_ms: started.elapsed().as_millis(),
             };
         }
     };
@@ -2173,9 +2312,15 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             return ExecutionOutcome {
                 spawned: true,
                 passed: false,
+                exit_code: None,
+                stdout: Vec::new(),
+                stderr: Vec::new(),
+                stdout_truncated: false,
+                stderr_truncated: false,
                 output_digest: None,
                 output_truncated: false,
                 timed_out: false,
+                elapsed_ms: started.elapsed().as_millis(),
             };
         }
     };
@@ -2187,9 +2332,15 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         return ExecutionOutcome {
             spawned: true,
             passed: false,
+            exit_code: None,
+            stdout: Vec::new(),
+            stderr: Vec::new(),
+            stdout_truncated: false,
+            stderr_truncated: false,
             output_digest: None,
             output_truncated: false,
             timed_out: false,
+            elapsed_ms: started.elapsed().as_millis(),
         };
     }
     let stdout = child.stdout.take();
@@ -2223,18 +2374,30 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         return ExecutionOutcome {
             spawned: true,
             passed: false,
+            exit_code: None,
+            stdout: stdout.bytes,
+            stderr: stderr.bytes,
+            stdout_truncated: stdout.truncated,
+            stderr_truncated: stderr.truncated,
             output_digest: None,
             output_truncated: stdout.truncated || stderr.truncated,
             timed_out,
+            elapsed_ms: started.elapsed().as_millis(),
         };
     };
     if stdout.failed || stderr.failed {
         return ExecutionOutcome {
             spawned: true,
             passed: false,
+            exit_code: status.code(),
+            stdout: stdout.bytes,
+            stderr: stderr.bytes,
+            stdout_truncated: stdout.truncated,
+            stderr_truncated: stderr.truncated,
             output_digest: None,
             output_truncated: stdout.truncated || stderr.truncated,
             timed_out,
+            elapsed_ms: started.elapsed().as_millis(),
         };
     }
     let identity = OutputIdentity {
@@ -2252,9 +2415,15 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     ExecutionOutcome {
         spawned: true,
         passed: status.success() && !timed_out,
+        exit_code: status.code(),
+        stdout: stdout.bytes,
+        stderr: stderr.bytes,
+        stdout_truncated: stdout.truncated,
+        stderr_truncated: stderr.truncated,
         output_digest,
         output_truncated: stdout.truncated || stderr.truncated,
         timed_out,
+        elapsed_ms: started.elapsed().as_millis(),
     }
 }
 
@@ -2734,9 +2903,15 @@ mod tests {
             ExecutionOutcome {
                 spawned: true,
                 passed: false,
+                exit_code: None,
+                stdout: Vec::new(),
+                stderr: Vec::new(),
+                stdout_truncated: false,
+                stderr_truncated: false,
                 output_digest: None,
                 output_truncated: false,
                 timed_out: false,
+                elapsed_ms: 0,
             },
         );
 

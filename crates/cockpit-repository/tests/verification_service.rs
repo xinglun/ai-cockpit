@@ -1,5 +1,6 @@
 use cockpit_repository::{
-    RepositoryVerificationPolicy, RepositoryVerificationRequest, run_repository_verification,
+    RepositoryVerificationPolicy, RepositoryVerificationRequest, plan_repository_verification,
+    run_repository_verification,
 };
 use cockpit_verification::ProtectedGateClass;
 use std::{
@@ -71,6 +72,39 @@ fn request(
         workers: 1,
         policy,
     }
+}
+
+#[test]
+fn cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_manifest() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .and_then(Path::parent)
+        .expect("workspace root")
+        .to_path_buf();
+    let request = request(
+        "cargo",
+        vec!["test".into(), "--locked".into(), "--workspace".into()],
+        RepositoryVerificationPolicy::NeverReuse,
+    );
+
+    let plan = plan_repository_verification(&root, &request).expect("workspace plan");
+
+    let manifest = plan.coverage_manifest.expect("coverage manifest");
+    assert_eq!(manifest.source_args, request.args);
+    assert_eq!(manifest.workspace_members.len(), plan.requests.len());
+    assert_eq!(
+        manifest.workspace_members,
+        plan.requests
+            .iter()
+            .map(|request| request
+                .args
+                .windows(2)
+                .find(|window| window[0] == "--package")
+                .expect("package argument")[1]
+                .clone())
+            .collect::<Vec<_>>()
+    );
+    assert!(manifest.validate().is_ok());
 }
 
 #[cfg(unix)]

@@ -105,6 +105,32 @@ fn bounded_execution_reports_plan_and_process_telemetry() {
 }
 
 #[test]
+fn execution_receipt_preserves_command_identity_exit_status_and_bounded_logs() {
+    let command = always_command(
+        "diagnostic",
+        "python3",
+        vec![
+            "-c".into(),
+            "import sys; print('stdout diagnostic'); print('stderr diagnostic', file=sys.stderr); getattr(sys, 'exit')(7)".into(),
+        ],
+    );
+    let expected_digest = command.command_digest();
+
+    let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute diagnostic");
+
+    assert!(!receipt.passed);
+    assert_eq!(receipt.execution_records.len(), 1);
+    let record = &receipt.execution_records[0];
+    assert_eq!(record.node_id, "diagnostic");
+    assert_eq!(record.command_digest, expected_digest);
+    assert_eq!(record.exit_code, Some(7));
+    assert!(!record.timed_out);
+    assert!(!record.stdout_hex.is_empty());
+    assert!(!record.stderr_hex.is_empty());
+    assert!(record.elapsed_ms < 5_000);
+}
+
+#[test]
 fn resource_budget_rejects_zero_and_overweight_commands_fail_closed() {
     let zero = always_command("zero", "true", vec![]).with_resource_weight(0);
     assert!(matches!(

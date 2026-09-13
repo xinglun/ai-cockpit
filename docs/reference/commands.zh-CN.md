@@ -89,6 +89,9 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
   记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
+- `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
+  metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
+  成员、metadata digest、退出状态、有界日志和耗时。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
   repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
   identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。

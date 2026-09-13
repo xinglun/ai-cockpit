@@ -205,6 +205,187 @@ pub struct RepositoryVerificationRun {
     pub final_snapshot: RepositorySnapshot,
 }
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct RepositoryVerificationPlan {
+    pub requests: Vec<RepositoryVerificationRequest>,
+    pub coverage_manifest: Option<cockpit_verification::VerificationCoverageManifest>,
+}
+
+/// Partition the canonical Cargo workspace route into deterministic package
+/// nodes.  Cargo metadata is queried once for planning; the resulting bytes
+/// are hashed and carried in the formal plan receipt so a recovery run cannot
+/// silently reuse a plan derived from a different workspace.
+pub fn plan_repository_verification(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> Result<RepositoryVerificationPlan, ObserverError> {
+    let is_workspace_route = request.program == "cargo"
+        && root.join("Cargo.toml").is_file()
+        && request.args.iter().any(|arg| arg == "--workspace")
+        && !request.args.iter().any(|arg| arg == "--package");
+    if !is_workspace_route {
+        return Ok(RepositoryVerificationPlan {
+            requests: vec![request.clone()],
+            coverage_manifest: None,
+        });
+    }
+
+    let mut metadata_command = Command::new("cargo");
+    metadata_command
+        .args(["metadata", "--no-deps", "--format-version", "1"])
+        .current_dir(root)
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    if root.join("Cargo.lock").is_file() {
+        metadata_command.arg("--locked");
+    }
+    let metadata_output = metadata_command
+        .output()
+        .map_err(|error| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: format!("cargo metadata could not start: {error}"),
+        })?;
+    if !metadata_output.status.success() {
+        return Err(ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: format!(
+                "cargo metadata failed with exit code {:?}: {}",
+                metadata_output.status.code(),
+                bounded_diagnostic(&metadata_output.stderr)
+            ),
+        });
+    }
+    let metadata: serde_json::Value =
+        serde_json::from_slice(&metadata_output.stdout).map_err(|error| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: format!("cargo metadata returned invalid JSON: {error}"),
+        })?;
+    let workspace_member_ids = metadata
+        .get("workspace_members")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: "cargo metadata omitted workspace_members".into(),
+        })?
+        .iter()
+        .map(|value| value.as_str().map(str::to_owned))
+        .collect::<Option<BTreeSet<_>>>()
+        .ok_or_else(|| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: "cargo metadata workspace_members contained a non-string id".into(),
+        })?;
+    let mut workspace_members = metadata
+        .get("packages")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: "cargo metadata omitted packages".into(),
+        })?
+        .iter()
+        .filter_map(|package| {
+            let id = package.get("id")?.as_str()?;
+            if !workspace_member_ids.contains(id) {
+                return None;
+            }
+            package.get("name")?.as_str().map(str::to_owned)
+        })
+        .collect::<Vec<_>>();
+    workspace_members.sort();
+    workspace_members.dedup();
+    if workspace_members.is_empty() {
+        return Err(ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message: "cargo workspace has no package members to verify".into(),
+        });
+    }
+
+    let mut requests = Vec::with_capacity(workspace_members.len());
+    let mut node_ids = Vec::with_capacity(workspace_members.len());
+    for member in &workspace_members {
+        let mut args = Vec::with_capacity(request.args.len() + 2);
+        let mut replaced_workspace = false;
+        for arg in &request.args {
+            if arg == "--workspace" {
+                if !replaced_workspace {
+                    args.push("--package".into());
+                    args.push(member.clone());
+                    replaced_workspace = true;
+                }
+            } else {
+                args.push(arg.clone());
+            }
+        }
+        if !replaced_workspace {
+            return Err(ObserverError::State {
+                path: root.join("Cargo.toml"),
+                message: "workspace verification route lost its --workspace selector".into(),
+            });
+        }
+        let node_id = format!("{}-package-{member}", request.node_id);
+        node_ids.push(node_id.clone());
+        requests.push(RepositoryVerificationRequest {
+            node_id,
+            args,
+            ..request.clone()
+        });
+    }
+    let planning_args = if root.join("Cargo.lock").is_file() {
+        vec![
+            "metadata".into(),
+            "--no-deps".into(),
+            "--format-version".into(),
+            "1".into(),
+            "--locked".into(),
+        ]
+    } else {
+        vec![
+            "metadata".into(),
+            "--no-deps".into(),
+            "--format-version".into(),
+            "1".into(),
+        ]
+    };
+    let coverage_manifest = cockpit_verification::VerificationCoverageManifest {
+        schema_version: cockpit_verification::VERIFICATION_COVERAGE_MANIFEST_SCHEMA_VERSION,
+        source_program: request.program.clone(),
+        source_args: request.args.clone(),
+        planning_program: "cargo".into(),
+        planning_args,
+        planning_processes_spawned: 1,
+        metadata_digest: Digest::sha256_bytes(&metadata_output.stdout).to_string(),
+        workspace_members,
+        node_ids,
+        command_digests: requests
+            .iter()
+            .map(|request| {
+                cockpit_verification::VerificationCommand::new(
+                    &request.node_id,
+                    &request.program,
+                    request.args.clone(),
+                    cockpit_verification::VerificationReusePolicy::NeverReuse,
+                )
+                .with_current_dir(root)
+                .command_digest()
+            })
+            .collect(),
+    };
+    coverage_manifest
+        .validate()
+        .map_err(|message| ObserverError::State {
+            path: root.join("Cargo.toml"),
+            message,
+        })?;
+    Ok(RepositoryVerificationPlan {
+        requests,
+        coverage_manifest: Some(coverage_manifest),
+    })
+}
+
+fn bounded_diagnostic(bytes: &[u8]) -> String {
+    const MAX_DIAGNOSTIC_BYTES: usize = 4096;
+    String::from_utf8_lossy(&bytes[..bytes.len().min(MAX_DIAGNOSTIC_BYTES)]).into_owned()
+}
+
 /// The request-scoped route selected for a Work Item.  Policy is optional for
 /// protocol-v1/no-policy repositories; when present, the requirement and its
 /// traceability facts are carried into the execution receipt.
@@ -3496,7 +3677,17 @@ pub fn require_verification_preconditions(
         &summary,
         runtime,
     );
-    if controls.state == "blocked" {
+    // Required high-risk scenarios are allowed to remain unverified at the
+    // execution boundary when their expected result and verification plan
+    // are already declared. The same scenarios remain blocking for finish
+    // and close until the formal receipt promotes them to verified evidence.
+    let planned_scenarios_are_ready = controls
+        .findings
+        .iter()
+        .all(|finding| finding.code == "required_scenario_unverified")
+        && !controls.findings.is_empty()
+        && scenario_coverage_preflight_unknowns(&contract_value).is_empty();
+    if controls.state == "blocked" && !planned_scenarios_are_ready {
         return Err(ObserverError::State {
             path: contract_path,
             message: format!(
@@ -4654,6 +4845,7 @@ fn verification_evidence_state(
                 || typed.runtime_version.as_deref() != Some(envelope.runtime_version.as_str())
                 || typed.runtime_digest.as_deref()
                     != Some(envelope.runtime_digest.to_string().as_str())
+                || !validate_execution_boundary_receipt(&typed)
             {
                 return Ok(EvidenceState::Contradictory);
             }
@@ -4864,6 +5056,64 @@ fn validate_plan_receipt_binding(
         return Ok(false);
     }
     Ok(true)
+}
+
+/// A partitioned verification receipt is accepted only when every planned
+/// node is represented and every executed node has a durable attempt record.
+/// This keeps a successful direct Cargo invocation from being mistaken for a
+/// Runtime receipt when the executor lost its exit status or diagnostics.
+fn validate_execution_boundary_receipt(
+    receipt: &cockpit_verification::VerificationReceipt,
+) -> bool {
+    let Some(plan) = receipt.plan_receipt.as_ref() else {
+        return true;
+    };
+    let Some(manifest) = plan.coverage_manifest.as_ref() else {
+        return true;
+    };
+    if manifest.validate().is_err() {
+        return false;
+    }
+    let result_ids = receipt
+        .results
+        .iter()
+        .map(|result| result.node_id.clone())
+        .collect::<BTreeSet<_>>();
+    if result_ids.len() != receipt.results.len()
+        || result_ids.iter().cloned().collect::<Vec<_>>() != manifest.node_ids
+    {
+        return false;
+    }
+    let mut record_ids = BTreeSet::new();
+    let expected_digests = manifest
+        .node_ids
+        .iter()
+        .zip(&manifest.command_digests)
+        .map(|(node, digest)| (node.as_str(), digest.as_str()))
+        .collect::<BTreeMap<_, _>>();
+    for record in &receipt.execution_records {
+        if !record_ids.insert(record.node_id.clone())
+            || record.command_digest.parse::<Digest>().is_err()
+            || expected_digests.get(record.node_id.as_str()).copied()
+                != Some(record.command_digest.as_str())
+            || !record.spawned
+            || !record.passed
+            || record.timed_out
+            || record.stdout_truncated
+            || record.stderr_truncated
+        {
+            return false;
+        }
+    }
+    let expected_record_ids = receipt
+        .results
+        .iter()
+        .filter(|result| !result.reused)
+        .map(|result| result.node_id.clone())
+        .collect::<BTreeSet<_>>();
+    record_ids == expected_record_ids
+        && receipt.results.iter().all(|result| result.passed)
+        && receipt.nodes_planned == manifest.node_ids.len()
 }
 
 fn effective_policy_requirement_for_contract(

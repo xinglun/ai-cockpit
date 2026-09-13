@@ -196,6 +196,10 @@ enum CommandKind {
         workers: usize,
         #[arg(long, default_value = "task")]
         stage: String,
+        /// Resolve the route and emit its deterministic verification plan
+        /// without spawning project verification commands.
+        #[arg(long)]
+        plan_only: bool,
         /// Required for pr/merge/release when no Work Item Contract supplies
         /// the immutable base revision.
         #[arg(long)]
@@ -1272,6 +1276,7 @@ fn run() -> Result<()> {
             args,
             workers,
             stage,
+            plan_only,
             base_revision,
         } => {
             require_compatible(&repo, &runtime_context)?;
@@ -1324,10 +1329,12 @@ fn run() -> Result<()> {
             let (programs, command_args) = if explicit {
                 (command, args)
             } else if root.join("Cargo.toml").is_file() {
-                (
-                    vec!["cargo".into()],
-                    vec!["test".into(), "--workspace".into()],
-                )
+                let mut detected_args = vec!["test".into()];
+                if root.join("Cargo.lock").is_file() {
+                    detected_args.push("--locked".into());
+                }
+                detected_args.push("--workspace".into());
+                (vec!["cargo".into()], detected_args)
             } else if root.join("package.json").is_file() {
                 (vec!["npm".into()], vec!["test".into()])
             } else {
@@ -1362,6 +1369,26 @@ fn run() -> Result<()> {
                     },
                 })
                 .collect::<Vec<_>>();
+            let (requests, coverage_manifest) = if !explicit && requests.len() == 1 {
+                let plan = cockpit_repository::plan_repository_verification(&root, &requests[0])
+                    .context("plan repository verification coverage")?;
+                (plan.requests, plan.coverage_manifest)
+            } else {
+                (requests, None)
+            };
+            if plan_only {
+                let plan = json!({
+                    "coverageManifest": coverage_manifest,
+                    "requests": requests.iter().map(|request| json!({
+                        "nodeId": request.node_id,
+                        "program": request.program,
+                        "args": request.args,
+                        "dependencies": [],
+                    })).collect::<Vec<_>>(),
+                });
+                println!("{}", serde_json::to_string_pretty(&plan)?);
+                return Ok(());
+            }
             let requires_aggregate_snapshot = requests.len() > 1;
             let service_started = std::time::Instant::now();
             let mut runs = Vec::with_capacity(requests.len());
@@ -1469,6 +1496,7 @@ fn run() -> Result<()> {
                     plan_receipt.policy_refs = plan.requirement.policy_refs.clone();
                 }
             }
+            plan_receipt.coverage_manifest = coverage_manifest;
             plan_receipt.executed_nodes = run
                 .receipt
                 .results
@@ -2368,6 +2396,10 @@ fn merge_verification_runs(
         merged.receipt.results.append(&mut run.receipt.results);
         merged
             .receipt
+            .execution_records
+            .append(&mut run.receipt.execution_records);
+        merged
+            .receipt
             .receipt_candidates
             .append(&mut run.receipt.receipt_candidates);
         merged.receipt.nodes_planned += run.receipt.nodes_planned;
@@ -2400,6 +2432,10 @@ fn merge_verification_runs(
     merged
         .receipt
         .results
+        .sort_by(|left, right| left.node_id.cmp(&right.node_id));
+    merged
+        .receipt
+        .execution_records
         .sort_by(|left, right| left.node_id.cmp(&right.node_id));
     Some(merged)
 }

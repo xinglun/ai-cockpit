@@ -132,6 +132,11 @@ review when the returned state is yellow, red, unknown, or not ready.
   and is always fresh. `--work-item <id>` records the receipt for that Work Item;
   its detected Cargo/npm command uses the dynamic profile-authorized path, while
   an explicit custom command remains fresh.
+- `verify --plan-only` resolves the route and emits the deterministic plan without
+  spawning project verification commands. For a Cargo workspace, the plan runs
+  one metadata query and partitions `cargo test --locked --workspace` into
+  identity-bound package nodes; the formal receipt retains the source command,
+  workspace members, metadata digest, exit status, bounded logs, and elapsed time.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
   profile for cross-process reuse. Reuse is admitted only when the current
   repository, snapshot, profile, runtime, command, scope, stage, runner, base,

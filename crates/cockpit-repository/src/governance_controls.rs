@@ -1298,11 +1298,23 @@ pub fn record_work_item_governance_controls(
         let contract = crate::read_contract(&contract_path)?;
         let mut errors = Vec::new();
         if object.contains_key("scenarioCoverage") {
+            // A high-risk scenario may be deliberately unverified while the
+            // implementation is still awaiting the formal verification run.
+            // Preflight has already required a concrete expected result and
+            // verification plan; the finish/close gates continue to require
+            // verified evidence. Do not force an agent to claim evidence
+            // before the command that produces it has run.
+            let planned_scenarios_are_ready =
+                scenario_coverage_preflight_unknowns(&contract_value).is_empty();
             errors.extend(
                 validate_scenario_coverage_values(&contract_value, &summary)
                     .2
                     .into_iter()
-                    .filter(|finding| finding.severity == "error")
+                    .filter(|finding| {
+                        finding.severity == "error"
+                            && !(planned_scenarios_are_ready
+                                && finding.code == "required_scenario_unverified")
+                    })
                     .map(|finding| finding.code),
             );
         }
