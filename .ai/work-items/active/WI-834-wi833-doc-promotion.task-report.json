@@ -18,7 +18,14 @@
           ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.authority-amend-input.json"
+        "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.finalize-context.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.json"
       },
       {
         "evidenceRefs": [
@@ -26,13 +33,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.8ebcb853d288befb7c7effd3dfe07beb960dabefb81058b54f318cec31125b1e.json"
       },
       {
         "evidenceRefs": [
@@ -47,48 +47,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-833-release-script-provenance.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-833-release-script-provenance.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-833-release-script-provenance.zh-CN.md"
       }
     ],
     "evidence": [

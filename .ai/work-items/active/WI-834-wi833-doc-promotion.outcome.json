@@ -4,9 +4,9 @@
     "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi834-doc-promotion --check-all passes.",
     "No historical receipt, archive, or release artifact is modified."
   ],
-  "createdAt": "2026-09-13T20:22:56Z",
+  "createdAt": "2026-09-13T20:42:41Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:c3f4c29aee4429c9bcb5a650496b3f31d484f01928160f7f090a5a0605fde075",
+  "evidenceDigest": "sha256:bb4a763faedadca9fac3e9f49c85318f48b0da6ce674d9018e09cf58729b86e2",
   "evidenceRefs": [
     ".ai/evidence/WI-834-wi833-doc-promotion.verification.json"
   ],
@@ -46,7 +46,14 @@
             ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.authority-amend-input.json"
+          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.json"
         },
         {
           "evidenceRefs": [
@@ -54,13 +61,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.8ebcb853d288befb7c7effd3dfe07beb960dabefb81058b54f318cec31125b1e.json"
         },
         {
           "evidenceRefs": [
@@ -75,48 +75,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.zh-CN.md"
         }
       ],
       "evidence": [
@@ -191,8 +149,8 @@
     "status": "verified",
     "workItemId": "WI-834-wi833-doc-promotion"
   },
-  "taskReportDigest": "sha256:cc282f58c7e336251105d762003fa595ab0dbfdb44da45d841516b2ec883d852",
-  "taskReportMarkdownDigest": "sha256:170bb9ce8800b3ddf66daa7ee594e6643381361049c39ab246bbe61c56ccfa8b",
+  "taskReportDigest": "sha256:e9f31cc8af5d476c1209dd231a3af6f03f678b43fa0b183505b3a1ad6e09f028",
+  "taskReportMarkdownDigest": "sha256:9a6888e22a6ac7e802ab1942aa930e506532433db8be2d7497216c0467081065",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
