@@ -140,11 +140,11 @@
     "unknowns": []
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-13T21:36:26Z",
-  "preflightContractDigest": "sha256:51fd47bdb67320b12c81e46ef77a5b9ec6b4cb760799b860bd2047783ed7adad",
+  "preflightAt": "2026-09-13T23:12:38Z",
+  "preflightContractDigest": "sha256:0e88d9365015534655cd8f8097e128b94d601c1df05fb19586ddea4131302052",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:f3fd74afb90962b05dbb1028b4b035fb1287af89dce6d551925af543c0351e9c",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:899e40e4d3e18c6127e53a58fb4c76ed21756484a8c68712abe28eeac7429e56",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
