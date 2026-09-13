@@ -1,0 +1,89 @@
+{
+  "acceptanceCriteria": [
+    "A closed Contract with resourceContext absent or null validates and promotes without a fabricated finalization receipt.",
+    "A resource-bound closed Contract without a valid finalization chain still fails closed with structured evidence diagnostics.",
+    "WI-819 immutable bytes remain unchanged; its generated close receipt is integrated as-is and its multilingual projections become current.",
+    "Normal close, no-resource promotion, resource-bound rejection, and no-write check behavior are covered by focused regression tests.",
+    "WI-821 own multilingual pages and parity rows pass the post-close promotion check after close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5b1cb3f6b74f68e985608ac74a3fe36f76eb3d94",
+  "createdAt": "2026-09-13T07:10:44Z",
+  "goal": "Eliminate the no-resource finalization false failure without weakening resource-bound evidence, rewriting WI-819 history, or causing a repeat of the full release workflow.",
+  "intent": "Make post-close documentation promotion accept valid no-resource Work Items while retaining strict provider finalization for resource-bound Work Items, and restore the generated WI-819 close record to the reviewed main lineage.",
+  "mode": "implementation",
+  "outOfScope": [
+    "WI-819 archived Contract",
+    " archive",
+    " evidence",
+    " summary",
+    " events",
+    " outcome",
+    " and any historical bytes",
+    "Resource-bound finalization validation or release and published artifacts",
+    "Unrelated documentation failures and global Agent or MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:58efa48b1523c06d7903212560e77dfd907f95a2ab7e00f927bacd89a40e7cd2",
+  "requiredEvidenceClasses": [
+    "verification",
+    "documentation"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A closed Work Item whose Contract has no resourceContext validates and promotes without a fabricated finalization receipt.",
+      "required": true,
+      "scenario": "no_resource_terminal_projection",
+      "status": "unverified",
+      "verificationPlan": "Run the focused documentation-promotion regression with a valid no-resource terminal fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "A resource-bound closed Work Item without a valid finalization chain fails closed with structured diagnostics.",
+      "required": true,
+      "scenario": "resource_bound_finalization_remains_strict",
+      "status": "unverified",
+      "verificationPlan": "Run the focused regression against the existing resource-bound fixture with its finalization evidence removed."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-819 close evidence is integrated without changing archived bytes and its three language projections become current.",
+      "required": true,
+      "scenario": "historical_projection_repair",
+      "status": "unverified",
+      "verificationPlan": "Run check-all after integrating the generated WI-819 close receipt and repairing its documented projections."
+    },
+    {
+      "evidence": [],
+      "expected": "WI-821 has registered multilingual pages and parity rows before close and passes its own post-close promotion check.",
+      "required": true,
+      "scenario": "post_close_self_projection",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle promotion check after WI-821 close and verify only its deterministic terminal fields change."
+    }
+  ],
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    ".ai/decisions/WI-819-docs-gate-convergence.close.json",
+    "docs/work-items/WI-819-docs-gate-convergence.md",
+    "docs/work-items/WI-819-docs-gate-convergence.zh-CN.md",
+    "docs/work-items/WI-819-docs-gate-convergence.ja.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.zh-CN.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-821-no-resource-document-promotion"
+}

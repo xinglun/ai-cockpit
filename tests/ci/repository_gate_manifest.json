@@ -11,7 +11,7 @@
     {"category": "ci", "command": ["tests/ci/workspace_package_coverage_test.sh"], "dependsOn": ["docs_governance_integrity"], "id": "ci_workspace_coverage_regression", "minimumProfile": "standard"},
     {"category": "conformance", "command": ["tests/conformance/final_replacement_acceptance_test.sh"], "dependsOn": ["docs_governance_integrity"], "id": "conformance_final_replacement", "minimumProfile": "standard"},
     {"category": "conformance", "command": ["tests/conformance/reference_file_inventory_test.sh"], "dependsOn": ["docs_governance_integrity"], "id": "conformance_reference_file_inventory", "minimumProfile": "standard"},
-    {"category": "docs", "command": ["tests/docs/documentation_acceptance.sh"], "id": "docs_acceptance", "minimumProfile": "light"},
+    {"category": "docs", "command": ["tests/docs/documentation_acceptance.sh", "--promotion-receipt", "target/repository-gate-receipts/docs_closed_work_item_promotion.json"], "dependsOn": ["docs_closed_work_item_promotion"], "id": "docs_acceptance", "minimumProfile": "light"},
     {"category": "docs", "command": ["python3", "tests/docs/promote_closed_work_item.py", "--repo", ".", "--check-all"], "id": "docs_closed_work_item_promotion", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/promote_closed_work_item_test.sh"], "id": "docs_closed_work_item_promotion_regression", "minimumProfile": "light"},
     {"category": "docs", "command": ["tests/docs/parity_status_check.sh"], "id": "docs_governance_integrity", "minimumProfile": "light"},

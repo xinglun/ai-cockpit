@@ -356,9 +356,13 @@ review when the returned state is yellow, red, unknown, or not ready.
   intentionally yellow with `reviewState: needs_human_confirmation`; fill the
   human fields and rerun preflight before checkpoint.
 - `close --human-decision approved|confirmed|rejected` is a human decision
-  record, not verification evidence. `approved` and an explicit `confirmed`
-  decision are positive terminal choices; `rejected` never promotes a Work
-  Item to Implemented.
+  record, not verification evidence. The Runtime accepts only the canonical
+  tokens `approved`, `confirmed`, `rejected`, `superseded`, and
+  `superseded_failed_delivery`; free-form explanation belongs in `--reason`.
+  `approved` and an explicit `confirmed` decision are positive terminal
+  choices; `rejected` never promotes a Work Item to Implemented, while the two
+  superseded tokens are reserved for explicit historical or abandoned-delivery
+  close paths.
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` verifies the strict `DelegatedEvidence` metadata
   against the exact raw-byte digest and writes a repository/Work Item-bound

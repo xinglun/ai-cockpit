@@ -1,4 +1,5 @@
 use cockpit_core::Digest;
+use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -10,6 +11,32 @@ use cockpit_repository::{
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use std::{fs, process::Command};
+
+fn governance_snapshot(path: &str, added_lines: &[&str]) -> RepositorySnapshot {
+    RepositorySnapshot {
+        root: "/tmp/repo".into(),
+        git_root: "/tmp/repo".into(),
+        head: Some("0123456789abcdef0123456789abcdef01234567".into()),
+        changed_paths: vec![path.into()],
+        change_evidence: vec![ChangeEvidence {
+            path: path.into(),
+            kind: ChangeKind::Modified,
+            added_lines: added_lines.iter().map(|line| (*line).into()).collect(),
+            removed_lines: Vec::new(),
+            after_text: Some(added_lines.join("\n")),
+            content_state: ChangeContentState::Text,
+        }],
+        git_calls: 0,
+        tree_digest: "sha256:tree".into(),
+        diff_digest: "sha256:diff".into(),
+        dependency_fingerprint: "sha256:dependencies".into(),
+        files_read: 1,
+        files_hashed: 1,
+        bytes_read: 0,
+        bytes_hashed: 0,
+        source_tree_digest: None,
+    }
+}
 
 fn repository() -> tempfile::TempDir {
     let directory = tempfile::tempdir().expect("tempdir");
@@ -418,6 +445,34 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     finish_work_item(directory.path(), work_item_id).expect("finish");
     archive_work_item(directory.path(), work_item_id).expect("archive");
 
+    let invalid = cockpit_repository::close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "closed".into(),
+            actor: "human:owner".into(),
+            authority_source: "user-authorized-work-item".into(),
+            reason: "a lifecycle state is not a decision vocabulary value".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-08-22T12:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect_err("free-form close decision must be rejected before receipt creation");
+    assert!(
+        invalid
+            .to_string()
+            .contains("human decision must be one of")
+    );
+    assert!(invalid.to_string().contains("approved"));
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json"))
+            .exists()
+    );
+
     let archived =
         work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
             .expect("archived status");
@@ -500,6 +555,27 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
         archived_summary
             .windows(b"finish_ready".len())
             .any(|window| window == b"finish_ready")
+    );
+}
+
+#[test]
+fn test_weakening_scanner_distinguishes_diagnostic_text_from_bypass_calls() {
+    let diagnostic = cockpit_repository::derive_governance_signals(&governance_snapshot(
+        "tests/docs/documentation_acceptance.sh",
+        &["raise SystemExit('invalid promotion receipt')"],
+    ));
+    assert!(
+        !diagnostic.test_weakening,
+        "diagnostic exception text must not be treated as a test bypass"
+    );
+
+    let bypass = cockpit_repository::derive_governance_signals(&governance_snapshot(
+        "tests/docs/example.test.js",
+        &["xit('still skipped')"],
+    ));
+    assert!(
+        bypass.test_weakening,
+        "a standalone JavaScript xit call must remain a hard finding"
     );
 }
 

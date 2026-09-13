@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T06:49:56Z",
+  "files": {
+    "contractDigest": "sha256:fcf69014228d7dd727e37e78b4a8651729540b63880a7c7e29fef357a6b207a6",
+    "contractPath": ".ai/work-items/archive/WI-819-docs-gate-convergence.contract.json",
+    "eventsDigest": "sha256:83df43b197ee64ebf55b424b15ed0435d6915884bd9063dbefad044118a65445",
+    "eventsPath": ".ai/work-items/archive/WI-819-docs-gate-convergence.events.jsonl",
+    "outcomeDigest": "sha256:eabdcf3a8612014539dfbc3ab15af4700ac4488d660731fd6ea93017c7342deb",
+    "outcomePath": ".ai/work-items/archive/WI-819-docs-gate-convergence.outcome.json",
+    "summaryDigest": "sha256:a5a31adc275e3179131c58a44141cd163a43eba0e6ea4bc0456bab94517f5d9f",
+    "summaryPath": ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json",
+    "taskReportDigest": "sha256:2d0d3b9cc3f75e5971cf2c70d986d817ea9cc5537397a2b757d564be04f32e7b",
+    "taskReportMarkdownDigest": "sha256:e6aff8f3a80611f246d5cf30c17cc22e32ba66e93597f682d63c8a76d9981742",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-819-docs-gate-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-819-docs-gate-convergence.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-819-docs-gate-convergence"
+}

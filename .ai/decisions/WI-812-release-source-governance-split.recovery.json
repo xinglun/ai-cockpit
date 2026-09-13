@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-fail-closed-successor-recovery",
+  "decidedAt": "2026-09-13T03:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json",
+    ".ai/work-items/archive/WI-812-release-source-governance-split.archive.json",
+    ".ai/evidence/WI-812-release-source-governance-split.verification.json",
+    ".ai/decisions/WI-812-release-source-governance-split.finalize.b268dbe6ac7a24ea9cb930600603f9273e41f38d27ba8ea4f1de9d0015782596.json",
+    ".ai/decisions/WI-812-release-source-governance-split.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "predecessorContractDigest": "sha256:76be05c0a8a0c91071a1923ace4c45797639264ee8f702efb4afa496ace3f9fc",
+  "predecessorEventsDigest": "sha256:5e08ae75a29e7d6787ef407c260c80e6ba241a3d03cdc6d3ab4ff5d0635d78b3",
+  "predecessorOutcomeDigest": "sha256:b65f4f564a3def500a8ed7ba11c639b17d2ca5760e05730f3e0040e0441a4bea",
+  "predecessorSummaryDigest": "sha256:8663270751d32cfec41907a16b5da13d0d61e8b2d0c723aa94a68a6315d3a584",
+  "predecessorWorkItemId": "WI-812-release-source-governance-split",
+  "reason": "WI-812 is closed with immutable evidence, but its close decision token is non-canonical and cannot satisfy the current documentation promotion boundary. Preserve every WI-812 byte; WI-819 owns the future close-decision validation and documentation-gate convergence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-819 with canonical close-decision validation, diagnostic documentation gates, approved structured close, and terminal documentation promotion; keep WI-812 immutable and projected as recovered.",
+  "runtimeDigest": "sha256:fa44723788b74c44a596c03c85e26cee7879f89234bb905ab2ac2c307a63cdd9",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-819-docs-gate-convergence",
+  "workItemId": "WI-812-release-source-governance-split"
+}
