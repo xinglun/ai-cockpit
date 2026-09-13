@@ -1,0 +1,146 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-818-evidence-contract-repair.contract.json",
+    ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "docs/reference/ci-quality-gates.md",
+    "docs/reference/commands.md"
+  ],
+  "checkpointAt": "2026-09-13T02:31:57Z",
+  "checkpointContractDigest": "sha256:3d315c2450b2a4e3705f97b9fc4f33b879df55dde8458bbc66abdfcd444ae0b1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9ffdd94d445dba8e5b306708e60ec17216e993c2a29e987825eac89754b5de1c",
+      "recorded": true,
+      "recordedAt": "2026-09-13T02:31:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0124183f0f333673a5dd0e8da85a6fb0c528a95060e3e642496636436d82c820",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-818-evidence-contract-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:5b15a5ba7bf8066e56c5a0c2a92ac5133020597e2d6e479c0a9462bb588f36e6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9ffdd94d445dba8e5b306708e60ec17216e993c2a29e987825eac89754b5de1c",
+      "previousContractHash": "sha256:9ffdd94d445dba8e5b306708e60ec17216e993c2a29e987825eac89754b5de1c",
+      "reason": "Expose the exact supported required-evidence vocabulary in the public start command help.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T02:34:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f449ab81e91e240f1d2e8359a1ddecc92403d8a1fe6b80620851f3e85dc7de59",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-818-evidence-contract-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3d315c2450b2a4e3705f97b9fc4f33b879df55dde8458bbc66abdfcd444ae0b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9ffdd94d445dba8e5b306708e60ec17216e993c2a29e987825eac89754b5de1c",
+      "previousContractHash": "sha256:5b15a5ba7bf8066e56c5a0c2a92ac5133020597e2d6e479c0a9462bb588f36e6",
+      "reason": "Update the lifecycle-order regression to assert that future-stage labels are rejected at Contract entry instead of deferred as invalid classes.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T02:49:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:faad105d298405322008ffd3849a92b369665c8b6034761623b24cacf70fccbe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-818-evidence-contract-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:020d745414f3a5a5aa6fe13400e4c2bc0efc45a2ad30fcbfed5406e1f66545ad",
+  "createdAt": "2026-09-13T02:28:02Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-cli/src/main.rs"
+    ],
+    "reason": "The implementation and regressions directly enforce early supported evidence declarations, complete multi-class evaluation, and historical read compatibility within the amended Contract scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T02:57:07Z",
+  "preflightContractDigest": "sha256:3d315c2450b2a4e3705f97b9fc4f33b879df55dde8458bbc66abdfcd444ae0b1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:020d745414f3a5a5aa6fe13400e4c2bc0efc45a2ad30fcbfed5406e1f66545ad",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs"
+      ],
+      "expected": "start rejects an unknown class and names the supported forms",
+      "required": true,
+      "scenario": "unsupported required evidence class is rejected before verification",
+      "status": "verified",
+      "verificationPlan": "Run the lifecycle regression and inspect the CLI diagnostic."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/archive_integrity.rs"
+      ],
+      "expected": "verification plus delegated:github remains incomplete when either declared class is missing",
+      "required": true,
+      "scenario": "all declared evidence classes are evaluated",
+      "status": "verified",
+      "verificationPlan": "Run repository evidence-state regressions with each class missing and then both satisfied."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs"
+      ],
+      "expected": "a legacy Contract containing an old lifecycle label remains readable and its bytes are not rewritten",
+      "required": true,
+      "scenario": "historical Contract compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the archived Contract read-only gate and compare bytes before and after."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "docs/reference/commands.md",
+        "docs/reference/ci-quality-gates.md"
+      ],
+      "expected": "CLI help and reference documentation identify the supported vocabulary and corrective action",
+      "required": true,
+      "scenario": "operator recovery guidance",
+      "status": "verified",
+      "verificationPlan": "Inspect command help and documentation tests."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T02:57:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-818-evidence-contract-repair"
+}

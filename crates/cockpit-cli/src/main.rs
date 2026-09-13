@@ -131,6 +131,10 @@ enum CommandKind {
         /// as a delimiter silently changes the Contract bytes.
         #[arg(long, action = ArgAction::Append)]
         acceptance: Vec<String>,
+        /// Required evidence classes. Supported forms: verification,
+        /// verification_receipt, verification-receipt, delegated:<provider>,
+        /// delegated_evidence, and external_evidence. Lifecycle stage names
+        /// such as public-install belong to later evidence and are rejected.
         #[arg(long, value_delimiter = ',')]
         required_evidence: Vec<String>,
     },

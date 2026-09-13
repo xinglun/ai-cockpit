@@ -191,6 +191,56 @@ fn valid_gate_is_identity_bound_and_read_only() {
 }
 
 #[test]
+fn start_rejects_unsupported_required_evidence_class_before_verification() {
+    let directory = repository();
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-UNSUPPORTED-EVIDENCE",
+        "reject an invalid declaration",
+        "keep invalid evidence requirements out of verification",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["public-install".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect_err("unsupported required evidence class must fail at start");
+    let message = error.to_string();
+    assert!(
+        message.contains("unsupported required evidence class"),
+        "{message}"
+    );
+    assert!(message.contains("verification"), "{message}");
+    assert!(message.contains("delegated:<provider>"), "{message}");
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-UNSUPPORTED-EVIDENCE.contract.json")
+            .exists()
+    );
+}
+
+#[test]
+fn preflight_rejects_an_existing_unsupported_evidence_class_before_observation() {
+    let directory = repository();
+    let contract = contract_path(directory.path());
+    let mut value =
+        serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).unwrap()).unwrap();
+    value["requiredEvidenceClasses"] = serde_json::json!(["public-install"]);
+    fs::write(&contract, serde_json::to_vec_pretty(&value).unwrap()).unwrap();
+
+    let error = preflight_work_item(directory.path(), &contract)
+        .expect_err("preflight must reject an unsupported existing declaration");
+    let message = error.to_string();
+    assert!(
+        message.contains("unsupported required evidence class"),
+        "{message}"
+    );
+    assert!(message.contains("public-install"), "{message}");
+}
+
+#[test]
 fn archived_resource_pull_request_gate_is_read_only() {
     let (directory, archived_contract) = archived_resource_repository();
     let root = directory.path();

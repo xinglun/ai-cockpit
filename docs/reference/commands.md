@@ -149,6 +149,14 @@ review when the returned state is yellow, red, unknown, or not ready.
   there is no implicit expiry or global current Work Item.
 - `start` requires `--id`, `--intent`, and `--goal`; `--authority authorized`
   is needed for a green governed flow.
+- `start --required-evidence <class>[,<class>...]` accepts only the following
+  forms: `verification`, `verification_receipt`, `verification-receipt`,
+  `delegated:<provider>`, `delegated_evidence`, and `external_evidence`.
+  Stage labels such as `public-install` are rejected before verification;
+  inspect the command help for the same vocabulary. Existing historical
+  Contracts remain readable, but an active legacy declaration must be repaired
+  through an append-only Contract amendment or an explicitly bounded successor
+  before it can cross preflight.
 - Before `start` or `work-item new`, the Runtime applies a repository-scoped
   entry gate. A non-`.ai` working-tree change, detached HEAD, a known HEAD
   mismatch with the locally discovered remote default ref, or an archived Work

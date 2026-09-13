@@ -1693,3 +1693,80 @@ fn valid_delegated_evidence_satisfies_a_provider_specific_contract_requirement()
     );
     fs::remove_dir_all(path).expect("cleanup");
 }
+
+#[test]
+fn verification_and_delegated_requirements_are_both_evaluated() {
+    let path = repository();
+    let work_item_id = "WI-MULTI-EVIDENCE";
+    start_work_item_with_options(
+        &path,
+        work_item_id,
+        "evaluate all evidence requirements",
+        "do not let one satisfied class hide another missing class",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["verification".into(), "delegated:github".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    prepare_for_verification(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.2",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    let contract: cockpit_protocol::Contract = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.contract.json")),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("evidence state"),
+        cockpit_core::EvidenceState::Missing,
+        "the missing delegated class must remain visible after verification passes"
+    );
+
+    let raw = br#"{"run":789}"#;
+    import_delegated_evidence(
+        &path,
+        work_item_id,
+        &DelegatedEvidence {
+            provider: "github".into(),
+            subject: "run:789".into(),
+            origin: "https://github.com/example/repo/actions/runs/789".into(),
+            assurance: AssuranceLevel::ProviderVerified,
+            collected_at: "2026-08-21T19:00:00Z".into(),
+            digest: cockpit_core::Digest::sha256_bytes(raw),
+            validity: EvidenceValidity::Valid,
+            raw_evidence_ref: ".ai/evidence/external/github-run-789.json".into(),
+        },
+        raw,
+        &RuntimeContext {
+            runtime_version: "0.2.2".into(),
+            protocol_version: 1,
+            runtime_digest: Digest::sha256_bytes(b"runtime"),
+        },
+    )
+    .expect("delegated evidence");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("evidence state"),
+        cockpit_core::EvidenceState::Complete
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
