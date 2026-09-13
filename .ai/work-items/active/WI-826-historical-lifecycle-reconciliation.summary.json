@@ -1,0 +1,158 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-13T15:23:32Z",
+  "checkpointContractDigest": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+      "recorded": true,
+      "recordedAt": "2026-09-13T15:23:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8d695d10a438aa252ccda7c0c926fa076f2b351662f0e9fefaebc5798bcb68d8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-826-historical-lifecycle-reconciliation"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6c0dababf5b89c992fb2d6db184cc4e0f06037f5e2b4a574f3f04357ed27a5b5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+      "previousContractHash": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+      "reason": "Keep the current Work Item scope exact for test subtrees and Runtime-generated lifecycle projections; no historical evidence bytes or external resources are added.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T15:37:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c4bea5c89a3e70f1e948470102f7b885d12e8d8c34ff87640a90254a423ee0d4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-826-historical-lifecycle-reconciliation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8d695d10a438aa252ccda7c0c926fa076f2b351662f0e9fefaebc5798bcb68d8",
+  "createdAt": "2026-09-13T15:17:38Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "Explicitly authorize the bounded historical evidence compatibility implementation and its fail-closed regression tests; no historical evidence bytes or external resources may be rewritten.",
+    "recordedAt": "2026-09-13T15:18:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8d695d10a438aa252ccda7c0c926fa076f2b351662f0e9fefaebc5798bcb68d8",
+    "schemaVersion": 1,
+    "workItemId": "WI-826-historical-lifecycle-reconciliation"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:4c2b1faa1aa380cb3097f42cf77ec9a8b8b286ebc5c1182bc048612366b32b75",
+    "items": [
+      {
+        "class": "governance",
+        "evidence": [
+          {
+            "digest": "sha256:d15fd86f0f4ea3144e427f52eb076194857f861e8eacc6fd56df06336df20d03",
+            "locator": "historical archive validation boundary",
+            "path": "crates/cockpit-repository/src/lib.rs",
+            "type": "implementation",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "historical_evidence_compatibility",
+        "evidence": [
+          {
+            "digest": "sha256:d15fd86f0f4ea3144e427f52eb076194857f861e8eacc6fd56df06336df20d03",
+            "locator": "historical evidence identity and digest checks",
+            "path": "crates/cockpit-repository/src/lib.rs",
+            "type": "implementation",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "fail_closed_regression",
+        "evidence": [
+          {
+            "digest": "sha256:a89f7cd1993909660fce55ecdff57df48853b60224b4d9aa2e4571818406cd0a",
+            "locator": "explicit historical command dispatch",
+            "path": "crates/cockpit-cli/src/main.rs",
+            "type": "implementation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-cli/src/main.rs",
+      "crates/cockpit-repository/tests"
+    ],
+    "reason": "The bounded migration route addresses the historical lifecycle compatibility gap while preserving immutable evidence and current-runtime protections.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T15:40:01Z",
+  "preflightContractDigest": "sha256:6c0dababf5b89c992fb2d6db184cc4e0f06037f5e2b4a574f3f04357ed27a5b5",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:c4bea5c89a3e70f1e948470102f7b885d12e8d8c34ff87640a90254a423ee0d4",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A complete schema-v2 receipt bound to this Work Item and repository is accepted without source verification rerun.",
+      "required": true,
+      "scenario": "valid historical v2 evidence enters an explicit archive route",
+      "status": "unverified",
+      "verificationPlan": "Run the focused repository tests for the historical archive route and inspect the immutable archive manifest."
+    },
+    {
+      "evidence": [],
+      "expected": "Missing malformed contradictory foreign and digest-mismatched evidence produce a blocking result and leave active records unchanged.",
+      "required": true,
+      "scenario": "invalid historical evidence is rejected before mutation",
+      "status": "unverified",
+      "verificationPlan": "Run focused fail-closed tests for each invalid evidence shape and compare active and archive bytes before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "The existing archive command still rejects a valid old-runtime receipt unless the explicit historical command is selected.",
+      "required": true,
+      "scenario": "normal archive remains current-runtime-bound",
+      "status": "unverified",
+      "verificationPlan": "Run the normal archive regression with a runtime mismatch and the explicit historical route regression."
+    },
+    {
+      "evidence": [],
+      "expected": "After historical archive, resource finalization and close remain required and evidence-missing Work Items remain blocked.",
+      "required": true,
+      "scenario": "historical archive does not bypass finalization or close",
+      "status": "unverified",
+      "verificationPlan": "Run lifecycle tests that attempt close before finalization and inspect WI-809 as an evidence-missing negative case."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-13T15:23:32Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:6c0dababf5b89c992fb2d6db184cc4e0f06037f5e2b4a574f3f04357ed27a5b5",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-13T15:37:22Z"
+  },
+  "workItemId": "WI-826-historical-lifecycle-reconciliation"
+}

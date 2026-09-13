@@ -5116,6 +5116,98 @@ fn archived_evidence_is_historical(
     )
 }
 
+/// Validate the narrow active-to-archive compatibility boundary.  A
+/// historical archive is allowed only for a complete typed v2 receipt whose
+/// source, Contract, repository, and receipt identities are already
+/// internally consistent.  The current Runtime is used only to prove that
+/// the receipt is genuinely historical; it never replaces the receipt's
+/// recorded Runtime identity.
+fn validate_historical_archive_evidence(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    snapshot: &RepositorySnapshot,
+    current_runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
+        path: evidence_path.clone(),
+        source,
+    })?;
+    let evidence: VerificationEvidenceEnvelope =
+        serde_json::from_slice(&evidence_bytes).map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!(
+                "historical archive requires a typed schema-v2 verification receipt: {error}"
+            ),
+        })?;
+    if evidence.evidence_schema_version != 2
+        || matches!(
+            evidence.capture_mode,
+            VerificationCaptureMode::LegacyUntyped
+        )
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "historical archive accepts only typed schema-v2 verification evidence".into(),
+        });
+    }
+    let state = verification_evidence_state(root, contract, snapshot, false, None)?;
+    if state != EvidenceState::Complete {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/evidence")
+                .join(format!("{}.verification.json", contract.work_item_id)),
+            message: format!(
+                "historical archive requires complete repository-bound verification evidence; observed {state:?}"
+            ),
+        });
+    }
+    if evidence.runtime_version == current_runtime.runtime_version
+        && evidence.runtime_digest == current_runtime.runtime_digest
+    {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/evidence")
+                .join(format!("{}.verification.json", contract.work_item_id)),
+            message:
+                "historical archive route requires a different Runtime identity; use normal archive"
+                    .into(),
+        });
+    }
+    let contract_digest = contract_digest_for_evidence(root, contract)?;
+    if evidence.contract_digest.as_ref() != Some(&contract_digest) {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/evidence")
+                .join(format!("{}.verification.json", contract.work_item_id)),
+            message: "historical verification evidence Contract digest is not bound to the active Contract".into(),
+        });
+    }
+    let capture_mode =
+        serde_json::to_value(&evidence.capture_mode).map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?;
+    Ok(serde_json::json!({
+        "schemaVersion": 1,
+        "path": format!(".ai/evidence/{}.verification.json", contract.work_item_id),
+        "fileDigest": Digest::sha256_bytes(&evidence_bytes),
+        "evidenceSchemaVersion": evidence.evidence_schema_version,
+        "protocolVersion": evidence.protocol_version,
+        "workItemId": evidence.work_item_id,
+        "repositoryId": evidence.repository_id,
+        "contractDigest": contract_digest,
+        "repositorySnapshotDigest": evidence.repository_snapshot_digest,
+        "runtimeVersion": evidence.runtime_version,
+        "runtimeDigest": evidence.runtime_digest,
+        "captureMode": capture_mode,
+        "receiptDigest": evidence.receipt_digest,
+        "compatibility": "historical_low"
+    }))
+}
+
 /// Validate the policy route projection embedded in a typed verification
 /// receipt.  Historical receipts without a route projection remain readable;
 /// a receipt for a currently policy-routed Work Item must carry every binding
@@ -5553,7 +5645,7 @@ pub fn archive_work_item(
     root: &Path,
     work_item_id: &str,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, None)
+    archive_work_item_internal(root, work_item_id, None, None)
 }
 
 /// Archive a Work Item only when its evidence was produced by this Runtime
@@ -5563,7 +5655,21 @@ pub fn archive_work_item_with_runtime(
     work_item_id: &str,
     runtime: &RuntimeContext,
 ) -> Result<LifecycleReceipt, ObserverError> {
-    archive_work_item_internal(root, work_item_id, Some(runtime))
+    archive_work_item_internal(root, work_item_id, Some(runtime), None)
+}
+
+/// Archive a Work Item whose complete schema-v2 verification receipt was
+/// produced by an older Runtime.  This is an explicit compatibility lane for
+/// lifecycle reconciliation: it validates the historical receipt and then
+/// uses the ordinary archive transaction, without rerunning source
+/// verification or rewriting any evidence bytes.  Finalization and close
+/// remain required after this operation.
+pub fn archive_historical_work_item_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<LifecycleReceipt, ObserverError> {
+    archive_work_item_internal(root, work_item_id, None, Some(runtime))
 }
 
 /// Reconcile Runtime-owned failed-attempt projections left in `active` after
@@ -5719,6 +5825,7 @@ fn archive_work_item_internal(
     root: &Path,
     work_item_id: &str,
     current_runtime: Option<&RuntimeContext>,
+    historical_runtime: Option<&RuntimeContext>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -5820,9 +5927,19 @@ fn archive_work_item_internal(
             });
         }
     }
-    if verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
-        != EvidenceState::Complete
-    {
+    let historical_evidence = historical_runtime
+        .map(|runtime| validate_historical_archive_evidence(&root, &contract, &snapshot, runtime))
+        .transpose()?;
+    let evidence_state = if historical_runtime.is_some() {
+        // The compatibility route deliberately validates the receipt without
+        // substituting the current Runtime identity.  The helper above has
+        // already established that the receipt is complete, schema-v2, and
+        // genuinely historical relative to the executing Runtime.
+        verification_evidence_state(&root, &contract, &snapshot, false, None)?
+    } else {
+        verification_evidence_state(&root, &contract, &snapshot, false, current_runtime)?
+    };
+    if evidence_state != EvidenceState::Complete {
         return Err(ObserverError::State {
             path: root
                 .join(".ai/evidence")
@@ -6028,7 +6145,7 @@ fn archive_work_item_internal(
         }
     }
     let timestamp = now();
-    let manifest = serde_json::json!({
+    let mut manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
         "state": "archived",
@@ -6037,6 +6154,10 @@ fn archive_work_item_internal(
         "historicalArtifacts": historical_artifacts,
         "createdAt": timestamp,
     });
+    if let Some(binding) = historical_evidence {
+        manifest["historicalEvidence"] = binding;
+        manifest["archiveRoute"] = serde_json::json!("historical_evidence_compatibility");
+    }
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
         for (moved_source, moved_target, original, normalized) in moved.into_iter().rev() {
             if normalized {
@@ -8975,6 +9096,7 @@ fn verify_archive_manifest_with_options(
             message: "archive manifest identity or state is invalid".into(),
         });
     }
+    validate_historical_archive_manifest_binding(root, work_item_id, manifest)?;
     let archive = root.join(".ai/work-items/archive");
     for name in ["contract", "summary", "outcome"] {
         let path = archive.join(format!("{work_item_id}.{name}.json"));
@@ -9175,6 +9297,123 @@ fn verify_archive_manifest_with_options(
         None
     };
     Ok(mismatched_report)
+}
+
+/// Validate the immutable binding added by the explicit historical archive
+/// route.  The receipt remains in `.ai/evidence` and is never rewritten, so a
+/// later manifest check must verify both its raw bytes and every identity
+/// projected into the manifest.  Legacy superseded manifests use the boolean
+/// `historicalEvidence` marker and do not enter this compatibility format.
+fn validate_historical_archive_manifest_binding(
+    root: &Path,
+    work_item_id: &str,
+    manifest: &serde_json::Value,
+) -> Result<(), ObserverError> {
+    let Some(historical) = manifest.get("historicalEvidence") else {
+        if manifest.get("archiveRoute").is_some() {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/work-items/archive")
+                    .join(format!("{work_item_id}.archive.json")),
+                message: "historical archive route is missing its evidence binding".into(),
+            });
+        }
+        return Ok(());
+    };
+    if historical.as_bool() == Some(true) {
+        if manifest.get("archiveRoute").is_some() {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/work-items/archive")
+                    .join(format!("{work_item_id}.archive.json")),
+                message: "legacy historical marker cannot carry a compatibility route".into(),
+            });
+        }
+        return Ok(());
+    }
+    if manifest["archiveRoute"] != serde_json::json!("historical_evidence_compatibility") {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.archive.json")),
+            message: "historical evidence binding has an unknown archive route".into(),
+        });
+    }
+    let binding = historical.as_object().ok_or_else(|| ObserverError::State {
+        path: root
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json")),
+        message: "historical evidence binding must be an object".into(),
+    })?;
+    let expected_path = format!(".ai/evidence/{work_item_id}.verification.json");
+    if binding.get("path").and_then(serde_json::Value::as_str) != Some(expected_path.as_str()) {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/archive")
+                .join(format!("{work_item_id}.archive.json")),
+            message: "historical evidence path is not bound to the Work Item".into(),
+        });
+    }
+    let evidence_path = root.join(&expected_path);
+    if !is_regular_non_symlink(&evidence_path)? {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "historical verification evidence must remain a regular file".into(),
+        });
+    }
+    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
+        path: evidence_path.clone(),
+        source,
+    })?;
+    let actual_file_digest = Digest::sha256_bytes(&evidence_bytes).to_string();
+    if binding
+        .get("fileDigest")
+        .and_then(serde_json::Value::as_str)
+        != Some(actual_file_digest.as_str())
+    {
+        return Err(ObserverError::State {
+            path: evidence_path.clone(),
+            message: "historical verification evidence file digest does not match manifest".into(),
+        });
+    }
+    let evidence: VerificationEvidenceEnvelope =
+        serde_json::from_slice(&evidence_bytes).map_err(|error| ObserverError::State {
+            path: evidence_path.clone(),
+            message: format!("historical verification evidence is invalid: {error}"),
+        })?;
+    let archive = root.join(".ai/work-items/archive");
+    let archived_contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let archived_contract_digest = contract_digest(&archived_contract_path)?.to_string();
+    let expected_repository_id = repository_id(root).to_string();
+    let envelope_matches = binding.get("schemaVersion") == Some(&serde_json::json!(1))
+        && binding.get("evidenceSchemaVersion")
+            == Some(&serde_json::json!(evidence.evidence_schema_version))
+        && binding.get("protocolVersion") == Some(&serde_json::json!(evidence.protocol_version))
+        && binding.get("workItemId") == Some(&serde_json::json!(work_item_id))
+        && binding.get("repositoryId") == Some(&serde_json::json!(expected_repository_id))
+        && binding.get("contractDigest") == Some(&serde_json::json!(archived_contract_digest))
+        && binding.get("repositorySnapshotDigest")
+            == Some(&serde_json::json!(evidence.repository_snapshot_digest))
+        && binding.get("runtimeVersion") == Some(&serde_json::json!(evidence.runtime_version))
+        && binding.get("runtimeDigest") == Some(&serde_json::json!(evidence.runtime_digest))
+        && binding.get("receiptDigest") == Some(&serde_json::json!(evidence.receipt_digest));
+    if !envelope_matches
+        || evidence.protocol_version != 1
+        || evidence.evidence_schema_version != 2
+        || evidence.work_item_id != work_item_id
+        || evidence.repository_id != expected_repository_id
+        || !evidence.passed
+        || matches!(
+            evidence.capture_mode,
+            VerificationCaptureMode::LegacyUntyped
+        )
+    {
+        return Err(ObserverError::State {
+            path: evidence_path,
+            message: "historical evidence binding does not match its typed receipt".into(),
+        });
+    }
+    Ok(())
 }
 
 /// Bind a recovery receipt to the exact bytes of an archived manifest and
