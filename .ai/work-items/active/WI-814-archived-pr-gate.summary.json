@@ -1,13 +1,11 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-814-archived-pr-gate.recovery.33636722aaf589ece2ff27b22876ea71513559bc963b9ddd7533d1672ab873b3.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-814-archived-pr-gate.summary.json",
-    ".github/workflows/ci.yml",
-    "tests/ci/workflow_convergence_test.sh"
+    ".ai/work-items/active/WI-814-archived-pr-gate.contract.json",
+    ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
   ],
   "checkpointAt": "2026-09-12T17:33:46Z",
-  "checkpointContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+  "checkpointContractDigest": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -63,9 +61,29 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "previousContractHash": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+      "reason": "Rebind the archived-route PR to the current main resolver and preserve the combined active/archive/no-resource identity boundary before hosted verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T00:02:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-814-archived-pr-gate"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
+  "checkpointRepositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
   "createdAt": "2026-09-12T17:24:33Z",
   "intentAlignment": {
     "evidence": [
@@ -75,10 +93,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-12T18:49:59Z",
-  "preflightContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+  "preflightAt": "2026-09-13T00:05:01Z",
+  "preflightContractDigest": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
+  "preflightRepositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -163,7 +181,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-12T18:50:07Z",
+  "updatedAt": "2026-09-13T00:05:16Z",
   "verification": [
     {
       "check": "project-command-0",

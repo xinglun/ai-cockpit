@@ -7,11 +7,13 @@
     "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
     "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
     "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries.",
-    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed."
+    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed.",
+    "After synchronization with the current main branch, active exact binding remains ahead of archived exact binding, no-resource branch fallback, and ordinary routing; the combined resolver regression passes without shell errors on empty inventories.",
+    "A provisional or mismatched resource-bound Contract cannot be selected by branch fallback, and a same-branch no-resource/resource-bound collision fails with a structured conflict rather than silently bypassing provider identity."
   ],
-  "createdAt": "2026-09-12T18:50:07Z",
+  "createdAt": "2026-09-13T00:05:16Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:6aee48e0448130857b83028d788771bf2b2831df9bf3720568c0544d3a54eb58",
+  "evidenceDigest": "sha256:37d76618c78662c6e556168168d100320d81863e76605424cc20cd365845785c",
   "evidenceRefs": [
     ".ai/evidence/WI-814-archived-pr-gate.verification.json"
   ],
@@ -37,7 +39,7 @@
         ".ai/evidence/WI-814-archived-pr-gate.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
+      "repositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
       "workItemId": "WI-814-archived-pr-gate"
     },
     "format": "ai-cockpit.task-outcome",
@@ -51,13 +53,6 @@
             ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.33636722aaf589ece2ff27b22876ea71513559bc963b9ddd7533d1672ab873b3.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -65,21 +60,14 @@
             ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/ci.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/ci/workflow_convergence_test.sh"
         }
       ],
       "evidence": [
@@ -154,8 +142,8 @@
     "status": "verified",
     "workItemId": "WI-814-archived-pr-gate"
   },
-  "taskReportDigest": "sha256:3c28dc01bcc9384b64dfc079b52ff1a76e3fd24d1bb727ab3c1638facaac01d1",
-  "taskReportMarkdownDigest": "sha256:41256ba4bb8343a02fc7005c654173df6cb0f8736b888fbcfa991d84595e79a0",
+  "taskReportDigest": "sha256:6e53b9f00fa987fa7aaaed9ae7dd35ebc47654495a770f258d0fc31eb9425e3d",
+  "taskReportMarkdownDigest": "sha256:5f51cce9fbeed3be0de34af2740a50c350b8cd2019059b007b195704e2bffcb5",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

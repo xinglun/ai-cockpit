@@ -7,7 +7,9 @@
     "The route and gate fail closed on archive manifest, Contract digest, repository, base, symlink, active/archive collision, or identity mismatch.",
     "English, Simplified Chinese, and Japanese lifecycle guidance states the same conditional order and historical archived-PR exception.",
     "Regression tests cover active, historical archived resource-bound, archived no-resource, ordinary merge, tag, recovery, collision, and read-only no-write boundaries.",
-    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed."
+    "A pending retry remains usable after finalize-plan changes only the resourceContext; any other Contract mutation remains fail-closed.",
+    "After synchronization with the current main branch, active exact binding remains ahead of archived exact binding, no-resource branch fallback, and ordinary routing; the combined resolver regression passes without shell errors on empty inventories.",
+    "A provisional or mismatched resource-bound Contract cannot be selected by branch fallback, and a same-branch no-resource/resource-bound collision fails with a structured conflict rather than silently bypassing provider identity."
   ],
   "authority": "authorized",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-814-archived-pr-gate.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:580e54d39bb8dd320aad5c720a04af456acf38536172d7932151d93fbfdea874",
+    "repositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
     "workItemId": "WI-814-archived-pr-gate"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,13 +18,6 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.33636722aaf589ece2ff27b22876ea71513559bc963b9ddd7533d1672ab873b3.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -32,21 +25,14 @@
           ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .github/workflows/ci.yml"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/workflow_convergence_test.sh"
       }
     ],
     "evidence": [

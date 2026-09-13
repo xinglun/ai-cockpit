@@ -14,11 +14,9 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-814-archived-pr-gate.recovery.33636722aaf589ece2ff27b22876ea71513559bc963b9ddd7533d1672ab873b3.json
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/work-items/active/WI-814-archived-pr-gate.contract.json
 - Changed path: .ai/work-items/active/WI-814-archived-pr-gate.summary.json
-- Changed path: .github/workflows/ci.yml
-- Changed path: tests/ci/workflow_convergence_test.sh
 
 ## Findings
 
