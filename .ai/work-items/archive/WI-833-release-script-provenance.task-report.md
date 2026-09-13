@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.409ad62bde8111962d4cea00dce754c7ac3c6b928cad2e892c88ff703c552a83.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-833-release-script-provenance.contract.json
-- Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json
+- Changed path: .ai/work-items/archive/WI-833-release-script-provenance.contract.json
+- Changed path: .ai/work-items/archive/WI-833-release-script-provenance.summary.json
 
 ## Findings
 

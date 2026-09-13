@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/WI-833-release-script-provenance.recovery.409ad62bde8111962d4cea00dce754c7ac3c6b928cad2e892c88ff703c552a83.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-833-release-script-provenance.contract.json",
-    ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+    ".ai/work-items/archive/WI-833-release-script-provenance.contract.json",
+    ".ai/work-items/archive/WI-833-release-script-provenance.summary.json"
   ],
   "checkpointAt": "2026-09-13T19:21:42Z",
   "checkpointContractDigest": "sha256:c4d189e31428c6f676168f4bda7985c8a5c9ba7ea544f8bc8082287b3e356437",

@@ -44,31 +44,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.409ad62bde8111962d4cea00dce754c7ac3c6b928cad2e892c88ff703c552a83.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-833-release-script-provenance.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-833-release-script-provenance.summary.json"
         }
       ],
       "evidence": [
@@ -124,7 +124,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.contract.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.contract.json"
           ],
           "inference": false,
           "text": "Separate workflow execution identity from immutable release source identity in every staged and public adopter acceptance job, with regression coverage that prevents an old tag script from being executed."
@@ -133,7 +133,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.contract.json"
+            ".ai/work-items/archive/WI-833-release-script-provenance.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -143,8 +143,8 @@
     "status": "verified",
     "workItemId": "WI-833-release-script-provenance"
   },
-  "taskReportDigest": "sha256:ae77155b3fa545f27c357b166e790c35f9cebbe2049436851720ba9a3f95f98a",
-  "taskReportMarkdownDigest": "sha256:6bdccdc27ca1983ae287e35ae575cb054ab6ae7f14df58d376bfe1f14a3bd910",
+  "taskReportDigest": "sha256:ef35e1d6fc06e2cd08f827adb40fbaefe3fd9d71d5e401489d5bb26d82d985de",
+  "taskReportMarkdownDigest": "sha256:bdc1958d40d9ad06648e7d00790629a14b5a67a2085725bb9ba34e87614bf2fe",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

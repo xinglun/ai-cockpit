@@ -1,0 +1,59 @@
+{
+  "actor": "human:owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1b5f75d0a8a8110dcca59cf77b89e97cf4aacd84",
+    "name": "codex/wi833-release-script-provenance",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+  "contractDigest": "sha256:718e8c0b05661689eb4f35bdb18a2c769c1a2132534f50b3a324e651075dc107",
+  "operationId": "github-pr-813-merge-cleanup-20260914",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+    "headRevision": "1b5f75d0a8a8110dcca59cf77b89e97cf4aacd84",
+    "mergeCommit": "68f9d93856ebd6300cbb295d36cfa23dfc52f653",
+    "number": 813,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/813"
+  },
+  "reason": "PR #813 passed all hosted checks and was merged as 68f9d938; the exact Work Item branch and dedicated worktree were removed and verified absent.",
+  "receiptId": "ai-cockpit-WI-833-release-script-provenance-cleanup",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi833-release-script-provenance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/813",
+    "worktree": "/private/tmp/ai-cockpit-wi833-release-script-provenance"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-14T00:30:00Z",
+  "workItemId": "WI-833-release-script-provenance",
+  "worktree": {
+    "branch": "codex/wi833-release-script-provenance",
+    "headRevision": "1b5f75d0a8a8110dcca59cf77b89e97cf4aacd84",
+    "path": "/private/tmp/ai-cockpit-wi833-release-script-provenance",
+    "worktreeId": "WI-833-release-script-provenance"
+  }
+}
