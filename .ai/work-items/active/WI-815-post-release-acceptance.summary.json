@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-815-post-release-acceptance.summary.json"
   ],
   "checkpointAt": "2026-09-12T19:39:52Z",
-  "checkpointContractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+  "checkpointContractDigest": "sha256:2aafab4f115b1135774292dd3d69f2fc57f2640f88de5251670522717224eaa3",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -182,7 +182,7 @@
       "workItemId": "WI-815-post-release-acceptance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
+  "checkpointRepositorySnapshotDigest": "sha256:910f06502a00040b1c4aadbc253281308361b3917baf2efb9304a948eb65fcf7",
   "createdAt": "2026-09-12T19:34:26Z",
   "intentAlignment": {
     "evidence": [
@@ -195,11 +195,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:491eb9f9ecf4dbfa329dc52c676343acbd3af827e70da7acbdb3abe9c46f4314",
   "predecessorWorkItemId": "WI-809-release-v0-2-91-final-acceptance",
-  "preflightAt": "2026-09-13T00:57:15Z",
-  "preflightContractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+  "preflightAt": "2026-09-13T01:20:48Z",
+  "preflightContractDigest": "sha256:2aafab4f115b1135774292dd3d69f2fc57f2640f88de5251670522717224eaa3",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:910f06502a00040b1c4aadbc253281308361b3917baf2efb9304a948eb65fcf7",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -277,11 +277,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:2aafab4f115b1135774292dd3d69f2fc57f2640f88de5251670522717224eaa3",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-13T01:12:26Z"
-  },
-  "verificationRecoveryReconciled": "sha256:1a6acf00e94edd852459378f0b8cf011a21cd0a761f47ba29478843ea9757f66",
+  "verificationRecoveryReconciled": "sha256:68bd52f7d4863fe08085cebc36c3fb58a241495238d6a44f7c085878478225c0",
   "workItemId": "WI-815-post-release-acceptance"
 }

@@ -9,10 +9,12 @@
     "Before any public Release asset download or acceptance, post-release recovery executes the selected helper against a local no-remote handoff fixture with distinct workflow and release commits, persists the compatibility result, and stops on protocol incompatibility.",
     "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release.",
     "Release close validates public installation receipts by tag and N-minus-one upgrade receipts by toTag.",
-    "A regression test accepts both receipt schemas and rejects a receipt bound to a different public tag."
+    "A regression test accepts both receipt schemas and rejects a receipt bound to a different public tag.",
+    "The new receipt-schema regression is registered exactly once in the canonical repository gate manifest.",
+    "A close-only recovery validates and reuses the prior successful handoff, version, install, and upgrade receipts without rerunning acceptance or publication stages."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:1a6acf00e94edd852459378f0b8cf011a21cd0a761f47ba29478843ea9757f66",
+  "evidenceDigest": "sha256:68bd52f7d4863fe08085cebc36c3fb58a241495238d6a44f7c085878478225c0",
   "evidenceRefs": [
     ".ai/evidence/WI-815-post-release-acceptance.verification.json"
   ],
@@ -38,7 +40,7 @@
         ".ai/evidence/WI-815-post-release-acceptance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
+      "repositorySnapshotDigest": "sha256:910f06502a00040b1c4aadbc253281308361b3917baf2efb9304a948eb65fcf7",
       "workItemId": "WI-815-post-release-acceptance"
     },
     "format": "ai-cockpit.task-outcome",
@@ -134,7 +136,7 @@
     "status": "verified",
     "workItemId": "WI-815-post-release-acceptance"
   },
-  "taskReportDigest": "sha256:1ba2fbdd3914c8dc35b5be89b9a71a556ca990ec9b588be58844c9a60222e0f6",
+  "taskReportDigest": "sha256:b137ef85bbb994baf7205d608198c87012e2f1069348a246676dc545f5120d4a",
   "taskReportMarkdownDigest": "sha256:ff4a1d01becc87e621632f70d4b17629664322a867b613069fa809202a481c35",
   "unknowns": [
     "user_visible_benefit_not_declared"
