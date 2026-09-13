@@ -55,10 +55,9 @@ later release, public-adopter, close, or cleanup stages is enforced by
 `archive`/`close`, where it can actually be obtained. This prevents `finish`
 from depending on facts that do not exist until a future stage.
 
-The `requiredEvidenceClasses` field has a built-in vocabulary plus digest-bound
-custom labels. The supported forms are `verification`, `verification_receipt`,
-`verification-receipt`, `delegated:<provider>`, `delegated_evidence`,
-`external_evidence`, or a non-empty custom label. Lifecycle
+The `requiredEvidenceClasses` field has a fixed vocabulary. The supported forms
+are `verification`, `verification_receipt`, `verification-receipt`,
+`delegated:<provider>`, `delegated_evidence`, and `external_evidence`. Lifecycle
 stage labels such as `public-install`, `public-upgrade`, `release-close`, or
 `cleanup` are not evidence classes and are rejected by `start`, Contract
 amendment, and `preflight` before source verification begins. Those later-stage
