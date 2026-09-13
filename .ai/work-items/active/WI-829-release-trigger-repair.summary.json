@@ -3,22 +3,48 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-829-release-trigger-repair.contract.json",
     ".ai/work-items/active/WI-829-release-trigger-repair.summary.json",
-    ".github/workflows/release.yml",
-    "docs/architecture/release-distribution.ja.md",
-    "docs/architecture/release-distribution.md",
-    "docs/architecture/release-distribution.zh-CN.md",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md",
-    "docs/work-items/WI-829-release-trigger-repair.ja.md",
-    "docs/work-items/WI-829-release-trigger-repair.md",
-    "docs/work-items/WI-829-release-trigger-repair.zh-CN.md",
-    "tests/release/workflow_policy.sh"
+    "tests/ci/release_gate_policy_test.sh"
   ],
   "checkpointAt": "2026-09-13T17:35:40Z",
-  "checkpointContractDigest": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+  "checkpointContractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:b27e3f032ec863052c8e34d48024eeb4e728ab32a6259add5a6a336bb88304f2",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "recorded": true,
+      "recordedAt": "2026-09-13T17:35:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b27e3f032ec863052c8e34d48024eeb4e728ab32a6259add5a6a336bb88304f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-829-release-trigger-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "previousContractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "reason": "Include the regression gate that still asserted the retired tag-trigger route.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T17:43:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-829-release-trigger-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
   "createdAt": "2026-09-13T17:19:29Z",
   "intentAlignment": {
     "evidence": [
@@ -31,10 +57,10 @@
     "unknowns": []
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-13T17:35:52Z",
-  "preflightContractDigest": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+  "preflightAt": "2026-09-13T17:44:06Z",
+  "preflightContractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:b27e3f032ec863052c8e34d48024eeb4e728ab32a6259add5a6a336bb88304f2",
+  "preflightRepositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -106,6 +132,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:32e78a44ff03817890279574869bee7f28ce257f5778b349a51f94b57ddc7546",
+  "verificationRecoveryReconciled": "sha256:8b01e0c661cab008cc47a93f731c009b53ac4d6e1022ed2090262fbd6747275c",
   "workItemId": "WI-829-release-trigger-repair"
 }

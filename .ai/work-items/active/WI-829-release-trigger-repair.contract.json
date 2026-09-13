@@ -99,7 +99,8 @@
     "docs/work-items/WI-829-release-trigger-repair.md",
     "docs/work-items/WI-829-release-trigger-repair.zh-CN.md",
     "docs/work-items/WI-829-release-trigger-repair.ja.md",
-    ".ai/work-items/active/WI-829-release-trigger-repair.*"
+    ".ai/work-items/active/WI-829-release-trigger-repair.*",
+    "tests/ci/release_gate_policy_test.sh"
   ],
   "sources": [],
   "state": "implementation_active",

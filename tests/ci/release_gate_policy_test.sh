@@ -119,7 +119,14 @@ require 'needs: [publish, release_input_preflight]' 'version consistency must ru
 require 'needs: [publish_handoff, release_tools, post_release_helper]' 'install must use the mode-specific helper dependency'
 require 'needs: [publish, publish_handoff, release_tools, post_release_helper]' 'upgrade must use the mode-specific helper dependency'
 require 'needs.post_release_helper.result' 'public acceptance must wait for helper restoration'
-require 'if [[ "$GITHUB_EVENT_NAME" == push ]]; then' 'tag-triggered handoff must retain the source/workflow identity equality guard'
+require 'if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then' 'publication must use the explicit dispatch identity guard'
+require 'publication tag must resolve to the reviewed dispatch commit' 'publication must reject a tag that does not match the reviewed dispatch commit before compilation'
+require 'test "$manifest_commit" = "$GITHUB_SHA"' 'publication must bind the manifest to the explicit dispatch commit'
+if grep -Fq "github.event_name == 'push'" "$workflow" ||
+   grep -Fq "startsWith(github.ref, 'refs/tags/')" "$workflow"; then
+  printf 'release gate policy failure: implicit tag-triggered publication route must be absent\n' >&2
+  exit 1
+fi
 grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$manifest" || {
   printf 'release gate policy failure: canonical manifest must derive workspace packages from cargo metadata\n' >&2
   exit 1

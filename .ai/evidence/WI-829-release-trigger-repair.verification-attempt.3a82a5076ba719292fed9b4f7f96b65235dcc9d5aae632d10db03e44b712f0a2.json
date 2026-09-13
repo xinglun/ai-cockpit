@@ -1,9 +1,43 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:3a82a5076ba719292fed9b4f7f96b65235dcc9d5aae632d10db03e44b712f0a2",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "31c463e5fca27a67bf10fde8db1062c078115a6b",
+      "commandDigest": "sha256:7c32ea0a0f8c8f3a598c0dddb38a2879610aa1998bd5c5628ac122b1eb74f05a",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+  "contractExecutionScopeDigest": "sha256:fa61fbad2e16d5f9f43981eb9e6bcb4118ad4781a3acabed3b8197c756cb449d",
   "createdAt": "2026-09-13T17:44:06Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:7c32ea0a0f8c8f3a598c0dddb38a2879610aa1998bd5c5628ac122b1eb74f05a",
+      "elapsedMs": 255,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "72656c65617365206761746520706f6c696379207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -106,13 +140,13 @@
       }
     ],
     "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-829-release-trigger-repair"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:06cb1b1ca589dd4117f7b7f57f9c50fa4d632ee901f3f44e51f014ebe2505f65",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
   "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-829-release-trigger-repair"
 }
