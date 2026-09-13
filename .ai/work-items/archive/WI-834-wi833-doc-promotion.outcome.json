@@ -5,9 +5,9 @@
     "No historical receipt, archive, or release artifact is modified.",
     "The Work Item has truthful English, Simplified Chinese, and Japanese reader pages and its own pre-archive parity registrations before verification."
   ],
-  "createdAt": "2026-09-13T20:59:10Z",
+  "createdAt": "2026-09-13T21:12:50Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:462ca3a7d5ffb8dd9f8c49e9d2b5e1c722b6cea00a80d56e68afcc944372d864",
+  "evidenceDigest": "sha256:9b96ca241568e9ed19374ea926995e0b857e64da4063896e80e0d14ea127a983",
   "evidenceRefs": [
     ".ai/evidence/WI-834-wi833-doc-promotion.verification.json"
   ],
@@ -44,52 +44,24 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.63e3124eb48c870fedb84a7c146cbe19654e80bce4bfeed046f2857d25c7fb4a.json"
+          "text": "Changed path: .ai/decisions/WI-834-wi833-doc-promotion.recovery.b5bab5b26afe7f6bae723a8f810b75d222843c20aff870e0f61943c58da94744.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-834-wi833-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.b10930222bf781ee986a5ba9a0282b36104cf5499d82757cd40d19e4f0b405b4.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+          "text": "Changed path: .ai/work-items/archive/WI-834-wi833-doc-promotion.summary.json"
         }
       ],
       "evidence": [
@@ -145,7 +117,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-834-wi833-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make post-close documentation promotion pass for WI-833 without changing historical evidence or release behavior."
@@ -154,7 +126,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-834-wi833-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-834-wi833-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -164,8 +136,8 @@
     "status": "verified",
     "workItemId": "WI-834-wi833-doc-promotion"
   },
-  "taskReportDigest": "sha256:585d39f725d3aaffccc04793e1fa8ad5dcb700ef74df9262e9dd6288c0280d7e",
-  "taskReportMarkdownDigest": "sha256:928438ca38539f4841d214952de28985b45d39447ccf9f71fe181aaa655e27a7",
+  "taskReportDigest": "sha256:dc8b138ee8894f55e6cd210972d1fe3260e98954cf62c8dd87f56e7a782947bb",
+  "taskReportMarkdownDigest": "sha256:fbddffeae518dc29eeca2824549df728a54943e486003cf0733fbf9c5a5932a5",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

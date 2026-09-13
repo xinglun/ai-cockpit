@@ -1,0 +1,31 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-development",
+  "decidedAt": "2026-09-13T21:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-834-wi833-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/814",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
+  "predecessorEventsDigest": "sha256:c9ec053b150fbe1c626b61148482e0e3cc1c55158fd4c841d2afae6a599c597f",
+  "predecessorOutcomeDigest": "sha256:16b31651820a7ea66a77b1102475a2e53f1b0e2ff652a765300b460e4375f1e8",
+  "predecessorSummaryDigest": "sha256:f9faf553b40b2f4dba6b7b437a7d866e15e85493940146d7cfa899742e132f68",
+  "predecessorWorkItemId": "WI-834-wi833-doc-promotion",
+  "reason": "Archive requires the explicitly amended documentation evidence class to have a Runtime evidenceClasses projection. Retry the same Work Item to record that digest-bound projection and refresh the focused documentation verification; the scope and authority remain unchanged and no workspace verification is rerun.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record the digest-bound documentation evidenceClasses projection, refresh preflight and focused documentation verification, finish, archive, finalize, finalize-verify, and close. Do not rerun workspace verification.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-834-wi833-doc-promotion"
+}

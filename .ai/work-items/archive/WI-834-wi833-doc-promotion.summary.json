@@ -1,12 +1,8 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-834-wi833-doc-promotion.recovery.63e3124eb48c870fedb84a7c146cbe19654e80bce4bfeed046f2857d25c7fb4a.json",
+    ".ai/decisions/WI-834-wi833-doc-promotion.recovery.b5bab5b26afe7f6bae723a8f810b75d222843c20aff870e0f61943c58da94744.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-834-wi833-doc-promotion.verification-attempt.b10930222bf781ee986a5ba9a0282b36104cf5499d82757cd40d19e4f0b405b4.json",
-    ".ai/work-items/active/WI-834-wi833-doc-promotion.summary.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md"
+    ".ai/work-items/archive/WI-834-wi833-doc-promotion.summary.json"
   ],
   "checkpointAt": "2026-09-13T20:22:36Z",
   "checkpointContractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
@@ -49,8 +45,40 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f3fd74afb90962b05dbb1028b4b035fb1287af89dce6d551925af543c0351e9c",
   "createdAt": "2026-09-13T20:17:40Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
+    "items": [
+      {
+        "class": "documentation",
+        "evidence": [
+          {
+            "digest": "sha256:748b8b418e1f2fbc6e3bd6e59befd799b84ca036106c83a57d1e2d358847ff5d",
+            "locator": "frontmatter.workItemId",
+            "path": "docs/work-items/WI-834-wi833-doc-promotion.md",
+            "type": "reader-documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:8211965cc1bf832bfe7f5ab9e7565ec5cdebd69fb035ccfc08a97e83e4007264",
+            "locator": "frontmatter.workItemId",
+            "path": "docs/work-items/WI-834-wi833-doc-promotion.zh-CN.md",
+            "type": "reader-documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:22c21acc0e963e6e1e9ce2c3b9b48fd42d9eb129060f350315fb9b97f9009fed",
+            "locator": "frontmatter.workItemId",
+            "path": "docs/work-items/WI-834-wi833-doc-promotion.ja.md",
+            "type": "reader-documentation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-13T20:59:10Z",
+  "preflightAt": "2026-09-13T21:12:16Z",
   "preflightContractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f3fd74afb90962b05dbb1028b4b035fb1287af89dce6d551925af543c0351e9c",
@@ -58,7 +86,7 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-13T20:59:10Z",
+  "updatedAt": "2026-09-13T21:12:50Z",
   "verification": [
     {
       "check": "project-command-0",
