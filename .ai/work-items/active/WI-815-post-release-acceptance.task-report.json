@@ -4,7 +4,7 @@
       ".ai/evidence/WI-815-post-release-acceptance.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:16fa3c401ae8f060812031d232b8ee64c33f8290b2d9cc18f4ffe58573790589",
+    "repositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
     "workItemId": "WI-815-post-release-acceptance"
   },
   "format": "ai-cockpit.task-outcome",
@@ -55,7 +55,7 @@
           ".ai/evidence/WI-815-post-release-acceptance.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],
