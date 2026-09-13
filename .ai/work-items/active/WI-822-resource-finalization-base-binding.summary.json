@@ -1,11 +1,11 @@
 {
   "changedPaths": [
     ".ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json",
-    ".ai/work-items/active/WI-822-resource-finalization-base-binding.contract.json",
-    ".ai/work-items/active/WI-822-resource-finalization-base-binding.summary.json"
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
   ],
   "checkpointAt": "2026-09-13T10:24:55Z",
-  "checkpointContractDigest": "sha256:fca580a83ab16d7c9dfe5c12a81a452807bb643495dfedb207b232dbf6a0b4ca",
+  "checkpointContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -76,16 +76,13 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
   "predecessorWorkItemId": "WI-820-verification-execution-boundary",
-  "preflightAt": "2026-09-13T10:47:26Z",
-  "preflightContractDigest": "sha256:fca580a83ab16d7c9dfe5c12a81a452807bb643495dfedb207b232dbf6a0b4ca",
+  "preflightAt": "2026-09-13T11:01:57Z",
+  "preflightContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json",
-  "recoveryRetryDecisionDigest": "sha256:e5b7ad618741a03fbeb0152344a878fa3f88edad7a8610026e940042bced3c7f",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-822-resource-finalization-base-binding.recovery.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -123,14 +120,13 @@
       "verificationPlan": "Run existing protocol and repository compatibility tests plus new regressions for legacy PR receipts and direct-merge historical records."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-13T10:52:36Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T11:02:11Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3821088b0bb9474011a4b649a84aa5d1d99da16f90ded1f17cb74a0843891dc5",
   "workItemId": "WI-822-resource-finalization-base-binding"
 }
