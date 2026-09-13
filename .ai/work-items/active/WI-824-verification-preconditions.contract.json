@@ -64,7 +64,12 @@
     "crates/cockpit-verification/src/lib.rs",
     "crates/cockpit-cli/tests",
     "crates/cockpit-repository/tests",
-    "crates/cockpit-verification/tests"
+    "crates/cockpit-verification/tests",
+    ".ai/evidence/WI-824-verification-preconditions.*",
+    ".ai/work-items/active/WI-824-verification-preconditions.*",
+    ".ai/work-items/archive/WI-824-verification-preconditions.*",
+    ".ai/decisions/WI-824-verification-preconditions.*",
+    ".ai/decisions/observer-snapshot.json"
   ],
   "sources": [],
   "state": "implementation_active",
