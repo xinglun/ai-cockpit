@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-821——无资源文档 promotion"
 description: "保持 post-close 文档 promotion 严格，同时不为本地 Work Item 虚构 provider finalization。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorized
 workItemId: WI-821-no-resource-document-promotion
 lastVerifiedBy: WI-821-no-resource-document-promotion
+terminalArchive: .ai/work-items/archive/WI-821-no-resource-document-promotion.contract.json
+terminalVerification: .ai/evidence/WI-821-no-resource-document-promotion.verification.json
+terminalDecision: .ai/decisions/WI-821-no-resource-document-promotion.close.json
 ---
 
 [English](WI-821-no-resource-document-promotion.md) · [日本語](WI-821-no-resource-document-promotion.ja.md)
