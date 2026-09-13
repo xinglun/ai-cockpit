@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-recovery",
+  "decidedAt": "2026-09-13T10:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.contract.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.outcome.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.events.jsonl",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.archive.json",
+    ".ai/decisions/WI-820-verification-execution-boundary.recovery.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "predecessorEventsDigest": "sha256:bb5791dc5a3299cc7a25a1a233c708537b957b9d039c0354ef2951e21e0a3dde",
+  "predecessorOutcomeDigest": "sha256:dc120679dd8c2cb7936a6fa3dc5f1ac107dff4850cd035b037ea8ca72e29b902",
+  "predecessorSummaryDigest": "sha256:e5bfc1890dc21b2a5e77b221ec8ba7cdfa94f819225f051ec9609262eb52c2ad",
+  "predecessorWorkItemId": "WI-820-verification-execution-boundary",
+  "reason": "WI-820 is merged and archived with successful verification, but its resource finalization cannot be closed truthfully because the Contract base revision differs from the reviewed PR comparison base. Create a narrowly scoped successor to separate Contract, PR, and source identities without rewriting historical evidence or treating history as a validation bypass.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and verify the explicit Contract-base binding for provider finalization, then finalize and close WI-820 using a truthful PR-bound receipt; do not republish v0.2.91.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-822-resource-finalization-base-binding",
+  "workItemId": "WI-820-verification-execution-boundary"
+}

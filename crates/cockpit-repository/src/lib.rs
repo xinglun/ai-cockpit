@@ -7142,6 +7142,21 @@ fn ensure_resource_finalization_base_binding(
     contract: &Contract,
     path: &Path,
 ) -> Result<(), ObserverError> {
+    if let Some(contract_base_revision) = receipt.contract_base_revision.as_deref() {
+        if contract_base_revision != contract.base_revision {
+            return Err(ObserverError::State {
+                path: path.into(),
+                message: format!(
+                    "resource finalization Contract base revision binding does not match the archived Contract base revision: expected {}, receipt has {}",
+                    contract.base_revision, contract_base_revision
+                ),
+            });
+        }
+        // The provider's PR base is an independent comparison identity.  The
+        // explicit Contract binding above is the authorization boundary, so
+        // a refreshed branch may legitimately report a different PR base.
+        return Ok(());
+    }
     if receipt.pull_request.base_revision == contract.base_revision {
         return Ok(());
     }

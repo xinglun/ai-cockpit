@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "A provider finalization receipt records and validates the immutable Contract base separately from the actual PR comparison base.",
+    "Existing receipts without the new binding retain their previous strict behavior and historical direct-merge paths remain fail-closed.",
+    "A mismatched Contract/PR base is rejected before persistence unless the explicit Contract-base binding matches, with no partial lifecycle mutation.",
+    "Focused tests cover valid differing bases, missing or wrong bindings, legacy compatibility, PR resource context, and CLI/MCP parity where applicable.",
+    "The verified fix can be used to finalize and close WI-820 without republishing v0.2.91."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-822-resource-finalization-base-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-822-resource-finalization-base-binding.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-822-resource-finalization-base-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make provider-bound finalization and recovery truthful when a reviewed PR compares against a later base than the immutable Contract base, while preserving backward compatibility and fail-closed validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-822-resource-finalization-base-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-822-resource-finalization-base-binding"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

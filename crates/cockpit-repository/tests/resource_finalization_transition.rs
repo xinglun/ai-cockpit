@@ -413,6 +413,57 @@ fn canonical_record_rejects_pull_request_base_that_differs_from_archived_contrac
 }
 
 #[test]
+fn canonical_record_accepts_distinct_pr_base_when_contract_base_is_explicitly_bound() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{ID}.contract.json"));
+    let archived_contract: Value = serde_json::from_slice(&fs::read(contract_path).unwrap()).unwrap();
+    let contract_base = archived_contract["baseRevision"].as_str().unwrap();
+    let mut receipt = blocked(&repository_id, &context, &contract);
+    receipt["pullRequest"]["baseRevision"] = "provider-comparison-base".into();
+    receipt["contractBaseRevision"] = contract_base.into();
+    let input = write_input(&directory, "distinct-base.json", &receipt);
+
+    let recorded = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect("an explicitly bound Contract base permits a distinct provider PR base");
+    assert_eq!(recorded["state"], "recorded");
+    let stored: Value = serde_json::from_slice(
+        &fs::read(directory.path().join(format!(".ai/decisions/{ID}.finalize.json"))).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(stored["pullRequest"]["baseRevision"], "provider-comparison-base");
+    assert_eq!(stored["contractBaseRevision"], contract_base);
+}
+
+#[test]
+fn canonical_record_rejects_wrong_explicit_contract_base_without_persisting() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let mut receipt = blocked(&repository_id, &context, &contract);
+    receipt["pullRequest"]["baseRevision"] = "provider-comparison-base".into();
+    receipt["contractBaseRevision"] = "wrong-contract-base".into();
+    let input = write_input(&directory, "wrong-contract-base.json", &receipt);
+
+    let error = record_resource_finalization(directory.path(), ID, &input, &runtime())
+        .expect_err("a wrong explicit Contract binding must fail closed");
+    assert!(
+        error
+            .to_string()
+            .contains("Contract base revision binding does not match"),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{ID}.finalize.json"))
+            .exists(),
+        "a rejected Contract binding must not create a canonical decision"
+    );
+}
+
+#[test]
 fn canonical_verify_rejects_stored_pull_request_base_that_differs_from_archived_contract() {
     let (directory, context, contract) = repository();
     let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
