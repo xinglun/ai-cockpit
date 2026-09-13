@@ -24,13 +24,21 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Start from the latest commit on the repository's discovered remote default
   branch. Record the remote, default branch, and base revision in the Work Item
   Contract.
-- The canonical delivery order is latest remote default base → dedicated
-  branch/worktree → implement → finish/archive → push → reviewed PR → merge →
-  close → synchronize and clean. Never pre-merge a feature branch into local
-  `main`, delete its branch before merge, or let a provider auto-delete it to
-  bypass finalization. A failed remote step preserves the retry checkout and
-  identity; `ready_on_base` is true only after reviewed merge, synchronized
-  default branch, and exact cleanup, not for a detached worktree.
+- Delivery order is conditional on the Contract. Without an external resource:
+  latest remote default base → dedicated branch/worktree → implement →
+  preflight → checkpoint → verify → finish → archive → close → synchronize and
+  clean. With an external resource: latest remote default base → dedicated
+  branch/worktree → implement → finalize-plan → preflight → checkpoint → verify
+  → finish → reviewed PR → merge → declared hosted, candidate, release, or
+  public-artifact evidence → archive → finalize → finalize-verify → close →
+  synchronize and clean. Never pre-merge a feature branch into local `main`,
+  delete its branch before merge, or let a provider auto-delete it to bypass
+  finalization. A failed remote step preserves the retry checkout and
+  identity; `ready_on_base` is true only after reviewed merge when applicable,
+  synchronized default branch, and exact cleanup, not for a detached worktree.
+  A historical resource-bound PR is a read-only archive route requiring its
+  exact archived Contract and a valid archive manifest; it is not an ordinary
+  no-Contract route.
 - Use one Contract, one dedicated branch/worktree, and one PR per Work Item.
   Compatible independent Work Items may run concurrently when scope, evidence
   ownership, repository context, and serialized projections are isolated.

@@ -21,10 +21,12 @@ Git base/head、changed paths、Contract 路径与 digest、manifest byte digest
 manifest 中的命令；不存在任意命令 override。
 
 Runtime shadow 与 Contract 绑定：`standard` 或 `strict` 的 pull request 只有在初始路由
-解析出一个 active Contract 时才执行并上传 shadow。已经 finish/archive、没有 active
-Contract 的 PR 仍执行普通仓库 gates，但会跳过这个仅用于执行身份的 shadow，因为不可变
-Runtime 没有当前 Contract 就不能产生 Work Item verification evidence。这是明确的跳过，
-不会削弱所选仓库 gates，也不会把缺失证据当作通过。
+解析出一个 active Contract 时才执行并上传 shadow。已归档且没有外部资源的 PR 仍执行普通
+仓库 gates，但会跳过这个仅用于执行身份的 shadow，因为不可变 Runtime 没有当前 Contract
+无法产生 Work Item verification evidence。历史上绑定外部资源的 PR 不同：它必须在 PR
+阶段由只读 Rust Contract gate 校验精确的 archived Contract、archive manifest、identity
+和适用范围；不能退回普通无 Contract 路线。identity 或 manifest 不一致时必须 fail
+closed。这些明确分流不会削弱所选仓库 gates，也不会把缺失 evidence 当作通过。
 
 profile 为累加关系。`light` 执行文档与治理策略回归；`standard` 再加入 Cargo fmt、
 Clippy、package gates、不可变 Runtime shadow 与源码 conformance；`strict` 继续加入

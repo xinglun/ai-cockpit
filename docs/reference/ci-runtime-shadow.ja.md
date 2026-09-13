@@ -23,10 +23,14 @@ manifest に保存された command だけを実行します。任意 command ov
 
 Runtime shadow は Contract に bind されます。`standard` または `strict` の pull request
 は、initial route が active Contract を一つ解決した場合だけ shadow を実行して upload
-します。finish/archive 後で active Contract がない PR は通常の repository gate を実行
-しますが、現在の Contract なしでは immutable Runtime が Work Item verification evidence
-を生成できないため、この execution-only shadow は skip します。これは明示的な skip で
-あり、選択された repository gate を弱めたり、missing evidence を pass にしたりしません。
+します。外部 resource のない archived PR は通常の repository gate を実行しますが、
+現在の Contract がないため immutable Runtime が Work Item verification evidence を生成
+できず、この execution-only shadow は skip します。歴史的に external resource に bind
+された PR は別ルートです。pull-request stage で read-only Rust Contract gate が正確な
+archived Contract、archive manifest、identity、適用範囲を検証し、通常の no-Contract
+route へ fallback してはいけません。identity または manifest の不一致は fail closed
+です。これらの明示的な route は選択された repository gate を弱めず、missing evidence
+を pass にもしません。
 
 profile は累積です。`light` は docs と governance-policy regression、`standard` は
 Cargo fmt/Clippy/package gates、immutable Runtime shadow、source conformance を追加し、

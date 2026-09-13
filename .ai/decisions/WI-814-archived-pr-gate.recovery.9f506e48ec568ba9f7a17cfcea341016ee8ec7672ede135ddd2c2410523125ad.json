@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "repository-local",
+  "decidedAt": "2026-09-12T18:37:35Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-814-archived-pr-gate.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/792"
+  ],
+  "policyRefs": [
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+  "predecessorEventsDigest": "sha256:00e8ce3fb75445cc81c9c8c24fbe117106c84654996f88a602da2f480e7835c5",
+  "predecessorOutcomeDigest": "sha256:edd0ad60b3db90bd0a2e613a41e8562e24faf2912599519471fb8058b3b0794f",
+  "predecessorSummaryDigest": "sha256:78903262cb89cc34a48986c2df1cdcff11f4daf58f922580cd5b438574fef667",
+  "predecessorWorkItemId": "WI-814-archived-pr-gate",
+  "reason": "Strict hosted Clippy exposed a needless-borrow error after the previous finish; retry the same Work Item to revalidate the fixed current commit without creating a successor or repeating unrelated release work.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight, the affected verification, and finish on the fixed current commit; then resume the reviewed PR path.",
+  "runtimeDigest": "sha256:ccb2fb3172e73d429c109dc1aa42e3c1b5c00322370277d097a4a58ba869d9b6",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-814-archived-pr-gate"
+}

@@ -754,6 +754,10 @@ fn finalization_action_projection_for_context(
                 "ai-cockpit".into(),
                 "work-item".into(),
                 "finalize-verify".into(),
+                "--repo".into(),
+                root.display().to_string(),
+                "--id".into(),
+                work_item_id.into(),
             ]),
         ),
         "record_close_decision_if_required" | "human_decision_or_lifecycle" => (
@@ -2986,6 +2990,35 @@ mod render_tests {
         );
         assert_eq!(
             retained.authorization,
+            cockpit_protocol::FinalizationAuthorization::None
+        );
+    }
+
+    #[test]
+    fn reobserve_action_is_executable_and_repository_bound() {
+        let reobserve = finalization_action_projection_for_context(
+            "reobserve_resources_before_cleanup",
+            Path::new("/repo"),
+            "WI-42",
+        );
+        assert_eq!(
+            reobserve.argv,
+            Some(vec![
+                "ai-cockpit".into(),
+                "work-item".into(),
+                "finalize-verify".into(),
+                "--repo".into(),
+                "/repo".into(),
+                "--id".into(),
+                "WI-42".into(),
+            ])
+        );
+        assert_eq!(
+            reobserve.safety,
+            cockpit_protocol::FinalizationSafety::ObserveOnly
+        );
+        assert_eq!(
+            reobserve.authorization,
             cockpit_protocol::FinalizationAuthorization::None
         );
     }
