@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T13:54:48Z",
+  "files": {
+    "contractDigest": "sha256:d5e8e6ebf5f651b4bd284f0e6f4c4363ca106a7f56c64de0d304b26a424c2335",
+    "contractPath": ".ai/work-items/archive/WI-824-verification-preconditions.contract.json",
+    "eventsDigest": "sha256:2ea91301dfdd642c8c2308b1af8f4825bea96b8be9a5596f8ca5a3d85689bd3f",
+    "eventsPath": ".ai/work-items/archive/WI-824-verification-preconditions.events.jsonl",
+    "outcomeDigest": "sha256:e74161145b7f7df12cf39410eb32f1fc65d5e7a95d10325cea9763bf87a6ed52",
+    "outcomePath": ".ai/work-items/archive/WI-824-verification-preconditions.outcome.json",
+    "summaryDigest": "sha256:9fa2cd1f6b4f4ff42a505ba3a6160c1abfb8524a2efa3024054ecc627d882063",
+    "summaryPath": ".ai/work-items/archive/WI-824-verification-preconditions.summary.json",
+    "taskReportDigest": "sha256:87a958ce7ed0fcd56846dfc0dfa7cacd58cdd28bead2dccb7b256ffabc9ca1b8",
+    "taskReportMarkdownDigest": "sha256:b72dbff1d41215498e6724904683a950b38ba550226d7a5a8cc84e3896871ee7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-824-verification-preconditions.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-824-verification-preconditions.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-824-verification-preconditions"
+}

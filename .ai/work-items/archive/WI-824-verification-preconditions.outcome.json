@@ -44,84 +44,84 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.0ea22034140363cc3ff8317d79186f15cd50219cc2f195997e6b5c2327a6f0bd.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.c90fcb17e22b8b6d856c2e8e6eed7276c3eab2d9a052de05a8961226057420c6.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification-attempt.d81e3309d8c93d0b70d942f50a61f0fb9c46147305d83d43f3f3d21c46565282.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-824-verification-preconditions.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-824-verification-preconditions.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.events.jsonl"
+          "text": "Changed path: .ai/work-items/archive/WI-824-verification-preconditions.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.outcome.json"
+          "text": "Changed path: .ai/work-items/archive/WI-824-verification-preconditions.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-824-verification-preconditions.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-824-verification-preconditions.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-cli/src/main.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.summary.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/verification_attempts.rs"
@@ -180,7 +180,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.contract.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.contract.json"
           ],
           "inference": false,
           "text": "Implement identity-bound verification precondition rejection and durable attempt-result persistence with focused regression coverage, without weakening formal receipt validation or changing historical records."
@@ -189,7 +189,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-824-verification-preconditions.contract.json"
+            ".ai/work-items/archive/WI-824-verification-preconditions.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -199,8 +199,8 @@
     "status": "verified",
     "workItemId": "WI-824-verification-preconditions"
   },
-  "taskReportDigest": "sha256:25e2d56a20053b2df04718e6b33e2b1d2225bd65c958bd06b2aa124322dd1d81",
-  "taskReportMarkdownDigest": "sha256:522e634ae3a2b28bc936f4466a02ab068203685f8c83efab7c6cab4b53c471c2",
+  "taskReportDigest": "sha256:87a958ce7ed0fcd56846dfc0dfa7cacd58cdd28bead2dccb7b256ffabc9ca1b8",
+  "taskReportMarkdownDigest": "sha256:b72dbff1d41215498e6724904683a950b38ba550226d7a5a8cc84e3896871ee7",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
