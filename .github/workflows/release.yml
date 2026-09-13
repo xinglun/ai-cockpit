@@ -30,8 +30,17 @@ on:
         required: false
         default: false
         type: boolean
+      close_only:
+        description: 'Run only the close barrier using receipts from a prior successful acceptance run'
+        required: false
+        default: false
+        type: boolean
       reuse_run_id:
         description: 'Prior release run with a successful Ubuntu release-helper stage to reuse for post-release acceptance'
+        required: false
+        type: string
+      reuse_acceptance_run_id:
+        description: 'Prior release run whose successful handoff, version, install, and upgrade receipts may be reused for close-only recovery'
         required: false
         type: string
       work_item_id:
@@ -73,6 +82,8 @@ jobs:
       head_revision: ${{ steps.resolve.outputs.head_revision }}
       release_source_revision: ${{ steps.resolve.outputs.release_source_revision }}
       reuse_run_id: ${{ steps.resolve.outputs.reuse_run_id }}
+      reuse_acceptance_run_id: ${{ steps.resolve.outputs.reuse_acceptance_run_id }}
+      close_only: ${{ steps.resolve.outputs.close_only }}
       governance_work_item_id: ${{ steps.resolve.outputs.work_item_id }}
       governance_contract_digest: ${{ steps.resolve.outputs.contract_digest }}
       source_work_item_id: ${{ steps.resolve.outputs.source_work_item_id }}
@@ -100,7 +111,9 @@ jobs:
           INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
           PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
           INPUT_POST_RELEASE_ACCEPTANCE: ${{ github.event.inputs.post_release_acceptance || 'false' }}
+          INPUT_CLOSE_ONLY: ${{ github.event.inputs.close_only || 'false' }}
           INPUT_REUSE_RUN_ID: ${{ github.event.inputs.reuse_run_id }}
+          INPUT_REUSE_ACCEPTANCE_RUN_ID: ${{ github.event.inputs.reuse_acceptance_run_id }}
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
@@ -112,6 +125,7 @@ jobs:
             --to-tag "$INPUT_TO_TAG"
             --publish-existing-tag "$PUBLISH_EXISTING_TAG"
             --post-release-acceptance "$INPUT_POST_RELEASE_ACCEPTANCE"
+            --close-only "$INPUT_CLOSE_ONLY"
             --output target/release-input-preflight.json
           )
           if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then
@@ -132,6 +146,9 @@ jobs:
           if [[ -n "$INPUT_REUSE_RUN_ID" ]]; then
             selector_args+=(--reuse-run-id "$INPUT_REUSE_RUN_ID")
           fi
+          if [[ -n "$INPUT_REUSE_ACCEPTANCE_RUN_ID" ]]; then
+            selector_args+=(--reuse-acceptance-run-id "$INPUT_REUSE_ACCEPTANCE_RUN_ID")
+          fi
           if [[ "$EVENT_NAME" == push ]]; then
             selector_args+=(--github-repository "$GITHUB_REPOSITORY")
           fi
@@ -142,6 +159,8 @@ jobs:
           echo "head_revision=$(jq -er '.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "release_source_revision=$(jq -r '.releaseSourceRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "reuse_run_id=$(jq -r '.reuseRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "reuse_acceptance_run_id=$(jq -r '.reuseAcceptanceRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "close_only=$(jq -r '.closeOnly // false' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "work_item_id=$(jq -r '.workItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "contract_digest=$(jq -r '.contractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "source_work_item_id=$(jq -r '.sourceWorkItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
@@ -160,7 +179,7 @@ jobs:
   post_release_helper:
     # post-release-only recovery reuses a helper from a known successful run;
     # only a protocol-incompatible helper may trigger one helper-only rebuild.
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true'
     needs: [release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -1336,7 +1355,7 @@ jobs:
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.post_release_helper.result == 'success' && needs.release_input_preflight.result == 'success'))
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.post_release_helper.result == 'success' && needs.release_input_preflight.result == 'success'))
     needs: [publish, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -1456,7 +1475,7 @@ jobs:
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.release_input_preflight.result == 'success'))
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.release_input_preflight.result == 'success'))
     needs: [publish, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -1521,7 +1540,7 @@ jobs:
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
+       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
     needs: [publish_handoff, release_tools, post_release_helper]
     runs-on: ubuntu-24.04
     permissions:
@@ -1629,6 +1648,7 @@ jobs:
         github.event.inputs.handoff_run_id != '') ||
        (github.event_name == 'workflow_dispatch' &&
         github.event.inputs.post_release_acceptance == 'true' &&
+        github.event.inputs.close_only != 'true' &&
         needs.publish_handoff.result == 'success' &&
         needs.post_release_helper.result == 'success'))
     needs: [publish, publish_handoff, release_tools, post_release_helper]
@@ -1838,16 +1858,74 @@ jobs:
       always() &&
       ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
        (github.event_name == 'workflow_dispatch' &&
-        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true')))
+        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true')))
     needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Restore close inputs from a completed acceptance run
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.close_only == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ github.event.inputs.reuse_acceptance_run_id }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          RELEASE_TAG: ${{ github.event.inputs.to_tag }}
+        run: |
+          set -u
+          mkdir -p close-inputs
+          failure_file=close-inputs/reuse-validation.failure
+          set +e
+          {
+            set -euo pipefail
+            [[ "$SOURCE_RUN_ID" =~ ^[1-9][0-9]*$ ]] || {
+              echo 'close-only recovery requires a numeric reuse_acceptance_run_id' >&2
+              exit 1
+            }
+            [[ "$SOURCE_RUN_ID" != "$CURRENT_RUN_ID" ]] || {
+              echo 'close-only recovery cannot reuse the current workflow run' >&2
+              exit 1
+            }
+            run_info="$(gh run view "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --json conclusion,event,workflowName,headSha,jobs)"
+            jq -e '
+              . as $root |
+              select(.workflowName == "ai-cockpit release evidence") |
+              select(.headSha | test("^[0-9a-f]{40}$")) |
+              ["publish_handoff", "post_release_version_consistency", "adopter_acceptance", "adopter_upgrade_acceptance"] |
+              all(.[]; . as $name | $root.jobs | any(.[]; .name == $name and .conclusion == "success"))
+            ' <<<"$run_info" >/dev/null || {
+              echo 'source run must be a release workflow with all required acceptance jobs successful' >&2
+              exit 1
+            }
+            artifact_name() {
+              local prefix="$1"
+              gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN_ID/artifacts" \
+                --jq "[.artifacts[] | select(.expired == false and (.name | startswith(\"$prefix\")))] | sort_by(.created_at) | last.name // empty"
+            }
+            download_artifact() {
+              local prefix="$1" destination="$2" name
+              name="$(artifact_name "$prefix")"
+              [[ -n "$name" ]] || { echo "no unexpired artifact matches $prefix" >&2; return 1; }
+              mkdir -p "$destination"
+              gh run download "$SOURCE_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "$name" --dir "$destination"
+            }
+            download_artifact 'ai-cockpit-publish-handoff-' close-inputs/handoff
+            download_artifact 'post-release-version-consistency-' close-inputs/version
+            download_artifact "release-adopter-acceptance-${RELEASE_TAG}-" close-inputs/install
+            download_artifact "release-adopter-upgrade-${RELEASE_TAG}-" close-inputs/upgrade
+          } 2>close-inputs/reuse-validation.error
+          restore_status=$?
+          set -e
+          if [[ "$restore_status" -ne 0 ]]; then
+            printf '%s\n' 'close-only acceptance evidence restore failed' > "$failure_file"
+          fi
+          exit 0
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         if: always() && needs.publish_handoff.result == 'success'
         continue-on-error: true
@@ -1911,8 +1989,16 @@ jobs:
           VERSION_CONSISTENCY: ${{ needs.post_release_version_consistency.result }}
           INSTALL: ${{ needs.adopter_acceptance.result }}
           UPGRADE: ${{ needs.adopter_upgrade_acceptance.result }}
+          CLOSE_ONLY: ${{ github.event.inputs.close_only == 'true' }}
+          SOURCE_RUN_ID: ${{ github.event.inputs.reuse_acceptance_run_id || '' }}
         run: |
           set -euo pipefail
+          if [[ "$CLOSE_ONLY" == true ]]; then
+            HANDOFF=success
+            VERSION_CONSISTENCY=success
+            INSTALL=success
+            UPGRADE=success
+          fi
           release_commit="$(git ls-remote origin "refs/tags/$TAG^{}" | awk '{print $1}')"
           test -n "$release_commit"
           if [[ "$GITHUB_EVENT_NAME" == push ]]; then
@@ -1993,6 +2079,9 @@ jobs:
           validate_acceptance "$install_file" "$install_phases" install
           validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade
           reason_json='[]'
+          if [[ -f close-inputs/reuse-validation.failure ]]; then
+            reasons+=(reused_acceptance_run_invalid)
+          fi
           if ((${#reasons[@]} > 0)); then
             reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
           fi
@@ -2012,6 +2101,8 @@ jobs:
             --arg versionState "$VERSION_CONSISTENCY" \
             --arg installState "$INSTALL" \
             --arg upgradeState "$UPGRADE" \
+            --arg closeOnly "$CLOSE_ONLY" \
+            --arg sourceRunId "$SOURCE_RUN_ID" \
             --argjson reasons "$reason_json" \
             --argjson handoffDigest "$handoff_digest" \
             --argjson versionDigest "$version_digest" \
@@ -2019,7 +2110,7 @@ jobs:
             --argjson installPhaseDigest "$install_phase_digest" \
             --argjson upgradeDigest "$upgrade_digest" \
             --argjson upgradePhaseDigest "$upgrade_phase_digest" \
-            '{schemaVersion:2,phase:"close",tag:$tag,commit:$commit,state:$state,providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
+            '{schemaVersion:2,phase:"close",tag:$tag,commit:$commit,state:$state,reusedAcceptanceRunId:(if $sourceRunId == "" then null else ($sourceRunId|tonumber) end),closeOnly:($closeOnly == "true"),providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
             > "$output/release-close.json"
           sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
           if [[ "$state" != passed ]]; then

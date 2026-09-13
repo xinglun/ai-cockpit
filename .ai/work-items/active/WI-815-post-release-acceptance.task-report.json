@@ -4,7 +4,7 @@
       ".ai/evidence/WI-815-post-release-acceptance.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
+    "repositorySnapshotDigest": "sha256:910f06502a00040b1c4aadbc253281308361b3917baf2efb9304a948eb65fcf7",
     "workItemId": "WI-815-post-release-acceptance"
   },
   "format": "ai-cockpit.task-outcome",

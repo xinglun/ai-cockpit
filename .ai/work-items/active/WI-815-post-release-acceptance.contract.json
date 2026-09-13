@@ -10,7 +10,8 @@
     "If the selected historical helper fails the compatibility probe, recovery builds and checksum-binds exactly one current cockpit-release helper, records both the failed old-helper probe and repaired-helper result, and never rebuilds product packages or republishes the Release.",
     "Release close validates public installation receipts by tag and N-minus-one upgrade receipts by toTag.",
     "A regression test accepts both receipt schemas and rejects a receipt bound to a different public tag.",
-    "The new receipt-schema regression is registered exactly once in the canonical repository gate manifest."
+    "The new receipt-schema regression is registered exactly once in the canonical repository gate manifest.",
+    "A close-only recovery validates and reuses the prior successful handoff, version, install, and upgrade receipts without rerunning acceptance or publication stages."
   ],
   "authority": "human_authorized",
   "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
@@ -45,7 +46,8 @@
     "workflow policy regression evidence",
     "helper protocol compatibility receipt",
     "receipt-schema-regression",
-    "canonical-gate-registration"
+    "canonical-gate-registration",
+    "close-only-recovery-reuse"
   ],
   "resourceContext": {
     "baseBranch": "main",

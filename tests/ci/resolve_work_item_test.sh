@@ -519,6 +519,40 @@ if "$resolver" \
 fi
 jq -e '.failureCode == "reuse_run_id_required" and .state == "failed"' "$fixture/missing-reuse-run.json" >/dev/null
 
+close_only_output="$fixture/close-only.json"
+"$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --post-release-acceptance true \
+  --close-only true \
+  --reuse-acceptance-run-id 34728828164 \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$close_only_output"
+jq -e \
+  '.mode == "close_only" and .closeOnly == true and .reuseAcceptanceRunId == "34728828164" and .workItemId == "WI-TEST"' \
+  "$close_only_output" >/dev/null
+
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --post-release-acceptance true \
+  --close-only true \
+  --work-item-id WI-TEST \
+  --release-source-revision "$base" \
+  --output "$fixture/missing-close-only-run.json" >/dev/null 2>&1; then
+  echo 'expected close-only recovery without a source run to fail' >&2
+  exit 1
+fi
+jq -e '.failureCode == "reuse_acceptance_run_id_required" and .state == "failed"' \
+  "$fixture/missing-close-only-run.json" >/dev/null
+
 post_release_output="$fixture/post-release.json"
 "$resolver" \
   --repo "$fixture/repo" \
