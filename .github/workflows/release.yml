@@ -1803,7 +1803,7 @@ jobs:
     if: >-
       always() &&
       (github.event_name == 'workflow_dispatch' &&
-        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true')))
+        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true'))
     needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
     permissions:
