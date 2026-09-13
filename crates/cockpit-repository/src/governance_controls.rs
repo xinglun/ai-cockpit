@@ -7,7 +7,7 @@
 
 use crate::{ObserverError, repository_id};
 use chrono::DateTime;
-use cockpit_core::Digest;
+use cockpit_core::{Digest, EvidenceState};
 use cockpit_protocol::{
     CheckpointEvidence, Contract, PreflightDecisionEvidence, RuntimeContext,
     VerificationDeclaration, validate_scenario_coverage_projection,
@@ -315,10 +315,55 @@ pub struct GovernanceControlsReport {
     pub state: String,
     pub scenario_coverage: String,
     pub acceptance_evidence: String,
+    pub evidence_classes: String,
     pub intent_alignment: String,
     pub final_dimensions: String,
     pub unknowns: Vec<String>,
     pub findings: Vec<GovernanceFinding>,
+}
+
+fn evidence_class_projection_report(
+    state: EvidenceState,
+) -> (String, Vec<String>, Vec<GovernanceFinding>) {
+    match state {
+        EvidenceState::Complete => ("verified".into(), Vec::new(), Vec::new()),
+        EvidenceState::Missing => (
+            "unknown".into(),
+            vec!["evidence_classes_missing".into()],
+            vec![finding(
+                "evidence_classes_missing",
+                "required custom evidence classes have no complete projection",
+                "warning",
+            )],
+        ),
+        EvidenceState::Stale => (
+            "unknown".into(),
+            vec!["evidence_classes_stale".into()],
+            vec![finding(
+                "evidence_classes_stale",
+                "custom evidence class projection is stale for the current Contract or file bytes",
+                "warning",
+            )],
+        ),
+        EvidenceState::Contradictory => (
+            "blocked".into(),
+            vec!["evidence_classes_contradictory".into()],
+            vec![finding(
+                "evidence_classes_contradictory",
+                "custom evidence class projection is malformed or violates its file boundary",
+                "error",
+            )],
+        ),
+        EvidenceState::Unknown => (
+            "unknown".into(),
+            vec!["evidence_classes_unknown".into()],
+            vec![finding(
+                "evidence_classes_unknown",
+                "custom evidence class projection could not be validated",
+                "warning",
+            )],
+        ),
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -1155,6 +1200,12 @@ fn validate_work_item_governance_controls_internal(
         validate_acceptance_evidence_values(&contract, &summary);
     unknowns.extend(acceptance_unknowns);
     findings.extend(acceptance_findings);
+    let evidence_class_state =
+        crate::evidence_class_projection_state(root, &contract, &summary, is_archive_manifest)?;
+    let (evidence_classes, evidence_class_unknowns, evidence_class_findings) =
+        evidence_class_projection_report(evidence_class_state);
+    unknowns.extend(evidence_class_unknowns);
+    findings.extend(evidence_class_findings);
     let (intent_state, intent_unknowns, intent_findings) =
         validate_intent_alignment_values(&contract, &summary);
     unknowns.extend(intent_unknowns);
@@ -1184,6 +1235,7 @@ fn validate_work_item_governance_controls_internal(
         state: state.into(),
         scenario_coverage: scenario_state,
         acceptance_evidence: acceptance_state,
+        evidence_classes,
         intent_alignment: intent_state,
         final_dimensions: final_state,
         unknowns,
@@ -1231,6 +1283,7 @@ pub fn record_work_item_governance_controls(
             key.as_str(),
             "scenarioCoverage"
                 | "acceptanceEvidence"
+                | "evidenceClasses"
                 | "intentAlignment"
                 | "finalDimensions"
                 | "decisionEvidence"
@@ -1259,6 +1312,7 @@ pub fn record_work_item_governance_controls(
     for key in [
         "scenarioCoverage",
         "acceptanceEvidence",
+        "evidenceClasses",
         "intentAlignment",
         "finalDimensions",
     ] {
@@ -1297,12 +1351,33 @@ pub fn record_work_item_governance_controls(
             })?;
         let contract = crate::read_contract(&contract_path)?;
         let mut errors = Vec::new();
+        if object.contains_key("evidenceClasses") {
+            let state = crate::evidence_class_projection_state(root, &contract, &summary, false)?;
+            if state != EvidenceState::Complete {
+                return Err(ObserverError::State {
+                    path: summary_path.clone(),
+                    message: format!("evidence class projection is not complete: {state:?}"),
+                });
+            }
+        }
         if object.contains_key("scenarioCoverage") {
+            // A high-risk scenario may be deliberately unverified while the
+            // implementation is still awaiting the formal verification run.
+            // Preflight has already required a concrete expected result and
+            // verification plan; the finish/close gates continue to require
+            // verified evidence. Do not force an agent to claim evidence
+            // before the command that produces it has run.
+            let planned_scenarios_are_ready =
+                scenario_coverage_preflight_unknowns(&contract_value).is_empty();
             errors.extend(
                 validate_scenario_coverage_values(&contract_value, &summary)
                     .2
                     .into_iter()
-                    .filter(|finding| finding.severity == "error")
+                    .filter(|finding| {
+                        finding.severity == "error"
+                            && !(planned_scenarios_are_ready
+                                && finding.code == "required_scenario_unverified")
+                    })
                     .map(|finding| finding.code),
             );
         }
@@ -1821,6 +1896,22 @@ fn validate_contract_summary_controls_internal(
         validate_acceptance_evidence_values(contract, summary);
     unknowns.extend(acceptance_unknowns);
     findings.extend(acceptance_findings);
+    let (evidence_classes, evidence_class_unknowns, evidence_class_findings) =
+        if crate::custom_required_evidence_classes(contract).is_empty() {
+            ("not_applicable".into(), Vec::new(), Vec::new())
+        } else {
+            (
+                "unknown".into(),
+                vec!["evidence_classes_repository_context_required".into()],
+                vec![finding(
+                    "evidence_classes_repository_context_required",
+                    "custom evidence classes require repository-bound validation",
+                    "warning",
+                )],
+            )
+        };
+    unknowns.extend(evidence_class_unknowns);
+    findings.extend(evidence_class_findings);
     let (intent_state, intent_unknowns, intent_findings) =
         validate_intent_alignment_values(contract, summary);
     unknowns.extend(intent_unknowns);
@@ -1853,6 +1944,7 @@ fn validate_contract_summary_controls_internal(
         },
         scenario_coverage: scenario_state,
         acceptance_evidence: acceptance_state,
+        evidence_classes,
         intent_alignment: intent_state,
         final_dimensions: final_state,
         unknowns,

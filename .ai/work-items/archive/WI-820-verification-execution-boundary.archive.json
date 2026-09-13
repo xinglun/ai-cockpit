@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T06:27:37Z",
+  "files": {
+    "contractDigest": "sha256:be121bfeaa11359dce772d22a2e330069c6542c67b910accb209416f522be2e0",
+    "contractPath": ".ai/work-items/archive/WI-820-verification-execution-boundary.contract.json",
+    "eventsDigest": "sha256:bb5791dc5a3299cc7a25a1a233c708537b957b9d039c0354ef2951e21e0a3dde",
+    "eventsPath": ".ai/work-items/archive/WI-820-verification-execution-boundary.events.jsonl",
+    "outcomeDigest": "sha256:1a0c1c22e6b28875c9716d6d9a66a4f461fc617104944475df21a2817038c9a0",
+    "outcomePath": ".ai/work-items/archive/WI-820-verification-execution-boundary.outcome.json",
+    "summaryDigest": "sha256:72ae72d48a29a11bb847f8eee9276e8f2c9e2573dba0eb786cf12c8a174d189e",
+    "summaryPath": ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json",
+    "taskReportDigest": "sha256:c2f8a751bf71562b852bcabc4fac98076dfa139ba630d9862016307457a4a5dc",
+    "taskReportMarkdownDigest": "sha256:6c1bacb10fc4b2778b5a6ea3142a7f384466526830fc52c0f3c201cb598d0803",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-820-verification-execution-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-820-verification-execution-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-820-verification-execution-boundary"
+}

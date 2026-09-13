@@ -602,7 +602,7 @@ fn before_edit_checkpoint_survives_authorized_edit_and_fresh_preflight() {
 }
 
 #[test]
-fn legacy_command_only_amendment_after_verification_has_no_gate_to_invalidate() {
+fn legacy_command_only_amendment_after_verification_detects_formal_receipt() {
     let directory = repository();
     let id = "WI-ORDER-LEGACY-AMENDMENT";
     start(directory.path(), id, &[]);
@@ -645,7 +645,7 @@ fn legacy_command_only_amendment_after_verification_has_no_gate_to_invalidate() 
         "record the post-verification legacy amendment",
     )
     .expect("legacy amendment with no required gates");
-    assert_eq!(amendment["verificationStarted"], serde_json::json!(false));
+    assert_eq!(amendment["verificationStarted"], serde_json::json!(true));
     assert_eq!(
         amendment["invalidatedRequiredChecks"],
         serde_json::json!([])

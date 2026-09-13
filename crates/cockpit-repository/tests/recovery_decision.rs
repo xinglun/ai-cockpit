@@ -1571,6 +1571,23 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
     )
     .expect("initial verification");
 
+    // Binding a reviewed resource context after an earlier attempt is a
+    // recovery operation.  Keep the authority explicit instead of allowing
+    // finalize-plan to infer permission from the old receipt alone.
+    let mut retry = receipt(
+        &directory,
+        "retry after binding the reviewed resource context",
+    );
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-28T05:04:00Z");
+    record_recovery_decision(directory.path(), id, &retry, &runtime).expect("retry recovery");
+
     plan_resource_finalization(
         directory.path(),
         id,

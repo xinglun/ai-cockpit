@@ -132,6 +132,20 @@ review when the returned state is yellow, red, unknown, or not ready.
   and is always fresh. `--work-item <id>` records the receipt for that Work Item;
   its detected Cargo/npm command uses the dynamic profile-authorized path, while
   an explicit custom command remains fresh.
+- `verify --plan-only` resolves the route and emits the deterministic plan without
+  spawning project verification commands. For a Cargo workspace, the plan runs
+  one metadata query and partitions `cargo test --locked --workspace` into
+  identity-bound package nodes; the formal receipt retains the source command,
+  workspace members, metadata digest, exit status, bounded logs, and elapsed time.
+- `verify --archived-recovery --work-item <id> --stage pull_request` is the
+  append-only recovery path for an archived Work Item whose source evidence
+  projection became stale after a reviewed integration change. It runs one
+  fresh, typed, coverage-bound Runtime verification and records which exact
+  `evidence_class_projection` judgment it replaces. The archived Contract,
+  Summary, Outcome, Events, and historical verification bytes are never
+  overwritten; preconditions fail before the project command when recovery is
+  already valid or contradictory. This is not a Contract-amendment successor;
+  use `work-item revalidate-archived` when the archived Contract itself changed.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
   profile for cross-process reuse. Reuse is admitted only when the current
   repository, snapshot, profile, runtime, command, scope, stage, runner, base,
@@ -149,9 +163,10 @@ review when the returned state is yellow, red, unknown, or not ready.
   there is no implicit expiry or global current Work Item.
 - `start` requires `--id`, `--intent`, and `--goal`; `--authority authorized`
   is needed for a green governed flow.
-- `start --required-evidence <class>[,<class>...]` accepts only the following
-  forms: `verification`, `verification_receipt`, `verification-receipt`,
-  `delegated:<provider>`, `delegated_evidence`, and `external_evidence`.
+- `start --required-evidence <class>[,<class>...]` accepts the built-in forms
+  `verification`, `verification_receipt`, `verification-receipt`,
+  `delegated:<provider>`, `delegated_evidence`, `external_evidence`, and
+  non-empty custom labels whose evidence is later digest-bound.
   Stage labels such as `public-install` are rejected before verification;
   inspect the command help for the same vocabulary. Existing historical
   Contracts remain readable, but an active legacy declaration must be repaired
@@ -293,9 +308,14 @@ review when the returned state is yellow, red, unknown, or not ready.
   Contract/Summary check for scenario coverage, stable acceptance evidence,
   intent alignment, and an optional final-dimensions receipt. `work-item
   controls --repo <path> --id <id> --input <json>` records only the explicitly
-  supplied projection fields, including the identity-bound `decisionEvidence`
-  review receipt; it cannot change lifecycle state, Contract facts, or
-  verification receipts.
+  supplied projection fields, including `evidenceClasses` and the
+  identity-bound `decisionEvidence` review receipt; it cannot change lifecycle
+  state, Contract facts, or verification receipts. `evidenceClasses` is the
+  explicit mapping for each non-built-in Contract evidence class. Every class
+  must name a regular, non-symlink repository file, its locator, verification
+  state, and the file SHA-256, all bound to the current Contract digest. Missing,
+  changed, malformed, or foreign evidence is rejected or reported stale; a
+  scenario marked verified alone never satisfies a custom evidence class.
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
   identity-bound `retry`, `successor`, or `supersede` decision. `supersede`
   requires an already-bound successor Work Item and archives the predecessor

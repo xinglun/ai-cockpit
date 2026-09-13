@@ -89,6 +89,14 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
   记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
+- `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
+  metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
+  成员、metadata digest、退出状态、有界日志和耗时。
+- `verify --archived-recovery --work-item <id> --stage pull_request` 是归档 Work Item 在审查后的集成变更使源码证据
+  投影过期时使用的 append-only 恢复入口。它只运行一次新的、类型化且绑定覆盖清单的 Runtime 验证，并明确记录替代的
+  `evidence_class_projection` 判断。归档 Contract、Summary、Outcome、Events 和历史 verification 字节不会被覆写；
+  若恢复已有效或已有矛盾候选，会在启动工程命令前失败。若归档 Contract 本身发生变化，不得使用此入口，应使用
+  `work-item revalidate-archived` 创建 successor。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
   repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
   identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。
@@ -169,7 +177,8 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - 重复执行 `observe`、`capability show`、顶层 `status` 和单项/全量 Work Item status，不会写入 tracked
   repository bytes 或 observer cache。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。
-  `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
+  `work-item controls --repo <path> --id <id> --input <json>` 只记录显式提供的 projection 字段（包括 `evidenceClasses` 和绑定 identity 的 `decisionEvidence` review receipt），不能改变生命周期状态、Contract facts 或 verification receipt。
+  `evidenceClasses` 用于明确映射 Contract 中每个非内置 evidence class：每项必须绑定当前 Contract digest、普通且非符号链接的仓库文件、locator、`passed` 状态和文件 SHA-256。缺失、修改、格式错误或 foreign evidence 会被拒绝或标记为 stale；仅将 scenario 标记为 verified 不能满足自定义 evidence class。
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` 记录绑定 identity 的 `retry`、`successor` 或 `supersede` decision。`supersede` 要求已经绑定的 successor Work Item，并把 predecessor 归档为明确的历史 `superseded` 状态；原始 bytes 不会改写。receipt 必须绑定 predecessor 的 Contract、Summary、Outcome 以及存在时的 event digest，并绑定当前 Runtime identity。既有 receipt 永不覆盖，后续 decision 使用 digest 后缀文件；recovery receipt 不会让 verification 自动变绿，也不会静默重写 predecessor。被替代的 predecessor 不是当前成功或失败，后续工作由 successor 负责。Outcome 与 archive consumer 会重验每个 current candidate 的 regular-file/文件名边界、repository 和当前 Runtime identity、predecessor digest、时间戳、decision shape 与 successor Contract 绑定。invalid 或 ambiguous candidate 以 `recovery_decision_invalid` 失败关闭；历史 archive bytes 与投影保持不可变。当 retry 的 predecessor digest 在新鲜归档的 Contract/Summary/Outcome/Events 中不再匹配时，它属于已消费历史，静态门禁会投影真正的 finalization 路径，不会虚构 recovered 终态；仍然匹配且 blocked 的 retry 继续 fail closed。
 - `work-item revalidate-archived --repo <path> --id <predecessor> --successor <id> --reason <text> --actor <id> --authority-source <source> --resume-condition <text> [--evidence-ref <ref>] [--policy-ref <ref>]` 是归档后 Contract 经审查修订时的正式 append-only 重验证入口。它校验当前 archive manifest，保留并以 digest 绑定历史 verification evidence，并在 predecessor 仍 pending close 时创建 `not_ready` successor。Successor 必须独立完成 start、verification、archive、finalization 和显式 close，之后 predecessor 才能 close。该命令不会改写 predecessor Contract、archive、Outcome、Events 或 verification evidence；malformed、foreign、stale 或 contradictory 历史会 fail closed。
 - 如果 predecessor 已有由旧 Runtime 产生且有效的 Provider PR finalization 收据，已终态的 Contract-amendment successor 也是受支持的跨版本关闭路径。Successor 的当前 verification、finalization 和人工 close 全部绑定后，predecessor `close` 会写入 `historicalRevalidation`，标记 `assurance=historical_low`，并绑定旧收据的精确路径、摘要和序号。旧收据字节保持不可变并保留 Provider/PR 身份，绝不会被重新分类为 `direct_merge_no_pr`。Successor 未解决，或 archive、Contract、evidence、receipt、lineage 任一绑定 malformed、foreign、stale 或 contradictory 时，当前 Runtime 身份校验仍然 fail closed。

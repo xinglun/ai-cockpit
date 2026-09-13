@@ -75,6 +75,83 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
 }
 
 #[test]
+fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-workspace-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::write(
+        directory.join("Cargo.toml"),
+        "[package]\nname = \"verify-workspace-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(directory.join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .output()
+        .expect("verify");
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(
+        json["planReceipt"]["coverageManifest"]["workspaceMembers"],
+        serde_json::json!(["verify-workspace-fixture"])
+    );
+    assert_eq!(json["executionRecords"].as_array().map(Vec::len), Some(1));
+    assert_eq!(json["executionRecords"][0]["exitCode"], 0);
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn verify_plan_only_does_not_spawn_project_commands() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-plan-only-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::write(
+        directory.join("Cargo.toml"),
+        "[package]\nname = \"verify-plan-only-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(directory.join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--plan-only"])
+        .output()
+        .expect("plan");
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let json: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON");
+    assert_eq!(json["requests"].as_array().map(Vec::len), Some(1));
+    assert_eq!(json["requests"][0]["args"][0], "test");
+    assert_eq!(json["requests"][0]["args"][1], "--package");
+    assert_eq!(json["coverageManifest"]["planningProcessesSpawned"], 1);
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_returns_nonzero_and_structured_receipt_when_command_fails() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-verify-failure-{}-{}",
