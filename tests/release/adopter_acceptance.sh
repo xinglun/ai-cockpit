@@ -1120,7 +1120,7 @@ mark_passed inspect-runtime-identity
 # Work Item is created.  This keeps the adopter repository clean at the
 # lifecycle boundary while preserving the explicit adapter-install contract.
 : > "$adopter_root/AGENTS.md"
-capture_runtime profile-confirm.json profile confirm --repo "$adopter_root" --program cargo --args test,--workspace
+capture_runtime profile-confirm.json profile confirm --repo "$adopter_root" --program cargo --args test,--locked,--package,adopter
 capture_runtime agent-list.json agent list --repo "$adopter_root"
 capture_runtime agent-install.json agent install --repo "$adopter_root" --provider auto
 capture_runtime agent-doctor.json agent doctor --repo "$adopter_root" --json
