@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "cbe0589ff15df0f711fa706d579b98e108934b4f",
+    "name": "codex/wi-822-resource-finalization-base-binding",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c3cb99ef08f8aef0371f7cd43d856880f9de49623fdd8984d5c132c0fa17099c",
+  "operationId": "github-pr-802-WI-822-resource-finalization-base-binding-cleanup-20260913T125145Z",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9403265d61f0b9d22ad0beb564561921d2b3b967",
+    "headRevision": "cbe0589ff15df0f711fa706d579b98e108934b4f",
+    "mergeCommit": "ab95c413d424d97352708c787ad34879327a63fd",
+    "number": 802,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/802"
+  },
+  "reason": "Reviewed PR #802 passed all hosted checks and was merged; the exact clean Work Item worktree and remote/local branch are removed after the merge was observed.",
+  "receiptId": "github-pr-802-WI-822-resource-finalization-base-binding-cleanup-20260913T125145Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-822-resource-finalization-base-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/802",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-822-resource-finalization-base-binding"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:5d49112ba2f1fee799fda6e0143b34b5266b1d1d647354af128f81705651a93a",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-13T12:51:45Z",
+  "workItemId": "WI-822-resource-finalization-base-binding",
+  "worktree": {
+    "branch": "codex/wi-822-resource-finalization-base-binding",
+    "headRevision": "cbe0589ff15df0f711fa706d579b98e108934b4f",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-822-resource-finalization-base-binding",
+    "worktreeId": "WI-822-resource-finalization-base-binding"
+  }
+}
