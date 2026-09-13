@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "Invalid preconditions are rejected before any verification child process starts and emit a structured, identity-bound diagnostic.",
+    "Each executed node preserves exit code, timeout state, elapsed time, bounded stdout/stderr, and input identity even when completion evidence cannot be written.",
+    "Governance-only correction can reuse a matching attempt only when command, source, runtime, Contract, and relevant dependency identities are unchanged; input changes invalidate it.",
+    "Focused regression tests cover zero-process precondition rejection, failed formal receipt persistence, timeout/interruption capture, and stale or foreign attempt rejection."
+  ],
+  "authority": "authorized",
+  "baseRevision": "61ebc8742ffd61b1e1aae5bd4044ca042d964b36",
+  "createdAt": "2026-09-13T13:26:30Z",
+  "goal": "Implement identity-bound verification precondition rejection and durable attempt-result persistence with focused regression coverage, without weakening formal receipt validation or changing historical records.",
+  "intent": "Prevent expensive verification from starting when durable preconditions are invalid, and preserve every execution attempt independently from formal completion evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "release publication; historical receipt migration; broad workspace performance redesign; changing completion evidence acceptance rules; unrelated Work Item lifecycle cleanup"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:beab911f4ac72c8b3c2f9329ed134874f8e1ff7f174146b69394c85dcf1dbfc3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Invalid persisted preconditions are rejected before any verification child process starts and the diagnostic binds repository, Work Item, Contract, snapshot, command, and failure reason.",
+      "required": true,
+      "scenario": "preconditions_reject_before_spawn",
+      "status": "unverified",
+      "verificationPlan": "Use a fixture with an invalid preflight or coverage binding, invoke the repository verification entry point, and assert zero spawned processes plus a durable failed-attempt record."
+    },
+    {
+      "evidence": [],
+      "expected": "Every executed node retains exit code, timeout state, elapsed time, bounded stdout/stderr, and input identity when completion evidence is rejected or cannot be written.",
+      "required": true,
+      "scenario": "attempt_result_survives_formal_receipt_failure",
+      "status": "unverified",
+      "verificationPlan": "Run a failing and a timed-out command in a controlled fixture, force completion-evidence rejection, and validate the independent attempt record."
+    },
+    {
+      "evidence": [],
+      "expected": "An attempt is reusable only when command, source, Runtime, Contract, and relevant dependency identities match; governance-only correction does not rerun the process.",
+      "required": true,
+      "scenario": "governance_only_correction_reuses_attempt",
+      "status": "unverified",
+      "verificationPlan": "Compare a matching governance-only correction with changes to command, source, Runtime, Contract, and dependency identities; assert only the matching case reuses."
+    },
+    {
+      "evidence": [],
+      "expected": "A stale, malformed, or foreign attempt cannot satisfy current verification or completion evidence.",
+      "required": true,
+      "scenario": "stale_or_foreign_attempt_is_rejected",
+      "status": "unverified",
+      "verificationPlan": "Mutate each bound identity and validate that the attempt is retained as history but rejected for current completion."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/src/main.rs; crates/cockpit-repository/src/lib.rs; crates/cockpit-repository/src/lifecycle.rs; crates/cockpit-verification/src/lib.rs; focused verification and lifecycle tests",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-repository/tests",
+    "crates/cockpit-verification/tests",
+    ".ai/evidence/WI-824-verification-preconditions.*",
+    ".ai/work-items/active/WI-824-verification-preconditions.*",
+    ".ai/work-items/archive/WI-824-verification-preconditions.*",
+    ".ai/decisions/WI-824-verification-preconditions.*",
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-verification/tests/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-824-verification-preconditions"
+}

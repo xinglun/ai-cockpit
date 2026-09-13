@@ -3834,6 +3834,327 @@ fn work_item_artifact_path_optional(
     Ok(None)
 }
 
+const VERIFICATION_ATTEMPT_SCHEMA_VERSION: u32 = 1;
+
+/// Persist the result of a verification attempt independently of completion
+/// evidence. This is an append-only, identity-bound record: a failed
+/// precondition or a later receipt-writing error must not erase the exit
+/// status and bounded diagnostics produced by the executor.
+#[allow(clippy::too_many_arguments)]
+pub fn persist_verification_attempt(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    state: &str,
+    diagnostic: Option<(&str, &str)>,
+    receipt: Option<&serde_json::Value>,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if state.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: "verification attempt state must not be empty".into(),
+        });
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract_digest_value = fs::symlink_metadata(&contract_path)
+        .ok()
+        .filter(|metadata| metadata.is_file() && !metadata.file_type().is_symlink())
+        .and_then(|_| contract_digest(&contract_path).ok())
+        .map(|digest| serde_json::json!(digest));
+    let contract_scope_digest_value = contract_execution_scope_digest(&contract_path)
+        .ok()
+        .map(|digest| serde_json::json!(digest));
+    let command_values = requests
+        .iter()
+        .map(|request| verification_attempt_command_value(&root, request))
+        .collect::<Vec<_>>();
+    let execution_records = receipt
+        .and_then(|value| value.get("executionRecords"))
+        .cloned()
+        .unwrap_or_else(|| serde_json::json!([]));
+    let passed = receipt
+        .and_then(|value| value.get("passed"))
+        .and_then(serde_json::Value::as_bool)
+        .unwrap_or(false);
+    let processes_spawned = receipt
+        .and_then(|value| value.get("processesSpawned"))
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or_default();
+    let mut value = serde_json::json!({
+        "protocolVersion": 1,
+        "schemaVersion": VERIFICATION_ATTEMPT_SCHEMA_VERSION,
+        "kind": "verification_attempt",
+        "state": state,
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(&root),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "contractDigest": contract_digest_value,
+        "contractExecutionScopeDigest": contract_scope_digest_value,
+        "repositorySnapshotDigest": snapshot_digest(snapshot)?,
+        "commands": command_values,
+        "passed": passed,
+        "processesSpawned": processes_spawned,
+        "executionRecords": execution_records,
+        "receipt": receipt.cloned(),
+        "createdAt": now(),
+    });
+    if let Some((code, message)) = diagnostic {
+        value["diagnostic"] = serde_json::json!({
+            "code": code,
+            "message": message,
+        });
+    }
+    let attempt_id =
+        cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: error.to_string(),
+        })?;
+    value["attemptId"] = serde_json::json!(attempt_id);
+    let evidence_dir = root.join(".ai/evidence");
+    match fs::symlink_metadata(&evidence_dir) {
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_dir() => {
+            return Err(ObserverError::State {
+                path: evidence_dir,
+                message: "verification attempt evidence directory must be a real directory".into(),
+            });
+        }
+        Ok(_) => {}
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            fs::create_dir_all(&evidence_dir).map_err(|source| ObserverError::Read {
+                path: evidence_dir.clone(),
+                source,
+            })?;
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: evidence_dir,
+                source,
+            });
+        }
+    }
+    let attempt_id_string = attempt_id.to_string();
+    let suffix = attempt_id_string
+        .strip_prefix("sha256:")
+        .unwrap_or(&attempt_id_string);
+    let path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification-attempt.{suffix}.json"));
+    if fs::symlink_metadata(&path)
+        .ok()
+        .is_some_and(|metadata| metadata.file_type().is_symlink())
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "verification attempt record must not be a symlink".into(),
+        });
+    }
+    atomic_json(&path, &value)?;
+    Ok(serde_json::json!({
+        "attemptId": attempt_id,
+        "path": repository_relative_path(&root, &path),
+        "state": state,
+        "processesSpawned": processes_spawned,
+        "passed": passed,
+    }))
+}
+
+/// Load one prior successful execution whose execution identity is unchanged.
+/// A Contract digest may change when only governance projection is corrected;
+/// the execution-scope digest remains the compatibility boundary, while the
+/// later formal evidence write binds the result to the current Contract.
+pub fn load_reusable_verification_attempt(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let Some(current_scope_digest) = contract_execution_scope_digest(&contract_path).ok() else {
+        return Ok(None);
+    };
+    let directory = root.join(".ai/evidence");
+    let entries = match fs::read_dir(&directory) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: directory,
+                source,
+            });
+        }
+    };
+    let prefix = format!("{work_item_id}.verification-attempt.");
+    let mut paths = entries
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| name.starts_with(&prefix) && name.ends_with(".json"))
+        })
+        .collect::<Vec<_>>();
+    paths.sort();
+    for path in paths.into_iter().rev() {
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            continue;
+        }
+        let value = read_json(&path)?;
+        if verification_attempt_matches(
+            &root,
+            work_item_id,
+            requests,
+            snapshot,
+            runtime,
+            &current_scope_digest,
+            &value,
+        ) {
+            return Ok(Some(value));
+        }
+    }
+    Ok(None)
+}
+
+fn verification_attempt_command_value(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> serde_json::Value {
+    let command_digest = cockpit_verification::VerificationCommand::new(
+        &request.node_id,
+        &request.program,
+        request.args.clone(),
+        cockpit_verification::VerificationReusePolicy::NeverReuse,
+    )
+    .with_current_dir(root)
+    .command_digest();
+    serde_json::json!({
+        "nodeId": request.node_id,
+        "program": request.program,
+        "args": request.args,
+        "scope": request.scope,
+        "stage": request.stage,
+        "runner": request.runner,
+        "runtimeDigest": request.runtime_digest,
+        "baseCommit": request.base_commit,
+        "commandDigest": command_digest,
+    })
+}
+
+fn contract_execution_scope_digest(path: &Path) -> Result<Digest, ObserverError> {
+    let value = read_json(path)?;
+    cockpit_protocol::digest_json(&serde_json::json!({
+        "scope": value
+            .get("scope")
+            .cloned()
+            .unwrap_or_else(|| serde_json::json!([])),
+    }))
+    .map_err(|error| ObserverError::State {
+        path: path.to_path_buf(),
+        message: error.to_string(),
+    })
+}
+
+fn verification_attempt_matches(
+    root: &Path,
+    work_item_id: &str,
+    requests: &[RepositoryVerificationRequest],
+    snapshot: &RepositorySnapshot,
+    runtime: &RuntimeContext,
+    current_scope_digest: &Digest,
+    attempt: &serde_json::Value,
+) -> bool {
+    if attempt["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+        || attempt["kind"] != serde_json::json!("verification_attempt")
+        || attempt["workItemId"] != serde_json::json!(work_item_id)
+        || attempt["repositoryId"] != serde_json::json!(repository_id(root))
+        || attempt["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+        || attempt["runtimeDigest"] != serde_json::json!(runtime.runtime_digest)
+        || attempt["contractExecutionScopeDigest"] != serde_json::json!(current_scope_digest)
+        || attempt["repositorySnapshotDigest"]
+            != serde_json::json!(
+                snapshot_digest(snapshot)
+                    .ok()
+                    .map(|digest| digest.to_string())
+            )
+        || !matches!(
+            attempt["state"].as_str(),
+            Some("execution_completed" | "formal_receipt_rejected")
+        )
+        || attempt["passed"] != serde_json::json!(true)
+    {
+        return false;
+    }
+    let expected_commands = requests
+        .iter()
+        .map(|request| verification_attempt_command_value(root, request))
+        .collect::<Vec<_>>();
+    if attempt["commands"] != serde_json::json!(expected_commands) {
+        return false;
+    }
+    let Some(receipt) = attempt.get("receipt") else {
+        return false;
+    };
+    if receipt["passed"] != serde_json::json!(true) {
+        return false;
+    }
+    let Some(records) = attempt["executionRecords"].as_array() else {
+        return false;
+    };
+    let expected_digests = expected_commands
+        .iter()
+        .filter_map(|command| {
+            Some((
+                command.get("nodeId")?.as_str()?,
+                command.get("commandDigest")?.as_str()?,
+            ))
+        })
+        .collect::<BTreeMap<_, _>>();
+    let mut seen = BTreeSet::new();
+    records.iter().all(|record| {
+        let Some(node_id) = record.get("nodeId").and_then(serde_json::Value::as_str) else {
+            return false;
+        };
+        seen.insert(node_id)
+            && expected_digests.get(node_id).copied()
+                == record
+                    .get("commandDigest")
+                    .and_then(serde_json::Value::as_str)
+            && record["spawned"] == serde_json::json!(true)
+            && record["passed"] == serde_json::json!(true)
+            && record["timedOut"] == serde_json::json!(false)
+            && record["stdoutTruncated"] == serde_json::json!(false)
+            && record["stderrTruncated"] == serde_json::json!(false)
+            && record.get("exitCode").is_some_and(|value| !value.is_null())
+    }) && seen.len() == expected_digests.len()
+}
+
 pub fn record_verification_with_snapshot(
     root: &Path,
     work_item_id: &str,
