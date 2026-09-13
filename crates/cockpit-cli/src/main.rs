@@ -601,7 +601,9 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
         /// JSON object containing scenarioCoverage, acceptanceEvidence,
-        /// intentAlignment, finalDimensions, or identity-bound decisionEvidence.
+        /// evidenceClasses, intentAlignment, finalDimensions, or identity-bound
+        /// decisionEvidence. evidenceClasses must bind every custom Contract
+        /// evidence class to regular repository files and their current digests.
         #[arg(long)]
         input: PathBuf,
     },

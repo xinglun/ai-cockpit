@@ -1,0 +1,28 @@
+WI-820 verification execution measurements
+
+Measurement definition: the same release Runtime command, workspace, source arguments, and worker
+setting were used before and after the execution-boundary changes. The first run is retained as the
+pre-change comparison; the second run is the current formal receipt.
+
+Pre-change formal verification:
+  nodesPlanned=12
+  nodesExecuted=12
+  processesSpawned=12
+  elapsedMs=340549
+  executionElapsedMs=338310
+  exitCode=0
+
+Current formal verification:
+  nodesPlanned=12
+  nodesExecuted=12
+  processesSpawned=12
+  elapsedMs=286035
+  executionElapsedMs=283969
+  exitCode=0
+
+Observed delta:
+  elapsedMs=-54514 (15.99% lower)
+  executionElapsedMs=-54341 (16.06% lower)
+  processesSpawned=0 (same count; workspace partition is explicit rather than omitted)
+
+These measurements do not claim a user-visible benefit beyond the observed command timing.

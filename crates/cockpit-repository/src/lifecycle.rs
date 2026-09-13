@@ -852,6 +852,9 @@ pub fn revalidate_contract_amendment(
     })?;
     let required_checks = checkpoint_required_check_names(&contract);
     let required_checks_passed = checkpoint_passed_check_count(&contract, &summary);
+    let formal_evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
     let verification_started = summary
         .get("verification")
         .and_then(serde_json::Value::as_array)
@@ -863,10 +866,11 @@ pub fn revalidate_contract_amendment(
                 )
             })
         })
+        || fs::symlink_metadata(&formal_evidence_path).is_ok()
         // A legacy command-only Contract has no typed required gates to
         // invalidate. Keep the amendment's historical fact, but do not mark
         // it as a gate invalidation that must contain a non-empty list.
-        && !required_checks.is_empty();
+        ;
     let record = serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": repository_id(&root),

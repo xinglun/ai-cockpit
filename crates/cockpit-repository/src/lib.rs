@@ -5162,6 +5162,136 @@ pub fn evidence_state_for_contract_with_runtime(
     evidence_state_for_contract_internal(root, contract, snapshot, Some(runtime))
 }
 
+pub(crate) fn custom_required_evidence_classes(
+    contract: &cockpit_protocol::Contract,
+) -> Vec<String> {
+    contract
+        .required_evidence_classes
+        .iter()
+        .filter(|class| {
+            let normalized = class.to_ascii_lowercase();
+            !matches!(
+                normalized.as_str(),
+                "verification" | "verification_receipt" | "verification-receipt"
+            ) && !normalized.starts_with("delegated:")
+                && !matches!(
+                    normalized.as_str(),
+                    "delegated_evidence" | "external_evidence"
+                )
+        })
+        .cloned()
+        .collect()
+}
+
+/// Validate the explicit projection for Contract evidence classes that are
+/// not represented by the built-in verification or delegated-evidence
+/// stores.  A class is never satisfied merely because a scenario is marked
+/// verified: every class must name at least one regular repository file and
+/// bind its current bytes by digest to the current Contract digest.
+pub(crate) fn evidence_class_projection_state(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+    archived: bool,
+) -> Result<EvidenceState, ObserverError> {
+    let required = custom_required_evidence_classes(contract);
+    if required.is_empty() {
+        return Ok(EvidenceState::Complete);
+    }
+    let Some(projection) = summary.get("evidenceClasses") else {
+        return Ok(EvidenceState::Missing);
+    };
+    let Some(projection) = projection.as_object() else {
+        return Ok(EvidenceState::Contradictory);
+    };
+    if projection["schemaVersion"] != serde_json::json!(1) {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let contract_path = root
+        .join(".ai/work-items")
+        .join(if archived { "archive" } else { "active" })
+        .join(format!("{}.contract.json", contract.work_item_id));
+    let current_contract_digest = crate::lifecycle::contract_digest(&contract_path)?;
+    if projection["contractDigest"] != serde_json::json!(current_contract_digest.to_string()) {
+        return Ok(EvidenceState::Stale);
+    }
+    let Some(items) = projection["items"].as_array() else {
+        return Ok(EvidenceState::Missing);
+    };
+    let required_set = required.iter().map(String::as_str).collect::<BTreeSet<_>>();
+    let mut seen = BTreeSet::new();
+    for item in items {
+        let Some(item_object) = item.as_object() else {
+            return Ok(EvidenceState::Contradictory);
+        };
+        let Some(class) = item_object.get("class").and_then(|value| value.as_str()) else {
+            return Ok(EvidenceState::Contradictory);
+        };
+        if !required_set.contains(class) || !seen.insert(class.to_owned()) {
+            return Ok(EvidenceState::Contradictory);
+        }
+        let Some(evidence) = item_object
+            .get("evidence")
+            .and_then(|value| value.as_array())
+        else {
+            return Ok(EvidenceState::Missing);
+        };
+        if evidence.is_empty() {
+            return Ok(EvidenceState::Missing);
+        }
+        for evidence_item in evidence {
+            let Some(evidence_object) = evidence_item.as_object() else {
+                return Ok(EvidenceState::Contradictory);
+            };
+            if ["type", "path", "locator", "verification", "digest"]
+                .into_iter()
+                .any(|key| {
+                    evidence_object
+                        .get(key)
+                        .and_then(|value| value.as_str())
+                        .is_none_or(|value| value.trim().is_empty())
+                })
+            {
+                return Ok(EvidenceState::Contradictory);
+            }
+            if evidence_object["verification"] != serde_json::json!("passed") {
+                return Ok(EvidenceState::Missing);
+            }
+            let relative = Path::new(evidence_object["path"].as_str().unwrap_or_default());
+            if relative.is_absolute()
+                || relative
+                    .components()
+                    .any(|component| matches!(component, std::path::Component::ParentDir))
+            {
+                return Ok(EvidenceState::Contradictory);
+            }
+            let evidence_path = root.join(relative);
+            let metadata = match fs::symlink_metadata(&evidence_path) {
+                Ok(metadata) => metadata,
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                    return Ok(EvidenceState::Missing);
+                }
+                Err(_) => return Ok(EvidenceState::Unknown),
+            };
+            if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+                return Ok(EvidenceState::Contradictory);
+            }
+            let bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
+                path: evidence_path.clone(),
+                source,
+            })?;
+            let actual_digest = Digest::sha256_bytes(&bytes).to_string();
+            if evidence_object["digest"] != serde_json::json!(actual_digest) {
+                return Ok(EvidenceState::Stale);
+            }
+        }
+    }
+    if seen.len() != required.len() {
+        return Ok(EvidenceState::Missing);
+    }
+    Ok(EvidenceState::Complete)
+}
+
 fn evidence_state_for_contract_internal(
     root: &Path,
     contract: &cockpit_protocol::Contract,
@@ -5207,10 +5337,21 @@ fn evidence_state_for_contract_internal_with_archive(
         }
         return Ok(EvidenceState::Complete);
     }
+    // A standalone Contract used by the preflight route has no active Work
+    // Item Summary.  It must remain an advisory, evidence-missing decision;
+    // never synthesize `.summary.json` from an empty Work Item identity.
+    if contract.work_item_id.trim().is_empty() {
+        return Ok(EvidenceState::Missing);
+    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let summary_path = root
+        .join(".ai/work-items")
+        .join(if archived { "archive" } else { "active" })
+        .join(format!("{}.summary.json", contract.work_item_id));
+    let summary = read_json(&summary_path)?;
     let requires_verification = contract.required_evidence_classes.iter().any(|class| {
         matches!(
             class.to_ascii_lowercase().as_str(),
@@ -5218,7 +5359,11 @@ fn evidence_state_for_contract_internal_with_archive(
         )
     });
     if requires_verification {
-        return verification_evidence_state(&root, contract, snapshot, archived, current_runtime);
+        let state =
+            verification_evidence_state(&root, contract, snapshot, archived, current_runtime)?;
+        if state != EvidenceState::Complete {
+            return Ok(state);
+        }
     }
     let evidence_path = root
         .join(".ai/evidence")
@@ -5229,6 +5374,10 @@ fn evidence_state_for_contract_internal_with_archive(
         if state != EvidenceState::Complete {
             return Ok(state);
         }
+    }
+    let custom_state = evidence_class_projection_state(&root, contract, &summary, archived)?;
+    if custom_state != EvidenceState::Complete {
+        return Ok(custom_state);
     }
     for class in &contract.required_evidence_classes {
         let normalized = class.to_ascii_lowercase();
@@ -5247,9 +5396,7 @@ fn evidence_state_for_contract_internal_with_archive(
             if !delegated_evidence_satisfies(&root, &contract.work_item_id, &normalized)? {
                 return Ok(EvidenceState::Missing);
             }
-            continue;
         }
-        return Ok(EvidenceState::Missing);
     }
     Ok(EvidenceState::Complete)
 }
@@ -6017,7 +6164,7 @@ pub fn plan_resource_finalization(
         });
     }
     let retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
-    if retry_pending {
+    let retry_binding_valid = if retry_pending {
         let recovery = load_recovery_decision(&root, work_item_id, None)?;
         if recovery
             .as_ref()
@@ -6029,10 +6176,23 @@ pub fn plan_resource_finalization(
                 "pending retry cannot be advanced by finalize-plan without its exact recovery receipt",
             ));
         }
-    }
+        true
+    } else {
+        false
+    };
     let evidence_path = root
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
+    let changes_identity = contract.resource_context.as_ref() != Some(context);
+    let has_verification_evidence = fs::symlink_metadata(&evidence_path).is_ok();
+    if changes_identity && has_verification_evidence && !retry_binding_valid {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message:
+                "finalize-plan must run before verification; changing resource context now requires an explicit Contract revalidation"
+                    .into(),
+        });
+    }
     if summary["state"] == serde_json::json!("finish_ready")
         && fs::symlink_metadata(&evidence_path).is_ok()
         && contract.resource_context.as_ref() != Some(context)

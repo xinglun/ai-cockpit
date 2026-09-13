@@ -1,0 +1,25 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "user authorization",
+  "decidedAt": "2026-09-13T06:14:22Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-820-verification-execution-boundary.verification.json"
+  ],
+  "policyRefs": [
+    "WI-820 Contract: current-runtime formal verification is required"
+  ],
+  "predecessorContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "predecessorEventsDigest": "sha256:efbc805e0a1d9dc6d20debad332bbc2b02dbc3ac5a5f21aaa3f58735000c0363",
+  "predecessorOutcomeDigest": "sha256:512f3660180ad01d0517d775432d076e34a0d849b2d965fdd7508d5dd4aef903",
+  "predecessorSummaryDigest": "sha256:30216db0cf70d271d58df4258b13df330d98f36e1d2cc3a2c9b74a8d11793138",
+  "predecessorWorkItemId": "WI-820-verification-execution-boundary",
+  "reason": "Refresh formal verification after the in-scope evidence projection and validation changes altered the repository snapshot after finish-ready.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "A fresh current-runtime formal verification receipt is recorded, then finish and archive revalidate the current evidence projection.",
+  "runtimeDigest": "sha256:bc449ff4e6ed728a9283eab4431fcb94ac80c581d583317071bf84e58995779e",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "workItemId": "WI-820-verification-execution-boundary"
+}

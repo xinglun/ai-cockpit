@@ -1,4 +1,4 @@
-use cockpit_core::Digest;
+use cockpit_core::{Digest, EvidenceState};
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
     AssuranceLevel, ConcurrencyBoundary, DataClassification, DelegatedEvidence,
@@ -7,11 +7,12 @@ use cockpit_protocol::{
 };
 use cockpit_repository::{
     ActiveArtifactReconciliationReceipt, WorkItemStartOptions, acquire_parallel_slot,
-    archive_work_item, attach, checkpoint_work_item, close_work_item_with_decision,
-    close_work_item_with_structured_decision, evidence_purge_plan, evidence_state_for_contract,
-    export_audit_events, finish_work_item, governance_decision_for_contract,
-    implementation_approach, import_delegated_evidence, plan_resource_finalization,
-    preflight_work_item, reconcile_active_artifacts, record_verification, release_parallel_slot,
+    amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
+    evidence_state_for_contract, export_audit_events, finish_work_item,
+    governance_decision_for_contract, implementation_approach, import_delegated_evidence,
+    plan_resource_finalization, preflight_work_item, reconcile_active_artifacts,
+    record_verification, record_work_item_governance_controls, release_parallel_slot,
     render_human_outcome, set_evidence_retention_policy, set_work_item_concurrency_boundary,
     set_work_item_intelligence, start_work_item, start_work_item_with_options, status,
 };
@@ -167,6 +168,223 @@ fn no_resource_context_can_finish_archive_and_close_without_provider_evidence() 
         path.join(".ai/decisions")
             .join(format!("{work_item_id}.close.json"))
             .is_file()
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn finalize_plan_after_checkpoint_and_verification_is_rejected_without_mutation() {
+    let path = repository();
+    let work_item_id = "WI-LATE-FINALIZE-PLAN";
+    start_work_item(
+        &path,
+        work_item_id,
+        "preserve verification identity",
+        "reject a late resource plan instead of invalidating a completed receipt silently",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let summary_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let evidence_path = path
+        .join(".ai/evidence")
+        .join(format!("{work_item_id}.verification.json"));
+    preflight_work_item(&path, &contract_path).expect("preflight");
+    checkpoint_work_item(&path, work_item_id).expect("checkpoint");
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+    let before_contract = fs::read(&contract_path).expect("contract before late plan");
+    let before_summary = fs::read(&summary_path).expect("summary before late plan");
+    let before_evidence = fs::read(&evidence_path).expect("evidence before late plan");
+
+    let error = plan_resource_finalization(
+        &path,
+        work_item_id,
+        &ResourceFinalizationContext {
+            branch: format!("feature/{work_item_id}"),
+            worktree: path.display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: "https://github.com/example/ai-cockpit/pull/900".into(),
+        },
+    )
+    .expect_err("late finalize-plan must be rejected");
+    assert!(error.to_string().contains("before verification"));
+    assert_eq!(
+        fs::read(&contract_path).expect("contract after late plan"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary after late plan"),
+        before_summary
+    );
+    assert_eq!(
+        fs::read(&evidence_path).expect("evidence after late plan"),
+        before_evidence
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn amendment_detects_formal_receipt_when_legacy_summary_has_no_verification_array() {
+    let path = repository();
+    let work_item_id = "WI-AMEND-FORMAL-RECEIPT";
+    start_work_item(
+        &path,
+        work_item_id,
+        "retain formal receipt identity",
+        "mark a contract change for revalidation when the receipt is the only verification marker",
+        &["**".into()],
+    )
+    .expect("start");
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    preflight_work_item(&path, &contract_path).expect("preflight");
+    checkpoint_work_item(&path, work_item_id).expect("checkpoint");
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.23",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    let result = amend_work_item_contract(
+        &path,
+        work_item_id,
+        &serde_json::json!({
+            "acceptanceAppend": ["formal receipt is invalidated by a Contract change"]
+        }),
+        "prove amendment invalidation uses the formal receipt as evidence",
+    )
+    .expect("amendment");
+    assert_eq!(result["verificationStarted"], true);
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            path.join(".ai/work-items/active")
+                .join(format!("{work_item_id}.summary.json")),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(
+        summary["verificationInvalidatedByContractAmendment"]["contractHash"],
+        result["contractHash"]
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn custom_required_evidence_class_projection_requires_digest_bound_regular_files() {
+    let path = repository();
+    let work_item_id = "WI-CUSTOM-EVIDENCE-CLASS";
+    start_work_item_with_options(
+        &path,
+        work_item_id,
+        "bind custom evidence classes",
+        "require explicit digest-bound evidence for non-built-in classes",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let summary_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let evidence_path = path.join("performance-measurement.txt");
+    fs::write(&evidence_path, b"p50=1ms\np95=2ms\n").expect("evidence file");
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("missing projection"),
+        EvidenceState::Missing
+    );
+    let report = cockpit_repository::validate_work_item_governance_controls(&path, work_item_id)
+        .expect("validate missing projection");
+    assert_eq!(report.evidence_classes, "unknown");
+    assert!(
+        report
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_classes_missing")
+    );
+
+    let input = serde_json::json!({
+        "evidenceClasses": {
+            "schemaVersion": 1,
+            "contractDigest": contract_digest.to_string(),
+            "items": [{
+                "class": "performance",
+                "evidence": [{
+                    "type": "measurement",
+                    "path": "performance-measurement.txt",
+                    "locator": "p50,p95",
+                    "verification": "passed",
+                    "digest": Digest::sha256_bytes(&fs::read(&evidence_path).expect("evidence bytes")).to_string()
+                }]
+            }]
+        }
+    });
+    record_work_item_governance_controls(&path, work_item_id, &input)
+        .expect("record digest-bound evidence projection");
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    assert!(summary["evidenceClasses"].is_object());
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    let state = evidence_state_for_contract(&path, &contract, &snapshot).expect("valid projection");
+    assert_eq!(
+        state,
+        EvidenceState::Complete,
+        "summary={summary:#?} contract_digest={contract_digest} file_digest={}",
+        Digest::sha256_bytes(&fs::read(&evidence_path).expect("evidence bytes"))
+    );
+    let report = cockpit_repository::validate_work_item_governance_controls(&path, work_item_id)
+        .expect("validate complete projection");
+    assert_eq!(report.evidence_classes, "verified");
+
+    fs::write(&evidence_path, b"p50=9ms\np95=20ms\n").expect("changed evidence file");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("stale projection"),
+        EvidenceState::Stale
+    );
+    let report = cockpit_repository::validate_work_item_governance_controls(&path, work_item_id)
+        .expect("validate stale projection");
+    assert_eq!(report.evidence_classes, "unknown");
+    assert!(
+        report
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_classes_stale")
     );
     fs::remove_dir_all(path).expect("cleanup");
 }

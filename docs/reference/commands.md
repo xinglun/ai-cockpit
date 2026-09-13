@@ -290,9 +290,14 @@ review when the returned state is yellow, red, unknown, or not ready.
   Contract/Summary check for scenario coverage, stable acceptance evidence,
   intent alignment, and an optional final-dimensions receipt. `work-item
   controls --repo <path> --id <id> --input <json>` records only the explicitly
-  supplied projection fields, including the identity-bound `decisionEvidence`
-  review receipt; it cannot change lifecycle state, Contract facts, or
-  verification receipts.
+  supplied projection fields, including `evidenceClasses` and the
+  identity-bound `decisionEvidence` review receipt; it cannot change lifecycle
+  state, Contract facts, or verification receipts. `evidenceClasses` is the
+  explicit mapping for each non-built-in Contract evidence class. Every class
+  must name a regular, non-symlink repository file, its locator, verification
+  state, and the file SHA-256, all bound to the current Contract digest. Missing,
+  changed, malformed, or foreign evidence is rejected or reported stale; a
+  scenario marked verified alone never satisfies a custom evidence class.
 - `work-item recover --repo <path> --id <id> --input <receipt.json>` records an
   identity-bound `retry`, `successor`, or `supersede` decision. `supersede`
   requires an already-bound successor Work Item and archives the predecessor

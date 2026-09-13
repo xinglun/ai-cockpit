@@ -6,7 +6,8 @@
     "A successful bounded plan is accepted by the normal Work Item lifecycle as formal verification evidence and can proceed to finish without hand-written or imported substitute receipts.",
     "Recovery reuses only complete, identity-matching node evidence; an interrupted or partial plan reruns only missing or invalid nodes and preserves prior evidence.",
     "Focused regressions cover node splitting or aggregation, timeout and interruption, exit-code and log persistence, descendant cleanup, stale or foreign receipts, and CLI/MCP parity.",
-    "The documented command surface explains the supported long-running verification route without instructing Agents to bypass the Runtime."
+    "The documented command surface explains the supported long-running verification route without instructing Agents to bypass the Runtime.",
+    "A resource finalization plan cannot silently change Contract identity after checkpoint or verification; an invalid late plan is rejected without mutating lifecycle evidence, while an explicitly recorded recovery revalidation remains fail-closed until fresh verification passes."
   ],
   "authority": "authorized",
   "baseRevision": "437ca6c4c101418183452ee08636ea2f6c9b41f1",
@@ -30,14 +31,15 @@
     "successful formal verification receipt bound to WI-820",
     "timeout and interruption regression receipts with no leaked descendants",
     "focused and workspace test results",
-    "before/after elapsed time and process-count measurements"
+    "before/after elapsed time and process-count measurements",
+    "resource finalization plan ordering regression"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/wi-820-verification-execution-boundary",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/798",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-820-verification-execution-boundary"
   },
   "risk": "high",
@@ -98,7 +100,11 @@
     "docs/reference/commands.md",
     "docs/reference/commands.zh-CN.md",
     "docs/reference/commands.ja.md",
-    "crates/cockpit-repository/src/governance_controls.rs"
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
   ],
   "sources": [],
   "state": "implementation_active",

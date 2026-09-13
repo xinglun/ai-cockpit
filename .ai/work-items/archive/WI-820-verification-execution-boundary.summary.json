@@ -1,0 +1,325 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-820-verification-execution-boundary.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-820-verification-execution-boundary.focused-tests.txt",
+    ".ai/evidence/WI-820-verification-execution-boundary.measurements.txt",
+    ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.contract.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.events.jsonl",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.outcome.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.summary.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.task-report.json",
+    ".ai/work-items/archive/WI-820-verification-execution-boundary.task-report.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-13T04:39:40Z",
+  "checkpointContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "recorded": true,
+      "recordedAt": "2026-09-13T04:39:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0124183f0f333673a5dd0e8da85a6fb0c528a95060e3e642496636436d82c820",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:769b5c8634f253a3f5fe3e0aec7ebc0b1e2a77ef221e1a396d670449908be490",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "previousContractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "reason": "Include the Runtime governance projection rule whose planned-scenario phase condition blocks formal verification before evidence exists.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T05:05:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f462741e607e7291a2a37ebf9394e283c0f9143aef20c0b92c943b46d46f96e0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:8a6c7dc69ecb1cafbf835f234517b1abf03a8e3a96e289ce5b785e3cc76a3a27",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "previousContractHash": "sha256:769b5c8634f253a3f5fe3e0aec7ebc0b1e2a77ef221e1a396d670449908be490",
+      "reason": "Repair the late finalize-plan invalidation boundary discovered after the formal verification receipt was produced.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T05:24:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de6be84c5617b6b43a012c3d1b9889c673808e4896931f14cbe20b5faa0d9415",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:7fe6a46d4d2714b3221000cc0dd91dbb92f2fed2bf5d0a9d5bd1c7b21227ed3c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "previousContractHash": "sha256:8a6c7dc69ecb1cafbf835f234517b1abf03a8e3a96e289ce5b785e3cc76a3a27",
+      "reason": "Include the existing lifecycle regression that must assert formal receipt detection after Contract amendment.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T05:27:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:300e66da143f5afdc7014df72a651e59191bd5c7e9b8ed581043ef35dc098d19",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d221779eb1193083706a2e6e39a1aa1057b85fec8257f326b8e63759acc8f4a6",
+      "previousContractHash": "sha256:7fe6a46d4d2714b3221000cc0dd91dbb92f2fed2bf5d0a9d5bd1c7b21227ed3c",
+      "reason": "include the recovery regression fixture required to preserve the explicit late-plan recovery boundary",
+      "recorded": true,
+      "recordedAt": "2026-09-13T05:41:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13d904a55a86bfaf9b9867eb09e2bf53c8c5314ae8794842354f54c73d928654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-820-verification-execution-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3690a9f0dd05893d2117ca0c7d590944753f9961d962f37167d3f9a59e3f30ed",
+  "createdAt": "2026-09-13T04:36:04Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+    "items": [
+      {
+        "class": "full workspace coverage manifest and deterministic node plan",
+        "evidence": [
+          {
+            "digest": "sha256:4c3c5ac02cf7646a962093359c6d2bb7939992ad8f2c47a21197693f15729cf9",
+            "locator": "receipt.planReceipt.coverageManifest",
+            "path": ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+            "type": "runtime-verification",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "successful formal verification receipt bound to WI-820",
+        "evidence": [
+          {
+            "digest": "sha256:4c3c5ac02cf7646a962093359c6d2bb7939992ad8f2c47a21197693f15729cf9",
+            "locator": "receipt",
+            "path": ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+            "type": "runtime-verification",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "timeout and interruption regression receipts with no leaked descendants",
+        "evidence": [
+          {
+            "digest": "sha256:e9b1b676b81b5f376761a87fcebfb07a0ef41e719b30e5d1c6e80370dcd36dd5",
+            "locator": "timeout and descendant cleanup regressions",
+            "path": "crates/cockpit-verification/tests/execution.rs",
+            "type": "test",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "focused and workspace test results",
+        "evidence": [
+          {
+            "digest": "sha256:0d63259b5270abebbf40b4ae0e1948a61ed21dde52ff82b5caa2dda0facd4f00",
+            "locator": "all listed commands and results",
+            "path": ".ai/evidence/WI-820-verification-execution-boundary.focused-tests.txt",
+            "type": "test-results",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:4c3c5ac02cf7646a962093359c6d2bb7939992ad8f2c47a21197693f15729cf9",
+            "locator": "receipt.nodesPlanned and receipt.nodesExecuted",
+            "path": ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+            "type": "runtime-verification",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "before/after elapsed time and process-count measurements",
+        "evidence": [
+          {
+            "digest": "sha256:058fdf9ead3bbb2d3868b96ecd6982f8172882aeead7b956038ea2e51acbd512",
+            "locator": "pre-change, current, and observed delta",
+            "path": ".ai/evidence/WI-820-verification-execution-boundary.measurements.txt",
+            "type": "measurement",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "resource finalization plan ordering regression",
+        "evidence": [
+          {
+            "digest": "sha256:7a26eda20d7613a5b8e5095c8971497416b358b0b86efe3d6c3ad807e63cec8b",
+            "locator": "finalize_plan_after_checkpoint_and_verification_is_rejected_without_mutation",
+            "path": "crates/cockpit-repository/tests/archive_integrity.rs",
+            "type": "test",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+      "WI-820 Contract intent"
+    ],
+    "reason": "The verified bounded plan and execution records satisfy the declared Runtime execution boundary.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-13T06:26:26Z",
+  "preflightContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3690a9f0dd05893d2117ca0c7d590944753f9961d962f37167d3f9a59e3f30ed",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "expected": "The declared cargo test --locked --workspace requirement is represented by a deterministic set of Runtime nodes with no package, target, or test-class omission.",
+      "required": true,
+      "scenario": "full_workspace_node_partition",
+      "status": "verified",
+      "verificationPlan": "Compare the node manifest and aggregate command coverage with Cargo workspace metadata and run the bounded plan in the same repository snapshot."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/execution.rs"
+      ],
+      "expected": "A node timeout or interruption records a structured failure, preserves bounded output, terminates descendants, and leaves no test process or lock behind.",
+      "required": true,
+      "scenario": "verification_node_timeout_cleanup",
+      "status": "verified",
+      "verificationPlan": "Run the controlled timeout and descendant fixtures, inspect the receipt fields, and check process and lock state after termination."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-820-verification-execution-boundary.verification.json",
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "expected": "A successful bounded verification plan is recorded as current identity-bound Work Item verification evidence; unknown exit status or direct cargo output cannot pass as a receipt.",
+      "required": true,
+      "scenario": "formal_verification_receipt",
+      "status": "verified",
+      "verificationPlan": "Exercise the CLI lifecycle with a successful bounded plan, a failed command, and an unavailable exit status, then validate the persisted receipt bindings."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/execution.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "expected": "An interrupted plan reruns only missing or stale nodes and reuses complete identity-matching node evidence without rewriting prior evidence.",
+      "required": true,
+      "scenario": "partial_plan_recovery",
+      "status": "verified",
+      "verificationPlan": "Provide a mixed receipt store containing fresh, stale, foreign, and missing node results and assert the planned execution and persisted recovery evidence."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T06:27:08Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-820-verification-execution-boundary"
+}
