@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-833 — 发布脚本来源"
 description: "分离发布编排代码与不可变源码身份。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-833-release-script-provenance
 lastVerifiedBy: WI-833-release-script-provenance
+terminalArchive: .ai/work-items/archive/WI-833-release-script-provenance.contract.json
+terminalVerification: .ai/evidence/WI-833-release-script-provenance.verification.json
+terminalFinalization: .ai/decisions/WI-833-release-script-provenance.finalize.json
+terminalDecision: .ai/decisions/WI-833-release-script-provenance.close.json
 ---
 
 [English](WI-833-release-script-provenance.md) · [日本語](WI-833-release-script-provenance.ja.md)
