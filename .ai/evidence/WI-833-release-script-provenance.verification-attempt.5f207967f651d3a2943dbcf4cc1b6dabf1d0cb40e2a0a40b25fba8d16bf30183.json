@@ -1,9 +1,30 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:5f207967f651d3a2943dbcf4cc1b6dabf1d0cb40e2a0a40b25fba8d16bf30183",
+  "commands": [
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+      "commandDigest": "sha256:9fa258d9be99aaedefcfb34e4f30456206625b2d6f2495464d8ecad031684a9b",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:c4d189e31428c6f676168f4bda7985c8a5c9ba7ea544f8bc8082287b3e356437",
+  "contractExecutionScopeDigest": "sha256:b252e45a4cba802d5cb79cd1d5c3caa0485380ff3ada5b12ffe6911c160a9d83",
   "createdAt": "2026-09-13T19:53:49Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -91,13 +112,13 @@
       }
     ],
     "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-833-release-script-provenance"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:95f4e20de80f2ab3bc3a0ba87f06115b317c8acdae6f311189274f4a7b8f7d75",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-833-release-script-provenance"
 }

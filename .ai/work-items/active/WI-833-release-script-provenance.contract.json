@@ -27,6 +27,14 @@
     "verification",
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi833-release-script-provenance",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/813",
+    "worktree": "/private/tmp/ai-cockpit-wi833-release-script-provenance"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

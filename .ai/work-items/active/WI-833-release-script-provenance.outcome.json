@@ -5,9 +5,9 @@
     "Source and workflow identities are both recorded in hosted acceptance evidence, and the existing staged/public acceptance behavior remains unchanged.",
     "The release workflow policy gate enforces the same split: product/build jobs retain their target-source binding, while all adopter jobs use github.sha for orchestration and release-source for immutable source identity."
   ],
-  "createdAt": "2026-09-13T19:43:51Z",
+  "createdAt": "2026-09-13T19:53:54Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:604e2f7ef494da325fde89c016e00db91ae34278c8d74bd4676b7aa375834336",
+  "evidenceDigest": "sha256:e595f4111df1d385f8a44fdbb174f6de7a812bd29d04a6cdd8c74676afc65877",
   "evidenceRefs": [
     ".ai/evidence/WI-833-release-script-provenance.verification.json"
   ],
@@ -47,7 +47,7 @@
             ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.409ad62bde8111962d4cea00dce754c7ac3c6b928cad2e892c88ff703c552a83.json"
         },
         {
           "evidenceRefs": [
@@ -61,14 +61,14 @@
             ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json"
+          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.contract.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: tests/release/workflow_policy.sh"
+          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json"
         }
       ],
       "evidence": [
@@ -143,8 +143,8 @@
     "status": "verified",
     "workItemId": "WI-833-release-script-provenance"
   },
-  "taskReportDigest": "sha256:e11ef879a743c58da946e93130300855980a8462731ae5ce646be64a870c0f08",
-  "taskReportMarkdownDigest": "sha256:a1dd3c891c3a74eaa7fd39ac9a52ab7df30611583460bb352bcbd32f04419ace",
+  "taskReportDigest": "sha256:ae77155b3fa545f27c357b166e790c35f9cebbe2049436851720ba9a3f95f98a",
+  "taskReportMarkdownDigest": "sha256:6bdccdc27ca1983ae287e35ae575cb054ab6ae7f14df58d376bfe1f14a3bd910",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

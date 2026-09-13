@@ -1,12 +1,12 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-833-release-script-provenance.recovery.json",
+    ".ai/decisions/WI-833-release-script-provenance.recovery.409ad62bde8111962d4cea00dce754c7ac3c6b928cad2e892c88ff703c552a83.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-833-release-script-provenance.summary.json",
-    "tests/release/workflow_policy.sh"
+    ".ai/work-items/active/WI-833-release-script-provenance.contract.json",
+    ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
   ],
   "checkpointAt": "2026-09-13T19:21:42Z",
-  "checkpointContractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "checkpointContractDigest": "sha256:c4d189e31428c6f676168f4bda7985c8a5c9ba7ea544f8bc8082287b3e356437",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -56,8 +56,8 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-13T19:43:34Z",
-  "preflightContractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "preflightAt": "2026-09-13T19:53:50Z",
+  "preflightContractDigest": "sha256:c4d189e31428c6f676168f4bda7985c8a5c9ba7ea544f8bc8082287b3e356437",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "preflightState": "green",
@@ -113,7 +113,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-13T19:43:51Z",
+  "updatedAt": "2026-09-13T19:53:54Z",
   "verification": [
     {
       "check": "project-command-0",

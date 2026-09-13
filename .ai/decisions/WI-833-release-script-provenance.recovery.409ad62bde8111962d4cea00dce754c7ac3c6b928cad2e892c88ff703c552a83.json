@@ -1,0 +1,26 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "human:authorized-development-instruction",
+  "decidedAt": "2026-09-14T00:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-833-release-script-provenance.verification.json",
+    ".ai/decisions/WI-833-release-script-provenance.recovery.json"
+  ],
+  "policyRefs": [
+    "Runtime lifecycle: finalize-plan precedes verification and finish-ready"
+  ],
+  "predecessorContractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "predecessorEventsDigest": "sha256:175da1a4693e287d0d35289fae6b431041dfbaa31bfe30ed3b39f5ead1ba36dd",
+  "predecessorOutcomeDigest": "sha256:7b92f20be6c25f4b89008e10a7d29d655144ba0eba3f253b9a885aab815da365",
+  "predecessorSummaryDigest": "sha256:904eb418d17d42a249d016b9523c658c830e72fe91a724af94ef99beb7a6569d",
+  "predecessorWorkItemId": "WI-833-release-script-provenance",
+  "reason": "Restore the same Work Item to checkpointed state so its already reviewed PR/worktree finalization plan can be bound before the fresh verification and archive cycle; no scope or authority changes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed PR finalization plan, run only the minimal current-runtime verification, then finish and continue provider integration.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-833-release-script-provenance"
+}
