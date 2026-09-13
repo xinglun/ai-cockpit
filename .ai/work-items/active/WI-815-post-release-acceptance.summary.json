@@ -140,6 +140,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:3854da5d7a9df25d618e4399f46702e86acc22ea99e2f9fa2d488c9992499525",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7321ee4ab9115b107458a182e0faf5679b0f721311a97f045ef6b85dee300347",
+      "previousContractHash": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
+      "reason": "The new regression test must be registered in the canonical repository gate manifest; otherwise the manifest integrity gate rejects the correct test addition after expensive workspace checks.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T01:05:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:77aab252bd02632a5b4a13b20af65e0951b3283121d4d7542a36535e154910ed",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-815-post-release-acceptance"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
@@ -159,7 +179,7 @@
   "preflightContractDigest": "sha256:5858308f2bc9a49bf19307ae706203e3dedd66ecf152103ed58a36d983cf22d6",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:cc90064d534a203325a523accd7fee97c6ffe1d140b84367fc50e97f5e359e1a",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-809-release-v0-2-91-final-acceptance.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -237,6 +257,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3854da5d7a9df25d618e4399f46702e86acc22ea99e2f9fa2d488c9992499525",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-13T01:05:19Z"
+  },
   "verificationRecoveryReconciled": "sha256:1a6acf00e94edd852459378f0b8cf011a21cd0a761f47ba29478843ea9757f66",
   "workItemId": "WI-815-post-release-acceptance"
 }
