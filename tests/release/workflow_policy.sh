@@ -125,6 +125,7 @@ require_match '^  publish:' 'publish job must be present'
 require_match 'needs:' 'publish must depend on verification jobs'
 require_match '^  release_preflight:' 'cheap release preflight must run before build and expensive verification'
 require_match '^  source_quality:' 'source-quality job must be present'
+require_match 'source_revision: \$\{\{ steps\.bind_source_identity\.outputs\.source_revision \}\}' 'release preflight must export the immutable source revision to source quality'
 require_match '^  release_policy:' 'release-policy job must be present'
 require_match '^  attest:' 'final attestation job must be present'
 require_match '^  publish_handoff:' 'post-publication handoff job must be present'
@@ -285,6 +286,28 @@ for source_job in build aggregate; do
 done
 execution_source_ref='ref: ${{ github.sha }}'
 public_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && github.event.inputs.to_tag) || github.ref }}'
+source_quality_block="$(job_block source_quality)"
+grep -Fq -- 'path: release-source' <<<"$source_quality_block" || {
+  printf 'policy failure: source_quality must checkout the immutable release source separately\n' >&2
+  exit 1
+}
+grep -Fq -- '--repo "$source_repo"' <<<"$source_quality_block" || {
+  printf 'policy failure: source_quality must run Contract verification against the immutable release source\n' >&2
+  exit 1
+}
+grep -Fq -- 'needs.release_preflight.outputs.source_revision' <<<"$source_quality_block" || {
+  printf 'policy failure: source_quality must bind its checkout to the preflight source identity\n' >&2
+  exit 1
+}
+release_preflight_source_block="$(job_block release_preflight)"
+grep -Fq -- '--repo "$source_repo"' <<<"$release_preflight_source_block" || {
+  printf 'policy failure: release preflight route planning must use the immutable release source\n' >&2
+  exit 1
+}
+grep -Fq -- '--head "$head_revision"' <<<"$release_preflight_source_block" || {
+  printf 'policy failure: release preflight route must use the immutable source revision as head\n' >&2
+  exit 1
+}
 for source_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance adopter_acceptance adopter_upgrade_acceptance; do
   block="$(job_block "$source_job")"
   grep -Fq -- "$execution_source_ref" <<<"$block" || {

@@ -437,6 +437,10 @@ jobs:
     runs-on: ubuntu-24.04
     permissions:
       contents: read
+    outputs:
+      source_revision: ${{ steps.bind_source_identity.outputs.source_revision }}
+      source_base_revision: ${{ steps.bind_source_identity.outputs.source_base_revision }}
+      source_contract_path: ${{ steps.bind_source_identity.outputs.source_contract_path }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -446,6 +450,36 @@ jobs:
         with:
           name: release-input-preflight
           path: target
+      - name: Bind immutable release source identity
+        id: bind_source_identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
+          source_base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .releaseSourceRevision' target/release-input-preflight.json)"
+          source_contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
+          [[ "$source_revision" =~ ^[0-9a-f]{40}$ ]] || {
+            echo 'release source identity must be a full immutable commit SHA' >&2
+            exit 1
+          }
+          [[ "$source_base_revision" =~ ^[0-9a-f]{40}$ ]] || {
+            echo 'release source baseline must be a full commit SHA' >&2
+            exit 1
+          }
+          [[ -n "$source_contract_path" ]] || {
+            echo 'release source identity must include a Contract path' >&2
+            exit 1
+          }
+          echo "source_revision=$source_revision" >> "$GITHUB_OUTPUT"
+          echo "source_base_revision=$source_base_revision" >> "$GITHUB_OUTPUT"
+          echo "source_contract_path=$source_contract_path" >> "$GITHUB_OUTPUT"
+      - name: Checkout immutable release source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ steps.bind_source_identity.outputs.source_revision }}
+          path: release-source
+          fetch-depth: 0
+          persist-credentials: false
       # The canonical repository gates run exactly once in source_quality from
       # the typed route and manifest. This job only prepares that route before
       # any platform helper or source build can start.
@@ -461,20 +495,22 @@ jobs:
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
-          head_revision="$(jq -er '.headRevision' target/release-input-preflight.json)"
+          source_repo="$GITHUB_WORKSPACE/release-source"
+          head_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
           base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .headRevision' target/release-input-preflight.json)"
           contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
+          test "$(git -C "$source_repo" rev-parse HEAD)" = "$head_revision"
           route_args=(
-            --repo "$GITHUB_WORKSPACE"
-            --manifest tests/ci/repository_gate_manifest.json
+            --repo "$source_repo"
+            --manifest "$source_repo/tests/ci/repository_gate_manifest.json"
             --base "$base_revision"
             --head "$head_revision"
             --stage release
             --risk high
             --profile strict
-            --receipt target/release-quality-route.json
+            --receipt "$GITHUB_WORKSPACE/target/release-quality-route.json"
           )
-          [[ -n "$contract_path" ]] && route_args+=(--contract "$contract_path")
+          [[ -n "$contract_path" ]] && route_args+=(--contract "$source_repo/$contract_path")
           set +e
           target/release/ai-cockpit gate-plan "${route_args[@]}"
           result=$?
@@ -485,7 +521,7 @@ jobs:
               > target/release-preflight-failure.json
             exit "$result"
           fi
-          jq '{schemaVersion:1,kind:"release_governance_binding",state:"ready",governance:{workItemId:.workItemId,contractPath:.contractPath,contractDigest:.contractDigest,baseRevision:.baseRevision},sourceVerification:{workItemId:.sourceWorkItemId,contractPath:.sourceContractPath,contractDigest:.sourceContractDigest,baseRevision:.sourceBaseRevision,selectionMethod:.sourceSelectionMethod}}' \
+          jq '{schemaVersion:1,kind:"release_governance_binding",state:"ready",execution:{workflowRevision:.headRevision},governance:{workItemId:.workItemId,contractPath:.contractPath,contractDigest:.contractDigest,baseRevision:.baseRevision},sourceVerification:{workItemId:.sourceWorkItemId,contractPath:.sourceContractPath,contractDigest:.sourceContractDigest,baseRevision:.sourceBaseRevision,releaseSourceRevision:.releaseSourceRevision,selectionMethod:.sourceSelectionMethod}}' \
             target/release-input-preflight.json > target/release-governance-binding.json
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
@@ -634,6 +670,12 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ needs.release_preflight.outputs.source_revision }}
+          path: release-source
+          fetch-depth: 0
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
         with:
           toolchain: 1.94.1
@@ -651,12 +693,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          source_repo="$GITHUB_WORKSPACE/release-source"
+          test "$(git -C "$source_repo" rev-parse HEAD)" = "${{ needs.release_preflight.outputs.source_revision }}"
           contract_path="$(jq -r '.contractPath // empty' target/release-quality-route.json)"
           profile="$(jq -er '.selectedProfile' target/release-quality-route.json)"
           if [[ "$profile" != light && -n "$contract_path" ]]; then
             target/release/ai-cockpit gate \
-              --repo "$GITHUB_WORKSPACE" \
-              --contract "$contract_path" \
+              --repo "$source_repo" \
+              --contract "$source_repo/$contract_path" \
               --stage release \
               --runner hosted \
               --base-revision "$(jq -er '.baseRevision' target/release-quality-route.json)" \
@@ -666,13 +710,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cargo metadata --locked --format-version 1 > /tmp/cargo-metadata.json
+          source_repo="$GITHUB_WORKSPACE/release-source"
+          test "$(git -C "$source_repo" rev-parse HEAD)" = "${{ needs.release_preflight.outputs.source_revision }}"
+          (cd "$source_repo" && cargo metadata --locked --format-version 1) > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
           gate_args=(
-            python3 tests/ci/run_repository_gates.py \
-            --repo "$GITHUB_WORKSPACE" \
-            --manifest tests/ci/repository_gate_manifest.json \
+            python3 "$source_repo/tests/ci/run_repository_gates.py" \
+            --repo "$source_repo" \
+            --manifest "$source_repo/tests/ci/repository_gate_manifest.json" \
             --route-receipt target/release-quality-route.json \
             --report target/repository-gates.json
           )
