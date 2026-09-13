@@ -55,6 +55,22 @@ later release, public-adopter, close, or cleanup stages is enforced by
 `archive`/`close`, where it can actually be obtained. This prevents `finish`
 from depending on facts that do not exist until a future stage.
 
+The `requiredEvidenceClasses` field has a fixed vocabulary. The supported forms
+are `verification`, `verification_receipt`, `verification-receipt`,
+`delegated:<provider>`, `delegated_evidence`, and `external_evidence`. Lifecycle
+stage labels such as `public-install`, `public-upgrade`, `release-close`, or
+`cleanup` are not evidence classes and are rejected by `start`, Contract
+amendment, and `preflight` before source verification begins. Those later-stage
+facts remain enforced by the lifecycle boundary that can produce them. A
+historical archived Contract with an older label remains readable and is never
+rewritten automatically; recover it with a bounded Contract repair or successor
+that declares the supported class and collects the corresponding evidence.
+
+When more than one class is declared, every class is evaluated. For example,
+`verification` plus `delegated:github` requires both a valid verification
+receipt and valid GitHub delegated evidence; satisfying one does not short-circuit
+the other.
+
 When a human preflight review is required, an entry gate reuses the canonical
 preflight decision digest recorded by the Work Item Summary. The stage-specific
 quality projection does not create a second review binding; a Contract or

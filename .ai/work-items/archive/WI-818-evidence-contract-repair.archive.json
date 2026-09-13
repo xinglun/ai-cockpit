@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-13T02:57:28Z",
+  "files": {
+    "contractDigest": "sha256:5c4eddae7f233e9aa1a93527faee95af225d3b0cbd5673747d0a32640c4bb4ab",
+    "contractPath": ".ai/work-items/archive/WI-818-evidence-contract-repair.contract.json",
+    "eventsDigest": "sha256:3066b75cbd1a929bc26c2064aa6fc73aed14c6d1365b2a99bd8d646557f90ac7",
+    "eventsPath": ".ai/work-items/archive/WI-818-evidence-contract-repair.events.jsonl",
+    "outcomeDigest": "sha256:2e8e24ff99d64a97723b435a720518e56a5868a735827992964a5db261ddd954",
+    "outcomePath": ".ai/work-items/archive/WI-818-evidence-contract-repair.outcome.json",
+    "summaryDigest": "sha256:7773552ec0deaaea104e9903ae44509ddabd062df63ceabe0870fb5880163cbc",
+    "summaryPath": ".ai/work-items/archive/WI-818-evidence-contract-repair.summary.json",
+    "taskReportDigest": "sha256:6e6a2d1f04dacf04fb914a31ba3bf957c91fed0dab16b3b82b870ca85a5bbb7b",
+    "taskReportMarkdownDigest": "sha256:7dacd5df6651ca54ce25d5add00c414e13027376d836ed4822c636ca9f72353b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-818-evidence-contract-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-818-evidence-contract-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-818-evidence-contract-repair"
+}

@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "A new Work Item with an unsupported required evidence class is rejected or marked blocked before verification starts, with the supported forms listed.",
+    "A Contract declaring verification and delegated:github requires both evidence classes; one missing class remains incomplete.",
+    "Existing historical Contracts remain readable and are not rewritten by the new validation.",
+    "The CLI and documentation expose the same evidence-class vocabulary and recovery action."
+  ],
+  "authority": "authorized",
+  "baseRevision": "437ca6c4c101418183452ee08636ea2f6c9b41f1",
+  "createdAt": "2026-09-13T02:28:02Z",
+  "goal": "Make required-evidence authoring fail early with an actionable diagnostic, evaluate all declared classes without short-circuiting, and preserve compatibility for historical Contracts.",
+  "intent": "Prevent invalid lifecycle evidence declarations from reaching expensive verification and require every declared supported evidence class to be evaluated.",
+  "mode": "implementation",
+  "outOfScope": [
+    "rewriting historical Contract",
+    " archive",
+    " evidence",
+    " or decision bytes",
+    "release tags",
+    " published assets",
+    " or object engineering repositories",
+    "new evidence providers or external authority semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0124183f0f333673a5dd0e8da85a6fb0c528a95060e3e642496636436d82c820",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "start rejects an unknown class and names the supported forms",
+      "required": true,
+      "scenario": "unsupported required evidence class is rejected before verification",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle regression and inspect the CLI diagnostic."
+    },
+    {
+      "evidence": [],
+      "expected": "verification plus delegated:github remains incomplete when either declared class is missing",
+      "required": true,
+      "scenario": "all declared evidence classes are evaluated",
+      "status": "unverified",
+      "verificationPlan": "Run repository evidence-state regressions with each class missing and then both satisfied."
+    },
+    {
+      "evidence": [],
+      "expected": "a legacy Contract containing an old lifecycle label remains readable and its bytes are not rewritten",
+      "required": true,
+      "scenario": "historical Contract compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the archived Contract read-only gate and compare bytes before and after."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI help and reference documentation identify the supported vocabulary and corrective action",
+      "required": true,
+      "scenario": "operator recovery guidance",
+      "status": "unverified",
+      "verificationPlan": "Inspect command help and documentation tests."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "docs/reference/commands.md",
+    "docs/reference/ci-quality-gates.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-818-evidence-contract-repair"
+}

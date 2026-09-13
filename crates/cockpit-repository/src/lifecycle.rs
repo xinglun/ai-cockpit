@@ -29,6 +29,12 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    validate_required_evidence_classes(&options.required_evidence_classes).map_err(|message| {
+        ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message,
+        }
+    })?;
     // Recovery-generated `not_ready` scaffolds are an explicit continuation
     // of an existing lifecycle and may be activated while their predecessor
     // is still awaiting closure.  All ordinary starts must pass the same
@@ -1006,6 +1012,19 @@ pub fn amend_work_item_contract(
             }
         }
     }
+    let required_evidence_classes = contract["requiredEvidenceClasses"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(serde_json::Value::as_str)
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    validate_required_evidence_classes(&required_evidence_classes).map_err(|message| {
+        ObserverError::State {
+            path: path.clone(),
+            message,
+        }
+    })?;
     if let Some(values) = input.get("scenarioCoverageAppend") {
         let values = values.as_array().ok_or_else(|| ObserverError::State {
             path: path.clone(),
@@ -1130,6 +1149,12 @@ fn preflight_work_item_internal(
         root.join(contract_path)
     };
     let contract = read_contract(&contract_path)?;
+    validate_required_evidence_classes(&contract.required_evidence_classes).map_err(|message| {
+        ObserverError::State {
+            path: contract_path.clone(),
+            message,
+        }
+    })?;
     let repository_context = RepositoryExecutionContext::capture(&root)?;
     let observation_context = repository_context.observe_phase_with_contract(
         ObservationPhase::BeforeGovernance,
