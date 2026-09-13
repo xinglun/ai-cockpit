@@ -119,11 +119,12 @@ Windows. `gh attestation verify` is an optional additional provenance check.
 
 ## Publishing a candidate
 
-Publication is triggered by pushing an annotated Git tag after the reviewed
-Work Item is merged and the default branch is synchronized. Create and push
-the tag as follows; do not use `gh release create`, because it can create a
-provider Release and a lightweight tag before the workflow has verified the
-candidate:
+Publication is started by an explicit workflow dispatch after the reviewed
+Work Item is merged and the default branch is synchronized. Create the
+annotated tag, push it as an immutable input, then dispatch the workflow with
+the governing Work Item identity. Do not use `gh release create`, because it
+can create a provider Release and a lightweight tag before the workflow has
+verified the candidate:
 
 ```bash
 git fetch origin main --tags
@@ -131,12 +132,18 @@ git tag -a v0.2.92 -m 'ai-cockpit v0.2.92'
 test "$(git cat-file -t v0.2.92)" = tag
 test "$(git rev-parse v0.2.92^{})" = "$(git rev-parse HEAD)"
 git push origin v0.2.92
+gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
+  -f from_tag=v0.2.91 \
+  -f to_tag=v0.2.92 \
+  -f publish_existing_tag=true \
+  -f work_item_id=WI-829-release-trigger-repair
 ```
 
-The workflow rejects a lightweight tag, an already existing provider Release,
-or a tag whose peeled commit is not the reviewed source commit. A failed
-publication reserves its tag permanently; the next candidate advances one
-patch version.
+The tag push does not start publication. The dispatch-only workflow rejects a
+missing or lightweight tag, an already existing provider Release unless its
+identity is verified for recovery, a missing Work Item identity, or a tag whose
+peeled commit is not the reviewed source commit. A failed publication reserves
+its tag permanently; the next candidate advances one patch version.
 
 ## Primary macOS installation
 
@@ -346,8 +353,8 @@ Before publication, the staged N-1 job uses a public N-1 archive and staged
 candidate archive without a source build or arbitrary verification command.
 After publication, the release workflow runs the public harness in a separate
 `adopter_upgrade_acceptance` job after publication and the publication handoff.
-For a tag push it resolves the immediately preceding published semantic
-Release through the provider API. A first public Release records
+For an explicit publication dispatch it resolves the immediately preceding
+published semantic Release through the provider API. A first public Release records
 `adopterAcceptance: not_applicable` with a checksummed receipt. Maintainers can
 also trigger the workflow manually by supplying `from_tag`, `to_tag`, and an
 optional `target`; manual dispatch consumes only those already-published

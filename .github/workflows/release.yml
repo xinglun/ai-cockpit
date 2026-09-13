@@ -21,7 +21,7 @@ on:
         required: false
         type: string
       publish_existing_tag:
-        description: 'Recover publication of an existing immutable tag after a failed tag-triggered run'
+        description: 'Publish the existing immutable tag after explicit identity preflight'
         required: false
         default: false
         type: boolean
@@ -59,9 +59,6 @@ on:
         description: 'Source-verification Contract path alternative to source_work_item_id'
         required: false
         type: string
-  push:
-    tags: ['v*']
-
 env:
   CARGO_TERM_COLOR: never
 
@@ -117,6 +114,21 @@ jobs:
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
+          if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+            [[ "$INPUT_TO_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+              echo 'publication dispatch requires a semantic to_tag' >&2
+              exit 1
+            }
+            test "$(git cat-file -t "$INPUT_TO_TAG")" = tag || {
+              echo 'publication dispatch requires an annotated immutable tag' >&2
+              exit 1
+            }
+            tag_revision="$(git rev-parse "$INPUT_TO_TAG^{}")"
+            test "$tag_revision" = "$head_revision" || {
+              echo 'publication tag must resolve to the reviewed dispatch commit' >&2
+              exit 1
+            }
+          fi
           selector_args=(
             --repo "$GITHUB_WORKSPACE"
             --event "$EVENT_NAME"
@@ -780,8 +792,7 @@ jobs:
   release_policy:
     needs: [aggregate, source_quality, release_tools]
     if: >-
-      (github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) &&
-      (github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true')
+      github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance != 'true'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -816,40 +827,10 @@ jobs:
           manifest_commit="$(jq -er '.commit' dist/release-manifest.json)"
           tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
           test -n "$tag_commit"
-          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
-            test "$manifest_commit" = "$GITHUB_SHA"
-            test "$GITHUB_REF_NAME" = "$tag"
-            before="$(jq -er '.before' "$GITHUB_EVENT_PATH")"
-            test "$before" = "0000000000000000000000000000000000000000"
-            test "$(git rev-parse "refs/tags/${GITHUB_REF_NAME}^{commit}")" = "$GITHUB_SHA"
-            git fetch origin main --depth=1
-            git merge-base --is-ancestor "$GITHUB_SHA" origin/main
-            test "$tag_commit" = "$manifest_commit"
-            release_json="$RUNNER_TEMP/provider-release.json"
-            release_error="$RUNNER_TEMP/provider-release.error"
-            set +e
-            gh api "repos/$GITHUB_REPOSITORY/releases/tags/${tag}" > "$release_json" 2> "$release_error"
-            release_status=$?
-            set -e
-            if [[ "$release_status" -eq 0 ]]; then
-              "$GITHUB_WORKSPACE/tools/cockpit-release" verify-provider-release \
-                --manifest dist/release-manifest.json \
-                --dist dist \
-                --release-json "$release_json" \
-                --tag-commit "$tag_commit" | jq '. + {schemaVersion:1}' \
-                > "$RUNNER_TEMP/provider-release-state.json"
-            elif grep -Eq 'HTTP 404|Not Found' "$release_error"; then
-              jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
-                '{schemaVersion:1,state:"new",tag:$tag,commit:$commit}' \
-                > "$RUNNER_TEMP/provider-release-state.json"
-            else
-              cat "$release_error" >&2
-              echo 'unable to determine provider Release state; refusing to publish' >&2
-              exit 1
-            fi
-          elif [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
             test "$INPUT_TO_TAG" = "$tag"
             test "$manifest_commit" = "$tag_commit"
+            test "$manifest_commit" = "$GITHUB_SHA"
             release_json="$RUNNER_TEMP/provider-release.json"
             release_error="$RUNNER_TEMP/provider-release.error"
             set +e
@@ -1271,9 +1252,9 @@ jobs:
 
   publish:
     if: >-
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true')) &&
-      (github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true')
+      github.event_name == 'workflow_dispatch' &&
+      github.event.inputs.publish_existing_tag == 'true' &&
+      github.event.inputs.post_release_acceptance != 'true'
     needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest]
     runs-on: ubuntu-24.04
     permissions:
@@ -1313,9 +1294,6 @@ jobs:
           manifest_commit="$(jq -er '.commit' dist/release-manifest.json)"
           tag_commit="$(git ls-remote origin "refs/tags/$tag^{}" | awk '{print $1}')"
           test "$manifest_commit" = "$tag_commit"
-          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
-            test "$manifest_commit" = "$GITHUB_SHA"
-          fi
           state="$(jq -er '.state' provider-state/provider-release-state.json)"
           release_json="$RUNNER_TEMP/provider-release-recheck.json"
           release_error="$RUNNER_TEMP/provider-release-recheck.error"
@@ -1353,8 +1331,7 @@ jobs:
   publish_handoff:
     if: >-
       always() &&
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
+      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.post_release_helper.result == 'success' && needs.release_input_preflight.result == 'success'))
     needs: [publish, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
@@ -1433,13 +1410,6 @@ jobs:
           done
           test "$provider_release_id" -gt 0
           commit="$(jq -er '.commit' dist/release-manifest.json)"
-          # Tag pushes publish the tag's source commit directly. Recovery runs
-          # intentionally execute from the current orchestration revision, so
-          # the typed handoff carries both identities and this equality guard
-          # applies only to the direct tag-triggered path.
-          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
-            test "$GITHUB_SHA" = "$commit"
-          fi
           manifest_sha="$(shasum -a 256 dist/release-manifest.json | awk '{print $1}')"
           formula_sha="$(shasum -a 256 dist/Formula/ai-cockpit.rb | awk '{print $1}')"
           issued="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -1473,8 +1443,7 @@ jobs:
     # version or the current trilingual installation docs.
     if: >-
       always() &&
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
+      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.release_input_preflight.result == 'success'))
     needs: [publish, release_input_preflight]
     runs-on: ubuntu-24.04
@@ -1538,8 +1507,7 @@ jobs:
   adopter_acceptance:
     if: >-
       always() &&
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
+      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
        (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
     needs: [publish_handoff, release_tools, post_release_helper]
     runs-on: ubuntu-24.04
@@ -1628,15 +1596,13 @@ jobs:
           retention-days: 30
 
   adopter_upgrade_acceptance:
-    # Pushes run only after the provider Release and publication handoff are
-    # successful. A recovery dispatch consumes the current run's publication
-    # handoff; an ordinary manual run consumes explicitly named public Releases.
+    # A publication dispatch runs only after the provider Release and
+    # publication handoff are successful. A recovery dispatch consumes the
+    # current run's publication handoff; an ordinary manual run consumes
+    # explicitly named public Releases.
     if: >-
       always() &&
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') &&
-        needs.publish.result == 'success' &&
-        needs.publish_handoff.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' &&
+      ((github.event_name == 'workflow_dispatch' &&
         github.event.inputs.publish_existing_tag == 'true' &&
         needs.publish.result == 'success' &&
         needs.publish_handoff.result == 'success') ||
@@ -1672,13 +1638,6 @@ jobs:
         with:
           name: post-release-helper
           path: tools
-      - name: Download publication handoff for push-triggered public acceptance
-        if: github.event_name == 'push'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        continue-on-error: ${{ github.run_attempt > 1 }}
-        with:
-          name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
-          path: handoff
       - name: Download publication handoff for tag recovery
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
@@ -1691,19 +1650,6 @@ jobs:
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
-      - name: Restore publication handoff on rerun
-        if: github.event_name == 'push' && github.run_attempt > 1
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          if [[ ! -f handoff/homebrew-handoff.json ]]; then
-            mkdir -p handoff
-            gh run download "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" \
-              --name "ai-cockpit-publish-handoff-${GITHUB_RUN_ID}-$((GITHUB_RUN_ATTEMPT - 1))" \
-              --dir handoff
-          fi
       - name: Download handoff from the requested publication run
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag != 'true' && github.event.inputs.post_release_acceptance != 'true'
         shell: bash
@@ -1856,8 +1802,7 @@ jobs:
     # rewrites a Release, moves a tag, or deletes historical evidence.
     if: >-
       always() &&
-      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
-       (github.event_name == 'workflow_dispatch' &&
+      (github.event_name == 'workflow_dispatch' &&
         (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true')))
     needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
     runs-on: ubuntu-24.04
@@ -2001,9 +1946,6 @@ jobs:
           fi
           release_commit="$(git ls-remote origin "refs/tags/$TAG^{}" | awk '{print $1}')"
           test -n "$release_commit"
-          if [[ "$GITHUB_EVENT_NAME" == push ]]; then
-            test "$release_commit" = "$COMMIT"
-          fi
           COMMIT="$release_commit"
           output="$RUNNER_TEMP/release-close"
           mkdir -p "$output"

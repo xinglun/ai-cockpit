@@ -42,9 +42,10 @@ Work Item 的文档 promotion，它没有创建公开 Release，也不是安装�
 
 本页回答：**发布过程中验证什么、用户如何安装 runtime，以及 Homebrew 的边界在哪里？**
 
-发布只能从已审查且已同步的默认分支推送 annotated tag 开始。provider Release 由 workflow 在源码、制品和 staged acceptance
-门禁全部通过后创建；维护者不得使用 `gh release create` 预创建。lightweight tag 或 peeled commit 不等于已审查 source commit 的 tag
-都会被拒绝，失败的语义版本 tag 永久保留。
+发布只能从已审查且已同步的默认分支通过显式 workflow dispatch 开始。annotated tag 先作为不可变输入推送，
+dispatch 携带显式 Work Item identity。provider Release 由 workflow 在源码、制品和 staged acceptance 门禁全部通过后创建；
+维护者不得使用 `gh release create` 预创建。缺失或 lightweight tag、缺失 Work Item identity，或 peeled commit 不等于已审查
+source commit 的 tag 都会被拒绝，失败的语义版本 tag 永久保留。单独推送 tag 不会启动发布。
 
 ## 读者
 

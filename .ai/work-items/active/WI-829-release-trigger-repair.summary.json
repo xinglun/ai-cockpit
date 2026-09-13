@@ -1,0 +1,137 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-829-release-trigger-repair.contract.json",
+    ".ai/work-items/active/WI-829-release-trigger-repair.summary.json",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "checkpointAt": "2026-09-13T17:35:40Z",
+  "checkpointContractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "recorded": true,
+      "recordedAt": "2026-09-13T17:35:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b27e3f032ec863052c8e34d48024eeb4e728ab32a6259add5a6a336bb88304f2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-829-release-trigger-repair"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "previousContractHash": "sha256:c8ed672e961818445068d6039308422e2cce4312013c99bed20c2fcd7e6036f7",
+      "reason": "Include the regression gate that still asserted the retired tag-trigger route.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T17:43:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-829-release-trigger-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
+  "createdAt": "2026-09-13T17:19:29Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/release/workflow_policy.sh",
+      "docs/release/distribution.md"
+    ],
+    "reason": "This Work Item is limited to the explicit release publication entrypoint, immutable tag identity preflight, and its own evidence-preserving lifecycle; Runtime protocol, product behavior, historical migration, and performance work remain out of scope.",
+    "state": "resolved",
+    "unknowns": []
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T17:44:06Z",
+  "preflightContractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/resolve_work_item.sh"
+      ],
+      "expected": "A publication dispatch must carry an explicit Work Item identity and bind the tag, source commit, Contract, and workflow revision before any release job runs.",
+      "required": true,
+      "scenario": "dispatch_identity_binding",
+      "status": "unverified",
+      "verificationPlan": "Run the cheap release input preflight with valid and invalid identity inputs and retain its structured receipt."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "Missing, malformed, lightweight, moved, or ambiguous release inputs are rejected before compilation or publication.",
+      "required": true,
+      "scenario": "prebuild_rejection",
+      "status": "unverified",
+      "verificationPlan": "Exercise static policy and inspect the dispatch preflight guards; assert no release compilation job is eligible after rejection."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        "docs/architecture/release-distribution.md"
+      ],
+      "expected": "A tag push alone cannot start publication; only the explicit dispatch path can publish an identity-bound immutable tag.",
+      "required": true,
+      "scenario": "dispatch_only_publication",
+      "status": "unverified",
+      "verificationPlan": "Run workflow and action runtime policies and inspect the hosted trigger configuration on the reviewed merge."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Publication retains candidate and public fresh-install, N-1 upgrade, handoff, attestation, and close barriers.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Use one explicit v0.2.92 dispatch and retain the public artifact acceptance and close receipts."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        ".ai/work-items"
+      ],
+      "expected": "A failed dispatch resumes from the first invalid phase without rewriting the tag or Release and preserves all prior valid evidence.",
+      "required": true,
+      "scenario": "failure_recovery_and_close",
+      "status": "unverified",
+      "verificationPlan": "Inspect the release workflow recovery inputs and, if needed, use close-only or post-release recovery without rebuilding valid product artifacts."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-13T17:35:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8b01e0c661cab008cc47a93f731c009b53ac4d6e1022ed2090262fbd6747275c",
+  "workItemId": "WI-829-release-trigger-repair"
+}

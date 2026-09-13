@@ -64,8 +64,8 @@ awk '
   exit 1
 }
 require_match '^\s*workflow_dispatch:' 'manual verification trigger is required'
-require_match '^\s*push:\s*$' 'tag trigger is required'
-require_match 'tags:\s*\['"'"'v\*'"'"'\]' 'only semantic v tags trigger publication'
+fail_if_match '^\s*push:\s*$' 'implicit tag triggers are not allowed; publication requires explicit workflow dispatch'
+fail_if_match "github\\.event_name == 'push'|startsWith\\(github\\.ref, 'refs/tags/'\\)" 'release jobs must not retain an implicit tag-event publication route'
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match '^  release_tools:' 'shared release acceptance tooling must be built once'
 require_match '^    needs: \[release_preflight, source_quality\]$' 'expensive release helper compilation must wait for source quality'
@@ -185,7 +185,9 @@ grep -Fq 'tests/ci/run_workspace_package_tests.sh' "$gate_manifest" || {
 }
 require_match 'cargo metadata --locked' 'source quality must gate workspace metadata'
 require_match 'cargoLockSha256' 'release identity must bind Cargo.lock'
-require_match "jq -er '.before'" 'tag policy must reject mutable tag updates'
+require_match 'publication dispatch requires an annotated immutable tag' 'publication must reject lightweight tags before compilation'
+require_match 'publication tag must resolve to the reviewed dispatch commit' 'publication must bind the immutable tag to the reviewed dispatch commit before compilation'
+require_match 'test "\$manifest_commit" = "\$GITHUB_SHA"' 'release identity must remain bound to the explicit dispatch commit'
 require_match 'gh api .*releases/tags' 'release policy must inspect an existing provider Release'
 require_match 'verify-provider-release' 'existing provider Releases must be checked by the shared Rust identity verifier'
 require_match 'provider-release-state' 'provider Release identity must be persisted for publish recovery'
@@ -242,7 +244,7 @@ require_match 'post-release-only recovery' 'workflow must document the non-publi
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
 require_match 'tests/ci/repository_gate_manifest\.json' 'release workflow must bind all repository policy gates'
 require_match '--post-release' 'post-publication version consistency must validate public assets'
-require_match 'github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must retain the tag-triggered post-publication path'
+fail_if_match 'github\.event_name == '\''push'\''|startsWith\(github\.ref, '\''refs/tags/'\''\)' 'adopter acceptance must not retain an implicit tag-triggered post-publication path'
 require_match 'if: always\(\)' 'adopter acceptance evidence must upload after success or failure'
 require_match 'tests/release/adopter_upgrade_acceptance\.sh' 'N-1 post-release job must invoke the public-artifact upgrade harness'
 require_match 'INPUT_FROM_TAG' 'manual N-1 acceptance must receive an explicit from tag'
@@ -341,7 +343,7 @@ if [[ "$handoff_jobs" != "publish_handoff" ]]; then
   exit 1
 fi
 
-require_match 'github\.event_name == '\''push'\'' && startsWith\(github\.ref, '\''refs/tags/'\''\)' 'publish must retain the tag-triggered path'
+fail_if_match 'github\.event_name == '\''push'\''|startsWith\(github\.ref, '\''refs/tags/'\''\)' 'publish must not retain an implicit tag-triggered path'
 require_match 'github\.event_name == '\''workflow_dispatch'\'' && github\.event\.inputs\.publish_existing_tag == '\''true'\''' 'publish recovery must require explicit immutable-tag mode'
 
 printf 'workflow policy passed: %s\n' "$workflow"
