@@ -81,6 +81,21 @@ managed sections. Use `ai-cockpit --help`, the relevant group help, and
 `capability show --repo <path>` to discover exact command schemas; a listed
 capability is not authorization or readiness.
 
+## Release recovery identity binding
+
+The release workflow accepts a governance identity (`work_item_id` or
+`contract_path`) and, when recovery changes were delivered by a different Work
+Item, an independent source-verification identity (`source_work_item_id` or
+`source_contract_path`). The shared resolver reads and validates both from one
+request-scoped active-Contract index. Omitting the source selector means a
+same-Work-Item technical retry and reuses the governance Contract for source
+quality. Supplying both source selectors is allowed only when they identify the
+same Contract; missing, partial, stale, foreign, or mismatched bindings fail in
+the cheap input-preflight stage before Rust compilation. The release evidence
+retains the governance binding separately from the source-quality route, so a
+later recovery Contract does not widen an immutable Release acceptance
+Contract.
+
 ## Important options
 
 ## MCP tool usage

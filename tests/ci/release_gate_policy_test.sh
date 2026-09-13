@@ -31,9 +31,13 @@ require '--route-receipt' 'release gate execution must consume the typed route r
 require 'target/release-quality-route.json' 'release route receipt must be retained as evidence'
 require 'release_input_preflight:' 'cheap release input preflight must run before Runtime compilation'
 require 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
+require 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'
+require 'source_contract_path:' 'recovery must expose a separate source-verification Contract path'
 require 'resolve_work_item.sh' 'release selection must use the shared explicit identity resolver'
 require 'if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then' 'optional Work Item input must be appended only when present'
 require 'if [[ -n "$INPUT_CONTRACT_PATH" ]]; then' 'optional Contract input must be appended only when present'
+require 'if [[ -n "$INPUT_SOURCE_WORK_ITEM_ID" ]]; then' 'optional source Work Item input must be appended only when present'
+require 'if [[ -n "$INPUT_SOURCE_CONTRACT_PATH" ]]; then' 'optional source Contract input must be appended only when present'
 require 'if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then' 'optional handoff input must be appended only when present'
 if grep -Fq -- "--release-source-revision ''" "$workflow"; then
   printf 'release gate policy failure: empty optional resolver arguments are forbidden\n' >&2
@@ -51,6 +55,17 @@ grep -Fq 'work_item_contract_ambiguous' "$resolver" || {
   printf 'release gate policy failure: ambiguous active Contracts must fail closed\n' >&2
   exit 1
 }
+grep -Fq -- '--source-work-item-id' "$resolver" || {
+  printf 'release gate policy failure: the resolver must support an explicit source-verification identity\n' >&2
+  exit 1
+}
+grep -Fq 'source_work_item_id_mismatch' "$resolver" || {
+  printf 'release gate policy failure: mismatched source identity must fail closed\n' >&2
+  exit 1
+}
+require 'sourceBaseRevision' 'release route must bind the source-verification baseline'
+require 'sourceContractPath' 'release route must bind the source-verification Contract path'
+require 'release-governance-binding.json' 'release must retain the governance identity binding'
 require 'staged_adopter_acceptance:' 'release must gate publication on staged adopter acceptance'
 require 'staged_adopter_upgrade_acceptance:' 'release must gate publication on staged N-1 acceptance'
 require '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'

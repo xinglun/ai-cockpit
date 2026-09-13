@@ -401,9 +401,9 @@ def main() -> int:
                     Path(args.contract_gate_report)
                 )
                 route_binding["contractGateState"] = gate_report["state"]
-            elif receipt.get("contractPath") and selected_profile != "light":
+            elif receipt.get("contractPath"):
                 raise ValueError(
-                    "standard/strict Contract routes require --contract-gate-report"
+                    "Contract routes require --contract-gate-report"
                 )
     except (OSError, ValueError, KeyError, TypeError) as error:
         if isinstance(error, RouteValidationError):

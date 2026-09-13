@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-12T16:49:18Z",
+  "files": {
+    "contractDigest": "sha256:c417097412434f05de0480ec8363b4a8d42ed2dc2befad250c85875f66eda0d2",
+    "contractPath": ".ai/work-items/archive/WI-812-release-source-governance-split.contract.json",
+    "eventsDigest": "sha256:5e08ae75a29e7d6787ef407c260c80e6ba241a3d03cdc6d3ab4ff5d0635d78b3",
+    "eventsPath": ".ai/work-items/archive/WI-812-release-source-governance-split.events.jsonl",
+    "outcomeDigest": "sha256:53f85982b49623aa5dfb205b231ff0add1af80e582b5fe567d9513c1ec8f77ad",
+    "outcomePath": ".ai/work-items/archive/WI-812-release-source-governance-split.outcome.json",
+    "summaryDigest": "sha256:5002f7e9a6345038ff9733866ff488ae9340cd3e420350be63f2d288b7105f67",
+    "summaryPath": ".ai/work-items/archive/WI-812-release-source-governance-split.summary.json",
+    "taskReportDigest": "sha256:fc1d4a43ab581b57e2d3884cf426cf95db8946552a47a87b8b699c6b6e0b98a1",
+    "taskReportMarkdownDigest": "sha256:e8462465c6938a1c4cf817119c8971bfff7ea4ecd5a6fb874c9a2a464e03956e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-812-release-source-governance-split.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-812-release-source-governance-split.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-812-release-source-governance-split"
+}

@@ -22,12 +22,18 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 
 - 从仓库发现的远端 default branch 最新提交开始工作，并在 Work Item
   Contract 中记录 remote、default branch 和 base revision。
-- 标准交付顺序是：远端 default base 最新提交 → 专用 branch/worktree → 实现 →
-  finish/archive → push → reviewed PR → merge → close → 同步并清理。不得在 PR
-  review 前把 feature branch 合并到本地 `main`，不得提前删除 branch，也不得让
-  provider 自动删除 branch 以绕过 finalization。远端步骤失败时必须保留 retry
-  checkout 与 identity；只有 reviewed merge、default branch 同步和精确清理完成后
-  才是 `ready_on_base`，detached worktree 不算 ready。
+- 交付顺序取决于 Contract，而不是所有 Work Item 共用一条顺序。没有外部资源时：
+  远端 default base 最新提交 → 专用 branch/worktree → 实现 → preflight →
+  checkpoint → verify → finish → archive → close → 同步并清理。有外部资源时：
+  远端 default base 最新提交 → 专用 branch/worktree → 实现 → finalize-plan →
+  preflight → checkpoint → verify → finish → reviewed PR → merge → Contract 声明的
+  hosted、candidate、release 或 public-artifact evidence → archive → finalize →
+  finalize-verify → close → 同步并清理。不得在 PR review 前把 feature branch 合并到
+  本地 `main`，不得提前删除 branch，也不得让 provider 自动删除 branch 以绕过
+  finalization。远端步骤失败时必须保留 retry checkout 与 identity；只有在适用的
+  reviewed merge、default branch 同步和精确清理完成后才是 `ready_on_base`，detached
+  worktree 不算 ready。历史上有外部资源的 PR 只能通过精确 archived Contract 与有效
+  archive manifest 走只读归档路线，不能伪装成普通无 Contract 路线。
 - 每个 Work Item 使用一个 Contract、一个专用 branch/worktree 和一个 PR。
   只有 scope、evidence ownership、repository context 与串行投影均隔离且
   Runtime 判定兼容时，独立 Work Item 才能并行。

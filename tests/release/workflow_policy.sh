@@ -82,6 +82,8 @@ require_match 'SHA256SUMS' 'canonical checksum set must be emitted'
 require_match '^  release_input_preflight:' 'cheap identity preflight must run before Runtime compilation'
 require_match 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
 require_match 'contract_path:' 'recovery must accept an explicit Contract path'
+require_match 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'
+require_match 'source_contract_path:' 'recovery must accept a separate source-verification Contract path'
 require_match 'resolve_work_item\.sh' 'release routing must use the shared explicit identity resolver'
 require_match 'name: Upload release input preflight evidence' 'identity failures must persist a structured preflight result'
 grep -Fq 'all_contracts=()' "$work_item_resolver" || {
@@ -102,6 +104,14 @@ grep -Fq 'standalone_retry' "$work_item_resolver" || {
 }
 grep -Fq 'recovery_binding_missing' "$work_item_resolver" || {
   printf 'policy failure: partial successor bindings must fail closed\n' >&2
+  exit 1
+}
+grep -Fq -- '--source-work-item-id' "$work_item_resolver" || {
+  printf 'policy failure: resolver must accept an explicit source-verification Work Item identity\n' >&2
+  exit 1
+}
+grep -Fq 'source_work_item_id_mismatch' "$work_item_resolver" || {
+  printf 'policy failure: source and governance identities must not be conflated\n' >&2
   exit 1
 }
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
@@ -157,6 +167,9 @@ fail_if_match 'python3 tests/ci/quality_route\.py' 'release must not run the com
 require_match '--stage release' 'source quality must use the release route floor'
 require_match '--profile strict' 'source quality must require the strict route'
 require_match '--route-receipt' 'source quality must consume the typed route receipt'
+require_match 'sourceBaseRevision' 'release route must use the source-verification baseline when explicitly bound'
+require_match 'sourceContractPath' 'release route must use the source-verification Contract when explicitly bound'
+require_match 'release-governance-binding.json' 'release must retain the governance identity alongside the source route'
 fail_if_match '--command' 'release workflow must not substitute an arbitrary verification command for canonical gates'
 grep -Fq '"workspace_format"' "$gate_manifest" || {
   printf 'policy failure: canonical repository manifest must retain rustfmt\n' >&2

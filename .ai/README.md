@@ -51,14 +51,22 @@ keeps an explicit operation in human review; intent prose and detected files
 cannot satisfy a mapping. Contracts without an explicit operation retain
 legacy behavior. `attach` does not invent these governance declarations.
 
-The canonical delivery order is latest remote default base → dedicated
-branch/worktree → implement → finish/archive → push → reviewed PR → merge →
-close → synchronize and clean. Do not pre-merge a feature branch into local
-`main`, delete its branch before merge, or let a provider auto-delete it to
-bypass finalization. If a remote step fails, preserve the retry checkout and
-identity. A repository is `ready_on_base` only after merge, default-branch
-synchronization, and exact cleanup are verified; a detached worktree is not a
-ready base.
+The delivery order is conditional on the Contract. A Work Item with no
+external resource uses latest remote default base → dedicated branch/worktree
+→ implement → preflight → checkpoint → verify → finish → archive → close →
+synchronize and clean. A resource-bound Work Item uses latest remote default
+base → dedicated branch/worktree → implement → finalize-plan → preflight →
+checkpoint → verify → finish → reviewed PR → merge → declared hosted,
+candidate, release, or public-artifact evidence → archive → finalize →
+finalize-verify → close → synchronize and clean. Do not pre-merge a feature
+branch into local `main`, delete its branch before merge, or let a provider
+auto-delete it to bypass finalization. If a remote step fails, preserve the
+retry checkout and identity. A repository is `ready_on_base` only after the
+reviewed merge when applicable, default-branch synchronization, and exact
+cleanup are verified; a detached worktree is not a ready base. A historical
+resource-bound PR is handled only by its exact archived Contract and valid
+archive manifest through the read-only Rust gate; it is not an ordinary
+no-Contract route.
 
 ## Evidence discipline
 

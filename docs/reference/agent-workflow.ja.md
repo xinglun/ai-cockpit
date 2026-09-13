@@ -23,13 +23,20 @@ capabilityClaims:
 
 - repository が検出した remote の default branch の最新 commit から開始し、
   remote、default branch、base revision を Work Item Contract に記録します。
-- 正規の delivery 順序は latest remote default base → 専用 branch/worktree →
-  implement → finish/archive → push → reviewed PR → merge → close → synchronize
-  and clean です。PR review 前に feature branch を local `main` へ merge せず、merge
-  前に branch を削除せず、provider の自動削除で finalization を迂回しません。remote
-  step が失敗したら retry checkout と identity を保持します。reviewed merge、default
-  branch 同期、正確な cleanup が完了して初めて `ready_on_base` であり、detached
-  worktree は ready ではありません。
+- delivery 順序は Contract によって変わり、すべての Work Item に同じ順序を適用しません。
+  external resource がない場合は、latest remote default base → 専用 branch/worktree →
+  implement → preflight → checkpoint → verify → finish → archive → close → synchronize
+  and clean です。external resource がある場合は、latest remote default base → 専用
+  branch/worktree → implement → finalize-plan → preflight → checkpoint → verify → finish
+  → reviewed PR → merge → Contract が宣言した hosted、candidate、release、または
+  public-artifact evidence → archive → finalize → finalize-verify → close → synchronize
+  and clean です。PR review 前に feature branch を local `main` へ merge せず、merge 前に
+  branch を削除せず、provider の自動削除で finalization を迂回しません。remote step が
+  失敗したら retry checkout と identity を保持します。適用される reviewed merge、default
+  branch 同期、正確な cleanup が完了して初めて `ready_on_base` であり、detached worktree
+  は ready ではありません。外部 resource を持つ歴史的 PR は、正確な archived Contract
+  と有効な archive manifest による read-only archive route とし、通常の no-Contract
+  route に分類してはいけません。
 - Work Item ごとに一つの Contract、専用 branch/worktree、一つの PR を使います。
   scope、evidence ownership、repository context、serialized projection が分離し、
   Runtime が compatible と判定した独立 Work Item だけを並行できます。

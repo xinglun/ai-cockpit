@@ -1,0 +1,192 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-814-archived-pr-gate.contract.json",
+    ".ai/work-items/active/WI-814-archived-pr-gate.summary.json"
+  ],
+  "checkpointAt": "2026-09-12T17:33:46Z",
+  "checkpointContractDigest": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "recorded": true,
+      "recordedAt": "2026-09-12T17:33:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e3b65b95ca44ece20d8f8b3d5f0dc2c46540bf62549a74b565cd206167902692",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "previousContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "reason": "Include the route regression test updated to enforce the new archived-resource and ordinary-route selection boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T17:57:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "previousContractHash": "sha256:580e6c7c9137fdf1e5f7df8265d34113219302d4fcd3e0a4b719b85e724a3a25",
+      "reason": "Include the retry binding validation and regression needed to preserve an authorized recovery across the controlled finalize-plan Contract update.",
+      "recorded": true,
+      "recordedAt": "2026-09-12T18:14:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:edf31ed78df7c39341462a6aca80b8399c20c6f0d0c821c1a22eb6869a6a4c73",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e668d487667ef31cb68fefbbb53db8a071b47a49ba0d4b4ad26169eaa9b307bc",
+      "previousContractHash": "sha256:ba4d96a7416aafb0673f977c017a4f2b8ce47b70350a7fdb1cca094ee4464eea",
+      "reason": "Rebind the archived-route PR to the current main resolver and preserve the combined active/archive/no-resource identity boundary before hosted verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T00:02:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-814-archived-pr-gate"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
+  "createdAt": "2026-09-12T17:24:33Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/tests/recovery_decision.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T00:05:01Z",
+  "preflightContractDigest": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0687d6efb5f75cd31386887ad3ff262a05e49f5ddcf11c38589ab59035d29924",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs"
+      ],
+      "required": true,
+      "scenario": "active resource-bound pull request selects its active Contract",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "crates/cockpit-repository/tests/ci_quality_gate.rs"
+      ],
+      "required": true,
+      "scenario": "historical resource-bound pull request uses a read-only archived Contract gate",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/ci/quality_route_test.py"
+      ],
+      "required": true,
+      "scenario": "archived no-resource pull request remains on the ordinary repository route",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "ordinary main push does not require a Contract or Release tag",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/ci/resolve_work_item_test.sh",
+        "tests/ci/workflow_convergence_test.sh"
+      ],
+      "required": true,
+      "scenario": "tag and explicit recovery routes remain active-Contract-only",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/ci_quality_gate.rs",
+        "tests/ci/resolve_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "active and archived identity collisions fail closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "AGENTS.md",
+        ".ai/README.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/ci-runtime-shadow.md",
+        "docs/reference/ci-runtime-shadow.zh-CN.md",
+        "docs/reference/ci-runtime-shadow.ja.md"
+      ],
+      "required": true,
+      "scenario": "conditional lifecycle guidance is parity-consistent",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "pending retry survives a controlled resource finalization binding",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T00:05:16Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-814-archived-pr-gate"
+}

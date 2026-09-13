@@ -59,7 +59,10 @@ jobs:
           tests/ci/resolve_work_item.sh "${selector_args[@]}"
           contract_path="$(jq -r '.contractPath // empty' target/quality-selection.json)"
           if [[ "$EVENT_NAME" != pull_request ]]; then
-            base_revision="$(jq -er '.baseRevision' target/quality-selection.json)"
+            # Ordinary merge routes intentionally have no Contract/base
+            # identity after a Work Item has been archived before its PR is
+            # reviewed. The typed route computes the repository base below.
+            base_revision="$(jq -r '.baseRevision // empty' target/quality-selection.json)"
           fi
           echo "selection_method=$(jq -er '.selectionMethod' target/quality-selection.json)" >> "$GITHUB_OUTPUT"
           echo "work_item_id=$(jq -r '.workItemId // empty' target/quality-selection.json)" >> "$GITHUB_OUTPUT"
@@ -170,7 +173,7 @@ jobs:
           set -euo pipefail
           test "$(jq -er '.selectedProfile' target/quality-route.json)" = "$ROUTE_PROFILE_FROM_PLAN"
       - name: Evaluate Rust Contract-aware quality gate
-        if: steps.quality_route.outputs.profile != 'light' && steps.quality_route.outputs.contract_path != ''
+        if: steps.quality_route.outputs.contract_path != ''
         shell: bash
         env:
           ROUTE_BASE_REVISION: ${{ steps.quality_route.outputs.base_revision }}
@@ -205,7 +208,7 @@ jobs:
             --report target/repository-gates.json
             --gate-plan-bin target/release/ai-cockpit
           )
-          if [[ "$ROUTE_PROFILE" != light && -n "$ROUTE_CONTRACT_PATH" ]]; then
+          if [[ -n "$ROUTE_CONTRACT_PATH" ]]; then
             gate_args+=(--contract-gate-report target/rust-contract-quality-gate.json)
           fi
           "${gate_args[@]}"
@@ -233,7 +236,7 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Upload Rust Contract gate receipt
-        if: always() && steps.quality_route.outputs.profile != 'light' && steps.quality_route.outputs.contract_path != ''
+        if: always() && steps.quality_route.outputs.contract_path != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: rust-contract-quality-gate

@@ -24,10 +24,14 @@ canonical manifest; it has no arbitrary command override.
 
 Runtime shadow is Contract-aware. A `standard` or `strict` pull request runs
 and uploads the shadow only when the initial route resolved one active
-Contract. An archived, post-finish pull request with no active Contract still
-runs the ordinary repository gates, but skips this execution-only shadow because
-the immutable Runtime cannot produce Work-Item verification evidence without a
-current Contract. This explicit skip does not weaken the selected gates or turn
+Contract. An archived, no-resource pull request still runs the ordinary
+repository gates and skips this execution-only shadow because the immutable
+Runtime has no current Contract for Work-Item verification evidence. An
+archived historical resource-bound pull request is different: its exact
+archived Contract, archive manifest, identity, and scope are validated by the
+read-only Rust Contract gate at the pull-request stage. It must not fall back
+to the ordinary no-Contract route, and an identity or manifest mismatch fails
+closed. These explicit routes do not weaken selected repository gates or turn
 missing evidence into a pass.
 
 The profiles are cumulative. `light` runs documentation and governance-policy
