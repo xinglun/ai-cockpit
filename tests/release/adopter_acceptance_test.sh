@@ -40,6 +40,7 @@ grep -q -- 'close_ready' "$script"
 grep -q -- 'validate_persisted_acceptance' "$script"
 grep -q -- 'AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE' "$script"
 grep -q -- 'COCKPIT_RELEASE_BIN' "$script"
+grep -q -- 'profile confirm --repo "$adopter_root" --program cargo --args test,--locked,--package,adopter' "$script"
 if grep -q -- 'auth_args' "$script"; then
   printf 'adopter acceptance must not expand an empty auth array under set -u\n' >&2
   exit 1

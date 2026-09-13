@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:967ea83a80cacaf142abf616a5941431fcbf11f0871b406aa4d3afb3c5ed53d7",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "16a8b2b55e53d3462ff61c4558d959fdbf04ea68",
+      "commandDigest": "sha256:c0f8a8b9a4698cd2b31f381a4181fd476d342e84dfdf5097b1b926f45d4a429c",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:05608d8c626705092ba59c673490fc8c3a8eb4adb8853c1c50b9f836fc8776f1",
+  "contractExecutionScopeDigest": "sha256:867060f815ea768a2b74ee341dfd95657e792fe097200f25dae269a3d433b5cd",
+  "createdAt": "2026-09-13T18:58:19Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi832-release-adopter-reuse/.ai/work-items/active/WI-832-release-adopter-reuse.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:83b94345647999ede31cd2bc34e2c6c10154f5e8462238e3c4d9e7a2944d9351",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-832-release-adopter-reuse"
+}

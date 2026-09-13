@@ -1,0 +1,212 @@
+{
+  "acceptanceResults": [
+    "The staged adopter acceptance records exactly matching cargo test arguments in the profile and proves the second verification reuses the first receipt with zero spawned processes.",
+    "The existing adopter acceptance regression suite passes and the changed harness remains compatible with the published Release workflow.",
+    "The upgrade acceptance harness uses the same canonical locked Cargo command and preserves its reuse contract."
+  ],
+  "createdAt": "2026-09-13T19:05:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:f4d1b832cae1f8924131fe7a40497e84fe42b88eb23c8217cf4f806a7b9ea73f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:83b94345647999ede31cd2bc34e2c6c10154f5e8462238e3c4d9e7a2944d9351",
+      "workItemId": "WI-832-release-adopter-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-832-release-adopter-reuse.verification-attempt.967ea83a80cacaf142abf616a5941431fcbf11f0871b406aa4d3afb3c5ed53d7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-832-release-adopter-reuse.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-832-release-adopter-reuse.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-832-release-adopter-reuse.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-832-release-adopter-reuse.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-832-release-adopter-reuse.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-832-release-adopter-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "Align adopter profile confirmation with Runtime command detection and preserve zero-spawn reuse evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-832-release-adopter-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-832-release-adopter-reuse"
+  },
+  "taskReportDigest": "sha256:31b4fe6f229a96caac62d760796cbe747061b88028258458b60a2bf0e99540c0",
+  "taskReportMarkdownDigest": "sha256:9790dd2256992075706a8b3333d15429c1dcd4f7d8fa1feb63783410e2e9b83a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-832-release-adopter-reuse.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-832-release-adopter-reuse"
+}

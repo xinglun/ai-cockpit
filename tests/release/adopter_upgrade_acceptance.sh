@@ -915,7 +915,7 @@ manifest_tree "$isolated_xdg" "$run_root/xdg-before.manifest"
 manifest_tree "$isolated_tmp" "$run_root/tmp-before.manifest"
 manifest_tree "$isolated_cargo" "$run_root/cargo-before.manifest"
 run "$from_bin" from-attach.json attach --repo "$adopter"
-run "$from_bin" from-profile.json profile confirm --repo "$adopter" --program cargo --args test,--workspace
+run "$from_bin" from-profile.json profile confirm --repo "$adopter" --program cargo --args test,--locked,--package,adopter
 run "$from_bin" from-agent-install.json agent install --repo "$adopter" --provider auto
 run "$from_bin" from-agent-doctor.json agent doctor --repo "$adopter" --json
 jq -e '.state=="VERIFIED" and (.problems|length==0)' "$output/from-agent-doctor.json" >/dev/null || die 'old Agent doctor did not verify'

@@ -11,6 +11,7 @@ grep -F -A8 -- 'name: Run public-artifact N-1 upgrade acceptance' "$workflow" | 
 grep -q -- '--from-tag' "$script"
 grep -q -- '--to-tag' "$script"
 grep -q -- '--to-candidate-dir' "$script"
+grep -q -- 'profile confirm --repo "$adopter" --program cargo --args test,--locked,--package,adopter' "$script"
 grep -q -- '--publish-handoff FILE' "$script"
 grep -q -- 'releasePublished' "$script"
 grep -q -- 'stagedCandidate' "$script"
