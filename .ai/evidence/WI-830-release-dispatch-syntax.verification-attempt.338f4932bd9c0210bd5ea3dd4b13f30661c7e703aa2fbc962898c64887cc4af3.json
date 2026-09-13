@@ -1,0 +1,40 @@
+{
+  "attemptId": "sha256:338f4932bd9c0210bd5ea3dd4b13f30661c7e703aa2fbc962898c64887cc4af3",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "e4c7b10bbd3ad156b0dd0500ba75b160cac5009b",
+      "commandDigest": "sha256:0389edd757728c5a1118b6778b220432a4977c5376dc0dc47dd4ad875988a41f",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:919e55fa591aaefce3e32cced857440d5af0ea77ced8bd2cb8cf4c3bc664968e",
+  "contractExecutionScopeDigest": "sha256:c8b0311d5dc911124704bcc035f98ea93167e4e0f0f573c96bcb7894189b4ffa",
+  "createdAt": "2026-09-13T17:55:44Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi830-release-dispatch-syntax/.ai/work-items/active/WI-830-release-dispatch-syntax.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-830-release-dispatch-syntax"
+}

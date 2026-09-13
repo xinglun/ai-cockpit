@@ -122,6 +122,12 @@ require 'needs.post_release_helper.result' 'public acceptance must wait for help
 require 'if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then' 'publication must use the explicit dispatch identity guard'
 require 'publication tag must resolve to the reviewed dispatch commit' 'publication must reject a tag that does not match the reviewed dispatch commit before compilation'
 require 'test "$manifest_commit" = "$GITHUB_SHA"' 'publication must bind the manifest to the explicit dispatch commit'
+require "(github.event_name == 'workflow_dispatch' &&" 'release close must use a valid dispatch expression'
+require "(github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true'))" 'release close expression must have balanced parentheses'
+if grep -Fq "github.event.inputs.close_only == 'true')))" "$workflow"; then
+  printf 'release gate policy failure: malformed release close expression has an extra closing parenthesis\n' >&2
+  exit 1
+fi
 if grep -Fq "github.event_name == 'push'" "$workflow" ||
    grep -Fq "startsWith(github.ref, 'refs/tags/')" "$workflow"; then
   printf 'release gate policy failure: implicit tag-triggered publication route must be absent\n' >&2

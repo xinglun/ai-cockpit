@@ -1,0 +1,123 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:919e55fa591aaefce3e32cced857440d5af0ea77ced8bd2cb8cf4c3bc664968e",
+  "createdAt": "2026-09-13T17:56:11Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 593,
+      "executionElapsedMs": 248,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 593,
+    "executionElapsedMs": 248,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:0389edd757728c5a1118b6778b220432a4977c5376dc0dc47dd4ad875988a41f",
+        "elapsedMs": 248,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "72656c65617365206761746520706f6c696379207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 17,
+    "filesRead": 17,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        ".github/workflows/release.yml",
+        "docs/work-items/WI-830-release-dispatch-syntax.ja.md",
+        "docs/work-items/WI-830-release-dispatch-syntax.md",
+        "docs/work-items/WI-830-release-dispatch-syntax.zh-CN.md",
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "e4c7b10bbd3ad156b0dd0500ba75b160cac5009b",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 248,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-830-release-dispatch-syntax"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:2ca5b17fad5bc76f67a2f557dc2dfc9d4e8c4286f9a21c72e60b156c33f170f5",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+    "runtimeVersion": "0.2.92",
+    "workItemId": "WI-830-release-dispatch-syntax"
+  },
+  "receiptDigest": "sha256:e1aacd20f0717aed787d35b4f29bf3c1c81b44716559a68958a557faf923e5f2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "workItemId": "WI-830-release-dispatch-syntax"
+}

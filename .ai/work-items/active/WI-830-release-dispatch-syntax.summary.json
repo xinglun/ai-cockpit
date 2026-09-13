@@ -1,0 +1,82 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-830-release-dispatch-syntax.verification-attempt.338f4932bd9c0210bd5ea3dd4b13f30661c7e703aa2fbc962898c64887cc4af3.json",
+    ".ai/evidence/WI-830-release-dispatch-syntax.verification-attempt.71c67d6ba3bc935ba5e48301261f7b4d8beaf34df4bc93bf058d3b6bb939f8bb.json",
+    ".ai/work-items/active/WI-830-release-dispatch-syntax.contract.json",
+    ".ai/work-items/active/WI-830-release-dispatch-syntax.summary.json",
+    ".github/workflows/release.yml",
+    "docs/work-items/WI-830-release-dispatch-syntax.ja.md",
+    "docs/work-items/WI-830-release-dispatch-syntax.md",
+    "docs/work-items/WI-830-release-dispatch-syntax.zh-CN.md",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-13T17:54:59Z",
+  "checkpointContractDigest": "sha256:919e55fa591aaefce3e32cced857440d5af0ea77ced8bd2cb8cf4c3bc664968e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+  "createdAt": "2026-09-13T17:53:13Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/ci/release_gate_policy_test.sh"
+    ],
+    "reason": "This Work Item is limited to the GitHub workflow expression syntax regression surfaced by the explicit release dispatch; product artifacts, immutable release identity, and acceptance execution remain unchanged.",
+    "state": "resolved",
+    "unknowns": []
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T17:56:11Z",
+  "preflightContractDigest": "sha256:919e55fa591aaefce3e32cced857440d5af0ea77ced8bd2cb8cf4c3bc664968e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "expected": "The dispatch-only release workflow is accepted by GitHub with a balanced release_close expression.",
+      "required": true,
+      "scenario": "workflow_expression_syntax",
+      "status": "unverified",
+      "verificationPlan": "Run the local regression and submit the reviewed workflow to GitHub before any publication dispatch."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "The corrected release workflow still rejects malformed publication identity before compilation.",
+      "required": true,
+      "scenario": "pre_dispatch_rejection_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run both release policy gates and inspect the dispatch-only preflight guards."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "docs/work-items/WI-830-release-dispatch-syntax.md"
+      ],
+      "expected": "The syntax repair changes no product artifact, immutable tag, or existing Release.",
+      "required": true,
+      "scenario": "no_immutable_rewrite",
+      "status": "unverified",
+      "verificationPlan": "Compare the branch diff and verify the existing v0.2.92 tag and Release state before and after the repair."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-13T17:56:04.584510+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a172a8a7b1fcc47e83eb3732110d0718cf17583d39a6945079a4176dd83788ea",
+  "workItemId": "WI-830-release-dispatch-syntax"
+}

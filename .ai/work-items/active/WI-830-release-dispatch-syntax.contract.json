@@ -1,0 +1,79 @@
+{
+  "acceptanceCriteria": [
+    "The release workflow parses successfully for workflow dispatch and the close condition has balanced expression syntax.",
+    "The regression policy rejects the malformed close expression and accepts the corrected dispatch-only workflow.",
+    "No product artifacts, immutable tag, or existing Release are rewritten by this repair.",
+    "The reviewed PR and hosted checks pass before retrying the v0.2.92 publication dispatch."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e4c7b10bbd3ad156b0dd0500ba75b160cac5009b",
+  "createdAt": "2026-09-13T17:53:13Z",
+  "goal": "Allow the explicit v0.2.92 publication dispatch to be parsed and preserve a local regression for the release expression boundary.",
+  "intent": "Restore a syntactically valid release dispatch workflow after WI-829 merged with an extra close-condition parenthesis.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime protocol changes",
+    " product behavior changes",
+    " tag or Release rewriting",
+    " historical Work Item migration",
+    " user-global configuration",
+    " release acceptance execution"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:912f4c6772cfd6fc187285765354aceba0210025e550a9b1b5b68f97e8156283",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "expected": "The dispatch-only release workflow is accepted by GitHub with a balanced release_close expression.",
+      "required": true,
+      "scenario": "workflow_expression_syntax",
+      "status": "unverified",
+      "verificationPlan": "Run the local regression and submit the reviewed workflow to GitHub before any publication dispatch."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "The corrected release workflow still rejects malformed publication identity before compilation.",
+      "required": true,
+      "scenario": "pre_dispatch_rejection_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run both release policy gates and inspect the dispatch-only preflight guards."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "docs/work-items/WI-830-release-dispatch-syntax.md"
+      ],
+      "expected": "The syntax repair changes no product artifact, immutable tag, or existing Release.",
+      "required": true,
+      "scenario": "no_immutable_rewrite",
+      "status": "unverified",
+      "verificationPlan": "Compare the branch diff and verify the existing v0.2.92 tag and Release state before and after the repair."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh",
+    "docs/work-items/WI-830-release-dispatch-syntax.md",
+    "docs/work-items/WI-830-release-dispatch-syntax.zh-CN.md",
+    "docs/work-items/WI-830-release-dispatch-syntax.ja.md",
+    ".ai/work-items/active/WI-830-release-dispatch-syntax.*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-830-release-dispatch-syntax"
+}
