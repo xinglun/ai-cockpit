@@ -98,6 +98,12 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
   Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
   formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。
+- `verify --archived-recovery --work-item <id> --stage pull_request` は、レビュー済み統合変更後に archived Work Item の
+  source evidence projection が stale になった場合の append-only recovery 入口です。新しい typed かつ coverage-bound な
+  Runtime verification を一度だけ実行し、置き換える正確な `evidence_class_projection` judgment を記録します。Archived
+  Contract、Summary、Outcome、Events、historical verification bytes は上書きしません。既に有効な recovery または矛盾した
+  candidate がある場合は project command の起動前に停止します。Archived Contract 自体が変わった場合はこの入口ではなく
+  `work-item revalidate-archived` を使用します。
 - `--command` なしの `verify` は Cargo または npm を検出し、confirmed profile で cross-process reuse できます。
   現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
   identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。

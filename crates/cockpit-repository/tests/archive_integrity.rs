@@ -3,19 +3,22 @@ use cockpit_git::GitRepository;
 use cockpit_protocol::{
     AssuranceLevel, ConcurrencyBoundary, DataClassification, DelegatedEvidence,
     EvidencePersistence, EvidenceRetention, EvidenceValidity, HumanDecision,
-    ResourceFinalizationContext, RuntimeContext,
+    ResourceFinalizationContext, RuntimeContext, VerificationStage, VerificationTier,
 };
 use cockpit_repository::{
-    ActiveArtifactReconciliationReceipt, WorkItemStartOptions, acquire_parallel_slot,
-    amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_decision, close_work_item_with_structured_decision, evidence_purge_plan,
-    evidence_state_for_contract, export_audit_events, finish_work_item,
+    ActiveArtifactReconciliationReceipt, ArchivedVerificationRecoveryRequest, WorkItemStartOptions,
+    acquire_parallel_slot, amend_work_item_contract, archive_work_item, attach,
+    checkpoint_work_item, close_work_item_with_decision, close_work_item_with_structured_decision,
+    evidence_purge_plan, evidence_state_for_contract, export_audit_events, finish_work_item,
     governance_decision_for_contract, implementation_approach, import_delegated_evidence,
     plan_resource_finalization, preflight_work_item, reconcile_active_artifacts,
-    record_verification, record_work_item_governance_controls, release_parallel_slot,
-    render_human_outcome, set_evidence_retention_policy, set_work_item_concurrency_boundary,
-    set_work_item_intelligence, start_work_item, start_work_item_with_options, status,
+    record_archived_verification_recovery_with_runtime, record_verification,
+    record_verification_with_runtime, record_work_item_governance_controls, release_parallel_slot,
+    render_human_outcome, run_repository_verification, set_evidence_retention_policy,
+    set_work_item_concurrency_boundary, set_work_item_intelligence, start_work_item,
+    start_work_item_with_options, status,
 };
+use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
 use std::{
     fs,
     process::Command,
@@ -386,6 +389,250 @@ fn custom_required_evidence_class_projection_requires_digest_bound_regular_files
             .iter()
             .any(|unknown| unknown == "evidence_classes_stale")
     );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection() {
+    let path = repository();
+    let work_item_id = "WI-ARCHIVED-SOURCE-RECOVERY";
+    for (name, contents, message) in [
+        ("base.txt", "base\n", "base"),
+        ("second.txt", "second\n", "second"),
+    ] {
+        fs::write(path.join(name), contents).expect("source file");
+        assert!(
+            Command::new("git")
+                .args(["add", name])
+                .current_dir(&path)
+                .status()
+                .expect("git add")
+                .success()
+        );
+        assert!(
+            Command::new("git")
+                .args([
+                    "-c",
+                    "user.name=AI Cockpit Test",
+                    "-c",
+                    "user.email=ai-cockpit-test@example.invalid",
+                    "commit",
+                    "-m",
+                    message,
+                ])
+                .current_dir(&path)
+                .status()
+                .expect("git commit")
+                .success()
+        );
+    }
+    start_work_item_with_options(
+        &path,
+        work_item_id,
+        "recover stale archived source evidence",
+        "prove current integration verification can replace one stale projection",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let measurement_path = path.join("performance-measurement.txt");
+    fs::write(&measurement_path, b"p50=1ms\np95=2ms\n").expect("measurement");
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
+    let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
+    record_work_item_governance_controls(
+        &path,
+        work_item_id,
+        &serde_json::json!({
+            "evidenceClasses": {
+                "schemaVersion": 1,
+                "contractDigest": contract_digest,
+                "items": [{
+                    "class": "performance",
+                    "evidence": [{
+                        "type": "measurement",
+                        "path": "performance-measurement.txt",
+                        "locator": "p50,p95",
+                        "verification": "passed",
+                        "digest": Digest::sha256_bytes(&fs::read(&measurement_path).expect("measurement bytes"))
+                    }]
+                }]
+            }
+        }),
+    )
+    .expect("record projection");
+    let old_runtime = RuntimeContext {
+        runtime_version: "0.2.90".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"old-runtime"),
+    };
+    let current_runtime = RuntimeContext {
+        runtime_version: "0.2.91".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"current-runtime"),
+    };
+    let preflight = preflight_work_item(&path, &contract_path).expect("preflight");
+    assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
+    checkpoint_work_item(&path, work_item_id).expect("checkpoint");
+    let old_snapshot = GitRepository::discover(&path)
+        .expect("git repository")
+        .snapshot()
+        .expect("old snapshot");
+    let old_run = run_repository_verification(
+        &path,
+        &cockpit_repository::RepositoryVerificationRequest {
+            node_id: "project-command-0-package-fixture".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: old_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("old verification");
+    record_verification_with_runtime(
+        &path,
+        work_item_id,
+        &serde_json::to_value(old_run.receipt).expect("old receipt JSON"),
+        &old_runtime,
+        &old_snapshot,
+    )
+    .expect("record old verification");
+    finish_work_item(&path, work_item_id).expect("finish");
+    archive_work_item(&path, work_item_id).expect("archive");
+
+    let archive_root = path.join(".ai/work-items/archive");
+    let historical_contract = fs::read(archive_root.join(format!("{work_item_id}.contract.json")))
+        .expect("historical contract");
+    let historical_summary = fs::read(archive_root.join(format!("{work_item_id}.summary.json")))
+        .expect("historical summary");
+    let historical_outcome = fs::read(archive_root.join(format!("{work_item_id}.outcome.json")))
+        .expect("historical outcome");
+    let historical_evidence = fs::read(
+        path.join(".ai/evidence")
+            .join(format!("{work_item_id}.verification.json")),
+    )
+    .expect("historical verification");
+    fs::write(&measurement_path, b"p50=9ms\np95=20ms\n").expect("changed measurement");
+    let current_snapshot = GitRepository::discover(&path)
+        .expect("git repository")
+        .snapshot()
+        .expect("current snapshot");
+    let current_request = cockpit_repository::RepositoryVerificationRequest {
+        node_id: "project-command-0-package-fixture".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: current_runtime.runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
+    };
+    let mut current_run =
+        run_repository_verification(&path, &current_request).expect("current verification");
+    let command_digest = current_run
+        .receipt
+        .execution_records
+        .first()
+        .expect("current execution record")
+        .command_digest
+        .clone();
+    let coverage_manifest = VerificationCoverageManifest {
+        schema_version: 1,
+        source_program: "true".into(),
+        source_args: Vec::new(),
+        planning_program: "test-planner".into(),
+        planning_args: Vec::new(),
+        planning_processes_spawned: 1,
+        metadata_digest: Digest::sha256_bytes(b"metadata").to_string(),
+        workspace_members: vec!["fixture".into()],
+        node_ids: vec![current_request.node_id.clone()],
+        command_digests: vec![command_digest],
+    };
+    coverage_manifest.validate().expect("coverage manifest");
+    let mut plan = VerificationPlanReceipt::new(
+        VerificationStage::Task,
+        VerificationTier::T0,
+        VerificationTier::T0,
+        cockpit_protocol::EvidenceAssurance::SelfDeclared,
+        vec!["archived_source_recovery_test".into()],
+        Vec::new(),
+    )
+    .expect("plan receipt");
+    plan.work_item_id = Some(work_item_id.into());
+    plan.repository_id = Some(cockpit_repository::repository_id(&path).to_string());
+    plan.repository_snapshot_digest = Some(
+        cockpit_repository::snapshot_digest(&current_run.final_snapshot)
+            .expect("current snapshot digest")
+            .to_string(),
+    );
+    plan.executed_nodes = vec![current_request.node_id.clone()];
+    plan.coverage_manifest = Some(coverage_manifest);
+    current_run.receipt.plan_receipt = Some(plan);
+    record_archived_verification_recovery_with_runtime(
+        &path,
+        work_item_id,
+        &ArchivedVerificationRecoveryRequest {
+            reason: "reviewed source integration changed the recorded measurement".into(),
+            actor: "human:test".into(),
+            authority_source: "test contract".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            policy_refs: Vec::new(),
+            verification_receipt: serde_json::to_value(current_run.receipt).expect("receipt JSON"),
+        },
+        &current_runtime,
+        &current_snapshot,
+    )
+    .expect("record archived recovery");
+
+    assert_eq!(
+        historical_contract,
+        fs::read(archive_root.join(format!("{work_item_id}.contract.json")))
+            .expect("contract after recovery")
+    );
+    assert_eq!(
+        historical_summary,
+        fs::read(archive_root.join(format!("{work_item_id}.summary.json")))
+            .expect("summary after recovery")
+    );
+    assert_eq!(
+        historical_outcome,
+        fs::read(archive_root.join(format!("{work_item_id}.outcome.json")))
+            .expect("outcome after recovery")
+    );
+    assert_eq!(
+        historical_evidence,
+        fs::read(
+            path.join(".ai/evidence")
+                .join(format!("{work_item_id}.verification.json"))
+        )
+        .expect("evidence after recovery")
+    );
+    let recovery_path = path
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.verification-recovery.json"));
+    let recovery: serde_json::Value =
+        serde_json::from_slice(&fs::read(&recovery_path).expect("recovery receipt"))
+            .expect("recovery JSON");
+    assert_eq!(recovery["replacedJudgment"], "evidence_class_projection");
+    assert_eq!(
+        recovery["currentSourceRevision"],
+        current_snapshot.head.clone().unwrap()
+    );
+
     fs::remove_dir_all(path).expect("cleanup");
 }
 

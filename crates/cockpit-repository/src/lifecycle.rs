@@ -2744,6 +2744,771 @@ pub fn revalidate_archived_work_item_with_runtime(
     Ok(result)
 }
 
+/// Request for an append-only verification recovery of an archived Work Item.
+/// This is intentionally different from Contract revalidation: the archived
+/// Contract remains unchanged and only a stale source-evidence projection is
+/// replaced by a fresh, Runtime-produced verification receipt.
+#[derive(Clone, Debug, Default)]
+pub struct ArchivedVerificationRecoveryRequest {
+    pub reason: String,
+    pub actor: String,
+    pub authority_source: String,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub verification_receipt: serde_json::Value,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ArchivedVerificationRecoveryEvidence {
+    pub class: String,
+    pub path: String,
+    pub predecessor_digest: Digest,
+    pub current_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ArchivedVerificationRecoveryReceipt {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub decision: String,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub predecessor_archive_manifest_digest: Digest,
+    pub predecessor_contract_digest: Digest,
+    pub predecessor_summary_digest: Digest,
+    pub predecessor_outcome_digest: Digest,
+    pub predecessor_verification_evidence_digest: Digest,
+    pub predecessor_evidence_classes_digest: Digest,
+    pub current_contract_digest: Digest,
+    pub current_repository_snapshot_digest: Digest,
+    pub current_source_revision: String,
+    pub replaced_judgment: String,
+    pub affected_evidence: Vec<ArchivedVerificationRecoveryEvidence>,
+    pub verification_receipt_digest: Digest,
+    pub verification_receipt: serde_json::Value,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub decided_at: String,
+}
+
+#[derive(Clone)]
+struct ArchivedVerificationRecoveryContext {
+    archive_manifest_digest: Digest,
+    contract_digest: Digest,
+    summary_digest: Digest,
+    outcome_digest: Digest,
+    verification_evidence_digest: Digest,
+    evidence_classes_digest: Digest,
+    affected_evidence: Vec<ArchivedVerificationRecoveryEvidence>,
+}
+
+fn archived_verification_recovery_error(
+    path: impl Into<PathBuf>,
+    message: impl Into<String>,
+) -> ObserverError {
+    ObserverError::State {
+        path: path.into(),
+        message: message.into(),
+    }
+}
+
+fn archived_verification_recovery_paths(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<PathBuf>, ObserverError> {
+    let decisions = root.join(".ai/decisions");
+    let prefix = format!("{work_item_id}.verification-recovery");
+    let mut paths = Vec::new();
+    let entries = match fs::read_dir(&decisions) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(paths),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: decisions,
+                source,
+            });
+        }
+    };
+    for entry in entries {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: decisions.clone(),
+            source,
+        })?;
+        let path = entry.path();
+        let Some(name) = path.file_name().and_then(|value| value.to_str()) else {
+            continue;
+        };
+        if name == format!("{prefix}.json")
+            || (name.starts_with(&format!("{prefix}.")) && name.ends_with(".json"))
+        {
+            paths.push(path);
+        }
+    }
+    paths.sort();
+    Ok(paths)
+}
+
+fn archived_projection_bindings(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+) -> Result<(Digest, Vec<ArchivedVerificationRecoveryEvidence>), ObserverError> {
+    let required = super::custom_required_evidence_classes(contract);
+    if required.is_empty() {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/work-items/archive"),
+            "archived verification recovery requires a custom evidence-class projection",
+        ));
+    }
+    let projection = summary
+        .get("evidenceClasses")
+        .and_then(serde_json::Value::as_object)
+        .ok_or_else(|| {
+            archived_verification_recovery_error(
+                root.join(".ai/work-items/archive"),
+                "archived Summary is missing evidenceClasses",
+            )
+        })?;
+    if projection.get("schemaVersion") != Some(&serde_json::json!(1)) {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/work-items/archive"),
+            "archived evidenceClasses schema is invalid",
+        ));
+    }
+    let projection_digest = cockpit_protocol::digest_json(&serde_json::Value::Object(
+        projection.clone(),
+    ))
+    .map_err(|error| {
+        archived_verification_recovery_error(root.join(".ai/work-items/archive"), error.to_string())
+    })?;
+    let items = projection
+        .get("items")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| {
+            archived_verification_recovery_error(
+                root.join(".ai/work-items/archive"),
+                "archived evidenceClasses items are missing",
+            )
+        })?;
+    let required_set = required
+        .iter()
+        .map(String::as_str)
+        .collect::<std::collections::BTreeSet<_>>();
+    let mut seen_classes = std::collections::BTreeSet::new();
+    let mut affected = Vec::new();
+    for class_item in items {
+        let class_object = class_item.as_object().ok_or_else(|| {
+            archived_verification_recovery_error(
+                root.join(".ai/work-items/archive"),
+                "archived evidenceClasses contains a non-object class",
+            )
+        })?;
+        let class = class_object
+            .get("class")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+            .ok_or_else(|| {
+                archived_verification_recovery_error(
+                    root.join(".ai/work-items/archive"),
+                    "archived evidenceClasses class is missing",
+                )
+            })?;
+        if !required_set.contains(class) || !seen_classes.insert(class) {
+            return Err(archived_verification_recovery_error(
+                root.join(".ai/work-items/archive"),
+                "archived evidenceClasses has an unknown or duplicate class",
+            ));
+        }
+        let evidence = class_object
+            .get("evidence")
+            .and_then(serde_json::Value::as_array)
+            .filter(|values| !values.is_empty())
+            .ok_or_else(|| {
+                archived_verification_recovery_error(
+                    root.join(".ai/work-items/archive"),
+                    "archived evidenceClasses class has no evidence",
+                )
+            })?;
+        for evidence_item in evidence {
+            let evidence_object = evidence_item.as_object().ok_or_else(|| {
+                archived_verification_recovery_error(
+                    root.join(".ai/work-items/archive"),
+                    "archived evidenceClasses contains a non-object evidence item",
+                )
+            })?;
+            let path = evidence_object
+                .get("path")
+                .and_then(serde_json::Value::as_str)
+                .filter(|value| !value.trim().is_empty())
+                .ok_or_else(|| {
+                    archived_verification_recovery_error(
+                        root.join(".ai/work-items/archive"),
+                        "archived evidence item path is missing",
+                    )
+                })?;
+            let predecessor_digest = evidence_object
+                .get("digest")
+                .and_then(serde_json::Value::as_str)
+                .and_then(|value| value.parse::<Digest>().ok())
+                .ok_or_else(|| {
+                    archived_verification_recovery_error(
+                        root.join(path),
+                        "archived evidence item digest is invalid",
+                    )
+                })?;
+            let relative = Path::new(path);
+            if relative.is_absolute()
+                || relative
+                    .components()
+                    .any(|component| matches!(component, std::path::Component::ParentDir))
+            {
+                return Err(archived_verification_recovery_error(
+                    root.join(path),
+                    "archived evidence item path escapes the repository",
+                ));
+            }
+            let evidence_path = root.join(relative);
+            let metadata =
+                fs::symlink_metadata(&evidence_path).map_err(|source| ObserverError::Read {
+                    path: evidence_path.clone(),
+                    source,
+                })?;
+            if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+                return Err(archived_verification_recovery_error(
+                    evidence_path,
+                    "archived evidence item must be a regular non-symlink file",
+                ));
+            }
+            let current_digest =
+                Digest::sha256_bytes(&fs::read(&evidence_path).map_err(|source| {
+                    ObserverError::Read {
+                        path: evidence_path.clone(),
+                        source,
+                    }
+                })?);
+            affected.push(ArchivedVerificationRecoveryEvidence {
+                class: class.into(),
+                path: path.into(),
+                predecessor_digest,
+                current_digest,
+            });
+        }
+    }
+    if seen_classes.len() != required.len() || affected.is_empty() {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/work-items/archive"),
+            "archived evidenceClasses does not cover every required class",
+        ));
+    }
+    Ok((projection_digest, affected))
+}
+
+fn load_archived_verification_recovery_context(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+) -> Result<ArchivedVerificationRecoveryContext, ObserverError> {
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{}.archive.json", contract.work_item_id));
+    let manifest_bytes = fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+        path: manifest_path.clone(),
+        source,
+    })?;
+    let manifest: serde_json::Value = serde_json::from_slice(&manifest_bytes).map_err(|error| {
+        archived_verification_recovery_error(
+            manifest_path.clone(),
+            format!("invalid archive manifest: {error}"),
+        )
+    })?;
+    super::verify_archive_manifest(root, &contract.work_item_id, &manifest)?;
+    let summary_path = archive.join(format!("{}.summary.json", contract.work_item_id));
+    let outcome_path = archive.join(format!("{}.outcome.json", contract.work_item_id));
+    let summary_bytes = fs::read(&summary_path).map_err(|source| ObserverError::Read {
+        path: summary_path.clone(),
+        source,
+    })?;
+    let outcome_bytes = fs::read(&outcome_path).map_err(|source| ObserverError::Read {
+        path: outcome_path.clone(),
+        source,
+    })?;
+    let evidence_path = root
+        .join(".ai/evidence")
+        .join(format!("{}.verification.json", contract.work_item_id));
+    let evidence_bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
+        path: evidence_path.clone(),
+        source,
+    })?;
+    super::reject_duplicate_json_keys(&evidence_bytes)
+        .map_err(|message| archived_verification_recovery_error(evidence_path.clone(), message))?;
+    let evidence: serde_json::Value = serde_json::from_slice(&evidence_bytes).map_err(|error| {
+        archived_verification_recovery_error(
+            evidence_path.clone(),
+            format!("invalid verification evidence: {error}"),
+        )
+    })?;
+    let predecessor_contract_digest = evidence
+        .get("contractDigest")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+        .ok_or_else(|| {
+            archived_verification_recovery_error(
+                evidence_path.clone(),
+                "historical verification evidence has no Contract digest",
+            )
+        })?;
+    let evidence_digest = Digest::sha256_bytes(&evidence_bytes);
+    super::validate_archived_revalidation_evidence(
+        root,
+        &contract.work_item_id,
+        &predecessor_contract_digest,
+        &evidence_digest,
+    )?;
+    let contract_path = archive.join(format!("{}.contract.json", contract.work_item_id));
+    let current_contract_digest = contract_digest(&contract_path)?;
+    if current_contract_digest != predecessor_contract_digest {
+        return Err(archived_verification_recovery_error(
+            contract_path,
+            "archived Contract changed; use Contract amendment revalidation instead",
+        ));
+    }
+    let projection_state = super::evidence_class_projection_state(root, contract, summary, true)?;
+    if projection_state == EvidenceState::Complete {
+        return Err(archived_verification_recovery_error(
+            archive,
+            "archived evidenceClasses is already current; recovery is not required",
+        ));
+    }
+    if projection_state != EvidenceState::Stale {
+        return Err(archived_verification_recovery_error(
+            archive,
+            format!("archived evidenceClasses cannot be recovered from state {projection_state:?}"),
+        ));
+    }
+    let (evidence_classes_digest, affected_evidence) =
+        archived_projection_bindings(root, contract, summary)?;
+    Ok(ArchivedVerificationRecoveryContext {
+        archive_manifest_digest: Digest::sha256_bytes(&manifest_bytes),
+        contract_digest: current_contract_digest,
+        summary_digest: Digest::sha256_bytes(&summary_bytes),
+        outcome_digest: Digest::sha256_bytes(&outcome_bytes),
+        verification_evidence_digest: evidence_digest,
+        evidence_classes_digest,
+        affected_evidence,
+    })
+}
+
+fn validate_archived_verification_recovery_candidate(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+    context: &ArchivedVerificationRecoveryContext,
+    value: &serde_json::Value,
+) -> Result<EvidenceState, ObserverError> {
+    let receipt = match serde_json::from_value::<ArchivedVerificationRecoveryReceipt>(value.clone())
+    {
+        Ok(receipt) => receipt,
+        Err(_) => return Ok(EvidenceState::Contradictory),
+    };
+    let current_snapshot_digest = snapshot_digest(snapshot)?;
+    let predecessor_bindings_match = receipt.affected_evidence.len()
+        == context.affected_evidence.len()
+        && receipt
+            .affected_evidence
+            .iter()
+            .zip(&context.affected_evidence)
+            .all(|(candidate, current)| {
+                candidate.class == current.class
+                    && candidate.path == current.path
+                    && candidate.predecessor_digest == current.predecessor_digest
+            });
+    if receipt.schema_version != 1
+        || receipt.decision_id != "archived-verification-recovery"
+        || receipt.decision != "replace"
+        || receipt.work_item_id != contract.work_item_id
+        || receipt.repository_id != repository_id(root).to_string()
+        || receipt.predecessor_archive_manifest_digest != context.archive_manifest_digest
+        || receipt.predecessor_contract_digest != context.contract_digest
+        || receipt.predecessor_summary_digest != context.summary_digest
+        || receipt.predecessor_outcome_digest != context.outcome_digest
+        || receipt.predecessor_verification_evidence_digest != context.verification_evidence_digest
+        || receipt.predecessor_evidence_classes_digest != context.evidence_classes_digest
+        || receipt.current_contract_digest != context.contract_digest
+        || receipt.replaced_judgment != "evidence_class_projection"
+        || !predecessor_bindings_match
+        || receipt.runtime_version.trim().is_empty()
+        || receipt.actor.trim().is_empty()
+        || receipt.authority_source.trim().is_empty()
+        || receipt.reason.trim().is_empty()
+        || receipt.evidence_refs.is_empty()
+        || receipt.decided_at.trim().is_empty()
+        || chrono::DateTime::parse_from_rfc3339(&receipt.decided_at).is_err()
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+    if !valid_git_object_id(&receipt.current_source_revision) {
+        return Ok(EvidenceState::Contradictory);
+    }
+    // The recovery receipt records the source revision observed while the
+    // expensive verification ran.  The receipt itself is append-only
+    // evidence, so committing it can advance HEAD without changing the
+    // source snapshot.  Snapshot identity is therefore the freshness
+    // boundary; requiring the receipt revision to equal the post-write HEAD
+    // would make every successful recovery stale immediately after commit.
+    if receipt.current_repository_snapshot_digest != current_snapshot_digest
+        || receipt.affected_evidence != context.affected_evidence
+    {
+        return Ok(EvidenceState::Stale);
+    }
+    if !context
+        .affected_evidence
+        .iter()
+        .any(|item| item.predecessor_digest != item.current_digest)
+    {
+        return Ok(EvidenceState::Stale);
+    }
+    if let Some(runtime) = current_runtime
+        && (receipt.runtime_version != runtime.runtime_version
+            || receipt.runtime_digest != runtime.runtime_digest)
+    {
+        // The archived source input is unchanged, but the Runtime identity is
+        // a new verification input. Treat the old candidate as stale so one
+        // fresh current-Runtime candidate can supersede it without making the
+        // old bytes disappear or creating an ambiguity.
+        return Ok(EvidenceState::Stale);
+    }
+    let typed: cockpit_verification::VerificationReceipt =
+        match serde_json::from_value(receipt.verification_receipt.clone()) {
+            Ok(value) => value,
+            Err(_) => return Ok(EvidenceState::Contradictory),
+        };
+    if !typed.passed
+        || typed.work_item_id.as_deref() != Some(contract.work_item_id.as_str())
+        || typed.repository_id.as_deref() != Some(receipt.repository_id.as_str())
+        || typed.runtime_version.as_deref() != Some(receipt.runtime_version.as_str())
+        || typed.runtime_digest.as_deref() != Some(receipt.runtime_digest.to_string().as_str())
+        || typed.plan_receipt.as_ref().is_none_or(|plan| {
+            plan.repository_snapshot_digest.as_deref()
+                != Some(current_snapshot_digest.to_string().as_str())
+                || plan.coverage_manifest.is_none()
+        })
+        || !super::validate_execution_boundary_receipt(&typed)
+    {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let receipt_digest =
+        cockpit_protocol::digest_json(&receipt.verification_receipt).map_err(|error| {
+            archived_verification_recovery_error(root.join(".ai/decisions"), error.to_string())
+        })?;
+    if receipt.verification_receipt_digest != receipt_digest {
+        return Ok(EvidenceState::Contradictory);
+    }
+    let _ = summary;
+    Ok(EvidenceState::Complete)
+}
+
+/// Return the current validity of an append-only archived source-integration
+/// recovery.  A valid recovery replaces exactly the stale
+/// `evidence_class_projection` judgment; it never makes another archived Work
+/// Item or another evidence class current.
+pub(crate) fn archived_verification_recovery_state(
+    root: &Path,
+    contract: &cockpit_protocol::Contract,
+    summary: &serde_json::Value,
+    snapshot: &RepositorySnapshot,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<EvidenceState, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let context = match load_archived_verification_recovery_context(&root, contract, summary) {
+        Ok(context) => context,
+        Err(error) if error.to_string().contains("already current") => {
+            return Ok(EvidenceState::Complete);
+        }
+        Err(error) => return Err(error),
+    };
+    let paths = archived_verification_recovery_paths(&root, &contract.work_item_id)?;
+    if paths.is_empty() {
+        return Ok(EvidenceState::Stale);
+    }
+    let mut valid = 0;
+    let mut result = EvidenceState::Stale;
+    for path in paths {
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            return Ok(EvidenceState::Contradictory);
+        }
+        let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if super::reject_duplicate_json_keys(&bytes).is_err() {
+            return Ok(EvidenceState::Contradictory);
+        }
+        let value: serde_json::Value = match serde_json::from_slice(&bytes) {
+            Ok(value) => value,
+            Err(_) => return Ok(EvidenceState::Contradictory),
+        };
+        match validate_archived_verification_recovery_candidate(
+            &root,
+            contract,
+            summary,
+            snapshot,
+            current_runtime,
+            &context,
+            &value,
+        )? {
+            EvidenceState::Complete => {
+                valid += 1;
+                result = EvidenceState::Complete;
+            }
+            EvidenceState::Contradictory => return Ok(EvidenceState::Contradictory),
+            EvidenceState::Stale => {}
+            EvidenceState::Missing | EvidenceState::Unknown => {}
+        }
+    }
+    if valid > 1 {
+        Ok(EvidenceState::Contradictory)
+    } else {
+        Ok(result)
+    }
+}
+
+/// Reject an archived recovery request before the expensive verification
+/// command starts.  The final recorder repeats these checks under the
+/// lifecycle lock, so this is an early-failure optimization rather than a
+/// second authority.
+pub fn require_archived_verification_recovery_preconditions(
+    root: &Path,
+    work_item_id: &str,
+    snapshot: &RepositorySnapshot,
+    current_runtime: &RuntimeContext,
+) -> Result<(), ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let summary_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.summary.json"));
+    let summary = read_json(&summary_path)?;
+    let state = archived_verification_recovery_state(
+        &root,
+        &contract,
+        &summary,
+        snapshot,
+        Some(current_runtime),
+    )?;
+    if state == EvidenceState::Complete {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "archived verification recovery is already recorded for the current source snapshot",
+        ));
+    }
+    if state == EvidenceState::Contradictory {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "archived verification recovery has contradictory existing evidence",
+        ));
+    }
+    Ok(())
+}
+
+/// Record a fresh current-Runtime verification for an archived Work Item.
+/// The predecessor archive, outcome, Summary, and historical verification
+/// evidence are never overwritten.
+pub fn record_archived_verification_recovery_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    request: &ArchivedVerificationRecoveryRequest,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    for (field, value) in [
+        ("reason", request.reason.as_str()),
+        ("actor", request.actor.as_str()),
+        ("authoritySource", request.authority_source.as_str()),
+    ] {
+        if value.trim().is_empty() {
+            return Err(archived_verification_recovery_error(
+                root.join(".ai/decisions"),
+                format!("{field} must not be empty for archived verification recovery"),
+            ));
+        }
+    }
+    if request.evidence_refs.is_empty()
+        || request
+            .evidence_refs
+            .iter()
+            .any(|value| value.trim().is_empty())
+    {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "archived verification recovery requires non-empty evidence references",
+        ));
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let archive = root.join(".ai/work-items/archive");
+    let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let active_contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if fs::symlink_metadata(&active_contract).is_ok() {
+        return Err(archived_verification_recovery_error(
+            active_contract,
+            "archived verification recovery cannot run when an active Contract has the same identity",
+        ));
+    }
+    let summary_path = archive.join(format!("{work_item_id}.summary.json"));
+    let summary = read_json(&summary_path)?;
+    let context = load_archived_verification_recovery_context(&root, &contract, &summary)?;
+    let bound = bind_typed_verification_receipt(
+        &request.verification_receipt,
+        work_item_id,
+        &repository_id(&root).to_string(),
+        &runtime.runtime_version,
+        &runtime.runtime_digest,
+    )?
+    .ok_or_else(|| {
+        archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "archived verification recovery requires a strict typed verification receipt",
+        )
+    })?;
+    let typed: cockpit_verification::VerificationReceipt = serde_json::from_value(bound.clone())
+        .map_err(|error| {
+            archived_verification_recovery_error(
+                root.join(".ai/decisions"),
+                format!("invalid current verification receipt: {error}"),
+            )
+        })?;
+    let plan = typed.plan_receipt.as_ref().ok_or_else(|| {
+        archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "archived verification recovery requires a coverage plan receipt",
+        )
+    })?;
+    if plan.repository_snapshot_digest.as_deref()
+        != Some(snapshot_digest(snapshot)?.to_string().as_str())
+        || plan.coverage_manifest.is_none()
+        || !super::validate_execution_boundary_receipt(&typed)
+    {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "current verification receipt is not a complete execution-boundary receipt",
+        ));
+    }
+    let verification_receipt_digest = cockpit_protocol::digest_json(&bound).map_err(|error| {
+        archived_verification_recovery_error(root.join(".ai/decisions"), error.to_string())
+    })?;
+    let validation_context = context.clone();
+    let value = serde_json::to_value(ArchivedVerificationRecoveryReceipt {
+        schema_version: 1,
+        decision_id: "archived-verification-recovery".into(),
+        decision: "replace".into(),
+        work_item_id: work_item_id.into(),
+        repository_id: repository_id(&root).to_string(),
+        predecessor_archive_manifest_digest: context.archive_manifest_digest,
+        predecessor_contract_digest: context.contract_digest.clone(),
+        predecessor_summary_digest: context.summary_digest,
+        predecessor_outcome_digest: context.outcome_digest,
+        predecessor_verification_evidence_digest: context.verification_evidence_digest,
+        predecessor_evidence_classes_digest: context.evidence_classes_digest,
+        current_contract_digest: context.contract_digest,
+        current_repository_snapshot_digest: snapshot_digest(snapshot)?,
+        current_source_revision: snapshot.head.clone().ok_or_else(|| {
+            archived_verification_recovery_error(
+                root.join(".ai/decisions"),
+                "archived verification recovery requires a current source revision",
+            )
+        })?,
+        replaced_judgment: "evidence_class_projection".into(),
+        affected_evidence: context.affected_evidence.clone(),
+        verification_receipt_digest,
+        verification_receipt: bound,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        actor: request.actor.clone(),
+        authority_source: request.authority_source.clone(),
+        reason: request.reason.clone(),
+        evidence_refs: request.evidence_refs.clone(),
+        policy_refs: request.policy_refs.clone(),
+        decided_at: now(),
+    })
+    .map_err(|error| {
+        archived_verification_recovery_error(root.join(".ai/decisions"), error.to_string())
+    })?;
+    if validate_archived_verification_recovery_candidate(
+        &root,
+        &contract,
+        &summary,
+        snapshot,
+        Some(runtime),
+        &validation_context,
+        &value,
+    )? != EvidenceState::Complete
+    {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "new archived verification recovery candidate failed self-validation",
+        ));
+    }
+    let candidate_state =
+        archived_verification_recovery_state(&root, &contract, &summary, snapshot, Some(runtime))?;
+    if candidate_state == EvidenceState::Complete {
+        return Err(archived_verification_recovery_error(
+            root.join(".ai/decisions"),
+            "an archived verification recovery is already valid for this source and Runtime",
+        ));
+    }
+    let decisions = root.join(".ai/decisions");
+    fs::create_dir_all(&decisions).map_err(|source| ObserverError::Read {
+        path: decisions.clone(),
+        source,
+    })?;
+    let canonical_path = decisions.join(format!("{work_item_id}.verification-recovery.json"));
+    let destination = if !canonical_path.exists() {
+        canonical_path
+    } else {
+        let digest = cockpit_protocol::digest_json(&value).map_err(|error| {
+            archived_verification_recovery_error(decisions.clone(), error.to_string())
+        })?;
+        decisions.join(format!(
+            "{work_item_id}.verification-recovery.{}.json",
+            digest.to_string().trim_start_matches("sha256:")
+        ))
+    };
+    atomic_json(&destination, &value)?;
+    Ok(value)
+}
+
 /// Record an immutable, repository-bound retry, successor, or supersession decision. The
 /// receipt binds the predecessor's exact Contract/Summary/Outcome/Event
 /// digests and the Runtime identity. A second decision is appended under a

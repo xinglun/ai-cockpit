@@ -92,6 +92,11 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
   metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
   成员、metadata digest、退出状态、有界日志和耗时。
+- `verify --archived-recovery --work-item <id> --stage pull_request` 是归档 Work Item 在审查后的集成变更使源码证据
+  投影过期时使用的 append-only 恢复入口。它只运行一次新的、类型化且绑定覆盖清单的 Runtime 验证，并明确记录替代的
+  `evidence_class_projection` 判断。归档 Contract、Summary、Outcome、Events 和历史 verification 字节不会被覆写；
+  若恢复已有效或已有矛盾候选，会在启动工程命令前失败。若归档 Contract 本身发生变化，不得使用此入口，应使用
+  `work-item revalidate-archived` 创建 successor。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
   repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
   identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。

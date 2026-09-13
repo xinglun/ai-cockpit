@@ -137,6 +137,15 @@ review when the returned state is yellow, red, unknown, or not ready.
   one metadata query and partitions `cargo test --locked --workspace` into
   identity-bound package nodes; the formal receipt retains the source command,
   workspace members, metadata digest, exit status, bounded logs, and elapsed time.
+- `verify --archived-recovery --work-item <id> --stage pull_request` is the
+  append-only recovery path for an archived Work Item whose source evidence
+  projection became stale after a reviewed integration change. It runs one
+  fresh, typed, coverage-bound Runtime verification and records which exact
+  `evidence_class_projection` judgment it replaces. The archived Contract,
+  Summary, Outcome, Events, and historical verification bytes are never
+  overwritten; preconditions fail before the project command when recovery is
+  already valid or contradictory. This is not a Contract-amendment successor;
+  use `work-item revalidate-archived` when the archived Contract itself changed.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
   profile for cross-process reuse. Reuse is admitted only when the current
   repository, snapshot, profile, runtime, command, scope, stage, runner, base,

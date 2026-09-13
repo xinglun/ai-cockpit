@@ -14,8 +14,9 @@ use cockpit_repository::{
     close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
-    record_resource_finalization, resolve_verification_route, run_repository_verification,
-    scaffold_work_item, start_work_item_with_options, verify_resource_finalization,
+    record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
+    run_repository_verification, scaffold_work_item, start_work_item_with_options,
+    verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -209,6 +210,10 @@ enum CommandKind {
         /// the immutable base revision.
         #[arg(long)]
         base_revision: Option<String>,
+        /// Run one fresh, current-Runtime verification for an archived Work
+        /// Item and append a source-integration recovery receipt.
+        #[arg(long)]
+        archived_recovery: bool,
     },
     /// Evaluate the Contract/policy route without writing repository
     /// governance evidence.  CI uses this before executing its command gate.
@@ -1285,16 +1290,33 @@ fn run() -> Result<()> {
             stage,
             plan_only,
             base_revision,
+            archived_recovery,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            let stage = VerificationStage::parse(&stage).map_err(|error| anyhow::anyhow!(error))?;
+            let stage = match stage.as_str() {
+                // The hosted route uses the provider-facing spelling while
+                // the protocol parser historically used `pr`. Keep both at
+                // the CLI boundary so recovery preflight fails only on real
+                // repository facts, not on a vocabulary mismatch.
+                "pull_request" => VerificationStage::PullRequest,
+                other => VerificationStage::parse(other).map_err(|error| anyhow::anyhow!(error))?,
+            };
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
             let initial_snapshot = GitRepository::discover(&root)
                 .context("discover repository for verification route")?
                 .snapshot()
                 .context("capture verification route snapshot")?;
             let route = if let Some(work_item_id) = work_item.as_deref() {
-                Some(
+                Some(if archived_recovery {
+                    resolve_archived_verification_route(
+                        &root,
+                        work_item_id,
+                        stage,
+                        "local",
+                        &initial_snapshot,
+                    )
+                    .context("resolve archived verification recovery route")?
+                } else {
                     resolve_verification_route(
                         &root,
                         work_item_id,
@@ -1302,9 +1324,12 @@ fn run() -> Result<()> {
                         "local",
                         &initial_snapshot,
                     )
-                    .context("resolve policy-bound verification route")?,
-                )
+                    .context("resolve policy-bound verification route")?
+                })
             } else {
+                if archived_recovery {
+                    anyhow::bail!("--archived-recovery requires --work-item")
+                }
                 if stage.requires_base_revision()
                     && base_revision
                         .as_deref()
@@ -1317,7 +1342,9 @@ fn run() -> Result<()> {
                 }
                 None
             };
-            if let Some(work_item_id) = work_item.as_deref() {
+            if let Some(work_item_id) = work_item.as_deref()
+                && !archived_recovery
+            {
                 cockpit_repository::require_policy_for_verification(&root, work_item_id)
                     .context("enforce verification policy")?;
                 // Governance projections and ordering prerequisites are cheap
@@ -1331,6 +1358,14 @@ fn run() -> Result<()> {
                     &initial_snapshot,
                 )
                 .context("check verification preconditions")?;
+            } else if let Some(work_item_id) = work_item.as_deref() {
+                cockpit_repository::require_archived_verification_recovery_preconditions(
+                    &root,
+                    work_item_id,
+                    &initial_snapshot,
+                    &runtime_context,
+                )
+                .context("check archived verification recovery preconditions")?;
             }
             let explicit = !command.is_empty();
             let (programs, command_args) = if explicit {
@@ -1548,14 +1583,38 @@ fn run() -> Result<()> {
                 );
             }
             if let Some(work_item) = work_item {
-                cockpit_repository::record_verification_with_runtime(
-                    &root,
-                    &work_item,
-                    &output,
-                    &runtime_context,
-                    &run.final_snapshot,
-                )
-                .context("record verification evidence")?;
+                if archived_recovery {
+                    cockpit_repository::record_archived_verification_recovery_with_runtime(
+                        &root,
+                        &work_item,
+                        &cockpit_repository::ArchivedVerificationRecoveryRequest {
+                            reason: "refresh archived source evidence after reviewed Runtime integration changes".into(),
+                            actor: "runtime:ai-cockpit".into(),
+                            authority_source: "current Work Item Contract and reviewed recovery invocation".into(),
+                            evidence_refs: vec![format!(
+                                ".ai/evidence/{work_item}.verification.json"
+                            )],
+                            policy_refs: route
+                                .as_ref()
+                                .and_then(|route| route.policy_plan.as_ref())
+                                .map(|plan| plan.requirement.policy_refs.clone())
+                                .unwrap_or_default(),
+                            verification_receipt: output.clone(),
+                        },
+                        &runtime_context,
+                        &run.final_snapshot,
+                    )
+                    .context("record archived verification recovery")?;
+                } else {
+                    cockpit_repository::record_verification_with_runtime(
+                        &root,
+                        &work_item,
+                        &output,
+                        &runtime_context,
+                        &run.final_snapshot,
+                    )
+                    .context("record verification evidence")?;
+                }
             }
             println!("{}", serde_json::to_string_pretty(&output)?);
         }

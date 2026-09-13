@@ -3081,6 +3081,59 @@ pub fn resolve_verification_route(
     )
 }
 
+/// Resolve a verification route for an archived Work Item's current-source
+/// recovery.  The archived Contract is read-only and remains the route
+/// authority; this function only changes which lifecycle recorder consumes
+/// the resulting receipt.
+pub fn resolve_archived_verification_route(
+    root: &Path,
+    work_item_id: &str,
+    stage: VerificationStage,
+    runner: &str,
+    snapshot: &RepositorySnapshot,
+) -> Result<VerificationRoute, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if stage != VerificationStage::PullRequest {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/archive"),
+            message: "archived verification recovery is restricted to pull-request stage".into(),
+        });
+    }
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    let active_contract = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    if fs::symlink_metadata(&active_contract).is_ok() {
+        return Err(ObserverError::State {
+            path: active_contract,
+            message: "archived verification recovery cannot use an active Contract with the same identity".into(),
+        });
+    }
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    verify_archive_manifest(&root, work_item_id, &manifest)?;
+    resolve_verification_route_for_contract(
+        &root,
+        &contract_path,
+        &contract,
+        stage,
+        runner,
+        snapshot,
+    )
+}
+
 fn resolve_verification_route_for_contract(
     root: &Path,
     contract_path: &Path,
@@ -4178,13 +4231,37 @@ fn governance_decision_for_archived_contract_internal(
         } else {
             current_runtime
         };
-    governance_decision_for_contract_internal_with_archive(
+    let evidence_override = if let Some(runtime) = current_runtime {
+        let summary_path = root
+            .join(".ai/work-items/archive")
+            .join(format!("{}.summary.json", contract.work_item_id));
+        let summary = read_json(&summary_path)?;
+        if evidence_class_projection_state(root, contract, &summary, true)? == EvidenceState::Stale
+            && lifecycle::archived_verification_recovery_state(
+                root,
+                contract,
+                &summary,
+                snapshot,
+                Some(runtime),
+            )? == EvidenceState::Complete
+        {
+            Some(EvidenceState::Complete)
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+    let decision = governance_decision_for_contract_base_internal_with_archive(
         root,
         contract,
         snapshot,
         effective_runtime,
         true,
-    )
+        evidence_override,
+        None,
+    )?;
+    apply_preflight_review_evidence(root, contract, snapshot, decision, true, None)
 }
 
 fn governance_decision_for_contract_internal_with_archive(
@@ -5435,7 +5512,19 @@ fn evidence_state_for_contract_internal_with_archive(
             return Ok(state);
         }
     }
-    let custom_state = evidence_class_projection_state(&root, contract, &summary, archived)?;
+    let mut custom_state = evidence_class_projection_state(&root, contract, &summary, archived)?;
+    if archived && custom_state == EvidenceState::Stale {
+        if lifecycle::archived_verification_recovery_state(
+            &root,
+            contract,
+            &summary,
+            snapshot,
+            current_runtime,
+        )? == EvidenceState::Complete
+        {
+            custom_state = EvidenceState::Complete;
+        }
+    }
     if custom_state != EvidenceState::Complete {
         return Ok(custom_state);
     }
