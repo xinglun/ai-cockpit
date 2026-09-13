@@ -337,6 +337,11 @@ Rollback では、名前付きの過去 Release archive を取得し、manifest 
 手動で置き換えます。Version を持たない Homebrew Formula は current release を追跡するため、
 rollback selector ではありません。
 
+リリース公開では、二つの識別子を意図的に分離します。不変な tag とその
+peeled source commit は成果物を識別し、workflow dispatch commit は実行系の
+コードを識別します。高コストな処理の前にローカル tag とリモートの peeled
+tag を検証して両方を記録し、両者を同一に要求したり既存 tag を書き換えたりしません。
+
 ## MCP と repository attach
 
 Installed runtime から repository を明示して local MCP adapter を起動します。

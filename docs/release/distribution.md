@@ -426,6 +426,12 @@ For rollback, download a named prior Release archive and verify its manifest and
 digest before replacing the installed binary manually. The unversioned Homebrew
 Formula tracks the current release; it is not a rollback selector.
 
+Release publication has two deliberately separate identities: the immutable tag
+and its peeled source commit identify the artifact, while the workflow dispatch
+commit identifies the orchestration code. The workflow validates the local tag
+against the remote peeled tag before expensive work and records both identities;
+it must never require them to be the same or rewrite an existing tag.
+
 ## MCP and repository attachment
 
 Start the local MCP adapter from the installed runtime with an explicit repository:

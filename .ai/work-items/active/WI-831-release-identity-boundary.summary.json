@@ -1,0 +1,95 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-831-release-identity-boundary.verification-attempt.d925fe9125db3cf08ce6748bae2e4e4cf3cac88d57784911a8effb11221b382e.json",
+    ".ai/evidence/WI-831-release-identity-boundary.verification.json",
+    ".ai/work-items/active/WI-831-release-identity-boundary.contract.json",
+    ".ai/work-items/active/WI-831-release-identity-boundary.summary.json",
+    ".github/workflows/release.yml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-831-release-identity-boundary.ja.md",
+    "docs/work-items/WI-831-release-identity-boundary.md",
+    "docs/work-items/WI-831-release-identity-boundary.zh-CN.md",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-13T18:21:02Z",
+  "checkpointContractDigest": "sha256:f4b643d644d6c89b42e3bf02ecab06c3e020a860b0ba53dce48534c21118d31f",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:78413d9f431e7ebee241ba6fa3c1cba55d8e33e0e5de73a833a0c96132bb7f9b",
+  "createdAt": "2026-09-13T18:19:29Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/release/workflow_policy.sh",
+      "docs/release/distribution.md"
+    ],
+    "reason": "This Work Item is limited to separating immutable artifact source identity from workflow orchestration identity, preserving the dispatch-only release route and its pre-dispatch fail-closed checks. Product behavior, historical receipts, tag rewriting, full-workspace validation, and unrelated cleanup remain out of scope.",
+    "state": "resolved",
+    "unknowns": []
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T18:22:16Z",
+  "preflightContractDigest": "sha256:f4b643d644d6c89b42e3bf02ecab06c3e020a860b0ba53dce48534c21118d31f",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:78413d9f431e7ebee241ba6fa3c1cba55d8e33e0e5de73a833a0c96132bb7f9b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh",
+        ".ai/evidence/WI-831-release-identity-boundary.verification.json"
+      ],
+      "expected": "An immutable release tag source commit may differ from the current dispatch workflow commit; both identities remain explicit and bound.",
+      "reason": "The local policy gate passed under Runtime verification and the workflow records the two identities separately. Hosted review remains a later delivery gate.",
+      "required": true,
+      "scenario": "source_and_execution_identity",
+      "status": "verified",
+      "verificationPlan": "Inspect release preflight and policy tests, then verify the reviewed hosted workflow accepts the differing identities."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh",
+        ".ai/evidence/WI-831-release-identity-boundary.verification.json"
+      ],
+      "expected": "A missing, lightweight, moved, or locally forged tag is rejected before compilation, while a local tag matching the remote peeled tag is accepted.",
+      "reason": "The pre-dispatch guard and policy gate passed without spawning a product build.",
+      "required": true,
+      "scenario": "pre_dispatch_tag_integrity",
+      "status": "verified",
+      "verificationPlan": "Run the static policy gates and inspect the local-versus-remote peeled tag preflight boundary."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "docs/work-items/WI-831-release-identity-boundary.md",
+        ".ai/evidence/WI-831-release-identity-boundary.verification.json"
+      ],
+      "expected": "The repair never retags v0.2.92 or rewrites an existing Release and does not alter historical evidence.",
+      "reason": "The repair is source-only and the immutable tag was verified independently before delivery.",
+      "required": true,
+      "scenario": "no_immutable_rewrite",
+      "status": "verified",
+      "verificationPlan": "Compare the branch diff and verify tag and Release state before and after the reviewed merge and dispatch."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-13T18:22:14.533459+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8e0b53788bd7206ecb6473f5a5f855521f3b1571614b9082ed73b1cab33b84f7",
+  "workItemId": "WI-831-release-identity-boundary"
+}

@@ -326,6 +326,10 @@ cargo uninstall --root "$HOME/.local" cockpit-cli
 回滚时下载指定的历史 Release archive，验证其 manifest 与 digest 后再手动替换 binary。无版本号的
 Homebrew Formula 始终跟踪当前 release，不是回滚选择器。
 
+发布流程明确分离两种身份：不可变 tag 及其 peeled source commit 标识产物，
+workflow dispatch commit 标识编排代码。流程在昂贵操作前将本地 tag 与远端
+peeled tag 校验一致，并记录两种身份；不能要求二者相同，也不能改写已有 tag。
+
 ## MCP 与 repository attach
 
 从已安装 runtime 启动本地 MCP adapter，并显式绑定 repository：

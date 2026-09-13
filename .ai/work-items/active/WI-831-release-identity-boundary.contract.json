@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "The workflow accepts a reviewed dispatch commit that differs from the immutable v0.2.92 tag commit and validates local versus remote peeled tag identity before expensive work.",
+    "Publication manifest identity is bound to the immutable tag commit, while orchestration workflow identity remains separately recorded and cannot authorize tag rewriting.",
+    "Policy tests reject push-triggered publication and reject malformed close expressions and mismatched or mutable release tags.",
+    "No existing v0.2.92 tag, Release, historical receipt, or unrelated Work Item is rewritten."
+  ],
+  "authority": "User authorization in current task; preserve immutable release and fail closed on identity mismatch.",
+  "baseRevision": "8b3a18a84ba714c306c97742ce3e5c3378216ae9",
+  "createdAt": "2026-09-13T18:19:29Z",
+  "goal": "Validate the immutable v0.2.92 tag against the remote peeled tag identity while independently binding the dispatch workflow identity, preserving fail-closed publication and regression coverage.",
+  "intent": "After WI-830 merged the dispatch syntax repair, the release workflow still conflates immutable artifact source identity with the current orchestration commit. Repair that same release identity boundary before dispatching v0.2.92.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Retagging or rewriting v0.2.92",
+    " publishing or deleting any Release before this Contract is verified",
+    " changing historical Work Items or receipts",
+    " re-running the full workspace",
+    " or cleaning unrelated branches and worktrees."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:569d9856a66e991c573561422ee1c22fbe0609a6e4b754d9dceb9200270667e2",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "An immutable release tag source commit may differ from the current dispatch workflow commit; both identities remain explicit and bound.",
+      "required": true,
+      "scenario": "source_and_execution_identity",
+      "status": "unverified",
+      "verificationPlan": "Inspect release preflight and policy tests, then verify the reviewed hosted workflow accepts the differing identities."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/workflow_policy.sh"
+      ],
+      "expected": "A missing, lightweight, moved, or locally forged tag is rejected before compilation, while a local tag matching the remote peeled tag is accepted.",
+      "required": true,
+      "scenario": "pre_dispatch_tag_integrity",
+      "status": "unverified",
+      "verificationPlan": "Run the static policy gates and inspect the local-versus-remote peeled tag preflight boundary."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "docs/work-items/WI-831-release-identity-boundary.md"
+      ],
+      "expected": "The repair never retags v0.2.92 or rewrites an existing Release and does not alter historical evidence.",
+      "required": true,
+      "scenario": "no_immutable_rewrite",
+      "status": "unverified",
+      "verificationPlan": "Compare the branch diff and verify tag and Release state before and after the reviewed merge and dispatch."
+    }
+  ],
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/work-items/WI-831-release-identity-boundary.md",
+    "docs/work-items/WI-831-release-identity-boundary.zh-CN.md",
+    "docs/work-items/WI-831-release-identity-boundary.ja.md",
+    ".ai/work-items/active/WI-831-release-identity-boundary.*",
+    ".ai/evidence/WI-831-release-identity-boundary.*",
+    ".ai/decisions/WI-831-release-identity-boundary.*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-831-release-identity-boundary"
+}

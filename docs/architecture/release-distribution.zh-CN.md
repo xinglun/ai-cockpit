@@ -133,6 +133,8 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
 - Homebrew 是交付路径，不是治理权威。Repository 事实和人类决策仍来自已 attach 的 repository 与 Work Item。
+- 产物源码身份与编排执行身份是两个独立绑定。不可变 tag 会在昂贵发布工作前
+  与远端 peeled commit 校验；当前 dispatch commit 独立记录，不能改写或替代 tag 身份。
 
 ## 停止条件
 
