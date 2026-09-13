@@ -1,0 +1,235 @@
+{
+  "acceptanceResults": [
+    "A closed Contract with resourceContext absent or null validates and promotes without a fabricated finalization receipt.",
+    "A resource-bound closed Contract without a valid finalization chain still fails closed with structured evidence diagnostics.",
+    "WI-819 immutable bytes remain unchanged; its generated close receipt is integrated as-is and its multilingual projections become current.",
+    "Normal close, no-resource promotion, resource-bound rejection, and no-write check behavior are covered by focused regression tests.",
+    "WI-821 own multilingual pages and parity rows pass the post-close promotion check after close."
+  ],
+  "createdAt": "2026-09-13T07:21:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:65ce9ac3926b6788043c6b2f6bc9d13f0a249fcb61de65e2b8ed32590f3fdb9b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7ab83f6e2bdaacba5304ea6e53cd361b5566ba0346c144509bfcb9cd0c0d1aea",
+      "workItemId": "WI-821-no-resource-document-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-819-docs-gate-convergence.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-821-no-resource-document-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-819-docs-gate-convergence.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-819-docs-gate-convergence.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-819-docs-gate-convergence.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-821-no-resource-document-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-821-no-resource-document-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-821-no-resource-document-promotion.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-821-no-resource-document-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Eliminate the no-resource finalization false failure without weakening resource-bound evidence, rewriting WI-819 history, or causing a repeat of the full release workflow."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-821-no-resource-document-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-821-no-resource-document-promotion"
+  },
+  "taskReportDigest": "sha256:9b34a0b7998091c37dcb341f1d4a7a3b5a6a59852061ef776f78e1ad29abec6e",
+  "taskReportMarkdownDigest": "sha256:16c875b696bb928c9f352c147c95f1ea1380a8d536bf99ff62400f44cac31de9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-821-no-resource-document-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-821-no-resource-document-promotion"
+}

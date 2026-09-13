@@ -1,0 +1,82 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-819-docs-gate-convergence.close.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-821-no-resource-document-promotion.contract.json",
+    ".ai/work-items/archive/WI-821-no-resource-document-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-819-docs-gate-convergence.ja.md",
+    "docs/work-items/WI-819-docs-gate-convergence.md",
+    "docs/work-items/WI-819-docs-gate-convergence.zh-CN.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.ja.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.md",
+    "docs/work-items/WI-821-no-resource-document-promotion.zh-CN.md",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "checkpointAt": "2026-09-13T07:12:07Z",
+  "checkpointContractDigest": "sha256:c1ae4db00124b8899020a41b88ffe4321e78edc272a9c2f87aaba37720bfd5f9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7ab83f6e2bdaacba5304ea6e53cd361b5566ba0346c144509bfcb9cd0c0d1aea",
+  "createdAt": "2026-09-13T07:10:44Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/promote_closed_work_item.py",
+      "tests/docs/promote_closed_work_item_test.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-13T07:21:08Z",
+  "preflightContractDigest": "sha256:c1ae4db00124b8899020a41b88ffe4321e78edc272a9c2f87aaba37720bfd5f9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7ab83f6e2bdaacba5304ea6e53cd361b5566ba0346c144509bfcb9cd0c0d1aea",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "no_resource_terminal_projection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "resource_bound_finalization_remains_strict",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "required": true,
+      "scenario": "historical_projection_repair",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item.py"
+      ],
+      "required": true,
+      "scenario": "post_close_self_projection",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T07:21:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-821-no-resource-document-promotion"
+}

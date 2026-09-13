@@ -1,0 +1,232 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:58efa48b1523c06d7903212560e77dfd907f95a2ab7e00f927bacd89a40e7cd2",
+      "workItemId": "WI-819-docs-gate-convergence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-812-release-source-governance-split.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-819-docs-gate-convergence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/outcome_human_decision.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/run_repository_gates.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/documentation_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization-and-reviewed-pr at 2026-09-13T06:59:28Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "Restore main quality convergence after v0.2.91 by preserving WI-812 history through successor recovery, validating canonical close decisions, and reusing one identity-bound documentation promotion result instead of repeating the same scan."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-819-docs-gate-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-819-docs-gate-convergence"
+  },
+  "finalReportDigest": "sha256:6c732f9c3497ba1b87a37f2699739a5f232e41a3be4e208a0add7277939ae35d",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-and-reviewed-pr",
+    "decidedAt": "2026-09-13T06:59:28Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-819-docs-gate-convergence.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #799 was merged; formal verification and hosted quality checks passed, and the no-resource Work Item is ready for ordinary close.",
+    "resumeCondition": "If post-close documentation promotion finds a stale or missing projection, open a narrow documentation-promotion successor without rewriting WI-819 history."
+  },
+  "timestamp": "2026-09-13T06:59:28Z",
+  "workItemId": "WI-819-docs-gate-convergence"
+}

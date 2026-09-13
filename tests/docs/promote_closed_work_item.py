@@ -138,7 +138,7 @@ class TerminalEvidence:
     repository_id: str
     archive_path: str
     evidence_path: str
-    finalization_path: str
+    finalization_path: str | None
     close_path: str
     recovery_path: str | None
 
@@ -214,42 +214,49 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         "verification receipt identity or result mismatch",
     )
 
+    no_resource_context = contract.get("resourceContext") is None
     root_path = repository / f".ai/decisions/{work_item_id}.finalize.json"
-    root_receipt = read_json(root_path)
-    receipt_identity(
-        root_receipt,
-        work_item_id=work_item_id,
-        repository_id=repository_id,
-        contract_digest=contract_digest,
-        base_revision=base_revision,
-    )
-    transitions: dict[int, tuple[Path, dict[str, Any], dict[str, Any]]] = {}
-    for path in sorted((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")):
-        envelope = read_json(path)
-        sequence = envelope.get("sequence")
-        require(
-            isinstance(sequence, int) and sequence > 0,
-            "finalization transition sequence is invalid",
-        )
-        require(sequence not in transitions, "finalization chain is ambiguous")
-        expected_suffix = canonical_digest(envelope).removeprefix("sha256:")
-        require(
-            path.name == f"{work_item_id}.finalize.{expected_suffix}.json",
-            "finalization chain digest or filename mismatch",
-        )
-        receipt = envelope.get("receipt")
-        require(isinstance(receipt, dict), "finalization transition receipt is missing")
+    root_receipt: dict[str, Any] = {}
+    if not no_resource_context:
+        root_receipt = read_json(root_path)
+    if not no_resource_context:
         receipt_identity(
-            receipt,
+            root_receipt,
             work_item_id=work_item_id,
             repository_id=repository_id,
             contract_digest=contract_digest,
             base_revision=base_revision,
         )
-        transitions[sequence] = (path, envelope, receipt)
+    transitions: dict[int, tuple[Path, dict[str, Any], dict[str, Any]]] = {}
+    if not no_resource_context:
+        for path in sorted((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")):
+            envelope = read_json(path)
+            sequence = envelope.get("sequence")
+            require(
+                isinstance(sequence, int) and sequence > 0,
+                "finalization transition sequence is invalid",
+            )
+            require(sequence not in transitions, "finalization chain is ambiguous")
+            expected_suffix = canonical_digest(envelope).removeprefix("sha256:")
+            require(
+                path.name == f"{work_item_id}.finalize.{expected_suffix}.json",
+                "finalization chain digest or filename mismatch",
+            )
+            receipt = envelope.get("receipt")
+            require(isinstance(receipt, dict), "finalization transition receipt is missing")
+            receipt_identity(
+                receipt,
+                work_item_id=work_item_id,
+                repository_id=repository_id,
+                contract_digest=contract_digest,
+                base_revision=base_revision,
+            )
+            transitions[sequence] = (path, envelope, receipt)
 
     reconciled_after_close = False
-    if not transitions:
+    if no_resource_context:
+        finalization_path = None
+    elif not transitions:
         # A provider may observe the merge and exact resource cleanup in one
         # atomic receipt.  Accept that terminal root only when its complete
         # deleted shape is explicit; partial or retained roots remain stopped.
@@ -419,7 +426,17 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     close_finalization_sequence = close.get("resourceFinalizationSequence")
     close_finalization_path = close.get("resourceFinalizationHeadPath")
     close_finalization_digest = close.get("resourceFinalizationHeadDigest")
-    if reconciled_after_close:
+    if no_resource_context:
+        for field in (
+            "resourceFinalizationSequence",
+            "resourceFinalizationHeadPath",
+            "resourceFinalizationHeadDigest",
+        ):
+            require(
+                close.get(field) is None,
+                f"no-resource close contains {field}",
+            )
+    elif reconciled_after_close:
         require(
             close_finalization_sequence == 0
             and close_finalization_path == root_path.relative_to(repository).as_posix()
@@ -544,20 +561,24 @@ def promoted_frontmatter(text: str, evidence: TerminalEvidence) -> str:
     end = text.find("\n---\n", 4)
     require(end != -1, "Work Item document frontmatter is malformed")
     lines = text[4:end].splitlines()
-    values = {
+    values: dict[str, str] = {
         "status": "implemented",
         "lastVerifiedBy": evidence.work_item_id,
         "terminalArchive": evidence.archive_path,
         "terminalVerification": evidence.evidence_path,
-        "terminalFinalization": evidence.finalization_path,
         "terminalDecision": evidence.close_path,
     }
+    if evidence.finalization_path is not None:
+        values["terminalFinalization"] = evidence.finalization_path
     counts: dict[str, int] = {}
     retained: list[str] = []
     insert_at: int | None = None
     for line in lines:
         match = re.match(r"^([A-Za-z][A-Za-z0-9]*):", line)
         key = match.group(1) if match else None
+        if key == "terminalFinalization" and evidence.finalization_path is None:
+            counts[key] = counts.get(key, 0) + 1
+            continue
         if key in values:
             counts[key] = counts.get(key, 0) + 1
             if key in TERMINAL_FIELDS:
@@ -577,7 +598,11 @@ def promoted_frontmatter(text: str, evidence: TerminalEvidence) -> str:
         "terminal frontmatter field is duplicated",
     )
     require(insert_at is not None, "frontmatter terminal insertion point is missing")
-    terminal_lines = [f"{field}: {values[field]}" for field in TERMINAL_FIELDS]
+    terminal_lines = [
+        f"{field}: {values[field]}"
+        for field in TERMINAL_FIELDS
+        if field in values
+    ]
     retained[insert_at:insert_at] = terminal_lines
     return "---\n" + "\n".join(retained) + text[end:]
 
@@ -616,9 +641,12 @@ def promoted_parity(
             f"[Work Item](../work-items/{evidence.work_item_id}{suffix}.md)",
             f"`{evidence.archive_path}`",
             f"`{evidence.evidence_path}`",
-            f"`{evidence.finalization_path}`",
             f"`{evidence.close_path}`",
         )
+        if evidence.finalization_path is not None:
+            required_retry_references = required_retry_references[:3] + (
+                f"`{evidence.finalization_path}`",
+            ) + required_retry_references[3:]
         require(
             all(reference in existing for reference in required_retry_references),
             "mixed recovery/retry parity row is missing retry evidence",
@@ -628,9 +656,10 @@ def promoted_parity(
         f"[Work Item](../work-items/{evidence.work_item_id}{suffix}.md)",
         f"{label}: archive `{evidence.archive_path}`",
         f"verification `{evidence.evidence_path}`",
-        f"finalization `{evidence.finalization_path}`",
         f"close `{evidence.close_path}`",
     ]
+    if evidence.finalization_path is not None:
+        evidence_parts.insert(3, f"finalization `{evidence.finalization_path}`")
     if evidence.recovery_path is not None:
         evidence_parts.append(f"recovery `{evidence.recovery_path}`")
     newline = "\n" if lines[index].endswith("\n") else ""
@@ -708,6 +737,7 @@ def self_projection_pending(
     work_item_id: str,
     changes: dict[Path, str],
     stale: list[Path],
+    evidence: TerminalEvidence,
 ) -> bool:
     """Validate the exact pre-archive shape of a self-projection task.
 
@@ -789,9 +819,12 @@ def self_projection_pending(
                 f"[Work Item](../work-items/{work_item_id}{suffix}.md)",
                 f"archive `.ai/work-items/archive/{work_item_id}.contract.json`",
                 f"verification `.ai/evidence/{work_item_id}.verification.json`",
-                f"finalization `.ai/decisions/{work_item_id}.finalize.json`",
                 f"close `.ai/decisions/{work_item_id}.close.json`",
             )
+            if evidence.finalization_path is not None:
+                required_references = required_references[:3] + (
+                    f"finalization `.ai/decisions/{work_item_id}.finalize.json`",
+                ) + required_references[3:]
             if any(reference not in current_lines[index] for reference in required_references):
                 return False
             expected_status = (
@@ -836,7 +869,9 @@ def promote(repository: Path, work_item_id: str, *, check: bool) -> dict[str, An
     evidence = validate_terminal_evidence(repository, work_item_id)
     changes = planned_changes(repository, evidence)
     stale = [path for path, expected in changes.items() if path.read_text(encoding="utf-8") != expected]
-    if check and stale and self_projection_pending(repository, work_item_id, changes, stale):
+    if check and stale and self_projection_pending(
+        repository, work_item_id, changes, stale, evidence
+    ):
         return {
             "changedPaths": [path.relative_to(repository).as_posix() for path in stale],
             "mode": "check",
