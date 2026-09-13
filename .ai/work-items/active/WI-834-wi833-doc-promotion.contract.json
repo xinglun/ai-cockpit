@@ -2,7 +2,8 @@
   "acceptanceCriteria": [
     "Each parity document contains exactly one WI-833 row with the canonical Work Item and terminal evidence references.",
     "python3 tests/docs/promote_closed_work_item.py --repo /private/tmp/ai-cockpit-wi834-doc-promotion --check-all passes.",
-    "No historical receipt, archive, or release artifact is modified."
+    "No historical receipt, archive, or release artifact is modified.",
+    "The Work Item has truthful English, Simplified Chinese, and Japanese reader pages and its own pre-archive parity registrations before verification."
   ],
   "authority": "authorized",
   "baseRevision": "e6d71cd9745cb78be174727449a6185cb9b75c02",
@@ -23,7 +24,8 @@
   "repositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "requiredEvidenceClasses": [
     "verification",
-    "verification_receipt"
+    "verification_receipt",
+    "documentation"
   ],
   "resourceContext": {
     "baseBranch": "main",
@@ -40,7 +42,10 @@
     "docs/work-items/WI-833-release-script-provenance.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-834-wi833-doc-promotion.md",
+    "docs/work-items/WI-834-wi833-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-834-wi833-doc-promotion.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",
