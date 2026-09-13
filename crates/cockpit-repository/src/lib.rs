@@ -3596,18 +3596,20 @@ fn contains_strong_instruction_injection(text: &str) -> bool {
 fn contains_skip_marker(lines: &[String]) -> bool {
     lines.iter().any(|line| {
         let line = line.to_ascii_lowercase();
-        [
-            "pytest.mark.skip",
-            ".skip(",
-            "#[ignore]",
-            "@disabled",
-            "@ignore",
-            "disabled_",
-            "xit(",
-            "xdescribe(",
-        ]
-        .iter()
-        .any(|marker| line.contains(marker))
+        line.contains("pytest.mark.skip")
+            || line.contains(".skip(")
+            || line.contains("#[ignore]")
+            || line.contains("@disabled")
+            || line.contains("@ignore")
+            || line.contains("disabled_")
+            // Match standalone JavaScript test bypass calls.  A substring
+            // search for `xit(` also matches Rust/Python `SystemExit(` and
+            // would falsely classify an otherwise safe diagnostic helper as
+            // test weakening.
+            || line.starts_with("xit(")
+            || line.contains(" xit(")
+            || line.starts_with("xdescribe(")
+            || line.contains(" xdescribe(")
     })
 }
 
@@ -7999,6 +8001,15 @@ fn close_work_item_with_structured_decision_internal(
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
+    if !is_canonical_close_decision(&human_decision.decision) {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: format!(
+                "human decision must be one of: {}",
+                canonical_close_decisions().join(", ")
+            ),
+        });
+    }
     for (field, value) in [
         ("decision", human_decision.decision.as_str()),
         ("actor", human_decision.actor.as_str()),
@@ -9589,10 +9600,34 @@ pub(crate) fn close_decision_is_valid_for_status(
     {
         return false;
     }
+    if !is_canonical_close_decision(&decision.decision) {
+        return false;
+    }
     value
         .get("humanDecision")
         .and_then(serde_json::Value::as_str)
         == Some(decision.decision.as_str())
+}
+
+/// Return the finite vocabulary accepted by the close lifecycle boundary.
+///
+/// `approved` and `confirmed` are positive human decisions, `rejected` is an
+/// explicit negative decision, `superseded` closes an immutable predecessor,
+/// and `superseded_failed_delivery` records the narrow abandoned-delivery
+/// cleanup case.  Free-form prose must remain in `reason`; accepting it as a
+/// decision token makes downstream promotion and status projection ambiguous.
+pub(crate) fn canonical_close_decisions() -> &'static [&'static str] {
+    &[
+        "approved",
+        "confirmed",
+        "rejected",
+        "superseded",
+        "superseded_failed_delivery",
+    ]
+}
+
+pub(crate) fn is_canonical_close_decision(decision: &str) -> bool {
+    canonical_close_decisions().contains(&decision.trim())
 }
 
 fn outcome_state_name(state: &OutcomeState) -> &'static str {

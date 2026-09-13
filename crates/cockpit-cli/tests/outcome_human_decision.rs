@@ -103,7 +103,7 @@ fn closed_work_item(binary: &str) -> tempfile::TempDir {
             "--id",
             "WI-OUTCOME-DECISION",
             "--human-decision",
-            "approved-by-owner",
+            "approved",
             "--actor",
             "human:owner",
             "--authority-source",
@@ -168,7 +168,7 @@ fn human_outcome_projects_structured_decision_in_all_supported_languages() {
             "en",
             "Human decisions",
             [
-                "Decision: approved-by-owner",
+                "Decision: approved",
                 "Actor: human:owner",
                 "Authority source: project-policy",
             ],
@@ -177,7 +177,7 @@ fn human_outcome_projects_structured_decision_in_all_supported_languages() {
             "zh-CN",
             "人工决定",
             [
-                "决定: approved-by-owner",
+                "决定: approved",
                 "执行人: human:owner",
                 "授权来源: project-policy",
             ],
@@ -186,7 +186,7 @@ fn human_outcome_projects_structured_decision_in_all_supported_languages() {
             "ja",
             "人間の判断",
             [
-                "判断: approved-by-owner",
+                "判断: approved",
                 "実行者: human:owner",
                 "権限の出所: project-policy",
             ],
@@ -246,7 +246,7 @@ fn malformed_or_foreign_decision_records_are_visible_as_unknown() {
     .expect("write foreign decision");
     let foreign = human_outcome(binary, repo.path(), "zh-CN");
     assert!(foreign.contains("未知：结构化人工决定记录无效"));
-    assert!(!foreign.contains("决定: approved-by-owner"));
+    assert!(!foreign.contains("决定: approved"));
 }
 
 #[cfg(unix)]
@@ -264,5 +264,5 @@ fn symlink_decision_record_is_not_projected_as_valid() {
     symlink(&target, &decision_path).expect("symlink decision");
     let output = human_outcome(binary, repo.path(), "ja");
     assert!(output.contains("不明：構造化された人間の判断記録が無効です"));
-    assert!(!output.contains("判断: approved-by-owner"));
+    assert!(!output.contains("判断: approved"));
 }

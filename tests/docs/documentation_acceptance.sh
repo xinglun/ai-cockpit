@@ -4,6 +4,21 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 cd "$root"
 
+promotion_receipt=""
+while (($# > 0)); do
+  case "$1" in
+    --promotion-receipt)
+      (($# >= 2)) || { echo "--promotion-receipt requires a path" >&2; exit 2; }
+      promotion_receipt="$2"
+      shift 2
+      ;;
+    *)
+      echo "unknown documentation acceptance option: $1" >&2
+      exit 2
+      ;;
+  esac
+done
+
 python3 - <<'PY'
 from pathlib import Path
 import json
@@ -261,14 +276,54 @@ if re.search(r'(?m)^\s*ai-cockpit mcp\s*$', public):
     missing.append('public documentation contains repository-less ai-cockpit mcp command')
 if missing:
     raise SystemExit('\n'.join(missing))
-print('documentation acceptance passed')
 PY
 
 python3 tests/docs/work_item_status_consistency.py \
   --repo "${AI_COCKPIT_STATUS_DOCS_REPO:-$root}"
 
-python3 tests/docs/promote_closed_work_item.py --repo "$root" --check-all
+if [[ -n "$promotion_receipt" ]]; then
+  promotion_receipt_path="$promotion_receipt"
+  if [[ "$promotion_receipt_path" != /* ]]; then
+    promotion_receipt_path="$root/$promotion_receipt_path"
+  fi
+  python3 - "$promotion_receipt_path" "${AI_COCKPIT_GATE_ROUTE_RECEIPT_DIGEST:-}" <<'PY'
+from pathlib import Path
+import json
+import stat
+import sys
+
+path = Path(sys.argv[1])
+try:
+    mode = path.lstat().st_mode
+    if stat.S_ISLNK(mode) or not stat.S_ISREG(mode):
+        raise ValueError('promotion receipt must be a regular non-symlink file')
+    receipt = json.loads(path.read_text(encoding='utf-8'))
+except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
+    raise SystemExit(f'{path}: invalid promotion receipt: {error}')
+if not isinstance(receipt, dict):
+    raise SystemExit(f'{path}: promotion receipt must be an object')
+if receipt.get('schemaVersion') != 1 or receipt.get('kind') != 'repository_gate_receipt':
+    raise SystemExit(f'{path}: promotion receipt schema is invalid')
+if receipt.get('gateId') != 'docs_closed_work_item_promotion':
+    raise SystemExit(f'{path}: promotion receipt gate identity is invalid')
+if receipt.get('state') != 'passed' or receipt.get('exitCode') != 0:
+    raise SystemExit(f'{path}: promotion gate did not pass')
+expected_command = [
+    'python3', 'tests/docs/promote_closed_work_item.py', '--repo', '.', '--check-all'
+]
+if receipt.get('command') != expected_command:
+    raise SystemExit(f'{path}: promotion receipt command is not canonical')
+expected_route_digest = sys.argv[2]
+route = receipt.get('route')
+if not isinstance(route, dict):
+    raise SystemExit(f'{path}: promotion receipt route identity is missing')
+if expected_route_digest and route.get('receiptDigest') != expected_route_digest:
+    raise SystemExit(f'{path}: promotion receipt route identity is stale')
+PY
+fi
 
 python3 tests/docs/reference_comparison_metadata_test.py
 
 bash tests/docs/getting_started_semantic.sh
+
+echo 'documentation acceptance passed'

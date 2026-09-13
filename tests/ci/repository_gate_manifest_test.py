@@ -30,6 +30,22 @@ workspace_tests = next(entry for entry in entries if entry["id"] == "workspace_p
 assert "docs_governance_integrity" in workspace_clippy["dependsOn"]
 assert workspace_format["dependsOn"] == workspace_clippy["dependsOn"]
 assert workspace_tests["dependsOn"] == ["workspace_clippy", "workspace_format"]
+promotion_gate = next(
+    entry for entry in entries if entry["id"] == "docs_closed_work_item_promotion"
+)
+docs_acceptance = next(entry for entry in entries if entry["id"] == "docs_acceptance")
+assert docs_acceptance["dependsOn"] == ["docs_closed_work_item_promotion"]
+assert docs_acceptance["command"][-2:] == [
+    "--promotion-receipt",
+    "target/repository-gate-receipts/docs_closed_work_item_promotion.json",
+]
+assert promotion_gate["command"] == [
+    "python3",
+    "tests/docs/promote_closed_work_item.py",
+    "--repo",
+    ".",
+    "--check-all",
+]
 performance_regression = next(entry for entry in entries if entry["id"] == "performance_regression")
 assert performance_regression["dependsOn"] == [
     "docs_governance_integrity",
@@ -128,6 +144,61 @@ assert runner.failure_code(
     "conformance_reference_file_inventory",
     detail="reference inventory mismatch",
 ) == "reference_inventory_mismatch"
+
+# Documentation acceptance must consume a single bound promotion receipt and
+# reject both a missing receipt and a receipt from another gate.
+with tempfile.TemporaryDirectory(prefix="ai-cockpit-promotion-receipt-") as temporary:
+    receipt_fixture = Path(temporary)
+    missing_receipt = subprocess.run(
+        [
+            "bash",
+            str(root / "tests/docs/documentation_acceptance.sh"),
+            "--promotion-receipt",
+            str(receipt_fixture / "missing.json"),
+        ],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert missing_receipt.returncode != 0
+    assert "invalid promotion receipt" in missing_receipt.stderr
+    wrong_gate_receipt = receipt_fixture / "wrong-gate.json"
+    wrong_gate_receipt.write_text(
+        json.dumps(
+            {
+                "command": [
+                    "python3",
+                    "tests/docs/promote_closed_work_item.py",
+                    "--repo",
+                    ".",
+                    "--check-all",
+                ],
+                "exitCode": 0,
+                "gateId": "unrelated_gate",
+                "kind": "repository_gate_receipt",
+                "route": {"receiptDigest": "sha256:" + "0" * 64},
+                "schemaVersion": 1,
+                "state": "passed",
+            }
+        ),
+        encoding="utf-8",
+    )
+    wrong_gate = subprocess.run(
+        [
+            "bash",
+            str(root / "tests/docs/documentation_acceptance.sh"),
+            "--promotion-receipt",
+            str(wrong_gate_receipt),
+        ],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert wrong_gate.returncode != 0
+    assert "gate identity is invalid" in wrong_gate.stderr
+
 with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     fixture = Path(temporary)
     repository = fixture / "repo"
@@ -437,6 +508,35 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert nonexec_run.returncode == 0
     assert nonexec_report["state"] == "passed"
 
+    structured_failure_code = (
+        "import json; "
+        "print(json.dumps({'diagnostic': {'actual': 'bad', 'expected': 'ok', "
+        "'field': 'state', 'file': 'docs/index.md'}, 'state': 'failed'})); "
+        "print('x' * 40000); raise SystemExit(7)"
+    )
+    structured_run, structured_report = run_single_gate(
+        [sys.executable, "-c", structured_failure_code],
+        "fixture_structured_failure",
+        "structured-report.json",
+    )
+    assert structured_run.returncode == 1
+    structured_result = structured_report["gates"][0]
+    assert structured_result["failureCode"] == "quality_gate_failed:fixture_structured_failure"
+    assert structured_result["diagnostic"] == {
+        "actual": "bad",
+        "expected": "ok",
+        "field": "state",
+        "file": "docs/index.md",
+    }
+    assert structured_result["diagnosticPath"]
+    assert structured_result["diagnosticDigest"].startswith("sha256:")
+    assert structured_result["diagnosticTruncated"] is True
+    diagnostic_path = Path(structured_result["diagnosticPath"])
+    assert "[diagnostic truncated]" in diagnostic_path.read_text(encoding="utf-8")
+    assert structured_report["failureRoots"][0]["diagnosticPath"] == structured_result[
+        "diagnosticPath"
+    ]
+
     dependency_manifest = fixture / "dependency-manifest.json"
     dependency_manifest.write_text(
         json.dumps(
@@ -524,6 +624,138 @@ with tempfile.TemporaryDirectory(prefix="ai-cockpit-gate-runner-") as temporary:
     assert dependency_report["gates"][1]["state"] == "blocked"
     assert dependency_report["gates"][1]["blockedBy"] == ["fixture_b_failure"]
     assert dependency_report["gates"][1]["failureCode"] == "prerequisite_failed"
+
+    # Promotion is a prerequisite and must be invoked once.  A resumed
+    # acceptance run reuses its passed receipt instead of invoking promotion
+    # again, while the acceptance gate still consumes and validates it.
+    promotion_count = fixture / "promotion-count"
+    allow_acceptance = fixture / "allow-acceptance"
+    promotion_code = (
+        "from pathlib import Path; "
+        f"path = Path({str(promotion_count)!r}); "
+        "current = int(path.read_text()) if path.exists() else 0; "
+        "path.write_text(str(current + 1))"
+    )
+    promotion_report_path = fixture / "single-promotion-report.json"
+    promotion_receipt_path = (
+        fixture / "repository-gate-receipts/docs_closed_work_item_promotion.json"
+    )
+    acceptance_code = (
+        "import json; from pathlib import Path; "
+        f"receipt = json.loads(Path({str(promotion_receipt_path)!r}).read_text()); "
+        "assert receipt['gateId'] == 'docs_closed_work_item_promotion'; "
+        "assert receipt['state'] == 'passed'; "
+        f"assert Path({str(allow_acceptance)!r}).exists()"
+    )
+    single_promotion_manifest = fixture / "single-promotion-manifest.json"
+    single_promotion_manifest.write_text(
+        json.dumps(
+            {
+                "schemaVersion": 2,
+                "profileOrder": ["light", "standard", "strict"],
+                "unknownProfile": "strict",
+                "pathProfiles": {
+                    "light": ["docs/**"],
+                    "standard": ["src/**"],
+                    "strict": [".github/**"],
+                },
+                "releaseOwnedPatterns": ["release/**"],
+                "stageFloors": {
+                    "task": "light",
+                    "pre_ci": "light",
+                    "pull_request": "light",
+                    "merge": "strict",
+                    "release": "strict",
+                },
+                "gates": [
+                    {
+                        "category": "docs",
+                        "command": [sys.executable, "-c", acceptance_code],
+                        "dependsOn": ["docs_closed_work_item_promotion"],
+                        "id": "docs_acceptance",
+                        "minimumProfile": "light",
+                    },
+                    {
+                        "category": "docs",
+                        "command": [sys.executable, "-c", promotion_code],
+                        "id": "docs_closed_work_item_promotion",
+                        "minimumProfile": "light",
+                    },
+                ],
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    single_promotion_route = route.plan_repository_route(
+        repository=repository,
+        manifest_path=single_promotion_manifest,
+        base=base,
+        head=head,
+        stage="pull_request",
+        risk="normal",
+        contract_path=None,
+        requested_profile=None,
+    )
+    single_promotion_route_path = fixture / "single-promotion-route.json"
+    single_promotion_route_path.write_text(
+        json.dumps(single_promotion_route, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    first_single_promotion = subprocess.run(
+        [
+            sys.executable,
+            str(root / "tests/ci/run_repository_gates.py"),
+            "--repo",
+            str(repository),
+            "--manifest",
+            str(single_promotion_manifest),
+            "--route-receipt",
+            str(single_promotion_route_path),
+            "--report",
+            str(promotion_report_path),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert first_single_promotion.returncode == 1
+    first_single_report = json.loads(promotion_report_path.read_text(encoding="utf-8"))
+    assert first_single_report["gates"][0]["state"] == "passed"
+    assert first_single_report["gates"][1]["state"] == "failed"
+    assert promotion_count.read_text(encoding="utf-8") == "1"
+    allow_acceptance.touch()
+    resumed_single_report_path = fixture / "single-promotion-resumed-report.json"
+    resumed_single_promotion = subprocess.run(
+        [
+            sys.executable,
+            str(root / "tests/ci/run_repository_gates.py"),
+            "--repo",
+            str(repository),
+            "--manifest",
+            str(single_promotion_manifest),
+            "--route-receipt",
+            str(single_promotion_route_path),
+            "--resume-report",
+            str(promotion_report_path),
+            "--report",
+            str(resumed_single_report_path),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert resumed_single_promotion.returncode == 0
+    resumed_single_report = json.loads(
+        resumed_single_report_path.read_text(encoding="utf-8")
+    )
+    assert resumed_single_report["reusedGateIds"] == [
+        "docs_closed_work_item_promotion"
+    ]
+    assert resumed_single_report["launchedGateIds"] == ["docs_acceptance"]
+    assert promotion_count.read_text(encoding="utf-8") == "1"
 
     profile_conditional_manifest = fixture / "profile-conditional-manifest.json"
     profile_conditional = json.loads(dependency_manifest.read_text(encoding="utf-8"))

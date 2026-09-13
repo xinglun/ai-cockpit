@@ -182,7 +182,10 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `work-item new` 生成的骨架状态是 `not_ready`。对它执行 `preflight` 会有意返回
   `yellow` 与 `reviewState: needs_human_confirmation`；补齐人工字段后必须重新 preflight 才能 checkpoint。
 - `close --human-decision approved|confirmed|rejected` 是 human decision 记录，不是 verification evidence。
-  `approved` 和显式的 `confirmed` 都是正向终态决定；`rejected` 不能把 Work Item 晋级为已实现。
+  Runtime 只接受规范 token：`approved`、`confirmed`、`rejected`、`superseded`、
+  `superseded_failed_delivery`；自由说明必须放在 `--reason`。`approved` 和显式的
+  `confirmed` 是正向终态决定；`rejected` 不能把 Work Item 晋级为已实现，两个
+  `superseded` token 只用于明确的历史或放弃交付 close 路径。
 - `evidence import --repo <path> --work-item <id> --metadata <metadata.json>
   --raw <provider-output>` 会用精确 raw bytes 的 digest 校验严格的
   `DelegatedEvidence` metadata，并在 `.ai/evidence/external/` 写入绑定
