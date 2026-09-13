@@ -5513,17 +5513,17 @@ fn evidence_state_for_contract_internal_with_archive(
         }
     }
     let mut custom_state = evidence_class_projection_state(&root, contract, &summary, archived)?;
-    if archived && custom_state == EvidenceState::Stale {
-        if lifecycle::archived_verification_recovery_state(
+    if archived
+        && custom_state == EvidenceState::Stale
+        && lifecycle::archived_verification_recovery_state(
             &root,
             contract,
             &summary,
             snapshot,
             current_runtime,
         )? == EvidenceState::Complete
-        {
-            custom_state = EvidenceState::Complete;
-        }
+    {
+        custom_state = EvidenceState::Complete;
     }
     if custom_state != EvidenceState::Complete {
         return Ok(custom_state);
