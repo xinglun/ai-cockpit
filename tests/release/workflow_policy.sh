@@ -277,7 +277,8 @@ job_block() {
   ' "$workflow"
 }
 for source_job in build aggregate; do
-  if ! job_block "$source_job" | grep -Fq -- "$recovery_source_ref"; then
+  block="$(job_block "$source_job")"
+  if ! grep -Fq -- "$recovery_source_ref" <<<"$block"; then
     printf 'policy failure: %s must bind build inputs to the requested immutable tag source\n' "$source_job" >&2
     exit 1
   fi

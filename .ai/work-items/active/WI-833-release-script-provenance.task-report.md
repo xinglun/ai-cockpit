@@ -14,18 +14,9 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-833-release-script-provenance.verification-attempt.026e3a39d413f2c10e7e9c3162fb8e11da8d2613d78c2a521a0e0f185dcebf82.json
-- Changed path: .ai/evidence/WI-833-release-script-provenance.verification-attempt.f96c48ae242eb0ebd0fec00079999179226bfaa21b6b5d8db837f1a7a5ec101c.json
-- Changed path: .ai/evidence/WI-833-release-script-provenance.verification.json
-- Changed path: .ai/work-items/active/WI-833-release-script-provenance.contract.json
 - Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json
-- Changed path: .github/workflows/release.yml
-- Changed path: docs/work-items/WI-833-release-script-provenance.ja.md
-- Changed path: docs/work-items/WI-833-release-script-provenance.md
-- Changed path: docs/work-items/WI-833-release-script-provenance.zh-CN.md
-- Changed path: tests/release/adopter_acceptance_test.sh
-- Changed path: tests/release/adopter_upgrade_acceptance_test.sh
 - Changed path: tests/release/workflow_policy.sh
 
 ## Findings

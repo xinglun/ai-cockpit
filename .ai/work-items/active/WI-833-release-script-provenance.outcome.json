@@ -5,9 +5,9 @@
     "Source and workflow identities are both recorded in hosted acceptance evidence, and the existing staged/public acceptance behavior remains unchanged.",
     "The release workflow policy gate enforces the same split: product/build jobs retain their target-source binding, while all adopter jobs use github.sha for orchestration and release-source for immutable source identity."
   ],
-  "createdAt": "2026-09-13T19:26:44Z",
+  "createdAt": "2026-09-13T19:43:51Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f5a083e8a641fe55f9d744c5278b05ebfb393278857e80d62e5be9aa4be37215",
+  "evidenceDigest": "sha256:604e2f7ef494da325fde89c016e00db91ae34278c8d74bd4676b7aa375834336",
   "evidenceRefs": [
     ".ai/evidence/WI-833-release-script-provenance.verification.json"
   ],
@@ -33,7 +33,7 @@
         ".ai/evidence/WI-833-release-script-provenance.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c9bd090689a9834c4158e8a58aeb1b821b6f09dc0477f6262c451f37a5f6604c",
+      "repositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
       "workItemId": "WI-833-release-script-provenance"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,6 +47,13 @@
             ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-833-release-script-provenance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -54,77 +61,7 @@
             ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-833-release-script-provenance.verification-attempt.026e3a39d413f2c10e7e9c3162fb8e11da8d2613d78c2a521a0e0f185dcebf82.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-833-release-script-provenance.verification-attempt.f96c48ae242eb0ebd0fec00079999179226bfaa21b6b5d8db837f1a7a5ec101c.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-833-release-script-provenance.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-833-release-script-provenance.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .github/workflows/release.yml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-833-release-script-provenance.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_acceptance_test.sh"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-833-release-script-provenance.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
         },
         {
           "evidenceRefs": [
@@ -206,8 +143,8 @@
     "status": "verified",
     "workItemId": "WI-833-release-script-provenance"
   },
-  "taskReportDigest": "sha256:9a21ab951dc1726e73920a1a80d0387eb6f8a9c5deb396ac166464ec449008fb",
-  "taskReportMarkdownDigest": "sha256:8a83d3e6b8d85c49c871eceb7f8ec4a5f5a18f8d7be1de2579a8ca19f2ea8fbf",
+  "taskReportDigest": "sha256:e11ef879a743c58da946e93130300855980a8462731ae5ce646be64a870c0f08",
+  "taskReportMarkdownDigest": "sha256:a1dd3c891c3a74eaa7fd39ac9a52ab7df30611583460bb352bcbd32f04419ace",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

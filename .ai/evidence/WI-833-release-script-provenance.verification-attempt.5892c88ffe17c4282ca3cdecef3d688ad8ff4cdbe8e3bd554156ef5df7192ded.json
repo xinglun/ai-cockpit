@@ -1,9 +1,44 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:5892c88ffe17c4282ca3cdecef3d688ad8ff4cdbe8e3bd554156ef5df7192ded",
+  "commands": [
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "f85b64be9a0700b2d98be88efeb64e923c7d644b",
+      "commandDigest": "sha256:9fa258d9be99aaedefcfb34e4f30456206625b2d6f2495464d8ecad031684a9b",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
+  "contractExecutionScopeDigest": "sha256:b252e45a4cba802d5cb79cd1d5c3caa0485380ff3ada5b12ffe6911c160a9d83",
   "createdAt": "2026-09-13T19:43:33Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:9fa258d9be99aaedefcfb34e4f30456206625b2d6f2495464d8ecad031684a9b",
+      "elapsedMs": 737,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "776f726b666c6f7720706f6c696379207061737365643a202e6769746875622f776f726b666c6f77732f72656c656173652e796d6c0a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -106,13 +141,13 @@
       }
     ],
     "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-833-release-script-provenance"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:4e009883228f8606e54c07d71b495eed329db8bc99ba6421d5d142afb2bd629d",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-833-release-script-provenance"
 }

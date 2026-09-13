@@ -1,17 +1,8 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-833-release-script-provenance.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-833-release-script-provenance.verification-attempt.026e3a39d413f2c10e7e9c3162fb8e11da8d2613d78c2a521a0e0f185dcebf82.json",
-    ".ai/evidence/WI-833-release-script-provenance.verification-attempt.f96c48ae242eb0ebd0fec00079999179226bfaa21b6b5d8db837f1a7a5ec101c.json",
-    ".ai/evidence/WI-833-release-script-provenance.verification.json",
-    ".ai/work-items/active/WI-833-release-script-provenance.contract.json",
     ".ai/work-items/active/WI-833-release-script-provenance.summary.json",
-    ".github/workflows/release.yml",
-    "docs/work-items/WI-833-release-script-provenance.ja.md",
-    "docs/work-items/WI-833-release-script-provenance.md",
-    "docs/work-items/WI-833-release-script-provenance.zh-CN.md",
-    "tests/release/adopter_acceptance_test.sh",
-    "tests/release/adopter_upgrade_acceptance_test.sh",
     "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-13T19:21:42Z",
@@ -53,7 +44,7 @@
       "workItemId": "WI-833-release-script-provenance"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:c9bd090689a9834c4158e8a58aeb1b821b6f09dc0477f6262c451f37a5f6604c",
+  "checkpointRepositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "createdAt": "2026-09-13T19:16:07Z",
   "intentAlignment": {
     "evidence": [
@@ -65,10 +56,10 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-13T19:26:35Z",
+  "preflightAt": "2026-09-13T19:43:34Z",
   "preflightContractDigest": "sha256:dc4e60e6440580c68b56a8b9add30ac64e730726ea9dbf8cc87985ecb62bf7fc",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:c9bd090689a9834c4158e8a58aeb1b821b6f09dc0477f6262c451f37a5f6604c",
+  "preflightRepositorySnapshotDigest": "sha256:4bdd1eb32136a78a25c36309beed932d42cf2ccdfc95c17e04514193c298e888",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -122,7 +113,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-13T19:26:44Z",
+  "updatedAt": "2026-09-13T19:43:51Z",
   "verification": [
     {
       "check": "project-command-0",
