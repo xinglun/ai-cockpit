@@ -1,0 +1,214 @@
+{
+  "acceptanceResults": [
+    "A provider finalization receipt records and validates the immutable Contract base separately from the actual PR comparison base.",
+    "Existing receipts without the new binding retain their previous strict behavior and historical direct-merge paths remain fail-closed.",
+    "A mismatched Contract/PR base is rejected before persistence unless the explicit Contract-base binding matches, with no partial lifecycle mutation.",
+    "Focused tests cover valid differing bases, missing or wrong bindings, legacy compatibility, PR resource context, and CLI/MCP parity where applicable.",
+    "The verified fix can be used to finalize and close WI-820 without republishing v0.2.91."
+  ],
+  "createdAt": "2026-09-13T12:33:00Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1354153e52a752d1382cb114cc26d32850910feeee93c6eee5103fcaf8216e17",
+  "evidenceRefs": [
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bd8bb8b9f1552304f3cfc1b0ccc2936b7bd88adca980f36106f9ec3ff85139cb",
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.b7da4e3649d638c05434280108dc8ff2e01063b2d847fbbd666f21cff8a5b92a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-822-resource-finalization-base-binding.recovery.d373c93583b73923a11735682f36339cad271f8dd62146ef6e8af19b49e44ba7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Make provider-bound finalization and recovery truthful when a reviewed PR compares against a later base than the immutable Contract base, while preserving backward compatibility and fail-closed validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-822-resource-finalization-base-binding"
+  },
+  "taskReportDigest": "sha256:1b44d9a6c8bead13a81d2bebabfcaec371df6d43efa69e1ea258359489c70376",
+  "taskReportMarkdownDigest": "sha256:092ff0b5270eafbc7e182ac4e83b28dbac275376c71924677f7b5cf923cf1bfd",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

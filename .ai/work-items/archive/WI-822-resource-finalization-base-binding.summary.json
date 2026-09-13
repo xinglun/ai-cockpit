@@ -1,0 +1,189 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-822-resource-finalization-base-binding.recovery.b7da4e3649d638c05434280108dc8ff2e01063b2d847fbbd666f21cff8a5b92a.json",
+    ".ai/decisions/WI-822-resource-finalization-base-binding.recovery.d373c93583b73923a11735682f36339cad271f8dd62146ef6e8af19b49e44ba7.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.approach.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.archive.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.contract.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.events.jsonl",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.outcome.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.summary.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.json",
+    ".ai/work-items/archive/WI-822-resource-finalization-base-binding.task-report.md"
+  ],
+  "checkpointAt": "2026-09-13T10:24:55Z",
+  "checkpointContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f1b6b728311d66c2edb36d2e2a65abdd07c828c9c63e26ac95c638ff24149023",
+      "recorded": true,
+      "recordedAt": "2026-09-13T10:24:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:83ed5c25f3e8cc5837ed36b94406cc467b536d961c01ab62808dd392b766d124",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f1b6b728311d66c2edb36d2e2a65abdd07c828c9c63e26ac95c638ff24149023",
+      "previousContractHash": "sha256:f1b6b728311d66c2edb36d2e2a65abdd07c828c9c63e26ac95c638ff24149023",
+      "reason": "Bind the Runtime-generated recovery, verification, and active lifecycle artifacts that are part of this Work Item without widening scope to unrelated .ai state.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T10:42:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:fca580a83ab16d7c9dfe5c12a81a452807bb643495dfedb207b232dbf6a0b4ca",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f1b6b728311d66c2edb36d2e2a65abdd07c828c9c63e26ac95c638ff24149023",
+      "previousContractHash": "sha256:83ed5c25f3e8cc5837ed36b94406cc467b536d961c01ab62808dd392b766d124",
+      "reason": "Correct Contract scope patterns so nested test and documentation files are included with the already declared implementation scope; no new component is added.",
+      "recorded": true,
+      "recordedAt": "2026-09-13T10:43:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9fbd8b8a0788fb16a96e9c9203865e7256201b8fd4f7268886fc80ada37d74e2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bd8bb8b9f1552304f3cfc1b0ccc2936b7bd88adca980f36106f9ec3ff85139cb",
+  "createdAt": "2026-09-13T10:22:17Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "predecessorWorkItemId": "WI-820-verification-execution-boundary",
+  "preflightAt": "2026-09-13T12:31:08Z",
+  "preflightContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:bd8bb8b9f1552304f3cfc1b0ccc2936b7bd88adca980f36106f9ec3ff85139cb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "A provider-bound finalization receipt may record the actual reviewed PR comparison base while separately binding the immutable Contract base, and both identities remain visible and validated.",
+      "required": true,
+      "scenario": "reviewed PR compares against a later base than the Contract baseline",
+      "status": "verified",
+      "verificationPlan": "Run the focused resource-finalization regression with distinct Contract and PR base revisions, then validate the persisted receipt and its close/finalize path."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "A missing or incorrect Contract-base binding is rejected before any finalization receipt, close decision, or partial lifecycle state is written.",
+      "required": true,
+      "scenario": "mismatched Contract and PR bases fail closed before persistence",
+      "status": "verified",
+      "verificationPlan": "Run tampered receipt and wrong-binding cases and compare the repository decision and lifecycle files before and after each rejected write."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      ],
+      "expected": "Legacy provider receipts without the new binding retain strict equality behavior, while explicit direct-merge history continues to use its narrow historical Contract-base binding and never upgrades assurance.",
+      "required": true,
+      "scenario": "legacy and historical finalization compatibility remains fail closed",
+      "status": "verified",
+      "verificationPlan": "Run existing protocol and repository compatibility tests plus new regressions for legacy PR receipts and direct-merge historical records."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-13T12:33:00Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

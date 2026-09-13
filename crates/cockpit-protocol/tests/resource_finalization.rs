@@ -69,6 +69,7 @@ fn receipt() -> ResourceFinalizationReceipt {
         reason: "reviewed merge and exact resource cleanup".into(),
         timestamp: "2026-08-23T00:00:00Z".into(),
         contract_digest: Some(Digest::sha256_bytes(b"contract")),
+        contract_base_revision: None,
         resource_context: Some(ResourceFinalizationContext {
             branch: "codex/wi-158-resource-finalization-protocol".into(),
             worktree: "/private/tmp/ai-cockpit-wi158-resource-finalization-protocol".into(),
@@ -617,6 +618,48 @@ fn valid_receipt_round_trips_and_binds_contract_context() {
 }
 
 #[test]
+fn contract_base_revision_is_an_optional_independent_identity() {
+    let mut receipt = receipt();
+    receipt.pull_request.base_revision = "provider-comparison-base".into();
+    receipt.contract_base_revision = Some("contract-baseline".into());
+    validate_resource_finalization_receipt(&receipt)
+        .expect("a provider comparison base may differ from the Contract baseline");
+
+    let mut invalid = receipt;
+    invalid.contract_base_revision = Some("  ".into());
+    assert_eq!(
+        validate_resource_finalization_receipt(&invalid),
+        Err(ResourceFinalizationError::EmptyField(
+            "contractBaseRevision"
+        ))
+    );
+}
+
+#[test]
+fn historical_receipts_cannot_use_provider_contract_base_binding() {
+    let mut historical = receipt();
+    historical.pull_request.number = 0;
+    historical.pull_request.url = "historical://direct-merge/merge-158".into();
+    historical.provider = "historical".into();
+    historical.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
+        base_revision: historical.pull_request.base_revision.clone(),
+        contract_base_revision: Some("contract-baseline".into()),
+    });
+    historical.contract_base_revision = Some("contract-baseline".into());
+
+    assert_eq!(
+        validate_resource_finalization_receipt(&historical),
+        Err(ResourceFinalizationError::InvalidState(
+            "historical finalization must bind Contract base in historical.contractBaseRevision",
+        ))
+    );
+}
+
+#[test]
 fn contract_resource_context_is_optional_but_strict_when_declared() {
     let context = serde_json::json!({
         "branch": "codex/wi-158-resource-finalization-protocol",
@@ -874,6 +917,7 @@ fn historical_direct_merge_accepts_unchanged_archived_local_context() {
     foreign.worktree = "/private/tmp/foreign-worktree".into();
     assert!(
         validate_resource_finalization_receipt(&ResourceFinalizationReceipt {
+            contract_base_revision: None,
             resource_context: Some(foreign),
             ..historical
         })

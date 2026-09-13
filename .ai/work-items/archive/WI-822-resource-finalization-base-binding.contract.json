@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "A provider finalization receipt records and validates the immutable Contract base separately from the actual PR comparison base.",
+    "Existing receipts without the new binding retain their previous strict behavior and historical direct-merge paths remain fail-closed.",
+    "A mismatched Contract/PR base is rejected before persistence unless the explicit Contract-base binding matches, with no partial lifecycle mutation.",
+    "Focused tests cover valid differing bases, missing or wrong bindings, legacy compatibility, PR resource context, and CLI/MCP parity where applicable.",
+    "The verified fix can be used to finalize and close WI-820 without republishing v0.2.91."
+  ],
+  "authority": "explicit-user-authorized",
+  "baseRevision": "9403265d61f0b9d22ad0beb564561921d2b3b967",
+  "createdAt": "2026-09-13T10:22:17Z",
+  "goal": "Make provider-bound finalization and recovery truthful when a reviewed PR compares against a later base than the immutable Contract base, while preserving backward compatibility and fail-closed validation.",
+  "intent": "Separate Contract baseline identity from provider PR comparison identity in resource finalization.",
+  "mode": "code",
+  "outOfScope": [
+    "v0.2.91 republish",
+    "rewriting archived WI-818 or WI-820 bytes",
+    "historical direct-merge compatibility policy",
+    "unrelated release or performance work"
+  ],
+  "predecessorContractDigest": "sha256:0d824b092b40154ca45f3ff37135862e6f0bde8e49458d803610bb1dc83e4d7f",
+  "predecessorWorkItemId": "WI-820-verification-execution-boundary",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-820-verification-execution-boundary.recovery.22aee86593d8fe01ed1c1b6a1ca2df25021b89190411b40a7a12dc0db188dfcd.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7cb61e6c1d5819b384ab785c743ebc4e38123f6a2cc25e25d9003a10eccb9796",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-822-resource-finalization-base-binding",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/802",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-822-resource-finalization-base-binding"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A provider-bound finalization receipt may record the actual reviewed PR comparison base while separately binding the immutable Contract base, and both identities remain visible and validated.",
+      "required": true,
+      "scenario": "reviewed PR compares against a later base than the Contract baseline",
+      "status": "unverified",
+      "verificationPlan": "Run the focused resource-finalization regression with distinct Contract and PR base revisions, then validate the persisted receipt and its close/finalize path."
+    },
+    {
+      "evidence": [],
+      "expected": "A missing or incorrect Contract-base binding is rejected before any finalization receipt, close decision, or partial lifecycle state is written.",
+      "required": true,
+      "scenario": "mismatched Contract and PR bases fail closed before persistence",
+      "status": "unverified",
+      "verificationPlan": "Run tampered receipt and wrong-binding cases and compare the repository decision and lifecycle files before and after each rejected write."
+    },
+    {
+      "evidence": [],
+      "expected": "Legacy provider receipts without the new binding retain strict equality behavior, while explicit direct-merge history continues to use its narrow historical Contract-base binding and never upgrades assurance.",
+      "required": true,
+      "scenario": "legacy and historical finalization compatibility remains fail closed",
+      "status": "unverified",
+      "verificationPlan": "Run existing protocol and repository compatibility tests plus new regressions for legacy PR receipts and direct-merge historical records."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-protocol/tests",
+    "crates/cockpit-repository/tests",
+    "docs",
+    ".ai/decisions/WI-820-verification-execution-boundary.recovery.*.json",
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.*",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-repository/tests/**",
+    "docs/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized recovery",
+  "decidedAt": "2026-09-13T11:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-822-resource-finalization-base-binding.recovery.json",
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.outcome.json",
+    "https://github.com/xinglun/ai-cockpit/pull/802"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/commands.md"
+  ],
+  "predecessorContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
+  "predecessorEventsDigest": "sha256:02b7c0a861b8408cae9053a6aa1cb9eef7ab6206244cf301d50a9c3a9624c15a",
+  "predecessorOutcomeDigest": "sha256:899f3688a9047023ea7e514c3978b6dbd27816bef3b2e2cabad521c4acfe0b4b",
+  "predecessorSummaryDigest": "sha256:d502177a8faaaaf8461d4be734292852be18d95294aee16ffbd2e602bc147629",
+  "predecessorWorkItemId": "WI-822-resource-finalization-base-binding",
+  "reason": "The first retry receipt was preserved under Runtime 0.2.87, but the current Contract was subsequently bound to the actual reviewed PR and the installed Runtime requires a retry receipt bound to that exact current Contract digest. Record this append-only rebind so preflight and finish can validate the real PR context without rewriting the prior retry, blocked Outcome, or verification result.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight against the actual PR-bound Contract, perform only the necessary final verification, then complete finish/archive and provider finalization for WI-822.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

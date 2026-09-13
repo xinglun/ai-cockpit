@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized recovery",
+  "decidedAt": "2026-09-13T10:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.outcome.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.events.jsonl",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Outcome-and-release-acceptance-boundaries",
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:fca580a83ab16d7c9dfe5c12a81a452807bb643495dfedb207b232dbf6a0b4ca",
+  "predecessorEventsDigest": "sha256:02b7c0a861b8408cae9053a6aa1cb9eef7ab6206244cf301d50a9c3a9624c15a",
+  "predecessorOutcomeDigest": "sha256:899f3688a9047023ea7e514c3978b6dbd27816bef3b2e2cabad521c4acfe0b4b",
+  "predecessorSummaryDigest": "sha256:594a0b49473a06197714b01fb486422c15c46169c0703e1a437bea3e03f97028",
+  "predecessorWorkItemId": "WI-822-resource-finalization-base-binding",
+  "reason": "The implementation and formal verification passed, but the recovery successor scaffold retained a provisional resource context and correctly blocked finish before provider finalization could be truthfully bound. Preserve the failed lifecycle attempt and authorize one bounded retry for the same Contract scope: bind the actual reviewed PR context, revalidate the current Contract, then finish without rerunning verification unless the Runtime proves the evidence identity changed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the exact reviewed PR resource context through finalize-plan, rerun only the required preflight and lifecycle checks, and finish/archive WI-822; reuse the passed formal verification receipt if its Contract and snapshot identities remain valid.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

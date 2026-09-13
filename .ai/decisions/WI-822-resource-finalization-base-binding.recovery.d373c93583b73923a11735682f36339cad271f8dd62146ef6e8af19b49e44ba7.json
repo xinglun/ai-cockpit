@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized recovery",
+  "decidedAt": "2026-09-13T11:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-822-resource-finalization-base-binding.verification.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.outcome.json",
+    ".ai/work-items/active/WI-822-resource-finalization-base-binding.events.jsonl",
+    "https://github.com/xinglun/ai-cockpit/pull/802"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:a3b7e336f36764c024e51aea0e10f34ae07579cd58ee8061b79f03c05daa62c0",
+  "predecessorEventsDigest": "sha256:eed84815f91ea707c6ba4ce711c856435c6574f3c8a3453b4098df801ee140fe",
+  "predecessorOutcomeDigest": "sha256:660f060a1413e07169c9098bd23d716f8ae76d2cba8867a3d9ab42f67ecce983",
+  "predecessorSummaryDigest": "sha256:8a485fc70832860cc1fcd7d3e6dbcc32e5d2dada18160856f4f12a479567b54a",
+  "predecessorWorkItemId": "WI-822-resource-finalization-base-binding",
+  "reason": "Hosted quality found three rustfmt differences after the prior final verification. The formatting correction is complete and source behavior is unchanged, but the repository snapshot identity changed, so preserve the earlier passed receipt and authorize one fresh verification against the formatted snapshot. Do not republish or broaden scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run current-snapshot preflight, execute the formal workspace verification once, then finish/archive and complete reviewed PR delivery without repeating a passed stage.",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "WI-822-resource-finalization-base-binding"
+}

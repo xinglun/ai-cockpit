@@ -1212,6 +1212,11 @@ pub struct ResourceFinalizationReceipt {
     pub timestamp: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub contract_digest: Option<Digest>,
+    /// Immutable Contract baseline used to authorize this receipt.  The PR's
+    /// `baseRevision` remains the provider-reported comparison base and may
+    /// differ when the branch was refreshed before review or merge.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub contract_base_revision: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub resource_context: Option<ResourceFinalizationContext>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1481,6 +1486,14 @@ fn validate_resource_finalization_identity(
         && Digest::from_str(contract_digest.as_str()).is_err()
     {
         return Err(ResourceFinalizationError::InvalidDigest("contractDigest"));
+    }
+    if let Some(contract_base_revision) = receipt.contract_base_revision.as_deref() {
+        if receipt.historical.is_some() {
+            return Err(ResourceFinalizationError::InvalidState(
+                "historical finalization must bind Contract base in historical.contractBaseRevision",
+            ));
+        }
+        validate_resource_finalization_revision(contract_base_revision, "contractBaseRevision")?;
     }
     if receipt.pull_request.number == 0 {
         let Some(historical) = receipt.historical.as_ref() else {
