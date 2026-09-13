@@ -1,0 +1,31 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-development",
+  "decidedAt": "2026-09-13T20:25:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-834-wi833-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/814",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:200ee5842f436515af8e3e6819baba7012a810409e321ace49b44d2468c5c72d",
+  "predecessorEventsDigest": "sha256:7da3f26f5fba620a541fd25441fcbdc2bdaf55cc0e495e7aa2e32770c811a251",
+  "predecessorOutcomeDigest": "sha256:cec05fa2fc602ddad5cc4a93e91215cbe74764ab32e9d89d86bc2ee6ebcf7df4",
+  "predecessorSummaryDigest": "sha256:9d1a125e1b9a6f383077bd4756aa8bde3fc4e3e7d5d829c68e73d9533c97acf9",
+  "predecessorWorkItemId": "WI-834-wi833-doc-promotion",
+  "reason": "The documentation projection verification passed, but the reviewed resource finalization plan was attempted after finish_ready and was correctly rejected. Retry the same Work Item to bind PR #814 before the lifecycle evidence cycle; the scope and authority remain unchanged.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run finalize-plan with the reviewed PR context, then refresh preflight, checkpoint, focused verification, finish, archive, finalize, finalize-verify, and close. Do not rerun workspace verification.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-834-wi833-doc-promotion"
+}

@@ -1,0 +1,31 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorized-development",
+  "decidedAt": "2026-09-13T20:57:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-834-wi833-doc-promotion.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/814",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:2530f8feb5fda4375b1d28625fcaf0491ddd28d682f940f0ca239de95dcb7f56",
+  "predecessorEventsDigest": "sha256:19519f342f7982553deebc74e1758590fda503d2e17a16872d0de5a09850556e",
+  "predecessorOutcomeDigest": "sha256:2c82356a98112230dc3189386a126313cc9a9b6fd628044d5ce326ff3ee99e3d",
+  "predecessorSummaryDigest": "sha256:2696ea2d8c0e334b6b4051e976b29ab2853b423fe7ceba0dd786f9d6fa500ffb",
+  "predecessorWorkItemId": "WI-834-wi833-doc-promotion",
+  "reason": "The hosted governance gate exposed a parser-compatible parity row format requirement after the prior verification. Retry the same Work Item so the changed documentation snapshot receives a fresh preflight and focused verification; the scope and authority remain unchanged and no workspace verification is rerun.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Refresh preflight for the changed documentation snapshot, run the focused documentation verification, finish, archive, finalize, finalize-verify, and close. Do not rerun workspace verification.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-834-wi833-doc-promotion"
+}

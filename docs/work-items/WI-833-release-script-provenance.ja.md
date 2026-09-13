@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-833 — リリーススクリプトの出所"
 description: "リリースのオーケストレーションと不変なソース識別子を分離します。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-833-release-script-provenance
 lastVerifiedBy: WI-833-release-script-provenance
+terminalArchive: .ai/work-items/archive/WI-833-release-script-provenance.contract.json
+terminalVerification: .ai/evidence/WI-833-release-script-provenance.verification.json
+terminalFinalization: .ai/decisions/WI-833-release-script-provenance.finalize.json
+terminalDecision: .ai/decisions/WI-833-release-script-provenance.close.json
 ---
 
 [English](WI-833-release-script-provenance.md) · [简体中文](WI-833-release-script-provenance.zh-CN.md)
