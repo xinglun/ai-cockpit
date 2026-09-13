@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ec8ff9c176aa34e045eb3df2cf3c087d6f5363ba",
+    "name": "codex/wi-812-release-source-governance-split",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c417097412434f05de0480ec8363b4a8d42ed2dc2befad250c85875f66eda0d2",
+  "operationId": "github-pr-790-merge-observation-20260913",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "91a751f402500af6a69911d603044b8de4bc8c84",
+    "headRevision": "ec8ff9c176aa34e045eb3df2cf3c087d6f5363ba",
+    "mergeCommit": "3b8c5a7ab15cb718b28134ea594a06d8f0a4d22f",
+    "number": 790,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/790"
+  },
+  "reason": "Reviewed PR #790 passed hosted checks and was merged; the exact branch and dedicated worktree remain present and clean pending the cleanup observation.",
+  "receiptId": "ai-cockpit-WI-812-release-source-governance-split-merge-observation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-812-release-source-governance-split",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/790",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-812-release-source-governance-split"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ad67c6ef8372a483e03aa7b6150c371ace69ed383593cdc7c7b697a18037c43f",
+  "runtimeVersion": "0.2.91",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-13T02:00:00Z",
+  "workItemId": "WI-812-release-source-governance-split",
+  "worktree": {
+    "branch": "codex/wi-812-release-source-governance-split",
+    "headRevision": "ec8ff9c176aa34e045eb3df2cf3c087d6f5363ba",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-812-release-source-governance-split",
+    "worktreeId": "WI-812-release-source-governance-split"
+  }
+}
