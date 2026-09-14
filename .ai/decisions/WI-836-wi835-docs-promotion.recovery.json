@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T01:49:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.85ae83f5c67d1e337438afea4d1403d1d8ceda519b159375f489d51567f1d6dc.json",
+    "docs/work-items/WI-835-lifecycle-cleanup.md",
+    "docs/reference/reference-parity.md"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
+  "predecessorEventsDigest": "sha256:ac3603d3122433f9d0c563d525c6bb1ada0ab537cb48db7339a2fc4c9cb834e0",
+  "predecessorOutcomeDigest": "sha256:e75c64b2e3312131cf26a848d583d3621405e566aadb6bda42c67c9ba7d32976",
+  "predecessorSummaryDigest": "sha256:889decad4184770e3c8a06e79021f49ffe0aa75a3c003710d1dcb90e79ab5cb0",
+  "predecessorWorkItemId": "WI-836-wi835-docs-promotion",
+  "reason": "The final documentation whitespace correction changed the repository snapshot after finish-ready. Runtime correctly rejected verification before spawning a process because preflight was stale. Retry the same Work Item after refreshing the current preflight; no scope, authority, or verification requirement changes and no workspace verification is needed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Refresh preflight for the current snapshot, run the same focused documentation verifier, finish, archive, and close. Do not rerun workspace or release verification.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-836-wi835-docs-promotion"
+}

@@ -1,0 +1,40 @@
+{
+  "attemptId": "sha256:85ae83f5c67d1e337438afea4d1403d1d8ceda519b159375f489d51567f1d6dc",
+  "commands": [
+    {
+      "args": [
+        "/private/tmp/wi836-verifier.sh"
+      ],
+      "baseCommit": "f36dfb39f0e308709884a996a9adba9e452b5943",
+      "commandDigest": "sha256:366d6a85c67834af55c6290e4510064fa6a1e988bdd85879f17d6e311d6b33e4",
+      "nodeId": "project-command-0",
+      "program": "sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
+  "contractExecutionScopeDigest": "sha256:06bc80066d7f160b42d9f7b03d17658839ad7020938f9d3855cbca6618dc8f4f",
+  "createdAt": "2026-09-14T01:46:57Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi836-docs/.ai/work-items/active/WI-836-wi835-docs-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e617affed9d5163f4a648b7fb4e0e12605e7f2024a439393db36df562c940c03",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-836-wi835-docs-promotion"
+}

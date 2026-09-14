@@ -19,9 +19,9 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-835-lifecycle-cleanup.disposition.md
 - Changed path: .ai/evidence/WI-835-lifecycle-cleanup.verification-attempt.24b530167532bedef311979e1d8345cd17b4b5d5f6acbb8e2bd6df6875eca62e.json
-- Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.approach.json
-- Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.contract.json
-- Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.summary.json
+- Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json
+- Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json
+- Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json
 
 ## Findings
 

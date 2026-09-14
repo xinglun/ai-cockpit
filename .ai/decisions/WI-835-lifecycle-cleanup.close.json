@@ -1,33 +1,6 @@
 {
-  "acceptanceResults": [
-    "Every remaining remote branch has a recorded disposition with PR state, merge fact, worktree state, and blocker or cleanup evidence.",
-    "Runtime-generated archive, finalization, and close records are used; historical evidence bytes are not rewritten or deleted.",
-    "Only exact clean merged branch and worktree resources are removed after finalization verification.",
-    "The cleanup Work Item itself passes reviewed PR integration, archive, close, and documentation promotion checks."
-  ],
-  "createdAt": "2026-09-14T01:24:03Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:619151afb8b3e05e5ee12cface8c2fc6171de4851a7bec8168de2c885c8b0030",
-  "evidenceRefs": [
-    ".ai/evidence/WI-835-lifecycle-cleanup.verification.json"
-  ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-835-lifecycle-cleanup.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-835-lifecycle-cleanup.verification.json"
@@ -44,59 +17,59 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-835-lifecycle-cleanup.preflight-review.a46d62fb2b87a64575317917f214ff738ebbe0c39b8c8779d8093b319c624d87.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-835-lifecycle-cleanup.preflight-review.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-835-lifecycle-cleanup.disposition.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-835-lifecycle-cleanup.verification-attempt.24b530167532bedef311979e1d8345cd17b4b5d5f6acbb8e2bd6df6875eca62e.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.approach.json"
+          "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
         }
       ],
       "evidence": [
@@ -116,7 +89,15 @@
         "user_visible_benefit_invented_from_implementation_facts"
       ],
       "forcedStops": [],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-835-lifecycle-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-14T01:32:56Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -152,7 +133,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.contract.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json"
           ],
           "inference": false,
           "text": "Produce an evidence-bound disposition for every remaining release branch, archive and close only Work Items that satisfy the Runtime lifecycle, preserve dirty or divergent evidence, and remove only exact clean merged resources."
@@ -161,7 +142,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-835-lifecycle-cleanup.contract.json"
+            ".ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -171,15 +152,24 @@
     "status": "verified",
     "workItemId": "WI-835-lifecycle-cleanup"
   },
-  "taskReportDigest": "sha256:4ed84b3fa883bb4e7373e080e2868ac285257514b8d97495acf93df1391f0b37",
-  "taskReportMarkdownDigest": "sha256:41f31233a6116057094b0911d84e4e345ffd162bc46b9dc635750a5c40b0f2cc",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-835-lifecycle-cleanup.verification.json",
-    "required": true,
-    "status": "verified"
+  "finalReportDigest": "sha256:846a32357da6a7d6a72731d8302e6434087f21195c17df8133f219b3fbfdda95",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-14T01:32:56Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-835-lifecycle-cleanup.verification.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #818 merged as f36dfb39f0e308709884a996a9adba9e452b5943; Runtime verification passed and the disposition report covers all 25 remote branches. No branch or worktree is deleted because no exact clean merged delete-candidate is currently proven.",
+    "resumeCondition": "Closed; any further resource cleanup requires a fresh evidence-bound Work Item or successor."
   },
+  "timestamp": "2026-09-14T01:33:03Z",
   "workItemId": "WI-835-lifecycle-cleanup"
 }
