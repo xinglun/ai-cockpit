@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T02:53:31Z",
+  "files": {
+    "contractDigest": "sha256:9ad590f1861608754c349f0ba8ebae7f287c6d3d6a555dab33dce3e22707d807",
+    "contractPath": ".ai/work-items/archive/WI-837-lifecycle-close.contract.json",
+    "eventsDigest": "sha256:4ea50fb32c178ec6eb6ad21a6a589ec90a21a3ca3f12f99d5f33aa96e8c94365",
+    "eventsPath": ".ai/work-items/archive/WI-837-lifecycle-close.events.jsonl",
+    "outcomeDigest": "sha256:fb99accbd290182d089e4d9d3179870c94001d5a894e07d64fecc767741f0f2d",
+    "outcomePath": ".ai/work-items/archive/WI-837-lifecycle-close.outcome.json",
+    "summaryDigest": "sha256:dba2056209df03d7cc2b644f3c3cef6ff38c070fb5e77c8ef022bd9f062006c7",
+    "summaryPath": ".ai/work-items/archive/WI-837-lifecycle-close.summary.json",
+    "taskReportDigest": "sha256:bb6b203a676f28a5f9cf8d6a0446b8357dcfe97d19349f8271af087c61393dac",
+    "taskReportMarkdownDigest": "sha256:6fdfedb00b23e62eae36b0552f3b5765d76960e11f9b668dead24ad663116afc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-837-lifecycle-close.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-837-lifecycle-close.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-837-lifecycle-close"
+}

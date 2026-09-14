@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-836 — WI-835 documentation promotion"
 description: "Promote the evidence-bound reader documentation for closed WI-835."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-836-wi835-docs-promotion
 lastVerifiedBy: WI-836-wi835-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-836-wi835-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-836-wi835-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-836-wi835-docs-promotion.close.json
 ---
 
 [简体中文](WI-836-wi835-docs-promotion.zh-CN.md) · [日本語](WI-836-wi835-docs-promotion.ja.md)

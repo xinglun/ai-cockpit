@@ -1,0 +1,340 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:27ade55d2f7c946b82be554bb9a3cd59a784fda0fcf7d3753463ccc5f5181c4c",
+    "workItemId": "WI-838-lifecycle-projection"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-837-lifecycle-close.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-837-lifecycle-close.verification-attempt.da02354e0145bb945fed8408d74574bc143a725815495ee72db720b7e17ef7df.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-837-lifecycle-close.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-838-lifecycle-projection.verification-attempt.17a982e105cfeb2c16268239b1e04f99927ebc948782f707aec6c117deaa3624.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-838-lifecycle-projection.verification-attempt.5647d43f8a589e686c423a9f0d6196ee3838f8de94cad5c67d41ee3071112589.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-838-lifecycle-projection.verification-attempt.5910e8b220b93165e6532fb61de53bd3977654634e71c50f828daa8ff183e3a7.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-838-lifecycle-projection.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-838-lifecycle-projection.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-837-lifecycle-close.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-837-lifecycle-close.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-837-lifecycle-close.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-838-lifecycle-projection.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-838-lifecycle-projection.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-838-lifecycle-projection.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-838-lifecycle-projection.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.contract.json"
+        ],
+        "inference": false,
+        "text": "Preserve the exact WI-837 and WI-836 Runtime records, create only the missing WI-837 pre-terminal documentation pages, run the official promotion checks, and land the result through reviewed main."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-838-lifecycle-projection.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-838-lifecycle-projection"
+}

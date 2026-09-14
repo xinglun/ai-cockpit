@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T03:10:19Z",
+  "files": {
+    "contractDigest": "sha256:4334103ca8b3cefc17b9eb15f538fc88fbbf8eaf785bfb096c5b4c8eebf7c31e",
+    "contractPath": ".ai/work-items/archive/WI-838-lifecycle-projection.contract.json",
+    "eventsDigest": "sha256:df2af543ceafd4ea997545cc1e3a9fb4c1364daed65d82af980821a4b4eeaacd",
+    "eventsPath": ".ai/work-items/archive/WI-838-lifecycle-projection.events.jsonl",
+    "outcomeDigest": "sha256:85a13e092f258b6c82910b069f8ac06f6bf7b80269099c00cd9aed068f95a47e",
+    "outcomePath": ".ai/work-items/archive/WI-838-lifecycle-projection.outcome.json",
+    "summaryDigest": "sha256:c9d13e01e101b133a47a30e39eca1088c70506caa366912d02bde0fd4d66faf2",
+    "summaryPath": ".ai/work-items/archive/WI-838-lifecycle-projection.summary.json",
+    "taskReportDigest": "sha256:b556936b23535f4c2440556d8fb9f09d564c0cad2d86339a1dc7db027b8057a0",
+    "taskReportMarkdownDigest": "sha256:11a7e5b40fc44d78caa1bc1b46409b732c155a2fa6cdefe54f590981e3170075",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-838-lifecycle-projection.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-838-lifecycle-projection.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-838-lifecycle-projection"
+}

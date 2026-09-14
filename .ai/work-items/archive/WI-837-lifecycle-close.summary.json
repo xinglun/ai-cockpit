@@ -1,0 +1,52 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-836-wi835-docs-promotion.close.json",
+    ".ai/decisions/WI-836-wi835-docs-promotion.recovery.51757898839768efd137d7bd7998f8c0f67154854ca3e80fc38a8d7554e0d054.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.bb44d1ee6773f8eb651cd39e413248d500c6331ee521c6920c3e34b30b73ef52.json",
+    ".ai/evidence/WI-836-wi835-docs-promotion.verification.json",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.contract.json",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.events.jsonl",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.outcome.json",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.task-report.json",
+    ".ai/work-items/active/WI-836-wi835-docs-promotion.task-report.md",
+    ".ai/work-items/archive/WI-837-lifecycle-close.contract.json",
+    ".ai/work-items/archive/WI-837-lifecycle-close.summary.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.archive.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.contract.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.outcome.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.summary.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.json",
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.ja.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-14T02:52:32Z",
+  "checkpointContractDigest": "sha256:f07a5270c3f4db3065009ba1f1d1cc7c667692450ba5fc7557669eb9f4e901f8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ac739ae863415633c24f8de8b551c8f193efb9928249ebcbecee7577ac4efeff",
+  "createdAt": "2026-09-14T02:48:03Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T02:53:21Z",
+  "preflightContractDigest": "sha256:f07a5270c3f4db3065009ba1f1d1cc7c667692450ba5fc7557669eb9f4e901f8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:ac739ae863415633c24f8de8b551c8f193efb9928249ebcbecee7577ac4efeff",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T02:53:22Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-837-lifecycle-close"
+}

@@ -3,10 +3,13 @@ author: AI Cockpit 维护者
 title: "WI-836——WI-835 文档 promotion"
 description: "为已关闭的 WI-835 晋级有证据绑定的阅读文档。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-836-wi835-docs-promotion
 lastVerifiedBy: WI-836-wi835-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-836-wi835-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-836-wi835-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-836-wi835-docs-promotion.close.json
 ---
 
 [English](WI-836-wi835-docs-promotion.md) · [日本語](WI-836-wi835-docs-promotion.ja.md)

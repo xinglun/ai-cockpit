@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "The exact Runtime-generated WI-836 archive and close records are present on the branch without hand edits.",
+    "The post-close documentation promotion check passes with no unrelated changes.",
+    "No release, workspace verification, or other Work Item is rerun or modified.",
+    "The official promotion helper updates only the six WI-836 language and parity projections and then reports current for WI-836.",
+    "The repository-wide promotion check is run once after the focused projection and its exit status is preserved."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "5af4fa014f7ef75eb5fe79e88b80cc5d4ecfe6d4",
+  "createdAt": "2026-09-14T02:48:03Z",
+  "goal": "Land only the WI-836 terminal lifecycle records that were generated and verified after its reviewed merge; preserve their original bytes and do not rerun release or workspace verification.",
+  "intent": "Integrate the already-generated terminal archive and close evidence for WI-836 into the latest reviewed main line and verify the post-close documentation projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " CI behavior",
+    " release tags",
+    " published Releases",
+    " product artifacts",
+    " any other Work Item records",
+    " remote branch deletion",
+    " dirty or divergent worktree deletion"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ff2ae7ad5644fbc3c5d89f8dc4f16887df6aeb28b641996d071a3d09ad0498b3",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/archive/WI-836-wi835-docs-promotion.*",
+    " .ai/decisions/WI-836-wi835-docs-promotion.*",
+    " .ai/evidence/WI-836-wi835-docs-promotion.*",
+    " .ai/decisions/observer-snapshot.json",
+    "docs/work-items/WI-836-wi835-docs-promotion.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-837-lifecycle-close"
+}

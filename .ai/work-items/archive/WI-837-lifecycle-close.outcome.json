@@ -1,0 +1,312 @@
+{
+  "acceptanceResults": [
+    "The exact Runtime-generated WI-836 archive and close records are present on the branch without hand edits.",
+    "The post-close documentation promotion check passes with no unrelated changes.",
+    "No release, workspace verification, or other Work Item is rerun or modified.",
+    "The official promotion helper updates only the six WI-836 language and parity projections and then reports current for WI-836.",
+    "The repository-wide promotion check is run once after the focused projection and its exit status is preserved."
+  ],
+  "createdAt": "2026-09-14T02:53:22Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fa5ad47a164d65a55e7f35a2c31795c36d207ade1b557270d02db9eef8f329f5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-837-lifecycle-close.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-837-lifecycle-close.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-837-lifecycle-close.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ac739ae863415633c24f8de8b551c8f193efb9928249ebcbecee7577ac4efeff",
+      "workItemId": "WI-837-lifecycle-close"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-836-wi835-docs-promotion.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-836-wi835-docs-promotion.recovery.51757898839768efd137d7bd7998f8c0f67154854ca3e80fc38a8d7554e0d054.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.bb44d1ee6773f8eb651cd39e413248d500c6331ee521c6920c3e34b30b73ef52.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-837-lifecycle-close.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-837-lifecycle-close.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-837-lifecycle-close.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-837-lifecycle-close.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-837-lifecycle-close.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.contract.json"
+          ],
+          "inference": false,
+          "text": "Land only the WI-836 terminal lifecycle records that were generated and verified after its reviewed merge; preserve their original bytes and do not rerun release or workspace verification."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-837-lifecycle-close.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-837-lifecycle-close"
+  },
+  "taskReportDigest": "sha256:bb6b203a676f28a5f9cf8d6a0446b8357dcfe97d19349f8271af087c61393dac",
+  "taskReportMarkdownDigest": "sha256:6fdfedb00b23e62eae36b0552f3b5765d76960e11f9b668dead24ad663116afc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-837-lifecycle-close.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-837-lifecycle-close"
+}
