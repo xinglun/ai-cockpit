@@ -3,11 +3,12 @@
     "A valid repository-bound successor recovery with a terminal successor projects the predecessor as recovered and nonblocking, without rewriting the predecessor close bytes.",
     "An unclosed, mismatched, malformed, foreign, or tampered successor recovery remains blocking and does not bypass close validation.",
     "Focused Rust regression tests prove both the positive projection and fail-closed negative cases.",
-    "The implementation performs no partial state writes and preserves the original historical close bytes."
+    "The implementation performs no partial state writes and preserves the original historical close bytes.",
+    "The PR contains the required pre-archive tri-language Work Item pages and exactly one parity row for this Work Item, so the repository quality gate can validate the change before expensive verification."
   ],
-  "createdAt": "2026-09-14T23:30:16Z",
+  "createdAt": "2026-09-14T23:43:53Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:31206592b3620eda1353d13c5b10b5e2870bc169104cd4a63c221208e47123fc",
+  "evidenceDigest": "sha256:fe7cc4f749fbfb70ccc2f98446df77d812376c2e3a9cd11222b1f1d17428d5f9",
   "evidenceRefs": [
     ".ai/evidence/WI-845-historical-close-projection.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-845-historical-close-projection.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+      "repositorySnapshotDigest": "sha256:a557e8a134d8d428fc9a3d46d3618fc511fb3a5bd54bc62dea7e4cb29b4e1426",
       "workItemId": "WI-845-historical-close-projection"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,13 +48,6 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -61,56 +55,7 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.de5bac6414e128ea4837b09be5e0f5d0fc51e0f4b89fde7205a497a559987e7f.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.events.jsonl"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.outcome.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.md"
         }
       ],
       "evidence": [
@@ -185,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-845-historical-close-projection"
   },
-  "taskReportDigest": "sha256:65b806d94873e9eff74e82471a9ba9dbf4a952525c09d331b77c26767bb64002",
-  "taskReportMarkdownDigest": "sha256:6492ccc7ee2295a7bdad2b66b2a05cbd613a0c0dc414b0138ca3529f21fb0cef",
+  "taskReportDigest": "sha256:8662bb07556731432426704d2b91d78680f4c4ea6c296e5dd1d4fe4dec773734",
+  "taskReportMarkdownDigest": "sha256:6df7c4e052aafcd50f91d92a30c366c7e9c781a81a377ff8cb34d02a64b52da8",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -14,16 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.de5bac6414e128ea4837b09be5e0f5d0fc51e0f4b89fde7205a497a559987e7f.json
-- Changed path: .ai/evidence/WI-845-historical-close-projection.verification.json
-- Changed path: .ai/work-items/active/WI-845-historical-close-projection.contract.json
-- Changed path: .ai/work-items/active/WI-845-historical-close-projection.events.jsonl
-- Changed path: .ai/work-items/active/WI-845-historical-close-projection.outcome.json
 - Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json
-- Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.json
-- Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.md
 
 ## Findings
 

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-845-historical-close-projection.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+    "repositorySnapshotDigest": "sha256:a557e8a134d8d428fc9a3d46d3618fc511fb3a5bd54bc62dea7e4cb29b4e1426",
     "workItemId": "WI-845-historical-close-projection"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,13 +18,6 @@
           ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -32,56 +25,7 @@
           ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.de5bac6414e128ea4837b09be5e0f5d0fc51e0f4b89fde7205a497a559987e7f.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.contract.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.events.jsonl"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.outcome.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.md"
       }
     ],
     "evidence": [
