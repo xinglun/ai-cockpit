@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "Every remaining remote branch has a recorded disposition with PR state, merge fact, worktree state, and blocker or cleanup evidence.",
+    "Runtime-generated archive, finalization, and close records are used; historical evidence bytes are not rewritten or deleted.",
+    "Only exact clean merged branch and worktree resources are removed after finalization verification.",
+    "The cleanup Work Item itself passes reviewed PR integration, archive, close, and documentation promotion checks."
+  ],
+  "authority": "explicit user authorization in active development instruction",
+  "baseRevision": "28e721b353ae4d29894f99b7062cf465e4192dcd",
+  "createdAt": "2026-09-14T01:02:49Z",
+  "goal": "Produce an evidence-bound disposition for every remaining release branch, archive and close only Work Items that satisfy the Runtime lifecycle, preserve dirty or divergent evidence, and remove only exact clean merged resources.",
+  "intent": "Finalize merged Work Item lifecycle records and safely remove only exact merged branch and worktree resources.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code and tests",
+    "published Release tags or assets",
+    "dirty worktrees and branches with unmerged or divergent content"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Every current non-main remote branch has exactly one evidence-bound disposition covering PR state, merge fact, worktree state, and blocker or cleanup status.",
+      "required": true,
+      "scenario": "disposition_covers_every_remote_branch",
+      "status": "unverified",
+      "verificationPlan": "Compare the live remote branch inventory with the consolidated PR and worktree inventory and record the resulting disposition report."
+    },
+    {
+      "evidence": [],
+      "expected": "Dirty, divergent, unmerged, or evidence-insufficient branches and worktrees are preserved and explicitly blocked from deletion.",
+      "required": true,
+      "scenario": "unsafe_resources_are_preserved",
+      "status": "unverified",
+      "verificationPlan": "Re-observe each flagged branch and worktree, confirm its preservation state, and verify that no deletion operation targets it."
+    },
+    {
+      "evidence": [],
+      "expected": "Only an exact clean merged branch and its exact clean worktree are removed after Runtime finalization verification; unrelated resources remain untouched.",
+      "required": true,
+      "scenario": "clean_merged_cleanup_is_exact",
+      "status": "unverified",
+      "verificationPlan": "For each cleanup candidate, compare branch tip, reviewed merge fact, close receipt, finalization receipt, and worktree cleanliness before a serialized deletion, then re-observe the exact postcondition."
+    }
+  ],
+  "scope": [
+    ".ai/work-items/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    "branch and worktree cleanup disposition"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-835-lifecycle-cleanup"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "The repository owner authorizes the bounded WI-835 lifecycle disposition and cleanup scope. Only exact clean merged resources may be removed; dirty, divergent, unmerged, or evidence-insufficient objects remain preserved and documented.",
+  "recordedAt": "2026-09-14T01:20:01Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "schemaVersion": 1,
+  "workItemId": "WI-835-lifecycle-cleanup"
+}
