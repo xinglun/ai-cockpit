@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "Confirm the bounded parent-symlink and MCP precondition fixes within WI-842; no release, cleanup, or historical evidence rewrite is authorized.",
+  "recordedAt": "2026-09-14T06:21:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:135fbd03b72fc0822d9605249de3ca3668dc67559074dfde8486bf27cf4f4d04",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

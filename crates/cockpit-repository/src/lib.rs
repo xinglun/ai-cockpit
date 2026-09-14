@@ -5547,16 +5547,36 @@ pub(crate) fn evidence_class_projection_state(
             {
                 return Ok(EvidenceState::Contradictory);
             }
-            let evidence_path = root.join(relative);
-            let metadata = match fs::symlink_metadata(&evidence_path) {
-                Ok(metadata) => metadata,
-                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                    return Ok(EvidenceState::Missing);
+            let mut components = Vec::new();
+            for component in relative.components() {
+                match component {
+                    std::path::Component::Normal(component) => components.push(component),
+                    std::path::Component::CurDir => {}
+                    _ => return Ok(EvidenceState::Contradictory),
                 }
-                Err(_) => return Ok(EvidenceState::Unknown),
-            };
-            if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            }
+            if components.is_empty() {
                 return Ok(EvidenceState::Contradictory);
+            }
+            let mut evidence_path = root.to_path_buf();
+            for (index, component) in components.iter().enumerate() {
+                evidence_path.push(component);
+                let metadata = match fs::symlink_metadata(&evidence_path) {
+                    Ok(metadata) => metadata,
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                        return Ok(EvidenceState::Missing);
+                    }
+                    Err(_) => return Ok(EvidenceState::Unknown),
+                };
+                if metadata.file_type().is_symlink() {
+                    return Ok(EvidenceState::Contradictory);
+                }
+                let is_leaf = index + 1 == components.len();
+                if (is_leaf && !metadata.file_type().is_file())
+                    || (!is_leaf && !metadata.file_type().is_dir())
+                {
+                    return Ok(EvidenceState::Contradictory);
+                }
             }
             let bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
                 path: evidence_path.clone(),

@@ -46,19 +46,18 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.186d5c2de989e3279b3d4de47db506f68606b41827b7d5082e7f948356af42f4.json",
-    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.e908726e7c235b9d880c0656d9419749a076487bcb424e3adacfe4d3e8e521ca.json",
+    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.b0155b822b6adbb015a8ede665607cdb2abfca54317c10e9d6a27139f6e39273.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.38fdf1e54300f87effe2809a0c7e103257fcdeefb1f64027f4b5acdb17b7f156.json",
     ".ai/work-items/active/WI-842-custom-evidence-precondition.contract.json",
     ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "tests/ci/governance_integrity_gate.py",
-    "tests/ci/governance_integrity_gate_test.sh"
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs"
   ],
   "checkpointAt": "2026-09-14T05:21:57Z",
-  "checkpointContractDigest": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+  "checkpointContractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -134,25 +133,45 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-842-custom-evidence-precondition"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+      "previousContractHash": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+      "reason": "Code review found that MCP verification bypassed repository-bound preconditions; include the shared entry gate and its zero-spawn regression in the current verification boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T06:19:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:135fbd03b72fc0822d9605249de3ca3668dc67559074dfde8486bf27cf4f4d04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-842-custom-evidence-precondition"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
+  "checkpointRepositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
   "createdAt": "2026-09-14T05:16:12Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+    "contractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Confirm the bounded parity-parser correction and custom-evidence precondition repair after current verification; no release, cleanup, or historical evidence rewrite is authorized.",
-    "recordedAt": "2026-09-14T05:56:00Z",
+    "reason": "Confirm the bounded parent-symlink and MCP precondition fixes within WI-842; no release, cleanup, or historical evidence rewrite is authorized.",
+    "recordedAt": "2026-09-14T06:26:00Z",
     "recordedBy": "human:xinglun",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
+    "repositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
     "schemaVersion": 1,
     "workItemId": "WI-842-custom-evidence-precondition"
   },
   "evidenceClasses": {
-    "contractDigest": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+    "contractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
     "items": [
       {
         "class": "documentation",
@@ -178,10 +197,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-14T05:56:34Z",
-  "preflightContractDigest": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+  "preflightAt": "2026-09-14T06:28:59Z",
+  "preflightContractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
+  "preflightRepositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -228,7 +247,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T05:56:42Z",
+  "updatedAt": "2026-09-14T06:29:13Z",
   "verification": [
     {
       "check": "project-command-0",

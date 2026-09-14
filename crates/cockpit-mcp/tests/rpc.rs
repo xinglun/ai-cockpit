@@ -1029,6 +1029,101 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
 }
 
 #[test]
+fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-custom-evidence-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-CUSTOM-EVIDENCE",
+        "verify custom evidence before execution",
+        "reject missing custom evidence before spawning a project process",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path =
+        directory.join(".ai/work-items/active/WI-MCP-CUSTOM-EVIDENCE.contract.json");
+    let preflight =
+        cockpit_repository::preflight_work_item(&directory, &contract_path).expect("preflight");
+    assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
+    cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-CUSTOM-EVIDENCE")
+        .expect("checkpoint");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":10,
+            "method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"true",
+                    "args":[],
+                    "workItemId":"WI-MCP-CUSTOM-EVIDENCE"
+                }
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("evidence_classes_missing")
+    );
+    assert!(
+        !directory
+            .join(".ai/evidence/WI-MCP-CUSTOM-EVIDENCE.verification.json")
+            .exists()
+    );
+
+    let attempts = fs::read_dir(directory.join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains("WI-MCP-CUSTOM-EVIDENCE.verification-attempt.")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).expect("precondition attempt"))
+            .expect("precondition attempt JSON");
+    assert_eq!(attempt["state"], "precondition_rejected");
+    assert_eq!(attempt["processesSpawned"], 0);
+    assert!(
+        attempt["executionRecords"]
+            .as_array()
+            .expect("execution records")
+            .is_empty()
+    );
+    assert_eq!(attempt["diagnostic"]["code"], "verification_preconditions");
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn mcp_auto_verify_uses_the_same_profile_authorized_cross_process_service() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)
