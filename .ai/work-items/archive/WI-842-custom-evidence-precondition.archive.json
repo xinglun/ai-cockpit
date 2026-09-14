@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T08:04:06Z",
+  "files": {
+    "contractDigest": "sha256:26d1e8896bf4cfc6facdbd4c3d82bb0b5a4f478b8ed3041e8531e02c7c798121",
+    "contractPath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.contract.json",
+    "eventsDigest": "sha256:53e9b6894ce7040932c6dbe8225583d3b1cbed2a9ae4d684f5499ee493ae856a",
+    "eventsPath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.events.jsonl",
+    "outcomeDigest": "sha256:01755a079ad0e2f9bb95551c7ea989249301e75644a7216bcb8e13ebe51c264b",
+    "outcomePath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.outcome.json",
+    "summaryDigest": "sha256:6689581b1657e10857743f04514ed0aada36296b0f1da14efd1049461448dd69",
+    "summaryPath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.summary.json",
+    "taskReportDigest": "sha256:7339a038deffc5e49a06adc49a42bb81ccd7ca80975d2433c622233fc52ed6d3",
+    "taskReportMarkdownDigest": "sha256:1854cdcb5ec012bd41b49df84bcf115cc224242c8c7f9c3f39d3e1323ff260f5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-842-custom-evidence-precondition.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-842-custom-evidence-precondition"
+}
