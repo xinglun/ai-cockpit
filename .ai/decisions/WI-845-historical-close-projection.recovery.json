@@ -1,0 +1,25 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-15T08:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-845-historical-close-projection.verification.json"
+  ],
+  "policyRefs": [
+    "docs/reference/repository-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:26a3d536478270aa7481610b22e43f4e5b1dd7afefbc459cd630e2ebdf0dc945",
+  "predecessorEventsDigest": "sha256:8e80e3d42a7d9526d4e873d166d9d72b51833c0c616b69618605718701487a0b",
+  "predecessorOutcomeDigest": "sha256:6eb46fb1f3d32325077914e9753dd89245e47aaa7ccefb1b42489e022e6adf0c",
+  "predecessorSummaryDigest": "sha256:0c933d5c8996501007967d49537e0f925b519c9af6a9dda517df84c09f79f7e3",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "reason": "Retry the lifecycle before verification so the PR resource context is bound by finalize-plan.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "bind the PR branch and worktree with finalize-plan before the next verification cycle",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-845-historical-close-projection"
+}

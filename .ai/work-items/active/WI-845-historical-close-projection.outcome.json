@@ -5,9 +5,9 @@
     "Focused Rust regression tests prove both the positive projection and fail-closed negative cases.",
     "The implementation performs no partial state writes and preserves the original historical close bytes."
   ],
-  "createdAt": "2026-09-14T23:25:40Z",
+  "createdAt": "2026-09-14T23:30:16Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:769df4b0d90134f5eee03a498ea8cb923b167bc8ac9ee7adb4f66d965b04787c",
+  "evidenceDigest": "sha256:31206592b3620eda1353d13c5b10b5e2870bc169104cd4a63c221208e47123fc",
   "evidenceRefs": [
     ".ai/evidence/WI-845-historical-close-projection.verification.json"
   ],
@@ -47,6 +47,13 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -54,7 +61,14 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.8bb53ba97bc9f4463bbd547c604a6e05973e5da198b687e7f6dd5854187e520a.json"
+          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.de5bac6414e128ea4837b09be5e0f5d0fc51e0f4b89fde7205a497a559987e7f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification.json"
         },
         {
           "evidenceRefs": [
@@ -68,6 +82,20 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
         },
         {
@@ -75,14 +103,14 @@
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.task-report.md"
         }
       ],
       "evidence": [
@@ -157,8 +185,8 @@
     "status": "verified",
     "workItemId": "WI-845-historical-close-projection"
   },
-  "taskReportDigest": "sha256:485b0a115a0275d87b54a208a9cf844d7aed9f8f88f25320789093d14b7b46dc",
-  "taskReportMarkdownDigest": "sha256:9ea1c7ebdf9cbd7088b11c4cb2ce0c0f371bd254adccdb28ed284c0acc65f88e",
+  "taskReportDigest": "sha256:65b806d94873e9eff74e82471a9ba9dbf4a952525c09d331b77c26767bb64002",
+  "taskReportMarkdownDigest": "sha256:6492ccc7ee2295a7bdad2b66b2a05cbd613a0c0dc414b0138ca3529f21fb0cef",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

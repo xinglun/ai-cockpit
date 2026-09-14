@@ -1,27 +1,31 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-845-historical-close-projection.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-845-historical-close-projection.verification-attempt.8bb53ba97bc9f4463bbd547c604a6e05973e5da198b687e7f6dd5854187e520a.json",
+    ".ai/evidence/WI-845-historical-close-projection.verification-attempt.de5bac6414e128ea4837b09be5e0f5d0fc51e0f4b89fde7205a497a559987e7f.json",
+    ".ai/evidence/WI-845-historical-close-projection.verification.json",
     ".ai/work-items/active/WI-845-historical-close-projection.contract.json",
+    ".ai/work-items/active/WI-845-historical-close-projection.events.jsonl",
+    ".ai/work-items/active/WI-845-historical-close-projection.outcome.json",
     ".ai/work-items/active/WI-845-historical-close-projection.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/status_projection.rs"
+    ".ai/work-items/active/WI-845-historical-close-projection.task-report.json",
+    ".ai/work-items/active/WI-845-historical-close-projection.task-report.md"
   ],
   "checkpointAt": "2026-09-14T23:17:17Z",
-  "checkpointContractDigest": "sha256:26a3d536478270aa7481610b22e43f4e5b1dd7afefbc459cd630e2ebdf0dc945",
+  "checkpointContractDigest": "sha256:6d58eafd0505a21719eca52a04a00469bef321cb64aa6c606093200c7a7689e3",
   "checkpointCount": 1,
   "checkpointRepositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
   "createdAt": "2026-09-14T23:17:12Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-14T23:25:26Z",
-  "preflightContractDigest": "sha256:26a3d536478270aa7481610b22e43f4e5b1dd7afefbc459cd630e2ebdf0dc945",
+  "preflightAt": "2026-09-14T23:30:11Z",
+  "preflightContractDigest": "sha256:6d58eafd0505a21719eca52a04a00469bef321cb64aa6c606093200c7a7689e3",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T23:25:40Z",
+  "updatedAt": "2026-09-14T23:30:16Z",
   "verification": [
     {
       "check": "project-command-0",
