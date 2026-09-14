@@ -143,6 +143,7 @@ fn execution_receipt_preserves_command_identity_exit_status_and_bounded_logs() {
     assert_eq!(record.command_digest, expected_digest);
     assert_eq!(record.exit_code, Some(7));
     assert!(!record.timed_out);
+    assert!(record.elapsed_ms < 5_000);
     assert!(!record.stdout_hex.is_empty());
     assert!(!record.stderr_hex.is_empty());
 }
