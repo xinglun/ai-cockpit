@@ -82,36 +82,12 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-835-lifecycle-cleanup.close.json",
-    ".ai/decisions/WI-836-wi835-docs-promotion.recovery.json",
+    ".ai/decisions/WI-836-wi835-docs-promotion.recovery.e7715a6181d0fc9416b81927a5fe9089dc22ffd17d7d319fb4e3fdc798cab285.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.85ae83f5c67d1e337438afea4d1403d1d8ceda519b159375f489d51567f1d6dc.json",
-    ".ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.c6b9b0f25e0056e72127ed09561b607f102f15f454874330c27b9c5a48fbae75.json",
-    ".ai/evidence/WI-836-wi835-docs-promotion.verification.json",
-    ".ai/work-items/active/WI-835-lifecycle-cleanup.events.jsonl",
-    ".ai/work-items/active/WI-836-wi835-docs-promotion.contract.json",
-    ".ai/work-items/active/WI-836-wi835-docs-promotion.events.jsonl",
-    ".ai/work-items/active/WI-836-wi835-docs-promotion.outcome.json",
     ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json",
-    ".ai/work-items/active/WI-836-wi835-docs-promotion.task-report.json",
-    ".ai/work-items/active/WI-836-wi835-docs-promotion.task-report.md",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.archive.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.events.jsonl",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.outcome.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.json",
-    ".ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.md",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-835-lifecycle-cleanup.ja.md",
-    "docs/work-items/WI-835-lifecycle-cleanup.md",
-    "docs/work-items/WI-835-lifecycle-cleanup.zh-CN.md",
-    "docs/work-items/WI-836-wi835-docs-promotion.ja.md",
-    "docs/work-items/WI-836-wi835-docs-promotion.md",
-    "docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md"
+    "docs/reference/reference-parity.zh-CN.md"
   ],
   "checkpointAt": "2026-09-14T01:37:26Z",
   "checkpointContractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
@@ -152,7 +128,7 @@
       "workItemId": "WI-836-wi835-docs-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e617affed9d5163f4a648b7fb4e0e12605e7f2024a439393db36df562c940c03",
+  "checkpointRepositorySnapshotDigest": "sha256:ff2ae7ad5644fbc3c5d89f8dc4f16887df6aeb28b641996d071a3d09ad0498b3",
   "createdAt": "2026-09-14T01:37:01Z",
   "evidenceClasses": {
     "contractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
@@ -237,15 +213,15 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-14T01:48:41Z",
+  "preflightAt": "2026-09-14T02:05:55Z",
   "preflightContractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:e617affed9d5163f4a648b7fb4e0e12605e7f2024a439393db36df562c940c03",
+  "preflightRepositorySnapshotDigest": "sha256:ff2ae7ad5644fbc3c5d89f8dc4f16887df6aeb28b641996d071a3d09ad0498b3",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T01:48:46Z",
+  "updatedAt": "2026-09-14T02:06:11Z",
   "verification": [
     {
       "check": "project-command-0",

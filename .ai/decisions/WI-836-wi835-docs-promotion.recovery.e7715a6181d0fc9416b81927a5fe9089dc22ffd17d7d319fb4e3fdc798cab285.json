@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T01:59:52Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-836-wi835-docs-promotion.verification.json",
+    "docs/reference/reference-parity.md",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
+  "predecessorEventsDigest": "sha256:adf75b5f2ecbcb0031890caa69f524aa734e3de65db369897021cb428e293aa4",
+  "predecessorOutcomeDigest": "sha256:e08b46b0bd2539abeea2acba876160ff5b324a4942eb69c9f0398acbddc98f69",
+  "predecessorSummaryDigest": "sha256:8204209fb5d76a33571225021ebe314954e537c38dc4b79ce0a9a3dadc6bae2d",
+  "predecessorWorkItemId": "WI-836-wi835-docs-promotion",
+  "reason": "The parity registration exposed a real missing finalization evidence link in all three language ledgers. The correction is within the existing documentation and parity scope; the focused governance gate now passes locally. Retry the same Work Item after refreshing its preflight and rerun only the affected documentation checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Refresh preflight for the current snapshot, run the focused documentation verifier, finish, and update the existing PR. Do not rerun workspace or release verification.",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-836-wi835-docs-promotion"
+}
