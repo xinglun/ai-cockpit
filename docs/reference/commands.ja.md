@@ -245,6 +245,25 @@ Agent は次の順序で capability を発見します。repository-bound の st
   profile/adapter write、governed MCP operation を作成する前に fail closed します。migration review 用の
   read-only diagnostic は引き続き利用できます。
 
+## Verification 前の projection と failure recovery
+
+repository が三言語の reference-parity convention を宣言している場合、`preflight` と
+`checkpoint` の前に、新しい Work Item の regular かつ symlink でない三つの page を
+`docs/work-items/` に作成し、三つの `docs/reference/reference-parity*` ledger にそれぞれ正確に一行を
+登録します。各 prearchive page は `status: in_progress`、一致する `workItemId`、`lastVerifiedBy` を持ち、
+terminal field は close 後の promotion だけが書きます。Runtime は `preflight`、project verification process
+を開始する直前、close decision を書く直前にこの条件を検査します。page または row が欠落・malformed の
+場合は正確な path と理由を出し、高コストな process を開始しません。この convention がない repository は
+generic lifecycle のままです。
+
+失敗したという事実だけでは successor を作成できません。同じ root cause が現在の Contract の scope、
+authority、base 内にある限り、attempt を保存し、現在の Work Item を修正します。Contract を amend/revalidate
+してから、binding された `retry` を使います。scope、authority、base が本当に異なる場合、独立した変更、
+安全な in-scope 修正が不可能な場合、immutable failed delivery の再 delivery、または人の明示的な指示がある
+場合だけ successor を作成します。分類が不明なら停止して人の判断を求め、lifecycle cost を避けるためだけに
+新しい Work Item を作成しません。successor は predecessor binding を持つ `work-item recover` で作成し、
+bare `start` で関係を後付けしません。
+
 ## Close 後の documentation promotion
 
 structured `close` の後に実行します。

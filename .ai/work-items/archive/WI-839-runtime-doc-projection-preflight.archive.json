@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T03:36:22Z",
+  "files": {
+    "contractDigest": "sha256:f851a493d5068a8e8d03b86b039378a2386a1a8b7cdbe5ebe6abaeab2c4c253d",
+    "contractPath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.contract.json",
+    "eventsDigest": "sha256:11d8217a0135437dad61b5d60118ac8c2f888cd7a420a892b8629d0e65f1acb0",
+    "eventsPath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.events.jsonl",
+    "outcomeDigest": "sha256:411f92083c076504952abb17354cafcedd32326e6a0aff3c3527b16b36be9ca6",
+    "outcomePath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.outcome.json",
+    "summaryDigest": "sha256:5bae334b15e123061ea666032a3aa952f02cc06a7a580d93ef70539e056755a6",
+    "summaryPath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json",
+    "taskReportDigest": "sha256:7fff58746634e37052125dd83dac3cc0f9fbb97884ef4639b6e363b185a4827e",
+    "taskReportMarkdownDigest": "sha256:474423967ddabda44b6dc707d5ab56882d28f84e6ff633915c526aba83b186cc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-839-runtime-doc-projection-preflight"
+}

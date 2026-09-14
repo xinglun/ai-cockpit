@@ -1,0 +1,229 @@
+{
+  "acceptanceResults": [
+    "Repositories using the tri-language reference-parity convention reject a new active Work Item with a missing, symlinked, or malformed own projection before expensive verification can start.",
+    "The rejection identifies the exact page or parity file and reason, remains fail-closed, and does not write terminal lifecycle state.",
+    "Repositories without the declared parity convention retain existing generic lifecycle behavior.",
+    "Regression coverage proves missing projection is rejected early, valid prearchive projection passes, and post-close promotion remains current.",
+    "No existing historical evidence or release artifact is rewritten.",
+    "The first-start and workflow projections explicitly distinguish same-root amend/revalidate/retry from an explicitly bound successor, and regression coverage preserves that rule."
+  ],
+  "createdAt": "2026-09-14T03:36:13Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b9300110dec1b22edff9a3e717eb0c690790c9b2d54eb0b19ce736ac0ee901ab",
+  "evidenceRefs": [
+    ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:903bcaa09cdeca3ade597d310aa012174e3742fee309a16fdf38f28537058015",
+      "workItemId": "WI-839-runtime-doc-projection-preflight"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-839-runtime-doc-projection-preflight.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-839-runtime-doc-projection-preflight.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-839-runtime-doc-projection-preflight.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-839-runtime-doc-projection-preflight.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a Runtime-enforced, repository-aware prearchive documentation projection precondition for repositories that declare the tri-language parity convention; reject missing or malformed own pages before checkpoint/verification and before close, emit concrete paths and reasons, and add regression coverage and operator documentation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-839-runtime-doc-projection-preflight"
+  },
+  "taskReportDigest": "sha256:7fff58746634e37052125dd83dac3cc0f9fbb97884ef4639b6e363b185a4827e",
+  "taskReportMarkdownDigest": "sha256:474423967ddabda44b6dc707d5ab56882d28f84e6ff633915c526aba83b186cc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-839-runtime-doc-projection-preflight.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-839-runtime-doc-projection-preflight"
+}
