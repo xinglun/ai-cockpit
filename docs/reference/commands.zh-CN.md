@@ -223,6 +223,22 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   `MIGRATION_REQUIRED` 和 `INCOMPATIBLE` 会在创建新 Work Item、生命周期 record、verification evidence、
   profile/adapter 写入或受治理 MCP 操作前 fail closed。迁移审查所需的只读诊断仍可用。
 
+## Verification 前的 projection 与失败恢复
+
+如果 repository 声明了三语 reference-parity convention，必须在 `preflight` 和
+`checkpoint` 之前，为新 Work Item 在 `docs/work-items/` 创建三份 regular、非 symlink 页面，
+并在三个 `docs/reference/reference-parity*` ledger 中各写入且只写入一行。每个 prearchive 页面必须声明
+`status: in_progress`、匹配的 `workItemId` 和 `lastVerifiedBy`；terminal 字段只能由 close 后的 promotion 写入。
+Runtime 会在 `preflight`、启动 project verification 进程之前，以及写入 close decision 之前检查这一条件。
+缺失或格式错误的页面/行会报告准确路径和原因，并且不会启动昂贵的 project process；没有该 convention 的
+repository 继续使用通用生命周期。
+
+一次失败本身不授权创建 successor。只要同一根因仍在当前 Contract 的 scope、authority 和 base 内，
+就保留本次尝试，在当前 Work Item 中修复：amend/revalidate Contract 后使用有绑定的 `retry`。
+只有 scope、authority 或 base 真正不同、变更独立、无法安全在当前范围修复、失败交付必须重新交付，
+或人明确指示时才创建 successor。如果无法分类，暂停并请求人决定；不能仅为绕过当前生命周期成本而
+新建 Work Item。Successor 必须通过带 predecessor 绑定的 `work-item recover` 创建，不能用裸 `start`。
+
 ## Close 后的文档提升
 
 结构化 `close` 后运行：

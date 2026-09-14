@@ -421,6 +421,29 @@ review when the returned state is yellow, red, unknown, or not ready.
   write, or governed MCP operation is created. Read-only diagnostics remain
   available for migration review.
 
+## Pre-verification projection and failure recovery
+
+When a repository declares the tri-language reference-parity convention,
+create the new Work Item's three regular, non-symlink pages under
+`docs/work-items/` and exactly one row in each `docs/reference/reference-parity*`
+ledger before `preflight` and before `checkpoint`. Each prearchive page must
+declare `status: in_progress`, the matching `workItemId`, and
+`lastVerifiedBy`; terminal fields belong only to post-close promotion. Runtime
+checks this condition at `preflight`, immediately before a project verification
+process, and before writing a close decision. A missing or malformed page or
+row reports its exact path and reason and starts no expensive project process;
+repositories without this convention retain the generic lifecycle route.
+
+A failure does not by itself authorize a successor. Preserve the attempt and
+repair the current Work Item when the same root cause remains inside its
+Contract scope, authority, and base: amend/revalidate the Contract, then use a
+bound `retry`. Create a successor only for a genuinely different scope,
+authority, or base, an independent change, an unsafe in-scope repair,
+immutable failed delivery, or explicit human direction. If classification is
+uncertain, stop for human direction; do not open a new Work Item merely to
+avoid the current lifecycle cost. A successor must be created through
+`work-item recover` with predecessor bindings, never through a bare `start`.
+
 ## Post-close documentation promotion
 
 After structured `close`, run:

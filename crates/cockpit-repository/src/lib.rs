@@ -3744,6 +3744,16 @@ pub fn require_verification_preconditions(
         .join(format!("{work_item_id}.summary.json"));
     let contract_value = read_json(&contract_path)?;
     let contract = read_contract(&contract_path)?;
+    let documentation_findings = documentation_projection_findings(&root, &contract)?;
+    if !documentation_findings.is_empty() {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: format!(
+                "verification preconditions are blocked: {}",
+                documentation_findings.join(", ")
+            ),
+        });
+    }
     let summary = read_json(&summary_path)?;
     if !matches!(
         summary["state"].as_str(),
@@ -4296,8 +4306,11 @@ fn governance_decision_for_contract_base_internal_with_archive(
         .map(|context| context.repository_id())
         .cloned()
         .unwrap_or_else(|| repository_id(root));
-    let explicit_blockers =
+    let mut explicit_blockers =
         contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
+    if !archived {
+        explicit_blockers.extend(documentation_projection_findings(root, contract)?);
+    }
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
         .changed_paths
@@ -8794,6 +8807,18 @@ fn close_work_item_with_structured_decision_internal(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    if !superseded && !amendment_revalidation_resolved {
+        let documentation_findings = documentation_projection_findings(&root, &contract)?;
+        if !documentation_findings.is_empty() {
+            return Err(ObserverError::State {
+                path: root.join("docs"),
+                message: format!(
+                    "close documentation projection preconditions are blocked: {}",
+                    documentation_findings.join(", ")
+                ),
+            });
+        }
+    }
     let summary_path = root
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.summary.json"));
@@ -12751,6 +12776,190 @@ fn validate_boundary_for_parallel_use(boundary: &ConcurrencyBoundary) -> Result<
         }
     }
     Ok(())
+}
+
+/// Return the missing or malformed reader-projection facts for an active
+/// Work Item.  The convention is opt-in by repository shape: an object
+/// repository that does not provide the tri-language reference-parity ledgers
+/// keeps the generic lifecycle route.  Once the convention exists, however,
+/// every new Work Item must register its own projection before verification
+/// and close can proceed.
+fn documentation_projection_findings(
+    root: &Path,
+    contract: &Contract,
+) -> Result<Vec<String>, ObserverError> {
+    let work_item_docs = root.join("docs/work-items");
+    let work_item_docs_metadata = match fs::symlink_metadata(&work_item_docs) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: work_item_docs,
+                source,
+            });
+        }
+    };
+    if work_item_docs_metadata.file_type().is_symlink() || !work_item_docs_metadata.is_dir() {
+        return Ok(Vec::new());
+    }
+
+    let parity_paths = [
+        root.join("docs/reference/reference-parity.md"),
+        root.join("docs/reference/reference-parity.zh-CN.md"),
+        root.join("docs/reference/reference-parity.ja.md"),
+    ];
+    let convention_enabled = parity_paths.iter().any(|path| {
+        fs::symlink_metadata(path)
+            .map(|metadata| metadata.is_file() || metadata.file_type().is_symlink())
+            .unwrap_or(false)
+    });
+    if !convention_enabled {
+        return Ok(Vec::new());
+    }
+
+    let mut findings = Vec::new();
+    let page_suffixes = ["", ".zh-CN", ".ja"];
+    for suffix in page_suffixes {
+        let path = work_item_docs.join(format!("{}{}.md", contract.work_item_id, suffix));
+        let relative = repository_relative_path(root, &path);
+        let metadata = match fs::symlink_metadata(&path) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                findings.push(format!(
+                    "documentation_projection_missing:{relative}:must be a regular non-symlink file"
+                ));
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read { path, source });
+            }
+        };
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            findings.push(format!(
+                "documentation_projection_invalid:{relative}:must be a regular non-symlink file"
+            ));
+            continue;
+        }
+        if metadata.len() > 1024 * 1024 {
+            findings.push(format!(
+                "documentation_projection_invalid:{relative}:exceeds the 1 MiB prearchive bound"
+            ));
+            continue;
+        }
+        let contents =
+            String::from_utf8(fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?)
+            .map_err(|_| ObserverError::State {
+                path: path.clone(),
+                message: "prearchive projection must be UTF-8 Markdown".into(),
+            })?;
+        for (field, expected) in [
+            ("workItemId", contract.work_item_id.as_str()),
+            ("lastVerifiedBy", contract.work_item_id.as_str()),
+            ("status", "in_progress"),
+        ] {
+            let values = markdown_frontmatter_values(&contents, field);
+            if values.len() != 1 {
+                findings.push(format!(
+                    "documentation_projection_invalid:{relative}:frontmatter must contain exactly one {field} field"
+                ));
+            } else if values[0] != expected {
+                findings.push(format!(
+                    "documentation_projection_invalid:{relative}:frontmatter {field} must equal {expected}"
+                ));
+            }
+        }
+        for field in [
+            "terminalArchive",
+            "terminalVerification",
+            "terminalFinalization",
+            "terminalDecision",
+        ] {
+            if !markdown_frontmatter_values(&contents, field).is_empty() {
+                findings.push(format!(
+                    "documentation_projection_invalid:{relative}:prearchive projection must not contain terminal field {field}"
+                ));
+            }
+        }
+    }
+
+    for path in parity_paths {
+        let relative = repository_relative_path(root, &path);
+        let metadata = match fs::symlink_metadata(&path) {
+            Ok(metadata) => metadata,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                findings.push(format!(
+                    "documentation_projection_missing:{relative}:must be a regular non-symlink file"
+                ));
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read { path, source });
+            }
+        };
+        if metadata.file_type().is_symlink() || !metadata.is_file() {
+            findings.push(format!(
+                "documentation_projection_invalid:{relative}:must be a regular non-symlink file"
+            ));
+            continue;
+        }
+        let contents =
+            String::from_utf8(fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?)
+            .map_err(|_| ObserverError::State {
+                path: path.clone(),
+                message: "parity ledger must be UTF-8 Markdown".into(),
+            })?;
+        let row_count = contents
+            .lines()
+            .filter(|line| parity_row_matches_work_item(line, &contract.work_item_id))
+            .count();
+        if row_count != 1 {
+            findings.push(format!(
+                "documentation_projection_invalid:{relative}:expected exactly one parity row for {} but found {row_count}",
+                contract.work_item_id
+            ));
+        }
+    }
+    Ok(findings)
+}
+
+fn markdown_frontmatter_values<'a>(contents: &'a str, field: &str) -> Vec<&'a str> {
+    let mut lines = contents.lines();
+    if lines.next().map(str::trim) != Some("---") {
+        return Vec::new();
+    }
+    let prefix = format!("{field}:");
+    let mut values = Vec::new();
+    for line in lines {
+        let line = line.trim();
+        if line == "---" {
+            break;
+        }
+        if let Some(value) = line.strip_prefix(&prefix) {
+            values.push(value.trim());
+        }
+    }
+    values
+}
+
+fn parity_row_matches_work_item(line: &str, work_item_id: &str) -> bool {
+    let mut cells = line.trim().split('|');
+    let Some(first) = cells.next() else {
+        return false;
+    };
+    let Some(first_cell) = cells.next().map(str::trim) else {
+        return false;
+    };
+    let _ = first;
+    first_cell == work_item_id
+        || first_cell.starts_with(&format!("{work_item_id} "))
+        || first_cell.starts_with(&format!("{work_item_id} —"))
+        || first_cell.starts_with(&format!("{work_item_id}——"))
 }
 
 fn is_regular_non_symlink(path: &Path) -> Result<bool, ObserverError> {

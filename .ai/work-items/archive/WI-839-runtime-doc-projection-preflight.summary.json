@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.contract.json",
+    ".ai/work-items/archive/WI-839-runtime-doc-projection-preflight.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-839-runtime-doc-projection-preflight.ja.md",
+    "docs/work-items/WI-839-runtime-doc-projection-preflight.md",
+    "docs/work-items/WI-839-runtime-doc-projection-preflight.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-14T03:34:46Z",
+  "checkpointContractDigest": "sha256:2da0c962b97d2e892fa71a1463516fa4ec21b5145ed8f911252461b8b1fa1b0e",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:903bcaa09cdeca3ade597d310aa012174e3742fee309a16fdf38f28537058015",
+  "createdAt": "2026-09-14T03:14:47Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T03:36:02Z",
+  "preflightContractDigest": "sha256:2da0c962b97d2e892fa71a1463516fa4ec21b5145ed8f911252461b8b1fa1b0e",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:903bcaa09cdeca3ade597d310aa012174e3742fee309a16fdf38f28537058015",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T03:36:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-839-runtime-doc-projection-preflight"
+}

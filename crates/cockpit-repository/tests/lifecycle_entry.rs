@@ -1,10 +1,11 @@
-use cockpit_core::Digest;
+use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
-use cockpit_protocol::RuntimeContext;
+use cockpit_protocol::{HumanDecision, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    amend_work_item_contract, attach, checkpoint_work_item, preflight_work_item,
-    preflight_work_item_with_runtime, record_verification_with_runtime,
+    amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision, finish_work_item, preflight_work_item,
+    preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
     require_verification_preconditions, run_repository_verification, scaffold_work_item,
     start_work_item_with_options, status,
 };
@@ -56,6 +57,40 @@ fn start_options() -> WorkItemStartOptions {
         authority: "authorized".into(),
         acceptance_criteria: vec!["entry remains bounded".into()],
         ..Default::default()
+    }
+}
+
+fn enable_tri_language_projection_convention(root: &Path) {
+    fs::create_dir_all(root.join("docs/work-items")).expect("work-item docs");
+    fs::create_dir_all(root.join("docs/reference")).expect("reference docs");
+    for suffix in ["", ".zh-CN", ".ja"] {
+        fs::write(
+            root.join(format!("docs/reference/reference-parity{suffix}.md")),
+            "# Reference parity\n",
+        )
+        .expect("parity ledger");
+    }
+}
+
+fn write_prearchive_projection(root: &Path, work_item_id: &str) {
+    for suffix in ["", ".zh-CN", ".ja"] {
+        fs::write(
+            root.join(format!(
+                "docs/work-items/{work_item_id}{suffix}.md"
+            )),
+            format!(
+                "---\nstatus: in_progress\nworkItemId: {work_item_id}\nlastVerifiedBy: {work_item_id}\n---\n\n# {work_item_id}\n"
+            ),
+        )
+        .expect("prearchive page");
+    }
+    for suffix in ["", ".zh-CN", ".ja"] {
+        let path = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+        let mut contents = fs::read_to_string(&path).expect("parity ledger");
+        contents.push_str(&format!(
+            "| {work_item_id} | In progress | [Work Item](../work-items/{work_item_id}.md) | planned terminal lifecycle: archive `.ai/work-items/archive/{work_item_id}.contract.json`; verification `.ai/evidence/{work_item_id}.verification.json`; close `.ai/decisions/{work_item_id}.close.json` |\n"
+        ));
+        fs::write(path, contents).expect("prearchive parity row");
     }
 }
 
@@ -224,6 +259,238 @@ fn verification_preconditions_reject_missing_governance_controls_before_executio
             .contains("verification preconditions are blocked")
     );
     assert!(error.to_string().contains("acceptance_evidence_missing"));
+}
+
+#[test]
+fn preflight_rejects_missing_own_projection_before_verification() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-MISSING";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "require a reader projection before expensive verification",
+        "reject missing projection at the cheap preflight boundary",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let decision = preflight_work_item(directory.path(), &contract).expect("preflight decision");
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(decision.blockers.iter().any(|blocker| {
+        blocker.contains("documentation_projection_missing")
+            && blocker.contains("docs/work-items/WI-PROJECTION-MISSING.md")
+    }));
+}
+
+#[test]
+fn preflight_accepts_a_complete_prearchive_projection() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-VALID";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "require a valid reader projection before expensive verification",
+        "accept a complete prearchive projection at the cheap preflight boundary",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+    write_prearchive_projection(directory.path(), work_item_id);
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let decision = preflight_work_item(directory.path(), &contract).expect("preflight decision");
+    assert!(
+        !decision
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("documentation_projection_"))
+    );
+}
+
+#[test]
+fn preflight_rejects_a_malformed_projection_with_its_exact_path() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-MALFORMED";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "reject malformed reader projection before verification",
+        "report the exact malformed projection path",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+    write_prearchive_projection(directory.path(), work_item_id);
+    let malformed = directory
+        .path()
+        .join(format!("docs/work-items/{work_item_id}.zh-CN.md"));
+    fs::remove_file(&malformed).expect("remove projection page");
+    fs::create_dir(&malformed).expect("malformed projection directory");
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let decision = preflight_work_item(directory.path(), &contract).expect("preflight decision");
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(decision.blockers.iter().any(|blocker| {
+        blocker.contains("documentation_projection_invalid")
+            && blocker.contains(&format!("docs/work-items/{work_item_id}.zh-CN.md"))
+            && blocker.contains("regular non-symlink file")
+    }));
+}
+
+#[test]
+fn verification_preconditions_reject_projection_before_project_execution() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-VERIFY";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "reject a projection that becomes invalid before verification",
+        "keep the project process behind the cheap projection gate",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+    write_prearchive_projection(directory.path(), work_item_id);
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    fs::remove_file(
+        directory
+            .path()
+            .join(format!("docs/work-items/{work_item_id}.ja.md")),
+    )
+    .expect("remove projection page");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    let error =
+        require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+            .expect_err("invalid projection must stop before the project process");
+    assert!(
+        error
+            .to_string()
+            .contains("verification preconditions are blocked")
+    );
+    assert!(
+        error
+            .to_string()
+            .contains(&format!("docs/work-items/{work_item_id}.ja.md"))
+    );
+}
+
+#[test]
+fn close_rejects_missing_projection_before_writing_a_close_decision() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-CLOSE";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "reject close without the own reader projection",
+        "prevent a partial terminal state after projection loss",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+    write_prearchive_projection(directory.path(), work_item_id);
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &json!({"passed": true, "nodesPlanned": 1}),
+        "test-runtime",
+        &Digest::sha256_bytes(b"test-runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    fs::remove_file(
+        directory
+            .path()
+            .join(format!("docs/work-items/{work_item_id}.md")),
+    )
+    .expect("remove projection page");
+
+    let error = close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "test".into(),
+            reason: "projection close regression".into(),
+            evidence_refs: Vec::new(),
+            policy_refs: Vec::new(),
+            decided_at: "2026-09-14T00:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect_err("close must stop before writing terminal state");
+    assert!(
+        error
+            .to_string()
+            .contains("close documentation projection preconditions are blocked")
+    );
+    assert!(
+        error
+            .to_string()
+            .contains(&format!("docs/work-items/{work_item_id}.md"))
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json"))
+            .exists()
+    );
+}
+
+#[test]
+fn object_without_projection_convention_keeps_generic_preflight_behavior() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-GENERIC";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "keep an object repository generic",
+        "do not require an undeclared documentation convention",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let decision = preflight_work_item(directory.path(), &contract).expect("preflight decision");
+    assert!(
+        !decision
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("documentation_projection_"))
+    );
 }
 
 #[test]
