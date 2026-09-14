@@ -36,6 +36,7 @@ require 'cp "$GITHUB_WORKSPACE/target/release-quality-route.json" "$source_targe
 require '--route-receipt "$source_target/release-quality-route.json"' 'source gate execution must consume the repository-local route receipt'
 require '--report "$source_target/repository-gates.json"' 'source gate reports must be written inside the immutable source repository'
 require '--contract-gate-report "$source_target/rust-contract-quality-gate.json"' 'source gate execution must consume the repository-local Contract gate receipt'
+require 'export AI_COCKPIT_ISOLATION_BIN="$GITHUB_WORKSPACE/target/release/ai-cockpit"' 'source gates must receive the shared Rust scanner when the source checkout is nested'
 require 'release-source/target/repository-gates.json' 'source gate reports must be uploaded from their repository-local path'
 require "hashFiles('release-source/target/rust-contract-quality-gate.json')" 'Contract gate receipts must remain uploadable after a later source gate failure'
 require 'release_input_preflight:' 'cheap release input preflight must run before Runtime compilation'

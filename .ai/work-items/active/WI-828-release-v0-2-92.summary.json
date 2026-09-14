@@ -145,6 +145,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-828-release-v0-2-92"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:90159d688815d34e7abf816069536685faae7334d9bb739086f1b9a98920d2c2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:321723c630a9a8e3017db45676d7ff8592a794457ec2ae2ae4a3809a152235be",
+      "previousContractHash": "sha256:93ceb632776551f36d777c297bc830dfd82d65dd79e774422ef15e50200d12e9",
+      "reason": "Source-quality execution now reaches the isolation regression gates, which require the shared Rust scanner identity; the nested immutable source checkout cannot discover the orchestration checkout binary through its own target directory, so bind the verified absolute scanner path in the source gate environment.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T00:04:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4897a1dcff20f35cdcc219f40f6905e1d1bf5817afd0140a879a702b66fe2fab",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-828-release-v0-2-92"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:1c736ba7ff0413ff88c68f7b8df31d9c6590d6dbb3e46f6c614eb11bdd5cdcd9",
@@ -164,7 +184,7 @@
   "preflightContractDigest": "sha256:93ceb632776551f36d777c297bc830dfd82d65dd79e774422ef15e50200d12e9",
   "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
   "preflightRepositorySnapshotDigest": "sha256:4897a1dcff20f35cdcc219f40f6905e1d1bf5817afd0140a879a702b66fe2fab",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -228,9 +248,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:93ceb632776551f36d777c297bc830dfd82d65dd79e774422ef15e50200d12e9",
+    "contractHash": "sha256:90159d688815d34e7abf816069536685faae7334d9bb739086f1b9a98920d2c2",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-13T23:37:36Z"
+    "recordedAt": "2026-09-14T00:04:44Z"
   },
   "verificationRecoveryReconciled": "sha256:ce53e6df40da12e10b404ac3c962d2eab184c88b0d3862c311d1d77529e07153",
   "workItemId": "WI-828-release-v0-2-92"
