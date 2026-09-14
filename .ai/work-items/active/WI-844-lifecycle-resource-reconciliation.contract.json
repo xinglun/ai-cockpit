@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "Every active Work Item has an evidence-backed disposition: closed, blocked with a concrete reason, or retained for current implementation.",
+    "Historical evidence is preserved byte-for-byte; unsupported schema is labeled incompatible or missing, never repaired by fabrication.",
+    "Only exact clean resources with merged PR and verified terminal closure are removed; all remaining branches and worktrees retain a reason.",
+    "The synchronized main readiness and repository-wide closed Work Item promotion check pass before release preparation.",
+    "A supersede decision may close an amended predecessor only when its existing successor is strictly bound to the predecessor checkpoint Contract digest; current Contract changes must not force historical verification or rewrite predecessor bytes.",
+    "A mismatched successor binding, missing checkpoint Contract digest, or competing successor remains fail-closed and produces no lifecycle mutation."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9e32e45ff4712544e318deeab68f8fbcd89bba36",
+  "createdAt": "2026-09-14T13:29:41Z",
+  "goal": "Classify and safely close eligible historical Work Items, preserve unsupported or missing evidence explicitly, and remove only exact merged clean branches and worktrees without rerunning historical product verification or altering published releases.",
+  "intent": "Reconcile the lifecycle and exact resources left by already merged Work Items so the repository can reach a truthful ready-on-base state.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product source code",
+    " CI behavior",
+    " release tags",
+    " published Releases",
+    " historical evidence bytes",
+    " dirty or unmerged resources"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b1ec305c5bfdff00dbdd09836f3c9258d34babf35d71168ced60367684be31c1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "resource_cleanup",
+    "documentation"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items",
+    ".ai/decisions",
+    ".ai/evidence",
+    "docs/reference",
+    "docs/work-items",
+    "remote branches",
+    "dedicated worktrees",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-844-lifecycle-resource-reconciliation"
+}

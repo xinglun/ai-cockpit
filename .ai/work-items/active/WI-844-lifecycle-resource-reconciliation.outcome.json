@@ -1,0 +1,159 @@
+{
+  "acceptanceResults": [
+    "Every active Work Item has an evidence-backed disposition: closed, blocked with a concrete reason, or retained for current implementation.",
+    "Historical evidence is preserved byte-for-byte; unsupported schema is labeled incompatible or missing, never repaired by fabrication.",
+    "Only exact clean resources with merged PR and verified terminal closure are removed; all remaining branches and worktrees retain a reason.",
+    "The synchronized main readiness and repository-wide closed Work Item promotion check pass before release preparation.",
+    "A supersede decision may close an amended predecessor only when its existing successor is strictly bound to the predecessor checkpoint Contract digest; current Contract changes must not force historical verification or rewrite predecessor bytes.",
+    "A mismatched successor binding, missing checkpoint Contract digest, or competing successor remains fail-closed and produces no lifecycle mutation."
+  ],
+  "createdAt": "2026-09-14T14:14:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b8536f87c7c1237c5f5406e9a26568de60b8e7f27bc0c2a4aac54d2128c52aa0",
+  "evidenceRefs": [
+    ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f566ac2b184c1f15ae6b825296cf6ee00dfe7e8acc3ea3b8649151b2caaa7977",
+      "workItemId": "WI-844-lifecycle-resource-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "Classify and safely close eligible historical Work Items, preserve unsupported or missing evidence explicitly, and remove only exact merged clean branches and worktrees without rerunning historical product verification or altering published releases."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-844-lifecycle-resource-reconciliation"
+  },
+  "taskReportDigest": "sha256:9fc2ba5300fbfbecdce0608d8a9ae50a6b1034fabcbf36a5906b914982879b1e",
+  "taskReportMarkdownDigest": "sha256:5b8f648403ec3279f099fa40fd6e4b5a279ebc7d86c7e77d6abf52e7bcb8d390",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-844-lifecycle-resource-reconciliation"
+}

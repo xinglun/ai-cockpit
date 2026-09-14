@@ -1,0 +1,154 @@
+{
+  "attemptId": "sha256:daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671",
+  "commands": [
+    {
+      "args": [
+        "test -p cockpit-repository --test recovery_decision -- --nocapture"
+      ],
+      "baseCommit": "9e32e45ff4712544e318deeab68f8fbcd89bba36",
+      "commandDigest": "sha256:51a05cfebaaaecae45bd43102cbcc0711c003f20a76e04a108b6880d1e4eb91b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:264cc25934ae3976480723ee3279f6d8a3e3291094feee17e22eda21d391361e",
+  "contractExecutionScopeDigest": "sha256:c331651b3f6a4de569e09707082f7db88f8c3e1c8ce54b3197700ef84a2c89f8",
+  "createdAt": "2026-09-14T14:13:43Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:51a05cfebaaaecae45bd43102cbcc0711c003f20a76e04a108b6880d1e4eb91b",
+      "elapsedMs": 102,
+      "exitCode": 101,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "6572726f723a206e6f207375636820636f6d6d616e643a206074657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f63617074757265600a0a68656c703a207669657720616c6c20696e7374616c6c656420636f6d6d616e647320776974682060636172676f202d2d6c697374600a68656c703a2066696e642061207061636b61676520746f20696e7374616c6c206074657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f636170747572656020776974682060636172676f2073656172636820636172676f2d74657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f63617074757265600a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 425,
+      "executionElapsedMs": 102,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 425,
+    "executionElapsedMs": 102,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:51a05cfebaaaecae45bd43102cbcc0711c003f20a76e04a108b6880d1e4eb91b",
+        "elapsedMs": 102,
+        "exitCode": 101,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "6572726f723a206e6f207375636820636f6d6d616e643a206074657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f63617074757265600a0a68656c703a207669657720616c6c20696e7374616c6c656420636f6d6d616e647320776974682060636172676f202d2d6c697374600a68656c703a2066696e642061207061636b61676520746f20696e7374616c6c206074657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f636170747572656020776974682060636172676f2073656172636820636172676f2d74657374202d7020636f636b7069742d7265706f7369746f7279202d2d74657374207265636f766572795f6465636973696f6e202d2d202d2d6e6f63617074757265600a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "9e32e45ff4712544e318deeab68f8fbcd89bba36",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 102,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f566ac2b184c1f15ae6b825296cf6ee00dfe7e8acc3ea3b8649151b2caaa7977",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-844-lifecycle-resource-reconciliation"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:22ce0cb0d73d282eb9ceeb91f43ae56a3ca11d0683c3723f58ddb8f01ad3a674",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f566ac2b184c1f15ae6b825296cf6ee00dfe7e8acc3ea3b8649151b2caaa7977",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-844-lifecycle-resource-reconciliation"
+}
