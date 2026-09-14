@@ -41,7 +41,9 @@
     "remote branches",
     "dedicated worktrees",
     "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/recovery_decision.rs"
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "docs/reference/**",
+    "docs/work-items/**"
   ],
   "sources": [],
   "state": "implementation_active",

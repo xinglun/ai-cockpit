@@ -15,16 +15,9 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.4d092bfbbfeaa4e4335a50db37935afc9b717ec42a091313a817d26fef0cded1.json
-- Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json
+- Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671.json
 - Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.events.jsonl
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.outcome.json
 - Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.task-report.json
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.task-report.md
-- Changed path: crates/cockpit-repository/src/lifecycle.rs
-- Changed path: crates/cockpit-repository/tests/recovery_decision.rs
 
 ## Findings
 
