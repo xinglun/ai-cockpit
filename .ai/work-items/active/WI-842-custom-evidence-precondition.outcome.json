@@ -3,11 +3,12 @@
     "A valid repository-bound custom evidence projection no longer blocks verification preconditions.",
     "Missing, stale, malformed, foreign, symlinked, and non-regular custom evidence still fail closed before project process spawn.",
     "Regression tests prove project process spawn is zero on invalid projections and preserve structured precondition attempt evidence.",
-    "The same Work Item rule is documented for future Agent execution and does not create a successor for a same-root problem."
+    "The same Work Item rule is documented for future Agent execution and does not create a successor for a same-root problem.",
+    "Exact full Work Item IDs in parity rows are recognized deterministically, while legacy short IDs remain supported and unrelated rows remain fail-closed."
   ],
-  "createdAt": "2026-09-14T05:37:58Z",
+  "createdAt": "2026-09-14T05:56:42Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:48ee2748010caed80727891c620065e948a655704448ea1d1361bb9551ec5a4c",
+  "evidenceDigest": "sha256:30550947f5e52966adf37850c8495c90586708fdd74509fdefb0fc16b240063b",
   "evidenceRefs": [
     ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+      "repositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
       "workItemId": "WI-842-custom-evidence-precondition"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,14 +48,14 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.0d4dea0974feca07e289f0526a3e9441e7aa071f340c46eb2c4188443bc8e6de.json"
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.186d5c2de989e3279b3d4de47db506f68606b41827b7d5082e7f948356af42f4.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.json"
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.e908726e7c235b9d880c0656d9419749a076487bcb424e3adacfe4d3e8e521ca.json"
         },
         {
           "evidenceRefs": [
@@ -62,13 +63,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.896b49d98af72d129403fa3d177891b2277407a994cb8dff095b4dd0f2223e31.json"
         },
         {
           "evidenceRefs": [
@@ -83,20 +77,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         },
         {
           "evidenceRefs": [
@@ -124,21 +104,14 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.ja.md"
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.zh-CN.md"
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
         }
       ],
       "evidence": [
@@ -213,8 +186,8 @@
     "status": "verified",
     "workItemId": "WI-842-custom-evidence-precondition"
   },
-  "taskReportDigest": "sha256:95be1274268aa34fa9c8305b4e19310692f667bd8f78278954adce2397edb8ac",
-  "taskReportMarkdownDigest": "sha256:25b674ad0844685bb8ae045246853738b898615ca4bd3f177734a463522c2f5c",
+  "taskReportDigest": "sha256:0205ebdd6778a65d6bb28e7770fe88815be682b45054afa5caa355d704de2b2b",
+  "taskReportMarkdownDigest": "sha256:d878324c4e4bed0450095ab8227f604a1113f0818a715fc5117af1ef90fe8ff8",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

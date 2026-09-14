@@ -85,7 +85,7 @@ def parity_work_item_id(line: str) -> str | None:
     if not cells:
         return None
     match = re.match(
-        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\|)",
+        r"^(WI-[0-9]+[A-Za-z]?(?:-[A-Za-z0-9][A-Za-z0-9-]*)?)(?=\s|—|\||$)",
         cells[0],
         re.IGNORECASE,
     )

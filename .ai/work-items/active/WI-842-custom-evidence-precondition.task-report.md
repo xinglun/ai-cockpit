@@ -14,20 +14,16 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.0d4dea0974feca07e289f0526a3e9441e7aa071f340c46eb2c4188443bc8e6de.json
-- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.json
+- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.186d5c2de989e3279b3d4de47db506f68606b41827b7d5082e7f948356af42f4.json
+- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.e908726e7c235b9d880c0656d9419749a076487bcb424e3adacfe4d3e8e521ca.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.896b49d98af72d129403fa3d177891b2277407a994cb8dff095b4dd0f2223e31.json
 - Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.contract.json
 - Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-842-custom-evidence-precondition.ja.md
-- Changed path: docs/work-items/WI-842-custom-evidence-precondition.md
-- Changed path: docs/work-items/WI-842-custom-evidence-precondition.zh-CN.md
+- Changed path: tests/ci/governance_integrity_gate.py
+- Changed path: tests/ci/governance_integrity_gate_test.sh
 
 ## Findings
 

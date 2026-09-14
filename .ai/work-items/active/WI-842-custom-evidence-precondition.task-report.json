@@ -4,7 +4,7 @@
       ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+    "repositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
     "workItemId": "WI-842-custom-evidence-precondition"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,14 +18,14 @@
           ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.0d4dea0974feca07e289f0526a3e9441e7aa071f340c46eb2c4188443bc8e6de.json"
+        "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.186d5c2de989e3279b3d4de47db506f68606b41827b7d5082e7f948356af42f4.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.json"
+        "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.e908726e7c235b9d880c0656d9419749a076487bcb424e3adacfe4d3e8e521ca.json"
       },
       {
         "evidenceRefs": [
@@ -33,13 +33,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.896b49d98af72d129403fa3d177891b2277407a994cb8dff095b4dd0f2223e31.json"
       },
       {
         "evidenceRefs": [
@@ -54,20 +47,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
       },
       {
         "evidenceRefs": [
@@ -95,21 +74,14 @@
           ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.ja.md"
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-842-custom-evidence-precondition.zh-CN.md"
+        "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
       }
     ],
     "evidence": [

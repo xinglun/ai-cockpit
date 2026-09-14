@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dd44befb96b55f6c51195ca621a544a2bfad4207b161028d4c7b9b8d66066130",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirm the bounded parity-parser correction and custom-evidence precondition repair after current verification; no release, cleanup, or historical evidence rewrite is authorized.",
+  "recordedAt": "2026-09-14T05:56:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b05c7a3d15e852f5d6c48452cb159ac03d20bdaf2cc1b4704c9bf02e116ef1c4",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}
