@@ -2046,6 +2046,88 @@ fn superseded_predecessor_preserves_bytes_and_closes_without_current_verificatio
 }
 
 #[test]
+fn supersede_accepts_a_successor_bound_before_a_predecessor_amendment() {
+    let directory = repository();
+    let root = directory.path();
+    let runtime = current_runtime();
+
+    // The successor is selected against the exact Contract that was
+    // checkpointed.  This is the historical binding that must remain valid
+    // even if the predecessor later receives a bounded additive amendment.
+    let mut successor = receipt(&directory, "continue the bounded recovery");
+    successor["runtimeVersion"] = json!(runtime.runtime_version);
+    successor["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    record_recovery_decision(root, "WI-BLOCKED", &successor, &runtime).expect("successor receipt");
+    let historical_contract_digest = successor["predecessorContractDigest"].clone();
+
+    amend_work_item_contract(
+        root,
+        "WI-BLOCKED",
+        &json!({
+            "acceptanceAppend": [
+                "the historical successor binding remains authoritative after a bounded amendment"
+            ]
+        }),
+        "cover the amended predecessor cleanup boundary",
+    )
+    .expect("bounded predecessor amendment");
+
+    let contract_path = root.join(".ai/work-items/active/WI-BLOCKED.contract.json");
+    let amended_contract = fs::read(&contract_path).expect("amended Contract");
+    let amended_contract_digest = cockpit_protocol::digest_json(
+        &serde_json::from_slice::<serde_json::Value>(&amended_contract).unwrap(),
+    )
+    .unwrap()
+    .to_string();
+    assert_ne!(
+        amended_contract_digest,
+        historical_contract_digest.as_str().unwrap()
+    );
+
+    let summary_path = root.join(".ai/work-items/active/WI-BLOCKED.summary.json");
+    let outcome_path = root.join(".ai/work-items/active/WI-BLOCKED.outcome.json");
+    let events_path = root.join(".ai/work-items/active/WI-BLOCKED.events.jsonl");
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).unwrap()).expect("amended Summary");
+    let outcome: serde_json::Value =
+        serde_json::from_slice(&fs::read(&outcome_path).unwrap()).expect("predecessor Outcome");
+    let supersede = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "supersede",
+        "workItemId": "WI-BLOCKED",
+        "repositoryId": repository_id(root),
+        "predecessorWorkItemId": "WI-BLOCKED",
+        "predecessorContractDigest": historical_contract_digest,
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).unwrap(),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&outcome).unwrap(),
+        "predecessorEventsDigest": Digest::sha256_bytes(&fs::read(&events_path).unwrap()),
+        "successorWorkItemId": "WI-SUCCESSOR",
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "actor": "human:owner",
+        "authoritySource": "repository-owner",
+        "reason": "close the amended predecessor through its existing successor lineage",
+        "evidenceRefs": [
+            ".ai/decisions/WI-BLOCKED.recovery.json",
+            ".ai/work-items/active/WI-SUCCESSOR.contract.json"
+        ],
+        "policyRefs": ["docs/reference/agent-workflow.md"],
+        "decidedAt": "2026-08-23T00:02:30Z",
+        "resumeCondition": "continue on the existing successor Work Item"
+    });
+    record_recovery_decision(root, "WI-BLOCKED", &supersede, &runtime)
+        .expect("supersede should consume the historical checkpoint binding");
+
+    archive_work_item(root, "WI-BLOCKED").expect("superseded archive");
+    assert_eq!(
+        fs::read(root.join(".ai/work-items/archive/WI-BLOCKED.contract.json"))
+            .expect("archived Contract"),
+        amended_contract
+    );
+}
+
+#[test]
 fn snapshot_digest_is_stable_when_the_same_source_change_is_committed() {
     let directory = tempfile::tempdir().expect("tempdir");
     assert!(

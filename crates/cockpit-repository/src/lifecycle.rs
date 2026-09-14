@@ -2014,7 +2014,24 @@ pub(super) fn validate_recovery_predecessor_bindings(
         .current_contract_digest
         .as_ref()
         .unwrap_or(&receipt.predecessor_contract_digest);
-    if contract_binding != &expected_contract_digest && !retry_binding {
+    // A successor is selected against the predecessor Contract that was
+    // checkpointed.  The predecessor may then receive a bounded additive
+    // amendment while the successor is being implemented.  For an explicit
+    // supersede, the existing successor binding is checked immediately after
+    // this function, so accepting the immutable checkpoint digest here does
+    // not authorize an unbound or competing successor.  Requiring the
+    // checkpoint marker prevents an arbitrary stale Contract digest from
+    // bypassing the current-contract check, while allowing historical
+    // cleanup without re-running the predecessor's source verification.
+    let supersede_uses_checkpoint_binding = receipt.decision == "supersede"
+        && receipt.current_contract_digest.is_none()
+        && receipt.predecessor_contract_digest != expected_contract_digest
+        && summary["checkpointContractDigest"].as_str()
+            == Some(receipt.predecessor_contract_digest.to_string().as_str());
+    if contract_binding != &expected_contract_digest
+        && !retry_binding
+        && !supersede_uses_checkpoint_binding
+    {
         return Err(recovery_decision_error(
             contract_path,
             "predecessor_contract_mismatch",

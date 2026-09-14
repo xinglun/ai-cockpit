@@ -1,0 +1,73 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.4d092bfbbfeaa4e4335a50db37935afc9b717ec42a091313a817d26fef0cded1.json",
+    ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.events.jsonl",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.outcome.json",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.task-report.json",
+    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.task-report.md",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "checkpointAt": "2026-09-14T13:30:25Z",
+  "checkpointContractDigest": "sha256:25fe94cf77a58dca39bc8c5a5d4e2c00420bd7d04b9cae31b0f089f915adb5a3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4db0d97e71b915ef666adc999d6d2941ea17aa7965f4f5bfe0c9c6fa19cff3d2",
+      "recorded": true,
+      "recordedAt": "2026-09-14T13:30:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b1ec305c5bfdff00dbdd09836f3c9258d34babf35d71168ced60367684be31c1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-844-lifecycle-resource-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:25fe94cf77a58dca39bc8c5a5d4e2c00420bd7d04b9cae31b0f089f915adb5a3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4db0d97e71b915ef666adc999d6d2941ea17aa7965f4f5bfe0c9c6fa19cff3d2",
+      "previousContractHash": "sha256:4db0d97e71b915ef666adc999d6d2941ea17aa7965f4f5bfe0c9c6fa19cff3d2",
+      "reason": "Fix the confirmed lifecycle root cause: an already-bound successor must be able to supersede a predecessor whose Contract was later amended, using the immutable checkpoint binding without rerunning historical verification or creating another Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T13:47:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b1ec305c5bfdff00dbdd09836f3c9258d34babf35d71168ced60367684be31c1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-844-lifecycle-resource-reconciliation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d9a5fff6297079e980c75402f5e8b9c3fbf93eedee8ac2411d72e9873afad299",
+  "createdAt": "2026-09-14T13:29:41Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T13:50:47Z",
+  "preflightContractDigest": "sha256:25fe94cf77a58dca39bc8c5a5d4e2c00420bd7d04b9cae31b0f089f915adb5a3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d9a5fff6297079e980c75402f5e8b9c3fbf93eedee8ac2411d72e9873afad299",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T13:50:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-844-lifecycle-resource-reconciliation"
+}
