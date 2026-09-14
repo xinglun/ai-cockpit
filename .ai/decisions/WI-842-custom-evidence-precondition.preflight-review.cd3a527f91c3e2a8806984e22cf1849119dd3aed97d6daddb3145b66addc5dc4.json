@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirm the bounded WI-842 implementation review after the in-scope MCP receipt-persistence fix.",
+  "recordedAt": "2026-09-14T07:10:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

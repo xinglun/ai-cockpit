@@ -3805,6 +3805,39 @@ pub fn require_verification_preconditions(
         &summary,
         runtime,
     );
+    // The report-only controls validator cannot inspect repository paths, so
+    // it emits a warning for custom evidence classes. At this execution
+    // boundary the repository-bound projection is available and must be
+    // checked before deciding whether planned high-risk scenarios are ready.
+    // A complete projection clears only that placeholder warning; every
+    // missing, stale, malformed, foreign, symlinked, or non-regular
+    // projection remains fail-closed and prevents process spawn.
+    let mut controls = controls;
+    if !custom_required_evidence_classes(&contract).is_empty() {
+        let custom_evidence_state =
+            evidence_class_projection_state(&root, &contract, &summary, false)?;
+        if custom_evidence_state != EvidenceState::Complete {
+            let state_code = match custom_evidence_state {
+                EvidenceState::Missing => "missing",
+                EvidenceState::Stale => "stale",
+                EvidenceState::Contradictory => "contradictory",
+                EvidenceState::Unknown => "unknown",
+                EvidenceState::Complete => unreachable!("complete state handled above"),
+            };
+            return Err(ObserverError::State {
+                path: contract_path.clone(),
+                message: format!(
+                    "verification preconditions are blocked: evidence_classes_{state_code}"
+                ),
+            });
+        }
+        controls
+            .unknowns
+            .retain(|unknown| unknown != "evidence_classes_repository_context_required");
+        controls
+            .findings
+            .retain(|finding| finding.code != "evidence_classes_repository_context_required");
+    }
     // Required high-risk scenarios are allowed to remain unverified at the
     // execution boundary when their expected result and verification plan
     // are already declared. The same scenarios remain blocking for finish
@@ -5514,16 +5547,36 @@ pub(crate) fn evidence_class_projection_state(
             {
                 return Ok(EvidenceState::Contradictory);
             }
-            let evidence_path = root.join(relative);
-            let metadata = match fs::symlink_metadata(&evidence_path) {
-                Ok(metadata) => metadata,
-                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-                    return Ok(EvidenceState::Missing);
+            let mut components = Vec::new();
+            for component in relative.components() {
+                match component {
+                    std::path::Component::Normal(component) => components.push(component),
+                    std::path::Component::CurDir => {}
+                    _ => return Ok(EvidenceState::Contradictory),
                 }
-                Err(_) => return Ok(EvidenceState::Unknown),
-            };
-            if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            }
+            if components.is_empty() {
                 return Ok(EvidenceState::Contradictory);
+            }
+            let mut evidence_path = root.to_path_buf();
+            for (index, component) in components.iter().enumerate() {
+                evidence_path.push(component);
+                let metadata = match fs::symlink_metadata(&evidence_path) {
+                    Ok(metadata) => metadata,
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                        return Ok(EvidenceState::Missing);
+                    }
+                    Err(_) => return Ok(EvidenceState::Unknown),
+                };
+                if metadata.file_type().is_symlink() {
+                    return Ok(EvidenceState::Contradictory);
+                }
+                let is_leaf = index + 1 == components.len();
+                if (is_leaf && !metadata.file_type().is_file())
+                    || (!is_leaf && !metadata.file_type().is_dir())
+                {
+                    return Ok(EvidenceState::Contradictory);
+                }
             }
             let bytes = fs::read(&evidence_path).map_err(|source| ObserverError::Read {
                 path: evidence_path.clone(),

@@ -1,0 +1,40 @@
+{
+  "attemptId": "sha256:872f2201c335c8fa13f6a85cb7d4755406c85ad5e9952838d02043de317a0d4b",
+  "commands": [
+    {
+      "args": [
+        "/private/tmp/wi842-targeted-verify.sh"
+      ],
+      "baseCommit": "4d98058d4a5cba6baded2fadb3a96cece901e3b3",
+      "commandDigest": "sha256:8d0438737920d558d6c9df92ab3396efe0ea80f06c7c028bbf34376ceb0af492",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:d0ee807dd22b1adfeeb7acc1bb3422e761bb4596ca51d506434a4c9e799a811d",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:75a32df6022ad43b8c3988b40088d6e5e37bd50a42c33cc54a949b86806a7307",
+  "contractExecutionScopeDigest": "sha256:382787c11078547c88a8c1842af590ab7d50f97392b40e190dd24927eacc94d9",
+  "createdAt": "2026-09-14T07:16:08Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi842-custom-evidence-precondition/.ai/work-items/active/WI-842-custom-evidence-precondition.contract.json: verification preconditions are blocked: evidence_classes_stale"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b17ca30773352020b1da38cf23637e119c9c61586b7e6b2e1af0b3854a4c78c1",
+  "runtimeDigest": "sha256:d0ee807dd22b1adfeeb7acc1bb3422e761bb4596ca51d506434a4c9e799a811d",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

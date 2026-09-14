@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirm the bounded post-verification governance state for WI-842; no release, cleanup, or historical evidence rewrite is authorized.",
+  "recordedAt": "2026-09-14T05:38:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

@@ -823,10 +823,20 @@ fn verify_for_repo(
 ) -> Result<Value, String> {
     require_compatible(repo, runtime)?;
     let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
-    if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
-        cockpit_repository::require_policy_for_verification(&root, work_item_id)
-            .map_err(|error| error.to_string())?;
+    let work_item_id = arguments.get("workItemId").and_then(Value::as_str);
+    if let Some(work_item_id) = work_item_id {
+        validate_id(work_item_id)?;
     }
+    let initial_snapshot = if work_item_id.is_some() {
+        Some(
+            cockpit_git::GitRepository::discover(&root)
+                .map_err(|error| error.to_string())?
+                .snapshot()
+                .map_err(|error| error.to_string())?,
+        )
+    } else {
+        None
+    };
     let explicit_program = match arguments.get("command") {
         Some(Value::String(program)) => Some(program.as_str()),
         Some(_) => return Err("command argument must be a string".into()),
@@ -860,38 +870,114 @@ fn verify_for_repo(
     } else {
         return Err("no verified project command detected; provide command".into());
     };
-    let run = cockpit_repository::run_repository_verification(
-        &root,
-        &cockpit_repository::RepositoryVerificationRequest {
-            node_id: "project-command-0".into(),
-            program,
-            args,
-            scope: vec!["**".into()],
-            stage: "task".into(),
-            runner: "local".into(),
-            runtime_digest: runtime.runtime_digest.to_string(),
-            base_commit: None,
-            workers: 2,
-            policy: if explicit || arguments.get("workItemId").is_some() {
-                cockpit_repository::RepositoryVerificationPolicy::NeverReuse
-            } else {
-                cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized
-            },
+    let request = cockpit_repository::RepositoryVerificationRequest {
+        node_id: "project-command-0".into(),
+        program,
+        args,
+        scope: vec!["**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: runtime.runtime_digest.to_string(),
+        base_commit: None,
+        workers: 2,
+        policy: if explicit || work_item_id.is_some() {
+            cockpit_repository::RepositoryVerificationPolicy::NeverReuse
+        } else {
+            cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized
         },
-    )
-    .map_err(|error| error.to_string())?;
+    };
+    if let (Some(work_item_id), Some(snapshot)) = (work_item_id, initial_snapshot.as_ref()) {
+        let precondition = cockpit_repository::require_policy_for_verification(&root, work_item_id)
+            .and_then(|_| {
+                cockpit_repository::require_verification_preconditions(
+                    &root,
+                    work_item_id,
+                    runtime,
+                    snapshot,
+                )
+            });
+        if let Err(error) = precondition {
+            let diagnostic = error.to_string();
+            let persistence = cockpit_repository::persist_verification_attempt(
+                &root,
+                work_item_id,
+                std::slice::from_ref(&request),
+                snapshot,
+                runtime,
+                "precondition_rejected",
+                Some(("verification_preconditions", &diagnostic)),
+                None,
+            );
+            let persistence_note = match persistence {
+                Ok(attempt) => format!(
+                    "; verification attempt persisted at {}",
+                    attempt["path"].as_str().unwrap_or("unknown path")
+                ),
+                Err(persistence_error) => {
+                    format!("; verification attempt persistence failed: {persistence_error}")
+                }
+            };
+            return Err(format!(
+                "verification preconditions rejected: {diagnostic}{persistence_note}"
+            ));
+        }
+    }
+    let run = cockpit_repository::run_repository_verification(&root, &request)
+        .map_err(|error| error.to_string())?;
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
-    if let Some(work_item_id) = arguments.get("workItemId").and_then(Value::as_str) {
-        cockpit_repository::record_verification_with_runtime(
+    if let Some(work_item_id) = work_item_id {
+        output["workItemId"] = Value::String(work_item_id.into());
+        output["repositoryId"] =
+            Value::String(cockpit_repository::repository_id(&root).to_string());
+    }
+    if let Some(work_item_id) = work_item_id
+        && let Err(error) = cockpit_repository::record_verification_with_runtime(
             &root,
             work_item_id,
             &output,
             runtime,
             &run.final_snapshot,
         )
-        .map_err(|error| error.to_string())?;
+    {
+        let execution_succeeded = output["passed"] == Value::Bool(true);
+        let diagnostic = error.to_string();
+        let persistence = cockpit_repository::persist_verification_attempt(
+            &root,
+            work_item_id,
+            std::slice::from_ref(&request),
+            initial_snapshot
+                .as_ref()
+                .expect("repository-bound verification snapshot"),
+            runtime,
+            if execution_succeeded {
+                "execution_completed"
+            } else {
+                "execution_failed"
+            },
+            Some((
+                if execution_succeeded {
+                    "verification_recording"
+                } else {
+                    "verification_execution"
+                },
+                &diagnostic,
+            )),
+            Some(&output),
+        );
+        let persistence_note = match persistence {
+            Ok(attempt) => format!(
+                "; verification attempt persisted at {}",
+                attempt["path"].as_str().unwrap_or("unknown path")
+            ),
+            Err(persistence_error) => {
+                format!("; verification attempt persistence failed: {persistence_error}")
+            }
+        };
+        return Err(format!(
+            "record verification evidence: {diagnostic}{persistence_note}"
+        ));
     }
     Ok(output)
 }

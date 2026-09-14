@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:75a32df6022ad43b8c3988b40088d6e5e37bd50a42c33cc54a949b86806a7307",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Refresh the bounded WI-842 implementation review after the final current-runtime verification completed successfully.",
+  "recordedAt": "2026-09-14T07:28:56Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ab7f104962f36020dd3fc58d8871e1af05e90051ce7442b8d091fe047fb0c88e",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

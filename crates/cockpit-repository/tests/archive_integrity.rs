@@ -576,6 +576,83 @@ fn custom_required_evidence_class_projection_requires_digest_bound_regular_files
     fs::remove_dir_all(path).expect("cleanup");
 }
 
+#[cfg(unix)]
+#[test]
+fn custom_evidence_rejects_a_symlinked_parent_directory() {
+    let path = repository();
+    let work_item_id = "WI-CUSTOM-EVIDENCE-PARENT-SYMLINK";
+    start_work_item_with_options(
+        &path,
+        work_item_id,
+        "reject foreign custom evidence paths",
+        "ensure parent directory symlinks cannot escape the repository root",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    let contract_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract_value: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    let contract_digest = cockpit_protocol::digest_json(&contract_value).expect("contract digest");
+    let outside = tempfile::tempdir().expect("outside directory");
+    let outside_file = outside.path().join("measurement.txt");
+    fs::write(&outside_file, b"p50=1ms\n").expect("outside evidence");
+    let repository_file = path.join("performance-measurement.txt");
+    fs::write(&repository_file, b"p50=1ms\n").expect("repository evidence");
+    let snapshot = GitRepository::discover(&path)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let contract: cockpit_protocol::Contract =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    let input = serde_json::json!({
+        "evidenceClasses": {
+            "schemaVersion": 1,
+            "contractDigest": contract_digest.to_string(),
+            "items": [{
+                "class": "performance",
+                "evidence": [{
+                    "type": "measurement",
+                    "path": "performance-measurement.txt",
+                    "locator": "p50",
+                    "verification": "passed",
+                    "digest": Digest::sha256_bytes(&fs::read(&repository_file).expect("evidence bytes")).to_string()
+                }]
+            }]
+        }
+    });
+    record_work_item_governance_controls(&path, work_item_id, &input)
+        .expect("record regular evidence projection");
+    let summary_path = path
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    summary["evidenceClasses"]["items"][0]["evidence"][0]["path"] =
+        serde_json::json!("foreign-evidence/measurement.txt");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary JSON"),
+    )
+    .expect("rewrite evidence path for read-side regression");
+    std::os::unix::fs::symlink(outside.path(), path.join("foreign-evidence"))
+        .expect("parent symlink");
+    assert_eq!(
+        evidence_state_for_contract(&path, &contract, &snapshot).expect("projection state"),
+        EvidenceState::Contradictory
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
 #[test]
 fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection() {
     let path = repository();

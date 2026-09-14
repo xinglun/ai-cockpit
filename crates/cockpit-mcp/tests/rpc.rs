@@ -211,6 +211,30 @@ fn mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch() {
         &test_runtime_context(),
     );
     assert_eq!(malformed["result"]["isError"], true);
+
+    let traversal = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":4,"method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"sh",
+                    "args":["-c", "touch spawned-before-validation"],
+                    "workItemId":"../escape"
+                }
+            }
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(traversal["result"]["isError"], true);
+    assert!(
+        traversal["result"]["content"][0]["text"]
+            .as_str()
+            .expect("traversal error text")
+            .contains("invalid work item id")
+    );
+    assert!(!root.join("spawned-before-validation").exists());
 }
 
 #[test]
@@ -1026,6 +1050,303 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         .expect("finish after MCP verification");
     assert!(directory.join("Cargo.lock").is_file());
     fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let sequence = NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed);
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-mcp-custom-evidence-{}-{suffix}-{sequence}",
+        std::process::id()
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(&directory).expect("attach");
+    cockpit_repository::start_work_item_with_options(
+        &directory,
+        "WI-MCP-CUSTOM-EVIDENCE",
+        "verify custom evidence before execution",
+        "reject missing custom evidence before spawning a project process",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path =
+        directory.join(".ai/work-items/active/WI-MCP-CUSTOM-EVIDENCE.contract.json");
+    let preflight =
+        cockpit_repository::preflight_work_item(&directory, &contract_path).expect("preflight");
+    assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
+    cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-CUSTOM-EVIDENCE")
+        .expect("checkpoint");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":10,
+            "method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"true",
+                    "args":[],
+                    "workItemId":"WI-MCP-CUSTOM-EVIDENCE"
+                }
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("evidence_classes_missing")
+    );
+    assert!(
+        !directory
+            .join(".ai/evidence/WI-MCP-CUSTOM-EVIDENCE.verification.json")
+            .exists()
+    );
+
+    let attempts = fs::read_dir(directory.join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains("WI-MCP-CUSTOM-EVIDENCE.verification-attempt.")
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).expect("precondition attempt"))
+            .expect("precondition attempt JSON");
+    assert_eq!(attempt["state"], "precondition_rejected");
+    assert_eq!(attempt["processesSpawned"], 0);
+    assert!(
+        attempt["executionRecords"]
+            .as_array()
+            .expect("execution records")
+            .is_empty()
+    );
+    assert_eq!(attempt["diagnostic"]["code"], "verification_preconditions");
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fails() {
+    let directory = TestTempDir::new("cockpit-mcp-receipt-rejection");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let work_item_id = "WI-MCP-RECEIPT-REJECTION";
+    cockpit_repository::start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve MCP execution results when formal receipt recording fails",
+        "record the successful process result even when lifecycle evidence is rejected",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let script_path = directory.path().join("verify.js");
+    fs::write(
+        &script_path,
+        format!(
+            "const fs = require('fs');\nconst p = {summary_path:?};\nconst summary = JSON.parse(fs.readFileSync(p));\nsummary.state = 'invalid-during-verification';\nfs.writeFileSync(p, JSON.stringify(summary));\n"
+        ),
+    )
+    .expect("verification script");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    cockpit_repository::preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":11,
+            "method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"node",
+                    "args":["verify.js"],
+                    "workItemId":work_item_id
+                }
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("verification requires exactly one completed checkpoint")
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/evidence/{work_item_id}.verification.json"))
+            .exists()
+    );
+
+    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.verification-attempt."))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).expect("rejected attempt"))
+            .expect("rejected attempt JSON");
+    assert_eq!(attempt["state"], "execution_completed");
+    assert_eq!(attempt["passed"], true);
+    assert_eq!(attempt["processesSpawned"], 1);
+    let record = &attempt["executionRecords"][0];
+    assert_eq!(record["exitCode"], 0);
+    assert_eq!(record["passed"], true);
+    assert_eq!(record["timedOut"], false);
+    assert!(record["elapsedMs"].is_u64());
+    assert!(record["stdout"].is_string());
+    assert!(record["stderr"].is_string());
+    assert_eq!(record["stdoutTruncated"], false);
+    assert_eq!(record["stderrTruncated"], false);
+    assert_eq!(attempt["receipt"]["passed"], true);
+    assert_eq!(attempt["diagnostic"]["code"], "verification_recording");
+    assert_eq!(record["nodeId"], "project-command-0");
+    assert_eq!(record["spawned"], true);
+    assert!(
+        record["commandDigest"]
+            .as_str()
+            .is_some_and(|digest| digest.starts_with("sha256:"))
+    );
+}
+
+#[test]
+fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
+    let directory = TestTempDir::new("cockpit-mcp-failed-execution");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let work_item_id = "WI-MCP-FAILED-EXECUTION";
+    cockpit_repository::start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve failed verification attempts",
+        "keep failed process evidence without treating it as completion",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let script_path = directory.path().join("fail.js");
+    fs::write(
+        &script_path,
+        "process.stderr.write('failure'); process.exit(7);\n",
+    )
+    .expect("failure script");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    cockpit_repository::preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":12,
+            "method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"node",
+                    "args":["fail.js"],
+                    "workItemId":work_item_id
+                }
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("failed verification cannot be recorded as completion evidence")
+    );
+
+    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.verification-attempt."))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).expect("failed attempt"))
+            .expect("failed attempt JSON");
+    assert_eq!(attempt["state"], "execution_failed");
+    assert_eq!(attempt["passed"], false);
+    assert_eq!(attempt["processesSpawned"], 1);
+    assert_eq!(attempt["diagnostic"]["code"], "verification_execution");
+    let record = &attempt["executionRecords"][0];
+    assert_eq!(record["nodeId"], "project-command-0");
+    assert!(record["commandDigest"].as_str().is_some());
+    assert_eq!(record["spawned"], true);
+    assert_eq!(record["passed"], false);
+    assert_eq!(record["exitCode"], 7);
+    assert_eq!(record["timedOut"], false);
+    assert!(record["elapsedMs"].is_u64());
+    assert!(record["stdout"].is_string());
+    assert!(record["stderr"].is_string());
+    assert_eq!(attempt["receipt"]["workItemId"], work_item_id);
+    assert!(attempt["receipt"]["repositoryId"].is_string());
+    assert_eq!(
+        attempt["receipt"]["runtimeVersion"],
+        test_runtime_context().runtime_version
+    );
 }
 
 #[test]

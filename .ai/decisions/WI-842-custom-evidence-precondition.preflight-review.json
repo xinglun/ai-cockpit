@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Current user authorization confirms this bounded Runtime precondition fix as a separate successor scope from WI-840; it does not authorize historical evidence rewriting, cleanup, or release publication.",
+  "recordedAt": "2026-09-14T05:17:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3e1143c6b05f5eb2f50d8effada56ac5602565b5c6d17d8d347e9d0d185797d9",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

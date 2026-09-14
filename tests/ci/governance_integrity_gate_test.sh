@@ -181,7 +181,8 @@ rows = {
 for relative, status in rows.items():
     (repo / relative).write_text(
         f"| WI-714-wi712-doc-promotion — documentation | {status} | evidence |\n"
-        f"| WI-714-wi713-current-base-revalidation — redelivery | {status} | evidence |\n",
+        f"| WI-714-wi713-current-base-revalidation — redelivery | {status} | evidence |\n"
+        f"| WI-714-exact-full-id | {status} | evidence |\n",
         encoding="utf-8",
     )
 spec = importlib.util.spec_from_file_location("governance_gate", gate_path)
@@ -193,6 +194,7 @@ assert not errors, errors
 assert set(parsed) == {
     "WI-714-wi712-doc-promotion",
     "WI-714-wi713-current-base-revalidation",
+    "WI-714-exact-full-id",
 }, parsed
 PY
 printf 'governance full-id parity regression passed\n'

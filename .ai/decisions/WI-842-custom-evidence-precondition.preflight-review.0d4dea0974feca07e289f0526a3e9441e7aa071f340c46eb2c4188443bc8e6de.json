@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "Confirm the bounded Runtime precondition repair and its amended documentation boundary; no release, cleanup, or historical evidence rewrite is authorized.",
+  "recordedAt": "2026-09-14T05:34:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

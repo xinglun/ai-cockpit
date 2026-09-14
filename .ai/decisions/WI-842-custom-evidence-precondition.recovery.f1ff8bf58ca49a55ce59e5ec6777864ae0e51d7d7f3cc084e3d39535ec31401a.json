@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T07:23:23Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:75a32df6022ad43b8c3988b40088d6e5e37bd50a42c33cc54a949b86806a7307",
+  "predecessorEventsDigest": "sha256:5f92dad26ed009a94df4cc3cb6f204617b8636b961aea9cbcda50932bb20f0f3",
+  "predecessorOutcomeDigest": "sha256:a4c72672362a4c667841ab2fe0e10931e0487a7be0af7c687c99b5d0a916b6d4",
+  "predecessorSummaryDigest": "sha256:285f4970da655cb192b4373bc946b9bb3d32d354ffdc4ff1a88efc94d4c489e4",
+  "predecessorWorkItemId": "WI-842-custom-evidence-precondition",
+  "reason": "Retry the current Work Item after the final in-scope atomic verification projection regression; preserve prior evidence and revalidate the changed test input.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Current source passes formal verification and the Work Item can finish without losing rejected-receipt execution evidence.",
+  "runtimeDigest": "sha256:d0ee807dd22b1adfeeb7acc1bb3422e761bb4596ca51d506434a4c9e799a811d",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}
