@@ -6,6 +6,7 @@ audience: [maintainer, reviewer]
 status: in_progress
 authority: authorized
 workItemId: WI-844-lifecycle-resource-reconciliation
+lastVerifiedBy: WI-844-lifecycle-resource-reconciliation
 ---
 
 [English](WI-844-lifecycle-resource-reconciliation.md) · [简体中文](WI-844-lifecycle-resource-reconciliation.zh-CN.md)
