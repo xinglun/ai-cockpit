@@ -924,15 +924,40 @@ fn verify_for_repo(
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
-    if let Some(work_item_id) = work_item_id {
-        cockpit_repository::record_verification_with_runtime(
+    if let Some(work_item_id) = work_item_id
+        && let Err(error) = cockpit_repository::record_verification_with_runtime(
             &root,
             work_item_id,
             &output,
             runtime,
             &run.final_snapshot,
         )
-        .map_err(|error| error.to_string())?;
+    {
+        let diagnostic = error.to_string();
+        let persistence = cockpit_repository::persist_verification_attempt(
+            &root,
+            work_item_id,
+            std::slice::from_ref(&request),
+            initial_snapshot
+                .as_ref()
+                .expect("repository-bound verification snapshot"),
+            runtime,
+            "formal_receipt_rejected",
+            Some(("formal_receipt", &diagnostic)),
+            Some(&output),
+        );
+        let persistence_note = match persistence {
+            Ok(attempt) => format!(
+                "; verification attempt persisted at {}",
+                attempt["path"].as_str().unwrap_or("unknown path")
+            ),
+            Err(persistence_error) => {
+                format!("; verification attempt persistence failed: {persistence_error}")
+            }
+        };
+        return Err(format!(
+            "record verification evidence: {diagnostic}{persistence_note}"
+        ));
     }
     Ok(output)
 }

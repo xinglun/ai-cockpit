@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T07:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
+  "predecessorEventsDigest": "sha256:707f35d9283f26086a8e9577ecf8aa416eb275918a6f1dd7fc22736571b5b499",
+  "predecessorOutcomeDigest": "sha256:b53e0d3f046abc8e2237bd21508e133b1146d0c354a311cf72b3bbd0c49849c7",
+  "predecessorSummaryDigest": "sha256:6a8ee8faa6ec50f2d4792cd260a804708d2bb99be17f527aabf8e4748b39f24e",
+  "predecessorWorkItemId": "WI-842-custom-evidence-precondition",
+  "reason": "Retry the current Work Item after an in-scope MCP receipt-persistence fix; preserve prior formal verification evidence and revalidate the current source.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Current source passes formal verification and the Work Item can finish without losing rejected-receipt execution evidence.",
+  "runtimeDigest": "sha256:3e588e1c31d3600003afa8bca74b7ac733ad114bb7d724406a2342c81fdffdb0",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

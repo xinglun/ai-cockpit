@@ -7,9 +7,9 @@
     "Exact full Work Item IDs in parity rows are recognized deterministically, while legacy short IDs remain supported and unrelated rows remain fail-closed.",
     "MCP verification uses the same repository-bound precondition and zero-spawn attempt persistence as the CLI entry point."
   ],
-  "createdAt": "2026-09-14T06:29:13Z",
+  "createdAt": "2026-09-14T06:52:04Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fa7d07858cca0c36a027e6685484e93cc52fe39ff8ecefd99032690eef619d0c",
+  "evidenceDigest": "sha256:d2b1ed7280e285720984ea2780dc62114dcfc30924c975ae6326b003a90509fc",
   "evidenceRefs": [
     ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
+      "repositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
       "workItemId": "WI-842-custom-evidence-precondition"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,7 +49,14 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.b0155b822b6adbb015a8ede665607cdb2abfca54317c10e9d6a27139f6e39273.json"
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.94ab71e7c78ac4e968e356a787579cb909cdfd428b8f1e1e9bdac8d5143e8dbc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.recovery.json"
         },
         {
           "evidenceRefs": [
@@ -63,14 +70,7 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.38fdf1e54300f87effe2809a0c7e103257fcdeefb1f64027f4b5acdb17b7f156.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.contract.json"
+          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.8b6de4c8c468be5d5b2cd6c6d93bf32f4a5d726ddf04d9c5f305139a0d9c1ad8.json"
         },
         {
           "evidenceRefs": [
@@ -92,20 +92,6 @@
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
         }
       ],
       "evidence": [
@@ -180,8 +166,8 @@
     "status": "verified",
     "workItemId": "WI-842-custom-evidence-precondition"
   },
-  "taskReportDigest": "sha256:ad10eb0c4229ea661fc5167e8355b328968b537d827e94f858069642208a02e6",
-  "taskReportMarkdownDigest": "sha256:00db97ca655a480c5d67d4b68ad2a516fc55ddb8d4367dbe21de8cd34346e701",
+  "taskReportDigest": "sha256:b06304418044b423583191672685281d1db7041c594fdb1b714d52522edbb853",
+  "taskReportMarkdownDigest": "sha256:408d05d9fc803a9edd106019c151c7b91bf6bb6d5b3bb573dcd8dd44f7eb4e45",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

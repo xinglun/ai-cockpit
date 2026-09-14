@@ -46,15 +46,13 @@
     }
   ],
   "changedPaths": [
-    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.b0155b822b6adbb015a8ede665607cdb2abfca54317c10e9d6a27139f6e39273.json",
+    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.94ab71e7c78ac4e968e356a787579cb909cdfd428b8f1e1e9bdac8d5143e8dbc.json",
+    ".ai/decisions/WI-842-custom-evidence-precondition.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.38fdf1e54300f87effe2809a0c7e103257fcdeefb1f64027f4b5acdb17b7f156.json",
-    ".ai/work-items/active/WI-842-custom-evidence-precondition.contract.json",
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.8b6de4c8c468be5d5b2cd6c6d93bf32f4a5d726ddf04d9c5f305139a0d9c1ad8.json",
     ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json",
     "crates/cockpit-mcp/src/lib.rs",
-    "crates/cockpit-mcp/tests/rpc.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/archive_integrity.rs"
+    "crates/cockpit-mcp/tests/rpc.rs"
   ],
   "checkpointAt": "2026-09-14T05:21:57Z",
   "checkpointContractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
@@ -155,18 +153,18 @@
       "workItemId": "WI-842-custom-evidence-precondition"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
+  "checkpointRepositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
   "createdAt": "2026-09-14T05:16:12Z",
   "decisionEvidence": {
     "contractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Confirm the bounded parent-symlink and MCP precondition fixes within WI-842; no release, cleanup, or historical evidence rewrite is authorized.",
-    "recordedAt": "2026-09-14T06:26:00Z",
-    "recordedBy": "human:xinglun",
+    "reason": "Confirm the bounded WI-842 implementation review after the in-scope MCP receipt-persistence fix.",
+    "recordedAt": "2026-09-14T07:10:00Z",
+    "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
+    "repositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
     "schemaVersion": 1,
     "workItemId": "WI-842-custom-evidence-precondition"
   },
@@ -197,10 +195,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-14T06:28:59Z",
+  "preflightAt": "2026-09-14T06:51:50Z",
   "preflightContractDigest": "sha256:2cbe713694267c1eb7b6bb5ee47745ea5ed57bf0bc337208de7c3fa22194b996",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:bda68e84fe3ef991bf14e3546aa2d5100ad70633498354924f86171eefd2fbb5",
+  "preflightRepositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -247,7 +245,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T06:29:13Z",
+  "updatedAt": "2026-09-14T06:52:04Z",
   "verification": [
     {
       "check": "project-command-0",

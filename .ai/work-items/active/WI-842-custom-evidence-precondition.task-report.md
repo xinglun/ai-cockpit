@@ -14,15 +14,13 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.b0155b822b6adbb015a8ede665607cdb2abfca54317c10e9d6a27139f6e39273.json
+- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.94ab71e7c78ac4e968e356a787579cb909cdfd428b8f1e1e9bdac8d5143e8dbc.json
+- Changed path: .ai/decisions/WI-842-custom-evidence-precondition.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.38fdf1e54300f87effe2809a0c7e103257fcdeefb1f64027f4b5acdb17b7f156.json
-- Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.contract.json
+- Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.8b6de4c8c468be5d5b2cd6c6d93bf32f4a5d726ddf04d9c5f305139a0d9c1ad8.json
 - Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.summary.json
 - Changed path: crates/cockpit-mcp/src/lib.rs
 - Changed path: crates/cockpit-mcp/tests/rpc.rs
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/archive_integrity.rs
 
 ## Findings
 
