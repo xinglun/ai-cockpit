@@ -3,10 +3,13 @@ author: AI Cockpit 维护者
 title: "WI-842——自定义证据 verification 前置条件"
 description: "在启动任何对象工程 verification 进程前校验仓库绑定的自定义证据。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-842-custom-evidence-precondition
 lastVerifiedBy: WI-842-custom-evidence-precondition
+terminalArchive: .ai/work-items/archive/WI-842-custom-evidence-precondition.contract.json
+terminalVerification: .ai/evidence/WI-842-custom-evidence-precondition.verification.json
+terminalDecision: .ai/decisions/WI-842-custom-evidence-precondition.close.json
 ---
 
 [English](WI-842-custom-evidence-precondition.md) · [日本語](WI-842-custom-evidence-precondition.ja.md)

@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-842 — custom evidence verification preconditions"
 description: "Validate repository-bound custom evidence before any project verification process starts."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-842-custom-evidence-precondition
 lastVerifiedBy: WI-842-custom-evidence-precondition
+terminalArchive: .ai/work-items/archive/WI-842-custom-evidence-precondition.contract.json
+terminalVerification: .ai/evidence/WI-842-custom-evidence-precondition.verification.json
+terminalDecision: .ai/decisions/WI-842-custom-evidence-precondition.close.json
 ---
 
 [简体中文](WI-842-custom-evidence-precondition.zh-CN.md) · [日本語](WI-842-custom-evidence-precondition.ja.md)
