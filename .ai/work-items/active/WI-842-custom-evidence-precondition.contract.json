@@ -5,7 +5,13 @@
     "Regression tests prove project process spawn is zero on invalid projections and preserve structured precondition attempt evidence.",
     "The same Work Item rule is documented for future Agent execution and does not create a successor for a same-root problem.",
     "Exact full Work Item IDs in parity rows are recognized deterministically, while legacy short IDs remain supported and unrelated rows remain fail-closed.",
-    "MCP verification uses the same repository-bound precondition and zero-spawn attempt persistence as the CLI entry point."
+    "MCP verification uses the same repository-bound precondition and zero-spawn attempt persistence as the CLI entry point.",
+    "A repository-bound verification that cannot complete its lifecycle projection leaves no partial completion evidence and preserves the execution attempt for later recovery.",
+    "MCP rejects invalid Work Item identifiers before repository-bound verification can spawn a project process.",
+    "A successful execution whose formal receipt cannot be recorded is classified as execution_completed with a diagnostic that preserves the recording failure cause.",
+    "A failed project command or timeout is persisted as a non-reusable execution failure, never as execution_completed or completion evidence, with its exit code, timeout, elapsed time, bounded logs, and input identity preserved.",
+    "A reusable verification attempt is accepted only when its content digest, embedded receipt identity, repository identity, Work Item identity, Runtime identity, command identity, and successful execution records all match the current request; any tampering or mismatch invalidates reuse while preserving the bytes for diagnosis.",
+    "Verification projection rollback reports any restoration failure instead of silently claiming rollback, and normal failures leave the pre-existing projection bytes unchanged."
   ],
   "authority": "explicit-user-authorization-current-task",
   "baseRevision": "4d98058d4a5cba6baded2fadb3a96cece901e3b3",
@@ -82,7 +88,8 @@
     "tests/ci/governance_integrity_gate.py",
     "tests/ci/governance_integrity_gate_test.sh",
     "crates/cockpit-mcp/src/lib.rs",
-    "crates/cockpit-mcp/tests/rpc.rs"
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lifecycle.rs"
   ],
   "sources": [],
   "state": "implementation_active",

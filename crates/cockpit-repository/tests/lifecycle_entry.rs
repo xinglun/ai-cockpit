@@ -4,7 +4,8 @@ use cockpit_protocol::{HumanDecision, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, finish_work_item, preflight_work_item,
+    close_work_item_with_structured_decision, finish_work_item, finish_work_item_with_runtime,
+    load_reusable_verification_attempt, persist_verification_attempt, preflight_work_item,
     preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
     record_work_item_governance_controls, require_verification_preconditions,
     run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
@@ -699,6 +700,216 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
 
     require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
         .expect("empty invalidation marker must allow fresh verification to run");
+}
+
+#[test]
+fn verification_record_rolls_back_projection_when_outcome_refresh_fails() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFY-ATOMIC-PROJECTION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "keep verification projection atomic",
+        "do not leave completion evidence behind when a later Outcome refresh rejects",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "atomic-projection-initial".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("initial verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("initial evidence");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime).expect("finish");
+
+    let evidence_path = directory
+        .path()
+        .join(format!(".ai/evidence/{work_item_id}.verification.json"));
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let outcome_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.outcome.json"));
+    let report_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.task-report.json"
+    ));
+    let markdown_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.task-report.md"
+    ));
+    let evidence_before = fs::read(&evidence_path).expect("existing evidence");
+    let summary_before = fs::read(&summary_path).expect("existing summary");
+    let outcome_before = fs::read(&outcome_path).expect("existing outcome");
+    let report_before = fs::read(&report_path).expect("existing task report");
+    let markdown_before = fs::read(&markdown_path).expect("existing task report markdown");
+
+    // Simulate a malformed active projection discovered after the evidence
+    // write.  The transaction must restore all bytes, including the fixture's
+    // pre-existing malformed Outcome, when its refresh rejects the attempt.
+    let mut invalid_outcome: serde_json::Value =
+        serde_json::from_slice(&outcome_before).expect("outcome JSON");
+    invalid_outcome["state"] = json!("invalid-during-projection-refresh");
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&invalid_outcome).expect("invalid outcome JSON"),
+    )
+    .expect("malformed outcome fixture");
+    let malformed_outcome = fs::read(&outcome_path).expect("malformed outcome");
+
+    let retry = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "atomic-projection-retry".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("retry verification");
+    let mut retry_receipt = serde_json::to_value(&retry.receipt).expect("retry receipt JSON");
+    retry_receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    retry_receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    let error = record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &retry_receipt,
+        &runtime,
+        &retry.final_snapshot,
+    )
+    .expect_err("malformed Outcome must reject the projection refresh");
+    assert!(error.to_string().contains("verified Outcome"));
+    assert_eq!(
+        fs::read(&evidence_path).expect("rolled back evidence"),
+        evidence_before
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("rolled back summary"),
+        summary_before
+    );
+    assert_eq!(
+        fs::read(&outcome_path).expect("preserved malformed outcome"),
+        malformed_outcome
+    );
+    assert_eq!(
+        fs::read(&report_path).expect("rolled back task report"),
+        report_before
+    );
+    assert_eq!(
+        fs::read(&markdown_path).expect("rolled back task report markdown"),
+        markdown_before
+    );
+}
+
+#[test]
+fn tampered_verification_attempt_is_not_reused_even_when_execution_fields_match() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFY-ATTEMPT-INTEGRITY";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "bind reusable attempts",
+        "reject modified attempt content before reuse",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let request = RepositoryVerificationRequest {
+        node_id: "attempt-integrity".into(),
+        program: "true".into(),
+        args: Vec::new(),
+        scope: vec!["src/**".into()],
+        stage: "task".into(),
+        runner: "local".into(),
+        runtime_digest: runtime.runtime_digest.to_string(),
+        base_commit: None,
+        workers: 1,
+        policy: RepositoryVerificationPolicy::NeverReuse,
+    };
+    let run = run_repository_verification(directory.path(), &request).expect("verification");
+    let stored = persist_verification_attempt(
+        directory.path(),
+        work_item_id,
+        std::slice::from_ref(&request),
+        &run.final_snapshot,
+        &runtime,
+        "execution_completed",
+        None,
+        Some(&serde_json::to_value(&run.receipt).expect("receipt JSON")),
+    )
+    .expect("persist attempt");
+    let attempt_path = directory
+        .path()
+        .join(stored["path"].as_str().expect("attempt path"));
+    let mut attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&attempt_path).expect("attempt bytes"))
+            .expect("attempt JSON");
+    attempt["receipt"]["executionRecords"][0]["stdout"] = json!("tampered");
+    fs::write(
+        &attempt_path,
+        serde_json::to_vec_pretty(&attempt).expect("tampered attempt JSON"),
+    )
+    .expect("tampered attempt");
+
+    assert!(
+        load_reusable_verification_attempt(
+            directory.path(),
+            work_item_id,
+            std::slice::from_ref(&request),
+            &run.final_snapshot,
+            &runtime,
+        )
+        .expect("load attempt")
+        .is_none()
+    );
 }
 
 #[test]

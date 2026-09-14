@@ -1,0 +1,23 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T07:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:f5270e5f5618d3e03e8c410424f2a0bb1704475ad98ba8fe03454d2841f43e76",
+  "predecessorEventsDigest": "sha256:0c07a9ec7daf3b21eea5d6aa9ff6d1bbec8fca41a9387057bc0eb5ac70ca60c2",
+  "predecessorOutcomeDigest": "sha256:3d83ef26e9e0c5f49e8d252bd25a0d7807bf4c36a2977f91a85cc463f28866f6",
+  "predecessorSummaryDigest": "sha256:7d3cf7caeee99c022dfe4a41c3e3ffb873ef4f1b44fd2a6e34565c5e14a70b0e",
+  "predecessorWorkItemId": "WI-842-custom-evidence-precondition",
+  "reason": "Retry the current Work Item after closing the in-scope verification execution and reusable-attempt integrity gaps; preserve prior execution evidence and bind the current Contract and Runtime.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Current source passes formal verification and the Work Item can finish while failed execution evidence remains durable and only intact identity-bound attempts are reused.",
+  "runtimeDigest": "sha256:4c32202d41134219bdcd0c41972d156a65462d311082fc2ebbfe023e9c6e3511",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

@@ -211,6 +211,30 @@ fn mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch() {
         &test_runtime_context(),
     );
     assert_eq!(malformed["result"]["isError"], true);
+
+    let traversal = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":4,"method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"sh",
+                    "args":["-c", "touch spawned-before-validation"],
+                    "workItemId":"../escape"
+                }
+            }
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(traversal["result"]["isError"], true);
+    assert!(
+        traversal["result"]["content"][0]["text"]
+            .as_str()
+            .expect("traversal error text")
+            .contains("invalid work item id")
+    );
+    assert!(!root.join("spawned-before-validation").exists());
 }
 
 #[test]
@@ -1207,17 +1231,122 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
     let attempt: serde_json::Value =
         serde_json::from_slice(&fs::read(attempts[0].path()).expect("rejected attempt"))
             .expect("rejected attempt JSON");
-    assert_eq!(attempt["state"], "formal_receipt_rejected");
+    assert_eq!(attempt["state"], "execution_completed");
     assert_eq!(attempt["passed"], true);
     assert_eq!(attempt["processesSpawned"], 1);
-    assert!(
-        !attempt["executionRecords"]
-            .as_array()
-            .expect("execution records")
-            .is_empty()
-    );
+    let record = &attempt["executionRecords"][0];
+    assert_eq!(record["exitCode"], 0);
+    assert_eq!(record["passed"], true);
+    assert_eq!(record["timedOut"], false);
+    assert!(record["elapsedMs"].is_u64());
+    assert!(record["stdout"].is_string());
+    assert!(record["stderr"].is_string());
+    assert_eq!(record["stdoutTruncated"], false);
+    assert_eq!(record["stderrTruncated"], false);
     assert_eq!(attempt["receipt"]["passed"], true);
-    assert_eq!(attempt["diagnostic"]["code"], "formal_receipt");
+    assert_eq!(attempt["diagnostic"]["code"], "verification_recording");
+    assert_eq!(record["nodeId"], "project-command-0");
+    assert_eq!(record["spawned"], true);
+    assert!(
+        record["commandDigest"]
+            .as_str()
+            .is_some_and(|digest| digest.starts_with("sha256:"))
+    );
+}
+
+#[test]
+fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
+    let directory = TestTempDir::new("cockpit-mcp-failed-execution");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let work_item_id = "WI-MCP-FAILED-EXECUTION";
+    cockpit_repository::start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve failed verification attempts",
+        "keep failed process evidence without treating it as completion",
+        &["**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let script_path = directory.path().join("fail.js");
+    fs::write(
+        &script_path,
+        "process.stderr.write('failure'); process.exit(7);\n",
+    )
+    .expect("failure script");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    cockpit_repository::preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":12,
+            "method":"tools/call",
+            "params":{
+                "name":"verify",
+                "arguments":{
+                    "command":"node",
+                    "args":["fail.js"],
+                    "workItemId":work_item_id
+                }
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("error text")
+            .contains("failed verification cannot be recorded as completion evidence")
+    );
+
+    let attempts = fs::read_dir(directory.path().join(".ai/evidence"))
+        .expect("evidence directory")
+        .filter_map(Result::ok)
+        .filter(|entry| {
+            entry
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.verification-attempt."))
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(attempts.len(), 1);
+    let attempt: serde_json::Value =
+        serde_json::from_slice(&fs::read(attempts[0].path()).expect("failed attempt"))
+            .expect("failed attempt JSON");
+    assert_eq!(attempt["state"], "execution_failed");
+    assert_eq!(attempt["passed"], false);
+    assert_eq!(attempt["processesSpawned"], 1);
+    assert_eq!(attempt["diagnostic"]["code"], "verification_execution");
+    let record = &attempt["executionRecords"][0];
+    assert_eq!(record["nodeId"], "project-command-0");
+    assert!(record["commandDigest"].as_str().is_some());
+    assert_eq!(record["spawned"], true);
+    assert_eq!(record["passed"], false);
+    assert_eq!(record["exitCode"], 7);
+    assert_eq!(record["timedOut"], false);
+    assert!(record["elapsedMs"].is_u64());
+    assert!(record["stdout"].is_string());
+    assert!(record["stderr"].is_string());
+    assert_eq!(attempt["receipt"]["workItemId"], work_item_id);
+    assert!(attempt["receipt"]["repositoryId"].is_string());
+    assert_eq!(
+        attempt["receipt"]["runtimeVersion"],
+        test_runtime_context().runtime_version
+    );
 }
 
 #[test]

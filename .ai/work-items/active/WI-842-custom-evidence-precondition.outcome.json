@@ -5,11 +5,17 @@
     "Regression tests prove project process spawn is zero on invalid projections and preserve structured precondition attempt evidence.",
     "The same Work Item rule is documented for future Agent execution and does not create a successor for a same-root problem.",
     "Exact full Work Item IDs in parity rows are recognized deterministically, while legacy short IDs remain supported and unrelated rows remain fail-closed.",
-    "MCP verification uses the same repository-bound precondition and zero-spawn attempt persistence as the CLI entry point."
+    "MCP verification uses the same repository-bound precondition and zero-spawn attempt persistence as the CLI entry point.",
+    "A repository-bound verification that cannot complete its lifecycle projection leaves no partial completion evidence and preserves the execution attempt for later recovery.",
+    "MCP rejects invalid Work Item identifiers before repository-bound verification can spawn a project process.",
+    "A successful execution whose formal receipt cannot be recorded is classified as execution_completed with a diagnostic that preserves the recording failure cause.",
+    "A failed project command or timeout is persisted as a non-reusable execution failure, never as execution_completed or completion evidence, with its exit code, timeout, elapsed time, bounded logs, and input identity preserved.",
+    "A reusable verification attempt is accepted only when its content digest, embedded receipt identity, repository identity, Work Item identity, Runtime identity, command identity, and successful execution records all match the current request; any tampering or mismatch invalidates reuse while preserving the bytes for diagnosis.",
+    "Verification projection rollback reports any restoration failure instead of silently claiming rollback, and normal failures leave the pre-existing projection bytes unchanged."
   ],
-  "createdAt": "2026-09-14T06:52:04Z",
+  "createdAt": "2026-09-14T07:55:17Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:d2b1ed7280e285720984ea2780dc62114dcfc30924c975ae6326b003a90509fc",
+  "evidenceDigest": "sha256:8aef46814f3bcb73924b67661347edb4344e05d8e7bcfb57b3d0f605b6ba8e54",
   "evidenceRefs": [
     ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
   ],
@@ -35,7 +41,7 @@
         ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:6cfa4031bb33cde521977b3006d66f48bf0a3d50d56550c2db671e2d4e10b81c",
+      "repositorySnapshotDigest": "sha256:3b87abdf19e4c5b9aafd2a93e2a47d151e90d300d32144e29359c25d3c2bfc40",
       "workItemId": "WI-842-custom-evidence-precondition"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,14 +55,56 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.94ab71e7c78ac4e968e356a787579cb909cdfd428b8f1e1e9bdac8d5143e8dbc.json"
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.5afc458321ab0da172b85589a27daa8ed558d1f0b5d6078ec45dbf180d2ef83e.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.60ac3c18042b19cb0782eb94dd0accc0d561865eda88ef12d7bbecac1e90d66f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.9e6b1e1e8888e5091719d4a00ea08a60ea4bd3bbd95c86ede6277e384ef43360.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.b6a5a4962f19ff98854d3721c43a6e2155dc1ab6ff37c99d881ff476c2d01bf8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.f13ff347b682f5d556a217111ed590c9caabcc92af07def55a357bd3c12bdf20.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.preflight-review.f316bba5f87b977616ac209a2358d4bcaeee451be871d0ada5f82d5bd9430014.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.recovery.3043f71fdfc025da36e3f3c0bf82c0a8d1108bbf8999e25e315663ebb9df31a7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-842-custom-evidence-precondition.recovery.f1ff8bf58ca49a55ce59e5ec6777864ae0e51d7d7f3cc084e3d39535ec31401a.json"
         },
         {
           "evidenceRefs": [
@@ -70,7 +118,49 @@
             ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.8b6de4c8c468be5d5b2cd6c6d93bf32f4a5d726ddf04d9c5f305139a0d9c1ad8.json"
+          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.03ac0652ce5319648374a83ed7384f6e593559e34c3c3c5bb96c99f54df844bc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.872f2201c335c8fa13f6a85cb7d4755406c85ad5e9952838d02043de317a0d4b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.c599f05a44ccc322d257e33d98a2ae5d2309f45716c0b86601e4051c5ddc44a3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.outcome.json"
         },
         {
           "evidenceRefs": [
@@ -78,6 +168,20 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-842-custom-evidence-precondition.task-report.md"
         },
         {
           "evidenceRefs": [
@@ -92,6 +196,20 @@
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         }
       ],
       "evidence": [
@@ -166,8 +284,8 @@
     "status": "verified",
     "workItemId": "WI-842-custom-evidence-precondition"
   },
-  "taskReportDigest": "sha256:b06304418044b423583191672685281d1db7041c594fdb1b714d52522edbb853",
-  "taskReportMarkdownDigest": "sha256:408d05d9fc803a9edd106019c151c7b91bf6bb6d5b3bb573dcd8dd44f7eb4e45",
+  "taskReportDigest": "sha256:c37f410915d3754ee986db4b7fca7e2e347e2b3a730d2624d4b7cb51b3e3168d",
+  "taskReportMarkdownDigest": "sha256:4f63726b0c7998ea07f3692ad11bc65929d114bdf5cdc46eb26451ff25fe1438",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

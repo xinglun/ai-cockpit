@@ -3880,18 +3880,28 @@ pub fn persist_verification_attempt(
         .iter()
         .map(|request| verification_attempt_command_value(&root, request))
         .collect::<Vec<_>>();
-    let execution_records = receipt
+    let bound_receipt = bind_verification_attempt_receipt(&root, work_item_id, runtime, receipt)?;
+    let execution_records = bound_receipt
+        .as_ref()
         .and_then(|value| value.get("executionRecords"))
         .cloned()
         .unwrap_or_else(|| serde_json::json!([]));
-    let passed = receipt
+    let passed = bound_receipt
+        .as_ref()
         .and_then(|value| value.get("passed"))
         .and_then(serde_json::Value::as_bool)
         .unwrap_or(false);
-    let processes_spawned = receipt
+    let processes_spawned = bound_receipt
+        .as_ref()
         .and_then(|value| value.get("processesSpawned"))
         .and_then(serde_json::Value::as_u64)
         .unwrap_or_default();
+    if matches!(state, "execution_completed" | "formal_receipt_rejected") && !passed {
+        return Err(ObserverError::State {
+            path: root.join(".ai/evidence"),
+            message: format!("verification attempt state {state} requires a passed execution"),
+        });
+    }
     let mut value = serde_json::json!({
         "protocolVersion": 1,
         "schemaVersion": VERIFICATION_ATTEMPT_SCHEMA_VERSION,
@@ -3908,7 +3918,7 @@ pub fn persist_verification_attempt(
         "passed": passed,
         "processesSpawned": processes_spawned,
         "executionRecords": execution_records,
-        "receipt": receipt.cloned(),
+        "receipt": bound_receipt,
         "createdAt": now(),
     });
     if let Some((code, message)) = diagnostic {
@@ -4027,6 +4037,9 @@ pub fn load_reusable_verification_attempt(
             continue;
         }
         let value = read_json(&path)?;
+        if !verification_attempt_path_matches(&path, &value) {
+            continue;
+        }
         if verification_attempt_matches(
             &root,
             work_item_id,
@@ -4040,6 +4053,18 @@ pub fn load_reusable_verification_attempt(
         }
     }
     Ok(None)
+}
+
+fn verification_attempt_path_matches(path: &Path, attempt: &serde_json::Value) -> bool {
+    let Some(attempt_id) = attempt.get("attemptId").and_then(serde_json::Value::as_str) else {
+        return false;
+    };
+    let Some(suffix) = attempt_id.strip_prefix("sha256:") else {
+        return false;
+    };
+    path.file_name()
+        .and_then(|name| name.to_str())
+        .is_some_and(|name| name.ends_with(&format!(".{suffix}.json")))
 }
 
 fn verification_attempt_command_value(
@@ -4067,6 +4092,45 @@ fn verification_attempt_command_value(
     })
 }
 
+fn bind_verification_attempt_receipt(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    receipt: Option<&serde_json::Value>,
+) -> Result<Option<serde_json::Value>, ObserverError> {
+    let Some(receipt) = receipt else {
+        return Ok(None);
+    };
+    let Some(mut bound) = receipt.as_object().cloned() else {
+        return Ok(Some(receipt.clone()));
+    };
+    let expected = [
+        ("workItemId", serde_json::json!(work_item_id)),
+        (
+            "repositoryId",
+            serde_json::json!(repository_id(root).to_string()),
+        ),
+        ("runtimeVersion", serde_json::json!(runtime.runtime_version)),
+        (
+            "runtimeDigest",
+            serde_json::json!(runtime.runtime_digest.to_string()),
+        ),
+    ];
+    for (key, expected_value) in expected {
+        if let Some(existing) = bound.get(key)
+            && !existing.is_null()
+            && existing != &expected_value
+        {
+            return Err(ObserverError::State {
+                path: root.join(".ai/evidence"),
+                message: format!("verification attempt receipt {key} does not match its binding"),
+            });
+        }
+        bound.insert(key.into(), expected_value);
+    }
+    Ok(Some(serde_json::Value::Object(bound)))
+}
+
 fn contract_execution_scope_digest(path: &Path) -> Result<Digest, ObserverError> {
     let value = read_json(path)?;
     cockpit_protocol::digest_json(&serde_json::json!({
@@ -4090,7 +4154,8 @@ fn verification_attempt_matches(
     current_scope_digest: &Digest,
     attempt: &serde_json::Value,
 ) -> bool {
-    if attempt["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
+    if !verification_attempt_content_digest_matches(attempt)
+        || attempt["schemaVersion"] != serde_json::json!(VERIFICATION_ATTEMPT_SCHEMA_VERSION)
         || attempt["kind"] != serde_json::json!("verification_attempt")
         || attempt["workItemId"] != serde_json::json!(work_item_id)
         || attempt["repositoryId"] != serde_json::json!(repository_id(root))
@@ -4121,7 +4186,14 @@ fn verification_attempt_matches(
     let Some(receipt) = attempt.get("receipt") else {
         return false;
     };
-    if receipt["passed"] != serde_json::json!(true) {
+    if receipt["passed"] != serde_json::json!(true)
+        || receipt["workItemId"] != serde_json::json!(work_item_id)
+        || receipt["repositoryId"] != serde_json::json!(repository_id(root).to_string())
+        || receipt["runtimeVersion"] != serde_json::json!(runtime.runtime_version)
+        || receipt["runtimeDigest"] != serde_json::json!(runtime.runtime_digest.to_string())
+        || attempt["executionRecords"] != receipt["executionRecords"]
+        || attempt["processesSpawned"] != receipt["processesSpawned"]
+    {
         return false;
     }
     let Some(records) = attempt["executionRecords"].as_array() else {
@@ -4153,6 +4225,22 @@ fn verification_attempt_matches(
             && record["stderrTruncated"] == serde_json::json!(false)
             && record.get("exitCode").is_some_and(|value| !value.is_null())
     }) && seen.len() == expected_digests.len()
+}
+
+fn verification_attempt_content_digest_matches(attempt: &serde_json::Value) -> bool {
+    let Some(attempt_id) = attempt
+        .get("attemptId")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|value| value.parse::<Digest>().ok())
+    else {
+        return false;
+    };
+    let mut unsigned = attempt.clone();
+    let Some(object) = unsigned.as_object_mut() else {
+        return false;
+    };
+    object.remove("attemptId");
+    cockpit_protocol::digest_json(&unsigned).is_ok_and(|digest| digest == attempt_id)
 }
 
 pub fn record_verification_with_snapshot(
@@ -4195,6 +4283,106 @@ pub fn record_verification_with_runtime(
         snapshot,
         Some(runtime),
     )
+}
+
+/// Keep the generated completion projection atomic across all of the files
+/// written by verification recording.  Verification execution is an
+/// independent, append-only fact, but the evidence, Summary, Outcome, and
+/// task-report files form one lifecycle projection.  If a later projection
+/// step rejects the result, restore the exact bytes that existed before the
+/// attempt so a partial completion cannot masquerade as a valid retry.
+struct VerificationRecordTransaction {
+    files: Vec<(PathBuf, Option<Vec<u8>>)>,
+    committed: bool,
+}
+
+impl VerificationRecordTransaction {
+    fn capture(paths: &[PathBuf]) -> Result<Self, ObserverError> {
+        let mut files = Vec::with_capacity(paths.len());
+        for path in paths {
+            let original = match fs::symlink_metadata(path) {
+                Ok(metadata) if metadata.file_type().is_symlink() => {
+                    return Err(ObserverError::State {
+                        path: path.clone(),
+                        message: "verification projection path must not be a symlink".into(),
+                    });
+                }
+                Ok(metadata) if !metadata.is_file() => {
+                    return Err(ObserverError::State {
+                        path: path.clone(),
+                        message: "verification projection path must be a regular file".into(),
+                    });
+                }
+                Ok(_) => Some(fs::read(path).map_err(|source| ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                })?),
+                Err(source) if source.kind() == std::io::ErrorKind::NotFound => None,
+                Err(source) => {
+                    return Err(ObserverError::Read {
+                        path: path.clone(),
+                        source,
+                    });
+                }
+            };
+            files.push((path.clone(), original));
+        }
+        Ok(Self {
+            files,
+            committed: false,
+        })
+    }
+
+    fn commit(&mut self) {
+        self.committed = true;
+    }
+
+    fn rollback(&mut self) -> Result<(), String> {
+        if self.committed {
+            return Ok(());
+        }
+        let mut failures = Vec::new();
+        for (path, original) in self.files.iter().rev() {
+            let result = match original {
+                Some(bytes) => atomic_write(path, bytes),
+                None => match fs::symlink_metadata(path) {
+                    Ok(metadata) if metadata.file_type().is_symlink() => Err(
+                        ObserverError::State {
+                            path: path.clone(),
+                            message: "rollback found a symlink where a new regular projection was written".into(),
+                        },
+                    ),
+                    Ok(metadata) if metadata.is_file() => {
+                        fs::remove_file(path).map_err(|source| ObserverError::Read {
+                            path: path.clone(),
+                            source,
+                        })
+                    }
+                    Ok(_) => Ok(()),
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
+                    Err(source) => Err(ObserverError::Read {
+                        path: path.clone(),
+                        source,
+                    }),
+                },
+            };
+            if let Err(error) = result {
+                failures.push(format!("{}: {error}", path.display()));
+            }
+        }
+        self.committed = true;
+        if failures.is_empty() {
+            Ok(())
+        } else {
+            Err(failures.join("; "))
+        }
+    }
+}
+
+impl Drop for VerificationRecordTransaction {
+    fn drop(&mut self) {
+        let _ = self.rollback();
+    }
 }
 
 fn record_verification_internal(
@@ -4355,161 +4543,181 @@ fn record_verification_internal(
                 message: error.to_string(),
             })?;
     }
-    let path = root
-        .join(".ai/evidence")
-        .join(format!("{work_item_id}.verification.json"));
-    atomic_json(&path, &evidence)?;
+    let active = root.join(".ai/work-items/active");
+    let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
+    let report_path = active.join(format!("{work_item_id}.task-report.json"));
+    let markdown_path = active.join(format!("{work_item_id}.task-report.md"));
+    let mut transaction = VerificationRecordTransaction::capture(&[
+        evidence_path.clone(),
+        summary_path.clone(),
+        outcome_path,
+        report_path,
+        markdown_path,
+    ])?;
+    let result = (|| -> Result<serde_json::Value, ObserverError> {
+        atomic_json(&evidence_path, &evidence)?;
 
-    // Verification can satisfy a Contract's required evidence.  Refresh the
-    // recorded governance result against the same non-.ai snapshot so the
-    // canonical lifecycle remains start -> preflight (possibly yellow) ->
-    // checkpoint -> verify -> finish, without requiring an otherwise
-    // redundant second CLI preflight invocation.
-    let contract_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{work_item_id}.contract.json"));
-    let contract = read_contract(&contract_path)?;
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+        // Verification can satisfy a Contract's required evidence.  Refresh the
+        // recorded governance result against the same non-.ai snapshot so the
+        // canonical lifecycle remains start -> preflight (possibly yellow) ->
+        // checkpoint -> verify -> finish, without requiring an otherwise
+        // redundant second CLI preflight invocation.
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract = read_contract(&contract_path)?;
+        let git =
+            cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+        let refreshed_snapshot = git.snapshot().map_err(|error| ObserverError::State {
             path: root.clone(),
             message: error.to_string(),
         })?;
-    let refreshed_snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
-    let raw_decision = governance_decision_for_pre_execution_boundary(
-        &root,
-        &contract,
-        &refreshed_snapshot,
-        current_runtime,
-        None,
-    )?;
-    let decision = apply_preflight_review_evidence(
-        &root,
-        &contract,
-        &refreshed_snapshot,
-        raw_decision.clone(),
-        false,
-        None,
-    )?;
-    let reconcile_blocked_outcome = recovery_retry_pending
-        || contract_amendment_pending
-        || (!prior_evidence_present && decision.state != DecisionState::Red);
-    let decision_value =
-        serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: error.to_string(),
-        })?;
-    let summary_path = root
-        .join(".ai/work-items/active")
-        .join(format!("{work_item_id}.summary.json"));
-    let mut summary: serde_json::Value = read_json(&summary_path)?;
-    // Preserve the snapshot that actually drove verification in the canonical
-    // Summary.  The old path only refreshed governance projections below;
-    // consequently a Work Item started from a clean tree reported an empty
-    // changedPaths list even after source edits and produced a misleading
-    // delivery report.  Do not use `refreshed_snapshot` here: it includes the
-    // evidence/projection writes made by this function rather than just the
-    // verification input.
-    summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
-    summary
-        .as_object_mut()
-        .expect("Work Item Summary is an object")
-        .remove("verificationInvalidatedByContractAmendment");
-    let verification_entries = summary
-        .as_object_mut()
-        .expect("Work Item Summary is an object")
-        .entry("verification")
-        .or_insert_with(|| serde_json::json!([]));
-    let verification_entries =
-        verification_entries
-            .as_array_mut()
-            .ok_or_else(|| ObserverError::State {
-                path: summary_path.clone(),
-                message: "Summary.verification must be an array".into(),
+        let raw_decision = governance_decision_for_pre_execution_boundary(
+            &root,
+            &contract,
+            &refreshed_snapshot,
+            current_runtime,
+            None,
+        )?;
+        let decision = apply_preflight_review_evidence(
+            &root,
+            &contract,
+            &refreshed_snapshot,
+            raw_decision.clone(),
+            false,
+            None,
+        )?;
+        let reconcile_blocked_outcome = recovery_retry_pending
+            || contract_amendment_pending
+            || (!prior_evidence_present && decision.state != DecisionState::Red);
+        let decision_value =
+            serde_json::to_value(&raw_decision).map_err(|error| ObserverError::State {
+                path: contract_path.clone(),
+                message: error.to_string(),
             })?;
-    if let Some(results) = receipt.get("results").and_then(serde_json::Value::as_array) {
-        for result in results {
-            let Some(node_id) = result.get("nodeId").and_then(serde_json::Value::as_str) else {
-                continue;
-            };
-            let value = serde_json::json!({
-                "check": node_id,
-                "result": if result.get("passed") == Some(&serde_json::Value::Bool(true)) {
-                    "passed"
-                } else {
-                    "failed"
-                },
-            });
-            verification_entries.retain(|item| {
-                item.get("check").and_then(serde_json::Value::as_str) != Some(node_id)
-            });
-            verification_entries.push(value);
-        }
-    }
-    summary["preflightState"] = decision_state_name(decision.state.clone()).into();
-    summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
-        .map_err(|error| ObserverError::State {
-            path: contract_path.clone(),
-            message: error.to_string(),
-        })?
-        .to_string()
-        .into();
-    summary["preflightRepositorySnapshotDigest"] =
-        snapshot_digest(&refreshed_snapshot)?.to_string().into();
-    summary["preflightContractDigest"] = contract_digest(&contract_path)?.to_string().into();
-    // A fresh verification after Contract amendment revalidates the existing
-    // checkpoint against the new Contract and snapshot. The immutable
-    // before_edit evidence remains in the append-only chain; only this
-    // current lifecycle binding advances.
-    // A retry recovery marker authorizes exactly one replacement verification.
-    // Once that verification and its refreshed governance projection are
-    // persisted, consume only the marker projection; the append-only recovery
-    // receipt remains immutable history. Leaving the marker set would make a
-    // subsequent preflight demand a receipt bound to the already-advanced
-    // Summary and strand an otherwise valid retry.
-    if reconcile_blocked_outcome {
-        let summary_object = summary
+        let mut summary: serde_json::Value = read_json(&summary_path)?;
+        // Preserve the snapshot that actually drove verification in the canonical
+        // Summary.  The old path only refreshed governance projections below;
+        // consequently a Work Item started from a clean tree reported an empty
+        // changedPaths list even after source edits and produced a misleading
+        // delivery report.  Do not use `refreshed_snapshot` here: it includes the
+        // evidence/projection writes made by this function rather than just the
+        // verification input.
+        summary["changedPaths"] = serde_json::json!(snapshot.changed_paths);
+        summary
             .as_object_mut()
-            .expect("Work Item Summary is an object");
-        summary_object.remove("recoveryRetryPending");
-        summary_object.remove("recoveryRetryDecisionPath");
-        summary_object.remove("recoveryRetryDecisionDigest");
-        summary_object.remove("recoveryRetryContractDigest");
-        // Bind the replacement verification to the explicit retry boundary.
-        // outcome_v2 revalidates this digest against the current evidence and
-        // full identity before superseding a blocked Outcome projection.
-        summary["verificationRecoveryReconciled"] = cockpit_protocol::digest_json(&evidence)
+            .expect("Work Item Summary is an object")
+            .remove("verificationInvalidatedByContractAmendment");
+        let verification_entries = summary
+            .as_object_mut()
+            .expect("Work Item Summary is an object")
+            .entry("verification")
+            .or_insert_with(|| serde_json::json!([]));
+        let verification_entries =
+            verification_entries
+                .as_array_mut()
+                .ok_or_else(|| ObserverError::State {
+                    path: summary_path.clone(),
+                    message: "Summary.verification must be an array".into(),
+                })?;
+        if let Some(results) = receipt.get("results").and_then(serde_json::Value::as_array) {
+            for result in results {
+                let Some(node_id) = result.get("nodeId").and_then(serde_json::Value::as_str) else {
+                    continue;
+                };
+                let value = serde_json::json!({
+                    "check": node_id,
+                    "result": if result.get("passed") == Some(&serde_json::Value::Bool(true)) {
+                        "passed"
+                    } else {
+                        "failed"
+                    },
+                });
+                verification_entries.retain(|item| {
+                    item.get("check").and_then(serde_json::Value::as_str) != Some(node_id)
+                });
+                verification_entries.push(value);
+            }
+        }
+        summary["preflightState"] = decision_state_name(decision.state.clone()).into();
+        summary["preflightDecisionDigest"] = cockpit_protocol::digest_json(&decision_value)
             .map_err(|error| ObserverError::State {
-                path: summary_path.clone(),
+                path: contract_path.clone(),
                 message: error.to_string(),
             })?
             .to_string()
             .into();
+        summary["preflightRepositorySnapshotDigest"] =
+            snapshot_digest(&refreshed_snapshot)?.to_string().into();
+        summary["preflightContractDigest"] = contract_digest(&contract_path)?.to_string().into();
+        // A fresh verification after Contract amendment revalidates the existing
+        // checkpoint against the new Contract and snapshot. The immutable
+        // before_edit evidence remains in the append-only chain; only this
+        // current lifecycle binding advances.
+        // A retry recovery marker authorizes exactly one replacement verification.
+        // Once that verification and its refreshed governance projection are
+        // persisted, consume only the marker projection; the append-only recovery
+        // receipt remains immutable history. Leaving the marker set would make a
+        // subsequent preflight demand a receipt bound to the already-advanced
+        // Summary and strand an otherwise valid retry.
+        if reconcile_blocked_outcome {
+            let summary_object = summary
+                .as_object_mut()
+                .expect("Work Item Summary is an object");
+            summary_object.remove("recoveryRetryPending");
+            summary_object.remove("recoveryRetryDecisionPath");
+            summary_object.remove("recoveryRetryDecisionDigest");
+            summary_object.remove("recoveryRetryContractDigest");
+            // Bind the replacement verification to the explicit retry boundary.
+            // outcome_v2 revalidates this digest against the current evidence and
+            // full identity before superseding a blocked Outcome projection.
+            summary["verificationRecoveryReconciled"] = cockpit_protocol::digest_json(&evidence)
+                .map_err(|error| ObserverError::State {
+                    path: summary_path.clone(),
+                    message: error.to_string(),
+                })?
+                .to_string()
+                .into();
+        }
+        summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
+        summary["checkpointRepositorySnapshotDigest"] =
+            snapshot_digest(&refreshed_snapshot)?.to_string().into();
+        summary["preflightAt"] = now().into();
+        atomic_json(&summary_path, &summary)?;
+        if summary["state"] == serde_json::json!("finish_ready") {
+            refresh_active_outcome_verification_binding(
+                &root,
+                work_item_id,
+                &evidence,
+                &snapshot_digest(&refreshed_snapshot)?,
+            )?;
+        } else if reconcile_blocked_outcome {
+            refresh_active_outcome_after_recovery_verification(
+                &root,
+                work_item_id,
+                current_runtime,
+                &refreshed_snapshot,
+                &snapshot_digest(&refreshed_snapshot)?,
+            )?;
+        }
+        transaction.commit();
+        Ok(evidence)
+    })();
+    match result {
+        Ok(evidence) => Ok(evidence),
+        Err(error) => match transaction.rollback() {
+            Ok(()) => Err(error),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: root.join(".ai/evidence"),
+                message: format!(
+                    "{error}; verification projection rollback failed: {rollback_error}"
+                ),
+            }),
+        },
     }
-    summary["checkpointContractDigest"] = contract_digest(&contract_path)?.to_string().into();
-    summary["checkpointRepositorySnapshotDigest"] =
-        snapshot_digest(&refreshed_snapshot)?.to_string().into();
-    summary["preflightAt"] = now().into();
-    atomic_json(&summary_path, &summary)?;
-    if summary["state"] == serde_json::json!("finish_ready") {
-        refresh_active_outcome_verification_binding(
-            &root,
-            work_item_id,
-            &evidence,
-            &snapshot_digest(&refreshed_snapshot)?,
-        )?;
-    } else if reconcile_blocked_outcome {
-        refresh_active_outcome_after_recovery_verification(
-            &root,
-            work_item_id,
-            current_runtime,
-            &refreshed_snapshot,
-            &snapshot_digest(&refreshed_snapshot)?,
-        )?;
-    }
-    Ok(evidence)
 }
 
 /// Refresh the active human Outcome after a verification retry that occurs

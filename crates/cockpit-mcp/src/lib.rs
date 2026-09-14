@@ -824,6 +824,9 @@ fn verify_for_repo(
     require_compatible(repo, runtime)?;
     let root = fs::canonicalize(repo).map_err(|error| error.to_string())?;
     let work_item_id = arguments.get("workItemId").and_then(Value::as_str);
+    if let Some(work_item_id) = work_item_id {
+        validate_id(work_item_id)?;
+    }
     let initial_snapshot = if work_item_id.is_some() {
         Some(
             cockpit_git::GitRepository::discover(&root)
@@ -924,6 +927,11 @@ fn verify_for_repo(
     let mut output = serde_json::to_value(&run.receipt).map_err(|error| error.to_string())?;
     output["runtimeVersion"] = Value::String(runtime.runtime_version.clone());
     output["runtimeDigest"] = Value::String(runtime.runtime_digest.to_string());
+    if let Some(work_item_id) = work_item_id {
+        output["workItemId"] = Value::String(work_item_id.into());
+        output["repositoryId"] =
+            Value::String(cockpit_repository::repository_id(&root).to_string());
+    }
     if let Some(work_item_id) = work_item_id
         && let Err(error) = cockpit_repository::record_verification_with_runtime(
             &root,
@@ -933,6 +941,7 @@ fn verify_for_repo(
             &run.final_snapshot,
         )
     {
+        let execution_succeeded = output["passed"] == Value::Bool(true);
         let diagnostic = error.to_string();
         let persistence = cockpit_repository::persist_verification_attempt(
             &root,
@@ -942,8 +951,19 @@ fn verify_for_repo(
                 .as_ref()
                 .expect("repository-bound verification snapshot"),
             runtime,
-            "formal_receipt_rejected",
-            Some(("formal_receipt", &diagnostic)),
+            if execution_succeeded {
+                "execution_completed"
+            } else {
+                "execution_failed"
+            },
+            Some((
+                if execution_succeeded {
+                    "verification_recording"
+                } else {
+                    "verification_execution"
+                },
+                &diagnostic,
+            )),
             Some(&output),
         );
         let persistence_note = match persistence {
