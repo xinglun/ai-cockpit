@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:24b530167532bedef311979e1d8345cd17b4b5d5f6acbb8e2bd6df6875eca62e",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "28e721b353ae4d29894f99b7062cf465e4192dcd",
+      "commandDigest": "sha256:ac3d5d59e9a7051c76d87f5bbb826bacad6b27bfb224fe75455d33e53c5b7c1b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:c295a336c49ac974468ef706dfcaef11059ae2b73b932186644e89b6dcac8ec2",
+  "contractExecutionScopeDigest": "sha256:ed0b621486581fb5bbe24b10585af374c1181f16be740640aef0df9c665cbb17",
+  "createdAt": "2026-09-14T01:15:39Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi835-cleanup/.ai/work-items/active/WI-835-lifecycle-cleanup.contract.json: verification preconditions are blocked: scenario_coverage_required_for_high_risk, evidence_classes_repository_context_required, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "runtimeDigest": "sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-835-lifecycle-cleanup"
+}

@@ -1,0 +1,138 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-835-lifecycle-cleanup.preflight-review.a46d62fb2b87a64575317917f214ff738ebbe0c39b8c8779d8093b319c624d87.json",
+    ".ai/decisions/WI-835-lifecycle-cleanup.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md",
+    ".ai/evidence/WI-835-lifecycle-cleanup.verification-attempt.24b530167532bedef311979e1d8345cd17b4b5d5f6acbb8e2bd6df6875eca62e.json",
+    ".ai/work-items/active/WI-835-lifecycle-cleanup.approach.json",
+    ".ai/work-items/active/WI-835-lifecycle-cleanup.contract.json",
+    ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+  ],
+  "checkpointAt": "2026-09-14T01:15:25Z",
+  "checkpointContractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c295a336c49ac974468ef706dfcaef11059ae2b73b932186644e89b6dcac8ec2",
+      "recorded": true,
+      "recordedAt": "2026-09-14T01:15:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-835-lifecycle-cleanup"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c295a336c49ac974468ef706dfcaef11059ae2b73b932186644e89b6dcac8ec2",
+      "previousContractHash": "sha256:c295a336c49ac974468ef706dfcaef11059ae2b73b932186644e89b6dcac8ec2",
+      "reason": "Declare the high-risk cleanup scenarios before verification so unsafe resources remain preserved and exact deletion is independently evidenced.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T01:19:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-835-lifecycle-cleanup"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "createdAt": "2026-09-14T01:02:49Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "The repository owner authorizes the bounded WI-835 lifecycle disposition and cleanup scope. Only exact clean merged resources may be removed; dirty, divergent, unmerged, or evidence-insufficient objects remain preserved and documented.",
+    "recordedAt": "2026-09-14T01:26:02Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+    "schemaVersion": 1,
+    "workItemId": "WI-835-lifecycle-cleanup"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+    "items": [
+      {
+        "class": "governance",
+        "evidence": [
+          {
+            "digest": "sha256:31b3b0a00b50862f0890bbd79a6a338dff81e64d5fd42bc2b0162c67e9ce0258",
+            "locator": "remote-and-worktree-disposition",
+            "path": ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md",
+            "type": "branch_worktree_inventory",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T01:24:03Z",
+  "preflightContractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md"
+      ],
+      "expected": "Every current non-main remote branch has exactly one evidence-bound disposition covering PR state, merge fact, worktree state, and blocker or cleanup status.",
+      "required": true,
+      "scenario": "disposition_covers_every_remote_branch",
+      "status": "verified",
+      "verificationPlan": "Compare the live remote branch inventory with the consolidated PR and worktree inventory and record the resulting disposition report."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md"
+      ],
+      "expected": "Dirty, divergent, unmerged, or evidence-insufficient branches and worktrees are preserved and explicitly blocked from deletion.",
+      "required": true,
+      "scenario": "unsafe_resources_are_preserved",
+      "status": "verified",
+      "verificationPlan": "Re-observe each flagged branch and worktree, confirm its preservation state, and verify that no deletion operation targets it."
+    },
+    {
+      "evidence": [],
+      "expected": "Only an exact clean merged branch and its exact clean worktree are removed after Runtime finalization verification; unrelated resources remain untouched.",
+      "reason": "The live disposition contains no exact clean merged delete-candidate; all remaining resources require preservation pending lifecycle or identity evidence.",
+      "required": true,
+      "scenario": "clean_merged_cleanup_is_exact",
+      "status": "not_applicable",
+      "verificationPlan": "For each cleanup candidate, compare branch tip, reviewed merge fact, close receipt, finalization receipt, and worktree cleanliness before a serialized deletion, then re-observe the exact postcondition."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T01:24:03Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-835-lifecycle-cleanup"
+}
