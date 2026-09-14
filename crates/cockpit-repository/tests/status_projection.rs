@@ -5,11 +5,12 @@ use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
     finish_work_item, outcome_render_input_with_runtime, plan_resource_finalization,
-    preflight_work_item, record_resource_finalization, record_verification,
-    record_verification_with_runtime, render_human_outcome, repository_id,
+    preflight_work_item, record_recovery_decision, record_resource_finalization,
+    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
     run_repository_verification, start_work_item, start_work_item_with_options,
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
+use serde_json::{Value, json};
 use std::{fs, process::Command};
 
 fn governance_snapshot(path: &str, added_lines: &[&str]) -> RepositorySnapshot {
@@ -147,6 +148,188 @@ fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str
     .expect("receipt input");
     record_resource_finalization(directory.path(), work_item_id, &input, &runtime())
         .expect("record deleted finalization");
+}
+
+fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>) {
+    let directory = repository();
+    let predecessor = "WI-STATUS-HISTORICAL-RECOVERY";
+    let successor = "WI-STATUS-HISTORICAL-SUCCESSOR";
+    let current_runtime = runtime();
+
+    start_work_item_with_options(
+        directory.path(),
+        predecessor,
+        "recover a historical close projection",
+        "project a valid successor recovery without rewriting historical bytes",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["the predecessor remains immutable".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start predecessor");
+    let predecessor_contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{predecessor}.contract.json"));
+    preflight_work_item(directory.path(), &predecessor_contract_path)
+        .expect("preflight predecessor");
+    checkpoint_work_item(directory.path(), predecessor).expect("checkpoint predecessor");
+    let predecessor_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "historical-predecessor-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify predecessor");
+    record_verification_with_runtime(
+        directory.path(),
+        predecessor,
+        &serde_json::to_value(&predecessor_run.receipt).expect("predecessor receipt"),
+        &current_runtime,
+        &predecessor_run.final_snapshot,
+    )
+    .expect("record predecessor evidence");
+    finish_work_item(directory.path(), predecessor).expect("finish predecessor");
+    archive_work_item(directory.path(), predecessor).expect("archive predecessor");
+
+    let predecessor_contract: Value = serde_json::from_slice(
+        &fs::read(directory.path().join(format!(
+            ".ai/work-items/archive/{predecessor}.contract.json"
+        )))
+        .expect("predecessor contract"),
+    )
+    .expect("predecessor contract JSON");
+    let predecessor_summary: Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/archive/{predecessor}.summary.json")),
+        )
+        .expect("predecessor summary"),
+    )
+    .expect("predecessor summary JSON");
+    let predecessor_outcome: Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/archive/{predecessor}.outcome.json")),
+        )
+        .expect("predecessor outcome"),
+    )
+    .expect("predecessor outcome JSON");
+    let predecessor_events = fs::read(
+        directory
+            .path()
+            .join(format!(".ai/work-items/archive/{predecessor}.events.jsonl")),
+    )
+    .expect("predecessor events");
+    let recovery = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "successor",
+        "workItemId": predecessor,
+        "repositoryId": repository_id(directory.path()),
+        "predecessorWorkItemId": predecessor,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&predecessor_contract).expect("contract digest"),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&predecessor_summary).expect("summary digest"),
+        "predecessorOutcomeDigest": cockpit_protocol::digest_json(&predecessor_outcome).expect("outcome digest"),
+        "predecessorEventsDigest": Digest::sha256_bytes(&predecessor_events),
+        "successorWorkItemId": successor,
+        "runtimeVersion": current_runtime.runtime_version,
+        "runtimeDigest": current_runtime.runtime_digest,
+        "actor": "human:owner",
+        "authoritySource": "repository-owner",
+        "reason": "recover through the independently verified successor",
+        "evidenceRefs": [format!(".ai/work-items/archive/{predecessor}.outcome.json")],
+        "policyRefs": ["docs/reference/repository-workflow.md"],
+        "decidedAt": "2026-08-28T00:00:00Z",
+        "resumeCondition": "the successor reaches its own terminal boundary"
+    });
+    record_recovery_decision(directory.path(), predecessor, &recovery, &current_runtime)
+        .expect("record successor recovery");
+    start_work_item_with_options(
+        directory.path(),
+        successor,
+        "continue the recovered work",
+        "complete an independently bound terminal successor",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["successor evidence is independently verified".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate successor");
+    let successor_contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    preflight_work_item(directory.path(), &successor_contract_path).expect("preflight successor");
+    checkpoint_work_item(directory.path(), successor).expect("checkpoint successor");
+    let successor_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "historical-successor-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify successor");
+    record_verification_with_runtime(
+        directory.path(),
+        successor,
+        &serde_json::to_value(&successor_run.receipt).expect("successor receipt"),
+        &current_runtime,
+        &successor_run.final_snapshot,
+    )
+    .expect("record successor evidence");
+    preflight_work_item(directory.path(), &successor_contract_path)
+        .expect("green successor preflight");
+    finish_work_item(directory.path(), successor).expect("finish successor");
+    archive_work_item(directory.path(), successor).expect("archive successor");
+    close_work_item_with_structured_decision(
+        directory.path(),
+        successor,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "repository-owner".into(),
+            reason: "successor terminal evidence is complete".into(),
+            evidence_refs: vec![format!(".ai/evidence/{successor}.verification.json")],
+            policy_refs: vec!["docs/reference/repository-workflow.md".into()],
+            decided_at: "2026-08-28T00:01:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("close successor");
+
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{predecessor}.close.json"));
+    let historical_close = br#"{"workItemId":"WI-STATUS-HISTORICAL-RECOVERY","state":"closed","decisionState":"confirmed","humanDecision":"approved","structuredDecision":{"decision":"approved"}}"#;
+    fs::write(&close_path, historical_close).expect("write historical close");
+    (
+        directory,
+        predecessor.into(),
+        successor.into(),
+        historical_close.to_vec(),
+    )
 }
 
 #[test]
@@ -577,6 +760,96 @@ fn test_weakening_scanner_distinguishes_diagnostic_text_from_bypass_calls() {
         bypass.test_weakening,
         "a standalone JavaScript xit call must remain a hard finding"
     );
+}
+
+#[test]
+fn terminal_successor_recovery_resolves_preserved_historical_close() {
+    let (directory, predecessor, _successor, historical_close) = historical_recovery_fixture();
+    let status = work_item_status_snapshot_with_runtime(directory.path(), &predecessor, &runtime())
+        .expect("recovered historical status");
+
+    assert_eq!(status.lifecycle_phase, "recovered");
+    assert_eq!(status.completion_domains["closure"], "recovered");
+    assert!(
+        !status.blocking,
+        "a completed successor resolves the predecessor close obligation"
+    );
+    assert!(
+        !status
+            .blockers
+            .contains(&"archived_work_item_pending_close".into())
+    );
+    assert!(
+        status
+            .unknowns
+            .contains(&"historical_close_decision_preserved".into())
+    );
+    assert!(!status.unknowns.contains(&"close_decision_invalid".into()));
+    assert!(
+        status
+            .diagnostics
+            .contains(&"historical_close_decision_preserved".into())
+    );
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(format!(".ai/decisions/{predecessor}.close.json"))
+        )
+        .expect("historical close bytes"),
+        historical_close
+    );
+}
+
+#[test]
+fn incomplete_successor_does_not_resolve_preserved_historical_close() {
+    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture();
+    fs::remove_file(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{successor}.close.json")),
+    )
+    .expect("remove successor close in isolated fixture");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), &predecessor, &runtime())
+        .expect("blocked historical status");
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert_eq!(status.completion_domains["closure"], "archived");
+    assert!(status.blocking);
+    assert!(
+        status
+            .blockers
+            .contains(&"archived_work_item_pending_close".into())
+    );
+    assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+}
+
+#[test]
+fn tampered_successor_does_not_resolve_preserved_historical_close() {
+    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture();
+    let successor_contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{successor}.contract.json"));
+    let mut successor_contract: Value =
+        serde_json::from_slice(&fs::read(&successor_contract_path).expect("successor contract"))
+            .expect("successor contract JSON");
+    successor_contract["tamperedAfterClose"] = json!(true);
+    fs::write(
+        &successor_contract_path,
+        serde_json::to_vec_pretty(&successor_contract).expect("tampered contract JSON"),
+    )
+    .expect("tamper successor contract in isolated fixture");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), &predecessor, &runtime())
+        .expect("blocked historical status");
+    assert_eq!(status.lifecycle_phase, "archived");
+    assert!(status.blocking);
+    assert!(
+        status
+            .blockers
+            .contains(&"archived_work_item_pending_close".into())
+    );
+    assert!(status.unknowns.contains(&"close_decision_invalid".into()));
 }
 
 #[test]

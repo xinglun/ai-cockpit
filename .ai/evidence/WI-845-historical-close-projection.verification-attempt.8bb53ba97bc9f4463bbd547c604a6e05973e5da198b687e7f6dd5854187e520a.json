@@ -1,0 +1,45 @@
+{
+  "attemptId": "sha256:8bb53ba97bc9f4463bbd547c604a6e05973e5da198b687e7f6dd5854187e520a",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "status_projection"
+      ],
+      "baseCommit": "4b621a78bcb46a2ddfe41d6470943fd04a3f2d7b",
+      "commandDigest": "sha256:bfe54fecafdfccbf0ff3f95875a307e7fe2b8eaaf98147e4251810bee4eabb66",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:26a3d536478270aa7481610b22e43f4e5b1dd7afefbc459cd630e2ebdf0dc945",
+  "contractExecutionScopeDigest": "sha256:2d9adba39ed4579b11021680b5fcbbc322019b9c1ee7e285846873fe7b6a27e7",
+  "createdAt": "2026-09-14T23:25:02Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi845/.ai/work-items/active/WI-845-historical-close-projection.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-845-historical-close-projection"
+}

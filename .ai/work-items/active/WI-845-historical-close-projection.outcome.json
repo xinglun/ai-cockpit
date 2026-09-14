@@ -1,0 +1,171 @@
+{
+  "acceptanceResults": [
+    "A valid repository-bound successor recovery with a terminal successor projects the predecessor as recovered and nonblocking, without rewriting the predecessor close bytes.",
+    "An unclosed, mismatched, malformed, foreign, or tampered successor recovery remains blocking and does not bypass close validation.",
+    "Focused Rust regression tests prove both the positive projection and fail-closed negative cases.",
+    "The implementation performs no partial state writes and preserves the original historical close bytes."
+  ],
+  "createdAt": "2026-09-14T23:25:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:769df4b0d90134f5eee03a498ea8cb923b167bc8ac9ee7adb4f66d965b04787c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-845-historical-close-projection.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-845-historical-close-projection.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-845-historical-close-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+      "workItemId": "WI-845-historical-close-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-845-historical-close-projection.verification-attempt.8bb53ba97bc9f4463bbd547c604a6e05973e5da198b687e7f6dd5854187e520a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-845-historical-close-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent a recovered historical Work Item from remaining falsely blocked while preserving immutable history and fail-closed validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-845-historical-close-projection"
+  },
+  "taskReportDigest": "sha256:485b0a115a0275d87b54a208a9cf844d7aed9f8f88f25320789093d14b7b46dc",
+  "taskReportMarkdownDigest": "sha256:9ea1c7ebdf9cbd7088b11c4cb2ce0c0f371bd254adccdb28ed284c0acc65f88e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-845-historical-close-projection.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-845-historical-close-projection"
+}

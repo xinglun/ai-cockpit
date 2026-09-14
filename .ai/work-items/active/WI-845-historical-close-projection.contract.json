@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "A valid repository-bound successor recovery with a terminal successor projects the predecessor as recovered and nonblocking, without rewriting the predecessor close bytes.",
+    "An unclosed, mismatched, malformed, foreign, or tampered successor recovery remains blocking and does not bypass close validation.",
+    "Focused Rust regression tests prove both the positive projection and fail-closed negative cases.",
+    "The implementation performs no partial state writes and preserves the original historical close bytes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4b621a78bcb46a2ddfe41d6470943fd04a3f2d7b",
+  "createdAt": "2026-09-14T23:17:12Z",
+  "goal": "Prevent a recovered historical Work Item from remaining falsely blocked while preserving immutable history and fail-closed validation.",
+  "intent": "Make a valid append-only successor recovery resolve a historical noncanonical close in Runtime status projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Protocol schema",
+    " CLI surface",
+    " release/adopter behavior",
+    " Python documentation promotion",
+    " historical record rewriting",
+    " broad branch cleanup"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c7ca0912c21017604335b63b4ccc97a7f45160238e60580da01323c745b7c22",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    ".ai/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-845-historical-close-projection"
+}
