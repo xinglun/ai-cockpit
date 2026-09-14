@@ -6,8 +6,8 @@ use cockpit_repository::{
     amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_structured_decision, finish_work_item, preflight_work_item,
     preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
-    require_verification_preconditions, run_repository_verification, scaffold_work_item,
-    start_work_item_with_options, status,
+    record_work_item_governance_controls, require_verification_preconditions,
+    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::fs;
@@ -259,6 +259,126 @@ fn verification_preconditions_reject_missing_governance_controls_before_executio
             .contains("verification preconditions are blocked")
     );
     assert!(error.to_string().contains("acceptance_evidence_missing"));
+}
+
+#[test]
+fn verification_preconditions_accept_complete_repository_bound_custom_evidence() {
+    let directory = repository();
+    let work_item_id = "WI-CUSTOM-EVIDENCE-PRECONDITION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "accept a complete custom evidence projection before verification",
+        "do not block a valid repository-bound custom evidence class at the execution boundary",
+        &["**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            risk: "high".into(),
+            required_evidence_classes: vec!["performance".into()],
+            ..start_options()
+        },
+    )
+    .expect("start");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "valid repository-bound custom evidence permits verification preconditions",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "a complete custom evidence projection is accepted before project verification",
+                "verificationPlan": "run the focused precondition regression"
+            }]
+        }),
+        "declare the high-risk custom evidence precondition scenario before checkpoint",
+    )
+    .expect("declare scenario coverage");
+
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let evidence_path = directory.path().join("performance-measurement.txt");
+    fs::write(&evidence_path, b"p50=1ms\np95=2ms\n").expect("evidence file");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract")).expect("contract");
+    let contract_digest = cockpit_protocol::digest_json(&contract).expect("contract digest");
+    let evidence_digest = Digest::sha256_bytes(&fs::read(&evidence_path).expect("evidence"));
+    record_work_item_governance_controls(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverage": [{
+                "scenario": "valid repository-bound custom evidence permits verification preconditions",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "a complete custom evidence projection is accepted before project verification",
+                "verificationPlan": "run the focused precondition regression"
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["crates/cockpit-repository/src/lib.rs"]
+            },
+            "evidenceClasses": {
+                "schemaVersion": 1,
+                "contractDigest": contract_digest,
+                "items": [{
+                    "class": "performance",
+                    "evidence": [{
+                        "type": "measurement",
+                        "path": "performance-measurement.txt",
+                        "locator": "p50,p95",
+                        "verification": "passed",
+                        "digest": evidence_digest
+                    }]
+                }]
+            }
+        }),
+    )
+    .expect("record complete custom evidence projection");
+
+    let preflight = preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    assert_ne!(
+        preflight.state,
+        DecisionState::Red,
+        "custom evidence setup preflight: {preflight:#?}"
+    );
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+
+    require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+        .expect("complete custom evidence must not block project verification");
+
+    fs::remove_file(&evidence_path).expect("remove custom evidence");
+    let preflight = preflight_work_item(directory.path(), &contract_path).expect("re-preflight");
+    assert_ne!(
+        preflight.state,
+        DecisionState::Red,
+        "missing custom evidence should remain a precondition diagnostic: {preflight:#?}"
+    );
+    let changed_snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("changed snapshot");
+    let error = require_verification_preconditions(
+        directory.path(),
+        work_item_id,
+        &runtime,
+        &changed_snapshot,
+    )
+    .expect_err("missing custom evidence must block before project verification");
+    assert!(error.to_string().contains("evidence_classes_missing"));
 }
 
 #[test]

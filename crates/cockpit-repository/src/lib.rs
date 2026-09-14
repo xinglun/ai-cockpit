@@ -3805,6 +3805,39 @@ pub fn require_verification_preconditions(
         &summary,
         runtime,
     );
+    // The report-only controls validator cannot inspect repository paths, so
+    // it emits a warning for custom evidence classes. At this execution
+    // boundary the repository-bound projection is available and must be
+    // checked before deciding whether planned high-risk scenarios are ready.
+    // A complete projection clears only that placeholder warning; every
+    // missing, stale, malformed, foreign, symlinked, or non-regular
+    // projection remains fail-closed and prevents process spawn.
+    let mut controls = controls;
+    if !custom_required_evidence_classes(&contract).is_empty() {
+        let custom_evidence_state =
+            evidence_class_projection_state(&root, &contract, &summary, false)?;
+        if custom_evidence_state != EvidenceState::Complete {
+            let state_code = match custom_evidence_state {
+                EvidenceState::Missing => "missing",
+                EvidenceState::Stale => "stale",
+                EvidenceState::Contradictory => "contradictory",
+                EvidenceState::Unknown => "unknown",
+                EvidenceState::Complete => unreachable!("complete state handled above"),
+            };
+            return Err(ObserverError::State {
+                path: contract_path.clone(),
+                message: format!(
+                    "verification preconditions are blocked: evidence_classes_{state_code}"
+                ),
+            });
+        }
+        controls
+            .unknowns
+            .retain(|unknown| unknown != "evidence_classes_repository_context_required");
+        controls
+            .findings
+            .retain(|finding| finding.code != "evidence_classes_repository_context_required");
+    }
     // Required high-risk scenarios are allowed to remain unverified at the
     // execution boundary when their expected result and verification plan
     // are already declared. The same scenarios remain blocking for finish

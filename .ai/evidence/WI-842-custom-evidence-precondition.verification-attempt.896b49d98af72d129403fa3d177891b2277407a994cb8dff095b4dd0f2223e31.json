@@ -1,0 +1,49 @@
+{
+  "attemptId": "sha256:896b49d98af72d129403fa3d177891b2277407a994cb8dff095b4dd0f2223e31",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry",
+        "--test",
+        "archive_integrity",
+        "--test",
+        "verification_attempts"
+      ],
+      "baseCommit": "4d98058d4a5cba6baded2fadb3a96cece901e3b3",
+      "commandDigest": "sha256:4467b084219a73b9786c012ee37e57ad49fd4e5d84b426455b4b1968f6b0d5b9",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:f7280cff2a1965e5905ea35071ad8e00be08561b96478f773e32838280915b11",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+  "contractExecutionScopeDigest": "sha256:2a05fb1e14be5b608feeda0cf9fb93c3087d6d85da503f11779e95a7f6b36b5a",
+  "createdAt": "2026-09-14T05:33:50Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi842-custom-evidence-precondition/.ai/work-items/active/WI-842-custom-evidence-precondition.contract.json: verification preconditions are blocked: evidence_classes_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+  "runtimeDigest": "sha256:f7280cff2a1965e5905ea35071ad8e00be08561b96478f773e32838280915b11",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

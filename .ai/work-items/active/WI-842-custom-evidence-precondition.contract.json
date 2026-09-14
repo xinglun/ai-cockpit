@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "A valid repository-bound custom evidence projection no longer blocks verification preconditions.",
+    "Missing, stale, malformed, foreign, symlinked, and non-regular custom evidence still fail closed before project process spawn.",
+    "Regression tests prove project process spawn is zero on invalid projections and preserve structured precondition attempt evidence.",
+    "The same Work Item rule is documented for future Agent execution and does not create a successor for a same-root problem."
+  ],
+  "authority": "explicit-user-authorization-current-task",
+  "baseRevision": "4d98058d4a5cba6baded2fadb3a96cece901e3b3",
+  "createdAt": "2026-09-14T05:16:12Z",
+  "goal": "Allow valid custom evidence projections to pass the precondition gate before project verification, with regression coverage for valid, stale, malformed, and missing projections.",
+  "intent": "Fix the verification precondition boundary so correctly repository-bound custom evidence classes do not block project verification, while malformed or stale evidence remains fail-closed.",
+  "mode": "implementation",
+  "outOfScope": [
+    "historical evidence rewriting",
+    "release publication",
+    "branch or worktree cleanup",
+    "unrelated Runtime performance work"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:3e1143c6b05f5eb2f50d8effada56ac5602565b5c6d17d8d347e9d0d185797d9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "documentation"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A complete custom evidence projection bound to the current repository, Contract digest, and Runtime identity does not block verification before the project command starts.",
+      "required": true,
+      "scenario": "valid repository-bound custom evidence permits verification preconditions",
+      "status": "unverified",
+      "verificationPlan": "Run the focused preflight regression with a regular current-digest evidence file and assert that the project command starts and the persisted precondition attempt is successful."
+    },
+    {
+      "evidence": [],
+      "expected": "Missing, stale, malformed, foreign, symlinked, and non-regular custom evidence each fail closed with zero project processes spawned and a persisted structured attempt.",
+      "required": true,
+      "scenario": "invalid custom evidence is rejected before project process spawn",
+      "status": "unverified",
+      "verificationPlan": "Run focused precondition tests for each invalid projection and inspect the attempt fields, exit status, and diagnostic identity."
+    },
+    {
+      "evidence": [],
+      "expected": "Node exit code, timeout state, duration, logs, and input identity remain available even when governance rejects the formal completion receipt.",
+      "required": true,
+      "scenario": "failed execution result remains durable when formal receipt cannot be written",
+      "status": "unverified",
+      "verificationPlan": "Run the focused executor persistence regression with an intentionally rejected formal receipt and inspect the independent attempt evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "A governance-only Contract correction can reuse unchanged execution inputs, while code, command, dependency, or relevant configuration changes invalidate reuse.",
+      "required": true,
+      "scenario": "only governance-bound changes permit safe result reuse",
+      "status": "unverified",
+      "verificationPlan": "Run the focused reuse identity regression across unchanged, governance-only, and execution-input-changed cases."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/governance_controls.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/preflight_review.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "docs/reference/commands.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.zh-CN.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-842-custom-evidence-precondition"
+}

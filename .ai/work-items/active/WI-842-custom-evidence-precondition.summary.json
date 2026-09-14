@@ -1,0 +1,223 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "verification receipt",
+          "path": ".ai/evidence/WI-842-custom-evidence-precondition.verification.json",
+          "type": "test-report",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "verification receipt",
+          "path": ".ai/evidence/WI-842-custom-evidence-precondition.verification.json",
+          "type": "test-report",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "verification receipt",
+          "path": ".ai/evidence/WI-842-custom-evidence-precondition.verification.json",
+          "type": "test-report",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "verification receipt",
+          "path": ".ai/evidence/WI-842-custom-evidence-precondition.verification.json",
+          "type": "test-report",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.0d4dea0974feca07e289f0526a3e9441e7aa071f340c46eb2c4188443bc8e6de.json",
+    ".ai/decisions/WI-842-custom-evidence-precondition.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-842-custom-evidence-precondition.verification-attempt.896b49d98af72d129403fa3d177891b2277407a994cb8dff095b4dd0f2223e31.json",
+    ".ai/work-items/active/WI-842-custom-evidence-precondition.contract.json",
+    ".ai/work-items/active/WI-842-custom-evidence-precondition.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.ja.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.md",
+    "docs/work-items/WI-842-custom-evidence-precondition.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-14T05:21:57Z",
+  "checkpointContractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+      "recorded": true,
+      "recordedAt": "2026-09-14T05:21:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3e1143c6b05f5eb2f50d8effada56ac5602565b5c6d17d8d347e9d0d185797d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-842-custom-evidence-precondition"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:75f2c306f18fab30164becfbf4dcbae671eb98fe08eea99e71724b1315b32470",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+      "previousContractHash": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+      "reason": "Include the three repository parity projections required by the preflight gate; this is an additive documentation boundary within WI-842.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T05:32:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-842-custom-evidence-precondition"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bc4c032019eabb9cdf7a7d969cb2fa395c6861fd9450044d46d30e28a15a7429",
+      "previousContractHash": "sha256:75f2c306f18fab30164becfbf4dcbae671eb98fe08eea99e71724b1315b32470",
+      "reason": "Include the lifecycle entry regression and the three parity projections required by the implemented precondition fix; this remains within WI-842.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T05:32:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-842-custom-evidence-precondition"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+  "createdAt": "2026-09-14T05:16:12Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirm the bounded post-verification governance state for WI-842; no release, cleanup, or historical evidence rewrite is authorized.",
+    "recordedAt": "2026-09-14T05:38:00Z",
+    "recordedBy": "human:xinglun",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+    "schemaVersion": 1,
+    "workItemId": "WI-842-custom-evidence-precondition"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+    "items": [
+      {
+        "class": "documentation",
+        "evidence": [
+          {
+            "digest": "sha256:d60c5c5912f9a9e8ece5c1e6cacc44cbbde46c7eeced875f43ddc1246699d702",
+            "locator": "WI-842 Work Item projection",
+            "path": "docs/work-items/WI-842-custom-evidence-precondition.md",
+            "type": "documentation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/reference/agent-workflow.md",
+      "docs/work-items/WI-840-lifecycle-reconciliation.md"
+    ],
+    "reason": "This Work Item changes Runtime verification precondition behavior, which is outside WI-840's cleanup-only boundary.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T05:37:52Z",
+  "preflightContractDigest": "sha256:cb747cbcf2f9bb0c99af21c74bbbd1cb36c781724f4a632198e8881c7fe96c7b",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e57588f6f052aa447e27ff88e80d07b4c17dd085d909a8e32157e5b3e1a09990",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+      ],
+      "expected": "a complete repository-bound custom evidence projection is accepted before project verification",
+      "required": true,
+      "scenario": "valid repository-bound custom evidence permits verification preconditions",
+      "status": "verified",
+      "verificationPlan": "run the focused precondition regression"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+      ],
+      "expected": "missing, stale, malformed, foreign, symlinked, and non-regular custom evidence remains rejected with zero project processes",
+      "required": true,
+      "scenario": "invalid custom evidence is rejected before project process spawn",
+      "status": "verified",
+      "verificationPlan": "run focused precondition tests and inspect persisted attempt records"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+      ],
+      "expected": "node exit code, timeout state, duration, logs, and input identity remain available even when governance rejects the formal completion receipt",
+      "required": true,
+      "scenario": "failed execution result remains durable when formal receipt cannot be written",
+      "status": "verified",
+      "verificationPlan": "run the focused executor persistence regression"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-842-custom-evidence-precondition.verification.json"
+      ],
+      "expected": "a governance-only Contract correction can reuse unchanged execution inputs, while code, command, dependency, or relevant configuration changes invalidate reuse",
+      "required": true,
+      "scenario": "only governance-bound changes permit safe result reuse",
+      "status": "verified",
+      "verificationPlan": "run the focused reuse identity regression"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T05:37:58Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-842-custom-evidence-precondition"
+}
