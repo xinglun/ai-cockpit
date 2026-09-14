@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-835 language pages are regular non-symlink files and describe the same bounded intent, scope, evidence, and terminal state.",
+    "All three reference parity files contain exactly one WI-835 row linking the language page and immutable archive, verification, and close evidence.",
+    "The targeted closed Work Item promotion check passes for WI-835 without rewriting any Runtime-generated evidence.",
+    "The repository-wide closed Work Item promotion check passes, or reports only independently pre-existing items with explicit evidence.",
+    "The WI-836 English, Simplified Chinese, and Japanese pages and its three parity rows exist in the pre-archive form before verification."
+  ],
+  "authority": "authorized",
+  "baseRevision": "f36dfb39f0e308709884a996a9adba9e452b5943",
+  "createdAt": "2026-09-14T01:37:01Z",
+  "goal": "Add the three language Work Item page and parity projections required by the closed Work Item promotion gate, preserving the immutable WI-835 Runtime evidence.",
+  "intent": "Promote the terminal documentation projection for the closed WI-835 lifecycle cleanup Work Item.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " tests",
+    " CI",
+    " Runtime-generated .ai records",
+    " release tags",
+    " Releases",
+    " remote branches",
+    " worktrees",
+    " historical evidence bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fdae55aef24a8a630dbe1ba324b8a676721357dfbceb21863feb27364ee12ebe",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "documentation"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-835-lifecycle-cleanup.md",
+    "docs/work-items/WI-835-lifecycle-cleanup.zh-CN.md",
+    "docs/work-items/WI-835-lifecycle-cleanup.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-836-wi835-docs-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-836-wi835-docs-promotion"
+}

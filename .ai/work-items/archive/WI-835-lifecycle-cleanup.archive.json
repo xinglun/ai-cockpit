@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T01:32:16Z",
+  "files": {
+    "approachDigest": "sha256:35dffe578ca68232ca59b0f7384ee9bab155d53e523c4f78ebebe8f08e031336",
+    "approachPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json",
+    "contractDigest": "sha256:d280f1326a9c12afe390a7e6aa6a83e4d0ccf2264e30475e43e49542dd4b7243",
+    "contractPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json",
+    "eventsDigest": "sha256:10bef6011dc2a6c6be491028d2f3df46a839e3bc9fbbf99817b9c2075143a3d6",
+    "eventsPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:f3477e3708751c243760b6e712e6c79554aacad9f608cff1c5e34d52581e3908",
+    "outcomePath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.outcome.json",
+    "summaryDigest": "sha256:23ef185274d1503f8c11090df6e47b6596407a0d751d528195c127bb5c46db05",
+    "summaryPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json",
+    "taskReportDigest": "sha256:301e6cc3545de0e27fbd9446c3244efc35cb9996a9ca60681f1c951e3d0e6326",
+    "taskReportMarkdownDigest": "sha256:8edc43e25a3b58db986d1f7d2bdd9d2f6ae90797f6f8e7f71e7ea4d56a8c4787",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-835-lifecycle-cleanup"
+}

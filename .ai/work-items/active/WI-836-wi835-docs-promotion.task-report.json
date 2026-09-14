@@ -1,0 +1,298 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e617affed9d5163f4a648b7fb4e0e12605e7f2024a439393db36df562c940c03",
+    "workItemId": "WI-836-wi835-docs-promotion"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-835-lifecycle-cleanup.close.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-836-wi835-docs-promotion.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.85ae83f5c67d1e337438afea4d1403d1d8ceda519b159375f489d51567f1d6dc.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification-attempt.c6b9b0f25e0056e72127ed09561b607f102f15f454874330c27b9c5a48fbae75.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-835-lifecycle-cleanup.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-836-wi835-docs-promotion.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-835-lifecycle-cleanup.task-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-835-lifecycle-cleanup.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-835-lifecycle-cleanup.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-835-lifecycle-cleanup.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-836-wi835-docs-promotion.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-836-wi835-docs-promotion.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.contract.json"
+        ],
+        "inference": false,
+        "text": "Add the three language Work Item page and parity projections required by the closed Work Item promotion gate, preserving the immutable WI-835 Runtime evidence."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-836-wi835-docs-promotion.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-836-wi835-docs-promotion"
+}

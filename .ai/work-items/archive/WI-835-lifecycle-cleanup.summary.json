@@ -5,9 +5,9 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-835-lifecycle-cleanup.disposition.md",
     ".ai/evidence/WI-835-lifecycle-cleanup.verification-attempt.24b530167532bedef311979e1d8345cd17b4b5d5f6acbb8e2bd6df6875eca62e.json",
-    ".ai/work-items/active/WI-835-lifecycle-cleanup.approach.json",
-    ".ai/work-items/active/WI-835-lifecycle-cleanup.contract.json",
-    ".ai/work-items/active/WI-835-lifecycle-cleanup.summary.json"
+    ".ai/work-items/archive/WI-835-lifecycle-cleanup.approach.json",
+    ".ai/work-items/archive/WI-835-lifecycle-cleanup.contract.json",
+    ".ai/work-items/archive/WI-835-lifecycle-cleanup.summary.json"
   ],
   "checkpointAt": "2026-09-14T01:15:25Z",
   "checkpointContractDigest": "sha256:1a8beaffdb67e16287e29acccb6e0fa40aaa637d8d78e33d08e5fc0b0a92a911",
