@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671.json",
-    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json",
-    ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+    ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json",
+    ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
   ],
   "checkpointAt": "2026-09-14T13:30:25Z",
   "checkpointContractDigest": "sha256:264cc25934ae3976480723ee3279f6d8a3e3291094feee17e22eda21d391361e",
@@ -66,6 +66,71 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f566ac2b184c1f15ae6b825296cf6ee00dfe7e8acc3ea3b8649151b2caaa7977",
   "createdAt": "2026-09-14T13:29:41Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:264cc25934ae3976480723ee3279f6d8a3e3291094feee17e22eda21d391361e",
+    "items": [
+      {
+        "class": "resource_cleanup",
+        "evidence": [
+          {
+            "digest": "sha256:6857a2bddebb08d958fe8432f4363b2db0085c38f027a14d8fbdf509dca1903e",
+            "locator": "resources[0]",
+            "path": ".ai/evidence/WI-844-lifecycle-resource-reconciliation.resource-cleanup.json",
+            "type": "branch_worktree_inventory",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "documentation",
+        "evidence": [
+          {
+            "digest": "sha256:a8e9cbb7aadf30d0a5679d7f678722eea7ffb596c50a5f33131f84df72c338dd",
+            "locator": "frontmatter.workItemId,lastVerifiedBy",
+            "path": "docs/work-items/WI-844-lifecycle-resource-reconciliation.md",
+            "type": "documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:cfb83da056b8a5c9d93e0a7f2f8d42e3e9dd9a508083c69f53afd213d1ee69fc",
+            "locator": "frontmatter.workItemId,lastVerifiedBy",
+            "path": "docs/work-items/WI-844-lifecycle-resource-reconciliation.zh-CN.md",
+            "type": "documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:e008cb9e6c9a31b53d82b4f2df969239b47aadd84ea2d9e3ebad669b7fca5c09",
+            "locator": "frontmatter.workItemId,lastVerifiedBy",
+            "path": "docs/work-items/WI-844-lifecycle-resource-reconciliation.ja.md",
+            "type": "documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:52d5bedbcdf684d3ddc9b39e9ffcdf11cd387160b6e96b4be3195730ea76dcc3",
+            "locator": "WI-844 row",
+            "path": "docs/reference/reference-parity.md",
+            "type": "documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:ed92726dd8b20bba003de9b7fb9c61428c8ccea77b7d841d146da23313bf517e",
+            "locator": "WI-844 row",
+            "path": "docs/reference/reference-parity.zh-CN.md",
+            "type": "documentation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:e33f3d8a9cbe1e7aeaba62a7ca6718b2656688f2cf33c51c3d421d94d9a134ab",
+            "locator": "WI-844 row",
+            "path": "docs/reference/reference-parity.ja.md",
+            "type": "documentation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
   "mode": "implementation",
   "preflightAt": "2026-09-14T14:14:20Z",
   "preflightContractDigest": "sha256:264cc25934ae3976480723ee3279f6d8a3e3291094feee17e22eda21d391361e",
@@ -75,7 +140,7 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T14:14:26Z",
+  "updatedAt": "2026-09-14T14:25:15.001166+00:00",
   "verification": [
     {
       "check": "project-command-0",

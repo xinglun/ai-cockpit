@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671.json
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json
-- Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json
+- Changed path: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json
+- Changed path: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json
 
 ## Findings
 

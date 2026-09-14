@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-14T14:25:20Z",
+  "files": {
+    "contractDigest": "sha256:13a0ce0c3fe0871f43bfe914eb96154969fcb756c228170800aaa3730ac9b5bd",
+    "contractPath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json",
+    "eventsDigest": "sha256:a68d094a8dad519efbcc8010b958bc068f39d9c28a7a51a393092724785854a7",
+    "eventsPath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:1f84fa4d8790b2730082e8468766c5a4ad71080b810388962d21969cc79813e5",
+    "outcomePath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.outcome.json",
+    "summaryDigest": "sha256:606c298882f607c5b0465d58cfba4f3367f77a37661a0181592100b09bf37c55",
+    "summaryPath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json",
+    "taskReportDigest": "sha256:68df3411fbbe5e1a922e7eb805ecfc17b572d633eea423dc1ab1aa4c8e54aef2",
+    "taskReportMarkdownDigest": "sha256:cf39e5545f4bd3bb70b32e57c33855833bece5ee528af146a62fdae7d1be7d1f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-844-lifecycle-resource-reconciliation"
+}
