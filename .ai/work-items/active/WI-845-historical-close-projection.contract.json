@@ -3,7 +3,8 @@
     "A valid repository-bound successor recovery with a terminal successor projects the predecessor as recovered and nonblocking, without rewriting the predecessor close bytes.",
     "An unclosed, mismatched, malformed, foreign, or tampered successor recovery remains blocking and does not bypass close validation.",
     "Focused Rust regression tests prove both the positive projection and fail-closed negative cases.",
-    "The implementation performs no partial state writes and preserves the original historical close bytes."
+    "The implementation performs no partial state writes and preserves the original historical close bytes.",
+    "The PR contains the required pre-archive tri-language Work Item pages and exactly one parity row for this Work Item, so the repository quality gate can validate the change before expensive verification."
   ],
   "authority": "authorized",
   "baseRevision": "4b621a78bcb46a2ddfe41d6470943fd04a3f2d7b",
@@ -39,7 +40,13 @@
   "scope": [
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/status_projection.rs",
-    ".ai/**"
+    ".ai/**",
+    "docs/work-items/WI-845-historical-close-projection.md",
+    "docs/work-items/WI-845-historical-close-projection.zh-CN.md",
+    "docs/work-items/WI-845-historical-close-projection.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [],
   "state": "implementation_active",
