@@ -57,6 +57,31 @@ fn always_command(id: &str, program: &str, args: Vec<String>) -> VerificationCom
     VerificationCommand::new(id, program, args, VerificationReusePolicy::NeverReuse)
 }
 
+fn diagnostic_command() -> VerificationCommand {
+    #[cfg(windows)]
+    {
+        always_command(
+            "diagnostic",
+            "cmd.exe",
+            vec![
+                "/C".into(),
+                "echo stdout diagnostic & echo stderr diagnostic 1>&2 & exit /B 7".into(),
+            ],
+        )
+    }
+    #[cfg(not(windows))]
+    {
+        always_command(
+            "diagnostic",
+            "sh",
+            vec![
+                "-c".into(),
+                "printf 'stdout diagnostic\\n'; printf 'stderr diagnostic\\n' >&2; exit 7".into(),
+            ],
+        )
+    }
+}
+
 #[test]
 fn pinned_execution_paths_do_not_change_the_logical_command_identity() {
     let first = VerificationCommand::new_pinned(
@@ -106,14 +131,7 @@ fn bounded_execution_reports_plan_and_process_telemetry() {
 
 #[test]
 fn execution_receipt_preserves_command_identity_exit_status_and_bounded_logs() {
-    let command = always_command(
-        "diagnostic",
-        "python3",
-        vec![
-            "-c".into(),
-            "import sys; print('stdout diagnostic'); print('stderr diagnostic', file=sys.stderr); getattr(sys, 'exit')(7)".into(),
-        ],
-    );
+    let command = diagnostic_command();
     let expected_digest = command.command_digest();
 
     let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute diagnostic");
@@ -125,9 +143,9 @@ fn execution_receipt_preserves_command_identity_exit_status_and_bounded_logs() {
     assert_eq!(record.command_digest, expected_digest);
     assert_eq!(record.exit_code, Some(7));
     assert!(!record.timed_out);
+    assert!(record.elapsed_ms < 5_000);
     assert!(!record.stdout_hex.is_empty());
     assert!(!record.stderr_hex.is_empty());
-    assert!(record.elapsed_ms < 5_000);
 }
 
 #[test]
