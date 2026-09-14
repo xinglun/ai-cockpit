@@ -9,7 +9,8 @@
     "policy regression tests fail if source-quality Contract verification uses the current orchestration checkout or the current workflow SHA as the release-source head",
     "publication and post-release recovery inputs require an explicit source Work Item or source Contract identity; they never silently reuse the governance identity",
     "all route receipts consumed by source-quality validation are located under the immutable release-source repository root, so Runtime repository-boundary validation cannot reject a receipt merely because the source checkout is nested",
-    "source-quality preflight failures persist and upload the canonical report from the exact source repository path, including the root failure code and diagnostic binding"
+    "source-quality preflight failures persist and upload the canonical report from the exact source repository path, including the root failure code and diagnostic binding",
+    "source-quality gates executed from the nested immutable release-source checkout receive the absolute digest-verified shared Rust scanner path, so isolation regressions do not depend on a target directory inside that checkout"
   ],
   "authority": "authorized",
   "baseRevision": "cd02be16a23bccccb93763c564d3664ff94c3b3e",

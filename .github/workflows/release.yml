@@ -725,6 +725,8 @@ jobs:
           (cd "$source_repo" && cargo metadata --locked --format-version 1) > /tmp/cargo-metadata.json
           version="$(jq -er '.packages[] | select(.name == "cockpit-cli") | .version' /tmp/cargo-metadata.json)"
           jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' /tmp/cargo-metadata.json
+          export AI_COCKPIT_ISOLATION_BIN="$GITHUB_WORKSPACE/target/release/ai-cockpit"
+          test -x "$AI_COCKPIT_ISOLATION_BIN"
           gate_args=(
             python3 "$source_repo/tests/ci/run_repository_gates.py" \
             --repo "$source_repo" \
