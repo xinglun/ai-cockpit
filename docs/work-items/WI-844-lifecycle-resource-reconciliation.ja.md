@@ -3,10 +3,13 @@ author: AI Cockpit メンテナー
 title: "WI-844 — lifecycle resource reconciliation"
 description: "Work Item の lifecycle と正確な resource を収束させながら、historical successor binding を保持する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-844-lifecycle-resource-reconciliation
 lastVerifiedBy: WI-844-lifecycle-resource-reconciliation
+terminalArchive: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json
+terminalDecision: .ai/decisions/WI-844-lifecycle-resource-reconciliation.close.json
 ---
 
 [English](WI-844-lifecycle-resource-reconciliation.md) · [简体中文](WI-844-lifecycle-resource-reconciliation.zh-CN.md)

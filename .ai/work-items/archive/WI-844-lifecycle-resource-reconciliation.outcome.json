@@ -46,31 +46,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification-attempt.daf7e04b29c5ad1ff8dfb23e1accaa67625e47d2fccdb7e84e9313f50260a671.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-844-lifecycle-resource-reconciliation.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.summary.json"
         }
       ],
       "evidence": [
@@ -126,7 +126,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json"
           ],
           "inference": false,
           "text": "Classify and safely close eligible historical Work Items, preserve unsupported or missing evidence explicitly, and remove only exact merged clean branches and worktrees without rerunning historical product verification or altering published releases."
@@ -135,7 +135,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-844-lifecycle-resource-reconciliation.contract.json"
+            ".ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -145,8 +145,8 @@
     "status": "verified",
     "workItemId": "WI-844-lifecycle-resource-reconciliation"
   },
-  "taskReportDigest": "sha256:9fc2ba5300fbfbecdce0608d8a9ae50a6b1034fabcbf36a5906b914982879b1e",
-  "taskReportMarkdownDigest": "sha256:5b8f648403ec3279f099fa40fd6e4b5a279ebc7d86c7e77d6abf52e7bcb8d390",
+  "taskReportDigest": "sha256:68df3411fbbe5e1a922e7eb805ecfc17b572d633eea423dc1ab1aa4c8e54aef2",
+  "taskReportMarkdownDigest": "sha256:cf39e5545f4bd3bb70b32e57c33855833bece5ee528af146a62fdae7d1be7d1f",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

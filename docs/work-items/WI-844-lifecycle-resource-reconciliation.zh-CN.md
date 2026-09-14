@@ -3,10 +3,13 @@ author: AI Cockpit 维护者
 title: "WI-844——生命周期资源收敛"
 description: "在收敛 Work Item 生命周期和精确资源时保留历史 successor 绑定。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-844-lifecycle-resource-reconciliation
 lastVerifiedBy: WI-844-lifecycle-resource-reconciliation
+terminalArchive: .ai/work-items/archive/WI-844-lifecycle-resource-reconciliation.contract.json
+terminalVerification: .ai/evidence/WI-844-lifecycle-resource-reconciliation.verification.json
+terminalDecision: .ai/decisions/WI-844-lifecycle-resource-reconciliation.close.json
 ---
 
 [English](WI-844-lifecycle-resource-reconciliation.md) · [日本語](WI-844-lifecycle-resource-reconciliation.ja.md)
