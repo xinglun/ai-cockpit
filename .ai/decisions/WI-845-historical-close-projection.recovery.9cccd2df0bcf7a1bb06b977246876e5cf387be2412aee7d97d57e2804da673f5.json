@@ -1,0 +1,23 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-14T23:56:37Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-845-historical-close-projection.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "predecessorEventsDigest": "sha256:2589bd64ed9d2fda82c80029c3409f6d0e9d49a24a74ae55fbc43364e319d827",
+  "predecessorOutcomeDigest": "sha256:7f698ad18a5db86ec24a9bee75aa58d8bb100cb1eaea9cf3cc879729ef298a90",
+  "predecessorSummaryDigest": "sha256:d93e4bed9a247a425e4392faa31fef693dd64904fee0b41f25c156c90eac190f",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "reason": "Retry the same WI after a governance-only parity correction changed the repository snapshot; preserve the prior verification and rerun only the focused source checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "fresh preflight and focused formal verification bound to the current repository snapshot",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-845-historical-close-projection"
+}

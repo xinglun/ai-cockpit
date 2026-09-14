@@ -4,7 +4,7 @@
       ".ai/evidence/WI-845-historical-close-projection.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:a557e8a134d8d428fc9a3d46d3618fc511fb3a5bd54bc62dea7e4cb29b4e1426",
+    "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
     "workItemId": "WI-845-historical-close-projection"
   },
   "format": "ai-cockpit.task-outcome",
@@ -13,6 +13,13 @@
   "sections": {
     "avoidedImpact": [],
     "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json"
+      },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-845-historical-close-projection.summary.json"

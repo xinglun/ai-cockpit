@@ -1,5 +1,6 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
   ],
@@ -42,18 +43,18 @@
       "workItemId": "WI-845-historical-close-projection"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a557e8a134d8d428fc9a3d46d3618fc511fb3a5bd54bc62dea7e4cb29b4e1426",
+  "checkpointRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
   "createdAt": "2026-09-14T23:17:12Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-14T23:43:44Z",
+  "preflightAt": "2026-09-14T23:57:47Z",
   "preflightContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a557e8a134d8d428fc9a3d46d3618fc511fb3a5bd54bc62dea7e4cb29b4e1426",
+  "preflightRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-14T23:43:53Z",
+  "updatedAt": "2026-09-14T23:57:47Z",
   "verification": [
     {
       "check": "project-command-0",

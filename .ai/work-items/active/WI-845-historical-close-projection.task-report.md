@@ -14,6 +14,7 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json
 
