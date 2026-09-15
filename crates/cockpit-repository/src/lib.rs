@@ -9937,8 +9937,20 @@ fn work_item_status_snapshot_with_snapshot(
     let close_decision_present = fs::symlink_metadata(&close_decision_path).is_ok();
     let close_decision_valid = archived
         && close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
+    // An older Runtime may have left an immutable, non-canonical close
+    // decision behind even though its explicitly bound successor has since
+    // completed the current lifecycle.  Treat that exact lineage as
+    // recovered, not as an ordinary close and not as an unresolved close
+    // obligation.  A missing close, incomplete successor, or invalid
+    // recovery remains fail-closed below.
+    let historical_recovery_resolved = archived
+        && close_decision_present
+        && !close_decision_valid
+        && recovery_successor_resolves_pending_close(&root, work_item_id, &contract.repository_id);
     let lifecycle_phase = if close_decision_valid {
         "closed".to_string()
+    } else if historical_recovery_resolved {
+        "recovered".to_string()
     } else if archived {
         "archived".to_string()
     } else {
@@ -9997,10 +10009,19 @@ fn work_item_status_snapshot_with_snapshot(
     );
 
     let mut unknowns = outcome.unknowns.clone();
+    if historical_recovery_resolved {
+        // The preserved historical close is intentionally non-canonical, but
+        // its invalidity is already resolved by the exact recovery lineage;
+        // expose the preservation fact below instead of reporting the same
+        // close as an unresolved current failure.
+        unknowns.retain(|unknown| unknown != "close_decision_invalid");
+    }
     if historical {
         unknowns.push("legacy_evidence_historical".into());
     }
-    if archived && !close_decision_valid {
+    if historical_recovery_resolved {
+        unknowns.push("historical_close_decision_preserved".into());
+    } else if archived && !close_decision_valid {
         if close_decision_present {
             unknowns.push("close_decision_invalid".into());
         } else {
@@ -10013,7 +10034,7 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "red" {
         blockers.push("governance_red".into());
     }
-    if archived && !close_decision_valid {
+    if archived && !close_decision_valid && !historical_recovery_resolved {
         blockers.push("archived_work_item_pending_close".into());
     }
     let blocking = !blockers.is_empty();
@@ -10085,6 +10106,8 @@ fn work_item_status_snapshot_with_snapshot(
         "closure".into(),
         if close_decision_valid {
             "closed"
+        } else if historical_recovery_resolved {
+            "recovered"
         } else if archived {
             "archived"
         } else {
@@ -10154,14 +10177,18 @@ fn work_item_status_snapshot_with_snapshot(
     if historical {
         diagnostics.push("historical_evidence_not_revalidated".into());
     }
-    if archived && !close_decision_valid {
+    if historical_recovery_resolved {
+        diagnostics.push("historical_close_decision_preserved".into());
+    } else if archived && !close_decision_valid {
         diagnostics.push(if close_decision_present {
             "close_decision_not_accepted".into()
         } else {
             "lifecycle_cleanup_required".into()
         });
     }
-    let mut safe_actions = if archived && !close_decision_valid {
+    let mut safe_actions = if historical_recovery_resolved {
+        vec!["read_outcome".into()]
+    } else if archived && !close_decision_valid {
         let mut actions = Vec::new();
         if contract.resource_context.is_some() {
             let finalization_path = resource_finalization_decision_path(&root, work_item_id);

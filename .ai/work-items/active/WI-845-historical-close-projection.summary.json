@@ -1,0 +1,65 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+  ],
+  "checkpointAt": "2026-09-14T23:17:17Z",
+  "checkpointContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6d58eafd0505a21719eca52a04a00469bef321cb64aa6c606093200c7a7689e3",
+      "recorded": true,
+      "recordedAt": "2026-09-14T23:17:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-845-historical-close-projection"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6d58eafd0505a21719eca52a04a00469bef321cb64aa6c606093200c7a7689e3",
+      "previousContractHash": "sha256:6d58eafd0505a21719eca52a04a00469bef321cb64aa6c606093200c7a7689e3",
+      "reason": "The hosted quality gate exposed the same lifecycle ordering gap: a new Work Item must carry its required pre-archive documentation projection within its reviewed Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-14T23:39:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:13194b8a752672b40963e9a712a6c88733660431c7ce544f5021434d48f0d3bb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-845-historical-close-projection"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "createdAt": "2026-09-14T23:17:12Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-14T23:57:47Z",
+  "preflightContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-14T23:57:47Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-845-historical-close-projection"
+}
