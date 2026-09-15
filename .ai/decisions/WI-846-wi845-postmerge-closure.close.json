@@ -1,0 +1,140 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+      "workItemId": "WI-846-wi845-postmerge-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorized-cleanup at 2026-09-15T00:30:12Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "Record and verify one explicitly linked successor recovery for WI-845, preserve its immutable archive and evidence, and leave a truthful terminal lifecycle projection without changing product behavior or rerunning release validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-846-wi845-postmerge-closure"
+  },
+  "finalReportDigest": "sha256:51acaa47e2e30e465f79e0de17e0a7f985feb080c0984456df5ef3cd238467e8",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-15T00:30:12Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#Work-Item-change-discipline"
+    ],
+    "reason": "Bounded successor verification passed and the recovery closure is complete; preserve WI-845 immutable bytes and project it as recovered.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-15T00:30:02Z",
+  "workItemId": "WI-846-wi845-postmerge-closure"
+}
