@@ -4,7 +4,7 @@
       ".ai/evidence/WI-847-governance-boundaries.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:fe2570d150175cfa97f42910d6c4305c0e670ce8cf2d0a883e219fc3a5dce784",
+    "repositorySnapshotDigest": "sha256:2db999deb53e48e952ad1ba9051f3e5d975f8bac95ee0d588f253299b4629776",
     "workItemId": "WI-847-governance-boundaries"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,6 +18,13 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.e7c71b3924729c526f839dca1d6bce687de44945c85faeed3d8ba5ab80e3978a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -25,7 +32,42 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.4297a86c3c14fdf2a4ec04de3e73ce06c6db3cacc03865b972a0fb8fb465013d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/project/documentation-policy.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/docs/promote_closed_work_item_test.sh"
       }
     ],
     "evidence": [

@@ -13,7 +13,7 @@ use cockpit_repository::{
     work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
-use std::{fs, process::Command};
+use std::{fs, path::PathBuf, process::Command};
 
 fn governance_snapshot(path: &str, added_lines: &[&str]) -> RepositorySnapshot {
     RepositorySnapshot {
@@ -362,6 +362,139 @@ fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_remo
     assert_eq!(status.verification, "verified");
     assert_eq!(status.completion_domains["workResult"], "verified");
     assert_eq!(status.completion_domains["resourceCleanup"], "verified");
+    assert_eq!(status.completion_domains["closure"], "closed");
+}
+
+#[test]
+fn ordinary_cleanup_keeps_unobservable_worktree_unknown_instead_of_verified_removed() {
+    let work_item_id = "WI-STATUS-ORDINARY-UNOBSERVABLE";
+    let primary = repository();
+    git(primary.path(), &["branch", "-m", "main"]);
+    commit_all(primary.path(), "attach repository");
+    let linked_parent = tempfile::tempdir().expect("linked worktree parent");
+    let remote_path = linked_parent.path().join("origin.git");
+    let remote_path_text = remote_path.display().to_string();
+    git(
+        linked_parent.path(),
+        &["init", "--bare", "-q", &remote_path_text],
+    );
+    git(&remote_path, &["symbolic-ref", "HEAD", "refs/heads/main"]);
+    git(
+        primary.path(),
+        &["remote", "add", "origin", &remote_path_text],
+    );
+    git(primary.path(), &["push", "-q", "-u", "origin", "main"]);
+    git(
+        primary.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    let obstructed_parent = linked_parent.path().join("obstructed-parent");
+    fs::create_dir(&obstructed_parent).expect("create linked worktree parent");
+    let linked_path = obstructed_parent.join("ordinary-worktree");
+    let linked_path_text = linked_path.display().to_string();
+    git(
+        primary.path(),
+        &[
+            "worktree",
+            "add",
+            "-q",
+            "-b",
+            "feature/ordinary-unobservable",
+            &linked_path_text,
+        ],
+    );
+    complete_ordinary_archive(&linked_path, work_item_id, true);
+    close_work_item_with_structured_decision_and_runtime(
+        &linked_path,
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close linked ordinary work item");
+    commit_all(&linked_path, "record ordinary close decision");
+    git(
+        primary.path(),
+        &["merge", "--ff-only", "feature/ordinary-unobservable"],
+    );
+
+    fs::remove_dir_all(&linked_path).expect("remove linked worktree files");
+    fs::remove_dir(&obstructed_parent).expect("remove linked worktree parent");
+    fs::write(&obstructed_parent, "blocks the recorded worktree path")
+        .expect("obstruct recorded worktree path");
+    git(
+        primary.path(),
+        &[
+            "update-ref",
+            "-d",
+            "refs/heads/feature/ordinary-unobservable",
+        ],
+    );
+
+    let common_git_dir = PathBuf::from(git(
+        primary.path(),
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    ));
+    let obstructed_git_dir_parent = common_git_dir.join("worktrees/obstructed-parent");
+    fs::write(&obstructed_git_dir_parent, "blocks the bound Git directory")
+        .expect("obstruct bound Git directory");
+    let obstructed_git_dir = obstructed_git_dir_parent.join("linked-git-dir");
+    let close_path = primary
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    let mut decision: Value =
+        serde_json::from_slice(&fs::read(&close_path).expect("close decision"))
+            .expect("close decision JSON");
+    let mut binding = decision["ordinaryCleanupBinding"].clone();
+    let repository_id = binding["repositoryId"]
+        .as_str()
+        .expect("binding repository identity");
+    let bound_worktree_path = binding["worktreePath"]
+        .as_str()
+        .expect("binding worktree path");
+    let obstructed_git_dir = obstructed_git_dir.display().to_string();
+    let worktree_id = Digest::sha256_bytes(
+        format!(
+            "ordinary-worktree-v1\0{repository_id}\0{bound_worktree_path}\0{obstructed_git_dir}"
+        )
+        .as_bytes(),
+    )
+    .to_string();
+    binding["worktreeGitDir"] = obstructed_git_dir.into();
+    binding["worktreeId"] = worktree_id.into();
+    decision["ordinaryCleanupBindingDigest"] = cockpit_protocol::digest_json(&binding)
+        .expect("rebind cleanup identity")
+        .to_string()
+        .into();
+    decision["ordinaryCleanupBinding"] = binding;
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&decision).expect("updated close decision"),
+    )
+    .expect("bind inaccessible worktree paths in isolated fixture");
+
+    let receipt = cockpit_repository::record_ordinary_cleanup_with_runtime(
+        primary.path(),
+        work_item_id,
+        &runtime(),
+    )
+    .expect("persist a failed observation instead of claiming cleanup success");
+    assert_eq!(receipt.result.state, "failed");
+    assert_eq!(receipt.observation.worktree, "unknown");
+    assert!(
+        receipt
+            .result
+            .failure_codes
+            .contains(&"worktree_unknown".into())
+    );
+    let status = work_item_status_snapshot_with_runtime(primary.path(), work_item_id, &runtime())
+        .expect("ordinary cleanup remains separate from verified work");
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert_eq!(status.completion_domains["workResult"], "verified");
+    assert_eq!(status.completion_domains["resourceCleanup"], "failed");
     assert_eq!(status.completion_domains["closure"], "closed");
 }
 

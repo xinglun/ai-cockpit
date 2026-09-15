@@ -9,6 +9,15 @@ cleanup() {
 }
 trap cleanup EXIT
 
+python3 - "$root/.ai/project/documentation-policy.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+policy = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+assert "release" in policy["requiredModes"], policy["requiredModes"]
+PY
+
 fixture="$tmp/repository"
 python3 - "$fixture" <<'PY'
 import hashlib
@@ -922,7 +931,7 @@ for path in (root / "docs/reference").glob("reference-parity*.md"):
             "repositoryId": repository_id,
             "defaultProjection": "derived",
             "effectiveFromContractCreatedAt": "2026-09-15T00:43:38Z",
-            "requiredModes": ["docs", "documentation"],
+            "requiredModes": ["docs", "documentation", "release"],
             "requiredOperations": ["documentation.modify", "release.publish"],
             "preserveExistingRegistrations": True,
         },
@@ -1013,6 +1022,37 @@ if python3 "$helper" --repo "$tmp/legacy-release-mode" \
   exit 1
 fi
 grep -Fq 'must be a regular non-symlink file' "$tmp/legacy-release-explicit.err"
+
+cp -R "$tmp/ordinary-no-docs" "$tmp/current-release-mode"
+python3 - "$tmp/current-release-mode" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["createdAt"] = "2026-09-16T00:00:00Z"
+contract["mode"] = "release"
+contract["scope"] = ["src/example.rs"]
+contract.pop("operation", None)
+contract.pop("requestedOperation", None)
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+PY
+if python3 "$helper" --repo "$tmp/current-release-mode" --check-all \
+  >"$tmp/current-release-mode.out" 2>"$tmp/current-release-mode.err"; then
+  echo 'current release-mode Work Item silently skipped its required projection' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/current-release-mode.err"
 
 cp -R "$tmp/ordinary-no-docs" "$tmp/explicit-release-operation"
 python3 - "$tmp/explicit-release-operation" <<'PY'

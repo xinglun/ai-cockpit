@@ -9355,14 +9355,37 @@ fn observe_bound_ordinary_resources(
     };
 
     let mut associated = Vec::new();
+    let mut observation_unknown = false;
     for record in git_worktree_records(root)? {
         let Some(path) = record.path.as_ref() else {
+            observation_unknown = true;
             continue;
         };
-        let canonical_path = fs::canonicalize(path).ok();
-        let canonical_git_dir = git_text(path, &["rev-parse", "--absolute-git-dir"])
-            .map(PathBuf::from)
-            .and_then(|path| fs::canonicalize(path).ok());
+        let canonical_path = match fs::canonicalize(path) {
+            Ok(path) => Some(path),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(_) => {
+                observation_unknown = true;
+                None
+            }
+        };
+        let canonical_git_dir = if canonical_path.is_some() {
+            match git_text(path, &["rev-parse", "--absolute-git-dir"]) {
+                Some(git_dir) => match fs::canonicalize(git_dir) {
+                    Ok(path) => Some(path),
+                    Err(_) => {
+                        observation_unknown = true;
+                        None
+                    }
+                },
+                None => {
+                    observation_unknown = true;
+                    None
+                }
+            }
+        } else {
+            None
+        };
         if canonical_path
             .as_ref()
             .is_some_and(|path| path == Path::new(&binding.worktree_path))
@@ -9382,15 +9405,29 @@ fn observe_bound_ordinary_resources(
             && record.head.as_deref() == Some(binding.head_revision.as_str())
         {
             "present"
+        } else if observation_unknown {
+            "unknown"
         } else {
             "identity_conflict"
         }
-    } else if fs::symlink_metadata(&binding.worktree_path).is_ok()
-        || fs::symlink_metadata(&binding.worktree_git_dir).is_ok()
-    {
-        "identity_conflict"
     } else {
-        "removed"
+        let worktree_path = match fs::symlink_metadata(&binding.worktree_path) {
+            Ok(_) => Some(true),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Some(false),
+            Err(_) => None,
+        };
+        let worktree_git_dir = match fs::symlink_metadata(&binding.worktree_git_dir) {
+            Ok(_) => Some(true),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Some(false),
+            Err(_) => None,
+        };
+        if worktree_path == Some(true) || worktree_git_dir == Some(true) {
+            "identity_conflict"
+        } else if worktree_path.is_none() || worktree_git_dir.is_none() || observation_unknown {
+            "unknown"
+        } else {
+            "removed"
+        }
     };
     Ok(OrdinaryCleanupObservation {
         branch: branch.into(),

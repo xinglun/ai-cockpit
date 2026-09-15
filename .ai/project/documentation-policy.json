@@ -5,7 +5,8 @@
   "effectiveFromContractCreatedAt": "2026-09-15T00:43:38Z",
   "requiredModes": [
     "docs",
-    "documentation"
+    "documentation",
+    "release"
   ],
   "requiredOperations": [
     "documentation.modify",
