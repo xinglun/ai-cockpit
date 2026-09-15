@@ -1,9 +1,43 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:b0627c0f58327e7c40a94ba32209dc68d13849453b6cc29badfd765a7e04a545",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/parity_status_check_test.sh"
+      ],
+      "baseCommit": "46aabe41cba5dc6af1a7993c7af63a3007b19eef",
+      "commandDigest": "sha256:633db6bec7678932580fa5eac0a4a3441c0e92ffcd760bcaaf19f41d06fd043b",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:652496fddcd2b4596c52e6187e487c47d4a6c5366c95c82e6e2d843a3f13ced5",
+  "contractExecutionScopeDigest": "sha256:0b3becb674755f8ab77854c69818d533443f35e99d7cfb47986fdeb860e8f064",
   "createdAt": "2026-09-15T13:53:03Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:633db6bec7678932580fa5eac0a4a3441c0e92ffcd760bcaaf19f41d06fd043b",
+      "elapsedMs": 432,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "706172697479207374617475732072656772657373696f6e207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -107,13 +141,13 @@
       }
     ],
     "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-847-governance-boundaries"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:8dc1138b07feea6d855400110227fc37c3e6f8a2d2a6333193180824e42b4937",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:d92382009b2197ac2ec750f1f0e5c74918c6051ce347c679b9134cac0927b42e",
   "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-847-governance-boundaries"
 }

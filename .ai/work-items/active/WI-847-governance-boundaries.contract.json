@@ -98,7 +98,9 @@
     "crates/cockpit-cli/tests/preflight.rs",
     "crates/cockpit-cli/tests/resource_finalization.rs",
     "crates/cockpit-cli/tests/verify.rs",
-    "crates/cockpit-cli/tests/work_item_scaffold.rs"
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "tests/docs/parity_status_check_test.sh",
+    "crates/cockpit-mcp/tests/rpc.rs"
   ],
   "sources": [
     {
