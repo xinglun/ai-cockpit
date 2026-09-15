@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "旧 Runtime の完全な repository-bound archived close receipt は、既存 bytes を変更せず historical compatibility として status entry gate を通過する",
+    "current archive with missing, malformed, foreign, or incomplete close evidence remains blocked and fail-closed",
+    "current canonical close decisions remain unchanged and non-canonical current decisions cannot be created by the close command",
+    "legacy close compatibility does not rewrite predecessor finalization, archive, evidence, or human decision bytes",
+    "focused regression tests cover legacy closed archive entry and invalid close rejection"
+  ],
+  "authority": "explicit user authorization to expand scope and repair AI Cockpit Runtime compatibility",
+  "baseRevision": "4b621a78bcb46a2ddfe41d6470943fd04a3f2d7b",
+  "createdAt": "2026-09-14T23:49:55Z",
+  "goal": "旧形式の repository-bound close receipt を限定的な historical compatibility として検証し、現在の malformed または未閉鎖記録を fail-closed のまま保持する",
+  "intent": "Sentinel の新しい Work Item を開始できない原因となっている、旧 Runtime が生成した閉鎖済み Work Item の互換投影を、immutable evidence を書き換えずに復旧する",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel の業務コード; Decision/Gate/Execution/Position Sizing; Runtime の既存 canonical close vocabulary; immutable archive/evidence/receipt の改変; global Agent/MCP configuration; release packaging"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c7ca0912c21017604335b63b4ccc97a7f45160238e60580da01323c745b7c22",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs; crates/cockpit-repository/tests/status_projection.rs; 必要なテスト用補助コードのみ",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "runtime-historical-finalization-recovery"
+}

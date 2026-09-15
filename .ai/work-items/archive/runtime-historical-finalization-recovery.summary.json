@@ -1,0 +1,69 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/runtime-historical-finalization-recovery.verification-attempt.a8786465123d0f5c08386a3902cf69015ca8232f40283a2207f1c4ba91683e87.json",
+    ".ai/runtime-historical-finalization-recovery-amend.json",
+    ".ai/work-items/archive/runtime-historical-finalization-recovery.contract.json",
+    ".ai/work-items/archive/runtime-historical-finalization-recovery.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "checkpointAt": "2026-09-14T23:51:54Z",
+  "checkpointContractDigest": "sha256:001e8e35c3fccc17119c574da32b62910351f1781696fc0ac750ad93c20c0291",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3078106a843b3560e8ab170d9a16793986a68bfc9c0368aba593e536e26382e3",
+      "recorded": true,
+      "recordedAt": "2026-09-14T23:51:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c7ca0912c21017604335b63b4ccc97a7f45160238e60580da01323c745b7c22",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "runtime-historical-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:001e8e35c3fccc17119c574da32b62910351f1781696fc0ac750ad93c20c0291",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3078106a843b3560e8ab170d9a16793986a68bfc9c0368aba593e536e26382e3",
+      "previousContractHash": "sha256:3078106a843b3560e8ab170d9a16793986a68bfc9c0368aba593e536e26382e3",
+      "reason": "将实际修改的两个 repository-bound source/test paths additive 地绑定到当前 Contract，修复初始 scope 字符串的表示问题",
+      "recorded": true,
+      "recordedAt": "2026-09-15T00:04:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4d95fee4b360a297f3952dde6acad13b98b27c2eb5dd832abb9ec18d7acab3b1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "runtime-historical-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4d95fee4b360a297f3952dde6acad13b98b27c2eb5dd832abb9ec18d7acab3b1",
+  "createdAt": "2026-09-14T23:49:55Z",
+  "mode": "code",
+  "preflightAt": "2026-09-15T00:09:34Z",
+  "preflightContractDigest": "sha256:001e8e35c3fccc17119c574da32b62910351f1781696fc0ac750ad93c20c0291",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:4d95fee4b360a297f3952dde6acad13b98b27c2eb5dd832abb9ec18d7acab3b1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-15T00:09:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "runtime-historical-finalization-recovery"
+}
