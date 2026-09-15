@@ -15,24 +15,24 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-845-historical-close-projection.summary.json"
       }
     ],
     "evidence": [
@@ -88,7 +88,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+          ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
         ],
         "inference": false,
         "text": "Prevent a recovered historical Work Item from remaining falsely blocked while preserving immutable history and fail-closed validation."
@@ -97,7 +97,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+          ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

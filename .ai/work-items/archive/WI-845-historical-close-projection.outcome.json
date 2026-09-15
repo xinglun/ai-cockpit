@@ -45,24 +45,24 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.summary.json"
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-845-historical-close-projection.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-845-historical-close-projection.summary.json"
         }
       ],
       "evidence": [
@@ -118,7 +118,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+            ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
           ],
           "inference": false,
           "text": "Prevent a recovered historical Work Item from remaining falsely blocked while preserving immutable history and fail-closed validation."
@@ -127,7 +127,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-845-historical-close-projection.contract.json"
+            ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -137,8 +137,8 @@
     "status": "verified",
     "workItemId": "WI-845-historical-close-projection"
   },
-  "taskReportDigest": "sha256:ebb7524a6b1864bf881089a2a9e9117ce1caee245eb50465c0e5471662142c2d",
-  "taskReportMarkdownDigest": "sha256:7d73083577e680c4b0d62c606e3f46fbd4c9c675a5c854b88e59dce642af3ae8",
+  "taskReportDigest": "sha256:f69eac62cde2e0ded8baca6e1661475264d8215d71e1dec19d934457a57556d2",
+  "taskReportMarkdownDigest": "sha256:f41b3c23bcfa5d86c79e7f1c7538f139ce92ff2a2c86d29cef53801ddeb506dd",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
