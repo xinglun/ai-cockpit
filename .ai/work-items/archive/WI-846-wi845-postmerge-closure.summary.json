@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json",
+    ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+  ],
+  "checkpointAt": "2026-09-15T00:28:34Z",
+  "checkpointContractDigest": "sha256:a88dfbca499ad3f57fb0cbd26c95ece54252d96087d0790cdcf7322429736761",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "createdAt": "2026-09-15T00:27:33Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "preflightAt": "2026-09-15T00:28:55Z",
+  "preflightContractDigest": "sha256:a88dfbca499ad3f57fb0cbd26c95ece54252d96087d0790cdcf7322429736761",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-845-historical-close-projection.recovery.cd7eba72d51132d0264db93e18f75e3a9b712a38f5a9a0b593247ead139aaf22.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-15T00:29:01Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-846-wi845-postmerge-closure"
+}

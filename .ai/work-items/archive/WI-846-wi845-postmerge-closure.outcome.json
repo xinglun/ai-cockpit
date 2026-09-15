@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "The successor recovery binds the exact WI-845 archive, Contract, Summary, Outcome, Events, and repository identity without rewriting predecessor bytes.",
+    "The successor completes one bounded verification and close path with explicit evidence; no release or expensive workspace verification is started.",
+    "WI-845 projects as recovered only after this successor has archived verified evidence and a confirmed close decision."
+  ],
+  "createdAt": "2026-09-15T00:29:01Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ea6df5440741297a5c305925a3b1c44423bf19e426f35fe08ede75737ef997d6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+      "workItemId": "WI-846-wi845-postmerge-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "Record and verify one explicitly linked successor recovery for WI-845, preserve its immutable archive and evidence, and leave a truthful terminal lifecycle projection without changing product behavior or rerunning release validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-846-wi845-postmerge-closure"
+  },
+  "taskReportDigest": "sha256:6c5d27d24b9c00c2c49a1751774fbc7e9b267c9027af87bf31d848dae7a8a26f",
+  "taskReportMarkdownDigest": "sha256:724ff2f8b33fd732f012dd9c1705e5fba66f629dc5adb11b3c915e670fa1f8f3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-846-wi845-postmerge-closure"
+}

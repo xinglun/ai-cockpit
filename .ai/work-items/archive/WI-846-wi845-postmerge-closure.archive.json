@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-15T00:29:08Z",
+  "files": {
+    "contractDigest": "sha256:2426986bae0c5e346fc0d880ee03378ad4ad69fe044d4275b0e37519b7f8c254",
+    "contractPath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.contract.json",
+    "eventsDigest": "sha256:0ba0245ac8a86f6babb06c2652511f46989af69ccff21c95419277cfa6b4dcba",
+    "eventsPath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.events.jsonl",
+    "outcomeDigest": "sha256:a26c30f42eb288e79b92c1c889f9ae1b630275dcd26f88e1833045d1de05afd7",
+    "outcomePath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.outcome.json",
+    "summaryDigest": "sha256:83009632b65e1b9bb471ed1268ca7efc7cd238993782fa566eb0929ae18d9e59",
+    "summaryPath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.summary.json",
+    "taskReportDigest": "sha256:6c5d27d24b9c00c2c49a1751774fbc7e9b267c9027af87bf31d848dae7a8a26f",
+    "taskReportMarkdownDigest": "sha256:724ff2f8b33fd732f012dd9c1705e5fba66f629dc5adb11b3c915e670fa1f8f3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-846-wi845-postmerge-closure.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-846-wi845-postmerge-closure"
+}

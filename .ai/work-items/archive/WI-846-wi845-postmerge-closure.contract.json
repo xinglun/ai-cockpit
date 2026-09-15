@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "The successor recovery binds the exact WI-845 archive, Contract, Summary, Outcome, Events, and repository identity without rewriting predecessor bytes.",
+    "The successor completes one bounded verification and close path with explicit evidence; no release or expensive workspace verification is started.",
+    "WI-845 projects as recovered only after this successor has archived verified evidence and a confirmed close decision."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2698582ae5e5f5506920e81a0217a755dcfd1c9c",
+  "createdAt": "2026-09-15T00:27:33Z",
+  "goal": "Record and verify one explicitly linked successor recovery for WI-845, preserve its immutable archive and evidence, and leave a truthful terminal lifecycle projection without changing product behavior or rerunning release validation.",
+  "intent": "Complete the bounded post-merge closure of WI-845 after its archive was materialized on the synchronized main base.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product code",
+    " release artifacts",
+    " source verification",
+    " historical record rewriting",
+    " existing WI-845 archive bytes",
+    " unrelated Work Items",
+    " branch deletion before close"
+  ],
+  "predecessorContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-845-historical-close-projection.recovery.cd7eba72d51132d0264db93e18f75e3a9b712a38f5a9a0b593247ead139aaf22.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "low",
+  "scope": [
+    ".ai/decisions/WI-845-historical-close-projection.recovery.json",
+    ".ai/decisions/WI-845-historical-close-projection.recovery.cd7eba72d51132d0264db93e18f75e3a9b712a38f5a9a0b593247ead139aaf22.json",
+    ".ai/work-items/active/WI-846-wi845-postmerge-closure.contract.json",
+    ".ai/work-items/active/WI-846-wi845-postmerge-closure.summary.json",
+    ".ai/work-items/archive/WI-846-wi845-postmerge-closure/**",
+    ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-846-wi845-postmerge-closure"
+}
