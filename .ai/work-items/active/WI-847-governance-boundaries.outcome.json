@@ -7,9 +7,9 @@
     "Every canonical English, Chinese, Japanese, and AGENTS projection distinguishes resource-bound provider cleanup before close from post-close synchronization or closure-context cleanup; no instruction says the same resource-bound branch/worktree must be deleted both before and after close.",
     "A regression gate rejects any canonical lifecycle projection that places resource-bound Work Item branch/worktree removal after close or describes close itself as performing that deletion."
   ],
-  "createdAt": "2026-09-15T16:25:51Z",
+  "createdAt": "2026-09-15T17:08:20Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:802dad3f97fd1d4e931f0fdc7ce7eac515bfdde02b5a80723df674a1a8bc613b",
+  "evidenceDigest": "sha256:fe2064ac9b67aa1dac0d43727513a2aa6589eec49806efca9180f952eff1b811",
   "evidenceRefs": [
     ".ai/evidence/WI-847-governance-boundaries.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-847-governance-boundaries.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:2db999deb53e48e952ad1ba9051f3e5d975f8bac95ee0d588f253299b4629776",
+      "repositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
       "workItemId": "WI-847-governance-boundaries"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,7 +49,7 @@
             ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.e7c71b3924729c526f839dca1d6bce687de44945c85faeed3d8ba5ab80e3978a.json"
+          "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json"
         },
         {
           "evidenceRefs": [
@@ -63,14 +63,7 @@
             ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.4297a86c3c14fdf2a4ec04de3e73ce06c6db3cacc03865b972a0fb8fb465013d.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/project/documentation-policy.json"
+          "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json"
         },
         {
           "evidenceRefs": [
@@ -84,21 +77,14 @@
             ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+          "text": "Changed path: tests/workflow/resource_finalization_policy.sh"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: tests/docs/promote_closed_work_item_test.sh"
+          "text": "Changed path: tests/workflow/resource_finalization_policy_test.sh"
         }
       ],
       "evidence": [
@@ -173,8 +159,8 @@
     "status": "verified",
     "workItemId": "WI-847-governance-boundaries"
   },
-  "taskReportDigest": "sha256:f88e5794f490d81e524a5798bd69bea93c259827505d68b87b61d4559ee151af",
-  "taskReportMarkdownDigest": "sha256:1eeae2379f0bc2bb9f327a20a49e8518dc9b9a716ec353085cd4399da9a536c4",
+  "taskReportDigest": "sha256:49fd3e98f128946b2d7b95b17489729216fab8b4b4e00250d4eb4f109def831e",
+  "taskReportMarkdownDigest": "sha256:d3dfc83d6dd1700f199eecc56996e2fe2d6e81f165634a8aabcf45f492d53f90",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -180,18 +180,25 @@ done
 
 # The resource-bound qualifier remains in force across sentence and paragraph
 # boundaries unless a new route is explicitly declared.
-for separator in sentence paragraph; do
+for separator in sentence paragraph long-gap; do
   cp "$root/AGENTS.md" "$fixture/AGENTS.md"
   python3 - "$fixture/AGENTS.md" "$separator" <<'PY'
 from pathlib import Path
 import sys
 
 path = Path(sys.argv[1])
-separator = ". " if sys.argv[2] == "sentence" else ".\n\n"
+kind = sys.argv[2]
+separator = ". " if kind == "sentence" else ".\n\n"
+context = (
+    "This paragraph gives unrelated lifecycle background so the rule must retain its route context. " * 4
+    if kind == "long-gap"
+    else ""
+)
 path.write_text(
     path.read_text(encoding="utf-8")
     + "\nFor a resource-bound Work Item, cleanup completes before close"
     + separator
+    + context
     + "After close, its branch and worktree are deleted.\n",
     encoding="utf-8",
 )
@@ -214,7 +221,9 @@ for localized_case in \
   'docs/reference/repository-workflow.ja.md|resource-bound の Work Item は close の後に branch/worktree が削除されます。' \
   'docs/reference/repository-workflow.zh-CN.md|有外部资源的 Work Item 在 close 后，分支和工作树会被删除。' \
   'docs/reference/repository-workflow.ja.md|resource-bound の Work Item は close の後に branch/worktree を削除します。' \
-  'docs/reference/repository-workflow.zh-CN.md|有外部资源的 Work Item 在 close 后删除分支和工作树。'; do
+  'docs/reference/repository-workflow.zh-CN.md|有外部资源的 Work Item 在 close 后删除分支和工作树。' \
+  'docs/reference/agent-workflow.ja.md|resource-bound の Work Item は close 前に cleanup を行います。Unrelated explanatory context preserves the route binding across a long gap. Unrelated explanatory context preserves the route binding across a long gap. Unrelated explanatory context preserves the route binding across a long gap. close の後に branch/worktree が削除されます。' \
+  'docs/reference/agent-workflow.zh-CN.md|有外部资源的 Work Item 在 close 前完成 cleanup。Unrelated explanatory context preserves the route binding across a long gap. Unrelated explanatory context preserves the route binding across a long gap. Unrelated explanatory context preserves the route binding across a long gap. close 后分支和工作树会被删除。'; do
   path=${localized_case%%|*}
   claim=${localized_case#*|}
   for ordering_doc in "${ordering_docs[@]}"; do

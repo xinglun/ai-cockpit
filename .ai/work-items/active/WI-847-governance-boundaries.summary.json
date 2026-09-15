@@ -1,13 +1,11 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-847-governance-boundaries.recovery.e7c71b3924729c526f839dca1d6bce687de44945c85faeed3d8ba5ab80e3978a.json",
+    ".ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.4297a86c3c14fdf2a4ec04de3e73ce06c6db3cacc03865b972a0fb8fb465013d.json",
-    ".ai/project/documentation-policy.json",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json",
     ".ai/work-items/active/WI-847-governance-boundaries.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "tests/docs/promote_closed_work_item_test.sh"
+    "tests/workflow/resource_finalization_policy.sh",
+    "tests/workflow/resource_finalization_policy_test.sh"
   ],
   "checkpointAt": "2026-09-15T00:44:59Z",
   "checkpointContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
@@ -468,7 +466,7 @@
       "workItemId": "WI-847-governance-boundaries"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:2db999deb53e48e952ad1ba9051f3e5d975f8bac95ee0d588f253299b4629776",
+  "checkpointRepositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
   "createdAt": "2026-09-15T00:43:38Z",
   "intentAlignment": {
     "evidence": [
@@ -489,10 +487,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-15T16:24:55Z",
+  "preflightAt": "2026-09-15T17:07:24Z",
   "preflightContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:2db999deb53e48e952ad1ba9051f3e5d975f8bac95ee0d588f253299b4629776",
+  "preflightRepositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -547,12 +545,8 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-15T16:25:51Z",
+  "updatedAt": "2026-09-15T17:08:20Z",
   "verification": [
-    {
-      "check": "project-command-0",
-      "result": "passed"
-    },
     {
       "check": "project-command-0-package-cockpit-agent",
       "result": "passed"
@@ -599,6 +593,10 @@
     },
     {
       "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
       "result": "passed"
     }
   ],

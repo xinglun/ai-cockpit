@@ -14,14 +14,12 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.e7c71b3924729c526f839dca1d6bce687de44945c85faeed3d8ba5ab80e3978a.json
+- Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.4297a86c3c14fdf2a4ec04de3e73ce06c6db3cacc03865b972a0fb8fb465013d.json
-- Changed path: .ai/project/documentation-policy.json
+- Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json
 - Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/status_projection.rs
-- Changed path: tests/docs/promote_closed_work_item_test.sh
+- Changed path: tests/workflow/resource_finalization_policy.sh
+- Changed path: tests/workflow/resource_finalization_policy_test.sh
 
 ## Findings
 

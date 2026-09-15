@@ -160,27 +160,27 @@ contradictory_close_cleanup = tuple(
         # or that close is the actor which removes them.
         r"\bclose(?: command)?\s+(?:itself\s+)?(?:deletes?|removes?|cleans?\s+up)\b.{0,100}\b(?:branch|worktree)\b"
         r"|\b(?:branch|worktree)\b.{0,100}\b(?:is|are)\s+(?:deleted|removed|cleaned\s+up)\s+by\s+close\b",
-        # Keep the resource-bound qualifier local so this does not reject the
-        # valid no-resource close-then-cleanup route. Sentences are evaluated
-        # independently below, so this qualifier cannot bleed into the next
-        # route statement.
-        r"\bresource-bound\b.{0,80}\bWork Item\b.{0,100}\bafter close\b.{0,120}\b(?:branch|worktree)\b.{0,60}\b(?:is|are)\s+(?!not\b|never\b)(?:deleted|removed|cleaned\s+up)\b"
-        r"|\bresource-bound\b.{0,80}\bWork Item\b.{0,100}\bafter close\b.{0,120}(?:the\s+)?(?:authorized\s+)?(?:operator|runtime|provider|agent)\b.{0,30}(?<!not\s)(?<!never\s)(?:deletes?|removes?|cleans?\s+up)\b.{0,60}\b(?:branch|worktree)\b",
+        # Route clauses retain their resource-bound context across sentences
+        # and paragraphs. `route_boundary` below splits only when a distinct
+        # no-resource/resource-bound route is declared, so these ordered
+        # relationships must not depend on arbitrary character-distance caps.
+        r"\bresource-bound\b[\s\S]*?\bWork Item\b[\s\S]*?\bafter close\b[\s\S]*?\b(?:branch|worktree)\b[\s\S]*?\b(?:is|are)\s+(?!not\b|never\b)(?:deleted|removed|cleaned\s+up)\b"
+        r"|\bresource-bound\b[\s\S]*?\bWork Item\b[\s\S]*?\bafter close\b[\s\S]*?(?:the\s+)?(?:authorized\s+)?(?:operator|runtime|provider|agent)\b[\s\S]*?(?<!not\s)(?<!never\s)(?:deletes?|removes?|cleans?\s+up)\b[\s\S]*?\b(?:branch|worktree)\b",
         # Japanese projections retain the protocol term `close`; reject claims
         # that it removes/deletes a branch or worktree, in either word order.
         r"\bclose(?:\s*コマンド)?\s*(?:自体|自身).{0,100}(?:branch|worktree|ブランチ|ワークツリー).{0,100}(?:削除|消去|クリーンアップ)"
         r"(?!は?(?:しません|しない|されません|されない|してはいけません|してはいけない|してはならない|してはなりません|しないでください|されてはいけません|されてはいけない|されてはならない|されてはなりません))"
         r"|\bclose\s*(?:が|時に|の実行で|によって).{0,60}(?:branch|worktree|ブランチ|ワークツリー).{0,60}(?:削除|消去|クリーンアップ)"
         r"(?!は?(?:しません|しない|されません|されない|してはいけません|してはいけない|してはならない|してはなりません|しないでください|されてはいけません|されてはいけない|されてはならない|されてはなりません))",
-        r"\bresource-bound\b.{0,80}\bWork Item\b.{0,100}\bclose\b.{0,24}(?:の)?(?:後|あと).{0,80}(?:branch|worktree|ブランチ|ワークツリー).{0,60}(?:が|を)?(?:削除|消去|クリーンアップ)"
+        r"\bresource-bound\b[\s\S]*?\bWork Item\b[\s\S]*?\bclose\b[\s\S]*?(?:の)?(?:後|あと)[\s\S]*?(?:branch|worktree|ブランチ|ワークツリー)[\s\S]*?(?:が|を)?(?:削除|消去|クリーンアップ)"
         r"(?!は?(?:しません|しない|されません|されない|してはいけません|してはいけない|してはならない|してはなりません|しないでください|されてはいけません|されてはいけない|されてはならない|されてはなりません))",
         # Simplified Chinese projections may likewise retain `close` as the
         # protocol term while localizing the action and resource nouns. The
         # fixed-width negative lookbehind prevents `不会` from matching `会`.
         r"\bclose(?:\s*命令)?\s*本身(?:(?<!不)会|将|可以)(?!不).{0,20}(?:删除|移除|清理).{0,100}(?:branch|worktree|分支|工作树)"
         r"|\bclose(?:\s*命令)?(?:(?<!不)会|将)(?!不).{0,60}(?:删除|移除|清理).{0,100}(?:branch|worktree|分支|工作树)",
-        r"(?:有外部资源|resource-bound).{0,80}Work Item.{0,100}\bclose\s*后(?!不|不应|不该|不应该|不应当).{0,80}(?:branch|worktree|分支|工作树).{0,60}(?:(?:会|将)?被)?(?<!不应)(?<!不该)(?<!不能)(?<!不会)(?<!不应被)(?<!不该被)(?<!不能被)(?<!不会被)(?<!不应该被)(?<!不应当被)(?<!不应该)(?<!不应当)(?:删除|移除|清理)"
-        r"|(?:有外部资源|resource-bound).{0,80}Work Item.{0,100}\bclose\s*后(?!不|不应|不该|不应该|不应当).{0,60}(?:(?<!不应)(?<!不该)(?<!不能)(?<!不会)(?<!不应被)(?<!不该被)(?<!不能被)(?<!不会被)(?<!不应该被)(?<!不应当被)(?<!不应该)(?<!不应当)(?:会|将)?(?:删除|移除|清理)).{0,80}(?:branch|worktree|分支|工作树)",
+        r"(?:有外部资源|resource-bound)[\s\S]*?Work Item[\s\S]*?\bclose\s*后(?!不|不应|不该|不应该|不应当)[\s\S]*?(?:branch|worktree|分支|工作树)[\s\S]*?(?:(?:会|将)?被)?(?<!不应)(?<!不该)(?<!不能)(?<!不会)(?<!不应被)(?<!不该被)(?<!不能被)(?<!不会被)(?<!不应该被)(?<!不应当被)(?<!不应该)(?<!不应当)(?:删除|移除|清理)"
+        r"|(?:有外部资源|resource-bound)[\s\S]*?Work Item[\s\S]*?\bclose\s*后(?!不|不应|不该|不应该|不应当)[\s\S]*?(?:(?<!不应)(?<!不该)(?<!不能)(?<!不会)(?<!不应被)(?<!不该被)(?<!不能被)(?<!不会被)(?<!不应该被)(?<!不应当被)(?<!不应该)(?<!不应当)(?:会|将)?(?:删除|移除|清理))[\s\S]*?(?:branch|worktree|分支|工作树)",
     )
 )
 finalize_performs_cleanup = re.compile(
@@ -199,10 +199,11 @@ finalize_performs_cleanup = re.compile(
     r"|(?:branch|worktree|分支|工作树).{0,60}由\s*finalize\s*(?:(?<!不)删除|移除|清理)",
     re.IGNORECASE,
 )
-# Separate adjacent route declarations even when authors use clause punctuation,
-# sentence boundaries, or Markdown paragraphs. A boundary is recognized only
-# when the next phrase explicitly starts a distinct resource-bound/no-resource
-# route; otherwise the prior route qualifier remains in force.
+# Separate Markdown sections and list items because they define independent
+# instruction contexts. Within an instruction, separate adjacent route
+# declarations even when authors use clause punctuation, sentence boundaries,
+# or paragraphs; absent an explicit new route, the prior qualifier remains in
+# force.
 route_boundary = re.compile(
     r"(?:[,，、;；]\s*|(?<=[.!?。！？])\s*|\n+)\s*(?=(?:(?:for\s+(?:a\s+)?)?(?:no-resource|resource-bound)\b|"
     r"(?:no-resource|resource-bound)\s+(?:route|Work Item)\b|"
@@ -215,9 +216,28 @@ for relative in paths:
     normalized_text = " ".join(text.split())
     if expected not in normalized_text:
         failures.append(f"{relative}: missing resource-bound order {expected!r}")
-    clauses = [" ".join(clause.split()) for clause in route_boundary.split(text)]
-    if any(pattern.search(clause) for pattern in contradictory_close_cleanup for clause in clauses):
-        failures.append(f"{relative}: contradictory close cleanup claim")
+    instruction_scopes = re.split(
+        r"(?m)^[ \t]{0,3}#{1,6}[ \t]+[^\n]*(?:\n|$)|^[ \t]*(?:[-*+]|[0-9]+[.)])[ \t]+",
+        text,
+    )
+    clauses = [
+        " ".join(clause.split())
+        for instruction in instruction_scopes
+        for clause in route_boundary.split(instruction)
+    ]
+    contradictory_match = next(
+        (
+            (clause, match)
+            for clause in clauses
+            for pattern in contradictory_close_cleanup
+            if (match := pattern.search(clause)) is not None
+        ),
+        None,
+    )
+    if contradictory_match is not None:
+        failures.append(
+            f"{relative}: contradictory close cleanup claim: {contradictory_match[1].group(0)[-400:]}"
+        )
     sentences = [" ".join(sentence.split()) for sentence in re.split(r"(?<=[.!?。！？])\s*", text)]
     if any(finalize_performs_cleanup.search(sentence) for sentence in sentences):
         failures.append(f"{relative}: finalize must record cleanup evidence, not perform provider deletion")
