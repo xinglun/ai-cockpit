@@ -1,40 +1,7 @@
 {
   "changedPaths": [
-    ".ai/README.md",
-    ".ai/decisions/WI-847-governance-boundaries.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.767c9a3225087ff535ab1c26efe8340b1acaeb8aeeafecce5c2a28c7cee6ea5b.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.80c664203753dfd7f45866621625ec8b019113713df0dc0f6a351195d64e8faa.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.b6c5eba2404c446de76785b5f52320f57c0a810a37b9b3db90c641d7ee1eb114.json",
-    ".ai/work-items/active/WI-847-governance-boundaries.contract.json",
-    ".ai/work-items/active/WI-847-governance-boundaries.summary.json",
-    "AGENTS.md",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/outcome_render.rs",
-    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
-    "crates/cockpit-repository/tests/archive_integrity.rs",
-    "crates/cockpit-repository/tests/contract_preflight.rs",
-    "crates/cockpit-repository/tests/evidence_assurance.rs",
-    "crates/cockpit-repository/tests/knowledge_cache.rs",
-    "crates/cockpit-repository/tests/knowledge_projection.rs",
-    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs",
-    "crates/cockpit-repository/tests/lifecycle_order.rs",
-    "crates/cockpit-repository/tests/outcome_report.rs",
-    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
-    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "crates/cockpit-repository/tests/task_outcome_events.rs",
-    "crates/cockpit-repository/tests/verification_command_selection.rs",
-    "docs/reference/agent-workflow.ja.md",
-    "docs/reference/agent-workflow.md",
-    "docs/reference/agent-workflow.zh-CN.md",
-    "docs/reference/repository-workflow.ja.md",
-    "docs/reference/repository-workflow.md",
-    "docs/reference/repository-workflow.zh-CN.md",
-    "tests/docs/work_item_status_consistency_test.sh",
-    "tests/workflow/resource_finalization_policy.sh",
-    "tests/workflow/resource_finalization_policy_test.sh"
+    ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
   ],
   "checkpointAt": "2026-09-15T00:44:59Z",
   "checkpointContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
@@ -495,7 +462,7 @@
       "workItemId": "WI-847-governance-boundaries"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:cecd27a84df4c2c1ec60021f96a447abfb9a7d67c2beefee8716073994200db1",
+  "checkpointRepositorySnapshotDigest": "sha256:fe2570d150175cfa97f42910d6c4305c0e670ce8cf2d0a883e219fc3a5dce784",
   "createdAt": "2026-09-15T00:43:38Z",
   "intentAlignment": {
     "evidence": [
@@ -516,11 +483,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-15T15:29:33Z",
+  "preflightAt": "2026-09-15T15:37:24Z",
   "preflightContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:fe2570d150175cfa97f42910d6c4305c0e670ce8cf2d0a883e219fc3a5dce784",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -573,8 +540,8 @@
       "verificationPlan": "Run the focused resource_finalization_policy_test.sh gate and verify its negative fixture rejects a resource-bound order that places branch/worktree cleanup after close."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-15T14:26:15Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-15T15:39:34Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -629,6 +596,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:1454b12f159da23d6c35ead51c1ff7067b1871bb43b6ea2dc5020669134661ba",
   "workItemId": "WI-847-governance-boundaries"
 }
