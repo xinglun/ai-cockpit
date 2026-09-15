@@ -1,0 +1,22 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorized-successor-recovery",
+  "decidedAt": "2026-09-15T00:27:12Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "predecessorEventsDigest": "sha256:c8d9c5a26baf17da3fc1ce1f5fae0bd6c13ed5984a2d0cd8050c2a551c5cbe64",
+  "predecessorOutcomeDigest": "sha256:b78633d991a0a8547d21de6fee8ae441b33a15d68845670b5f77ef954e971d18",
+  "predecessorSummaryDigest": "sha256:73461959ecece14ce35be3cf74fc04973219343d95ecdb251aa9274ecdff948f",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "reason": "WI-845 was reviewed and merged before its archive bundle was materialized. The archived Contract is now on main, but its immutable PR head cannot be reconciled with the post-merge archive branch head. Preserve WI-845 bytes and complete the bounded closure on the current main base through one explicitly linked successor; do not rerun release or rewrite historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor's bounded verification, archive, close, and main synchronization; then project WI-845 as recovered while retaining its original bytes.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-846-wi845-postmerge-closure",
+  "workItemId": "WI-845-historical-close-projection"
+}
