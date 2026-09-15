@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-845-historical-close-projection.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+      "workItemId": "WI-845-historical-close-projection"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-845-historical-close-projection.recovery.9cccd2df0bcf7a1bb06b977246876e5cf387be2412aee7d97d57e2804da673f5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-845-historical-close-projection.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-845-historical-close-projection.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-845-historical-close-projection.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-845-historical-close-projection.recovery.json",
+            ".ai/work-items/archive/WI-846-wi845-postmerge-closure.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:xinglun via explicit-user-authorized-cleanup at 2026-09-15T00:37:06Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-845-historical-close-projection.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent a recovered historical Work Item from remaining falsely blocked while preserving immutable history and fail-closed validation."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-845-historical-close-projection.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-845-historical-close-projection"
+  },
+  "finalReportDigest": "sha256:6962a7a6e273c3b08a726bf240107d9d448550cd15a4b1e2df273c7359861b0d",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-15T00:37:06Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/decisions/WI-845-historical-close-projection.recovery.json",
+      ".ai/work-items/archive/WI-846-wi845-postmerge-closure.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md#Work-Item-change-discipline",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "The immutable WI-845 evidence is preserved and its post-merge closure is superseded by the explicitly bound, verified, and closed WI-846 successor; no historical bytes or release artifacts were rewritten.",
+    "resumeCondition": "none; continue from WI-846 only if a new independent scope is authorized"
+  },
+  "timestamp": "2026-09-15T00:37:48Z",
+  "workItemId": "WI-845-historical-close-projection"
+}

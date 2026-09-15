@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "decidedAt": "2026-09-15T00:37:06Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-845-historical-close-projection.archive.json",
+    ".ai/work-items/archive/WI-846-wi845-postmerge-closure.close.json",
+    ".ai/evidence/WI-846-wi845-postmerge-closure.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:b4e77b1fd5de186dc146d1a3800afc99a9ba4aba44537f392b51ce4d2faa5276",
+  "predecessorContractDigest": "sha256:47fd3817b3be1756ac9f1cc6fa71a9f3fd36ff1798413311c92e0d8adf182b73",
+  "predecessorEventsDigest": "sha256:c8d9c5a26baf17da3fc1ce1f5fae0bd6c13ed5984a2d0cd8050c2a551c5cbe64",
+  "predecessorOutcomeDigest": "sha256:b78633d991a0a8547d21de6fee8ae441b33a15d68845670b5f77ef954e971d18",
+  "predecessorSummaryDigest": "sha256:73461959ecece14ce35be3cf74fc04973219343d95ecdb251aa9274ecdff948f",
+  "predecessorWorkItemId": "WI-845-historical-close-projection",
+  "reason": "The immutable WI-845 archive cannot satisfy provider finalization after the reviewed PR was merged and the archive bundle was materialized on a later main commit. Preserve every original byte and bind the already closed WI-846 recovery to the exact archive manifest; do not rerun release or rewrite historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none; original WI-845 bytes remain preserved and the bounded WI-846 successor is closed",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-846-wi845-postmerge-closure",
+  "workItemId": "WI-845-historical-close-projection"
+}
