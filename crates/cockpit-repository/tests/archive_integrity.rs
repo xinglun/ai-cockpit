@@ -71,7 +71,11 @@ fn prepare_without_finalization_plan(path: &std::path::Path, work_item_id: &str)
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
     let decision = preflight_work_item(path, &contract).expect("preflight");
-    assert_ne!(decision.state, cockpit_core::DecisionState::Red);
+    assert_ne!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "preflight blocked archive-integrity fixture: {decision:#?}"
+    );
     checkpoint_work_item(path, work_item_id).expect("checkpoint");
 }
 
@@ -84,7 +88,7 @@ fn finish_rejects_provisional_resource_context_before_finish_ready() {
         work_item_id,
         "require explicit resource finalization",
         "fail closed before finish creates an unarchivable state",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     plan_resource_finalization(
@@ -140,7 +144,7 @@ fn no_resource_context_can_finish_archive_and_close_without_provider_evidence() 
         work_item_id,
         "local object-engineering change",
         "complete without a provider release resource",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
 
@@ -196,7 +200,7 @@ fn record_old_typed_verification(
             node_id: format!("{work_item_id}-verification"),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec![".ai/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: runtime.runtime_digest.to_string(),
@@ -236,7 +240,7 @@ fn explicit_historical_archive_preserves_typed_old_runtime_evidence() {
         work_item_id,
         "historical archive",
         "reconcile old evidence",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     record_old_typed_verification(&path, work_item_id, &old_runtime);
@@ -300,7 +304,7 @@ fn historical_archive_rejects_current_runtime_and_invalid_evidence_without_mutat
         work_item_id,
         "reject invalid archive",
         "preserve active state",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     record_old_typed_verification(&path, work_item_id, &current_runtime);
@@ -328,7 +332,7 @@ fn historical_archive_rejects_current_runtime_and_invalid_evidence_without_mutat
         invalid_id,
         "reject malformed archive",
         "preserve malformed evidence",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start malformed");
     record_old_typed_verification(
@@ -368,7 +372,7 @@ fn finalize_plan_after_checkpoint_and_verification_is_rejected_without_mutation(
         work_item_id,
         "preserve verification identity",
         "reject a late resource plan instead of invalidating a completed receipt silently",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     let contract_path = path
@@ -432,7 +436,7 @@ fn amendment_detects_formal_receipt_when_legacy_summary_has_no_verification_arra
         work_item_id,
         "retain formal receipt identity",
         "mark a contract change for revalidation when the receipt is the only verification marker",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     let contract_path = path
@@ -483,7 +487,7 @@ fn custom_required_evidence_class_projection_requires_digest_bound_regular_files
         work_item_id,
         "bind custom evidence classes",
         "require explicit digest-bound evidence for non-built-in classes",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["performance".into()],
@@ -586,7 +590,7 @@ fn custom_evidence_rejects_a_symlinked_parent_directory() {
         work_item_id,
         "reject foreign custom evidence paths",
         "ensure parent directory symlinks cannot escape the repository root",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["performance".into()],
@@ -692,7 +696,12 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         work_item_id,
         "recover stale archived source evidence",
         "prove current integration verification can replace one stale projection",
-        &["**".into()],
+        &[
+            ".ai/**".into(),
+            "base.txt".into(),
+            "second.txt".into(),
+            "performance-measurement.txt".into(),
+        ],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["performance".into()],
@@ -740,7 +749,11 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         runtime_digest: Digest::sha256_bytes(b"current-runtime"),
     };
     let preflight = preflight_work_item(&path, &contract_path).expect("preflight");
-    assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
+    assert_ne!(
+        preflight.state,
+        cockpit_core::DecisionState::Red,
+        "preflight blocked archived source recovery: {preflight:#?}"
+    );
     checkpoint_work_item(&path, work_item_id).expect("checkpoint");
     let old_snapshot = GitRepository::discover(&path)
         .expect("git repository")
@@ -752,7 +765,12 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
             node_id: "project-command-0-package-fixture".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec![
+                ".ai/**".into(),
+                "base.txt".into(),
+                "second.txt".into(),
+                "performance-measurement.txt".into(),
+            ],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: old_runtime.runtime_digest.to_string(),
@@ -794,7 +812,12 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         node_id: "project-command-0-package-fixture".into(),
         program: "true".into(),
         args: Vec::new(),
-        scope: vec!["**".into()],
+        scope: vec![
+            ".ai/**".into(),
+            "base.txt".into(),
+            "second.txt".into(),
+            "performance-measurement.txt".into(),
+        ],
         stage: "task".into(),
         runner: "local".into(),
         runtime_digest: current_runtime.runtime_digest.to_string(),
@@ -906,7 +929,7 @@ fn public_close_rejects_bound_resource_without_finalization_receipt() {
         work_item_id,
         "enforce resource finalization at close",
         "prevent the public no-runtime API from bypassing cleanup evidence",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -942,7 +965,7 @@ fn finalize_plan_replaces_partial_provisional_context_before_finish() {
         work_item_id,
         "bind a reviewed resource",
         "replace a partially observed finalization context",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
 
@@ -997,7 +1020,7 @@ fn archive_rejects_provisional_resource_context_without_moving_active_bytes() {
         work_item_id,
         "require explicit resource finalization",
         "fail closed before archive moves active bytes",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
 
@@ -1072,7 +1095,7 @@ fn finish_rejects_pending_provider_context_without_moving_active_bytes() {
         work_item_id,
         "reject pending provider context",
         "keep unfinished Work Items recoverable",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1125,7 +1148,7 @@ fn finish_rejects_bare_pending_provider_context_without_moving_active_bytes() {
         work_item_id,
         "reject bare pending provider context",
         "keep unfinished Work Items recoverable",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1177,7 +1200,7 @@ fn successful_finish_clears_stale_failed_projection_after_recovery() {
         work_item_id,
         "clear stale finish projection",
         "allow repaired Work Items to pass the CI lifecycle gate",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1224,7 +1247,7 @@ fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
         work_item_id,
         "bind resource finalization",
         "archive only after the reviewed resource is identified",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
 
@@ -1269,7 +1292,14 @@ fn archive_accepts_explicit_non_provisional_resource_finalization_plan() {
 #[test]
 fn close_rejects_tampered_archived_artifacts() {
     let path = repository();
-    start_work_item(&path, "WI-INTEGRITY", "integrity", "verify", &["**".into()]).expect("start");
+    start_work_item(
+        &path,
+        "WI-INTEGRITY",
+        "integrity",
+        "verify",
+        &[".ai/**".into()],
+    )
+    .expect("start");
     prepare_for_verification(&path, "WI-INTEGRITY");
     record_verification(
         &path,
@@ -1300,7 +1330,7 @@ fn archive_rejects_tampered_verification_even_without_declared_requirement() {
         "WI-EVIDENCE-TAMPER",
         "tamper",
         "verify",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, "WI-EVIDENCE-TAMPER");
@@ -1341,7 +1371,7 @@ fn archive_moves_implementation_approach_and_removes_active_orphan() {
         "WI-APPROACH-ARCHIVE",
         "approach",
         "archive generated approach",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     implementation_approach(&path, "WI-APPROACH-ARCHIVE").expect("approach");
@@ -1387,7 +1417,7 @@ fn archive_moves_failed_attempt_variants_and_binds_their_digests() {
         work_item_id,
         "preserve failed lifecycle attempts",
         "move historical blocked projections out of active during archive",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1475,7 +1505,7 @@ fn archive_rejects_symlinked_failed_attempt_variant() {
         work_item_id,
         "reject unsafe historical projection",
         "do not follow a failed-attempt symlink during archive",
-        &["**".into()],
+        &[".ai/**".into(), "outside-history.json".into()],
     )
     .expect("start");
 
@@ -1524,7 +1554,7 @@ fn status_reports_orphaned_active_variants_without_counting_them_as_work_items()
         work_item_id,
         "report active residue",
         "make orphaned failed attempts visible",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1567,7 +1597,7 @@ fn reconcile_moves_variants_for_an_already_archived_work_item() {
         work_item_id,
         "reconcile archived residue",
         "move old failed attempts without rewriting archive truth",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1625,7 +1655,7 @@ fn archive_rewrites_generated_outcome_references_to_archive_paths() {
         work_item_id,
         "archive projection",
         "keep generated Outcome references valid after archive",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, work_item_id);
@@ -1702,7 +1732,7 @@ fn archive_moves_parallel_intelligence_sidecar_and_binds_digest() {
         "WI-INTELLIGENCE-ARCHIVE",
         "intelligence",
         "archive",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     set_work_item_intelligence(
@@ -1804,7 +1834,7 @@ fn archive_rejects_dangling_implementation_approach_symlink() {
         "WI-APPROACH-SYMLINK",
         "approach",
         "archive",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     symlink(
@@ -1835,8 +1865,8 @@ fn archive_rejects_dangling_implementation_approach_symlink() {
 #[test]
 fn verification_receipt_cannot_cross_work_items() {
     let path = repository();
-    start_work_item(&path, "WI-A", "first", "verify", &["**".into()]).expect("start A");
-    start_work_item(&path, "WI-B", "second", "verify", &["**".into()]).expect("start B");
+    start_work_item(&path, "WI-A", "first", "verify", &[".ai/**".into()]).expect("start A");
+    start_work_item(&path, "WI-B", "second", "verify", &[".ai/**".into()]).expect("start B");
     prepare_for_verification(&path, "WI-A");
     prepare_for_verification(&path, "WI-B");
     let error = record_verification(
@@ -1854,7 +1884,14 @@ fn verification_receipt_cannot_cross_work_items() {
 #[test]
 fn close_persists_a_structured_human_decision_and_recovery_condition() {
     let path = repository();
-    start_work_item(&path, "WI-DECISION", "decision", "verify", &["**".into()]).expect("start");
+    start_work_item(
+        &path,
+        "WI-DECISION",
+        "decision",
+        "verify",
+        &[".ai/**".into()],
+    )
+    .expect("start");
     prepare_without_finalization_plan(&path, "WI-DECISION");
     record_verification(
         &path,
@@ -1922,7 +1959,7 @@ fn close_accepts_immutable_archived_evidence_after_a_post_archive_commit() {
         "WI-ARCHIVE-MERGE",
         "archive",
         "close",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_without_finalization_plan(&path, "WI-ARCHIVE-MERGE");
@@ -2013,7 +2050,7 @@ fn organization_policy_requires_a_bound_structured_decision_at_close() {
         "WI-POLICY",
         "policy",
         "verify",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["verification".into(), "delegated:github".into()],
@@ -2114,7 +2151,7 @@ fn preflight_exposes_policy_authority_and_evidence_gaps() {
         "WI-PREFLIGHT-POLICY",
         "policy",
         "verify",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     let contract: cockpit_protocol::Contract = serde_json::from_slice(
@@ -2144,7 +2181,7 @@ fn preflight_exposes_policy_authority_and_evidence_gaps() {
 #[test]
 fn digest_only_retention_never_persists_command_output() {
     let path = repository();
-    start_work_item(&path, "WI-DIGEST", "digest", "verify", &["**".into()]).expect("start");
+    start_work_item(&path, "WI-DIGEST", "digest", "verify", &[".ai/**".into()]).expect("start");
     prepare_for_verification(&path, "WI-DIGEST");
     set_evidence_retention_policy(
         &path,
@@ -2191,7 +2228,7 @@ fn no_persistence_fails_closed_instead_of_claiming_completion() {
         "WI-NOPERSIST",
         "no persist",
         "verify",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     prepare_for_verification(&path, "WI-NOPERSIST");
@@ -2232,7 +2269,7 @@ fn no_persistence_fails_closed_instead_of_claiming_completion() {
 #[test]
 fn purge_plan_is_deterministic_and_never_deletes_evidence() {
     let path = repository();
-    start_work_item(&path, "WI-EXPIRE", "expiry", "verify", &["**".into()]).expect("start");
+    start_work_item(&path, "WI-EXPIRE", "expiry", "verify", &[".ai/**".into()]).expect("start");
     prepare_for_verification(&path, "WI-EXPIRE");
     set_evidence_retention_policy(
         &path,
@@ -2276,7 +2313,7 @@ fn purge_plan_is_deterministic_and_never_deletes_evidence() {
 #[test]
 fn audit_export_is_deterministic_and_marks_external_retention_boundary() {
     let path = repository();
-    start_work_item(&path, "WI-AUDIT", "audit", "export", &["**".into()]).expect("start");
+    start_work_item(&path, "WI-AUDIT", "audit", "export", &[".ai/**".into()]).expect("start");
     prepare_for_verification(&path, "WI-AUDIT");
     record_verification(
         &path,
@@ -2310,7 +2347,7 @@ fn delegated_evidence_import_binds_raw_digest_and_work_item() {
         "WI-EXTERNAL",
         "external",
         "bind evidence",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     let raw = br#"{"provider":"github","run":123}"#;
@@ -2374,7 +2411,7 @@ fn valid_delegated_evidence_satisfies_a_provider_specific_contract_requirement()
         "WI-DELEGATED-REQUIRED",
         "external",
         "require provider evidence",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["delegated:github".into()],
@@ -2429,7 +2466,7 @@ fn verification_and_delegated_requirements_are_both_evaluated() {
         work_item_id,
         "evaluate all evidence requirements",
         "do not let one satisfied class hide another missing class",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["verification".into(), "delegated:github".into()],

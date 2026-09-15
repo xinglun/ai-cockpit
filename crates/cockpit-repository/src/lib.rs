@@ -11,21 +11,21 @@ use cockpit_protocol::{
     AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces, AgentRootBinding,
     ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence, CapabilityExclusion,
     CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry, CheckpointEvidence,
-    ConcurrencyBoundary, Contract, DataClassification, DelegatedEvidence, DelegatedEvidenceReceipt,
-    DiagnosisState, EvidenceAssurance, EvidenceDisposition, EvidenceDispositionItem,
-    EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy, EvidenceValidity, FactOrigin,
-    FinalizationErrorCode, GovernanceCost, GovernancePolicy, GovernancePolicyDocument,
-    HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt, HumanBenefitReport,
-    HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
+    ConcurrencyBoundary, Contract, ContractSource, DataClassification, DelegatedEvidence,
+    DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance, EvidenceDisposition,
+    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
+    EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost, GovernancePolicy,
+    GovernancePolicyDocument, HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt,
+    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
     OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
     ParallelSlotLease, PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
-    TaskOutcomeReport, TruthState, VerificationStage, VerificationTier, WorkItemCompatibility,
-    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
-    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
-    repository_schema_migration_chain, validate_evidence_retention,
+    TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
+    WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex,
+    WorkItemStatusIndexEntry, WorkItemStatusSnapshot, default_repository_schema_version,
+    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
     validate_historical_finalization_recovery, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
     validate_resource_finalization_transition,
@@ -1656,8 +1656,8 @@ pub fn apply_migration(
 
 fn validate_start_entry(
     root: &Path,
-    reject_unclosed_archives: bool,
-    allow_recovery_base_drift: bool,
+    candidate_scope: &[String],
+    recovery_continuation: bool,
 ) -> Result<(), ObserverError> {
     let readiness = repository_readiness(root)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -1665,11 +1665,14 @@ fn validate_start_entry(
         source,
     })?;
     let mut failures = Vec::new();
-    if reject_unclosed_archives && !readiness.unclosed_archived_work_items.is_empty() {
-        failures.push(format!(
-            "archived Work Items pending close: {}",
-            readiness.unclosed_archived_work_items.join(", ")
-        ));
+    if !recovery_continuation {
+        let scope_conflicts = unclosed_archived_scope_conflicts(&root, "", candidate_scope)?;
+        if !scope_conflicts.is_empty() {
+            failures.push(format!(
+                "archived Work Item scope conflict: {}",
+                scope_conflicts.join(", ")
+            ));
+        }
     }
     if !readiness.dirty_paths.is_empty() {
         failures.push(format!(
@@ -1680,7 +1683,7 @@ fn validate_start_entry(
     if readiness.current_branch.is_none() {
         failures.push("start requires a named branch; HEAD is detached".into());
     }
-    if !allow_recovery_base_drift
+    if !recovery_continuation
         && readiness
             .blockers
             .iter()
@@ -1739,6 +1742,185 @@ fn validate_start_entry(
     })
 }
 
+/// Historical pending-close records remain visible in repository readiness,
+/// but only a manifest-bound scope is used to decide overlap. An unverifiable
+/// local archive is an explicit unknown blocker: silently trusting a modified
+/// scope could let a conflicting Work Item bypass the historical boundary.
+fn unclosed_archived_scope_conflicts(
+    root: &Path,
+    candidate_work_item_id: &str,
+    candidate_scope: &[String],
+) -> Result<Vec<String>, ObserverError> {
+    if candidate_scope.is_empty() {
+        return Ok(Vec::new());
+    }
+    let expected_repository_id = repository_id(root).to_string();
+    let archive = root.join(".ai/work-items/archive");
+    let mut blockers = Vec::new();
+    for work_item_id in unclosed_archived_work_items(root)? {
+        let contract_path = archive.join(format!("{work_item_id}.contract.json"));
+        let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+        let contract_bytes = match fs::symlink_metadata(&contract_path) {
+            Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                fs::read(&contract_path).map_err(|source| ObserverError::Read {
+                    path: contract_path.clone(),
+                    source,
+                })?
+            }
+            Ok(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: contract_path,
+                    source,
+                });
+            }
+        };
+        let manifest_bytes = match fs::symlink_metadata(&manifest_path) {
+            Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+                    path: manifest_path.clone(),
+                    source,
+                })?
+            }
+            Ok(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: manifest_path,
+                    source,
+                });
+            }
+        };
+        let contract_digest = Digest::sha256_bytes(&contract_bytes).to_string();
+        let manifest = serde_json::from_slice::<serde_json::Value>(&manifest_bytes).ok();
+        let Some(_manifest) = manifest.filter(|manifest| {
+            manifest
+                .get("workItemId")
+                .and_then(serde_json::Value::as_str)
+                == Some(work_item_id.as_str())
+                && matches!(
+                    manifest.get("state").and_then(serde_json::Value::as_str),
+                    Some("archived" | "superseded")
+                )
+                && manifest
+                    .pointer("/files/contractDigest")
+                    .and_then(serde_json::Value::as_str)
+                    == Some(contract_digest.as_str())
+        }) else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        };
+        let value = match serde_json::from_slice::<serde_json::Value>(&contract_bytes) {
+            Ok(value) => value,
+            Err(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+        };
+        let Some(archived_repository_id) = value
+            .get("repositoryId")
+            .and_then(serde_json::Value::as_str)
+            .and_then(|value| value.parse::<Digest>().ok())
+        else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        };
+        if archived_repository_id.to_string() != expected_repository_id {
+            // A contract explicitly bound to another repository is not
+            // authority over this repository's candidate scope.
+            continue;
+        }
+        if value.get("workItemId").and_then(serde_json::Value::as_str)
+            != Some(work_item_id.as_str())
+        {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        }
+        let Some(scope) = value.get("scope").and_then(serde_json::Value::as_array) else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        };
+        let Some(archived_scope) = scope
+            .iter()
+            .map(serde_json::Value::as_str)
+            .collect::<Option<Vec<_>>>()
+            .map(|items| items.into_iter().map(str::to_owned).collect::<Vec<_>>())
+        else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        };
+        if archived_scope.is_empty() {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        }
+        match scope_list_relation(candidate_scope, &archived_scope) {
+            ScopeRelation::Overlap => {
+                if !recovery_decision_authorizes_successor(
+                    root,
+                    &work_item_id,
+                    candidate_work_item_id,
+                )? {
+                    blockers.push(format!("archived_work_item_scope_conflict:{work_item_id}"));
+                }
+            }
+            ScopeRelation::Unknown => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"))
+            }
+            ScopeRelation::Disjoint => {}
+        }
+    }
+    blockers.sort();
+    blockers.dedup();
+    Ok(blockers)
+}
+
+fn recovery_decision_authorizes_successor(
+    root: &Path,
+    predecessor_work_item_id: &str,
+    successor_work_item_id: &str,
+) -> Result<bool, ObserverError> {
+    let (candidates, _) = recovery_decision_candidate_paths(root, predecessor_work_item_id, true)?;
+    if candidates.is_empty() {
+        return Ok(false);
+    }
+    let Some(decision) = load_recovery_decision(root, predecessor_work_item_id, None)? else {
+        return Ok(false);
+    };
+    Ok(decision.decision == "successor"
+        && decision.successor_work_item_id.as_deref() == Some(successor_work_item_id))
+}
+
+fn pending_close_dependency_blockers(
+    root: &Path,
+    contract: &Contract,
+) -> Result<Vec<String>, ObserverError> {
+    let Some(intelligence) = read_work_item_intelligence(root, &contract.work_item_id)? else {
+        return Ok(Vec::new());
+    };
+    let dependencies = intelligence.depends_on.into_iter().collect::<BTreeSet<_>>();
+    let mut blockers = unclosed_archived_work_items(root)?
+        .into_iter()
+        .filter(|work_item_id| dependencies.contains(work_item_id))
+        .map(|work_item_id| format!("archived_work_item_dependency_pending_close:{work_item_id}"))
+        .collect::<Vec<_>>();
+    blockers.sort();
+    blockers.dedup();
+    Ok(blockers)
+}
+
 fn recovery_scaffold_exists(root: &Path, work_item_id: &str) -> bool {
     let Some(root) = fs::canonicalize(root).ok() else {
         return false;
@@ -1755,20 +1937,6 @@ fn recovery_scaffold_exists(root: &Path, work_item_id: &str) -> bool {
         && contract
             .as_ref()
             .is_some_and(|value| value["predecessorWorkItemId"].is_string())
-}
-
-fn ensure_no_unclosed_archived_work_items(root: &Path) -> Result<(), ObserverError> {
-    let pending = unclosed_archived_work_items(root)?;
-    if pending.is_empty() {
-        return Ok(());
-    }
-    Err(ObserverError::State {
-        path: PathBuf::from(root).join(".ai/work-items/archive"),
-        message: format!(
-            "lifecycle entry rejected before start: archived Work Items pending close: {}",
-            pending.join(", ")
-        ),
-    })
 }
 
 fn count_suffix(path: &Path, suffix: &str) -> usize {
@@ -4343,6 +4511,12 @@ fn governance_decision_for_contract_base_internal_with_archive(
         contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
     if !archived {
         explicit_blockers.extend(documentation_projection_findings(root, contract)?);
+        explicit_blockers.extend(unclosed_archived_scope_conflicts(
+            root,
+            &contract.work_item_id,
+            &contract.scope,
+        )?);
+        explicit_blockers.extend(pending_close_dependency_blockers(root, contract)?);
     }
     let signals = derive_governance_signals(snapshot);
     let changed_paths = snapshot
@@ -8662,6 +8836,780 @@ fn verify_resource_finalization_internal(
     Ok(result)
 }
 
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct OrdinaryCleanupBinding {
+    schema_version: u32,
+    repository_id: String,
+    work_item_id: String,
+    contract_digest: Digest,
+    archive_manifest_digest: Digest,
+    branch: String,
+    branch_ref: String,
+    head_revision: String,
+    worktree_path: String,
+    worktree_git_dir: String,
+    worktree_id: Digest,
+    runtime_version: String,
+    runtime_digest: Digest,
+    captured_at: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OrdinaryCleanupObservation {
+    pub branch: String,
+    pub worktree: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OrdinaryCleanupResult {
+    pub state: String,
+    #[serde(default)]
+    pub failure_codes: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OrdinaryCleanupReceipt {
+    pub schema_version: u32,
+    pub operation_id: String,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub contract_digest: Digest,
+    pub binding_digest: Digest,
+    pub branch_ref: String,
+    pub head_revision: String,
+    pub worktree_id: Digest,
+    pub sequence: u64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub predecessor_receipt_digest: Option<Digest>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub observed_at: String,
+    pub observation: OrdinaryCleanupObservation,
+    pub result: OrdinaryCleanupResult,
+}
+
+struct ValidatedOrdinaryCleanupReceipt {
+    receipt: OrdinaryCleanupReceipt,
+    digest: Digest,
+}
+
+#[derive(Default)]
+struct GitWorktreeRecord {
+    path: Option<PathBuf>,
+    head: Option<String>,
+    branch_ref: Option<String>,
+}
+
+fn git_bytes(root: &Path, args: &[&str]) -> Option<Vec<u8>> {
+    let output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args(args)
+        .output()
+        .ok()?;
+    output.status.success().then_some(output.stdout)
+}
+
+fn git_worktree_records(root: &Path) -> Result<Vec<GitWorktreeRecord>, ObserverError> {
+    let output = git_text(root, &["worktree", "list", "--porcelain"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.into(),
+            message: "ordinary close cannot prove an exact worktree: `git worktree list --porcelain` failed"
+                .into(),
+        }
+    })?;
+    let mut records = Vec::new();
+    for block in output
+        .split("\n\n")
+        .filter(|block| !block.trim().is_empty())
+    {
+        let mut record = GitWorktreeRecord::default();
+        for line in block.lines() {
+            if let Some(value) = line.strip_prefix("worktree ") {
+                record.path = Some(PathBuf::from(value));
+            } else if let Some(value) = line.strip_prefix("HEAD ") {
+                record.head = Some(value.into());
+            } else if let Some(value) = line.strip_prefix("branch ") {
+                record.branch_ref = Some(value.into());
+            }
+        }
+        records.push(record);
+    }
+    Ok(records)
+}
+
+fn ordinary_worktree_id(repository_id: &str, worktree_path: &str, git_dir: &str) -> Digest {
+    Digest::sha256_bytes(
+        format!("ordinary-worktree-v1\0{repository_id}\0{worktree_path}\0{git_dir}").as_bytes(),
+    )
+}
+
+fn archive_bytes_are_at_head(
+    root: &Path,
+    work_item_id: &str,
+    artifact: &str,
+) -> Result<(), ObserverError> {
+    let relative = format!(".ai/work-items/archive/{work_item_id}.{artifact}.json");
+    let path = root.join(&relative);
+    let expected = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    let spec = format!("HEAD:{relative}");
+    let Some(actual) = git_bytes(root, &["show", &spec]) else {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "ordinary close cannot prove an exact archived {artifact} at current HEAD"
+            ),
+        });
+    };
+    if actual != expected {
+        return Err(ObserverError::State {
+            path,
+            message: format!(
+                "ordinary close cannot prove exact archived {artifact} bytes at current HEAD"
+            ),
+        });
+    }
+    Ok(())
+}
+
+fn capture_ordinary_cleanup_binding(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+    contract_path: &Path,
+    archive_manifest_path: &Path,
+    runtime: &RuntimeContext,
+) -> Result<OrdinaryCleanupBinding, ObserverError> {
+    archive_bytes_are_at_head(root, work_item_id, "contract")?;
+    archive_bytes_are_at_head(root, work_item_id, "archive")?;
+
+    let canonical_root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let records = git_worktree_records(root)?;
+    let matching = records
+        .into_iter()
+        .filter_map(|record| {
+            let path = record.path.clone()?;
+            let canonical = fs::canonicalize(&path).ok()?;
+            (canonical == canonical_root).then_some(record)
+        })
+        .collect::<Vec<_>>();
+    if matching.len() != 1 {
+        return Err(ObserverError::State {
+            path: canonical_root,
+            message: format!(
+                "ordinary close requires exactly one associated worktree record for the repository root; found {}",
+                matching.len()
+            ),
+        });
+    }
+    let record = &matching[0];
+    let branch_ref = record
+        .branch_ref
+        .as_deref()
+        .ok_or_else(|| ObserverError::State {
+            path: root.into(),
+            message: "ordinary close cannot bind cleanup from a detached worktree".into(),
+        })?;
+    let branch = branch_ref
+        .strip_prefix("refs/heads/")
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| ObserverError::State {
+            path: root.into(),
+            message: format!(
+                "ordinary close requires an exact local branch ref, found {branch_ref}"
+            ),
+        })?;
+    let symbolic_ref = git_text(root, &["symbolic-ref", "--quiet", "HEAD"]).ok_or_else(|| {
+        ObserverError::State {
+            path: root.into(),
+            message: "ordinary close cannot prove the current symbolic branch ref".into(),
+        }
+    })?;
+    if symbolic_ref != branch_ref {
+        return Err(ObserverError::State {
+            path: root.into(),
+            message: format!(
+                "ordinary close branch identity mismatch: worktree records {branch_ref}, HEAD records {symbolic_ref}"
+            ),
+        });
+    }
+    let head_revision =
+        git_text(root, &["rev-parse", "--verify", "HEAD^{commit}"]).ok_or_else(|| {
+            ObserverError::State {
+                path: root.into(),
+                message: "ordinary close cannot prove an exact current HEAD commit".into(),
+            }
+        })?;
+    if !valid_git_object_id(&head_revision)
+        || record.head.as_deref() != Some(head_revision.as_str())
+    {
+        return Err(ObserverError::State {
+            path: root.into(),
+            message: "ordinary close worktree HEAD does not match the exact current HEAD commit"
+                .into(),
+        });
+    }
+    let git_dir = git_text(root, &["rev-parse", "--absolute-git-dir"])
+        .map(PathBuf::from)
+        .and_then(|path| fs::canonicalize(path).ok())
+        .ok_or_else(|| ObserverError::State {
+            path: root.into(),
+            message: "ordinary close cannot prove a stable exact worktree Git directory".into(),
+        })?;
+    let worktree_path = canonical_root.display().to_string();
+    let worktree_git_dir = git_dir.display().to_string();
+    Ok(OrdinaryCleanupBinding {
+        schema_version: 1,
+        repository_id: contract.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        contract_digest: contract_digest(contract_path)?,
+        archive_manifest_digest: Digest::sha256_bytes(&fs::read(archive_manifest_path).map_err(
+            |source| ObserverError::Read {
+                path: archive_manifest_path.into(),
+                source,
+            },
+        )?),
+        branch: branch.into(),
+        branch_ref: branch_ref.into(),
+        head_revision,
+        worktree_id: ordinary_worktree_id(
+            &contract.repository_id,
+            &worktree_path,
+            &worktree_git_dir,
+        ),
+        worktree_path,
+        worktree_git_dir,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        captured_at: now(),
+    })
+}
+
+fn ordinary_cleanup_binding_from_decision(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+    decision: &serde_json::Value,
+) -> Result<Option<OrdinaryCleanupBinding>, ObserverError> {
+    let binding_value = decision.get("ordinaryCleanupBinding");
+    let digest_value = decision
+        .get("ordinaryCleanupBindingDigest")
+        .and_then(serde_json::Value::as_str);
+    if binding_value.is_none() && digest_value.is_none() {
+        return Ok(None);
+    }
+    let binding_value = binding_value.ok_or_else(|| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: "ordinary cleanup binding digest exists without its binding".into(),
+    })?;
+    let expected_digest = digest_value.ok_or_else(|| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: "ordinary cleanup binding is missing its digest".into(),
+    })?;
+    let actual_digest = cockpit_protocol::digest_json(binding_value)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: error.to_string(),
+        })?
+        .to_string();
+    if actual_digest != expected_digest {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "ordinary cleanup binding digest mismatch".into(),
+        });
+    }
+    let binding: OrdinaryCleanupBinding =
+        serde_json::from_value(binding_value.clone()).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: format!("ordinary cleanup binding is invalid: {error}"),
+        })?;
+    if binding.schema_version != 1
+        || binding.repository_id != repository_id
+        || binding.work_item_id != work_item_id
+        || binding.branch_ref != format!("refs/heads/{}", binding.branch)
+        || !valid_git_object_id(&binding.head_revision)
+        || !Path::new(&binding.worktree_path).is_absolute()
+        || !Path::new(&binding.worktree_git_dir).is_absolute()
+        || Path::new(&binding.worktree_path)
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+        || Path::new(&binding.worktree_git_dir)
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "ordinary cleanup binding identity fields are invalid".into(),
+        });
+    }
+    let contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    if binding.contract_digest != contract_digest(&contract_path)?
+        || binding.archive_manifest_digest
+            != Digest::sha256_bytes(&fs::read(&manifest_path).map_err(|source| {
+                ObserverError::Read {
+                    path: manifest_path.clone(),
+                    source,
+                }
+            })?)
+    {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "ordinary cleanup binding does not match the immutable archive".into(),
+        });
+    }
+    if binding.worktree_id
+        != ordinary_worktree_id(
+            repository_id,
+            &binding.worktree_path,
+            &binding.worktree_git_dir,
+        )
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "ordinary cleanup binding worktree identity digest mismatch".into(),
+        });
+    }
+    let common_dir = git_text(
+        root,
+        &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+    )
+    .map(PathBuf::from)
+    .and_then(|path| fs::canonicalize(path).ok())
+    .ok_or_else(|| ObserverError::State {
+        path: root.into(),
+        message: "cannot prove the repository common Git directory".into(),
+    })?;
+    let bound_git_dir = Path::new(&binding.worktree_git_dir);
+    if bound_git_dir != common_dir && !bound_git_dir.starts_with(common_dir.join("worktrees")) {
+        return Err(ObserverError::State {
+            path: bound_git_dir.into(),
+            message:
+                "ordinary cleanup binding points outside this repository's worktree identities"
+                    .into(),
+        });
+    }
+    Ok(Some(binding))
+}
+
+fn ordinary_cleanup_receipt_head(
+    root: &Path,
+    work_item_id: &str,
+    binding: &OrdinaryCleanupBinding,
+    binding_digest: &Digest,
+) -> Result<Option<ValidatedOrdinaryCleanupReceipt>, ObserverError> {
+    let decisions = root.join(".ai/decisions");
+    let prefix = format!("{work_item_id}.cleanup.");
+    let mut receipts = Vec::new();
+    for entry in fs::read_dir(&decisions).map_err(|source| ObserverError::Read {
+        path: decisions.clone(),
+        source,
+    })? {
+        let entry = entry.map_err(|source| ObserverError::Read {
+            path: decisions.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if !name.starts_with(&prefix) {
+            continue;
+        }
+        let path = entry.path();
+        let metadata = fs::symlink_metadata(&path).map_err(|source| ObserverError::Read {
+            path: path.clone(),
+            source,
+        })?;
+        if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
+            return Err(ObserverError::State {
+                path,
+                message: "ordinary cleanup receipt must be a regular non-symlink file".into(),
+            });
+        }
+        let suffix = name
+            .strip_prefix(&prefix)
+            .and_then(|value| value.strip_suffix(".json"))
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: "ordinary cleanup receipt filename is malformed".into(),
+            })?;
+        let (sequence_text, digest_text) =
+            suffix.split_once('.').ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: "ordinary cleanup receipt filename is missing sequence or digest".into(),
+            })?;
+        let filename_sequence = sequence_text
+            .parse::<u64>()
+            .map_err(|_| ObserverError::State {
+                path: path.clone(),
+                message: "ordinary cleanup receipt filename sequence is invalid".into(),
+            })?;
+        let value = read_json(&path)?;
+        let receipt: OrdinaryCleanupReceipt =
+            serde_json::from_value(value.clone()).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: format!("ordinary cleanup receipt is invalid: {error}"),
+            })?;
+        let digest =
+            cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: error.to_string(),
+            })?;
+        let expected_filename_digest = digest
+            .to_string()
+            .strip_prefix("sha256:")
+            .unwrap_or_default()
+            .to_owned();
+        if filename_sequence != receipt.sequence || digest_text != expected_filename_digest {
+            return Err(ObserverError::State {
+                path,
+                message: "ordinary cleanup receipt filename does not match its content".into(),
+            });
+        }
+        if receipt.schema_version != 1
+            || receipt.repository_id != binding.repository_id
+            || receipt.work_item_id != work_item_id
+            || receipt.contract_digest != binding.contract_digest
+            || &receipt.binding_digest != binding_digest
+            || receipt.branch_ref != binding.branch_ref
+            || receipt.head_revision != binding.head_revision
+            || receipt.worktree_id != binding.worktree_id
+            || !matches!(receipt.result.state.as_str(), "failed" | "verified")
+        {
+            return Err(ObserverError::State {
+                path,
+                message: "ordinary cleanup receipt identity or state is invalid".into(),
+            });
+        }
+        receipts.push(ValidatedOrdinaryCleanupReceipt { receipt, digest });
+    }
+    receipts.sort_by_key(|item| item.receipt.sequence);
+    let mut predecessor = None;
+    for (index, item) in receipts.iter().enumerate() {
+        let expected_sequence = index as u64 + 1;
+        if item.receipt.sequence != expected_sequence
+            || item.receipt.predecessor_receipt_digest != predecessor
+        {
+            return Err(ObserverError::State {
+                path: decisions.clone(),
+                message: "ordinary cleanup receipt chain is not contiguous and append-only".into(),
+            });
+        }
+        predecessor = Some(item.digest.clone());
+    }
+    Ok(receipts.pop())
+}
+
+fn observe_bound_ordinary_resources(
+    root: &Path,
+    binding: &OrdinaryCleanupBinding,
+) -> Result<OrdinaryCleanupObservation, ObserverError> {
+    let branch_output = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args([
+            "for-each-ref",
+            "--format=%(objectname)",
+            &binding.branch_ref,
+        ])
+        .output()
+        .map_err(|source| ObserverError::State {
+            path: root.into(),
+            message: format!("cannot observe exact local branch ref: {source}"),
+        })?;
+    let branch = if branch_output.status.success() {
+        let target = String::from_utf8(branch_output.stdout)
+            .map_err(|error| ObserverError::State {
+                path: root.into(),
+                message: format!("local branch observation is not UTF-8: {error}"),
+            })?
+            .trim()
+            .to_owned();
+        if target.is_empty() {
+            "removed"
+        } else if target == binding.head_revision {
+            "present"
+        } else {
+            "identity_conflict"
+        }
+    } else {
+        return Err(ObserverError::State {
+            path: root.into(),
+            message: format!(
+                "cannot distinguish an absent local branch from Git observation failure: {}",
+                String::from_utf8_lossy(&branch_output.stderr).trim()
+            ),
+        });
+    };
+
+    let mut associated = Vec::new();
+    let mut observation_unknown = false;
+    for record in git_worktree_records(root)? {
+        let Some(path) = record.path.as_ref() else {
+            observation_unknown = true;
+            continue;
+        };
+        let canonical_path = match fs::canonicalize(path) {
+            Ok(path) => Some(path),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(_) => {
+                observation_unknown = true;
+                None
+            }
+        };
+        let canonical_git_dir = if canonical_path.is_some() {
+            match git_text(path, &["rev-parse", "--absolute-git-dir"]) {
+                Some(git_dir) => match fs::canonicalize(git_dir) {
+                    Ok(path) => Some(path),
+                    Err(_) => {
+                        observation_unknown = true;
+                        None
+                    }
+                },
+                None => {
+                    observation_unknown = true;
+                    None
+                }
+            }
+        } else {
+            None
+        };
+        if canonical_path
+            .as_ref()
+            .is_some_and(|path| path == Path::new(&binding.worktree_path))
+            || canonical_git_dir
+                .as_ref()
+                .is_some_and(|path| path == Path::new(&binding.worktree_git_dir))
+        {
+            associated.push((record, canonical_path, canonical_git_dir));
+        }
+    }
+    let worktree = if associated.len() > 1 {
+        "identity_conflict"
+    } else if let Some((record, path, git_dir)) = associated.first() {
+        if path.as_deref() == Some(Path::new(&binding.worktree_path))
+            && git_dir.as_deref() == Some(Path::new(&binding.worktree_git_dir))
+            && record.branch_ref.as_deref() == Some(binding.branch_ref.as_str())
+            && record.head.as_deref() == Some(binding.head_revision.as_str())
+        {
+            "present"
+        } else if observation_unknown {
+            "unknown"
+        } else {
+            "identity_conflict"
+        }
+    } else {
+        let worktree_path = match fs::symlink_metadata(&binding.worktree_path) {
+            Ok(_) => Some(true),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Some(false),
+            Err(_) => None,
+        };
+        let worktree_git_dir = match fs::symlink_metadata(&binding.worktree_git_dir) {
+            Ok(_) => Some(true),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => Some(false),
+            Err(_) => None,
+        };
+        if worktree_path == Some(true) || worktree_git_dir == Some(true) {
+            "identity_conflict"
+        } else if worktree_path.is_none() || worktree_git_dir.is_none() || observation_unknown {
+            "unknown"
+        } else {
+            "removed"
+        }
+    };
+    Ok(OrdinaryCleanupObservation {
+        branch: branch.into(),
+        worktree: worktree.into(),
+    })
+}
+
+pub fn record_ordinary_cleanup_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<OrdinaryCleanupReceipt, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract = read_contract(&contract_path)?;
+    if contract.resource_context.is_some() {
+        return Err(ObserverError::State {
+            path: contract_path,
+            message: "ordinary post-close cleanup is not available for provider-bound Work Items"
+                .into(),
+        });
+    }
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let decision = read_json(&close_path)?;
+    let binding = ordinary_cleanup_binding_from_decision(
+        &root,
+        work_item_id,
+        &contract.repository_id,
+        &decision,
+    )?
+    .ok_or_else(|| ObserverError::State {
+        path: close_path.clone(),
+        message: "historical close lacks a Runtime-owned ordinary cleanup binding; cleanup is unsupported"
+            .into(),
+    })?;
+    if !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id) {
+        return Err(ObserverError::State {
+            path: close_path,
+            message: "ordinary cleanup requires a valid closed decision".into(),
+        });
+    }
+    let binding_value = serde_json::to_value(&binding).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    let binding_digest =
+        cockpit_protocol::digest_json(&binding_value).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: error.to_string(),
+        })?;
+    let predecessor =
+        ordinary_cleanup_receipt_head(&root, work_item_id, &binding, &binding_digest)?;
+    let observation = observe_bound_ordinary_resources(&root, &binding)?;
+    let mut failure_codes = Vec::new();
+    if observation.branch != "removed" {
+        failure_codes.push(format!("local_branch_{}", observation.branch));
+    }
+    if observation.worktree != "removed" {
+        failure_codes.push(format!("worktree_{}", observation.worktree));
+    }
+    let state = if failure_codes.is_empty() {
+        "verified"
+    } else {
+        "failed"
+    };
+    let sequence = predecessor
+        .as_ref()
+        .map_or(1, |head| head.receipt.sequence + 1);
+    let observed_at = now();
+    let operation_id = Digest::sha256_bytes(
+        format!(
+            "ordinary-cleanup-v1\0{}\0{work_item_id}\0{sequence}\0{observed_at}",
+            binding.repository_id
+        )
+        .as_bytes(),
+    )
+    .to_string();
+    let receipt = OrdinaryCleanupReceipt {
+        schema_version: 1,
+        operation_id,
+        repository_id: binding.repository_id.clone(),
+        work_item_id: work_item_id.into(),
+        contract_digest: binding.contract_digest.clone(),
+        binding_digest,
+        branch_ref: binding.branch_ref.clone(),
+        head_revision: binding.head_revision.clone(),
+        worktree_id: binding.worktree_id.clone(),
+        sequence,
+        predecessor_receipt_digest: predecessor.map(|head| head.digest),
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        observed_at,
+        observation,
+        result: OrdinaryCleanupResult {
+            state: state.into(),
+            failure_codes,
+        },
+    };
+    let value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    let digest = cockpit_protocol::digest_json(&value).map_err(|error| ObserverError::State {
+        path: root.join(".ai/decisions"),
+        message: error.to_string(),
+    })?;
+    let digest_text = digest.to_string();
+    let digest_suffix = digest_text.strip_prefix("sha256:").unwrap_or(&digest_text);
+    let path = root.join(".ai/decisions").join(format!(
+        "{work_item_id}.cleanup.{sequence:06}.{digest_suffix}.json"
+    ));
+    if fs::symlink_metadata(&path).is_ok() {
+        return Err(ObserverError::State {
+            path,
+            message: "ordinary cleanup receipt already exists".into(),
+        });
+    }
+    atomic_json(&path, &value)?;
+    Ok(receipt)
+}
+
+fn resource_cleanup_completion_state(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+    close_decision_valid: bool,
+    runtime: &RuntimeContext,
+) -> String {
+    if contract.resource_context.is_some() {
+        return match verify_resource_finalization_internal(root, work_item_id, Some(runtime)) {
+            Ok(value) if matches!(value["disposition"].as_str(), Some("deleted" | "abandoned")) => {
+                "verified".into()
+            }
+            Ok(_) => "pending".into(),
+            Err(_) if resource_finalization_decision_path(root, work_item_id).exists() => {
+                "failed".into()
+            }
+            Err(_) => "pending".into(),
+        };
+    }
+    if !close_decision_valid {
+        return "not_started".into();
+    }
+    let path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    let Ok(decision) = read_json(&path) else {
+        return "unknown".into();
+    };
+    match ordinary_cleanup_binding_from_decision(
+        root,
+        work_item_id,
+        &contract.repository_id,
+        &decision,
+    ) {
+        Ok(Some(binding)) => {
+            let Ok(binding_value) = serde_json::to_value(&binding) else {
+                return "unknown".into();
+            };
+            let Ok(binding_digest) = cockpit_protocol::digest_json(&binding_value) else {
+                return "unknown".into();
+            };
+            match ordinary_cleanup_receipt_head(root, work_item_id, &binding, &binding_digest) {
+                Ok(Some(head)) => head.receipt.result.state,
+                Ok(None) => "pending".into(),
+                Err(_) => "unknown".into(),
+            }
+        }
+        Ok(None) => "unsupported".into(),
+        Err(_) => "unknown".into(),
+    }
+}
+
 pub fn close_work_item(root: &Path, work_item_id: &str) -> Result<LifecycleReceipt, ObserverError> {
     validate_work_item_id(work_item_id)?;
     Err(ObserverError::State {
@@ -8877,6 +9825,7 @@ fn close_work_item_with_structured_decision_internal(
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
     let mut finalization_binding: Option<serde_json::Value> = None;
+    let mut historical_compatible = false;
     if amendment_revalidation_resolved && contract.resource_context.is_some() {
         let finalization_path = resource_finalization_decision_path(&root, work_item_id);
         finalization_binding = Some(require_resource_finalization_for_close(
@@ -8939,7 +9888,7 @@ fn close_work_item_with_structured_decision_internal(
         }
         let evidence_state =
             verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?;
-        let historical_compatible = evidence_state != EvidenceState::Complete
+        historical_compatible = evidence_state != EvidenceState::Complete
             && archived_evidence_is_historical(&root, &contract, &snapshot, current_runtime)?;
         if evidence_state != EvidenceState::Complete && !historical_compatible {
             return Err(ObserverError::State {
@@ -8976,6 +9925,26 @@ fn close_work_item_with_structured_decision_internal(
             message: "close requires a verified outcome".into(),
         });
     }
+    let ordinary_cleanup_binding = if contract.resource_context.is_none()
+        && !superseded
+        && !amendment_revalidation_resolved
+        && !historical_compatible
+    {
+        current_runtime
+            .map(|runtime| {
+                capture_ordinary_cleanup_binding(
+                    &root,
+                    work_item_id,
+                    &contract,
+                    &contract_path,
+                    &archive,
+                    runtime,
+                )
+            })
+            .transpose()?
+    } else {
+        None
+    };
     let timestamp = now();
     let receipt = LifecycleReceipt {
         work_item_id: work_item_id.into(),
@@ -9001,6 +9970,20 @@ fn close_work_item_with_structured_decision_internal(
         decision["resourceFinalizationHeadPath"] = binding["headPath"].clone();
         decision["resourceFinalizationHeadDigest"] = binding["headDigest"].clone();
         decision["resourceFinalizationSequence"] = binding["sequence"].clone();
+    }
+    if let Some(binding) = ordinary_cleanup_binding {
+        let binding = serde_json::to_value(binding).map_err(|error| ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: error.to_string(),
+        })?;
+        decision["ordinaryCleanupBindingDigest"] = cockpit_protocol::digest_json(&binding)
+            .map_err(|error| ObserverError::State {
+                path: root.join(".ai/decisions"),
+                message: error.to_string(),
+            })?
+            .to_string()
+            .into();
+        decision["ordinaryCleanupBinding"] = binding;
     }
     decision["humanDecision"] = serde_json::Value::String(human_decision.decision.trim().into());
     decision["decisionState"] = serde_json::Value::String("confirmed".into());
@@ -10084,6 +11067,17 @@ fn work_item_status_snapshot_with_snapshot(
         .into(),
     );
     completion_domains.insert("verification".into(), verification.clone());
+    completion_domains.insert("workResult".into(), verification.clone());
+    completion_domains.insert(
+        "resourceCleanup".into(),
+        resource_cleanup_completion_state(
+            &root,
+            work_item_id,
+            &contract,
+            close_decision_valid,
+            runtime,
+        ),
+    );
     completion_domains.insert(
         "review".into(),
         if governance_state == "green" {
@@ -10516,6 +11510,13 @@ pub(crate) fn close_decision_is_valid_for_status(
         return false;
     }
     if !is_canonical_close_decision(&decision.decision) {
+        return false;
+    }
+    if (value.get("ordinaryCleanupBinding").is_some()
+        || value.get("ordinaryCleanupBindingDigest").is_some())
+        && ordinary_cleanup_binding_from_decision(root, work_item_id, repository_id, &value)
+            .is_err()
+    {
         return false;
     }
     value
@@ -12702,12 +13703,22 @@ fn read_work_item_intelligence(
         Err(source) => return Err(ObserverError::Read { path, source }),
     }
     let value = read_json(&path)?;
-    serde_json::from_value(value)
-        .map(Some)
-        .map_err(|error| ObserverError::State {
-            path,
+    let intelligence: WorkItemIntelligence =
+        serde_json::from_value(value).map_err(|error| ObserverError::State {
+            path: path.clone(),
             message: error.to_string(),
-        })
+        })?;
+    if intelligence.repository_id != repository_id(root).to_string()
+        || intelligence.work_item_id != work_item_id
+    {
+        return Err(ObserverError::State {
+            path,
+            message:
+                "Work Item intelligence sidecar identity does not match repository or Work Item"
+                    .into(),
+        });
+    }
+    Ok(Some(intelligence))
 }
 
 /// Persist an explicit, repository-bound parallelism declaration next to an
@@ -12858,50 +13869,285 @@ fn validate_boundary_for_parallel_use(boundary: &ConcurrencyBoundary) -> Result<
     Ok(())
 }
 
-/// Return the missing or malformed reader-projection facts for an active
-/// Work Item.  The convention is opt-in by repository shape: an object
-/// repository that does not provide the tri-language reference-parity ledgers
-/// keeps the generic lifecycle route.  Once the convention exists, however,
-/// every new Work Item must register its own projection before verification
-/// and close can proceed.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct DocumentationProjectionPolicy {
+    schema_version: u32,
+    repository_id: String,
+    default_projection: String,
+    required_modes: Vec<String>,
+    required_operations: Vec<String>,
+    preserve_existing_registrations: bool,
+    #[serde(default)]
+    effective_from_contract_created_at: Option<String>,
+}
+
+fn documentation_projection_policy(
+    root: &Path,
+) -> Result<DocumentationProjectionPolicy, ObserverError> {
+    let path = root.join(".ai/project/documentation-policy.json");
+    let policy = match fs::symlink_metadata(&path) {
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            DocumentationProjectionPolicy {
+                schema_version: 1,
+                repository_id: repository_id(root).to_string(),
+                default_projection: "derived".into(),
+                required_modes: vec!["docs".into(), "documentation".into(), "release".into()],
+                required_operations: vec!["documentation.modify".into(), "release.publish".into()],
+                preserve_existing_registrations: true,
+                effective_from_contract_created_at: None,
+            }
+        }
+        Err(source) => return Err(ObserverError::Read { path, source }),
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
+            return Err(ObserverError::State {
+                path,
+                message: "documentation projection policy must be a regular non-symlink file"
+                    .into(),
+            });
+        }
+        Ok(_) => {
+            let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?;
+            serde_json::from_slice::<DocumentationProjectionPolicy>(&bytes).map_err(|error| {
+                ObserverError::State {
+                    path: path.clone(),
+                    message: format!("documentation projection policy is invalid: {error}"),
+                }
+            })?
+        }
+    };
+
+    let expected_repository_id = repository_id(root).to_string();
+    if policy.repository_id != expected_repository_id {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: format!(
+                "documentation projection policy repository identity mismatch: expected {expected_repository_id}, found {}",
+                policy.repository_id
+            ),
+        });
+    }
+    if !matches!(policy.schema_version, 1 | 2)
+        || (policy.schema_version == 1 && policy.effective_from_contract_created_at.is_some())
+        || (policy.schema_version == 2 && policy.effective_from_contract_created_at.is_none())
+    {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "documentation projection policy has an unsupported schema or timestamp shape"
+                .into(),
+        });
+    }
+    if !matches!(policy.default_projection.as_str(), "derived" | "required") {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message:
+                "documentation projection policy defaultProjection must be derived or required"
+                    .into(),
+        });
+    }
+    for (field, values) in [
+        ("requiredModes", &policy.required_modes),
+        ("requiredOperations", &policy.required_operations),
+    ] {
+        let mut unique = BTreeSet::new();
+        if values
+            .iter()
+            .any(|value| value.trim().is_empty() || !unique.insert(value))
+        {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!(
+                    "documentation projection policy {field} must contain unique non-empty strings"
+                ),
+            });
+        }
+    }
+    if let Some(effective_from) = &policy.effective_from_contract_created_at
+        && DateTime::parse_from_rfc3339(effective_from).is_err()
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "documentation projection policy effectiveFromContractCreatedAt must be an RFC 3339 timestamp".into(),
+        });
+    }
+    Ok(policy)
+}
+
+fn has_existing_documentation_registration(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<bool, ObserverError> {
+    for suffix in ["", ".zh-CN", ".ja"] {
+        let path = root.join(format!("docs/reference/reference-parity{suffix}.md"));
+        let bytes = match fs::symlink_metadata(&path) {
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: path.clone(),
+                    source,
+                });
+            }
+            Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => continue,
+            Ok(_) => fs::read(&path).map_err(|source| ObserverError::Read {
+                path: path.clone(),
+                source,
+            })?,
+        };
+        let Ok(contents) = String::from_utf8(bytes) else {
+            continue;
+        };
+        if contents
+            .lines()
+            .any(|line| parity_row_matches_work_item(line, work_item_id))
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn documentation_projection_is_required(
+    root: &Path,
+    contract: &Contract,
+    policy: &DocumentationProjectionPolicy,
+) -> Result<bool, ObserverError> {
+    if let Some(effective_from) = &policy.effective_from_contract_created_at {
+        let contract_path = [
+            root.join(format!(
+                ".ai/work-items/active/{}.contract.json",
+                contract.work_item_id
+            )),
+            root.join(format!(
+                ".ai/work-items/archive/{}.contract.json",
+                contract.work_item_id
+            )),
+        ]
+        .into_iter()
+        .find(|path| path.is_file())
+        .unwrap_or_else(|| root.join(".ai/work-items"));
+        let created_at = contract.created_at.as_deref().ok_or_else(|| {
+            ObserverError::State {
+                path: contract_path.clone(),
+                message: "Contract createdAt is required by the effective documentation projection policy".into(),
+            }
+        })?;
+        let created_at = DateTime::parse_from_rfc3339(created_at).map_err(|_| {
+            ObserverError::State {
+                path: contract_path.clone(),
+                message: "Contract createdAt must be an RFC 3339 timestamp for the documentation projection policy".into(),
+            }
+        })?;
+        let effective_from =
+            DateTime::parse_from_rfc3339(effective_from).map_err(|_| ObserverError::State {
+                path: root.join(".ai/project/documentation-policy.json"),
+                message:
+                    "documentation projection policy effectiveFromContractCreatedAt is invalid"
+                        .into(),
+            })?;
+        if created_at.with_timezone(&Utc) < effective_from.with_timezone(&Utc) {
+            return Ok(false);
+        }
+    }
+
+    let operation = contract
+        .operation
+        .as_deref()
+        .filter(|value| !value.trim().is_empty());
+    let requested_operation = contract
+        .requested_operation
+        .as_deref()
+        .filter(|value| !value.trim().is_empty());
+    if let (Some(operation), Some(requested_operation)) = (operation, requested_operation)
+        && operation != requested_operation
+    {
+        return Err(ObserverError::State {
+            path: root
+                .join(".ai/work-items/active")
+                .join(format!("{}.contract.json", contract.work_item_id)),
+            message: "Contract operation fields conflict".into(),
+        });
+    }
+    let effective_operation = operation.or(requested_operation);
+
+    if policy.default_projection == "required"
+        || contract
+            .mode
+            .as_ref()
+            .is_some_and(|mode| policy.required_modes.contains(mode))
+        || effective_operation.is_some_and(|operation| {
+            policy
+                .required_operations
+                .iter()
+                .any(|required| required == operation)
+        })
+    {
+        return Ok(true);
+    }
+
+    let projection_paths = [
+        format!("docs/work-items/{}.md", contract.work_item_id),
+        format!("docs/work-items/{}.zh-CN.md", contract.work_item_id),
+        format!("docs/work-items/{}.ja.md", contract.work_item_id),
+        "docs/reference/reference-parity.md".into(),
+        "docs/reference/reference-parity.zh-CN.md".into(),
+        "docs/reference/reference-parity.ja.md".into(),
+    ];
+    if contract.scope.iter().any(|scope| {
+        projection_paths
+            .iter()
+            .any(|path| scope_pattern_relation(scope, path) != ScopeRelation::Disjoint)
+    }) || contract.acceptance_criteria.iter().any(|criterion| {
+        let criterion = criterion.to_ascii_lowercase();
+        criterion.contains("parity ledger") || criterion.contains("parity registration")
+    }) {
+        return Ok(true);
+    }
+
+    if policy.preserve_existing_registrations
+        && has_existing_documentation_registration(root, &contract.work_item_id)?
+    {
+        return Ok(true);
+    }
+    Ok(false)
+}
+
+/// Return missing or malformed reader-projection facts only when the explicit
+/// project policy or the Contract's declared mode, operation, scope, or
+/// existing registration requires them. Repository directory shape alone is
+/// never authorization to block an ordinary code Work Item.
 fn documentation_projection_findings(
     root: &Path,
     contract: &Contract,
 ) -> Result<Vec<String>, ObserverError> {
-    let work_item_docs = root.join("docs/work-items");
-    let work_item_docs_metadata = match fs::symlink_metadata(&work_item_docs) {
-        Ok(metadata) => metadata,
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(Vec::new()),
-        Err(source) => {
-            return Err(ObserverError::Read {
-                path: work_item_docs,
-                source,
-            });
-        }
-    };
-    if work_item_docs_metadata.file_type().is_symlink() || !work_item_docs_metadata.is_dir() {
+    let policy = documentation_projection_policy(root)?;
+    if !documentation_projection_is_required(root, contract, &policy)? {
         return Ok(Vec::new());
     }
+    let work_item_docs = root.join("docs/work-items");
+    let work_item_docs_is_directory = fs::symlink_metadata(&work_item_docs)
+        .map(|metadata| metadata.is_dir() && !metadata.file_type().is_symlink())
+        .unwrap_or(false);
 
     let parity_paths = [
         root.join("docs/reference/reference-parity.md"),
         root.join("docs/reference/reference-parity.zh-CN.md"),
         root.join("docs/reference/reference-parity.ja.md"),
     ];
-    let convention_enabled = parity_paths.iter().any(|path| {
-        fs::symlink_metadata(path)
-            .map(|metadata| metadata.is_file() || metadata.file_type().is_symlink())
-            .unwrap_or(false)
-    });
-    if !convention_enabled {
-        return Ok(Vec::new());
-    }
 
     let mut findings = Vec::new();
     let page_suffixes = ["", ".zh-CN", ".ja"];
     for suffix in page_suffixes {
         let path = work_item_docs.join(format!("{}{}.md", contract.work_item_id, suffix));
         let relative = repository_relative_path(root, &path);
+        if !work_item_docs_is_directory {
+            findings.push(format!(
+                "documentation_projection_missing:{relative}:parent must be a regular non-symlink directory"
+            ));
+            continue;
+        }
         let metadata = match fs::symlink_metadata(&path) {
             Ok(metadata) => metadata,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
@@ -13523,6 +14769,17 @@ fn simple_scope_prefix(value: &str) -> Option<&str> {
     (!prefix.is_empty() && !scope_pattern_has_glob(prefix)).then_some(prefix)
 }
 
+fn static_scope_prefix(value: &str) -> Option<String> {
+    let mut components = Vec::new();
+    for component in value.split('/') {
+        if scope_pattern_has_glob(component) {
+            break;
+        }
+        components.push(component);
+    }
+    (!components.is_empty()).then(|| components.join("/"))
+}
+
 fn exact_path_is_under_prefix(path: &str, prefix: &str) -> bool {
     path == prefix || path.starts_with(&format!("{prefix}/"))
 }
@@ -13548,6 +14805,20 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     let left_exact = !scope_pattern_has_glob(&left);
     let right_exact = !scope_pattern_has_glob(&right);
     if left_exact && right_exact {
+        return ScopeRelation::Disjoint;
+    }
+
+    // A shared literal directory prefix is not enough to prove overlap for
+    // complex globs, but distinct static prefixes prove disjointness. This
+    // keeps common code scopes such as `src/**/*.rs` from conservatively
+    // selecting unrelated generated documentation while preserving
+    // fail-closed handling when wildcard prefixes could intersect.
+    if let (Some(left_prefix), Some(right_prefix)) =
+        (static_scope_prefix(&left), static_scope_prefix(&right))
+        && left_prefix != right_prefix
+        && !left_prefix.starts_with(&format!("{right_prefix}/"))
+        && !right_prefix.starts_with(&format!("{left_prefix}/"))
+    {
         return ScopeRelation::Disjoint;
     }
 

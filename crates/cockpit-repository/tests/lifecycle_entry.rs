@@ -7,8 +7,9 @@ use cockpit_repository::{
     close_work_item_with_structured_decision, finish_work_item, finish_work_item_with_runtime,
     load_reusable_verification_attempt, persist_verification_attempt, preflight_work_item,
     preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
-    record_work_item_governance_controls, require_verification_preconditions,
-    run_repository_verification, scaffold_work_item, start_work_item_with_options, status,
+    record_work_item_governance_controls, repository_id, require_verification_preconditions,
+    run_repository_verification, scaffold_work_item, set_work_item_intelligence,
+    start_work_item_with_options, status,
 };
 use serde_json::json;
 use std::fs;
@@ -73,6 +74,41 @@ fn enable_tri_language_projection_convention(root: &Path) {
     }
 }
 
+fn write_derived_documentation_policy(root: &Path) {
+    fs::create_dir_all(root.join(".ai/project")).expect("project policy directory");
+    fs::write(
+        root.join(".ai/project/documentation-policy.json"),
+        serde_json::to_vec_pretty(&json!({
+            "schemaVersion": 2,
+            "repositoryId": repository_id(root).to_string(),
+            "defaultProjection": "derived",
+            "requiredModes": ["docs", "documentation"],
+            "requiredOperations": ["documentation.modify", "release.publish"],
+            "preserveExistingRegistrations": true,
+            "effectiveFromContractCreatedAt": "2020-01-01T00:00:00Z"
+        }))
+        .expect("documentation policy JSON"),
+    )
+    .expect("documentation policy");
+}
+
+fn commit_fixture_baseline(root: &Path) {
+    run(root, &["add", "-A"]);
+    run(
+        root,
+        &[
+            "-c",
+            "user.name=AI Cockpit Test",
+            "-c",
+            "user.email=ai-cockpit-test@example.invalid",
+            "commit",
+            "--quiet",
+            "-m",
+            "fixture baseline",
+        ],
+    );
+}
+
 fn write_prearchive_projection(root: &Path, work_item_id: &str) {
     for suffix in ["", ".zh-CN", ".ja"] {
         fs::write(
@@ -95,55 +131,423 @@ fn write_prearchive_projection(root: &Path, work_item_id: &str) {
     }
 }
 
-fn write_unclosed_archive(root: &Path, id: &str) -> (PathBuf, Vec<u8>) {
+fn write_unclosed_archive(root: &Path, id: &str, scope: &[&str]) -> (PathBuf, Vec<u8>) {
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
+    let contract_path = archive.join(format!("{id}.contract.json"));
+    let contract_bytes = serde_json::to_vec_pretty(&json!({
+        "schemaVersion": 2,
+        "protocolVersion": 1,
+        "repositoryId": repository_id(root).to_string(),
+        "workItemId": id,
+        "scope": scope,
+    }))
+    .expect("archive contract JSON");
+    fs::write(&contract_path, &contract_bytes).expect("archive contract");
     let path = archive.join(format!("{id}.archive.json"));
-    let bytes =
-        br#"{"schemaVersion":1,"workItemId":"WI-OLD","state":"archived","closeRequired":true}
-"#
-        .to_vec();
+    let bytes = serde_json::to_vec_pretty(&json!({
+        "schemaVersion": 1,
+        "workItemId": id,
+        "state": "archived",
+        "closeRequired": true,
+        "files": {
+            "contractDigest": Digest::sha256_bytes(&contract_bytes).to_string(),
+        },
+    }))
+    .expect("archive manifest JSON");
     fs::write(&path, &bytes).expect("archive marker");
     (path, bytes)
 }
 
 #[test]
-fn new_and_start_reject_archived_item_without_close() {
+fn unrelated_archived_pending_close_remains_visible_without_blocking_entry() {
     let directory = repository();
-    let (archive_path, archive_bytes) = write_unclosed_archive(directory.path(), "WI-OLD");
+    let (archive_path, archive_bytes) =
+        write_unclosed_archive(directory.path(), "WI-OLD", &["docs/**"]);
     let readiness = status(directory.path()).expect("status").readiness;
-    assert!(!readiness.ready_on_base);
-    assert_eq!(readiness.state, "blocked");
     assert_eq!(readiness.unclosed_archived_work_items, vec!["WI-OLD"]);
-
-    let scaffold = scaffold_work_item(directory.path(), "WI-NEW", "code")
-        .expect_err("new scaffold must stop behind an unclosed archive");
-    assert!(scaffold.to_string().contains("archived Work Items"));
     assert!(
-        !directory
-            .path()
-            .join(".ai/work-items/active/WI-NEW.contract.json")
-            .exists()
+        readiness
+            .blockers
+            .iter()
+            .all(|blocker| blocker != "archived_work_items_pending_close")
+    );
+    assert!(
+        readiness
+            .historical_debt
+            .iter()
+            .any(|item| item.work_item_id == "WI-OLD")
     );
 
-    let start = start_work_item_with_options(
+    scaffold_work_item(directory.path(), "WI-NEW", "code")
+        .expect("unrelated historical debt must not block a new scaffold");
+
+    start_work_item_with_options(
         directory.path(),
         "WI-START",
         "entry gate",
-        "stop before unsafe start",
+        "start with a scope disjoint from the archived item",
         &["src/**".into()],
         &start_options(),
     )
-    .expect_err("start must stop behind an unclosed archive");
-    assert!(start.to_string().contains("archived Work Items"));
+    .expect("unrelated historical debt must not block a disjoint start");
     assert!(
-        !directory
+        directory
             .path()
             .join(".ai/work-items/active/WI-START.contract.json")
             .exists()
     );
     assert_eq!(
         fs::read(archive_path).expect("archive bytes"),
+        archive_bytes
+    );
+}
+
+#[test]
+fn preflight_blocks_a_declared_dependency_on_a_disjoint_unclosed_archived_item() {
+    let unrelated = repository();
+    write_unclosed_archive(unrelated.path(), "WI-OLD", &["docs/**"]);
+    start_work_item_with_options(
+        unrelated.path(),
+        "WI-UNRELATED",
+        "entry gate",
+        "keep unrelated historical debt visible without blocking preflight",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("a disjoint archived item without a declared dependency must not block start");
+    let unrelated_contract = unrelated
+        .path()
+        .join(".ai/work-items/active/WI-UNRELATED.contract.json");
+    let unrelated_decision =
+        preflight_work_item(unrelated.path(), &unrelated_contract).expect("unrelated preflight");
+    assert!(
+        unrelated_decision
+            .blockers
+            .iter()
+            .all(|blocker| blocker != "archived_work_item_dependency_pending_close:WI-OLD"),
+        "unrelated pending close must not become a dependency blocker: {unrelated_decision:#?}"
+    );
+
+    let dependent = repository();
+    write_unclosed_archive(dependent.path(), "WI-OLD", &["docs/**"]);
+    start_work_item_with_options(
+        dependent.path(),
+        "WI-DEPENDENT",
+        "entry gate",
+        "block a declared dependency on unresolved historical work",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("disjoint scopes remain startable before a dependency is declared");
+    set_work_item_intelligence(
+        dependent.path(),
+        "WI-DEPENDENT",
+        vec!["WI-OLD".into()],
+        Vec::new(),
+        false,
+    )
+    .expect("write the supported identity-bound dependency sidecar");
+    let dependent_contract = dependent
+        .path()
+        .join(".ai/work-items/active/WI-DEPENDENT.contract.json");
+    let dependent_decision =
+        preflight_work_item(dependent.path(), &dependent_contract).expect("dependent preflight");
+    assert_eq!(
+        dependent_decision.state,
+        DecisionState::Red,
+        "{dependent_decision:#?}"
+    );
+    assert!(
+        dependent_decision
+            .blockers
+            .iter()
+            .any(|blocker| blocker == "archived_work_item_dependency_pending_close:WI-OLD"),
+        "declared dependency on the exact unclosed archive must block: {dependent_decision:#?}"
+    );
+}
+
+#[test]
+fn preflight_rejects_malformed_or_foreign_work_item_intelligence_identity() {
+    let mut accepted_invalid_sidecars = Vec::new();
+    for invalid_sidecar in [
+        "malformed JSON",
+        "foreign repository identity",
+        "foreign Work Item identity",
+    ] {
+        let directory = repository();
+        write_unclosed_archive(directory.path(), "WI-OLD", &["docs/**"]);
+        start_work_item_with_options(
+            directory.path(),
+            "WI-DEPENDENT",
+            "entry gate",
+            "reject an invalid dependency identity instead of bypassing it",
+            &["src/**".into()],
+            &start_options(),
+        )
+        .expect("disjoint dependency remains startable before preflight");
+        set_work_item_intelligence(
+            directory.path(),
+            "WI-DEPENDENT",
+            vec!["WI-OLD".into()],
+            Vec::new(),
+            false,
+        )
+        .expect("write the supported dependency sidecar");
+        let intelligence_path = directory
+            .path()
+            .join(".ai/work-items/active/WI-DEPENDENT.intelligence.json");
+        match invalid_sidecar {
+            "malformed JSON" => fs::write(&intelligence_path, b"{").expect("malformed sidecar"),
+            "foreign repository identity" | "foreign Work Item identity" => {
+                let mut intelligence: serde_json::Value =
+                    serde_json::from_slice(&fs::read(&intelligence_path).expect("sidecar bytes"))
+                        .expect("sidecar JSON");
+                let field = if invalid_sidecar == "foreign repository identity" {
+                    "repositoryId"
+                } else {
+                    "workItemId"
+                };
+                intelligence[field] = "foreign-identity".into();
+                fs::write(
+                    &intelligence_path,
+                    serde_json::to_vec_pretty(&intelligence).expect("foreign sidecar JSON"),
+                )
+                .expect("foreign sidecar");
+            }
+            _ => unreachable!("all invalid sidecar cases are enumerated"),
+        }
+        let contract_path = directory
+            .path()
+            .join(".ai/work-items/active/WI-DEPENDENT.contract.json");
+        if preflight_work_item(directory.path(), &contract_path).is_ok() {
+            accepted_invalid_sidecars.push(invalid_sidecar);
+        }
+    }
+    assert!(
+        accepted_invalid_sidecars.is_empty(),
+        "preflight must fail closed rather than trust invalid sidecar identity: {accepted_invalid_sidecars:?}"
+    );
+}
+
+#[test]
+fn start_blocks_scope_overlap_with_an_archived_pending_item() {
+    let directory = repository();
+    write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-START",
+        "entry gate",
+        "do not overlap unresolved archived work",
+        &["src/main.rs".into()],
+        &start_options(),
+    )
+    .expect_err("a declared overlapping scope remains blocked");
+
+    assert!(
+        error
+            .to_string()
+            .contains("archived Work Item scope conflict")
+    );
+    assert!(error.to_string().contains("WI-OLD"));
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-START.contract.json")
+            .exists()
+    );
+}
+
+#[test]
+fn archived_scope_requires_valid_identity_and_skips_only_valid_foreign_repositories() {
+    for case in ["missing", "malformed", "foreign"] {
+        let directory = repository();
+        let (manifest_path, _) = write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+        let contract_path = directory
+            .path()
+            .join(".ai/work-items/archive/WI-OLD.contract.json");
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("archived Contract"))
+                .expect("archived Contract JSON");
+        if case == "missing" {
+            contract
+                .as_object_mut()
+                .expect("Contract object")
+                .remove("repositoryId");
+        } else if case == "malformed" {
+            contract["repositoryId"] = json!("not-a-digest");
+        } else {
+            contract["repositoryId"] =
+                json!(Digest::sha256_bytes(b"different repository").to_string());
+        }
+        let contract_bytes =
+            serde_json::to_vec_pretty(&contract).expect("updated archived Contract JSON");
+        fs::write(&contract_path, &contract_bytes).expect("updated archived Contract");
+        let mut manifest: serde_json::Value =
+            serde_json::from_slice(&fs::read(&manifest_path).expect("archive manifest"))
+                .expect("archive manifest JSON");
+        manifest["files"]["contractDigest"] =
+            json!(Digest::sha256_bytes(&contract_bytes).to_string());
+        fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).expect("updated archive manifest JSON"),
+        )
+        .expect("updated archive manifest");
+
+        let result = start_work_item_with_options(
+            directory.path(),
+            "WI-CANDIDATE",
+            "reject an untrusted archived repository identity",
+            "do not let malformed archive identity bypass scope checks",
+            &["src/main.rs".into()],
+            &start_options(),
+        );
+        if case == "foreign" {
+            result.expect("a valid, explicitly foreign archive is not authority here");
+            continue;
+        }
+        let error = result.expect_err("untrusted archived identity must fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("archived_work_item_scope_untrusted:WI-OLD"),
+            "case {case} returned an unexpected error: {error}"
+        );
+    }
+}
+
+#[test]
+fn missing_or_malformed_archive_manifest_remains_untrusted_for_scope_checks() {
+    for case in ["missing", "malformed"] {
+        let directory = repository();
+        let (manifest_path, _) = write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+        if case == "missing" {
+            fs::remove_file(&manifest_path).expect("remove archive manifest");
+        } else {
+            fs::write(&manifest_path, b"{not-json").expect("corrupt archive manifest");
+        }
+
+        let readiness = status(directory.path())
+            .expect("status with untrusted archive")
+            .readiness;
+        assert!(
+            readiness
+                .unclosed_archived_work_items
+                .contains(&"WI-OLD".into()),
+            "case {case} must keep the incomplete archive visible: {readiness:#?}"
+        );
+        let result = start_work_item_with_options(
+            directory.path(),
+            "WI-CANDIDATE",
+            "reject an untrusted archive manifest",
+            "do not let a missing or malformed manifest bypass scope checks",
+            &["src/main.rs".into()],
+            &start_options(),
+        );
+        let error = result.expect_err("untrusted archive manifest must fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("archived_work_item_scope_untrusted:WI-OLD"),
+            "case {case} returned an unexpected error: {error}"
+        );
+    }
+}
+
+#[test]
+fn preflight_rechecks_archived_scope_conflicts_after_contract_amendment() {
+    let directory = repository();
+    write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+
+    let work_item_id = "WI-SCOPE-AMENDMENT";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "recheck scope at preflight",
+        "an additive scope amendment must not bypass archived pending-close conflicts",
+        &["tests/**".into()],
+        &start_options(),
+    )
+    .expect("a disjoint initial scope may start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    assert_ne!(
+        preflight_work_item(directory.path(), &contract)
+            .expect("initial preflight")
+            .state,
+        DecisionState::Red
+    );
+    checkpoint_work_item(directory.path(), work_item_id)
+        .expect("checkpoint the initially disjoint Contract before amendment");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["src/**"]}),
+        "include the newly discovered source area in the existing Contract",
+    )
+    .expect("append the in-scope source path");
+
+    let amended = preflight_work_item(directory.path(), &contract).expect("amended preflight");
+    assert_eq!(amended.state, DecisionState::Red, "{amended:#?}");
+    assert!(
+        amended
+            .blockers
+            .iter()
+            .any(|blocker| { blocker == "archived_work_item_scope_conflict:WI-OLD" })
+    );
+}
+
+#[test]
+fn preflight_blocks_when_archived_scope_no_longer_matches_its_manifest() {
+    let directory = repository();
+    let (archive_path, archive_bytes) =
+        write_unclosed_archive(directory.path(), "WI-OLD", &["docs/**"]);
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCOPE-TAMPER",
+        "scope integrity",
+        "do not trust a changed archived scope",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("valid disjoint archived scope must allow start");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-SCOPE-TAMPER.contract.json");
+    assert_ne!(
+        preflight_work_item(directory.path(), &contract_path)
+            .expect("initial preflight")
+            .state,
+        DecisionState::Red
+    );
+
+    let archived_contract_path = directory
+        .path()
+        .join(".ai/work-items/archive/WI-OLD.contract.json");
+    let mut archived_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&archived_contract_path).expect("archived Contract"))
+            .expect("archived Contract JSON");
+    archived_contract["scope"] = json!(["src/**"]);
+    fs::write(
+        &archived_contract_path,
+        serde_json::to_vec_pretty(&archived_contract).expect("serialize tampered Contract"),
+    )
+    .expect("tamper archived Contract scope");
+
+    let decision = preflight_work_item(directory.path(), &contract_path)
+        .expect("untrusted archive should produce a blocking decision");
+    assert_eq!(decision.state, DecisionState::Red, "{decision:#?}");
+    assert!(
+        decision
+            .blockers
+            .iter()
+            .any(|blocker| { blocker == "archived_work_item_scope_untrusted:WI-OLD" })
+    );
+    assert_eq!(
+        fs::read(archive_path).expect("archive manifest"),
         archive_bytes
     );
 }
@@ -219,6 +623,171 @@ fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
 }
 
 #[test]
+fn contract_amendment_appends_sources_and_verification_declarations() {
+    let directory = repository();
+    let work_item_id = "WI-CONTRACT-DECLARATION-AMENDMENT";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "declare Contract sources and verification",
+        "allow a governed Work Item to complete missing descriptive Contract declarations",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+
+    let amendment = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "sourcesAppend": [{
+                "path": "docs/reference/work-item-lifecycle-closure.md",
+                "reason": "The repository workflow defines the lifecycle acceptance boundary."
+            }],
+            "verificationAppend": [{
+                "check": "cargo test --locked -p cockpit-repository --test lifecycle_entry",
+                "required": true
+            }]
+        }),
+        "record the implementation source and the focused lifecycle verification command",
+    )
+    .expect("append Contract declarations");
+    assert_eq!(amendment["stage"], "pre_checkpoint_contract_declaration");
+
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    assert_eq!(
+        contract["sources"][0],
+        json!({
+            "path": "docs/reference/work-item-lifecycle-closure.md",
+            "reason": "The repository workflow defines the lifecycle acceptance boundary."
+        })
+    );
+    assert_eq!(
+        contract["verification"][0],
+        json!({
+            "check": "cargo test --locked -p cockpit-repository --test lifecycle_entry",
+            "required": true
+        })
+    );
+}
+
+#[test]
+fn contract_amendment_rejects_malformed_declarations_without_writing() {
+    let directory = repository();
+    let work_item_id = "WI-CONTRACT-DECLARATION-ATOMICITY";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "reject malformed Contract declarations",
+        "keep rejected amendments from changing governance state",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let active = directory.path().join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let events_path = active.join(format!("{work_item_id}.events.jsonl"));
+    let original_contract = fs::read(&contract_path).expect("contract bytes");
+    let original_summary = fs::read(&summary_path).expect("summary bytes");
+    let original_events = fs::read(&events_path).ok();
+
+    let invalid_source = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "sourcesAppend": [{"path": " ", "reason": "not a source"}]
+        }),
+        "reject an empty source path",
+    )
+    .expect_err("empty source path must be rejected");
+    assert!(
+        invalid_source
+            .to_string()
+            .contains("sourcesAppend entries must not be empty")
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("contract bytes"),
+        original_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary bytes"),
+        original_summary
+    );
+    assert_eq!(fs::read(&events_path).ok(), original_events);
+
+    let invalid_verification = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "verificationAppend": [{"check": "cargo test", "unknown": true}]
+        }),
+        "reject an unsupported verification declaration field",
+    )
+    .expect_err("unknown verification fields must be rejected");
+    assert!(
+        invalid_verification
+            .to_string()
+            .contains("verificationAppend contains an invalid declaration")
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("contract bytes"),
+        original_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary bytes"),
+        original_summary
+    );
+    assert_eq!(fs::read(&events_path).ok(), original_events);
+}
+
+#[test]
+fn post_checkpoint_contract_declarations_invalidate_preflight_for_revalidation() {
+    let directory = repository();
+    let work_item_id = "WI-CONTRACT-DECLARATION-REVALIDATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "amend Contract declarations after checkpoint",
+        "revalidate repository governance after additive declaration changes",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let amendment = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "sourcesAppend": ["the repository's current Work Item workflow"],
+            "verificationAppend": ["cargo test --locked -p cockpit-repository --test lifecycle_entry"]
+        }),
+        "add the missing source and verification declarations after checkpoint",
+    )
+    .expect("revalidate additive Contract declarations");
+    assert_eq!(amendment["stage"], "contract_amendment_revalidation");
+
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    assert_eq!(summary["checkpointCount"], 1);
+    assert_eq!(summary["preflightState"], "not_run");
+}
+
+#[test]
 fn verification_preconditions_reject_missing_governance_controls_before_execution() {
     let directory = repository();
     start_work_item_with_options(
@@ -271,7 +840,10 @@ fn verification_preconditions_accept_complete_repository_bound_custom_evidence()
         work_item_id,
         "accept a complete custom evidence projection before verification",
         "do not block a valid repository-bound custom evidence class at the execution boundary",
-        &["**".into()],
+        &[
+            "crates/cockpit-repository/src/**".into(),
+            "performance-measurement.txt".into(),
+        ],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             risk: "high".into(),
@@ -615,6 +1187,244 @@ fn object_without_projection_convention_keeps_generic_preflight_behavior() {
 }
 
 #[test]
+fn ordinary_no_resource_work_item_completes_without_derived_document_projection() {
+    let directory = repository();
+    write_derived_documentation_policy(directory.path());
+    enable_tri_language_projection_convention(directory.path());
+    commit_fixture_baseline(directory.path());
+
+    let work_item_id = "WI-ORDINARY-NO-DOC-PROJECTION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "complete ordinary code work without a derived documentation successor",
+        "prove that documentation pages are derived unless the Contract selects a documentation route",
+        &["src/**/*.rs".into()],
+        &start_options(),
+    )
+    .expect("ordinary code start");
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let preflight = preflight_work_item(directory.path(), &contract).expect("preflight");
+    assert_ne!(preflight.state, DecisionState::Red, "{preflight:#?}");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let current_runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "ordinary-code-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**/*.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verification run");
+    let evidence = serde_json::to_value(&run.receipt).expect("verification receipt");
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &evidence,
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("verification evidence");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "test-human".into(),
+            authority_source: "test-authorization".into(),
+            reason: "the scoped ordinary code work is verified".into(),
+            evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+            policy_refs: vec!["documentation-policy-derived-default".into()],
+            decided_at: "2026-09-15T00:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("close without a documentation successor");
+
+    for suffix in ["", ".zh-CN", ".ja"] {
+        assert!(
+            !directory
+                .path()
+                .join(format!("docs/work-items/{work_item_id}{suffix}.md"))
+                .exists(),
+            "derived page {suffix} must not be required for ordinary code work"
+        );
+    }
+    assert_eq!(
+        fs::read_dir(directory.path().join(".ai/work-items/active"))
+            .expect("active Work Items")
+            .filter_map(Result::ok)
+            .filter(|entry| entry
+                .file_name()
+                .to_string_lossy()
+                .ends_with(".contract.json"))
+            .count(),
+        0,
+        "ordinary completion must not create a documentation successor"
+    );
+}
+
+#[test]
+fn explicit_documentation_mode_requires_projection_without_repository_shape() {
+    let directory = repository();
+    write_derived_documentation_policy(directory.path());
+    commit_fixture_baseline(directory.path());
+
+    let work_item_id = "WI-DOCS-MODE-PROJECTION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "require documentation projection by declared mode",
+        "keep the explicit documentation route governed without relying on repository layout",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    contract["mode"] = "docs".into();
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("updated contract JSON"),
+    )
+    .expect("declared documentation route");
+
+    let decision = preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(decision.blockers.iter().any(|blocker| {
+        blocker.contains("documentation_projection_missing")
+            && blocker.contains(&format!("docs/work-items/{work_item_id}.md"))
+    }));
+}
+
+#[test]
+fn release_publish_operation_requires_projection_without_repository_shape() {
+    let directory = repository();
+    write_derived_documentation_policy(directory.path());
+    commit_fixture_baseline(directory.path());
+
+    let work_item_id = "WI-RELEASE-OPERATION-PROJECTION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "require release projection by declared operation",
+        "keep the release route governed without relying on repository layout",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    contract["operation"] = "release.publish".into();
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("updated contract JSON"),
+    )
+    .expect("declared release operation");
+
+    let decision = preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    assert_eq!(decision.state, DecisionState::Red);
+    assert!(decision.blockers.iter().any(|blocker| {
+        blocker.contains("documentation_projection_missing")
+            && blocker.contains(&format!("docs/work-items/{work_item_id}.md"))
+    }));
+}
+
+#[test]
+fn requested_release_operation_requires_projection_and_conflicts_fail_closed() {
+    for (work_item_id, operation, requested_operation, expected_blocker) in [
+        (
+            "WI-REQUESTED-RELEASE-OPERATION",
+            None,
+            Some("release.publish"),
+            "documentation_projection_missing",
+        ),
+        (
+            "WI-CONFLICTING-RELEASE-OPERATIONS",
+            Some("code"),
+            Some("release.publish"),
+            "operation fields conflict",
+        ),
+    ] {
+        let directory = repository();
+        write_derived_documentation_policy(directory.path());
+        commit_fixture_baseline(directory.path());
+        start_work_item_with_options(
+            directory.path(),
+            work_item_id,
+            "enforce all declared operation aliases",
+            "do not let an operation spelling bypass its required projection",
+            &["src/**".into()],
+            &start_options(),
+        )
+        .expect("start");
+
+        let contract_path = directory.path().join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        ));
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("contract bytes"))
+                .expect("contract JSON");
+        if let Some(operation) = operation {
+            contract["operation"] = operation.into();
+        }
+        contract["requestedOperation"] = requested_operation.into();
+        fs::write(
+            &contract_path,
+            serde_json::to_vec_pretty(&contract).expect("updated contract JSON"),
+        )
+        .expect("declared operation aliases");
+
+        let result = preflight_work_item(directory.path(), &contract_path);
+        if expected_blocker == "operation fields conflict" {
+            assert!(
+                result
+                    .expect_err("conflicting operation declarations must fail closed")
+                    .to_string()
+                    .contains(expected_blocker)
+            );
+        } else {
+            let decision = result.expect("preflight");
+            assert_eq!(decision.state, DecisionState::Red, "{decision:#?}");
+            assert!(
+                decision
+                    .blockers
+                    .iter()
+                    .any(|blocker| blocker.contains(expected_blocker)),
+                "expected {expected_blocker:?} in {:#?}",
+                decision.blockers
+            );
+        }
+    }
+}
+
+#[test]
 fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions() {
     let directory = repository();
     let work_item_id = "WI-VERIFY-EMPTY-INVALIDATION";
@@ -687,7 +1497,7 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
     amend_work_item_contract(
         directory.path(),
         work_item_id,
-        &json!({"scopeAppend": ["docs/**"]}),
+        &json!({"scopeAppend": ["tests/**"]}),
         "add an authorized scope without any required verification gates",
     )
     .expect("amend Contract");

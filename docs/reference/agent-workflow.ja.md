@@ -26,16 +26,23 @@ capabilityClaims:
 - delivery 順序は Contract によって変わり、すべての Work Item に同じ順序を適用しません。
   external resource がない場合は、latest remote default base → 専用 branch/worktree →
   implement → preflight → checkpoint → verify → finish → archive → close → synchronize
-  and clean です。external resource がある場合は、latest remote default base → 専用
-  branch/worktree → implement → finalize-plan → preflight → checkpoint → verify → finish
-  → reviewed PR → merge → Contract が宣言した hosted、candidate、release、または
-  public-artifact evidence → archive → finalize → finalize-verify → close → synchronize
-  and clean です。PR review 前に feature branch を local `main` へ merge せず、merge 前に
-  branch を削除せず、provider の自動削除で finalization を迂回しません。remote step が
-  失敗したら retry checkout と identity を保持します。適用される reviewed merge、default
-  branch 同期、正確な cleanup が完了して初めて `ready_on_base` であり、detached worktree
-  は ready ではありません。外部 resource を持つ歴史的 PR は、正確な archived Contract
-  と有効な archive manifest による read-only archive route とし、通常の no-Contract
+  default branch → remove the exact branch/worktree です。削除後、
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>` を実行して
+  結果を記録してから `ready_on_base` とします。resource-bound route は次の通りです。
+  latest remote default base → 専用 branch/worktree → implement → finalize-plan → preflight
+  → checkpoint → verify → finish → reviewed PR → merge → Contract が宣言した hosted、
+  candidate、release、または public-artifact evidence → archive → synchronize default branch
+  → perform exact provider cleanup under the accepted plan → record finalize receipt
+  → finalize-verify → close → clean closure/control context。operator が merge と必要な
+  acceptance の後に exact cleanup を行い、`finalize` はその観測結果を identity-bound receipt として
+  記録します。Runtime は branch/worktree を削除しません。`finalize-verify` が close 前に receipt を検証し、
+  `close` は terminal decision を記録するだけです。
+  close 後の cleanup は closure/control context のみを指します。PR review 前に feature branch を
+  local `main` へ merge せず、merge 前に branch を削除せず、provider の自動削除で finalization
+  を迂回しません。remote step が失敗したら retry checkout と identity を保持します。適用される
+  reviewed merge、default branch 同期、正確な cleanup が完了して初めて `ready_on_base` であり、
+  detached worktree は ready ではありません。外部 resource を持つ歴史的 PR は、正確な archived
+  Contract と有効な archive manifest による read-only archive route とし、通常の no-Contract
   route に分類してはいけません。
 - active Work Item に完全な typed schema-v2 verification evidence があり、それが旧 Runtime
   で生成された場合は、明示的な `ai-cockpit archive-historical --repo <repository> --id <work-item>`
@@ -311,10 +318,11 @@ human `close` を続けて実行します。通常 branch、証明できない t
   remote、default branch、cleanup 計画を記録します。branch や worktree を削除しません。
 - `finalize` は PR、head、dirty state、protection の確認が通った後だけ、正確な
   merge 済み branch/worktree を処理します。branch の silent deletionは禁止です。
-- `finalize-verify` は同期済み default branch、関係する worktree の clean 状態、
-  正確な local/remote branch 削除を証明します。provider error、identity mismatch、
-  観測不完全は `unknown` として Work Item を recovery のため open に保ち、続行の
-  許可にはしません。
+- `finalize-verify` は identity-bound finalization receipt と repository-local
+  postcondition を検証します。provider-side state は delegated evidence に基づき、Runtime
+  が provider を直接照会するわけではありません。同期済み default branch と clean worktree
+  の readiness は別に確認します。provider error、identity mismatch、観測不完全は `unknown`
+  として Work Item を recovery のため open に保ち、続行の許可にはしません。
 - `retain` は owner、理由、scope、期限または review 条件を持つ明示的な Human
   Decision です。保持した resource を cleanup 成功に黙って変換せず、新しい `close` を
   認可しません。旧い close 済み record だけが上記の限定的な deleted reconciliation を

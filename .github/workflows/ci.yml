@@ -235,6 +235,14 @@ jobs:
             target/repository-gates.json
           if-no-files-found: error
           retention-days: 7
+      - name: upload repository gate diagnostics
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        if: always() && hashFiles('target/repository-gate-diagnostics/*.log') != ''
+        with:
+          name: repository-gate-diagnostics
+          path: target/repository-gate-diagnostics/*.log
+          if-no-files-found: error
+          retention-days: 7
       - name: Upload Rust Contract gate receipt
         if: always() && steps.quality_route.outputs.contract_path != ''
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a

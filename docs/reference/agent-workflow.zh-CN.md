@@ -23,17 +23,23 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 从仓库发现的远端 default branch 最新提交开始工作，并在 Work Item
   Contract 中记录 remote、default branch 和 base revision。
 - 交付顺序取决于 Contract，而不是所有 Work Item 共用一条顺序。没有外部资源时：
-  远端 default base 最新提交 → 专用 branch/worktree → 实现 → preflight →
-  checkpoint → verify → finish → archive → close → 同步并清理。有外部资源时：
-  远端 default base 最新提交 → 专用 branch/worktree → 实现 → finalize-plan →
-  preflight → checkpoint → verify → finish → reviewed PR → merge → Contract 声明的
-  hosted、candidate、release 或 public-artifact evidence → archive → finalize →
-  finalize-verify → close → 同步并清理。不得在 PR review 前把 feature branch 合并到
-  本地 `main`，不得提前删除 branch，也不得让 provider 自动删除 branch 以绕过
-  finalization。远端步骤失败时必须保留 retry checkout 与 identity；只有在适用的
-  reviewed merge、default branch 同步和精确清理完成后才是 `ready_on_base`，detached
-  worktree 不算 ready。历史上有外部资源的 PR 只能通过精确 archived Contract 与有效
-  archive manifest 走只读归档路线，不能伪装成普通无 Contract 路线。
+  远端 default base 最新提交 → 专用 branch/worktree → 实现 → preflight → checkpoint
+  → verify → finish → archive → close → synchronize default branch → remove the exact
+  branch/worktree。删除后运行
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
+  记录清理结果，然后才能声明 `ready_on_base`。有外部资源时按下列顺序：远端 default base 最新提交 → 专用
+  branch/worktree → 实现 → finalize-plan → preflight → checkpoint → verify → finish
+  → reviewed PR → merge → Contract 声明的 hosted、candidate、release 或 public-artifact
+  evidence → archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+  → record finalize receipt → finalize-verify → close → clean closure/control context。
+  operator 在 merge 和必要验收后执行精确 cleanup；`finalize` 只记录绑定身份的实际结果，Runtime 不删除
+  branch/worktree；`finalize-verify` 在 close 前校验 receipt，`close` 只记录终态决定。close 后的 cleanup
+  仅指 closure/control context。不得在 PR review 前把
+  feature branch 合并到本地 `main`，不得在 merge 前删除 branch，也不得让 provider 自动删除
+  branch 以绕过 finalization。远端步骤失败时必须保留 retry checkout 与 identity；只有在适用的
+  reviewed merge、default branch 同步和精确清理完成后才是 `ready_on_base`，detached worktree
+  不算 ready。历史上有外部资源的 PR 只能通过精确 archived Contract 与有效 archive manifest
+  走只读归档路线，不能伪装成普通无 Contract 路线。
 - 如果 active Work Item 的完整 typed schema-v2 verification evidence 来自旧 Runtime，
   使用显式的 `ai-cockpit archive-historical --repo <repository> --id <work-item>` 兼容命令。
   它只校验旧 receipt 以及 repository、Contract、源码绑定，不重跑源码验证，也不改写 evidence。
@@ -272,8 +278,9 @@ Work Item，也不会豁免清理。发布后的 binary 必须继续执行 `fina
   default branch 和清理计划；绝不删除 branch 或 worktree。
 - `finalize` 只有在 PR、head、dirty 状态和保护检查通过后，才能处理准确的已合并
   branch/worktree。禁止静默删除 branch。
-- `finalize-verify` 证明 default branch 已同步、相关 worktree 干净，并且准确的本地/远程
-  branch 已删除。provider 错误、identity 不匹配或观察不完整都必须是 `unknown`，保持
+- `finalize-verify` 校验绑定 identity 的 finalization receipt 和仓库本地后置条件。provider
+  侧状态来自委托证据；Runtime 不会直接查询 provider。默认分支同步和 worktree 干净状态由
+  readiness 单独检查。provider 错误、identity 不匹配或观察不完整都必须是 `unknown`，保持
   Work Item 打开以便恢复，不能作为继续执行的许可。
 - `retain` 必须是明确的人类决定，包含 owner、理由、范围和过期/复核条件。保留资源不能
   静默变成清理成功，也不能授权新的 `close`；旧的已关闭记录只能按上文追加有限的

@@ -14,19 +14,27 @@ lastVerifiedBy: WI-512-reference-docs-batch-33
 [English](work-item-lifecycle-closure.md) · [简体中文](work-item-lifecycle-closure.zh-CN.md) · [日本語](work-item-lifecycle-closure.ja.md)
 
 关闭是 `start → preflight → checkpoint → verify → finish → archive` 之后的最终交接，
-不是删除分支的捷径。Runtime 必须证明经过评审的 PR、精确 Work Item head、归档 Contract/
-Summary/evidence、已同步 base、干净 worktree 和远端分支不存在。
+不是删除分支的捷径。经过评审的 PR、精确 Work Item head、归档 Contract/Summary/evidence、
+provider 侧清理和已同步 base 都必须有绑定 identity 的证据。Runtime 校验 receipt 与本地后置条件，
+但不会执行 provider 删除，也不会直接查询 provider 状态。`ready_on_base` 还要求同步基线和干净
+worktree 的 readiness 检查。
 
 ## 正常路径
 
 ```text
-verify → finish/archive → push → reviewed PR 与 hosted checks → merge
-→ finalize → finalize-verify → close → synchronize and clean
+resource-bound:
+verify → finish → push → reviewed PR 与 hosted checks → merge
+→ declared acceptance evidence → archive → synchronize default branch
+→ perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close → clean closure/control context
 ```
 
-关闭会按顺序验证 PR 状态、branch/head identity、base fast-forward、archive/decision
-receipt、干净 worktree 和远端分支不存在，之后才删除精确的本地 Work Item 分支。不能让
-provider 自动删除分支以绕过证明。
+合并和必要验收后，由有权操作的人按已接受的计划执行精确 provider cleanup。Runtime 不删除
+branch/worktree：`finalize` 只记录观察到的绑定 identity receipt，`finalize-verify` 在 close 前校验结果。
+保留中的 resource 或缺失 receipt 不能授权新的 resource-bound close；只有验证成功后才能运行
+repository-bound close。`close` 校验并记录终态人工决定，不删除 Work Item branch/worktree。不能让
+provider 自动删除分支以绕过证明。按 Contract 要求在资源收尾前同步默认分支。close 后的 cleanup 仅限
+closure/control context 和 readiness 检查。
 
 `ready_on_base` 表示调用 checkout 干净且位于已同步默认分支；
 `closed_but_current_worktree_detached` 表示已关闭但 base 由另一个已验证 worktree 持有，

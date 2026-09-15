@@ -161,7 +161,7 @@ fn new_work_item_reports_facts_and_keeps_human_decisions_empty() {
 }
 
 #[test]
-fn new_work_item_fails_closed_when_an_archived_item_is_not_closed() {
+fn new_work_item_keeps_unscoped_pending_close_visible_without_blocking_scaffold() {
     let root = repository();
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
@@ -178,16 +178,29 @@ fn new_work_item_fails_closed_when_an_archived_item_is_not_closed() {
         .args(["--id", "WI-NEW-BLOCKED", "--mode", "code"])
         .output()
         .expect("work item scaffold");
-    assert!(!output.status.success());
-    let stderr = String::from_utf8_lossy(&output.stderr);
     assert!(
-        stderr.contains("archived Work Items pending close"),
-        "{stderr}"
+        output.status.success(),
+        "unscoped historical debt cannot block a new scaffold: {}",
+        String::from_utf8_lossy(&output.stderr)
     );
     assert!(
-        !root
-            .join(".ai/work-items/active/WI-NEW-BLOCKED.contract.json")
-            .exists()
+        root.join(".ai/work-items/active/WI-NEW-BLOCKED.contract.json")
+            .is_file()
+    );
+    let status = Command::new(binary)
+        .args(["status", "--repo"])
+        .arg(&root)
+        .output()
+        .expect("status");
+    assert!(status.status.success());
+    let status: serde_json::Value = serde_json::from_slice(&status.stdout).expect("status JSON");
+    assert!(
+        status["readiness"]["unclosedArchivedWorkItems"]
+            .as_array()
+            .expect("pending close list")
+            .iter()
+            .any(|item| item == "WI-ARCHIVED-PENDING"),
+        "pending historical close remains visible: {status}"
     );
     fs::remove_dir_all(root).expect("cleanup");
 }

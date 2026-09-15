@@ -79,7 +79,7 @@ fn start(root: &Path, id: &str) {
         id,
         "select the project verification command",
         "keep the declared check executable",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["verification command is executable".into()],

@@ -115,6 +115,7 @@ spec = importlib.util.spec_from_file_location(
 )
 module = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
+sys.path.insert(0, str(checker_path.parent))
 spec.loader.exec_module(module)
 rows, errors = module.parity_statuses(root)
 assert not errors, errors
@@ -209,6 +210,100 @@ if python3 "$checker" --repo "$fixture" >"$tmp/conditional.out" 2>"$tmp/conditio
 fi
 grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/conditional.err"
 
+# A repository-wide policy must not retroactively reinterpret a closed
+# Contract created before the policy's effective boundary. It must continue
+# enforcing the same conditional-parity invariant for Contracts at the
+# boundary and later.
+write_projection_policy() {
+  local target=$1
+  mkdir -p "$target/.ai/project"
+  cat > "$target/.ai/project/documentation-policy.json" <<EOF
+{
+  "schemaVersion": 2,
+  "repositoryId": "$repository_id",
+  "defaultProjection": "derived",
+  "effectiveFromContractCreatedAt": "2026-09-15T00:43:38Z",
+  "requiredModes": [],
+  "requiredOperations": [],
+  "preserveExistingRegistrations": true
+}
+EOF
+  cat > "$target/.ai/project/capabilities.json" <<EOF
+{"repositoryId":"$repository_id","operationMappings":{}}
+EOF
+}
+
+# Keep the language-neutral Python selector aligned with Rust's conservative
+# scope relation: an ordinary source glob is disjoint from generated docs,
+# while an explicit Work Item docs scope still selects the projection.
+python3 - "$root/tests/docs" <<'PY'
+import sys
+
+sys.path.insert(0, sys.argv[1])
+from work_item_projection_policy import ProjectionPolicy, requires_documentation_projection
+
+policy = ProjectionPolicy(
+    repository_id="sha256:fixture",
+    default_projection="derived",
+    required_modes=("docs", "documentation", "release"),
+    required_operations=("documentation.modify", "release.publish"),
+    preserve_existing_registrations=False,
+)
+ordinary_code = {"mode": "code", "scope": ["src/**/*.rs"]}
+documentation = {"mode": "code", "scope": ["docs/work-items/**"]}
+assert not requires_documentation_projection(
+    ordinary_code,
+    "WI-1000-source-glob",
+    policy,
+    has_existing_registration=False,
+), "ordinary Rust source glob must not require generated documentation"
+assert requires_documentation_projection(
+    documentation,
+    "WI-1001-docs-glob",
+    policy,
+    has_existing_registration=False,
+), "explicit documentation scope must retain the projection requirement"
+PY
+
+historical_conditional="$tmp/historical-conditional"
+cp -R "$fixture" "$historical_conditional"
+write_projection_policy "$historical_conditional"
+python3 - "$historical_conditional" "$work_item" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = sys.argv[2]
+path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["createdAt"] = "2026-09-15T00:43:37Z"
+path.write_text(json.dumps(contract) + "\n", encoding="utf-8")
+PY
+python3 "$checker" --repo "$historical_conditional"
+
+current_conditional="$tmp/current-conditional"
+cp -R "$fixture" "$current_conditional"
+write_projection_policy "$current_conditional"
+python3 - "$current_conditional" "$work_item" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = sys.argv[2]
+path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(path.read_text(encoding="utf-8"))
+contract["createdAt"] = "2026-09-15T00:43:38Z"
+path.write_text(json.dumps(contract) + "\n", encoding="utf-8")
+PY
+if python3 "$checker" --repo "$current_conditional" \
+  >"$tmp/current-conditional.out" 2>"$tmp/current-conditional.err"; then
+  echo 'status consistency accepted current conditional parity for a closed Work Item' >&2
+  exit 1
+fi
+grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/current-conditional.err"
+
 # A bounded documentation-promotion Contract is the one intentional terminal
 # exception: its own conditional row remains a pre-archive projection after
 # close and must not create a recursive successor.
@@ -287,6 +382,237 @@ for suffix, status in (("", "Recovered"), (".zh-CN", "已恢复"), (".ja", "Reco
     parity.write_text(text, encoding="utf-8")
 PY
 python3 "$checker" --repo "$digest_recovery"
+
+# A conditional predecessor row is terminal only when a digest-bound
+# supersession points to a fully archived successor, its confirmed close, and
+# a passing verification receipt bound through the successor Summary.
+terminal_supersede="$tmp/terminal-supersede"
+cp -R "$fixture" "$terminal_supersede"
+python3 - "$terminal_supersede" <<'PY'
+import hashlib
+import json
+from pathlib import Path
+import sys
+
+root = Path(sys.argv[1])
+repository_id = "sha256:" + "e" * 64
+predecessor = "WI-999-status-drift-fixture"
+successor = "WI-1000-terminal-successor"
+snapshot = "sha256:" + "a" * 64
+archive_dir = root / ".ai/work-items/archive"
+decision_dir = root / ".ai/decisions"
+evidence_dir = root / ".ai/evidence"
+evidence_dir.mkdir(parents=True, exist_ok=True)
+
+def raw_digest(path: Path) -> str:
+    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+def write_json(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+def canonical_digest(value: object) -> str:
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+
+predecessor_contract_path = archive_dir / f"{predecessor}.contract.json"
+predecessor_contract = json.loads(predecessor_contract_path.read_text(encoding="utf-8"))
+predecessor_contract["scope"] = ["crates/example/src/lib.rs"]
+write_json(predecessor_contract_path, predecessor_contract)
+predecessor_summary_path = archive_dir / f"{predecessor}.summary.json"
+predecessor_events_path = archive_dir / f"{predecessor}.events.jsonl"
+predecessor_outcome_path = archive_dir / f"{predecessor}.outcome.json"
+write_json(predecessor_summary_path, {"workItemId": predecessor})
+predecessor_events_path.write_text('{"workItemId":"' + predecessor + '"}\n', encoding="utf-8")
+write_json(predecessor_outcome_path, {"workItemId": predecessor, "state": "recovered"})
+
+for path in decision_dir.glob(f"{predecessor}.recovery*.json"):
+    path.unlink()
+predecessor_archive = archive_dir / f"{predecessor}.archive.json"
+predecessor_files = {
+    "contractPath": f".ai/work-items/archive/{predecessor}.contract.json",
+    "contractDigest": raw_digest(predecessor_contract_path),
+    "summaryPath": f".ai/work-items/archive/{predecessor}.summary.json",
+    "summaryDigest": raw_digest(predecessor_summary_path),
+    "eventsPath": f".ai/work-items/archive/{predecessor}.events.jsonl",
+    "eventsDigest": raw_digest(predecessor_events_path),
+    "outcomePath": f".ai/work-items/archive/{predecessor}.outcome.json",
+    "outcomeDigest": raw_digest(predecessor_outcome_path),
+}
+write_json(predecessor_archive, {
+    "workItemId": predecessor,
+    "state": "archived",
+    "files": predecessor_files,
+})
+
+verification_path = f".ai/evidence/{successor}.verification.json"
+close_path = f".ai/decisions/{successor}.close.json"
+recovery = {
+    "schemaVersion": 1,
+    "workItemId": predecessor,
+    "predecessorWorkItemId": predecessor,
+    "successorWorkItemId": successor,
+    "repositoryId": repository_id,
+    "decision": "supersede",
+    "reason": "preserve immutable predecessor and bind terminal successor",
+    "predecessorArchiveManifestDigest": raw_digest(predecessor_archive),
+    "predecessorContractDigest": canonical_digest(predecessor_contract),
+    "predecessorSummaryDigest": canonical_digest(json.loads(predecessor_summary_path.read_text(encoding="utf-8"))),
+    "predecessorEventsDigest": predecessor_files["eventsDigest"],
+    "predecessorOutcomeDigest": canonical_digest(json.loads(predecessor_outcome_path.read_text(encoding="utf-8"))),
+    "evidenceRefs": [
+        f".ai/work-items/archive/{predecessor}.archive.json",
+        close_path,
+        verification_path,
+    ],
+}
+recovery_name = f"{predecessor}.recovery.{canonical_digest(recovery).removeprefix('sha256:')}.json"
+recovery_relative = f".ai/decisions/{recovery_name}"
+recovery_path = decision_dir / recovery_name
+
+contract = {
+    "workItemId": successor,
+    "repositoryId": repository_id,
+    "predecessorWorkItemId": predecessor,
+    "recoveryDecisionPath": recovery_relative,
+    "baseRevision": "1" * 40,
+}
+contract_path = archive_dir / f"{successor}.contract.json"
+write_json(contract_path, contract)
+contract_digest = raw_digest(contract_path)
+summary = {
+    "workItemId": successor,
+    "repositoryId": repository_id,
+    "checkpointContractDigest": contract_digest,
+    "preflightContractDigest": contract_digest,
+    "checkpointRepositorySnapshotDigest": snapshot,
+    "preflightRepositorySnapshotDigest": snapshot,
+}
+summary_path = archive_dir / f"{successor}.summary.json"
+write_json(summary_path, summary)
+verification = {
+    "workItemId": successor,
+    "repositoryId": repository_id,
+    "contractDigest": contract_digest,
+    "repositorySnapshotDigest": snapshot,
+    "passed": True,
+    "receipt": {
+        "passed": True,
+        "repositoryId": repository_id,
+        "workItemId": successor,
+        "planReceipt": {
+            "passed": True,
+            "repositoryId": repository_id,
+            "workItemId": successor,
+            "repositorySnapshotDigest": snapshot,
+        },
+    },
+}
+verification["receiptDigest"] = canonical_digest(verification["receipt"])
+write_json(root / verification_path, verification)
+outcome_path = archive_dir / f"{successor}.outcome.json"
+write_json(outcome_path, {"workItemId": successor, "state": "finish_ready"})
+archive_manifest = {
+    "workItemId": successor,
+    "state": "archived",
+    "files": {
+        "contractPath": f".ai/work-items/archive/{successor}.contract.json",
+        "contractDigest": contract_digest,
+        "summaryPath": f".ai/work-items/archive/{successor}.summary.json",
+        "summaryDigest": raw_digest(summary_path),
+        "outcomePath": f".ai/work-items/archive/{successor}.outcome.json",
+        "outcomeDigest": raw_digest(outcome_path),
+    },
+}
+write_json(archive_dir / f"{successor}.archive.json", archive_manifest)
+
+close = {
+    "workItemId": successor,
+    "repositoryId": repository_id,
+    "state": "closed",
+    "decisionState": "confirmed",
+    "humanDecision": "approved",
+    "structuredDecision": {
+        "decision": "approved",
+        "actor": "fixture-human",
+        "authoritySource": "fixture-policy",
+        "reason": "terminal successor evidence",
+        "decidedAt": "2026-09-15T00:00:00Z",
+        "evidenceRefs": [verification_path],
+    },
+    "finalReport": {
+        "status": "verified",
+        "humanStatusColor": "green",
+        "bindings": {
+            "workItemId": successor,
+            "repositoryId": repository_id,
+            "repositorySnapshotDigest": snapshot,
+            "evidenceRefs": [verification_path],
+        }
+    },
+}
+close["finalReportDigest"] = canonical_digest(close["finalReport"])
+write_json(decision_dir / f"{successor}.close.json", close)
+
+write_json(recovery_path, recovery)
+
+for suffix, status in (
+    ("", "In progress → Implemented after verified close"),
+    (".zh-CN", "进行中 → 验证关闭后已实现"),
+    (".ja", "In progress → verified close 後 Implemented"),
+):
+    path = root / "docs/reference" / f"reference-parity{suffix}.md"
+    lines = path.read_text(encoding="utf-8").splitlines()
+    for index, line in enumerate(lines):
+        if line.startswith("| WI-999 —"):
+            cells = [cell.strip() for cell in line.split("|")[1:-1]]
+            cells[1] = status
+            lines[index] = "| " + " | ".join(cells) + " |"
+    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+PY
+python3 "$checker" --repo "$terminal_supersede"
+
+expect_conditional_failure() {
+  local name=$1
+  if python3 "$checker" --repo "$tmp/$name" >"$tmp/$name.out" 2>"$tmp/$name.err"; then
+    echo "status consistency accepted invalid terminal supersede: $name" >&2
+    exit 1
+  fi
+  grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/$name.err"
+}
+
+cp -R "$terminal_supersede" "$tmp/incomplete-successor"
+rm "$tmp/incomplete-successor/.ai/evidence/WI-1000-terminal-successor.verification.json"
+expect_conditional_failure incomplete-successor
+
+cp -R "$terminal_supersede" "$tmp/tampered-supersede-digest"
+python3 - "$tmp/tampered-supersede-digest" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+decisions = root / ".ai/decisions"
+path = next(decisions.glob("WI-999-status-drift-fixture.recovery.*.json"))
+value = json.loads(path.read_text(encoding="utf-8"))
+value["reason"] = "edited without changing the immutable digest filename"
+path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+expect_conditional_failure tampered-supersede-digest
+
+cp -R "$terminal_supersede" "$tmp/foreign-successor-close"
+python3 - "$tmp/foreign-successor-close" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+path = root / ".ai/decisions/WI-1000-terminal-successor.close.json"
+value = json.loads(path.read_text(encoding="utf-8"))
+value["repositoryId"] = "sha256:" + "f" * 64
+path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
+expect_conditional_failure foreign-successor-close
 
 python3 "$checker" --repo "$root"
 

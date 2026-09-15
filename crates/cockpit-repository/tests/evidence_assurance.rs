@@ -46,7 +46,7 @@ fn start(directory: &tempfile::TempDir, id: &str) {
         id,
         "evidence assurance",
         "validate typed verification evidence",
-        &["**".into()],
+        &[".ai/**".into(), "post-archive-merge.txt".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             ..WorkItemStartOptions::default()
@@ -83,7 +83,7 @@ fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContex
             node_id: "project-command-0".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec![".ai/**".into(), "post-archive-merge.txt".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current.runtime_digest.to_string(),

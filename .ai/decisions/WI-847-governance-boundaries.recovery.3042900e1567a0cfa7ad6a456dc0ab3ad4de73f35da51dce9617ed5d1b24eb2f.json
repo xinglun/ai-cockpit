@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-15T17:00:52Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "tests/workflow/resource_finalization_policy_test.sh",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json",
+    ".ai/decisions/WI-847-governance-boundaries.recovery.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
+  "predecessorEventsDigest": "sha256:6d3b9db165be8b3ce532618344565f7955ce797af5e18b6223494093eeee5ae3",
+  "predecessorOutcomeDigest": "sha256:996b8da7ca13fe10b4db40172dae3aac83ef873c5baaba16dbd952d7318bb1cb",
+  "predecessorSummaryDigest": "sha256:a0c82537373a6faaa4533e58a9847b0443e1b53a9064fa279f597e9370af2202",
+  "predecessorWorkItemId": "WI-847-governance-boundaries",
+  "reason": "Continue the existing in-scope WI-847 after final review found that the resource-bound lifecycle gate missed after-close contradictions across long gaps. The gate and regression fixtures are repaired, and the focused tri-language test passes. Preserve prior evidence and this rejected zero-process plan attempt; retry only to refresh the current-snapshot preflight, checkpoint, and affected verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run preflight against the current snapshot, checkpoint, verify the affected Contract gate and current hosted PR checks, then finish only with fresh identity-bound evidence.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-847-governance-boundaries"
+}

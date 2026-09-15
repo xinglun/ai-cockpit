@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-15T16:17:36Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-847-governance-boundaries.verification.json",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.4297a86c3c14fdf2a4ec04de3e73ce06c6db3cacc03865b972a0fb8fb465013d.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
+  "predecessorEventsDigest": "sha256:3f38bfd11b256d9fdb81c9944614441d494903bdc8bacc769f34f7352e935d26",
+  "predecessorOutcomeDigest": "sha256:68ab9527ae52222ee77271457f5745b7a138d00f8197c2c9df8fbd310a9ffd2a",
+  "predecessorSummaryDigest": "sha256:f35b79bbeca084e2f8c47732170a3fe0dd3da6c4876e22e004b40e3c225e10ce",
+  "predecessorWorkItemId": "WI-847-governance-boundaries",
+  "reason": "Continue the already-authorized, in-scope WI-847 after review identified two regressions covered by its existing acceptance criteria. Preserve prior evidence and retry only to restore the legal checkpointed state for fresh verification of the current snapshot.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh current-snapshot preflight, checkpoint if required, all Contract verification commands, and hosted CI. Do not claim completion until the required gates pass.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-847-governance-boundaries"
+}

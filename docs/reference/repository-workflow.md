@@ -66,8 +66,9 @@ latest remote default base → dedicated branch/worktree → implement
 → finalize-plan → preflight → checkpoint → verify → finish
 → reviewed PR → merge
 → any Contract-declared hosted, candidate, release, or public-artifact evidence
-→ archive → finalize → finalize-verify → close → synchronize default branch
-→ remove exact branch/worktree
+→ archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close
+→ clean closure/control context
 
 no external resource:
 latest remote default base → dedicated branch/worktree → implement
@@ -77,7 +78,17 @@ latest remote default base → dedicated branch/worktree → implement
 ```
 
 Do not delete a resource-bound branch before its PR is merged, and do not let
-provider-side auto-delete bypass finalization. Every new Work Item requires a
+provider-side auto-delete bypass finalization. For resource-bound work, an
+authorized operator performs the exact planned provider cleanup after merge
+and required acceptance; `finalize` records that observed identity-bound
+receipt, and the Runtime does not delete branches or worktrees.
+`finalize-verify` validates the receipt before `close`, which records the
+terminal decision without deleting resources.
+After `close`, clean only the closure/control context. The no-resource route
+closes first, then synchronizes the default branch and removes its exact
+implementation branch/worktree. Then record the result with
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`.
+To declare `ready_on_base`, require a
 structured human decision, archived evidence, a fast-forward-synchronized
 default branch, and clean worktrees. `finish` establishes source-verification
 readiness; when the Contract declares later hosted, candidate, release, or

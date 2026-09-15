@@ -26,16 +26,27 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   Contract.
 - Delivery order is conditional on the Contract. Without an external resource:
   latest remote default base → dedicated branch/worktree → implement →
-  preflight → checkpoint → verify → finish → archive → close → synchronize and
-  clean. With an external resource: latest remote default base → dedicated
-  branch/worktree → implement → finalize-plan → preflight → checkpoint → verify
-  → finish → reviewed PR → merge → declared hosted, candidate, release, or
-  public-artifact evidence → archive → finalize → finalize-verify → close →
-  synchronize and clean. Never pre-merge a feature branch into local `main`,
-  delete its branch before merge, or let a provider auto-delete it to bypass
-  finalization. A failed remote step preserves the retry checkout and
-  identity; `ready_on_base` is true only after reviewed merge when applicable,
-  synchronized default branch, and exact cleanup, not for a detached worktree.
+  preflight → checkpoint → verify → finish → archive → close → synchronize
+  default branch → remove the exact branch/worktree. After that exact
+  no-resource cleanup, record its result with
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`.
+  With an external resource:
+  latest remote default base → dedicated branch/worktree → implement →
+  finalize-plan → preflight → checkpoint → verify → finish → reviewed PR →
+  merge → declared hosted, candidate, release, or public-artifact evidence →
+  archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+  → record finalize receipt → finalize-verify → close
+  → clean the closure/control context. In the resource-bound route, an
+  authorized operator performs declared cleanup of the exact provider-bound
+  branch/worktree after merge and required acceptance; `finalize` records the
+  observed identity-bound result and `finalize-verify` validates it before `close`;
+  `close` records the terminal decision and does not delete those resources.
+  Cleanup after `close` refers only to the closure/control context. Never
+  pre-merge a feature branch into local `main`, delete its branch before merge,
+  or let a provider auto-delete it to bypass finalization. A failed remote
+  step preserves the retry checkout and identity; `ready_on_base` is true only
+  after reviewed merge when applicable, synchronized default branch, and exact
+  cleanup, not for a detached worktree.
   A historical resource-bound PR is a read-only archive route requiring its
   exact archived Contract and a valid archive manifest; it is not an ordinary
   no-Contract route.
@@ -345,9 +356,13 @@ finalize-plan → finalize → finalize-verify → close
 ```
 
 These are Runtime commands. They require an explicit `--repo` and a typed,
-identity-bound context/receipt; they do not delete resources implicitly. A
-Work Item may be archived only after verification, and it may be closed only
-after `finalize-verify` accepts an identity-bound `Deleted` receipt. A
+identity-bound context/receipt; an authorized operator performs the exact
+provider cleanup under the accepted plan, then `finalize` records the observed
+identity-bound receipt. The Runtime does not delete resources. `finalize-verify`
+validates that receipt. A Work Item may be archived only after verification,
+and a new resource-bound Work Item may be closed only after `finalize-verify`
+accepts an identity-bound `Deleted` receipt. `close` records the terminal
+decision and does not delete the Work Item branch or worktree. A
 `Retained` receipt is an intermediate merge observation or an explicit legacy
 recovery fact; it never authorizes a new close. Archived verification evidence
 remains immutable historical truth: after a Runtime upgrade it is projected as
@@ -399,10 +414,12 @@ ordinary branches, unproven tags, and malformed receipts remain fail-closed.
 - `finalize` may act only on the exact merged branch/worktree after the PR,
   head, dirty-state, and protection checks pass. Silent branch deletion is
   forbidden.
-- `finalize-verify` proves the synchronized default branch, clean relevant
-  worktrees, and exact local/remote branch removal. A provider error, identity
-  mismatch, or incomplete observation is `unknown` and keeps the Work Item
-  open for recovery; it is not permission to continue.
+- `finalize-verify` validates the identity-bound finalization receipt and
+  repository-local postconditions. Provider-side state comes from delegated
+  evidence; the Runtime does not directly query the provider. Synchronized
+  default-branch and clean-worktree readiness are checked separately. A
+  provider error, identity mismatch, or incomplete observation is `unknown`
+  and keeps the Work Item open for recovery; it is not permission to continue.
 - `retain` is an explicit human decision, with owner, reason, scope, and an
   expiry/review condition. Retained resources never silently become cleanup
   success and cannot authorize a new `close`; an older closed record may only

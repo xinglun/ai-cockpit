@@ -112,7 +112,7 @@ fn finish_command_requires_finalize_plan_for_bound_resource_and_preserves_active
             "--goal",
             "preserve active files when archive is premature",
             "--scope",
-            "**",
+            ".ai/**",
             "--authority",
             "authorized",
         ])
@@ -416,7 +416,7 @@ fn current_cli_rejects_foreign_runtime_verification_evidence() {
             "--goal",
             "reject foreign evidence",
             "--scope",
-            "**",
+            ".ai/**",
             "--authority",
             "authorized",
         ])
@@ -522,7 +522,7 @@ fn archive_failure_keeps_active_files_for_recovery() {
             "--goal",
             "test",
             "--scope",
-            "**",
+            ".ai/**",
             "--authority",
             "authorized",
         ])

@@ -14,19 +14,29 @@ lastVerifiedBy: WI-512-reference-docs-batch-33
 [English](work-item-lifecycle-closure.md) · [简体中文](work-item-lifecycle-closure.zh-CN.md) · [日本語](work-item-lifecycle-closure.ja.md)
 
 クローズは `start → preflight → checkpoint → verify → finish → archive` 後の最終 handoff であり、
-branch deletion の近道ではありません。Runtime は reviewed PR、正確な Work Item head、archived
-Contract/Summary/evidence、同期済み base、clean worktree、remote branch 不在をすべて検証します。
+branch deletion の近道ではありません。reviewed PR、正確な Work Item head、archived
+Contract/Summary/evidence、provider-side cleanup、同期済み base は identity-bound evidence で
+裏付けます。Runtime は receipt と local postcondition を検証しますが、provider deletion を実行したり
+provider state を直接照会したりはしません。`ready_on_base` には同期済み base と clean-worktree の
+readiness check も必要です。
 
 ## 通常の route
 
 ```text
-verify → finish/archive → push → reviewed PR と hosted checks → merge
-→ finalize → finalize-verify → close → synchronize and clean
+resource-bound:
+verify → finish → push → reviewed PR と hosted checks → merge
+→ declared acceptance evidence → archive → synchronize default branch
+→ perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close → clean closure/control context
 ```
 
-close は PR state、branch/head identity、base fast-forward、archive/decision receipt、clean
-worktree、remote branch 不在を順に検証し、その後に対象の local Work Item branch だけを削除します。
-provider の auto-delete でこの証明を迂回してはいけません。
+merge と必要な acceptance の後、authorized operator が accepted plan に従って exact cleanup を実行します。
+Runtime は branch/worktree を削除しません。`finalize` は観測済み identity-bound receipt を記録し、
+`finalize-verify` は close 前にその結果を検証します。retained resource や receipt の欠落は
+resource-bound の新規 close を認可しません。repository-bound close は検証成功後にだけ実行します。
+`close` は terminal human decision を検証・記録し、Work Item branch/worktree は削除しません。
+provider の auto-delete でこの証明を迂回してはいけません。Contract が要求する default branch 同期を
+resource finalization 前に行います。close 後の cleanup は closure/control context と readiness check に限定します。
 
 `ready_on_base` は呼び出し元 checkout が clean で同期済み default branch 上にある状態です。
 `closed_but_current_worktree_detached` は close 済みだが別の検証済み worktree が base を所有する

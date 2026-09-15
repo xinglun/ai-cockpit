@@ -9,6 +9,15 @@ cleanup() {
 }
 trap cleanup EXIT
 
+python3 - "$root/.ai/project/documentation-policy.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+policy = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+assert "release" in policy["requiredModes"], policy["requiredModes"]
+PY
+
 fixture="$tmp/repository"
 python3 - "$fixture" <<'PY'
 import hashlib
@@ -35,6 +44,7 @@ def write_json(path: Path, value: object) -> None:
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 contract = {
+    "createdAt": "2026-09-16T00:00:00Z",
     "baseRevision": "a" * 40,
     "repositoryId": repository_id,
     "resourceContext": {
@@ -867,5 +877,264 @@ expect_no_write_failure symlink-evidence "$tmp/symlink-evidence" 'must be a regu
 cp -R "$tmp/unpromoted" "$tmp/malformed-close"
 printf '{"state":' > "$tmp/malformed-close/.ai/decisions/WI-999-closed-docs-fixture.close.json"
 expect_no_write_failure malformed-close "$tmp/malformed-close" 'malformed JSON'
+
+# Ordinary implementation Work Items do not acquire six derived-document
+# obligations merely because they are closed.  Explicit invocation still
+# validates the requested projection, and a docs-mode Contract remains
+# mandatory even when one language is missing.
+cp -R "$tmp/unpromoted" "$tmp/ordinary-no-docs"
+python3 - "$tmp/ordinary-no-docs" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+repository_id = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))["repositoryId"]
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["mode"] = "implementation"
+contract["operation"] = "implementation.modify"
+contract["scope"] = ["crates/example/src/lib.rs"]
+# Keep the fixture's terminal evidence valid after changing the archived
+# Contract.  This case models a no-resource implementation Work Item, so it
+# has no provider-finalization receipts to preserve.
+contract["resourceContext"] = None
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+close_path = root / ".ai/decisions" / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+for field in (
+    "resourceFinalizationSequence",
+    "resourceFinalizationHeadPath",
+    "resourceFinalizationHeadDigest",
+):
+    close.pop(field, None)
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+for path in (root / ".ai/decisions").glob(f"{work_item}.finalize*.json"):
+    path.unlink()
+for path in (root / "docs/work-items").glob(f"{work_item}*.md"):
+    path.unlink()
+for path in (root / "docs/reference").glob("reference-parity*.md"):
+    path.write_text("", encoding="utf-8")
+(root / ".ai/project").mkdir(parents=True, exist_ok=True)
+(root / ".ai/project/documentation-policy.json").write_text(
+    json.dumps(
+        {
+            "schemaVersion": 2,
+            "repositoryId": repository_id,
+            "defaultProjection": "derived",
+            "effectiveFromContractCreatedAt": "2026-09-15T00:43:38Z",
+            "requiredModes": ["docs", "documentation", "release"],
+            "requiredOperations": ["documentation.modify", "release.publish"],
+            "preserveExistingRegistrations": True,
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+(root / ".ai/project/capabilities.json").write_text(
+    json.dumps(
+        {
+            "repositoryId": repository_id,
+            "operationMappings": {
+                "documentation.modify": ["documentation"],
+                "implementation.modify": ["rust_implementation"],
+                "release.publish": ["release_supply_chain"],
+            },
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+python3 "$helper" --repo "$tmp/ordinary-no-docs" --check-all >"$tmp/ordinary-no-docs.out"
+python3 - "$tmp/ordinary-no-docs.out" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "current", report
+assert report["checked"] == 0, report
+assert report["excludedBeforePolicyEffectiveAt"] == 0, report
+PY
+if python3 "$helper" --repo "$tmp/ordinary-no-docs" \
+  --work-item WI-999-closed-docs-fixture >"$tmp/ordinary-explicit.out" 2>"$tmp/ordinary-explicit.err"; then
+  echo 'explicit documentation promotion silently skipped an ordinary Work Item' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/ordinary-explicit.err"
+
+# Legacy release-mode Contracts without an explicit release operation or an
+# existing parity registration are historical evidence, not new projection
+# obligations. A current Contract that explicitly declares release.publish
+# still requires the projection.
+cp -R "$tmp/ordinary-no-docs" "$tmp/legacy-release-mode"
+python3 - "$tmp/legacy-release-mode" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["mode"] = "release"
+contract["createdAt"] = "2026-01-01T00:00:00Z"
+contract["scope"] = ["docs/reference/**"]
+contract.pop("operation", None)
+contract.pop("requestedOperation", None)
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+(root / "docs/reference/reference-parity.md").write_text(
+    "| WI-999 — legacy | Implemented | Historical registration. |\n",
+    encoding="utf-8",
+)
+PY
+python3 "$helper" --repo "$tmp/legacy-release-mode" --check-all >"$tmp/legacy-release-mode.out"
+python3 - "$tmp/legacy-release-mode.out" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["state"] == "current", report
+assert report["checked"] == 0, report
+assert report["excludedBeforePolicyEffectiveAt"] == 1, report
+PY
+if python3 "$helper" --repo "$tmp/legacy-release-mode" \
+  --work-item WI-999-closed-docs-fixture --check \
+  >"$tmp/legacy-release-explicit.out" 2>"$tmp/legacy-release-explicit.err"; then
+  echo 'explicit historical promotion check skipped the requested Work Item' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/legacy-release-explicit.err"
+
+cp -R "$tmp/ordinary-no-docs" "$tmp/current-release-mode"
+python3 - "$tmp/current-release-mode" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["createdAt"] = "2026-09-16T00:00:00Z"
+contract["mode"] = "release"
+contract["scope"] = ["src/example.rs"]
+contract.pop("operation", None)
+contract.pop("requestedOperation", None)
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+PY
+if python3 "$helper" --repo "$tmp/current-release-mode" --check-all \
+  >"$tmp/current-release-mode.out" 2>"$tmp/current-release-mode.err"; then
+  echo 'current release-mode Work Item silently skipped its required projection' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/current-release-mode.err"
+
+cp -R "$tmp/ordinary-no-docs" "$tmp/explicit-release-operation"
+python3 - "$tmp/explicit-release-operation" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["createdAt"] = "2026-09-15T00:43:38Z"
+contract["mode"] = "release"
+contract["operation"] = "release.publish"
+contract.pop("requestedOperation", None)
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+PY
+if python3 "$helper" --repo "$tmp/explicit-release-operation" --check-all \
+  >"$tmp/explicit-release-operation.out" 2>"$tmp/explicit-release-operation.err"; then
+  echo 'check-all skipped an explicit release.publish projection' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/explicit-release-operation.err"
+
+cp -R "$tmp/unpromoted" "$tmp/declared-docs-missing-language"
+python3 - "$tmp/declared-docs-missing-language" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["mode"] = "docs"
+contract["scope"] = [
+    f"docs/work-items/{work_item}.md",
+    f"docs/work-items/{work_item}.zh-CN.md",
+    f"docs/work-items/{work_item}.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+]
+contract["resourceContext"] = None
+contract_path.write_text(json.dumps(contract, indent=2) + "\n", encoding="utf-8")
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = "sha256:" + hashlib.sha256(
+    contract_path.read_bytes()
+).hexdigest()
+archive_path.write_text(json.dumps(archive, indent=2) + "\n", encoding="utf-8")
+close_path = root / ".ai/decisions" / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+for field in (
+    "resourceFinalizationSequence",
+    "resourceFinalizationHeadPath",
+    "resourceFinalizationHeadDigest",
+):
+    close.pop(field, None)
+close_path.write_text(json.dumps(close, indent=2) + "\n", encoding="utf-8")
+for path in (root / ".ai/decisions").glob(f"{work_item}.finalize*.json"):
+    path.unlink()
+(root / "docs/work-items" / f"{work_item}.ja.md").unlink()
+PY
+expect_no_write_failure declared-docs-missing-language \
+  "$tmp/declared-docs-missing-language" 'must be a regular non-symlink file'
+before_failure=$(docs_digest "$tmp/declared-docs-missing-language")
+if python3 "$helper" --repo "$tmp/declared-docs-missing-language" --check-all \
+  >"$tmp/declared-docs-check-all.out" 2>"$tmp/declared-docs-check-all.err"; then
+  echo 'check-all skipped a Work Item whose Contract declares documentation scope' >&2
+  exit 1
+fi
+grep -Fq 'must be a regular non-symlink file' "$tmp/declared-docs-check-all.err"
+after_failure=$(docs_digest "$tmp/declared-docs-missing-language")
+test "$before_failure" = "$after_failure"
 
 echo 'closed Work Item promotion regression passed'

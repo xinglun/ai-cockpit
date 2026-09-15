@@ -34,7 +34,7 @@ fn repository() -> std::path::PathBuf {
 }
 
 fn archive_one(path: &std::path::Path, id: &str) {
-    start_work_item(path, id, "cache topic", "cache goal", &["**".into()]).expect("start");
+    start_work_item(path, id, "cache topic", "cache goal", &[".ai/**".into()]).expect("start");
     let contract_path = path
         .join(".ai/work-items/active")
         .join(format!("{id}.contract.json"));

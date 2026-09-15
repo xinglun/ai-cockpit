@@ -93,7 +93,7 @@ fn knowledge_query_projects_archived_work_item_records_deterministically() {
             "--goal",
             "query",
             "--scope",
-            "**",
+            ".ai/knowledge/**",
             "--out-of-scope",
             "target/**",
             "--acceptance",

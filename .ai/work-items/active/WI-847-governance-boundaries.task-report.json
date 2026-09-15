@@ -1,0 +1,130 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-847-governance-boundaries.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
+    "workItemId": "WI-847-governance-boundaries"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-847-governance-boundaries.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-847-governance-boundaries.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-847-governance-boundaries.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-847-governance-boundaries.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-847-governance-boundaries.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.contract.json"
+        ],
+        "inference": false,
+        "text": "Separate verified work completion from cleanup, make documentation projection explicitly policy-driven, and scope historical debt to related work"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-847-governance-boundaries"
+}

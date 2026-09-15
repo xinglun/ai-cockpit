@@ -43,7 +43,7 @@ fn archive_one(path: &Path, id: &str) {
         id,
         "projection topic",
         "projection goal",
-        &["**".into()],
+        &[".ai/**".into()],
     )
     .expect("start");
     let contract_path = path

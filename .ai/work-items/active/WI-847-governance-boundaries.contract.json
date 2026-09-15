@@ -1,0 +1,154 @@
+{
+  "acceptanceCriteria": [
+    "Close and cleanup instructions have one executable ordering and cleanup failure is represented separately without reopening verified work",
+    "Ordinary code Work Items are not blocked by absent derived tri-language pages, while explicit documentation and release routes retain their checks",
+    "Historical pending-close/finalization debt blocks only a declared dependency or conflicting scope and remains visible as a warning otherwise",
+    "A small no-resource Work Item can complete start through close without a documentation successor",
+    "Every canonical English, Chinese, Japanese, and AGENTS projection distinguishes resource-bound provider cleanup before close from post-close synchronization or closure-context cleanup; no instruction says the same resource-bound branch/worktree must be deleted both before and after close.",
+    "A regression gate rejects any canonical lifecycle projection that places resource-bound Work Item branch/worktree removal after close or describes close itself as performing that deletion."
+  ],
+  "authority": "authorized",
+  "baseRevision": "46aabe41cba5dc6af1a7993c7af63a3007b19eef",
+  "createdAt": "2026-09-15T00:43:38Z",
+  "goal": "Separate verified work completion from cleanup, make documentation projection explicitly policy-driven, and scope historical debt to related work",
+  "intent": "Remove lifecycle gate authority conflicts that create unnecessary successor and documentation closure chains",
+  "mode": "implementation",
+  "outOfScope": [
+    "Release tags and public artifacts; existing historical .ai archive/evidence/decision bytes; unrelated runtime performance or language migration; deletion of branches/worktrees; v0.2.93 release"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e7a29a1c0028f83fe02449277772797995c1c128fd1f1f44e4b5a1cafd464d38",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A small ordinary code Work Item can pass preflight and complete its lifecycle without pre-created tri-language projection pages or a documentation successor.",
+      "required": true,
+      "scenario": "ordinary_no_resource_work_item_does_not_need_document_projection",
+      "status": "unverified",
+      "verificationPlan": "Use a repository fixture with explicit derived documentation policy and a no-resource Work Item; assert start through close succeeds while docs-task and release routes remain enforced."
+    },
+    {
+      "evidence": [],
+      "expected": "An archived pending-close or legacy-finalization record unrelated to the requested Work Item remains visible but does not block the ordinary Work Item entry path.",
+      "required": true,
+      "scenario": "unrelated_historical_debt_does_not_block_start",
+      "status": "unverified",
+      "verificationPlan": "Add a status/lifecycle fixture with unrelated historical debt and a clean ordinary Work Item; assert warning visibility, no entry rejection, and fail-closed blocking for a declared dependency."
+    },
+    {
+      "evidence": [],
+      "expected": "A verified Work Item remains complete when post-close cleanup is pending, and cleanup failure is reported separately without reopening the verified work result.",
+      "required": true,
+      "scenario": "verified_work_and_cleanup_have_independent_terminal_states",
+      "status": "unverified",
+      "verificationPlan": "Exercise the cleanup-pending projection and assert distinct work-result and resource-cleanup fields plus no contradictory close ordering."
+    },
+    {
+      "evidence": [],
+      "expected": "Resource-bound Work Item instructions require the exact provider-bound branch/worktree cleanup and its identity-bound finalization verification before close; post-close cleanup is limited to the closure/control context.",
+      "required": true,
+      "scenario": "resource_bound_cleanup_precedes_close",
+      "status": "unverified",
+      "verificationPlan": "Run the focused resource_finalization_policy_test.sh gate and verify its negative fixture rejects a resource-bound order that places branch/worktree cleanup after close."
+    }
+  ],
+  "scope": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/project/documentation-policy.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "tests/docs/work_item_status_consistency_test.sh",
+    ".github/workflows/ci.yml",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/work-item-lifecycle-closure.md",
+    "tests/workflow/resource_finalization_policy.sh",
+    "docs/reference/work-item-lifecycle-closure.ja.md",
+    "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+    "tests/workflow/resource_finalization_policy_test.sh",
+    "tests/docs/work_item_projection_policy.py",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/superpowers/plans/2026-09-15-ai-cockpit-convergence-release.md",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/intelligence.rs",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/preflight.rs",
+    "crates/cockpit-cli/tests/resource_finalization.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-cli/tests/work_item_scaffold.rs",
+    "tests/docs/parity_status_check_test.sh",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "crates/cockpit-repository/tests/verification_command_selection.rs"
+  ],
+  "sources": [
+    {
+      "path": "User-provided AI Cockpit collaboration, observation, and performance specification",
+      "reason": "Defines the authorized North Star, A–E scope, constraints, and acceptance requirements for this convergence effort."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Defines the current repository-specific Runtime lifecycle and work boundaries."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Defines the repository Runtime interface, lifecycle, and evidence discipline."
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Defines the repository terms used by the Contract and its status projections."
+    },
+    {
+      "path": "docs/superpowers/plans/2026-09-15-ai-cockpit-convergence-release.md",
+      "reason": "Records the bounded integration order, dependencies, and release-last completion gates."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry --test status_projection",
+    "cargo test --locked -p cockpit-cli --all-targets --all-features",
+    "bash tests/workflow/resource_finalization_policy_test.sh",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "bash tests/ci/governance_integrity_gate_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-847-governance-boundaries"
+}

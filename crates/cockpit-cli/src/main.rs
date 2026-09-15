@@ -5,8 +5,8 @@ use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
     AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
-    EvidencePersistence, EvidenceRetention, HumanDecision, RepositoryConfig, VerificationStage,
-    VerificationTier, validate_protocol_version,
+    EvidencePersistence, EvidenceRetention, HumanDecision, RepositoryConfig, RuntimeContext,
+    VerificationStage, VerificationTier, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -473,7 +473,8 @@ enum WorkItemCommand {
         #[arg(long)]
         id: String,
         /// JSON object with additive scopeAppend, outOfScopeAppend,
-        /// acceptanceAppend, and/or requiredEvidenceClassesAppend arrays.
+        /// sourcesAppend, verificationAppend, acceptanceAppend,
+        /// requiredEvidenceClassesAppend, and/or scenarioCoverageAppend arrays.
         #[arg(long)]
         input: PathBuf,
         #[arg(long)]
@@ -551,6 +552,14 @@ enum WorkItemCommand {
     },
     /// Revalidate the stored finalization receipt and local cleanup state.
     FinalizeVerify {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+    },
+    /// Append an exact local branch/worktree cleanup observation for a closed
+    /// ordinary Work Item. Provider-bound Work Items keep using finalize.
+    OrdinaryCleanup {
         #[arg(long)]
         repo: PathBuf,
         #[arg(long)]
@@ -1014,6 +1023,17 @@ fn output_language() -> &'static str {
     } else {
         "en"
     }
+}
+
+fn record_ordinary_cleanup_command(
+    repo: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value> {
+    let receipt =
+        cockpit_repository::record_ordinary_cleanup_with_runtime(repo, work_item_id, runtime)
+            .context("record ordinary cleanup")?;
+    serde_json::to_value(receipt).context("encode ordinary cleanup receipt")
 }
 
 fn main() {
@@ -2071,6 +2091,11 @@ fn run() -> Result<()> {
                     .context("verify resource finalization")?;
                 println!("{}", serde_json::to_string_pretty(&result)?);
             }
+            WorkItemCommand::OrdinaryCleanup { repo, id } => {
+                require_compatible(&repo, &runtime_context)?;
+                let result = record_ordinary_cleanup_command(&repo, &id, &runtime_context)?;
+                println!("{}", serde_json::to_string_pretty(&result)?);
+            }
             WorkItemCommand::FinalizeRecovery { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;
                 let result = cockpit_repository::record_historical_finalization_recovery(
@@ -2898,11 +2923,80 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::concurrent_phase_elapsed;
+    use super::{
+        Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
+        record_ordinary_cleanup_command,
+    };
+    use clap::Parser;
+    use cockpit_core::Digest;
+    use cockpit_protocol::RuntimeContext;
+    use std::process::Command;
 
     #[test]
     fn concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time() {
         assert_eq!(concurrent_phase_elapsed([1_000, 1_200]), 1_200);
         assert_eq!(concurrent_phase_elapsed([]), 0);
+    }
+
+    #[test]
+    fn ordinary_cleanup_parser_requires_repository_and_work_item_identity() {
+        let cli = Cli::try_parse_from([
+            "ai-cockpit",
+            "work-item",
+            "ordinary-cleanup",
+            "--repo",
+            "/tmp/ordinary-cleanup-repository",
+            "--id",
+            "WI-ORDINARY-CLEANUP",
+        ])
+        .expect("parse ordinary cleanup command");
+
+        let CommandKind::WorkItem {
+            command: WorkItemCommand::OrdinaryCleanup { repo, id },
+        } = cli.command
+        else {
+            panic!("ordinary-cleanup must parse to its dedicated Work Item command")
+        };
+        assert_eq!(
+            repo,
+            std::path::PathBuf::from("/tmp/ordinary-cleanup-repository")
+        );
+        assert_eq!(id, "WI-ORDINARY-CLEANUP");
+    }
+
+    #[test]
+    fn ordinary_cleanup_command_surfaces_repository_boundary_rejection_without_receipt() {
+        let directory = tempfile::tempdir().expect("temporary repository");
+        assert!(
+            Command::new("git")
+                .args(["init", "-q"])
+                .current_dir(directory.path())
+                .status()
+                .expect("git init")
+                .success()
+        );
+        cockpit_repository::attach(directory.path()).expect("attach repository");
+        let before = std::fs::read_dir(directory.path().join(".ai/decisions"))
+            .expect("decisions before")
+            .count();
+        let error = record_ordinary_cleanup_command(
+            directory.path(),
+            "WI-ORDINARY-CLEANUP-MISSING",
+            &RuntimeContext {
+                runtime_version: "0.1.0".into(),
+                protocol_version: 1,
+                runtime_digest: Digest::sha256_bytes(b"cli-ordinary-cleanup-test"),
+            },
+        )
+        .expect_err("missing close binding must be rejected by the repository boundary");
+
+        assert!(error.to_string().contains("record ordinary cleanup"));
+        assert_eq!(
+            std::fs::read_dir(directory.path().join(".ai/decisions"))
+                .expect("decisions after")
+                .count(),
+            before,
+            "a rejected CLI operation must not create a receipt"
+        );
     }
 }

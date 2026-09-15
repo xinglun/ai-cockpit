@@ -247,7 +247,7 @@ fn scn_002_start_rejects_pre_existing_changes_matches_scenario_matrix_key_messag
         "WI-SCN-002",
         "invariant 7 coverage",
         "verify next-action text for pre-existing changes",
-        &["**".into()],
+        &[".ai/**".into(), "src-under-review.txt".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             out_of_scope: vec!["target/**".into()],
@@ -280,7 +280,7 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
         id,
         "invariant 7 coverage",
         "verify next-action text for finish before finalize-plan",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             out_of_scope: vec!["target/**".into()],

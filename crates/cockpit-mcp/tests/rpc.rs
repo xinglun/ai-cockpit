@@ -978,7 +978,7 @@ fn repository_bound_verify_binds_evidence_after_command_side_effects() {
         "WI-MCP-SIDE-EFFECT",
         "verify",
         "bind after command",
-        &["**".into()],
+        &["src/**".into(), "Cargo.lock".into()],
         &cockpit_repository::WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["verification".into()],
@@ -1075,7 +1075,7 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
         "WI-MCP-CUSTOM-EVIDENCE",
         "verify custom evidence before execution",
         "reject missing custom evidence before spawning a project process",
-        &["**".into()],
+        &["src/**".into()],
         &cockpit_repository::WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["performance".into()],
@@ -1162,7 +1162,7 @@ fn repository_bound_verify_persists_execution_attempt_when_receipt_recording_fai
         work_item_id,
         "preserve MCP execution results when formal receipt recording fails",
         "record the successful process result even when lifecycle evidence is rejected",
-        &["**".into()],
+        &["verify.js".into()],
         &cockpit_repository::WorkItemStartOptions {
             authority: "authorized".into(),
             ..Default::default()
@@ -1269,7 +1269,7 @@ fn repository_bound_verify_persists_failed_execution_as_non_reusable_attempt() {
         work_item_id,
         "preserve failed verification attempts",
         "keep failed process evidence without treating it as completion",
-        &["**".into()],
+        &["fail.js".into()],
         &cockpit_repository::WorkItemStartOptions {
             authority: "authorized".into(),
             ..Default::default()

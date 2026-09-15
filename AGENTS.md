@@ -57,25 +57,40 @@ opening another Work Item; do not hide it in a later task.
 The delivery order is conditional on the Contract. A Work Item with no
 external resource uses latest remote default base → dedicated branch/worktree
 → implement → preflight → checkpoint → verify → finish → archive → close →
-synchronize and clean. A resource-bound Work Item uses latest remote default
-base → dedicated branch/worktree → implement → finalize-plan → preflight →
-checkpoint → verify → finish → reviewed PR → merge → declared hosted,
-candidate, release, or public-artifact evidence → archive → finalize →
-finalize-verify → close → synchronize and clean. Never merge a feature branch
-into local `main` before PR review, delete its branch before merge, or let a
-provider auto-delete it to bypass finalization. If a remote step fails,
-preserve the retry checkout and identity until recovery is complete. A
-repository is `ready_on_base` only after the reviewed merge when applicable,
-synchronized default branch, and exact cleanup have been verified; a detached
-or otherwise unbound worktree is not ready for the next Work Item. Historical
-resource-bound PRs are read-only archive routes: they require an exact
-archived Contract and valid archive manifest, and must not be reclassified as
-ordinary no-Contract work.
+synchronize default branch → remove its exact branch/worktree. A resource-bound
+Work Item uses latest remote default base → dedicated branch/worktree →
+implement → finalize-plan → preflight → checkpoint → verify → finish → reviewed
+PR → merge → declared hosted, candidate, release, or public-artifact evidence
+→ archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close
+→ clean the closure/control context. For resource-bound work, `finalize`
+records the already-performed provider cleanup in an identity-bound receipt;
+the Runtime does not delete branches or worktrees. `finalize-verify` validates
+that receipt before `close`; `close` records the terminal decision and does not
+delete those resources. Cleanup after `close` refers only to the
+closure/control context, never to the already finalized Work Item
+branch/worktree. Never merge a feature branch into local
+`main` before PR review, delete its branch before merge, or let a provider
+auto-delete it to bypass finalization. If a remote step fails, preserve the
+retry checkout and identity until recovery is complete. A repository is
+`ready_on_base` only after the reviewed merge when applicable, synchronized
+default branch, and exact cleanup have been verified; a detached or otherwise
+unbound worktree is not ready for the next Work Item. Historical resource-bound
+PRs are read-only archive routes: they require an exact archived Contract and
+valid archive manifest, and must not be reclassified as ordinary no-Contract
+work.
 
 Merge only the reviewed PR after its hosted checks pass. Do not use local-main
-as a substitute for pre-merge review. After merge, synchronize the default
-branch, prove the Work Item is closed, and remove only the exact merged branch
-and worktree after cleanup is verified.
+as a substitute for pre-merge review. After merge, follow the Contract's route
+above: resource-bound cleanup and `finalize-verify` precede `close`; for a
+no-resource Work Item, `close` precedes default-branch synchronization and
+removal of its exact branch/worktree. Do not describe either route as
+requiring the same Work Item branch/worktree to be removed both before and
+after `close`.
+For a no-resource Work Item, after removing its exact branch/worktree, record
+the cleanup result with
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
+before declaring `ready_on_base`.
 
 ## Agent operating boundaries
 
@@ -115,11 +130,11 @@ a successor only for a genuinely different scope, authority, or base, an
 independent compatible change, an unsafe in-scope fix, immutable failed
 delivery, or explicit human direction; record that reason and linkage.
 
-After a reviewed PR passes hosted checks, close the Work Item only after the
-archive and decision receipts are verified, the merged PR head SHA and
-fast-forward-synchronized default branch are recorded, all relevant worktrees
-are clean, and the exact remote/local Work Item branch is removed. Immediately
-after close, run
+After a reviewed PR passes hosted checks, follow the Contract's route above:
+for resource-bound work, remove the exact provider-bound branch/worktree and
+pass `finalize-verify` before close; for a no-resource Work Item, close before
+synchronizing the default branch and removing its exact branch/worktree.
+Immediately after close, run
 `python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
 If it reports stale projections, use the same helper in a narrowly scoped
 documentation-promotion Work Item, rerun `--check-all`, and only then declare
