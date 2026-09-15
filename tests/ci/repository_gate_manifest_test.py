@@ -14,7 +14,11 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[2]
 manifest_path = root / "tests/ci/repository_gate_manifest.json"
+workflow_text = (root / ".github/workflows/ci.yml").read_text(encoding="utf-8")
 manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+assert "name: upload repository gate diagnostics" in workflow_text
+assert "name: repository-gate-diagnostics" in workflow_text
+assert "target/repository-gate-diagnostics/*.log" in workflow_text
 assert manifest["schemaVersion"] == 2
 assert manifest["profileOrder"] == ["light", "standard", "strict"]
 entries = manifest["gates"]

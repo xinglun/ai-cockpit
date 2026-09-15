@@ -14,6 +14,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "docs"))
+from work_item_projection_policy import (
+    ProjectionPolicy,
+    ProjectionPolicyError,
+    load_projection_policy,
+    requires_documentation_projection,
+)
+
 
 PARITY_DOCS = (
     ("docs/reference/reference-parity.md", "Implemented"),
@@ -1368,6 +1376,31 @@ def main() -> int:
     inventory: list[dict[str, Any]] = []
 
     try:
+        projection_policy = load_projection_policy(repo)
+    except ProjectionPolicyError:
+        findings.append(
+            finding(
+                "repository",
+                "invalid_documentation_policy",
+                ".ai/project/documentation-policy.json",
+            )
+        )
+        try:
+            project = load_json(repo / ".ai/project.json")
+            repository_id = str(project.get("repositoryId", "unknown"))
+        except ValueError:
+            repository_id = "unknown"
+        # Invalid policy must fail the gate and conservatively keep projection
+        # checks enabled for all otherwise-current Work Items.
+        projection_policy = ProjectionPolicy(
+            repository_id=repository_id,
+            default_projection="required",
+            required_modes=(),
+            required_operations=(),
+            preserve_existing_registrations=True,
+        )
+
+    try:
         release = current_release(repo)
     except (ValueError, subprocess.CalledProcessError, json.JSONDecodeError) as error:
         release = "unknown"
@@ -1503,11 +1536,42 @@ def main() -> int:
             if not (base / f"{work_item}.{suffix}.json").is_file():
                 findings.append(finding(work_item, f"missing_{suffix}", relative))
 
-        parity_projection = (
-            _active_parity_projection_declared(repo, work_item)
-            if location == "active"
-            else short_id(work_item) in rows
-        )
+        contract_path = base / f"{work_item}.contract.json"
+        try:
+            contract = load_json(contract_path)
+        except ValueError:
+            contract = None
+        additional_paths: tuple[str, ...] = ()
+        acceptance_criteria: tuple[str, ...] = ()
+        if location == "active":
+            try:
+                summary = load_json(base / f"{work_item}.summary.json")
+            except ValueError:
+                summary = {}
+            changed_paths = summary.get("changedPaths")
+            if isinstance(changed_paths, list):
+                additional_paths = tuple(item for item in changed_paths if isinstance(item, str))
+            acceptance = contract.get("acceptanceCriteria") if isinstance(contract, dict) else None
+            if isinstance(acceptance, list):
+                acceptance_criteria = tuple(item for item in acceptance if isinstance(item, str))
+        try:
+            parity_projection = requires_documentation_projection(
+                contract,
+                work_item,
+                projection_policy,
+                has_existing_registration=bool(parity_rows_for_work_item(rows, work_item)),
+                additional_paths=additional_paths,
+                acceptance_criteria=acceptance_criteria,
+            )
+        except ProjectionPolicyError:
+            parity_projection = True
+            findings.append(
+                finding(
+                    work_item,
+                    "invalid_documentation_policy",
+                    f".ai/work-items/{location}/{work_item}.contract.json",
+                )
+            )
         if parity_projection:
             for document_suffix, _language in WORK_ITEM_DOCUMENTS:
                 issue = _work_item_document_issue(repo, work_item, document_suffix)
@@ -1865,70 +1929,71 @@ def main() -> int:
                                 PENDING_PARITY_REGISTRY,
                             )
                         )
-            for parity_doc, implemented in PARITY_DOCS:
-                line = work_item_rows.get(parity_doc)
-                if line is None:
-                    if not pending_valid:
-                        findings.append(
-                            finding(work_item, "missing_parity_entry", parity_doc)
-                        )
-                    continue
-                if evidence not in line:
-                    findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
-                if decision is not None and decision not in line:
-                    findings.append(finding(work_item, "missing_parity_decision", parity_doc))
-                lifecycle_status = (
-                    "进行中 → 验证关闭后已实现"
-                    if parity_doc.endswith(".zh-CN.md")
-                    else (
-                        "In progress → verified close 後 Implemented"
-                        if parity_doc.endswith(".ja.md")
-                        else "In progress → Implemented after verified close"
-                    )
-                )
-                if f"| {lifecycle_status} |" in line:
-                    lifecycle_records = (
-                        f".ai/work-items/archive/{work_item}.contract.json",
-                        evidence,
-                        f".ai/decisions/{work_item}.finalize.json",
-                        f".ai/decisions/{work_item}.close.json",
-                    )
-                    if any(f"`{relative}`" not in line for relative in lifecycle_records):
-                        findings.append(
-                            finding(
-                                work_item,
-                                "invalid_prearchive_parity_registration",
-                                parity_doc,
+            if parity_projection:
+                for parity_doc, implemented in PARITY_DOCS:
+                    line = work_item_rows.get(parity_doc)
+                    if line is None:
+                        if not pending_valid:
+                            findings.append(
+                                finding(work_item, "missing_parity_entry", parity_doc)
                             )
+                        continue
+                    if evidence not in line:
+                        findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
+                    if decision is not None and decision not in line:
+                        findings.append(finding(work_item, "missing_parity_decision", parity_doc))
+                    lifecycle_status = (
+                        "进行中 → 验证关闭后已实现"
+                        if parity_doc.endswith(".zh-CN.md")
+                        else (
+                            "In progress → verified close 後 Implemented"
+                            if parity_doc.endswith(".ja.md")
+                            else "In progress → Implemented after verified close"
                         )
-                    elif not _parity_row_precedes_record(
-                        repo,
-                        parity_doc,
-                        line,
-                        evidence,
-                    ):
-                        severity = (
-                            "historical"
-                            if historical_retry_receipt
-                            else "error"
+                    )
+                    if f"| {lifecycle_status} |" in line:
+                        lifecycle_records = (
+                            f".ai/work-items/archive/{work_item}.contract.json",
+                            evidence,
+                            f".ai/decisions/{work_item}.finalize.json",
+                            f".ai/decisions/{work_item}.close.json",
                         )
-                        findings.append(
-                            finding(
-                                work_item,
-                                "stale_prearchive_parity_registration",
-                                parity_doc,
-                                severity,
+                        if any(f"`{relative}`" not in line for relative in lifecycle_records):
+                            findings.append(
+                                finding(
+                                    work_item,
+                                    "invalid_prearchive_parity_registration",
+                                    parity_doc,
+                                )
                             )
-                        )
-                status_tokens = (implemented,)
-                if record.get("lifecycleState") == "recovered":
-                    recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
-                    status_tokens = (implemented, recovery_status)
-                elif record.get("lifecycleState") == "awaiting_merge_close":
-                    pending_status = "进行中" if parity_doc.endswith(".zh-CN.md") else "In progress"
-                    status_tokens = (implemented, pending_status)
-                if not any(token in line for token in status_tokens):
-                    findings.append(finding(work_item, "stale_parity_status", parity_doc))
+                        elif not _parity_row_precedes_record(
+                            repo,
+                            parity_doc,
+                            line,
+                            evidence,
+                        ):
+                            severity = (
+                                "historical"
+                                if historical_retry_receipt
+                                else "error"
+                            )
+                            findings.append(
+                                finding(
+                                    work_item,
+                                    "stale_prearchive_parity_registration",
+                                    parity_doc,
+                                    severity,
+                                )
+                            )
+                    status_tokens = (implemented,)
+                    if record.get("lifecycleState") == "recovered":
+                        recovery_status = "已恢复" if parity_doc.endswith(".zh-CN.md") else "Recovered"
+                        status_tokens = (implemented, recovery_status)
+                    elif record.get("lifecycleState") == "awaiting_merge_close":
+                        pending_status = "进行中" if parity_doc.endswith(".zh-CN.md") else "In progress"
+                        status_tokens = (implemented, pending_status)
+                    if not any(token in line for token in status_tokens):
+                        findings.append(finding(work_item, "stale_parity_status", parity_doc))
         inventory.append(record)
 
     problems: list[dict[str, str]] = []

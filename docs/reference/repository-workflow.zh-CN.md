@@ -52,8 +52,9 @@ Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 det
 → finalize-plan → preflight → checkpoint → verify → finish
 → 评审 PR → merge
 → Contract 声明的 hosted、candidate、release 或 public-artifact 证据（如适用）
-→ archive → finalize → finalize-verify → close → 同步默认分支
-→ 删除精确分支/worktree
+→ archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close
+→ clean closure/control context
 
 无外部资源：
 最新远端默认基线 → 专用分支/worktree → 实现
@@ -61,9 +62,12 @@ Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 det
 → 同步默认分支 → 删除精确分支/worktree
 ```
 
-有外部资源时，PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。新的
-Work Item 的 `close` 都需要结构化人工决定、归档证据、快进同步的默认分支和干净 worktree；
-`finish` 只建立源码验证就绪状态；如果 Contract 声明了后续 hosted、candidate、release 或
+有外部资源时，PR 合并前不得删除分支，也不能让 Provider 自动删除绕过 finalization。合并和必要验收后，
+由有权操作的人按已接受的计划执行精确 cleanup；`finalize` 只记录观察到的绑定 identity receipt，Runtime
+不会删除 branch/worktree。`finalize-verify` 在 close 前校验 receipt；`close` 只记录终态决定，不删除资源。close 后的 cleanup 仅指
+closure/control context。无外部资源的路径先 close，再同步 default branch 并删除精确的
+implementation branch/worktree。声明 `ready_on_base` 前仍须有结构化人工决定、归档证据、快进
+同步的默认分支和干净 worktree。`finish` 只建立源码验证就绪状态；如果 Contract 声明了后续 hosted、candidate、release 或
 public-artifact 证据，必须先完成这些阶段，`archive` 才会评估其严格完成边界。有外部资源的
 Work Item 还需要合并 PR identity 和已删除的 finalization receipt。已验证的历史 shared-worktree 或 direct-merge receipt
 可以在 `historical_low` assurance、明确人工授权和 repository 绑定的 Git 事实下使用窄化

@@ -1,0 +1,177 @@
+{
+  "attemptId": "sha256:9cebe404e78311d043ab981f04fb376cfca876780edbdedfff6da77adba7bc47",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        "/private/tmp/ai-cockpit-wi847",
+        "--check-all"
+      ],
+      "baseCommit": "46aabe41cba5dc6af1a7993c7af63a3007b19eef",
+      "commandDigest": "sha256:ae859d4619f5a5e587fc713705571bfb54489af73177f14c8d86265daa69898a",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:4e0e51ffc2805ba24909d7bd23e278c483315eb1dd7e623b82a013407140f9ba",
+  "contractExecutionScopeDigest": "sha256:e631fbff4ca75c83ec1e0105eb4702aa3e3ac7544351649d3a4f8fe9205e6fee",
+  "createdAt": "2026-09-15T03:57:21Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:ae859d4619f5a5e587fc713705571bfb54489af73177f14c8d86265daa69898a",
+      "elapsedMs": 8670,
+      "exitCode": 1,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "636c6f73656420576f726b204974656d2070726f6d6f74696f6e206661696c65643a20766572696669636174696f6e2072656365697074206964656e74697479206f7220726573756c74206d69736d617463680a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 9086,
+      "executionElapsedMs": 8670,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 9086,
+    "executionElapsedMs": 8670,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:ae859d4619f5a5e587fc713705571bfb54489af73177f14c8d86265daa69898a",
+        "elapsedMs": 8670,
+        "exitCode": 1,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "636c6f73656420576f726b204974656d2070726f6d6f74696f6e206661696c65643a20766572696669636174696f6e2072656365697074206964656e74697479206f7220726573756c74206d69736d617463680a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 43,
+    "filesRead": 43,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [
+        "AGENTS.md",
+        "docs/reference/agent-workflow.ja.md",
+        "docs/reference/agent-workflow.md",
+        "docs/reference/agent-workflow.zh-CN.md",
+        "docs/reference/repository-workflow.ja.md",
+        "docs/reference/repository-workflow.md",
+        "docs/reference/repository-workflow.zh-CN.md",
+        "docs/reference/work-item-lifecycle-closure.ja.md",
+        "docs/reference/work-item-lifecycle-closure.md",
+        "docs/reference/work-item-lifecycle-closure.zh-CN.md",
+        "docs/superpowers/plans/2026-09-15-ai-cockpit-convergence-release.md",
+        "tests/ci/governance_integrity_gate.py",
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh",
+        "tests/docs/work_item_projection_policy.py",
+        "tests/docs/work_item_status_consistency.py",
+        "tests/docs/work_item_status_consistency_test.sh",
+        "tests/workflow/resource_finalization_policy.sh",
+        "tests/workflow/resource_finalization_policy_test.sh"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "46aabe41cba5dc6af1a7993c7af63a3007b19eef",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 8670,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:17a03a58193385426ad39f564fc433af22808be69f65a639bdef3627f1db4901",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:f704059a70d46e7cb253bc5c77c382486634708aebe6807893fb7734ccd4ac32",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:17a03a58193385426ad39f564fc433af22808be69f65a639bdef3627f1db4901",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-847-governance-boundaries"
+}

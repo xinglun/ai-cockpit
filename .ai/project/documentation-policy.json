@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "defaultProjection": "derived",
+  "effectiveFromContractCreatedAt": "2026-09-15T00:43:38Z",
+  "requiredModes": [
+    "docs",
+    "documentation"
+  ],
+  "requiredOperations": [
+    "documentation.modify",
+    "release.publish"
+  ],
+  "preserveExistingRegistrations": true
+}

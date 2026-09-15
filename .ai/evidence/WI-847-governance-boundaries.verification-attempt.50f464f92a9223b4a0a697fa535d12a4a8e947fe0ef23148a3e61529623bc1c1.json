@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:50f464f92a9223b4a0a697fa535d12a4a8e947fe0ef23148a3e61529623bc1c1",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "46aabe41cba5dc6af1a7993c7af63a3007b19eef",
+      "commandDigest": "sha256:7f4ffc1f5aec86432ca4013b9921296996e8a29798845fe7cbd167530e7e3354",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:ba4db59c0f5e9594d6d34427ed2dda73fe06cb7426a00a6a9ed337a73f34f27a",
+  "contractExecutionScopeDigest": "sha256:7e235d6c63b739283c4219604bead8d4a5d7ce83a0a762a545420eb28cef547b",
+  "createdAt": "2026-09-15T10:56:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /private/tmp/ai-cockpit-wi847/.ai/work-items/active/WI-847-governance-boundaries.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dc3edb2794d18400864e0cba73f797ab3dec0ccffe4c02caccd6ab8399f94eab",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-847-governance-boundaries"
+}

@@ -40,14 +40,11 @@ pub fn start_work_item_with_options(
     // is still awaiting closure.  All ordinary starts must pass the same
     // repository entry gate as `work-item new`.
     let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
-    validate_start_entry(root, !recovery_continuation, recovery_continuation)?;
+    validate_start_entry(root, scope, recovery_continuation)?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
         return Ok(receipt);
-    }
-    if !recovery_continuation {
-        ensure_no_unclosed_archived_work_items(root)?;
     }
     create_work_item_scaffold(
         root,
@@ -218,8 +215,7 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    validate_start_entry(root, true, false)?;
-    ensure_no_unclosed_archived_work_items(root)?;
+    validate_start_entry(root, &[], false)?;
     scaffold_work_item_internal(root, work_item_id, mode)
 }
 
@@ -926,9 +922,10 @@ pub fn revalidate_contract_amendment(
 }
 
 /// Apply a bounded, append-only Contract amendment and record its revalidation.
-/// Only additive scope, out-of-scope, acceptance, required-evidence, and
-/// scenario-coverage entries are accepted; the Runtime never lets an
-/// amendment rewrite identity, authority, base, mode, or existing criteria.
+/// Only additive scope, out-of-scope, source, verification, acceptance,
+/// required-evidence, and scenario-coverage entries are accepted; the Runtime
+/// never lets an amendment rewrite identity, authority, base, mode, or existing
+/// criteria.
 pub fn amend_work_item_contract(
     root: &Path,
     work_item_id: &str,
@@ -971,6 +968,8 @@ pub fn amend_work_item_contract(
             key.as_str(),
             "scopeAppend"
                 | "outOfScopeAppend"
+                | "sourcesAppend"
+                | "verificationAppend"
                 | "acceptanceAppend"
                 | "requiredEvidenceClassesAppend"
                 | "scenarioCoverageAppend"
@@ -981,9 +980,16 @@ pub fn amend_work_item_contract(
             });
         }
     }
-    let pre_checkpoint_scenario_declaration = input.get("scenarioCoverageAppend").is_some()
-        && summary["checkpointCount"] == serde_json::json!(0)
-        && input.as_object().is_some_and(|object| object.len() == 1);
+    let pre_checkpoint_declaration = summary["checkpointCount"] == serde_json::json!(0)
+        && input.as_object().is_some_and(|object| {
+            !object.is_empty()
+                && object.keys().all(|key| {
+                    matches!(
+                        key.as_str(),
+                        "scenarioCoverageAppend" | "sourcesAppend" | "verificationAppend"
+                    )
+                })
+        });
     for (field, target) in [
         ("scopeAppend", "scope"),
         ("outOfScopeAppend", "outOfScope"),
@@ -1013,6 +1019,64 @@ pub fn amend_work_item_contract(
                 })?;
             if !existing.iter().any(|entry| entry.as_str() == Some(value)) {
                 existing.push(serde_json::json!(value));
+            }
+        }
+    }
+    for (field, target) in [
+        ("sourcesAppend", "sources"),
+        ("verificationAppend", "verification"),
+    ] {
+        let Some(values) = input.get(field) else {
+            continue;
+        };
+        let values = values.as_array().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: format!("{field} must be an array"),
+        })?;
+        for value in values {
+            let non_empty = match field {
+                "sourcesAppend" => {
+                    serde_json::from_value::<ContractSource>(value.clone()).map(|source| {
+                        match source {
+                            ContractSource::Legacy(source) => !source.trim().is_empty(),
+                            ContractSource::Structured(source) => {
+                                !source.path.trim().is_empty() && !source.reason.trim().is_empty()
+                            }
+                        }
+                    })
+                }
+                "verificationAppend" => serde_json::from_value::<VerificationDeclaration>(
+                    value.clone(),
+                )
+                .map(|declaration| match declaration {
+                    VerificationDeclaration::Legacy(command) => !command.trim().is_empty(),
+                    VerificationDeclaration::Check(check) => !check.check.trim().is_empty(),
+                }),
+                _ => unreachable!("only source and verification declarations are handled"),
+            }
+            .map_err(|error| ObserverError::State {
+                path: path.clone(),
+                message: format!("{field} contains an invalid declaration: {error}"),
+            })?;
+            if !non_empty {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!("{field} entries must not be empty"),
+                });
+            }
+        }
+        if contract.get(target).is_none_or(serde_json::Value::is_null) {
+            contract[target] = serde_json::json!([]);
+        }
+        let existing = contract[target]
+            .as_array_mut()
+            .ok_or_else(|| ObserverError::State {
+                path: path.clone(),
+                message: format!("Contract field {target} is not an array"),
+            })?;
+        for value in values {
+            if !existing.iter().any(|entry| entry == value) {
+                existing.push(value.clone());
             }
         }
     }
@@ -1077,11 +1141,11 @@ pub fn amend_work_item_contract(
             });
         }
     }
-    if pre_checkpoint_scenario_declaration {
+    if pre_checkpoint_declaration {
         serde_json::from_value::<Contract>(contract.clone()).map_err(|error| {
             ObserverError::State {
                 path: path.clone(),
-                message: format!("scenarioCoverageAppend produced an invalid Contract: {error}"),
+                message: format!("pre-checkpoint Contract declarations are invalid: {error}"),
             }
         })?;
         atomic_json(&path, &contract)?;
@@ -1089,7 +1153,7 @@ pub fn amend_work_item_contract(
             "schemaVersion": 1,
             "repositoryId": repository_id(&root),
             "workItemId": work_item_id,
-            "stage": "pre_checkpoint_scenario_declaration",
+            "stage": "pre_checkpoint_contract_declaration",
             "recorded": true,
             "contractHash": contract_digest(&path)?,
             "recordedAt": now()

@@ -15,9 +15,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from work_item_projection_policy import (
+    ProjectionPolicyError,
+    contract_predates_projection_policy,
+    load_projection_policy,
+    parity_registration_tokens,
+    requires_documentation_projection,
+    short_work_item_id,
+)
 
 WORK_ITEM_PATTERN = re.compile(r"^WI-[0-9]+[A-Za-z]?-[a-z0-9]+(?:-[a-z0-9]+)*$")
-PROMOTION_MINIMUM = 253
 TERMINAL_FIELDS = (
     "terminalArchive",
     "terminalVerification",
@@ -903,27 +910,59 @@ def promote(repository: Path, work_item_id: str, *, check: bool) -> dict[str, An
     }
 
 
-def closed_work_items(repository: Path) -> list[str]:
+def closed_work_item_selection(repository: Path) -> tuple[list[str], int]:
     decisions = repository / ".ai/decisions"
-    result: list[str] = []
+    candidates: list[str] = []
     for close in sorted(decisions.glob("WI-*.close.json")):
         regular_file(close)
         work_item_id = close.name.removesuffix(".close.json")
-        match = re.match(r"^WI-([0-9]+)", work_item_id)
-        if match and int(match.group(1)) >= PROMOTION_MINIMUM:
-            # Recovery is a separate terminal projection for an immutable
-            # predecessor.  Do not ask the normal promotion path to invent an
-            # approved close for it; the successor owns the future promotion.
-            # A valid successor/supersede receipt makes the predecessor an
-            # immutable historical projection, regardless of whether an
-            # earlier Runtime already recorded a confirmed close.  The
-            # recovery binding, not the shape of the predecessor close, owns
-            # this exception.  Retry and invalid/foreign receipts continue
-            # through normal promotion validation.
-            if valid_recovery_decision(repository, work_item_id):
-                continue
+        if WORK_ITEM_PATTERN.fullmatch(work_item_id):
+            candidates.append(work_item_id)
+
+    try:
+        policy = load_projection_policy(repository)
+    except ProjectionPolicyError as error:
+        raise PromotionError(str(error)) from error
+    registrations = parity_registration_tokens(repository)
+    result: list[str] = []
+    excluded_before_policy = 0
+    for work_item_id in candidates:
+        # Recovery is a separate terminal projection for an immutable
+        # predecessor.  The successor owns any future documentation work.
+        if valid_recovery_decision(repository, work_item_id):
+            continue
+        contract_path = repository / ".ai/work-items/archive" / f"{work_item_id}.contract.json"
+        try:
+            contract = read_json(contract_path)
+        except PromotionError:
+            # Do not silently skip a closed record whose governing Contract
+            # cannot be read; the normal promotion validator will report it.
             result.append(work_item_id)
-    return result
+            continue
+        try:
+            if contract_predates_projection_policy(contract, work_item_id, policy):
+                excluded_before_policy += 1
+                continue
+        except ProjectionPolicyError as error:
+            raise PromotionError(str(error)) from error
+        registered = work_item_id in registrations or short_work_item_id(work_item_id) in registrations
+        try:
+            required = requires_documentation_projection(
+                contract,
+                work_item_id,
+                policy,
+                has_existing_registration=registered,
+            )
+        except ProjectionPolicyError as error:
+            raise PromotionError(str(error)) from error
+        if required:
+            result.append(work_item_id)
+    return result, excluded_before_policy
+
+
+def closed_work_items(repository: Path) -> list[str]:
+    """Return only closed Work Items governed by the current projection policy."""
+    return closed_work_item_selection(repository)[0]
 
 
 def main() -> int:
@@ -937,8 +976,19 @@ def main() -> int:
     repository = args.repo.resolve()
     try:
         if args.check_all:
-            reports = [promote(repository, work_item_id, check=True) for work_item_id in closed_work_items(repository)]
-            print(json.dumps({"checked": len(reports), "reports": reports, "state": "current"}, indent=2))
+            work_items, excluded_before_policy = closed_work_item_selection(repository)
+            reports = [promote(repository, work_item_id, check=True) for work_item_id in work_items]
+            print(
+                json.dumps(
+                    {
+                        "checked": len(reports),
+                        "excludedBeforePolicyEffectiveAt": excluded_before_policy,
+                        "reports": reports,
+                        "state": "current",
+                    },
+                    indent=2,
+                )
+            )
         else:
             print(json.dumps(promote(repository, args.work_item, check=args.check), indent=2))
     except PromotionError as error:

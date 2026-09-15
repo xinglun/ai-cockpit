@@ -54,19 +54,27 @@ legacy behavior. `attach` does not invent these governance declarations.
 The delivery order is conditional on the Contract. A Work Item with no
 external resource uses latest remote default base → dedicated branch/worktree
 → implement → preflight → checkpoint → verify → finish → archive → close →
-synchronize and clean. A resource-bound Work Item uses latest remote default
-base → dedicated branch/worktree → implement → finalize-plan → preflight →
-checkpoint → verify → finish → reviewed PR → merge → declared hosted,
-candidate, release, or public-artifact evidence → archive → finalize →
-finalize-verify → close → synchronize and clean. Do not pre-merge a feature
-branch into local `main`, delete its branch before merge, or let a provider
-auto-delete it to bypass finalization. If a remote step fails, preserve the
-retry checkout and identity. A repository is `ready_on_base` only after the
-reviewed merge when applicable, default-branch synchronization, and exact
-cleanup are verified; a detached worktree is not a ready base. A historical
-resource-bound PR is handled only by its exact archived Contract and valid
-archive manifest through the read-only Rust gate; it is not an ordinary
-no-Contract route.
+synchronize default branch → remove its exact branch/worktree. A
+resource-bound Work Item uses latest remote default base → dedicated
+branch/worktree → implement → finalize-plan → preflight → checkpoint → verify
+→ finish → reviewed PR → merge → declared hosted, candidate, release, or
+public-artifact evidence → archive → synchronize default branch → perform
+exact provider cleanup under the accepted plan → record finalize receipt →
+finalize-verify → close → clean the closure/control context. In the
+resource-bound route, perform the exact planned provider cleanup after merge
+and required acceptance, then use `finalize` to record its identity-bound
+receipt; the Runtime does not delete branches or worktrees. `finalize-verify`
+validates the receipt before `close`; `close` records the terminal decision
+and does not delete those resources. Cleanup after `close` refers only to the
+closure/control context, never to the already finalized Work Item
+branch/worktree. Do not pre-merge a feature branch into local `main`, delete
+its branch before merge, or let a provider auto-delete it to bypass
+finalization. If a remote step fails, preserve the retry checkout and
+identity. A repository is `ready_on_base` only after the reviewed merge when
+applicable, default-branch synchronization, and exact cleanup are verified; a
+detached worktree is not a ready base. A historical resource-bound PR is
+handled only by its exact archived Contract and valid archive manifest
+through the read-only Rust gate; it is not an ordinary no-Contract route.
 
 ## Evidence discipline
 
@@ -103,11 +111,21 @@ Work Items may run concurrently only with isolated scopes, worktrees, evidence
 ownership, and compatible serialized projections.
 
 Installation and upgrade acceptance binds to an immutable published Release
-tag and downloaded binary. After a reviewed PR is merged, closure verifies the
-archive, decision, merged head, synchronized default branch, clean worktrees,
-and exact branch removal. Immediately after close, run
+tag and downloaded binary. After a reviewed PR is merged, complete and verify
+resource-bound cleanup before close; the no-resource route closes first and
+cleans its exact branch and worktree afterward. Immediately after close, run
 `python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
 If stale documentation projections are reported, complete a narrowly scoped
 documentation-promotion Work Item with that helper, rerun `--check-all`, and
 do not declare `ready_on_base` until it is current. Any failed step remains
 open for recovery.
+
+The repository documentation policy may declare an
+`effectiveFromContractCreatedAt` timestamp. Automatic `--check-all` applies
+that policy only to Contracts created at or after the timestamp; older
+records remain historical and are not retroactively revalidated. An explicit
+`--work-item <id> --check` still validates the requested record. For in-scope
+Contracts, projection requirements follow the configured modes, operations,
+scope, acceptance criteria, and existing registrations; `mode=release` alone
+does not imply publication, while an explicit `release.publish` operation
+does.

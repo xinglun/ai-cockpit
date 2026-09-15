@@ -3,12 +3,14 @@ use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnap
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item, attach, checkpoint_work_item, close_work_item_with_structured_decision,
-    finish_work_item, outcome_render_input_with_runtime, plan_resource_finalization,
-    preflight_work_item, record_recovery_decision, record_resource_finalization,
-    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
-    run_repository_verification, start_work_item, start_work_item_with_options,
-    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
+    archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
+    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
+    finish_work_item, finish_work_item_with_runtime, outcome_render_input_with_runtime,
+    plan_resource_finalization, preflight_work_item, record_recovery_decision,
+    record_resource_finalization, record_verification, record_verification_with_runtime,
+    render_human_outcome, repository_id, run_repository_verification, start_work_item,
+    start_work_item_with_options, work_item_status_index_with_runtime,
+    work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, process::Command};
@@ -59,6 +61,351 @@ fn runtime() -> RuntimeContext {
         protocol_version: 1,
         runtime_digest: Digest::sha256_bytes(b"status-runtime"),
     }
+}
+
+fn git(directory: &std::path::Path, args: &[&str]) -> String {
+    let output = Command::new("git")
+        .args(args)
+        .current_dir(directory)
+        .output()
+        .expect("run git");
+    assert!(
+        output.status.success(),
+        "git {args:?} failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    String::from_utf8(output.stdout)
+        .expect("git output")
+        .trim()
+        .to_owned()
+}
+
+fn commit_all(directory: &std::path::Path, message: &str) {
+    git(directory, &["add", "-A"]);
+    git(
+        directory,
+        &[
+            "-c",
+            "user.name=Status Test",
+            "-c",
+            "user.email=status@example.invalid",
+            "commit",
+            "-q",
+            "-m",
+            message,
+        ],
+    );
+}
+
+fn prepare_ordinary_archive(work_item_id: &str, commit_archive: bool) -> tempfile::TempDir {
+    let directory = repository();
+    git(
+        directory.path(),
+        &["branch", "-m", "feature/ordinary-close"],
+    );
+    commit_all(directory.path(), "attach repository");
+    complete_ordinary_archive(directory.path(), work_item_id, commit_archive);
+    directory
+}
+
+fn complete_ordinary_archive(
+    directory: &std::path::Path,
+    work_item_id: &str,
+    commit_archive: bool,
+) {
+    fs::create_dir_all(directory.join(".ai/evidence")).expect("evidence directory");
+    fs::create_dir_all(directory.join(".ai/decisions")).expect("decisions directory");
+    let current_runtime = runtime();
+    start_work_item_with_options(
+        directory,
+        work_item_id,
+        "ordinary close cleanup binding",
+        "bind cleanup without external resources",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["ordinary cleanup is independently projected".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start ordinary work item");
+    let contract_path = directory.join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory, &contract_path).expect("preflight ordinary work item");
+    checkpoint_work_item(directory, work_item_id).expect("checkpoint ordinary work item");
+    let run = run_repository_verification(
+        directory,
+        &RepositoryVerificationRequest {
+            node_id: "ordinary-close-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify ordinary work item");
+    record_verification_with_runtime(
+        directory,
+        work_item_id,
+        &serde_json::to_value(&run.receipt).expect("verification receipt"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record ordinary verification");
+    finish_work_item_with_runtime(directory, work_item_id, &current_runtime)
+        .expect("finish ordinary work item");
+    archive_work_item_with_runtime(directory, work_item_id, &current_runtime)
+        .expect("archive ordinary work item");
+    if commit_archive {
+        commit_all(directory, "archive ordinary work item");
+    }
+}
+
+fn approved_decision(work_item_id: &str) -> HumanDecision {
+    HumanDecision {
+        decision: "approved".into(),
+        actor: "human:owner".into(),
+        authority_source: "user-authorized-work-item".into(),
+        reason: "focused status projection evidence is complete".into(),
+        evidence_refs: vec![format!(".ai/evidence/{work_item_id}.verification.json")],
+        policy_refs: vec!["status-projection".into()],
+        decided_at: "2026-09-15T00:00:00Z".into(),
+        resume_condition: Some("rerun verification if repository identity changes".into()),
+    }
+}
+
+#[test]
+fn ordinary_close_rejects_unprovable_worktree_binding_without_writing_receipts() {
+    let work_item_id = "WI-STATUS-ORDINARY-UNBOUND";
+    let directory = prepare_ordinary_archive(work_item_id, false);
+
+    let error = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect_err("uncommitted archive cannot be bound to the exact current HEAD");
+
+    assert!(error.to_string().contains("exact archived"));
+    let decisions = directory.path().join(".ai/decisions");
+    assert!(
+        !decisions
+            .join(format!("{work_item_id}.close.json"))
+            .exists()
+    );
+    assert!(
+        fs::read_dir(decisions)
+            .expect("decisions")
+            .all(|entry| !entry
+                .expect("decision entry")
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.cleanup."))),
+        "a rejected close must not leave any cleanup receipt"
+    );
+}
+
+#[test]
+fn ordinary_close_keeps_verified_work_result_while_cleanup_is_pending() {
+    let work_item_id = "WI-STATUS-ORDINARY-PENDING";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close ordinary work item with exact cleanup binding");
+
+    let decision: Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/decisions/{work_item_id}.close.json")),
+        )
+        .expect("close decision"),
+    )
+    .expect("close decision JSON");
+    let binding = decision
+        .get("ordinaryCleanupBinding")
+        .expect("ordinary cleanup binding");
+    assert_eq!(
+        binding["repositoryId"],
+        repository_id(directory.path()).to_string()
+    );
+    assert_eq!(binding["workItemId"], work_item_id);
+    assert_eq!(binding["branchRef"], "refs/heads/feature/ordinary-close");
+    assert_eq!(
+        binding["headRevision"],
+        git(directory.path(), &["rev-parse", "HEAD"])
+    );
+    assert!(
+        binding["worktreeId"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
+    assert!(
+        decision["ordinaryCleanupBindingDigest"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("closed ordinary status");
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert_eq!(status.verification, "verified");
+    assert_eq!(status.completion_domains["workResult"], "verified");
+    assert_eq!(status.completion_domains["resourceCleanup"], "pending");
+    assert_eq!(status.completion_domains["closure"], "closed");
+    assert!(!status.blocking);
+}
+
+#[test]
+fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_removed() {
+    let work_item_id = "WI-STATUS-ORDINARY-CLEANUP";
+    let primary = repository();
+    git(primary.path(), &["branch", "-m", "main"]);
+    commit_all(primary.path(), "attach repository");
+    let linked_parent = tempfile::tempdir().expect("linked worktree parent");
+    let remote_path = linked_parent.path().join("origin.git");
+    let remote_path_text = remote_path.display().to_string();
+    git(
+        linked_parent.path(),
+        &["init", "--bare", "-q", &remote_path_text],
+    );
+    git(&remote_path, &["symbolic-ref", "HEAD", "refs/heads/main"]);
+    git(
+        primary.path(),
+        &["remote", "add", "origin", &remote_path_text],
+    );
+    git(primary.path(), &["push", "-q", "-u", "origin", "main"]);
+    git(
+        primary.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    let linked_path = linked_parent.path().join("ordinary-worktree");
+    let linked_path_text = linked_path.display().to_string();
+    git(
+        primary.path(),
+        &[
+            "worktree",
+            "add",
+            "-q",
+            "-b",
+            "feature/ordinary-cleanup",
+            &linked_path_text,
+        ],
+    );
+    complete_ordinary_archive(&linked_path, work_item_id, true);
+    close_work_item_with_structured_decision_and_runtime(
+        &linked_path,
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close linked ordinary work item");
+
+    let failed = cockpit_repository::record_ordinary_cleanup_with_runtime(
+        &linked_path,
+        work_item_id,
+        &runtime(),
+    )
+    .expect("record pending exact resources");
+    let failed = serde_json::to_value(failed).expect("failed cleanup receipt JSON");
+    assert_eq!(failed["result"]["state"], "failed");
+    let failed_status =
+        work_item_status_snapshot_with_runtime(&linked_path, work_item_id, &runtime())
+            .expect("failed cleanup status");
+    assert_eq!(failed_status.lifecycle_phase, "closed");
+    assert_eq!(failed_status.completion_domains["workResult"], "verified");
+    assert_eq!(
+        failed_status.completion_domains["resourceCleanup"],
+        "failed"
+    );
+    assert_eq!(failed_status.completion_domains["closure"], "closed");
+
+    commit_all(&linked_path, "record close and failed cleanup observation");
+    git(
+        primary.path(),
+        &["merge", "--ff-only", "feature/ordinary-cleanup"],
+    );
+    git(primary.path(), &["worktree", "remove", &linked_path_text]);
+    git(
+        primary.path(),
+        &["branch", "-d", "feature/ordinary-cleanup"],
+    );
+
+    let verified = cockpit_repository::record_ordinary_cleanup_with_runtime(
+        primary.path(),
+        work_item_id,
+        &runtime(),
+    )
+    .expect("record exact cleanup postconditions");
+    let verified = serde_json::to_value(verified).expect("verified cleanup receipt JSON");
+    assert_eq!(verified["result"]["state"], "verified");
+    assert_eq!(verified["sequence"], 2);
+    let status = work_item_status_snapshot_with_runtime(primary.path(), work_item_id, &runtime())
+        .expect("verified cleanup status");
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert_eq!(status.verification, "verified");
+    assert_eq!(status.completion_domains["workResult"], "verified");
+    assert_eq!(status.completion_domains["resourceCleanup"], "verified");
+    assert_eq!(status.completion_domains["closure"], "closed");
+}
+
+#[test]
+fn ordinary_cleanup_rejects_tampered_binding_without_writing_a_receipt() {
+    let work_item_id = "WI-STATUS-ORDINARY-BAD-BINDING";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close ordinary work item");
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    let mut decision: Value =
+        serde_json::from_slice(&fs::read(&close_path).expect("close decision"))
+            .expect("close decision JSON");
+    decision["ordinaryCleanupBinding"]["branchRef"] =
+        "refs/heads/feature/not-the-bound-branch".into();
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&decision).expect("tampered close decision"),
+    )
+    .expect("tamper close binding in isolated fixture");
+
+    let error = cockpit_repository::record_ordinary_cleanup_with_runtime(
+        directory.path(),
+        work_item_id,
+        &runtime(),
+    )
+    .expect_err("tampered binding must be rejected before receipt creation");
+    assert!(error.to_string().contains("binding digest mismatch"));
+    assert!(
+        fs::read_dir(directory.path().join(".ai/decisions"))
+            .expect("decisions")
+            .all(|entry| !entry
+                .expect("decision entry")
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.cleanup.")))
+    );
 }
 
 fn resource_worktree_path(directory: &tempfile::TempDir, work_item_id: &str) -> String {
@@ -140,13 +487,13 @@ fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str
         "contractDigest": Digest::sha256_bytes(&fs::read(&contract_path).expect("contract bytes")),
         "resourceContext": context
     });
-    let input = directory.path().join("finalize-input.json");
+    let input = tempfile::NamedTempFile::new().expect("finalization input");
     fs::write(
-        &input,
+        input.path(),
         serde_json::to_vec_pretty(&receipt).expect("receipt JSON"),
     )
     .expect("receipt input");
-    record_resource_finalization(directory.path(), work_item_id, &input, &runtime())
+    record_resource_finalization(directory.path(), work_item_id, input.path(), &runtime())
         .expect("record deleted finalization");
 }
 
@@ -161,7 +508,7 @@ fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>)
         predecessor,
         "recover a historical close projection",
         "project a valid successor recovery without rewriting historical bytes",
-        &["**".into()],
+        &["src/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["the predecessor remains immutable".into()],
@@ -181,7 +528,7 @@ fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>)
             node_id: "historical-predecessor-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec!["src/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),
@@ -585,12 +932,16 @@ fn concurrent_all_work_item_status_is_repository_isolated() {
 fn status_projection_distinguishes_archived_from_valid_closed_decision() {
     let directory = repository();
     let work_item_id = "WI-STATUS-CLOSED";
-    start_work_item(
+    start_work_item_with_options(
         directory.path(),
         work_item_id,
         "status close projection",
         "show terminal close state",
-        &["**".into()],
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..WorkItemStartOptions::default()
+        },
     )
     .expect("start");
     plan(&directory, work_item_id);
@@ -606,7 +957,7 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
             node_id: "status-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec!["src/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),
@@ -716,6 +1067,8 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
         .expect("closed status");
     assert_eq!(closed.lifecycle_phase, "closed");
     assert_eq!(closed.completion_domains["closure"], "closed");
+    assert_eq!(closed.completion_domains["workResult"], "verified");
+    assert_eq!(closed.completion_domains["resourceCleanup"], "verified");
     assert_eq!(closed.human_decisions, vec!["close_decision_recorded"]);
     assert!(!closed.blocking);
     assert!(
@@ -729,6 +1082,8 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
         .path()
         .join(format!(".ai/decisions/{work_item_id}.close.json"));
     let decision_bytes = fs::read(&decision_path).expect("decision bytes");
+    let decision: Value = serde_json::from_slice(&decision_bytes).expect("decision JSON");
+    assert!(decision.get("ordinaryCleanupBinding").is_none());
     let archived_summary = fs::read(directory.path().join(format!(
         ".ai/work-items/archive/{work_item_id}.summary.json"
     )))
@@ -861,7 +1216,7 @@ fn invalid_close_decision_never_promotes_archived_status() {
         work_item_id,
         "status invalid close",
         "reject invalid close projection",
-        &["**".into()],
+        &["src/**".into()],
     )
     .expect("start");
     assert_no_resource_context(&directory, work_item_id);
@@ -912,7 +1267,7 @@ fn foreign_close_repository_identity_never_promotes_archived_status() {
         work_item_id,
         "status foreign close",
         "reject cross-repository close receipt",
-        &["**".into()],
+        &["src/**".into()],
     )
     .expect("start");
     assert_no_resource_context(&directory, work_item_id);
@@ -1037,6 +1392,7 @@ fn current_archive_without_close_blocks_new_work_item_entry() {
         serde_json::json!({
             "workItemId": work_item_id,
             "repositoryId": repository_id,
+            "scope": ["src/**"],
         })
         .to_string(),
     )

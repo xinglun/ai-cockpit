@@ -14,21 +14,33 @@ lastVerifiedBy: WI-512-reference-docs-batch-33
 
 Closure is the final handoff after `start → preflight → checkpoint → verify →
 finish → archive`. It is not a branch-deletion shortcut. The reviewed PR, exact
-Work Item head, archived Contract/Summary/evidence, synchronized base, clean
-worktrees, and remote branch absence must all be proven by the Runtime.
+Work Item head, archived Contract/Summary/evidence, provider-side cleanup, and
+synchronized base must be supported by identity-bound evidence. The Runtime
+validates its receipts and local postconditions; it does not perform provider
+deletion or directly query provider state. `ready_on_base` additionally
+requires the synchronized base and clean-worktree readiness checks.
 
 ## Normal route
 
 ```text
-verify → finish/archive → push → reviewed PR and hosted checks → merge
-→ finalize → finalize-verify → close → synchronize and clean
+resource-bound:
+verify → finish → push → reviewed PR and hosted checks → merge
+→ declared acceptance evidence → archive → synchronize default branch
+→ perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close → clean closure/control context
 ```
 
-Run the repository-bound close command from the Work Item checkout or the
-explicitly registered recovery checkout. It verifies PR state, branch and head
-identity, base fast-forward synchronization, archive/decision receipts, clean
-worktrees, and remote branch absence before deleting the exact local Work Item
-branch. A provider must not auto-delete the branch to bypass this proof.
+After merge and declared acceptance, an authorized operator performs the exact
+provider cleanup under the accepted plan. The Runtime does not delete the
+branch or worktree: `finalize` records the observed identity-bound receipt,
+then `finalize-verify` validates it before close. A retained resource or
+missing receipt does not authorize a new resource-bound close. Run the
+repository-bound close command only after that verification succeeds. `close`
+validates and records the terminal human decision; it does not delete the Work
+Item branch or worktree. A provider must not auto-delete the branch to bypass
+this proof. Synchronize the default branch as required by the Contract before
+resource finalization. Any cleanup after close is limited to the
+closure/control context and readiness checks.
 
 `ready_on_base` means the invoking checkout is clean and on the synchronized
 default branch. `closed_but_current_worktree_detached` means closure succeeded

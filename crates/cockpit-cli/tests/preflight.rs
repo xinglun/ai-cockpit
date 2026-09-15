@@ -84,7 +84,7 @@ fn preflight_reports_yellow_when_required_evidence_is_missing() {
       "repositoryId": "fixture",
       "intent": "verify a bounded change",
       "goal": "exercise preflight",
-      "scope": ["**"],
+      "scope": ["contract.json"],
       "outOfScope": [".git/**"],
       "risk": "normal",
       "authority": "authorized",

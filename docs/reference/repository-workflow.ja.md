@@ -53,8 +53,9 @@ resource-bound:
 → finalize-plan → preflight → checkpoint → verify → finish
 → レビュー済み PR → merge
 → Contract が宣言した hosted、candidate、release、public-artifact evidence（該当する場合）
-→ archive → finalize → finalize-verify → close → 既定 branch 同期
-→ 正確な branch/worktree の削除
+→ archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close
+→ clean closure/control context
 
 no external resource:
 最新 remote 既定 base → 専用 branch/worktree → 実装
@@ -63,7 +64,12 @@ no external resource:
 ```
 
 resource-bound の場合、PR merge 前に branch を削除せず、provider の自動削除で finalization を
-迂回しません。すべての新しい Work Item の `close` には structured human decision、archive
+迂回しません。merge と必要な acceptance の後、authorized operator が exact plan に従って cleanup を
+実行します。`finalize` は観測済み identity-bound receipt を記録するだけで、Runtime は branch/worktree を
+削除しません。`finalize-verify` は receipt を close 前に検証します。`close` は terminal decision を記録し、
+resource を削除しません。close 後の cleanup は closure/control context のみです。
+no-resource route は先に close し、その後 default branch を同期して exact implementation
+branch/worktree を削除します。`ready_on_base` を宣言するには structured human decision、archive
 evidence、fast-forward 同期済みの既定 branch、clean worktree が必要です。`finish` は source
 verification readiness だけを確立します。Contract が後続の hosted、candidate、release、
 public-artifact evidence を宣言する場合、その段階を archive の前に完了させます。resource-bound

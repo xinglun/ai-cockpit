@@ -153,9 +153,6 @@ fn repository_readiness_from_snapshot_with_runtime(
     if active_work_items > 0 {
         blockers.push("active_work_items_present".into());
     }
-    if !unclosed_archived_work_items.is_empty() {
-        blockers.push("archived_work_items_pending_close".into());
-    }
     if !orphaned_active_artifacts.is_empty() {
         blockers.push("orphaned_active_artifacts_present".into());
     }
