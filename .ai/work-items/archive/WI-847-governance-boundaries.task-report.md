@@ -17,7 +17,7 @@
 - Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json
-- Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json
+- Changed path: .ai/work-items/archive/WI-847-governance-boundaries.summary.json
 - Changed path: tests/workflow/resource_finalization_policy.sh
 - Changed path: tests/workflow/resource_finalization_policy_test.sh
 

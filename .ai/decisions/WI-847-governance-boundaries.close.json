@@ -1,35 +1,6 @@
 {
-  "acceptanceResults": [
-    "Close and cleanup instructions have one executable ordering and cleanup failure is represented separately without reopening verified work",
-    "Ordinary code Work Items are not blocked by absent derived tri-language pages, while explicit documentation and release routes retain their checks",
-    "Historical pending-close/finalization debt blocks only a declared dependency or conflicting scope and remains visible as a warning otherwise",
-    "A small no-resource Work Item can complete start through close without a documentation successor",
-    "Every canonical English, Chinese, Japanese, and AGENTS projection distinguishes resource-bound provider cleanup before close from post-close synchronization or closure-context cleanup; no instruction says the same resource-bound branch/worktree must be deleted both before and after close.",
-    "A regression gate rejects any canonical lifecycle projection that places resource-bound Work Item branch/worktree removal after close or describes close itself as performing that deletion."
-  ],
-  "createdAt": "2026-09-15T17:08:20Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:fe2064ac9b67aa1dac0d43727513a2aa6589eec49806efca9180f952eff1b811",
-  "evidenceRefs": [
-    ".ai/evidence/WI-847-governance-boundaries.verification.json"
-  ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-847-governance-boundaries.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-847-governance-boundaries.verification.json"
@@ -46,42 +17,42 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.3042900e1567a0cfa7ad6a456dc0ab3ad4de73f35da51dce9617ed5d1b24eb2f.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.254c3d93dac2315cedeb625ba597c1f4e7deac92621183d8020736c4539df579.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-847-governance-boundaries.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/workflow/resource_finalization_policy.sh"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/workflow/resource_finalization_policy_test.sh"
@@ -104,7 +75,17 @@
         "user_visible_benefit_invented_from_implementation_facts"
       ],
       "forcedStops": [],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-847-governance-boundaries.verification.json",
+            "https://github.com/xinglun/ai-cockpit/pull/830",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/35001520036"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-15T17:44:01Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -140,7 +121,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.contract.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.contract.json"
           ],
           "inference": false,
           "text": "Separate verified work completion from cleanup, make documentation projection explicitly policy-driven, and scope historical debt to related work"
@@ -149,7 +130,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-847-governance-boundaries.contract.json"
+            ".ai/work-items/archive/WI-847-governance-boundaries.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -159,15 +140,26 @@
     "status": "verified",
     "workItemId": "WI-847-governance-boundaries"
   },
-  "taskReportDigest": "sha256:49fd3e98f128946b2d7b95b17489729216fab8b4b4e00250d4eb4f109def831e",
-  "taskReportMarkdownDigest": "sha256:d3dfc83d6dd1700f199eecc56996e2fe2d6e81f165634a8aabcf45f492d53f90",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-847-governance-boundaries.verification.json",
-    "required": true,
-    "status": "verified"
+  "finalReportDigest": "sha256:40c7e81150484bc99ac572ba0c44ab0661b461577b1daf0fc9d0b1288e49f1fa",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-15T17:44:01Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-847-governance-boundaries.verification.json",
+      "https://github.com/xinglun/ai-cockpit/pull/830",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/35001520036"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Reviewed PR #830, all required PR checks, merged head cd98aa1856dac51627fe998791d659e49fafb9f2, and successful main CI run 35001520036; the user authorized completing all Work Items under the governed workflow and publishing only after all are complete.",
+    "resumeCondition": null
   },
+  "timestamp": "2026-09-15T17:44:01Z",
   "workItemId": "WI-847-governance-boundaries"
 }
