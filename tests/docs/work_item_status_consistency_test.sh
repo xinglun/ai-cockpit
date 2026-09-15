@@ -233,6 +233,38 @@ EOF
 EOF
 }
 
+# Keep the language-neutral Python selector aligned with Rust's conservative
+# scope relation: an ordinary source glob is disjoint from generated docs,
+# while an explicit Work Item docs scope still selects the projection.
+python3 - "$root/tests/docs" <<'PY'
+import sys
+
+sys.path.insert(0, sys.argv[1])
+from work_item_projection_policy import ProjectionPolicy, requires_documentation_projection
+
+policy = ProjectionPolicy(
+    repository_id="sha256:fixture",
+    default_projection="derived",
+    required_modes=("docs", "documentation", "release"),
+    required_operations=("documentation.modify", "release.publish"),
+    preserve_existing_registrations=False,
+)
+ordinary_code = {"mode": "code", "scope": ["src/**/*.rs"]}
+documentation = {"mode": "code", "scope": ["docs/work-items/**"]}
+assert not requires_documentation_projection(
+    ordinary_code,
+    "WI-1000-source-glob",
+    policy,
+    has_existing_registration=False,
+), "ordinary Rust source glob must not require generated documentation"
+assert requires_documentation_projection(
+    documentation,
+    "WI-1001-docs-glob",
+    policy,
+    has_existing_registration=False,
+), "explicit documentation scope must retain the projection requirement"
+PY
+
 historical_conditional="$tmp/historical-conditional"
 cp -R "$fixture" "$historical_conditional"
 write_projection_policy "$historical_conditional"

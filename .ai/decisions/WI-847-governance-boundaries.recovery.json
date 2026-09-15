@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-15T14:25:41Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-847-governance-boundaries.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/34978237796"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:652496fddcd2b4596c52e6187e487c47d4a6c5366c95c82e6e2d843a3f13ced5",
+  "predecessorEventsDigest": "sha256:1a240d738ebaa3dc2f85ca361d3e8151096265a53cfdfe15fc6dfb8fa415c968",
+  "predecessorOutcomeDigest": "sha256:80d124b624a17290bf622906426ad2a4280df6add53b84ba8a0466ae0acfbf8c",
+  "predecessorSummaryDigest": "sha256:40c435493544fe205c98f9cd2dde1aa260ae0ef8e41fc9b1f9c322cf9021375b",
+  "predecessorWorkItemId": "WI-847-governance-boundaries",
+  "reason": "Continue the same in-scope WI-847 repair after the repository snapshot changed and made the previous verification evidence stale. Preserve the old evidence; retry only to restore the legal checkpointed state for fresh verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh current-snapshot preflight, checkpoint, the declared verification plan, and required hosted CI; proceed only with fresh identity-bound evidence.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-847-governance-boundaries"
+}

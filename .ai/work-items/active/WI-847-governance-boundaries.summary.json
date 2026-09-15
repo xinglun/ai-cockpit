@@ -1,19 +1,43 @@
 {
   "changedPaths": [
+    ".ai/README.md",
+    ".ai/decisions/WI-847-governance-boundaries.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.9139d5bbb709c81e4855963487f818506b81736a1a5afe323b7261f4800c6ed2.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.e910b8d5e418869944b5c01f7d909ca9bc19cbe2905144525d377bf462b61559.json",
-    ".ai/evidence/WI-847-governance-boundaries.verification.json",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.767c9a3225087ff535ab1c26efe8340b1acaeb8aeeafecce5c2a28c7cee6ea5b.json",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.80c664203753dfd7f45866621625ec8b019113713df0dc0f6a351195d64e8faa.json",
+    ".ai/evidence/WI-847-governance-boundaries.verification-attempt.b6c5eba2404c446de76785b5f52320f57c0a810a37b9b3db90c641d7ee1eb114.json",
     ".ai/work-items/active/WI-847-governance-boundaries.contract.json",
-    ".ai/work-items/active/WI-847-governance-boundaries.outcome.json",
     ".ai/work-items/active/WI-847-governance-boundaries.summary.json",
-    ".ai/work-items/active/WI-847-governance-boundaries.task-report.json",
-    ".ai/work-items/active/WI-847-governance-boundaries.task-report.md",
-    "crates/cockpit-mcp/tests/rpc.rs",
-    "tests/docs/parity_status_check_test.sh"
+    "AGENTS.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "crates/cockpit-repository/tests/verification_command_selection.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/workflow/resource_finalization_policy.sh",
+    "tests/workflow/resource_finalization_policy_test.sh"
   ],
   "checkpointAt": "2026-09-15T00:44:59Z",
-  "checkpointContractDigest": "sha256:652496fddcd2b4596c52e6187e487c47d4a6c5366c95c82e6e2d843a3f13ced5",
+  "checkpointContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -349,9 +373,129 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:d95117a4317da59e75971e20a4dfc9b9e5f83674760ea4b6210d92257aca1a50",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:652496fddcd2b4596c52e6187e487c47d4a6c5366c95c82e6e2d843a3f13ced5",
+      "reason": "Include the single shared test-fixture source file whose broad synthetic scope made the declared outcome-assembly tests fail after WI-847's projection policy change; narrow its fixture scope and keep this same-WI verification runnable. No production behavior or unrelated files are added.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:27:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc27e1e05a91e3dcefe46b195c2c3b35abd9b4a5ca8c943eeae86dd6410013aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:38770e5f98d55f99fb6a34b7e786c4e80f792eb1b1d2ac108a43e37a5fe7c7b1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:d95117a4317da59e75971e20a4dfc9b9e5f83674760ea4b6210d92257aca1a50",
+      "reason": "Update the strict checkpoint fixture that currently declares the entire repository as its scope. Under the intended projection policy that scope includes documentation, so the fixture must model an ordinary source-only Work Item (src/**) rather than accidentally demanding projection pages. This is one test file only; no lifecycle policy is weakened.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:34:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bc27e1e05a91e3dcefe46b195c2c3b35abd9b4a5ca8c943eeae86dd6410013aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3be87f24383bf205f1e8a1f060343449c353c36da8f79e51fd1191b3b46349cc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:38770e5f98d55f99fb6a34b7e786c4e80f792eb1b1d2ac108a43e37a5fe7c7b1",
+      "reason": "Narrow ordinary archive-integrity test fixtures that use a blanket scope; the newly enforced documentation projection boundary correctly treats that blanket scope as touching governed docs, which prevented these focused lifecycle tests from reaching their assertions.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:45:16Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8586c654d150c2a1962c8678a5c967cda0e6a570c8eb50e30fc758924fe4931c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4a43c0ac2808f8bb323a5ec5424d504c984fcd6a217ad5d29ce18a419b8ab6e0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:3be87f24383bf205f1e8a1f060343449c353c36da8f79e51fd1191b3b46349cc",
+      "reason": "Update the capability-mapping test fixture so it exercises operation-to-capability resolution without implicitly selecting the separate documentation-projection acceptance path; this package regression was exposed by the governed documentation boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:51:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:37327b31a8c9f800a48d55803b8c10607da4728bd391bd91d1b3061177b20808",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:7a613422d8d7421887d99caef455dc61f6e6ea6caec05ca99359b18096d413de",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:4a43c0ac2808f8bb323a5ec5424d504c984fcd6a217ad5d29ce18a419b8ab6e0",
+      "reason": "Narrow the evidence-assurance suite shared fixture from blanket whole-repository scope to generated governance state; the package test exposed the same new documentation projection boundary as the archive fixtures.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:53:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3dd0ada0fe06f4866c52078b3f997de4fc854ed94d22579d4f1ca3cf035e13da",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d46398e9e90c0d5b9be6e534298685a7fca6c10f9babca9c1a9d17b77ad2d2c",
+      "previousContractHash": "sha256:7a613422d8d7421887d99caef455dc61f6e6ea6caec05ca99359b18096d413de",
+      "reason": "Scope the remaining repository lifecycle test fixtures that declare blanket whole-repository patterns, so ordinary lifecycle/evidence tests do not accidentally opt into the independent documentation-projection gate. Tests that exercise docs retain their explicit documentation behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-15T14:55:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:98214f45ecde9154ed10b66b63732599e13d372c47b2398d95771deeb404e833",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-847-governance-boundaries"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:d92382009b2197ac2ec750f1f0e5c74918c6051ce347c679b9134cac0927b42e",
+  "checkpointRepositorySnapshotDigest": "sha256:cecd27a84df4c2c1ec60021f96a447abfb9a7d67c2beefee8716073994200db1",
   "createdAt": "2026-09-15T00:43:38Z",
   "intentAlignment": {
     "evidence": [
@@ -372,11 +516,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-15T13:53:03Z",
-  "preflightContractDigest": "sha256:652496fddcd2b4596c52e6187e487c47d4a6c5366c95c82e6e2d843a3f13ced5",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:d92382009b2197ac2ec750f1f0e5c74918c6051ce347c679b9134cac0927b42e",
-  "preflightState": "green",
+  "preflightAt": "2026-09-15T15:29:33Z",
+  "preflightContractDigest": "sha256:e2dea260074ff0b79858bc4bc8311464a6f9c543eae5f177c48107c0311cfb10",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:fe2570d150175cfa97f42910d6c4305c0e670ce8cf2d0a883e219fc3a5dce784",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -429,13 +573,62 @@
       "verificationPlan": "Run the focused resource_finalization_policy_test.sh gate and verify its negative fixture rejects a resource-bound order that places branch/worktree cleanup after close."
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-09-15T13:53:44Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-15T14:26:15Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
     }
   ],
+  "verificationRecoveryReconciled": "sha256:1454b12f159da23d6c35ead51c1ff7067b1871bb43b6ea2dc5020669134661ba",
   "workItemId": "WI-847-governance-boundaries"
 }

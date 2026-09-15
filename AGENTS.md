@@ -87,6 +87,10 @@ no-resource Work Item, `close` precedes default-branch synchronization and
 removal of its exact branch/worktree. Do not describe either route as
 requiring the same Work Item branch/worktree to be removed both before and
 after `close`.
+For a no-resource Work Item, after removing its exact branch/worktree, record
+the cleanup result with
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
+before declaring `ready_on_base`.
 
 ## Agent operating boundaries
 

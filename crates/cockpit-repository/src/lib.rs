@@ -1666,7 +1666,7 @@ fn validate_start_entry(
     })?;
     let mut failures = Vec::new();
     if !recovery_continuation {
-        let scope_conflicts = unclosed_archived_scope_conflicts(&root, candidate_scope)?;
+        let scope_conflicts = unclosed_archived_scope_conflicts(&root, "", candidate_scope)?;
         if !scope_conflicts.is_empty() {
             failures.push(format!(
                 "archived Work Item scope conflict: {}",
@@ -1743,12 +1743,12 @@ fn validate_start_entry(
 }
 
 /// Historical pending-close records remain visible in repository readiness,
-/// but only a known, repository-bound scope overlap blocks an ordinary start.
-/// Missing, malformed, foreign, or unsupported historical scope is not
-/// authority to block unrelated work; the original debt stays in the status
-/// inventory for explicit recovery.
+/// but only a manifest-bound scope is used to decide overlap. An unverifiable
+/// local archive is an explicit unknown blocker: silently trusting a modified
+/// scope could let a conflicting Work Item bypass the historical boundary.
 fn unclosed_archived_scope_conflicts(
     root: &Path,
+    candidate_work_item_id: &str,
     candidate_scope: &[String],
 ) -> Result<Vec<String>, ObserverError> {
     if candidate_scope.is_empty() {
@@ -1756,12 +1756,25 @@ fn unclosed_archived_scope_conflicts(
     }
     let expected_repository_id = repository_id(root).to_string();
     let archive = root.join(".ai/work-items/archive");
-    let mut conflicts = Vec::new();
+    let mut blockers = Vec::new();
     for work_item_id in unclosed_archived_work_items(root)? {
         let contract_path = archive.join(format!("{work_item_id}.contract.json"));
-        let value = match fs::read(&contract_path) {
-            Ok(bytes) => serde_json::from_slice::<serde_json::Value>(&bytes).ok(),
-            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+        let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+        let contract_bytes = match fs::symlink_metadata(&contract_path) {
+            Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                fs::read(&contract_path).map_err(|source| ObserverError::Read {
+                    path: contract_path.clone(),
+                    source,
+                })?
+            }
+            Ok(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
             Err(source) => {
                 return Err(ObserverError::Read {
                     path: contract_path,
@@ -1769,19 +1782,75 @@ fn unclosed_archived_scope_conflicts(
                 });
             }
         };
-        let Some(value) = value else {
+        let manifest_bytes = match fs::symlink_metadata(&manifest_path) {
+            Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+                    path: manifest_path.clone(),
+                    source,
+                })?
+            }
+            Ok(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+            Err(source) => {
+                return Err(ObserverError::Read {
+                    path: manifest_path,
+                    source,
+                });
+            }
+        };
+        let contract_digest = Digest::sha256_bytes(&contract_bytes).to_string();
+        let manifest = serde_json::from_slice::<serde_json::Value>(&manifest_bytes).ok();
+        let Some(_manifest) = manifest.filter(|manifest| {
+            manifest
+                .get("workItemId")
+                .and_then(serde_json::Value::as_str)
+                == Some(work_item_id.as_str())
+                && matches!(
+                    manifest.get("state").and_then(serde_json::Value::as_str),
+                    Some("archived" | "superseded")
+                )
+                && manifest
+                    .pointer("/files/contractDigest")
+                    .and_then(serde_json::Value::as_str)
+                    == Some(contract_digest.as_str())
+        }) else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
             continue;
         };
-        if value
+        let value = match serde_json::from_slice::<serde_json::Value>(&contract_bytes) {
+            Ok(value) => value,
+            Err(_) => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+                continue;
+            }
+        };
+        let Some(archived_repository_id) = value
             .get("repositoryId")
             .and_then(serde_json::Value::as_str)
-            != Some(expected_repository_id.as_str())
-            || value.get("workItemId").and_then(serde_json::Value::as_str)
-                != Some(work_item_id.as_str())
+            .and_then(|value| value.parse::<Digest>().ok())
+        else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        };
+        if archived_repository_id.to_string() != expected_repository_id {
+            // A contract explicitly bound to another repository is not
+            // authority over this repository's candidate scope.
+            continue;
+        }
+        if value.get("workItemId").and_then(serde_json::Value::as_str)
+            != Some(work_item_id.as_str())
         {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
             continue;
         }
         let Some(scope) = value.get("scope").and_then(serde_json::Value::as_array) else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
             continue;
         };
         let Some(archived_scope) = scope
@@ -1790,15 +1859,48 @@ fn unclosed_archived_scope_conflicts(
             .collect::<Option<Vec<_>>>()
             .map(|items| items.into_iter().map(str::to_owned).collect::<Vec<_>>())
         else {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
             continue;
         };
-        if scope_list_relation(candidate_scope, &archived_scope) == ScopeRelation::Overlap {
-            conflicts.push(work_item_id);
+        if archived_scope.is_empty() {
+            blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
+            continue;
+        }
+        match scope_list_relation(candidate_scope, &archived_scope) {
+            ScopeRelation::Overlap => {
+                if !recovery_decision_authorizes_successor(
+                    root,
+                    &work_item_id,
+                    candidate_work_item_id,
+                )? {
+                    blockers.push(format!("archived_work_item_scope_conflict:{work_item_id}"));
+                }
+            }
+            ScopeRelation::Unknown => {
+                blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"))
+            }
+            ScopeRelation::Disjoint => {}
         }
     }
-    conflicts.sort();
-    conflicts.dedup();
-    Ok(conflicts)
+    blockers.sort();
+    blockers.dedup();
+    Ok(blockers)
+}
+
+fn recovery_decision_authorizes_successor(
+    root: &Path,
+    predecessor_work_item_id: &str,
+    successor_work_item_id: &str,
+) -> Result<bool, ObserverError> {
+    let (candidates, _) = recovery_decision_candidate_paths(root, predecessor_work_item_id, true)?;
+    if candidates.is_empty() {
+        return Ok(false);
+    }
+    let Some(decision) = load_recovery_decision(root, predecessor_work_item_id, None)? else {
+        return Ok(false);
+    };
+    Ok(decision.decision == "successor"
+        && decision.successor_work_item_id.as_deref() == Some(successor_work_item_id))
 }
 
 fn pending_close_dependency_blockers(
@@ -4409,6 +4511,11 @@ fn governance_decision_for_contract_base_internal_with_archive(
         contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
     if !archived {
         explicit_blockers.extend(documentation_projection_findings(root, contract)?);
+        explicit_blockers.extend(unclosed_archived_scope_conflicts(
+            root,
+            &contract.work_item_id,
+            &contract.scope,
+        )?);
         explicit_blockers.extend(pending_close_dependency_blockers(root, contract)?);
     }
     let signals = derive_governance_signals(snapshot);
@@ -14625,6 +14732,17 @@ fn simple_scope_prefix(value: &str) -> Option<&str> {
     (!prefix.is_empty() && !scope_pattern_has_glob(prefix)).then_some(prefix)
 }
 
+fn static_scope_prefix(value: &str) -> Option<String> {
+    let mut components = Vec::new();
+    for component in value.split('/') {
+        if scope_pattern_has_glob(component) {
+            break;
+        }
+        components.push(component);
+    }
+    (!components.is_empty()).then(|| components.join("/"))
+}
+
 fn exact_path_is_under_prefix(path: &str, prefix: &str) -> bool {
     path == prefix || path.starts_with(&format!("{prefix}/"))
 }
@@ -14650,6 +14768,20 @@ fn scope_pattern_relation(left: &str, right: &str) -> ScopeRelation {
     let left_exact = !scope_pattern_has_glob(&left);
     let right_exact = !scope_pattern_has_glob(&right);
     if left_exact && right_exact {
+        return ScopeRelation::Disjoint;
+    }
+
+    // A shared literal directory prefix is not enough to prove overlap for
+    // complex globs, but distinct static prefixes prove disjointness. This
+    // keeps common code scopes such as `src/**/*.rs` from conservatively
+    // selecting unrelated generated documentation while preserving
+    // fail-closed handling when wildcard prefixes could intersect.
+    if let (Some(left_prefix), Some(right_prefix)) =
+        (static_scope_prefix(&left), static_scope_prefix(&right))
+        && left_prefix != right_prefix
+        && !left_prefix.starts_with(&format!("{right_prefix}/"))
+        && !right_prefix.starts_with(&format!("{left_prefix}/"))
+    {
         return ScopeRelation::Disjoint;
     }
 

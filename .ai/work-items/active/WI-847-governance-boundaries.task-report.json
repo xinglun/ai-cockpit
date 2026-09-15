@@ -4,7 +4,7 @@
       ".ai/evidence/WI-847-governance-boundaries.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:d92382009b2197ac2ec750f1f0e5c74918c6051ce347c679b9134cac0927b42e",
+    "repositorySnapshotDigest": "sha256:cecd27a84df4c2c1ec60021f96a447abfb9a7d67c2beefee8716073994200db1",
     "workItemId": "WI-847-governance-boundaries"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,6 +18,20 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/README.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-847-governance-boundaries.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -25,21 +39,21 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.9139d5bbb709c81e4855963487f818506b81736a1a5afe323b7261f4800c6ed2.json"
+        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.767c9a3225087ff535ab1c26efe8340b1acaeb8aeeafecce5c2a28c7cee6ea5b.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.e910b8d5e418869944b5c01f7d909ca9bc19cbe2905144525d377bf462b61559.json"
+        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.80c664203753dfd7f45866621625ec8b019113713df0dc0f6a351195d64e8faa.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification.json"
+        "text": "Changed path: .ai/evidence/WI-847-governance-boundaries.verification-attempt.b6c5eba2404c446de76785b5f52320f57c0a810a37b9b3db90c641d7ee1eb114.json"
       },
       {
         "evidenceRefs": [
@@ -53,13 +67,6 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.outcome.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.summary.json"
       },
       {
@@ -67,28 +74,189 @@
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.task-report.json"
+        "text": "Changed path: AGENTS.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-847-governance-boundaries.task-report.md"
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: tests/docs/parity_status_check_test.sh"
+        "text": "Changed path: crates/cockpit-repository/tests/agent_risk_checkpoint.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/contract_preflight.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/evidence_assurance.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/knowledge_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_concurrency.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/outcome_report.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/resource_finalization_transition.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/scenario_matrix_next_action.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/task_outcome_events.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/verification_command_selection.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/repository-workflow.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/docs/work_item_status_consistency_test.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy.sh"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-847-governance-boundaries.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/workflow/resource_finalization_policy_test.sh"
       }
     ],
     "evidence": [
@@ -118,7 +286,7 @@
           ".ai/evidence/WI-847-governance-boundaries.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],

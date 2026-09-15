@@ -811,7 +811,11 @@ fn archive_requires_close(root: &Path, work_item_id: &str) -> bool {
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.archive.json"));
     let Ok(manifest) = read_json(&path) else {
-        return false;
+        // If an archive marker is missing or corrupt, its close policy cannot
+        // be proven. Keep the partial archive visible so scope validation can
+        // fail closed. Valid historical manifests without closeRequired still
+        // retain their legacy, non-blocking behavior below.
+        return true;
     };
     manifest.get("state").and_then(serde_json::Value::as_str) == Some("archived")
         && manifest

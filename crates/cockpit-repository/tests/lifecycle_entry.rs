@@ -134,24 +134,27 @@ fn write_prearchive_projection(root: &Path, work_item_id: &str) {
 fn write_unclosed_archive(root: &Path, id: &str, scope: &[&str]) -> (PathBuf, Vec<u8>) {
     let archive = root.join(".ai/work-items/archive");
     fs::create_dir_all(&archive).expect("archive directory");
-    fs::write(
-        archive.join(format!("{id}.contract.json")),
-        serde_json::to_vec_pretty(&json!({
-            "schemaVersion": 2,
-            "protocolVersion": 1,
-            "repositoryId": repository_id(root).to_string(),
-            "workItemId": id,
-            "scope": scope,
-        }))
-        .expect("archive contract JSON"),
-    )
-    .expect("archive contract");
+    let contract_path = archive.join(format!("{id}.contract.json"));
+    let contract_bytes = serde_json::to_vec_pretty(&json!({
+        "schemaVersion": 2,
+        "protocolVersion": 1,
+        "repositoryId": repository_id(root).to_string(),
+        "workItemId": id,
+        "scope": scope,
+    }))
+    .expect("archive contract JSON");
+    fs::write(&contract_path, &contract_bytes).expect("archive contract");
     let path = archive.join(format!("{id}.archive.json"));
-    let bytes = format!(
-        r#"{{"schemaVersion":1,"workItemId":"{id}","state":"archived","closeRequired":true}}
-"#
-    )
-    .into_bytes();
+    let bytes = serde_json::to_vec_pretty(&json!({
+        "schemaVersion": 1,
+        "workItemId": id,
+        "state": "archived",
+        "closeRequired": true,
+        "files": {
+            "contractDigest": Digest::sha256_bytes(&contract_bytes).to_string(),
+        },
+    }))
+    .expect("archive manifest JSON");
     fs::write(&path, &bytes).expect("archive marker");
     (path, bytes)
 }
@@ -353,6 +356,199 @@ fn start_blocks_scope_overlap_with_an_archived_pending_item() {
             .path()
             .join(".ai/work-items/active/WI-START.contract.json")
             .exists()
+    );
+}
+
+#[test]
+fn archived_scope_requires_valid_identity_and_skips_only_valid_foreign_repositories() {
+    for case in ["missing", "malformed", "foreign"] {
+        let directory = repository();
+        let (manifest_path, _) = write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+        let contract_path = directory
+            .path()
+            .join(".ai/work-items/archive/WI-OLD.contract.json");
+        let mut contract: serde_json::Value =
+            serde_json::from_slice(&fs::read(&contract_path).expect("archived Contract"))
+                .expect("archived Contract JSON");
+        if case == "missing" {
+            contract
+                .as_object_mut()
+                .expect("Contract object")
+                .remove("repositoryId");
+        } else if case == "malformed" {
+            contract["repositoryId"] = json!("not-a-digest");
+        } else {
+            contract["repositoryId"] =
+                json!(Digest::sha256_bytes(b"different repository").to_string());
+        }
+        let contract_bytes =
+            serde_json::to_vec_pretty(&contract).expect("updated archived Contract JSON");
+        fs::write(&contract_path, &contract_bytes).expect("updated archived Contract");
+        let mut manifest: serde_json::Value =
+            serde_json::from_slice(&fs::read(&manifest_path).expect("archive manifest"))
+                .expect("archive manifest JSON");
+        manifest["files"]["contractDigest"] =
+            json!(Digest::sha256_bytes(&contract_bytes).to_string());
+        fs::write(
+            &manifest_path,
+            serde_json::to_vec_pretty(&manifest).expect("updated archive manifest JSON"),
+        )
+        .expect("updated archive manifest");
+
+        let result = start_work_item_with_options(
+            directory.path(),
+            "WI-CANDIDATE",
+            "reject an untrusted archived repository identity",
+            "do not let malformed archive identity bypass scope checks",
+            &["src/main.rs".into()],
+            &start_options(),
+        );
+        if case == "foreign" {
+            result.expect("a valid, explicitly foreign archive is not authority here");
+            continue;
+        }
+        let error = result.expect_err("untrusted archived identity must fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("archived_work_item_scope_untrusted:WI-OLD"),
+            "case {case} returned an unexpected error: {error}"
+        );
+    }
+}
+
+#[test]
+fn missing_or_malformed_archive_manifest_remains_untrusted_for_scope_checks() {
+    for case in ["missing", "malformed"] {
+        let directory = repository();
+        let (manifest_path, _) = write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+        if case == "missing" {
+            fs::remove_file(&manifest_path).expect("remove archive manifest");
+        } else {
+            fs::write(&manifest_path, b"{not-json").expect("corrupt archive manifest");
+        }
+
+        let readiness = status(directory.path())
+            .expect("status with untrusted archive")
+            .readiness;
+        assert!(
+            readiness
+                .unclosed_archived_work_items
+                .contains(&"WI-OLD".into()),
+            "case {case} must keep the incomplete archive visible: {readiness:#?}"
+        );
+        let result = start_work_item_with_options(
+            directory.path(),
+            "WI-CANDIDATE",
+            "reject an untrusted archive manifest",
+            "do not let a missing or malformed manifest bypass scope checks",
+            &["src/main.rs".into()],
+            &start_options(),
+        );
+        let error = result.expect_err("untrusted archive manifest must fail closed");
+        assert!(
+            error
+                .to_string()
+                .contains("archived_work_item_scope_untrusted:WI-OLD"),
+            "case {case} returned an unexpected error: {error}"
+        );
+    }
+}
+
+#[test]
+fn preflight_rechecks_archived_scope_conflicts_after_contract_amendment() {
+    let directory = repository();
+    write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+
+    let work_item_id = "WI-SCOPE-AMENDMENT";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "recheck scope at preflight",
+        "an additive scope amendment must not bypass archived pending-close conflicts",
+        &["tests/**".into()],
+        &start_options(),
+    )
+    .expect("a disjoint initial scope may start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    assert_ne!(
+        preflight_work_item(directory.path(), &contract)
+            .expect("initial preflight")
+            .state,
+        DecisionState::Red
+    );
+    checkpoint_work_item(directory.path(), work_item_id)
+        .expect("checkpoint the initially disjoint Contract before amendment");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["src/**"]}),
+        "include the newly discovered source area in the existing Contract",
+    )
+    .expect("append the in-scope source path");
+
+    let amended = preflight_work_item(directory.path(), &contract).expect("amended preflight");
+    assert_eq!(amended.state, DecisionState::Red, "{amended:#?}");
+    assert!(
+        amended
+            .blockers
+            .iter()
+            .any(|blocker| { blocker == "archived_work_item_scope_conflict:WI-OLD" })
+    );
+}
+
+#[test]
+fn preflight_blocks_when_archived_scope_no_longer_matches_its_manifest() {
+    let directory = repository();
+    let (archive_path, archive_bytes) =
+        write_unclosed_archive(directory.path(), "WI-OLD", &["docs/**"]);
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCOPE-TAMPER",
+        "scope integrity",
+        "do not trust a changed archived scope",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("valid disjoint archived scope must allow start");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-SCOPE-TAMPER.contract.json");
+    assert_ne!(
+        preflight_work_item(directory.path(), &contract_path)
+            .expect("initial preflight")
+            .state,
+        DecisionState::Red
+    );
+
+    let archived_contract_path = directory
+        .path()
+        .join(".ai/work-items/archive/WI-OLD.contract.json");
+    let mut archived_contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&archived_contract_path).expect("archived Contract"))
+            .expect("archived Contract JSON");
+    archived_contract["scope"] = json!(["src/**"]);
+    fs::write(
+        &archived_contract_path,
+        serde_json::to_vec_pretty(&archived_contract).expect("serialize tampered Contract"),
+    )
+    .expect("tamper archived Contract scope");
+
+    let decision = preflight_work_item(directory.path(), &contract_path)
+        .expect("untrusted archive should produce a blocking decision");
+    assert_eq!(decision.state, DecisionState::Red, "{decision:#?}");
+    assert!(
+        decision
+            .blockers
+            .iter()
+            .any(|blocker| { blocker == "archived_work_item_scope_untrusted:WI-OLD" })
+    );
+    assert_eq!(
+        fs::read(archive_path).expect("archive manifest"),
+        archive_bytes
     );
 }
 
@@ -1003,7 +1199,7 @@ fn ordinary_no_resource_work_item_completes_without_derived_document_projection(
         work_item_id,
         "complete ordinary code work without a derived documentation successor",
         "prove that documentation pages are derived unless the Contract selects a documentation route",
-        &["src/**".into()],
+        &["src/**/*.rs".into()],
         &start_options(),
     )
     .expect("ordinary code start");
@@ -1026,7 +1222,7 @@ fn ordinary_no_resource_work_item_completes_without_derived_document_projection(
             node_id: "ordinary-code-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["src/**".into()],
+            scope: vec!["src/**/*.rs".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),

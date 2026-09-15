@@ -86,7 +86,9 @@ receipt, and the Runtime does not delete branches or worktrees.
 terminal decision without deleting resources.
 After `close`, clean only the closure/control context. The no-resource route
 closes first, then synchronizes the default branch and removes its exact
-implementation branch/worktree. To declare `ready_on_base`, require a
+implementation branch/worktree. Then record the result with
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`.
+To declare `ready_on_base`, require a
 structured human decision, archived evidence, a fast-forward-synchronized
 default branch, and clean worktrees. `finish` establishes source-verification
 readiness; when the Contract declares later hosted, candidate, release, or

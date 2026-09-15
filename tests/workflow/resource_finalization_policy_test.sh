@@ -95,9 +95,28 @@ if "$policy" "$fixture" >"$fixture/contradiction.out" 2>"$fixture/contradiction.
 fi
 grep -Fq 'AGENTS.md: contradictory close cleanup claim' "$fixture/contradiction.err"
 
-# Regression: localized projections must reject their own contradictory
-# cleanup-after-close language while preserving each valid canonical projection.
-localized_acceptances=()
+# `finalize` records the already-observed cleanup result; it does not delete
+# provider resources itself.
+cp "$root/docs/reference/agent-workflow.md" "$fixture/docs/reference/agent-workflow.md"
+python3 - "$fixture/docs/reference/agent-workflow.md" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+path.write_text(
+    path.read_text(encoding="utf-8")
+    + "\nThe finalize command deletes the exact Work Item branch and worktree.\n",
+    encoding="utf-8",
+)
+PY
+if "$policy" "$fixture" >"$fixture/finalize.out" 2>"$fixture/finalize.err"; then
+  printf 'resource finalization policy accepted a claim that finalize deletes provider resources\n' >&2
+  exit 1
+fi
+grep -Fq 'agent-workflow.md: finalize must record cleanup evidence' "$fixture/finalize.err"
+
+# The cleanup ownership boundary is language-neutral. Localized projections
+# must not imply that `finalize` itself deletes provider resources.
 ordering_docs=(
   AGENTS.md
   .ai/README.md
@@ -111,6 +130,82 @@ ordering_docs=(
   docs/reference/work-item-lifecycle-closure.ja.md
   docs/reference/work-item-lifecycle-closure.zh-CN.md
 )
+for localized_case in \
+  'docs/reference/agent-workflow.ja.md|finalize コマンドが branch と worktree を削除します。' \
+  'docs/reference/agent-workflow.ja.md|branch と worktree は finalize によって削除されます。' \
+  'docs/reference/agent-workflow.zh-CN.md|finalize 命令会删除 Work Item 分支和工作树。' \
+  'docs/reference/agent-workflow.zh-CN.md|Work Item 分支和工作树由 finalize 删除。'; do
+  path=${localized_case%%|*}
+  claim=${localized_case#*|}
+  for ordering_doc in "${ordering_docs[@]}"; do
+    cp "$root/$ordering_doc" "$fixture/$ordering_doc"
+  done
+  cp "$root/$path" "$fixture/$path"
+  python3 - "$fixture/$path" "$claim" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+path.write_text(path.read_text(encoding="utf-8") + "\n" + sys.argv[2] + "\n", encoding="utf-8")
+PY
+  if "$policy" "$fixture" >"$fixture/localized-finalize.out" 2>"$fixture/localized-finalize.err"; then
+    printf 'resource finalization policy accepted a localized finalize cleanup claim in %s\n' "$path" >&2
+    exit 1
+  fi
+  grep -Fq "$path: finalize must record cleanup evidence" "$fixture/localized-finalize.err"
+done
+
+# Localized negations are valid and must remain accepted.
+for localized_case in \
+  'docs/reference/agent-workflow.ja.md|finalize コマンドは Work Item の branch と worktree を削除しません。' \
+  'docs/reference/agent-workflow.zh-CN.md|finalize 命令本身不会删除 Work Item 分支和工作树。'; do
+  path=${localized_case%%|*}
+  claim=${localized_case#*|}
+  for ordering_doc in "${ordering_docs[@]}"; do
+    cp "$root/$ordering_doc" "$fixture/$ordering_doc"
+  done
+  python3 - "$fixture/$path" "$claim" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+path.write_text(path.read_text(encoding="utf-8") + "\n" + sys.argv[2] + "\n", encoding="utf-8")
+PY
+  if ! "$policy" "$fixture" >"$fixture/localized-finalize-negation.out" 2>"$fixture/localized-finalize-negation.err"; then
+    printf 'resource finalization policy rejected valid localized finalize negation in %s:\n' "$path" >&2
+    cat "$fixture/localized-finalize-negation.err" >&2
+    exit 1
+  fi
+done
+
+# The resource-bound qualifier remains in force across sentence and paragraph
+# boundaries unless a new route is explicitly declared.
+for separator in sentence paragraph; do
+  cp "$root/AGENTS.md" "$fixture/AGENTS.md"
+  python3 - "$fixture/AGENTS.md" "$separator" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+separator = ". " if sys.argv[2] == "sentence" else ".\n\n"
+path.write_text(
+    path.read_text(encoding="utf-8")
+    + "\nFor a resource-bound Work Item, cleanup completes before close"
+    + separator
+    + "After close, its branch and worktree are deleted.\n",
+    encoding="utf-8",
+)
+PY
+  if "$policy" "$fixture" >"$fixture/cross-$separator.out" 2>"$fixture/cross-$separator.err"; then
+    printf 'resource finalization policy accepted a cross-%s cleanup contradiction\n' "$separator" >&2
+    exit 1
+  fi
+  grep -Fq 'AGENTS.md: contradictory close cleanup claim' "$fixture/cross-$separator.err"
+done
+
+# Regression: localized projections must reject their own contradictory
+# cleanup-after-close language while preserving each valid canonical projection.
+localized_acceptances=()
 for localized_case in \
   'docs/reference/agent-workflow.ja.md|close コマンド自体が Work Item の branch と worktree を削除します。' \
   'docs/reference/agent-workflow.zh-CN.md|close 命令本身会删除 Work Item 分支和工作树。' \

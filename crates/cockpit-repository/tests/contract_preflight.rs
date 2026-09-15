@@ -301,12 +301,34 @@ fn duplicate_or_unknown_contract_json_fails_before_governance_evaluation() {
 #[test]
 fn explicit_operation_uses_only_a_valid_repository_mapping() {
     let directory = repository();
+    let documentation_policy = directory
+        .path()
+        .join(".ai/project/documentation-policy.json");
+    fs::create_dir_all(
+        documentation_policy
+            .parent()
+            .expect("documentation policy parent"),
+    )
+    .expect("create documentation policy directory");
+    fs::write(
+        &documentation_policy,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "schemaVersion": 1,
+            "repositoryId": cockpit_repository::repository_id(directory.path()).to_string(),
+            "defaultProjection": "derived",
+            "requiredModes": [],
+            "requiredOperations": [],
+            "preserveExistingRegistrations": false
+        }))
+        .expect("encode documentation policy"),
+    )
+    .expect("write documentation policy");
     start_work_item_with_options(
         directory.path(),
         "WI-CAPABILITY-MAPPED",
         "documentation change",
         "update docs",
-        &["docs/**".into()],
+        &["docs/guides/overview.md".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["docs check".into()],

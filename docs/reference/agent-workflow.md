@@ -27,15 +27,19 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
 - Delivery order is conditional on the Contract. Without an external resource:
   latest remote default base → dedicated branch/worktree → implement →
   preflight → checkpoint → verify → finish → archive → close → synchronize
-  default branch → remove the exact branch/worktree. With an external resource:
+  default branch → remove the exact branch/worktree. After that exact
+  no-resource cleanup, record its result with
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`.
+  With an external resource:
   latest remote default base → dedicated branch/worktree → implement →
   finalize-plan → preflight → checkpoint → verify → finish → reviewed PR →
   merge → declared hosted, candidate, release, or public-artifact evidence →
   archive → synchronize default branch → perform exact provider cleanup under the accepted plan
   → record finalize receipt → finalize-verify → close
-  → clean the closure/control context. In the resource-bound route, `finalize`
-  performs declared cleanup of the exact provider-bound branch/worktree and
-  `finalize-verify` validates its identity-bound result before `close`;
+  → clean the closure/control context. In the resource-bound route, an
+  authorized operator performs declared cleanup of the exact provider-bound
+  branch/worktree after merge and required acceptance; `finalize` records the
+  observed identity-bound result and `finalize-verify` validates it before `close`;
   `close` records the terminal decision and does not delete those resources.
   Cleanup after `close` refers only to the closure/control context. Never
   pre-merge a feature branch into local `main`, delete its branch before merge,

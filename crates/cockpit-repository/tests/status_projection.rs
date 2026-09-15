@@ -3,14 +3,14 @@ use cockpit_git::{ChangeContentState, ChangeEvidence, ChangeKind, RepositorySnap
 use cockpit_protocol::{HumanDecision, ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item, archive_work_item_with_runtime, attach, checkpoint_work_item,
-    close_work_item_with_structured_decision, close_work_item_with_structured_decision_and_runtime,
-    finish_work_item, finish_work_item_with_runtime, outcome_render_input_with_runtime,
-    plan_resource_finalization, preflight_work_item, record_recovery_decision,
-    record_resource_finalization, record_verification, record_verification_with_runtime,
-    render_human_outcome, repository_id, run_repository_verification, start_work_item,
-    start_work_item_with_options, work_item_status_index_with_runtime,
-    work_item_status_snapshot_with_runtime,
+    amend_work_item_contract, archive_work_item, archive_work_item_with_runtime, attach,
+    checkpoint_work_item, close_work_item_with_structured_decision,
+    close_work_item_with_structured_decision_and_runtime, finish_work_item,
+    finish_work_item_with_runtime, outcome_render_input_with_runtime, plan_resource_finalization,
+    preflight_work_item, record_recovery_decision, record_resource_finalization,
+    record_verification, record_verification_with_runtime, render_human_outcome, repository_id,
+    run_repository_verification, start_work_item, start_work_item_with_options,
+    work_item_status_index_with_runtime, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::{fs, process::Command};
@@ -121,7 +121,7 @@ fn complete_ordinary_archive(
         work_item_id,
         "ordinary close cleanup binding",
         "bind cleanup without external resources",
-        &["src/**".into()],
+        &[".ai/**".into(), "src/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["ordinary cleanup is independently projected".into()],
@@ -140,7 +140,7 @@ fn complete_ordinary_archive(
             node_id: "ordinary-close-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["src/**".into()],
+            scope: vec![".ai/**".into(), "src/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),
@@ -497,7 +497,9 @@ fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str
         .expect("record deleted finalization");
 }
 
-fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>) {
+fn historical_recovery_fixture(
+    complete_successor: bool,
+) -> (tempfile::TempDir, String, String, Vec<u8>) {
     let directory = repository();
     let predecessor = "WI-STATUS-HISTORICAL-RECOVERY";
     let successor = "WI-STATUS-HISTORICAL-SUCCESSOR";
@@ -508,7 +510,7 @@ fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>)
         predecessor,
         "recover a historical close projection",
         "project a valid successor recovery without rewriting historical bytes",
-        &["src/**".into()],
+        &[".ai/**".into(), "src/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["the predecessor remains immutable".into()],
@@ -528,7 +530,7 @@ fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>)
             node_id: "historical-predecessor-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["src/**".into()],
+            scope: vec![".ai/**".into(), "src/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),
@@ -620,7 +622,16 @@ fn historical_recovery_fixture() -> (tempfile::TempDir, String, String, Vec<u8>)
     let successor_contract_path = directory
         .path()
         .join(format!(".ai/work-items/active/{successor}.contract.json"));
-    preflight_work_item(directory.path(), &successor_contract_path).expect("preflight successor");
+    let preflight = preflight_work_item(directory.path(), &successor_contract_path)
+        .expect("preflight successor");
+    assert_ne!(
+        preflight.state,
+        cockpit_core::DecisionState::Red,
+        "successor preflight unexpectedly blocked: {preflight:#?}"
+    );
+    if !complete_successor {
+        return (directory, predecessor.into(), successor.into(), Vec::new());
+    }
     checkpoint_work_item(directory.path(), successor).expect("checkpoint successor");
     let successor_run = run_repository_verification(
         directory.path(),
@@ -744,7 +755,7 @@ fn status_projection_isolated_between_repositories() {
             id,
             "isolated status",
             "keep contexts separate",
-            &["**".into()],
+            &[".ai/**".into()],
             &WorkItemStartOptions {
                 authority: "authorized".into(),
                 ..Default::default()
@@ -1119,7 +1130,7 @@ fn test_weakening_scanner_distinguishes_diagnostic_text_from_bypass_calls() {
 
 #[test]
 fn terminal_successor_recovery_resolves_preserved_historical_close() {
-    let (directory, predecessor, _successor, historical_close) = historical_recovery_fixture();
+    let (directory, predecessor, _successor, historical_close) = historical_recovery_fixture(true);
     let status = work_item_status_snapshot_with_runtime(directory.path(), &predecessor, &runtime())
         .expect("recovered historical status");
 
@@ -1158,7 +1169,7 @@ fn terminal_successor_recovery_resolves_preserved_historical_close() {
 
 #[test]
 fn incomplete_successor_does_not_resolve_preserved_historical_close() {
-    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture();
+    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture(true);
     fs::remove_file(
         directory
             .path()
@@ -1181,7 +1192,7 @@ fn incomplete_successor_does_not_resolve_preserved_historical_close() {
 
 #[test]
 fn tampered_successor_does_not_resolve_preserved_historical_close() {
-    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture();
+    let (directory, predecessor, successor, _historical_close) = historical_recovery_fixture(true);
     let successor_contract_path = directory
         .path()
         .join(format!(".ai/work-items/archive/{successor}.contract.json"));
@@ -1205,6 +1216,85 @@ fn tampered_successor_does_not_resolve_preserved_historical_close() {
             .contains(&"archived_work_item_pending_close".into())
     );
     assert!(status.unknowns.contains(&"close_decision_invalid".into()));
+}
+
+#[test]
+fn only_the_explicitly_named_recovery_successor_may_overlap_archived_scope() {
+    let (directory, predecessor, successor, _) = historical_recovery_fixture(false);
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let decision = preflight_work_item(directory.path(), &successor_contract)
+        .expect("the explicitly bound successor preflight");
+    assert_ne!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "{decision:#?}"
+    );
+    assert!(
+        decision.blockers.iter().all(|blocker| {
+            blocker != &format!("archived_work_item_scope_conflict:{predecessor}")
+        })
+    );
+
+    let unrelated = "WI-STATUS-UNAUTHORIZED-SUCCESSOR";
+    start_work_item_with_options(
+        directory.path(),
+        unrelated,
+        "reject a recovery scope exception for another Work Item",
+        "only the named successor may overlap the archived predecessor scope",
+        &["tests/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["the successor exception is identity-bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("a disjoint unrelated Work Item may start");
+    let unrelated_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{unrelated}.contract.json"));
+    preflight_work_item(directory.path(), &unrelated_contract).expect("initial disjoint preflight");
+    checkpoint_work_item(directory.path(), unrelated).expect("checkpoint unrelated Work Item");
+    amend_work_item_contract(
+        directory.path(),
+        unrelated,
+        &json!({"scopeAppend": ["src/**"]}),
+        "include the newly discovered overlapping source scope",
+    )
+    .expect("append overlapping scope");
+
+    let decision = preflight_work_item(directory.path(), &unrelated_contract)
+        .expect("wrong-target overlap must become a blocking decision");
+    assert_eq!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "{decision:#?}"
+    );
+    assert!(
+        decision.blockers.iter().any(|blocker| {
+            blocker == &format!("archived_work_item_scope_conflict:{predecessor}")
+        })
+    );
+}
+
+#[test]
+fn malformed_recovery_receipt_cannot_authorize_archived_scope_overlap() {
+    let (directory, predecessor, successor, _) = historical_recovery_fixture(false);
+    let recovery_path = directory
+        .path()
+        .join(format!(".ai/decisions/{predecessor}.recovery.json"));
+    fs::write(&recovery_path, b"{not-json").expect("corrupt recovery receipt");
+
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let error = preflight_work_item(directory.path(), &successor_contract)
+        .expect_err("malformed recovery must not authorize the scope exception");
+    assert!(
+        error.to_string().contains("candidate_json_invalid"),
+        "unexpected fail-closed recovery error: {error}"
+    );
 }
 
 #[test]

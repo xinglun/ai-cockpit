@@ -75,6 +75,10 @@ applicable, default-branch synchronization, and exact cleanup are verified; a
 detached worktree is not a ready base. A historical resource-bound PR is
 handled only by its exact archived Contract and valid archive manifest
 through the read-only Rust gate; it is not an ordinary no-Contract route.
+For a no-resource Work Item, after removing its exact branch/worktree, record
+the cleanup result with
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
+before declaring `ready_on_base`.
 
 ## Evidence discipline
 

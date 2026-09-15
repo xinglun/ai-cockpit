@@ -25,7 +25,9 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 交付顺序取决于 Contract，而不是所有 Work Item 共用一条顺序。没有外部资源时：
   远端 default base 最新提交 → 专用 branch/worktree → 实现 → preflight → checkpoint
   → verify → finish → archive → close → synchronize default branch → remove the exact
-  branch/worktree。有外部资源时按下列顺序：远端 default base 最新提交 → 专用
+  branch/worktree。删除后运行
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
+  记录清理结果，然后才能声明 `ready_on_base`。有外部资源时按下列顺序：远端 default base 最新提交 → 专用
   branch/worktree → 实现 → finalize-plan → preflight → checkpoint → verify → finish
   → reviewed PR → merge → Contract 声明的 hosted、candidate、release 或 public-artifact
   evidence → archive → synchronize default branch → perform exact provider cleanup under the accepted plan

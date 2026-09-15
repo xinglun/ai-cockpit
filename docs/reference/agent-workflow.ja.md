@@ -26,7 +26,9 @@ capabilityClaims:
 - delivery 順序は Contract によって変わり、すべての Work Item に同じ順序を適用しません。
   external resource がない場合は、latest remote default base → 専用 branch/worktree →
   implement → preflight → checkpoint → verify → finish → archive → close → synchronize
-  default branch → remove the exact branch/worktree です。resource-bound route は次の通りです。
+  default branch → remove the exact branch/worktree です。削除後、
+  `ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>` を実行して
+  結果を記録してから `ready_on_base` とします。resource-bound route は次の通りです。
   latest remote default base → 専用 branch/worktree → implement → finalize-plan → preflight
   → checkpoint → verify → finish → reviewed PR → merge → Contract が宣言した hosted、
   candidate、release、または public-artifact evidence → archive → synchronize default branch

@@ -100,7 +100,21 @@
     "crates/cockpit-cli/tests/verify.rs",
     "crates/cockpit-cli/tests/work_item_scaffold.rs",
     "tests/docs/parity_status_check_test.sh",
-    "crates/cockpit-mcp/tests/rpc.rs"
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/agent_risk_checkpoint.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-repository/tests/evidence_assurance.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_concurrency.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+    "crates/cockpit-repository/tests/scenario_matrix_next_action.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "crates/cockpit-repository/tests/verification_command_selection.rs"
   ],
   "sources": [
     {

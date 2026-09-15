@@ -51,7 +51,7 @@ fn repository_with_worktree(
         ID,
         "append finalization transitions",
         "preserve history",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["transition chain is linear".into()],
@@ -85,7 +85,7 @@ fn repository_with_worktree(
             node_id: "project-command-0".into(),
             program: "true".into(),
             args: vec![],
-            scope: vec!["**".into()],
+            scope: vec![".ai/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current.runtime_digest.to_string(),
@@ -252,7 +252,9 @@ fn commit_archive(directory: &tempfile::TempDir) -> String {
 }
 
 fn write_input(directory: &tempfile::TempDir, name: &str, value: &Value) -> std::path::PathBuf {
-    let path = directory.path().join(name);
+    let inputs = directory.path().join(".ai/test-inputs");
+    fs::create_dir_all(&inputs).unwrap();
+    let path = inputs.join(name);
     fs::write(&path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
     path
 }
@@ -319,7 +321,7 @@ fn direct_merge_repository() -> (
         ID,
         "record a historical direct merge",
         "preserve direct merge history",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["direct merge facts remain auditable".into()],
@@ -350,7 +352,7 @@ fn direct_merge_repository() -> (
             node_id: "project-command-0".into(),
             program: "true".into(),
             args: vec![],
-            scope: vec!["**".into()],
+            scope: vec![".ai/**".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current.runtime_digest.to_string(),

@@ -31,7 +31,7 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
         id,
         "generate a typed report",
         "show evidence-bound outcome sections",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             ..Default::default()
@@ -497,7 +497,7 @@ fn human_renderer_names_acceptance_and_intent_gaps_without_invalidating_verifica
         id,
         "show the actual governance gap",
         "verification remains valid while acceptance and intent evidence are incomplete",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec![
@@ -564,7 +564,7 @@ fn outcome_observation_rejects_symlinked_active_contract() {
         id,
         "reject a symlinked active Contract during Outcome observation",
         "preserve the original Contract path identity",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             ..Default::default()

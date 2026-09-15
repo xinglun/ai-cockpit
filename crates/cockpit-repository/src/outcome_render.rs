@@ -2625,7 +2625,7 @@ mod render_tests {
             id,
             "test observation-bound Outcome assembly",
             "detect deterministic lifecycle fact changes",
-            &["**".into()],
+            &["src/**".into()],
             &WorkItemStartOptions {
                 authority: "authorized".into(),
                 ..Default::default()

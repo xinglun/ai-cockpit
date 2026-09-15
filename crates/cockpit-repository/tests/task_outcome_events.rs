@@ -28,7 +28,7 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
         id,
         "generate a typed event report",
         "show event-family evidence",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             ..Default::default()

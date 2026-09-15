@@ -350,7 +350,7 @@ fn checkpoint_lifecycle_records_before_edit_evidence_for_strict_policy() {
         "WI-CHECKPOINT",
         "checkpoint evidence",
         "record strict checkpoint evidence",
-        &["**".into()],
+        &["src/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             out_of_scope: vec!["target/**".into()],

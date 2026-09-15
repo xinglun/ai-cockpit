@@ -41,7 +41,7 @@ fn prepare_finish_ready(root: &Path, work_item_id: &str) {
         work_item_id,
         "lifecycle concurrency fault injection",
         "prove lifecycle behavior under duplicate and interrupted calls",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["lifecycle writes are serialized and recoverable".into()],

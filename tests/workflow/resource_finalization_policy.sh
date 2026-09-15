@@ -183,29 +183,44 @@ contradictory_close_cleanup = tuple(
         r"|(?:有外部资源|resource-bound).{0,80}Work Item.{0,100}\bclose\s*后(?!不|不应|不该|不应该|不应当).{0,60}(?:(?<!不应)(?<!不该)(?<!不能)(?<!不会)(?<!不应被)(?<!不该被)(?<!不能被)(?<!不会被)(?<!不应该被)(?<!不应当被)(?<!不应该)(?<!不应当)(?:会|将)?(?:删除|移除|清理)).{0,80}(?:branch|worktree|分支|工作树)",
     )
 )
-# Separate adjacent route declarations even when authors use clause punctuation
-# rather than a sentence boundary. Do not split arbitrary commas/semicolons:
-# the delimiter only ends a clause when the next phrase explicitly starts a
-# distinct resource-bound or no-resource route.
+finalize_performs_cleanup = re.compile(
+    r"\bfinalize\b.{0,60}\b(?:performs?|executes?)\b.{0,80}\bcleanup\b.{0,60}\b(?:branch|worktree)\b"
+    r"|\bfinalize\b.{0,30}\b(?:deletes?|removes?)\b.{0,60}\b(?:branch|worktree)\b"
+    r"|\b(?:branch|worktree)\b.{0,80}\b(?:deleted|removed|cleaned\s+up)\b.{0,20}\bby\s+finalize\b"
+    # Japanese lifecycle projections keep `finalize` as the command token.
+    # Reject active and passive cleanup claims, but preserve explicit
+    # negations that say finalize does not remove provider resources.
+    r"|finalize.{0,50}(?:branch|worktree|ブランチ|ワークツリー).{0,50}(?:削除|消去|クリーンアップ)(?!は?(?:しません|しない|されません|されない|してはいけません|してはいけない|してはならない|してはなりません))"
+    r"|(?:branch|worktree|ブランチ|ワークツリー).{0,50}finalize.{0,50}(?:削除|消去|クリーンアップ)(?!は?(?:しません|しない|されません|されない|してはいけません|してはいけない|してはならない|してはなりません))"
+    # Simplified Chinese uses `finalize` with localized action/resource words.
+    # The negative lookbehind prevents `不会删除` from being treated as an
+    # affirmative cleanup claim.
+    r"|finalize\s*(?:命令(?:本身)?|本身)?(?:(?<!不)会|将|可以)?(?:删除|移除|清理).{0,80}(?:branch|worktree|分支|工作树)"
+    r"|(?:branch|worktree|分支|工作树).{0,60}由\s*finalize\s*(?:(?<!不)删除|移除|清理)",
+    re.IGNORECASE,
+)
+# Separate adjacent route declarations even when authors use clause punctuation,
+# sentence boundaries, or Markdown paragraphs. A boundary is recognized only
+# when the next phrase explicitly starts a distinct resource-bound/no-resource
+# route; otherwise the prior route qualifier remains in force.
 route_boundary = re.compile(
-    r"[,，、;；]\s*(?=(?:(?:for\s+(?:a\s+)?)?(?:no-resource|resource-bound)\b|"
+    r"(?:[,，、;；]\s*|(?<=[.!?。！？])\s*|\n+)\s*(?=(?:(?:for\s+(?:a\s+)?)?(?:no-resource|resource-bound)\b|"
     r"(?:no-resource|resource-bound)\s+(?:route|Work Item)\b|"
     r"有外部资源|无外部资源|无资源))",
     re.IGNORECASE,
 )
 failures = []
 for relative in paths:
-    text = " ".join((root / relative).read_text(encoding="utf-8").split())
-    if expected not in text:
+    text = (root / relative).read_text(encoding="utf-8")
+    normalized_text = " ".join(text.split())
+    if expected not in normalized_text:
         failures.append(f"{relative}: missing resource-bound order {expected!r}")
-    clauses = []
-    # Chinese and Japanese full stops normally have no following space. Keep
-    # the whitespace requirement for ASCII punctuation so file names and
-    # abbreviations containing periods do not become sentence boundaries.
-    for sentence in re.split(r"(?<=[。！？])\s*|(?<=[.!?])\s+", text):
-        clauses.extend(route_boundary.split(sentence))
+    clauses = [" ".join(clause.split()) for clause in route_boundary.split(text)]
     if any(pattern.search(clause) for pattern in contradictory_close_cleanup for clause in clauses):
         failures.append(f"{relative}: contradictory close cleanup claim")
+    sentences = [" ".join(sentence.split()) for sentence in re.split(r"(?<=[.!?。！？])\s*", text)]
+    if any(finalize_performs_cleanup.search(sentence) for sentence in sentences):
+        failures.append(f"{relative}: finalize must record cleanup evidence, not perform provider deletion")
 if failures:
     print("resource-bound close ordering failed:", file=sys.stderr)
     for failure in failures:

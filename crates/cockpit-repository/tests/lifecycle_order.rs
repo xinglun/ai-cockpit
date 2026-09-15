@@ -29,7 +29,7 @@ fn start(path: &std::path::Path, id: &str, required: &[&str]) {
         id,
         "lifecycle ordering",
         "preserve serial governance",
-        &["**".into()],
+        &[".ai/**".into(), "src/**".into(), "source.rs".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             out_of_scope: vec!["target/**".into()],
@@ -252,7 +252,7 @@ fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
         id,
         "lifecycle ordering",
         "preserve serial governance",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["delegated:github".into()],
@@ -317,7 +317,7 @@ fn future_lifecycle_stage_labels_are_rejected_at_entry_boundary() {
         id,
         "lifecycle ordering",
         "reject future-stage labels before verification",
-        &["**".into()],
+        &[".ai/**".into()],
         &WorkItemStartOptions {
             authority: "authorized".into(),
             required_evidence_classes: vec!["public-install".into()],
@@ -369,7 +369,7 @@ fn runtime_bound_verification_keeps_governance_bound_to_current_runtime() {
             node_id: "runtime-bound-check".into(),
             program: "true".into(),
             args: Vec::new(),
-            scope: vec!["**".into()],
+            scope: vec![".ai/**".into(), "src/**".into(), "source.rs".into()],
             stage: "task".into(),
             runner: "local".into(),
             runtime_digest: current_runtime.runtime_digest.to_string(),

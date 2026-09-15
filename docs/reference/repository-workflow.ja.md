@@ -69,7 +69,9 @@ resource-bound の場合、PR merge 前に branch を削除せず、provider の
 削除しません。`finalize-verify` は receipt を close 前に検証します。`close` は terminal decision を記録し、
 resource を削除しません。close 後の cleanup は closure/control context のみです。
 no-resource route は先に close し、その後 default branch を同期して exact implementation
-branch/worktree を削除します。`ready_on_base` を宣言するには structured human decision、archive
+branch/worktree を削除します。その結果を
+`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>` で記録してから
+`ready_on_base` を宣言します。structured human decision、archive
 evidence、fast-forward 同期済みの既定 branch、clean worktree が必要です。`finish` は source
 verification readiness だけを確立します。Contract が後続の hosted、candidate、release、
 public-artifact evidence を宣言する場合、その段階を archive の前に完了させます。resource-bound
