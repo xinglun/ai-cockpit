@@ -14,11 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-864-release-v0-2-93.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-864-release-v0-2-93.verification-attempt.1298d46491c0a28a2de3ada61e8e83f5afd97eb6037d30c410f212c5a2c525bb.json
 - Changed path: .ai/work-items/active/WI-864-release-v0-2-93.contract.json
 - Changed path: .ai/work-items/active/WI-864-release-v0-2-93.summary.json
+- Changed path: tests/release/adopter_upgrade_acceptance.sh
+- Changed path: tests/release/adopter_upgrade_acceptance_test.sh
 
 ## Findings
 

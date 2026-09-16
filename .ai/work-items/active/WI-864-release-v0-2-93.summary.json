@@ -1,13 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-864-release-v0-2-93.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-864-release-v0-2-93.verification-attempt.1298d46491c0a28a2de3ada61e8e83f5afd97eb6037d30c410f212c5a2c525bb.json",
     ".ai/work-items/active/WI-864-release-v0-2-93.contract.json",
-    ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+    ".ai/work-items/active/WI-864-release-v0-2-93.summary.json",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
   ],
   "checkpointAt": "2026-09-16T15:52:39Z",
-  "checkpointContractDigest": "sha256:37c62c381d674ede0e264e1d9cc9b1908ea6d01444c41ad5f41f98737af40117",
+  "checkpointContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -103,9 +103,29 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "previousContractHash": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
+      "reason": "Keep the staged N-1 acceptance lifecycle ordered for historical Runtimes: refresh verification-dependent preflight before finish and retain the already recorded passing attempt.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T18:01:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4084c63213809af67327944133d8fe0977500d33015bf761e3e1f4a0619c66e5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-864-release-v0-2-93"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
+  "checkpointRepositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
   "createdAt": "2026-09-16T15:51:37Z",
   "intentAlignment": {
     "evidence": [
@@ -116,11 +136,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T17:17:51Z",
-  "preflightContractDigest": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-  "preflightRepositorySnapshotDigest": "sha256:4084c63213809af67327944133d8fe0977500d33015bf761e3e1f4a0619c66e5",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-16T18:05:28Z",
+  "preflightContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -179,8 +199,8 @@
       "verificationPlan": "Run release workflow policy tests and inspect failure/recovery job dependencies and receipts."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-16T16:32:45Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T18:06:07Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -229,12 +249,11 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-16T17:16:04Z"
-  },
   "workItemId": "WI-864-release-v0-2-93"
 }

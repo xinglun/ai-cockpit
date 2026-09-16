@@ -201,11 +201,12 @@ if grep -q -- 'baseRevision:$old_head\|baseRevision:$new_head' "$script"; then
   exit 1
 fi
 old_verify_line=$(grep -n -- 'old-verify.json verify' "$script" | head -1 | cut -d: -f1)
+old_post_verify_preflight_line=$(grep -n -- 'old-preflight-after-verify.json preflight' "$script" | head -1 | cut -d: -f1)
 old_finalize_line=$(grep -n -- 'old-finalize.json work-item finalize' "$script" | head -1 | cut -d: -f1)
 old_finalize_verify_line=$(grep -n -- 'old-finalize-verify.json work-item finalize-verify' "$script" | head -1 | cut -d: -f1)
 old_close_line=$(grep -n -- 'old-close.json close' "$script" | head -1 | cut -d: -f1)
-[[ -n "$old_verify_line" && -n "$old_finalize_line" && -n "$old_finalize_verify_line" && -n "$old_close_line" && "$old_verify_line" -lt "$old_finalize_line" && "$old_finalize_line" -lt "$old_finalize_verify_line" && "$old_finalize_verify_line" -lt "$old_close_line" ]] || {
-  printf 'adopter upgrade acceptance must run old verify, finalize, finalize-verify, then close\n' >&2
+[[ -n "$old_verify_line" && -n "$old_post_verify_preflight_line" && -n "$old_finalize_line" && -n "$old_finalize_verify_line" && -n "$old_close_line" && "$old_verify_line" -lt "$old_post_verify_preflight_line" && "$old_post_verify_preflight_line" -lt "$old_finalize_line" && "$old_finalize_line" -lt "$old_finalize_verify_line" && "$old_finalize_verify_line" -lt "$old_close_line" ]] || {
+  printf 'adopter upgrade acceptance must refresh old preflight after verify, then finalize, finalize-verify, and close\n' >&2
   exit 1
 }
 if grep -Eq 'cargo (build|run)|target/debug/ai-cockpit|workspace binary' "$script"; then
