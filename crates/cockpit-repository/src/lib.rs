@@ -6172,18 +6172,43 @@ pub fn retire_active_work_item_with_runtime(
                 message: "successor Work Item equals retired Work Item".into(),
             });
         }
-        let successor_path = [
+        let successor_candidates = [
             root.join(".ai/work-items/active")
                 .join(format!("{successor_id}.contract.json")),
             root.join(".ai/work-items/archive")
                 .join(format!("{successor_id}.contract.json")),
-        ]
-        .into_iter()
-        .find(|path| path.is_file())
-        .ok_or_else(|| ObserverError::State {
-            path: root.join(".ai/work-items"),
-            message: "replacement successor Work Item does not exist".into(),
-        })?;
+        ];
+        let mut successor_paths = Vec::new();
+        for path in successor_candidates {
+            match fs::symlink_metadata(&path) {
+                Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
+                    return Err(ObserverError::State {
+                        path,
+                        message:
+                            "replacement successor Contract must be a regular non-symlink file"
+                                .into(),
+                    });
+                }
+                Ok(_) => successor_paths.push(path),
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(source) => return Err(ObserverError::Read { path, source }),
+            }
+        }
+        if successor_paths.is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "replacement successor Work Item does not exist".into(),
+            });
+        }
+        if successor_paths.len() > 1 {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message:
+                    "replacement successor Work Item has duplicate active and archived Contracts"
+                        .into(),
+            });
+        }
+        let successor_path = successor_paths.pop().expect("checked non-empty");
         let successor = read_contract(&successor_path)?;
         if successor.repository_id != expected_repository_id
             || successor.predecessor_work_item_id.as_deref() != Some(work_item_id)
@@ -6238,11 +6263,6 @@ pub fn retire_active_work_item_with_runtime(
                 message: "retirement artifact variant must be a regular non-symlink file".into(),
             });
         }
-        let suffix = variant
-            .name
-            .strip_prefix(&format!("{work_item_id}."))
-            .unwrap_or_default()
-            .to_owned();
         planned.push((
             format!("historicalArtifact{}", planned.len()),
             source.clone(),
@@ -6252,7 +6272,6 @@ pub fn retire_active_work_item_with_runtime(
                 source: source_error,
             })?,
         ));
-        let _ = suffix;
     }
     if !planned.iter().any(|(key, _, _, _)| key == "outcome") {
         let outcome = serde_json::json!({
@@ -6357,11 +6376,33 @@ pub fn retire_active_work_item_with_runtime(
     let mut moved = Vec::new();
     let mut generated = Vec::new();
     let rollback = |moved: &mut Vec<(PathBuf, PathBuf)>, generated: &mut Vec<PathBuf>| {
+        let mut failures = Vec::new();
         for path in generated.drain(..).rev() {
-            let _ = fs::remove_file(path);
+            if let Err(error) = fs::remove_file(&path)
+                && error.kind() != std::io::ErrorKind::NotFound
+            {
+                failures.push(format!("remove {}: {error}", path.display()));
+            }
         }
         for (source, target) in moved.drain(..).rev() {
-            let _ = fs::rename(target, source);
+            if let Err(error) = fs::rename(&target, &source) {
+                failures.push(format!(
+                    "restore {} from {}: {error}",
+                    source.display(),
+                    target.display()
+                ));
+            }
+        }
+        if failures.is_empty() {
+            Ok(())
+        } else {
+            Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!(
+                    "retirement rollback did not restore all original bytes: {}",
+                    failures.join("; ")
+                ),
+            })
         }
     };
     for (_, source, target, bytes) in &planned {
@@ -6376,20 +6417,53 @@ pub fn retire_active_work_item_with_runtime(
                 })
         };
         if let Err(error) = result {
-            rollback(&mut moved, &mut generated);
-            return Err(error);
+            return match rollback(&mut moved, &mut generated) {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(ObserverError::State {
+                    path: root.join(".ai/work-items"),
+                    message: format!("{error}; {rollback_error}"),
+                }),
+            };
         }
     }
     if let Err(error) = atomic_json(&manifest_path, &manifest) {
-        let _ = fs::remove_file(&manifest_path);
-        rollback(&mut moved, &mut generated);
-        return Err(error);
+        let cleanup_error = match fs::remove_file(&manifest_path) {
+            Ok(()) => None,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => Some(format!("remove manifest: {error}")),
+        };
+        return match rollback(&mut moved, &mut generated) {
+            Ok(()) if cleanup_error.is_none() => Err(error),
+            Ok(()) => Err(ObserverError::State {
+                path: manifest_path,
+                message: format!("{error}; {}", cleanup_error.expect("checked some")),
+            }),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {rollback_error}"),
+            }),
+        };
     }
     if let Err(error) = atomic_json(&receipt_path, &receipt_value) {
-        let _ = fs::remove_file(&manifest_path);
-        let _ = fs::remove_file(&receipt_path);
-        rollback(&mut moved, &mut generated);
-        return Err(error);
+        let mut cleanup_failures = Vec::new();
+        for path in [&manifest_path, &receipt_path] {
+            if let Err(remove_error) = fs::remove_file(path)
+                && remove_error.kind() != std::io::ErrorKind::NotFound
+            {
+                cleanup_failures.push(format!("remove {}: {remove_error}", path.display()));
+            }
+        }
+        return match rollback(&mut moved, &mut generated) {
+            Ok(()) if cleanup_failures.is_empty() => Err(error),
+            Ok(()) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {}", cleanup_failures.join("; ")),
+            }),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {rollback_error}"),
+            }),
+        };
     }
     let _ = fs::remove_file(root.join(".ai/knowledge/index.json"));
     Ok(receipt_value)

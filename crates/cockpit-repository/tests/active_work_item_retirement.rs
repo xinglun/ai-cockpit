@@ -187,3 +187,101 @@ fn replacement_requires_an_existing_explicit_successor() {
             .exists()
     );
 }
+
+#[test]
+fn replacement_rejects_duplicate_active_and_archived_successors() {
+    let directory = repository();
+    let id = "WI-RETIRE-DUPLICATE";
+    let successor_id = "WI-RETIRE-SUCCESSOR";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "reject duplicate successors",
+        "do not choose one successor when active and archived copies exist",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start predecessor");
+    start_work_item_with_options(
+        directory.path(),
+        successor_id,
+        "successor",
+        "successor is explicitly linked",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start successor");
+    let successor_active = directory.path().join(format!(
+        ".ai/work-items/active/{successor_id}.contract.json"
+    ));
+    let mut successor: serde_json::Value =
+        serde_json::from_slice(&fs::read(&successor_active).expect("successor contract"))
+            .expect("successor JSON");
+    successor["predecessorWorkItemId"] = json!(id);
+    fs::write(
+        &successor_active,
+        serde_json::to_vec_pretty(&successor).expect("successor bytes"),
+    )
+    .expect("rewrite successor");
+    let successor_archive = directory.path().join(format!(
+        ".ai/work-items/archive/{successor_id}.contract.json"
+    ));
+    fs::create_dir_all(successor_archive.parent().expect("archive parent"))
+        .expect("archive directory");
+    fs::copy(&successor_active, &successor_archive).expect("duplicate successor");
+
+    let mut replacement = request("replaced");
+    replacement.successor_work_item_id = Some(successor_id.into());
+    let error =
+        retire_active_work_item_with_runtime(directory.path(), id, &replacement, &runtime())
+            .expect_err("duplicate successor must fail closed");
+    assert!(error.to_string().contains("duplicate"));
+    assert!(
+        directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json"))
+            .exists()
+    );
+    assert!(
+        !directory
+            .path()
+            .join(format!(".ai/work-items/archive/{id}.archive.json"))
+            .exists()
+    );
+}
+
+#[cfg(unix)]
+#[test]
+fn replacement_rejects_a_symlinked_successor_contract() {
+    use std::os::unix::fs::symlink;
+
+    let directory = repository();
+    let id = "WI-RETIRE-SYMLINK";
+    let successor_id = "WI-RETIRE-SYMLINK-SUCCESSOR";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "reject symlink successor",
+        "do not follow a successor Contract outside the repository",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start predecessor");
+    let successor_path = directory.path().join(format!(
+        ".ai/work-items/active/{successor_id}.contract.json"
+    ));
+    symlink("/tmp/foreign-successor-contract.json", &successor_path).expect("symlink successor");
+    let mut replacement = request("replaced");
+    replacement.successor_work_item_id = Some(successor_id.into());
+
+    let error =
+        retire_active_work_item_with_runtime(directory.path(), id, &replacement, &runtime())
+            .expect_err("symlink successor must fail closed");
+    assert!(error.to_string().contains("regular non-symlink"));
+    assert!(
+        directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json"))
+            .exists()
+    );
+}
