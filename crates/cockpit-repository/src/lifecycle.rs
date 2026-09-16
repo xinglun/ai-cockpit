@@ -193,8 +193,9 @@ fn work_item_start_advisory_with_mode(
         && readiness.default_revision.is_some();
     if !recovery_continuation
         && primary_checkout_is_reserved
-        && worktrees.iter().any(|worktree| worktree.is_primary)
-        && worktrees.iter().any(|worktree| worktree.is_current)
+        && worktrees
+            .iter()
+            .any(|worktree| worktree.is_primary && worktree.is_current)
     {
         conflicts.push("current_checkout_is_primary_resource".into());
     }
