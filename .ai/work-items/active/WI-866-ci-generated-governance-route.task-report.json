@@ -4,7 +4,7 @@
       ".ai/evidence/WI-866-ci-generated-governance-route.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:6c651f86758e21906d1e90cbc91cdc6bc0404bd23e06d4e20961d06948bf827f",
+    "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
     "workItemId": "WI-866-ci-generated-governance-route"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,6 +18,13 @@
           ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-866-ci-generated-governance-route.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
@@ -25,7 +32,7 @@
           ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-866-ci-generated-governance-route.contract.json"
+        "text": "Changed path: .ai/evidence/WI-866-ci-generated-governance-route.verification-attempt.023feef716797bb92b9d0ab9d4f9eb10714c247c04461faadb8c96a0cd2e19a8.json"
       },
       {
         "evidenceRefs": [
@@ -33,20 +40,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/quality_route.py"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: tests/ci/quality_route_test.py"
       }
     ],
     "evidence": [

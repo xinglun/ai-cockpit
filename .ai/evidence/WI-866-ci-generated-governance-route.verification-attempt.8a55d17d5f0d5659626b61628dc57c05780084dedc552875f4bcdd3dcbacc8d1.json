@@ -1,9 +1,43 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:8a55d17d5f0d5659626b61628dc57c05780084dedc552875f4bcdd3dcbacc8d1",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/quality_route_test.py"
+      ],
+      "baseCommit": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "commandDigest": "sha256:f0db7f8427db50a6cc31ca7871d8e3a5f51b4444ba0214902075b1956eda9a5f",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "pr"
+    }
+  ],
   "contractDigest": "sha256:65c26c4e525ad0de7e6004a302c44ee4c8a06d5fa0294bda2bc201356220eda6",
+  "contractExecutionScopeDigest": "sha256:d61cdb1c673b251b37e101ba280334b2d614536b0e16df1656905719b0325efc",
   "createdAt": "2026-09-16T21:22:29Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:f0db7f8427db50a6cc31ca7871d8e3a5f51b4444ba0214902075b1956eda9a5f",
+      "elapsedMs": 893,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "7265706f7369746f7279207175616c69747920726f7574652072656772657373696f6e207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -104,13 +138,13 @@
       }
     ],
     "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-866-ci-generated-governance-route"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:6f94c4b5edb91d92121986a3cbcea3d233271532d2ca51c2d807b57e23177d1c",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
   "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-866-ci-generated-governance-route"
 }

@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-16T21:21:54Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-866-ci-generated-governance-route.verification.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:65c26c4e525ad0de7e6004a302c44ee4c8a06d5fa0294bda2bc201356220eda6",
+  "predecessorEventsDigest": "sha256:5f7ec324c1f3c7350f805eb192658d1598ebb3ce09ecab37a152058772270a4d",
+  "predecessorOutcomeDigest": "sha256:5da5273636b7d5a1f51c2acf5629a5694b11411ed59482c7403cd9ef29c50f49",
+  "predecessorSummaryDigest": "sha256:5126dda689b86e5941d3cfb03def2a47968e4ffdb9f316f40e2d5e5bf3625e52",
+  "predecessorWorkItemId": "WI-866-ci-generated-governance-route",
+  "reason": "Refresh the current Work Item evidence after integrating the latest reviewed main commit changed the repository snapshot and made the previously green preflight stale; preserve the prior verification bytes and run only the bounded route regression again.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and the bounded route regression with the current repository snapshot, then finish and complete the reviewed PR lifecycle without rerunning unrelated workspace validation.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-866-ci-generated-governance-route"
+}
