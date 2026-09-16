@@ -22,6 +22,11 @@ AI Cockpit 对一个有界变更使用一个 Work Item、一个专用分支/work
 
 ## 从开始到评审
 
+Agent 可以使用 `start --prepare --source <reference>` 一次完成来源追加和
+preflight 持久化；只有不存在阻塞或人工确认边界时，才创建一次
+before-edit checkpoint。要求评审或被阻塞时必须在编辑前停止；黄色的
+verification-pending 不代表验证已通过。MCP `work_item_start` 采用相同语义。
+
 1. 获取远端默认分支的最新提交，并在 Contract 中记录 remote、branch 和 revision。
 2. 从该 revision 创建专用 linked worktree 和分支。
 3. 使用显式 scope、out-of-scope、authority、acceptance 和 required evidence 运行 `ai-cockpit start --repo <worktree> --id <id> --intent <text> --goal <text>`。

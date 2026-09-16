@@ -4,9 +4,10 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 18] = [
+const TOOL_NAMES: [&str; 19] = [
     "status",
     "work_item_get",
+    "work_item_start",
     "work_item_outcome",
     "work_item_status",
     "work_item_validate",
@@ -68,6 +69,25 @@ fn mcp_tool_schema(name: &str) -> Value {
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
         }
+        "work_item_start" => object_schema(
+            json!({
+                "workItemId": string_property("Canonical Work Item identifier."),
+                "intent": string_property("Human-supplied reason for the Work Item; do not infer missing intent."),
+                "goal": string_property("Human-supplied bounded outcome."),
+                "scope": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": string_property("Repository-relative path or glob."),
+                },
+                "outOfScope": {"type":"array", "items":string_property("Explicit excluded path or behavior.")},
+                "risk": string_property("Risk classification; defaults to normal."),
+                "authority": string_property("Human-supplied authority; defaults to missing and never grants authority by inference."),
+                "acceptanceCriteria": {"type":"array", "items":string_property("Human-supplied acceptance criterion.")},
+                "requiredEvidenceClasses": {"type":"array", "items":string_property("Evidence class required by the Contract.")},
+                "sources": {"type":"array", "items":string_property("Human- or task-provided source reference appended before preflight.")},
+            }),
+            &["workItemId", "intent", "goal", "scope"],
+        ),
         "work_item_outcome" => {
             let mut properties = id_properties;
             properties["language"] = string_property(
@@ -184,6 +204,10 @@ fn mcp_tool_schema(name: &str) -> Value {
                     "items": {"type": "string"},
                     "description": "Command arguments as a string array.",
                 },
+                "planOnly": {
+                    "type": "boolean",
+                    "description": "Return identity-bound execute/reuse/stale actions without starting project verification commands.",
+                },
             }),
             &[],
         ),
@@ -225,6 +249,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
     let descriptions = [
         ("status", "Read current repository protocol status."),
         ("work_item_get", "Read raw records for one Work Item."),
+        (
+            "work_item_start",
+            "Start a Work Item, append supplied sources, persist preflight, and create one before-edit checkpoint only when no blocker or human-confirmation boundary is present.",
+        ),
         (
             "work_item_outcome",
             "Render a localized human handoff and structured OutcomeV2.",
@@ -280,7 +308,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "verify",
-            "Run an allowlisted verification command and optionally bind its receipt.",
+            "Plan or run an allowlisted verification command and optionally bind its receipt.",
         ),
         (
             "work_item_parallel",
@@ -307,6 +335,18 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
     let allowed = match name {
         "status" | "work_item_list" | "repository_observe" | "capability_show" => &[][..],
         "work_item_get" | "work_item_validate" => &["workItemId", "id"][..],
+        "work_item_start" => &[
+            "workItemId",
+            "intent",
+            "goal",
+            "scope",
+            "outOfScope",
+            "risk",
+            "authority",
+            "acceptanceCriteria",
+            "requiredEvidenceClasses",
+            "sources",
+        ][..],
         "work_item_outcome" => &["workItemId", "id", "language", "view"][..],
         "work_item_status" => &["workItemId", "id", "all"][..],
         "blockers" | "safe_actions" | "preflight" => &["contract"][..],
@@ -315,7 +355,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => &["workItemId"][..],
         "work_item_controls" => &["workItemId", "id", "controls", "input"][..],
         "work_item_recover" => &["workItemId", "id", "receipt", "input"][..],
-        "verify" => &["workItemId", "command", "args"][..],
+        "verify" => &["workItemId", "command", "args", "planOnly"][..],
         "work_item_parallel" => &["action", "workItemId", "id", "leaseId"][..],
         _ => return Err(format!("unknown tool: {name}")),
     };
@@ -340,6 +380,23 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                         ));
                     }
                 }
+            }
+        }
+        "work_item_start" => {
+            require_string(object, "workItemId", name)?;
+            require_string(object, "intent", name)?;
+            require_string(object, "goal", name)?;
+            parse_string_array(object, "scope", name, true, 1)?;
+            for field in ["risk", "authority"] {
+                optional_string(object, field, name)?;
+            }
+            for field in [
+                "outOfScope",
+                "acceptanceCriteria",
+                "requiredEvidenceClasses",
+                "sources",
+            ] {
+                parse_string_array(object, field, name, false, 0)?;
             }
         }
         "work_item_status" => {
@@ -407,6 +464,14 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                         "invalid arguments for {name}: args must be an array of strings"
                     ));
                 }
+            }
+            if object
+                .get("planOnly")
+                .is_some_and(|value| !value.is_boolean())
+            {
+                return Err(format!(
+                    "invalid arguments for {name}: planOnly must be a boolean"
+                ));
             }
         }
         "work_item_parallel" => {
@@ -483,6 +548,40 @@ fn optional_string(
         ));
     }
     Ok(())
+}
+
+fn parse_string_array(
+    object: &serde_json::Map<String, Value>,
+    field: &str,
+    tool: &str,
+    required: bool,
+    minimum_items: usize,
+) -> Result<Vec<String>, String> {
+    let Some(value) = object.get(field) else {
+        return if required {
+            Err(format!("invalid arguments for {tool}: {field} is required"))
+        } else {
+            Ok(Vec::new())
+        };
+    };
+    let Some(items) = value.as_array() else {
+        return Err(format!(
+            "invalid arguments for {tool}: {field} must be an array of strings"
+        ));
+    };
+    if items.len() < minimum_items
+        || items
+            .iter()
+            .any(|item| item.as_str().is_none_or(|value| value.trim().is_empty()))
+    {
+        return Err(format!(
+            "invalid arguments for {tool}: {field} must contain at least {minimum_items} non-empty strings"
+        ));
+    }
+    Ok(items
+        .iter()
+        .map(|item| item.as_str().expect("validated string").to_owned())
+        .collect())
 }
 
 fn require_exactly_one_string(
@@ -658,6 +757,8 @@ pub fn handle_request_for_repo(
             .and_then(|_| decision_items(repo, &arguments, "safe_actions", runtime)),
         "work_item_list" => work_item_list(repo),
         "work_item_get" => work_item_get(repo, &arguments),
+        "work_item_start" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_start(repo, &arguments, runtime)),
         "work_item_outcome" => require_compatible(repo, runtime)
             .and_then(|_| work_item_outcome(repo, &arguments, runtime)),
         "work_item_status" => require_compatible(repo, runtime)
@@ -797,6 +898,67 @@ fn work_item_controls(repo: &Path, arguments: &Value) -> Result<Value, String> {
         .map_err(|error| error.to_string())
 }
 
+fn work_item_start(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let object = arguments
+        .as_object()
+        .ok_or("work_item_start arguments must be an object")?;
+    let work_item_id = arguments
+        .get("workItemId")
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(work_item_id)?;
+    let scope = parse_string_array(object, "scope", "work_item_start", true, 1)?;
+    let out_of_scope = parse_string_array(object, "outOfScope", "work_item_start", false, 0)?;
+    let acceptance_criteria =
+        parse_string_array(object, "acceptanceCriteria", "work_item_start", false, 0)?;
+    let required_evidence_classes = parse_string_array(
+        object,
+        "requiredEvidenceClasses",
+        "work_item_start",
+        false,
+        0,
+    )?;
+    let sources = parse_string_array(object, "sources", "work_item_start", false, 0)?;
+    let options = cockpit_repository::WorkItemStartOptions {
+        out_of_scope,
+        risk: arguments
+            .get("risk")
+            .and_then(Value::as_str)
+            .unwrap_or("normal")
+            .to_owned(),
+        authority: arguments
+            .get("authority")
+            .and_then(Value::as_str)
+            .unwrap_or("missing")
+            .to_owned(),
+        acceptance_criteria,
+        required_evidence_classes,
+    };
+    let intent = arguments
+        .get("intent")
+        .and_then(Value::as_str)
+        .ok_or("intent argument is required")?;
+    let goal = arguments
+        .get("goal")
+        .and_then(Value::as_str)
+        .ok_or("goal argument is required")?;
+    cockpit_repository::start_work_item_prepared(
+        repo,
+        work_item_id,
+        intent,
+        goal,
+        &scope,
+        &options,
+        &sources,
+        runtime,
+    )
+    .map_err(|error| error.to_string())
+}
+
 fn work_item_recover(
     repo: &Path,
     arguments: &Value,
@@ -827,7 +989,11 @@ fn verify_for_repo(
     if let Some(work_item_id) = work_item_id {
         validate_id(work_item_id)?;
     }
-    let initial_snapshot = if work_item_id.is_some() {
+    let plan_only = arguments
+        .get("planOnly")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
+    let initial_snapshot = if work_item_id.is_some() || plan_only {
         Some(
             cockpit_git::GitRepository::discover(&root)
                 .map_err(|error| error.to_string())?
@@ -880,7 +1046,7 @@ fn verify_for_repo(
         runtime_digest: runtime.runtime_digest.to_string(),
         base_commit: None,
         workers: 2,
-        policy: if explicit || work_item_id.is_some() {
+        policy: if explicit {
             cockpit_repository::RepositoryVerificationPolicy::NeverReuse
         } else {
             cockpit_repository::RepositoryVerificationPolicy::ProfileAuthorized
@@ -921,6 +1087,71 @@ fn verify_for_repo(
                 "verification preconditions rejected: {diagnostic}{persistence_note}"
             ));
         }
+    }
+    if plan_only {
+        let snapshot = initial_snapshot
+            .as_ref()
+            .expect("plan-only verification captures a repository snapshot");
+        let now_epoch_seconds = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+            .unwrap_or(0);
+        let planned = match cockpit_repository::plan_repository_verification_action(
+            &root,
+            &request,
+            snapshot,
+            now_epoch_seconds,
+        ) {
+            Ok(planned) => planned,
+            Err(error) => {
+                let diagnostic = error.to_string();
+                let attempt = if let Some(work_item_id) = work_item_id {
+                    cockpit_repository::persist_verification_attempt(
+                        &root,
+                        work_item_id,
+                        std::slice::from_ref(&request),
+                        snapshot,
+                        runtime,
+                        "precondition_rejected",
+                        Some(("verification_plan", &diagnostic)),
+                        None,
+                    )
+                } else {
+                    Ok(json!({"state":"not_applicable"}))
+                };
+                let persistence = match attempt {
+                    Ok(attempt) => attempt,
+                    Err(error) => {
+                        json!({"state":"persistence_failed", "diagnostic":error.to_string()})
+                    }
+                };
+                return Err(format!(
+                    "verification planning rejected: {diagnostic}; attempt: {}",
+                    serde_json::to_string(&persistence).unwrap_or_default()
+                ));
+            }
+        };
+        let reused = planned["action"] == "reuse";
+        return Ok(json!({
+            "state": "planned",
+            "workItemId": work_item_id,
+            "repositoryId": cockpit_repository::repository_id(&root).to_string(),
+            "repositorySnapshotDigest": cockpit_repository::snapshot_digest(snapshot)
+                .map_err(|error| error.to_string())?.to_string(),
+            "runtimeVersion": runtime.runtime_version,
+            "runtimeDigest": runtime.runtime_digest.to_string(),
+            "nodesPlanned": 1,
+            "nodesToExecute": usize::from(!reused),
+            "nodesReused": usize::from(reused),
+            "processesSpawned": 0,
+            "requests": [{
+                "nodeId": request.node_id,
+                "program": request.program,
+                "args": request.args,
+                "dependencies": [],
+            }],
+            "plannedNodes": [planned],
+        }));
     }
     let run = cockpit_repository::run_repository_verification(&root, &request)
         .map_err(|error| error.to_string())?;

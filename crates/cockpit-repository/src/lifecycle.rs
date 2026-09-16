@@ -65,6 +65,86 @@ pub fn start_work_item_with_options(
     })
 }
 
+/// One-shot agent entry: create/activate a Work Item, append the supplied
+/// source references, persist its preflight, and create exactly one
+/// before-edit checkpoint when no blocker or human-confirmation boundary is
+/// present. A yellow verification-pending result is checkpointable; it does
+/// not claim that verification has already passed.
+pub fn start_work_item_prepared(
+    root: &Path,
+    work_item_id: &str,
+    intent: &str,
+    goal: &str,
+    scope: &[String],
+    options: &WorkItemStartOptions,
+    sources: &[String],
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    let start = start_work_item_with_options(root, work_item_id, intent, goal, scope, options)?;
+    let source_amendment = if sources.is_empty() {
+        None
+    } else {
+        Some(amend_work_item_contract(
+            root,
+            work_item_id,
+            &serde_json::json!({"sourcesAppend": sources}),
+            "record source references supplied with the prepared Work Item start",
+        )?)
+    };
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let preflight = super::preflight_work_item_with_runtime(root, &contract_path, runtime)?;
+    let preflight_value =
+        serde_json::to_value(&preflight).map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: format!("serialize prepared-start preflight: {error}"),
+        })?;
+    let requires_human_confirmation =
+        preflight.review_state.as_deref() == Some("needs_human_confirmation");
+    let may_checkpoint = matches!(
+        &preflight.state,
+        cockpit_core::DecisionState::Green | cockpit_core::DecisionState::Yellow
+    ) && preflight.blockers.is_empty()
+        && !requires_human_confirmation;
+    let (state, checkpoint, checkpoint_error) = if may_checkpoint {
+        match checkpoint_work_item(root, work_item_id) {
+            Ok(receipt) => (
+                "checkpointed",
+                Some(
+                    serde_json::to_value(receipt).map_err(|error| ObserverError::State {
+                        path: root.to_path_buf(),
+                        message: format!("serialize prepared-start checkpoint: {error}"),
+                    })?,
+                ),
+                None,
+            ),
+            Err(error) => ("checkpoint_blocked", None, Some(error.to_string())),
+        }
+    } else if requires_human_confirmation {
+        ("review_required", None, None)
+    } else {
+        ("blocked", None, None)
+    };
+    Ok(serde_json::json!({
+        "schemaVersion": 1,
+        "workItemId": work_item_id,
+        "state": state,
+        "start": start,
+        "sourceAmendment": source_amendment,
+        "preflight": preflight_value,
+        "checkpoint": checkpoint,
+        "checkpointError": checkpoint_error,
+        "nextActions": if state == "checkpointed" {
+            vec!["implement_within_contract_scope".to_owned(), "verify".to_owned()]
+        } else if requires_human_confirmation {
+            vec!["present_preflight_review_and_wait_for_human_decision".to_owned()]
+        } else {
+            preflight.safe_actions.clone()
+        },
+    }))
+}
+
 /// Activate a recovery-generated `not_ready` scaffold without replacing its
 /// predecessor binding or repository facts.  A scaffold created by
 /// `work-item recover` is intentionally reserved first; `start` is the

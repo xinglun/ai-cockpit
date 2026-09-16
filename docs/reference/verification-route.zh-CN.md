@@ -36,6 +36,10 @@ route 同时供 Agent Risk validation 使用，因此 typed required check、
 
 ## CI 边界
 
+CLI `verify --plan-only` 与 MCP `verify` 的 `planOnly: true` 使用相同的身份准备逻辑，
+逐节点报告 execute/reuse 决策、新鲜度、原因和绑定差异，但不启动项目验证命令
+（`processesSpawned` 为零）。执行也使用同一准备路径；只有绑定输入发生变化时，动作和原因才会改变。
+
 `pre_ci` 不是 hosted CI 证据。CI shadow 阶段同时运行 Runtime 验证和现有 Cargo 检查；CI 结果不能覆盖红色治理决定。
 删除重复 CI 检查必须进入后续明确的收敛阶段。
 

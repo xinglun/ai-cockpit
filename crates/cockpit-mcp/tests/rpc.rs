@@ -104,6 +104,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
         vec![
             "status",
             "work_item_get",
+            "work_item_start",
             "work_item_outcome",
             "work_item_status",
             "work_item_validate",
@@ -132,7 +133,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 18);
+    assert_eq!(listed.len(), 19);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")
@@ -163,11 +164,272 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         .iter()
         .find(|tool| tool["name"] == "verify")
         .expect("verify tool");
+    assert_eq!(
+        verify["inputSchema"]["properties"]["planOnly"]["type"],
+        "boolean"
+    );
     assert_eq!(verify["inputSchema"]["properties"]["args"]["type"], "array");
     assert_eq!(
         verify["inputSchema"]["properties"]["command"]["type"],
         "string"
     );
+    let start = listed
+        .iter()
+        .find(|tool| tool["name"] == "work_item_start")
+        .expect("start tool");
+    assert_eq!(
+        start["inputSchema"]["properties"]["sources"]["type"],
+        "array"
+    );
+    assert!(start["inputSchema"]["required"].as_array().is_some());
+}
+
+#[test]
+fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
+    let directory = TestTempDir::new("cockpit-mcp-prepared-start");
+    fs::write(directory.path().join("README.md"), "baseline\n").expect("baseline");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    Command::new("git")
+        .args(["add", "."])
+        .current_dir(directory.path())
+        .status()
+        .expect("git add");
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit")
+            .success()
+    );
+    cockpit_repository::attach(directory.path()).expect("attach");
+
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":31,"method":"tools/call",
+            "params":{"name":"work_item_start","arguments":{
+                "workItemId":"WI-MCP-AUTO-START",
+                "intent":"reduce repeated lifecycle commands",
+                "goal":"prepare a Work Item before implementation",
+                "scope":["README.md"],
+                "authority":"authorized",
+                "sources":["README.md:human-provided source"]
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+
+    assert_eq!(response["result"]["isError"], false, "{response:#}");
+    let result = &response["result"]["structuredContent"];
+    assert_eq!(result["state"], "checkpointed");
+    assert_eq!(result["preflight"]["state"], "green");
+    assert_eq!(result["checkpoint"]["state"], "checkpointed");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-AUTO-START.contract.json"),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-AUTO-START.summary.json"),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(contract["sources"][0], "README.md:human-provided source");
+    assert_eq!(summary["checkpointCount"], 1);
+    assert_eq!(
+        summary["preflightContractDigest"],
+        summary["checkpointContractDigest"]
+    );
+}
+
+#[test]
+fn mcp_prepared_start_preserves_human_review_without_checkpointing() {
+    let directory = TestTempDir::new("cockpit-mcp-prepared-review");
+    fs::write(directory.path().join("README.md"), "baseline\n").expect("baseline");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    Command::new("git")
+        .args(["add", "."])
+        .current_dir(directory.path())
+        .status()
+        .expect("git add");
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit")
+            .success()
+    );
+    cockpit_repository::attach(directory.path()).expect("attach");
+    fs::write(
+        directory.path().join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "organization": {
+            "policyId": "mcp-prepared-review-v1",
+            "layer": "organization",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "single_authorized_human",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "schemaVersion": 1,
+                "requiredTier": "T0",
+                "requiredAssurance": "repository_verified",
+                "policyRefs": ["mcp-prepared-review-v1"],
+                "stageRefs": ["task"],
+                "gateRefs": [],
+                "reason": "human authority is required before implementation"
+              }
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":34,"method":"tools/call",
+            "params":{"name":"work_item_start","arguments":{
+                "workItemId":"WI-MCP-AUTO-REVIEW",
+                "intent":"preserve human authority",
+                "goal":"wait for review before creating an implementation checkpoint",
+                "scope":["README.md"],
+                "authority":"missing"
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+
+    assert_eq!(response["result"]["isError"], false, "{response:#}");
+    let result = &response["result"]["structuredContent"];
+    assert_eq!(result["state"], "review_required");
+    assert_eq!(
+        result["preflight"]["reviewState"],
+        "needs_human_confirmation"
+    );
+    assert!(result["checkpoint"].is_null());
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-MCP-AUTO-REVIEW.summary.json"),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(summary["checkpointCount"], 0);
+    assert_eq!(summary["preflightState"], "yellow");
+}
+
+#[test]
+fn mcp_plan_only_reports_actions_without_running_project_commands() {
+    let directory = TestTempDir::new("cockpit-mcp-plan-only");
+    fs::write(directory.path().join("tracked.txt"), "baseline\n").expect("baseline");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    Command::new("git")
+        .args(["add", "."])
+        .current_dir(directory.path())
+        .status()
+        .expect("git add");
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(directory.path())
+            .status()
+            .expect("git commit")
+            .success()
+    );
+
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":32,"method":"tools/call",
+            "params":{"name":"verify","arguments":{
+                "command":"python3",
+                "args":["-c", "from pathlib import Path; Path('verify-ran').touch()"],
+                "planOnly":true
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+
+    assert_eq!(response["result"]["isError"], false, "{response:#}");
+    let plan = &response["result"]["structuredContent"];
+    assert_eq!(plan["state"], "planned");
+    assert_eq!(plan["nodesPlanned"], 1);
+    assert_eq!(plan["nodesToExecute"], 1);
+    assert_eq!(plan["processesSpawned"], 0);
+    assert_eq!(plan["plannedNodes"][0]["action"], "execute");
+    assert!(!directory.path().join("verify-ran").exists());
+
+    let execution = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":33,"method":"tools/call",
+            "params":{"name":"verify","arguments":{
+                "command":"python3",
+                "args":["-c", "from pathlib import Path; Path('verify-ran').touch()"]
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(execution["result"]["isError"], false, "{execution:#}");
+    assert_eq!(
+        plan["plannedNodes"][0]["action"],
+        execution["result"]["structuredContent"]["results"][0]["action"]
+    );
+    assert_eq!(
+        plan["plannedNodes"][0]["reason"],
+        execution["result"]["structuredContent"]["results"][0]["reason"]
+    );
+    assert!(directory.path().join("verify-ran").is_file());
 }
 
 #[test]

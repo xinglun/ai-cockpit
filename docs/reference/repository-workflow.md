@@ -23,6 +23,13 @@ machines, but Contract, evidence, and repository identity are request-scoped.
 
 ## Start to review
 
+Agents may use `start --prepare --source <reference>` to append source
+references, persist preflight, and create exactly one before-edit checkpoint in
+one operation when no blocker or human-confirmation boundary exists. A
+review-required or blocked result stops before editing; yellow
+verification-pending is not passed verification. MCP `work_item_start` has the
+same behavior.
+
 1. Fetch the latest remote default branch and record its remote, branch, and
    revision in the Contract.
 2. Create a dedicated linked worktree and branch from that revision.

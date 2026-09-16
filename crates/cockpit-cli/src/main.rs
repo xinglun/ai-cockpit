@@ -139,6 +139,13 @@ enum CommandKind {
         /// evidence and are rejected at this boundary.
         #[arg(long, value_delimiter = ',')]
         required_evidence: Vec<String>,
+        /// Persist preflight and create one before-edit checkpoint when the
+        /// decision has no blockers or human-confirmation boundary.
+        #[arg(long, default_value_t = false)]
+        prepare: bool,
+        /// Source reference to append before preflight; repeat for multiple.
+        #[arg(long, action = ArgAction::Append)]
+        source: Vec<String>,
     },
     Checkpoint {
         #[arg(long)]
@@ -1210,24 +1217,41 @@ fn run() -> Result<()> {
             authority,
             acceptance,
             required_evidence,
+            prepare,
+            source,
         } => {
             require_compatible(&repo, &runtime_context)?;
-            let receipt = start_work_item_with_options(
-                &repo,
-                &id,
-                &intent,
-                &goal,
-                &scope,
-                &WorkItemStartOptions {
-                    out_of_scope,
-                    risk,
-                    authority,
-                    acceptance_criteria: acceptance,
-                    required_evidence_classes: required_evidence,
-                },
-            )
-            .context("start work item")?;
-            println!("{}", serde_json::to_string_pretty(&receipt)?);
+            if !prepare && !source.is_empty() {
+                anyhow::bail!(
+                    "--source requires --prepare so references are recorded before preflight"
+                );
+            }
+            let options = WorkItemStartOptions {
+                out_of_scope,
+                risk,
+                authority,
+                acceptance_criteria: acceptance,
+                required_evidence_classes: required_evidence,
+            };
+            if prepare {
+                let report = cockpit_repository::start_work_item_prepared(
+                    &repo,
+                    &id,
+                    &intent,
+                    &goal,
+                    &scope,
+                    &options,
+                    &source,
+                    &runtime_context,
+                )
+                .context("start and prepare work item")?;
+                println!("{}", serde_json::to_string_pretty(&report)?);
+            } else {
+                let receipt =
+                    start_work_item_with_options(&repo, &id, &intent, &goal, &scope, &options)
+                        .context("start work item")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
         }
         CommandKind::Checkpoint { repo, id } => {
             require_compatible(&repo, &runtime_context)?;
@@ -1503,24 +1527,6 @@ fn run() -> Result<()> {
             } else {
                 (requests, None)
             };
-            if plan_only {
-                let plan = json!({
-                    "coverageManifest": coverage_manifest,
-                    "requests": requests.iter().map(|request| json!({
-                        "nodeId": request.node_id,
-                        "program": request.program,
-                        "args": request.args,
-                        "dependencies": [],
-                    })).collect::<Vec<_>>(),
-                });
-                println!("{}", serde_json::to_string_pretty(&plan)?);
-                return Ok(());
-            }
-            let requires_aggregate_snapshot = requests.len() > 1;
-            let service_started = std::time::Instant::now();
-            let mut runs = Vec::with_capacity(requests.len());
-            let mut planning_elapsed_ms = 0_u128;
-            let mut execution_elapsed_ms = 0_u128;
             let reusable_attempt = if let Some(work_item_id) = work_item.as_deref()
                 && !archived_recovery
             {
@@ -1535,6 +1541,121 @@ fn run() -> Result<()> {
             } else {
                 None
             };
+            let now_epoch_seconds = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|duration| i64::try_from(duration.as_secs()).unwrap_or(i64::MAX))
+                .unwrap_or(0);
+            let mut planned_nodes = Vec::with_capacity(requests.len());
+            for request in &requests {
+                match cockpit_repository::plan_repository_verification_action(
+                    &root,
+                    request,
+                    &initial_snapshot,
+                    now_epoch_seconds,
+                ) {
+                    Ok(node) => planned_nodes.push(node),
+                    Err(error) => {
+                        let attempt = if let Some(work_item_id) = work_item.as_deref() {
+                            cockpit_repository::persist_verification_attempt(
+                                &root,
+                                work_item_id,
+                                &requests,
+                                &initial_snapshot,
+                                &runtime_context,
+                                "precondition_rejected",
+                                Some(("verification_plan", &error.to_string())),
+                                None,
+                            )
+                        } else {
+                            Ok(json!({"state": "not_applicable"}))
+                        };
+                        println!(
+                            "{}",
+                            serde_json::to_string_pretty(&json!({
+                                "state": "blocked",
+                                "workItemId": work_item,
+                                "gate": "verification_plan",
+                                "diagnostic": error.to_string(),
+                                "plannedNodes": planned_nodes,
+                                "attempt": match attempt {
+                                    Ok(value) => value,
+                                    Err(persist_error) => json!({
+                                        "state": "persistence_failed",
+                                        "diagnostic": persist_error.to_string(),
+                                    }),
+                                },
+                                "processesSpawned": 0,
+                            }))?
+                        );
+                        anyhow::bail!("verification planning rejected: {error}");
+                    }
+                }
+            }
+            if let Some(attempt) = reusable_attempt.as_ref()
+                && let Some(results) = attempt
+                    .get("receipt")
+                    .and_then(|receipt| receipt.get("results"))
+                    .and_then(serde_json::Value::as_array)
+            {
+                for node in &mut planned_nodes {
+                    let node_id = node.get("nodeId").and_then(serde_json::Value::as_str);
+                    let result = results.iter().find(|result| {
+                        result.get("nodeId").and_then(serde_json::Value::as_str) == node_id
+                    });
+                    if let Some(result) = result {
+                        node["action"] = json!("reuse");
+                        node["state"] = json!("fresh");
+                        node["reason"] = json!("fresh_exact_binding");
+                        node["satisfiedBy"] = json!("reused_receipt");
+                        node["reuseAuthorization"] = json!("identity_bound_work_item_attempt");
+                        node["receiptId"] = result
+                            .get("receiptId")
+                            .cloned()
+                            .unwrap_or(serde_json::Value::Null);
+                        node["identityBinding"]["verificationAttemptId"] = attempt
+                            .get("attemptId")
+                            .cloned()
+                            .unwrap_or(serde_json::Value::Null);
+                        node["identityBinding"]["contractExecutionScopeDigest"] = attempt
+                            .get("contractExecutionScopeDigest")
+                            .cloned()
+                            .unwrap_or(serde_json::Value::Null);
+                    }
+                }
+            }
+            if plan_only {
+                let nodes_reused = planned_nodes
+                    .iter()
+                    .filter(|node| node["action"] == "reuse")
+                    .count();
+                let plan = json!({
+                    "coverageManifest": coverage_manifest,
+                    "requests": requests.iter().map(|request| json!({
+                        "nodeId": request.node_id,
+                        "program": request.program,
+                        "args": request.args,
+                        "dependencies": [],
+                    })).collect::<Vec<_>>(),
+                    "state": "planned",
+                    "workItemId": work_item,
+                    "repositoryId": cockpit_repository::repository_id(&root).to_string(),
+                    "repositorySnapshotDigest": cockpit_repository::snapshot_digest(&initial_snapshot)?.to_string(),
+                    "runtimeVersion": runtime_context.runtime_version,
+                    "runtimeDigest": runtime_context.runtime_digest.to_string(),
+                    "nodesPlanned": planned_nodes.len(),
+                    "nodesToExecute": planned_nodes.len().saturating_sub(nodes_reused),
+                    "nodesReused": nodes_reused,
+                    "processesSpawned": 0,
+                    "plannedNodes": planned_nodes,
+                });
+                println!("{}", serde_json::to_string_pretty(&plan)?);
+                return Ok(());
+            }
+            let requires_aggregate_snapshot = requests.len() > 1;
+            let service_started = std::time::Instant::now();
+            let mut runs = Vec::with_capacity(requests.len());
+            let mut planning_elapsed_ms = 0_u128;
+            let mut execution_elapsed_ms = 0_u128;
             if let Some(attempt) = reusable_attempt {
                 let receipt_value = attempt
                     .get("receipt")
@@ -1693,11 +1814,16 @@ fn run() -> Result<()> {
             run.receipt.plan_receipt = Some(plan_receipt);
             let cost_observation = run.receipt.cost_observation();
             run.receipt.cost_observation = Some(cost_observation);
-            let mut output = serde_json::to_value(&run.receipt)?;
+            // Keep the strict protocol receipt separate from CLI-only planning
+            // projections. Persisted Work Item evidence is deserialized with
+            // deny_unknown_fields and must remain reusable as a typed receipt.
+            let verification_receipt = serde_json::to_value(&run.receipt)?;
+            let mut output = verification_receipt.clone();
             output["runtimeVersion"] =
                 serde_json::Value::String(runtime_context.runtime_version.clone());
             output["runtimeDigest"] =
                 serde_json::Value::String(runtime_context.runtime_digest.to_string());
+            output["plannedNodes"] = json!(planned_nodes);
             if !run.receipt.passed {
                 let failed_nodes = run
                     .receipt
@@ -1718,7 +1844,7 @@ fn run() -> Result<()> {
                             "verification_execution",
                             "one or more verification nodes failed",
                         )),
-                        Some(&output),
+                        Some(&verification_receipt),
                     );
                     if let Err(error) = &attempt {
                         eprintln!("could not persist failed verification attempt: {error}");
@@ -1747,7 +1873,7 @@ fn run() -> Result<()> {
                     &runtime_context,
                     "execution_completed",
                     None,
-                    Some(&output),
+                    Some(&verification_receipt),
                 )
                 .context("persist verification attempt")?;
                 if archived_recovery {
@@ -1766,7 +1892,7 @@ fn run() -> Result<()> {
                                 .and_then(|route| route.policy_plan.as_ref())
                                 .map(|plan| plan.requirement.policy_refs.clone())
                                 .unwrap_or_default(),
-                            verification_receipt: output.clone(),
+                            verification_receipt: verification_receipt.clone(),
                         },
                         &runtime_context,
                         &run.final_snapshot,
@@ -1779,7 +1905,7 @@ fn run() -> Result<()> {
                             &runtime_context,
                             "formal_receipt_rejected",
                             Some(("formal_receipt", &error.to_string())),
-                            Some(&output),
+                            Some(&verification_receipt),
                         );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!("could not persist receipt rejection attempt: {persist_error}");
@@ -1790,7 +1916,7 @@ fn run() -> Result<()> {
                     if let Err(error) = cockpit_repository::record_verification_with_runtime(
                         &root,
                         &work_item,
-                        &output,
+                        &verification_receipt,
                         &runtime_context,
                         &run.final_snapshot,
                     ) {
@@ -1802,7 +1928,7 @@ fn run() -> Result<()> {
                             &runtime_context,
                             "formal_receipt_rejected",
                             Some(("formal_receipt", &error.to_string())),
-                            Some(&output),
+                            Some(&verification_receipt),
                         );
                         if let Err(persist_error) = recovery_attempt {
                             eprintln!(

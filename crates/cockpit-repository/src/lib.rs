@@ -211,6 +211,31 @@ pub struct RepositoryVerificationPlan {
     pub coverage_manifest: Option<cockpit_verification::VerificationCoverageManifest>,
 }
 
+fn validate_verification_request(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> Result<VerificationStage, ObserverError> {
+    let stage = VerificationStage::parse(&request.stage).map_err(|error| ObserverError::State {
+        path: root.to_path_buf(),
+        message: error,
+    })?;
+    if stage.requires_base_revision()
+        && request
+            .base_commit
+            .as_deref()
+            .is_none_or(|value| !valid_git_object_id(value))
+    {
+        return Err(ObserverError::State {
+            path: root.to_path_buf(),
+            message: format!(
+                "verification stage {} requires a valid base revision",
+                stage.as_str()
+            ),
+        });
+    }
+    Ok(stage)
+}
+
 /// Partition the canonical Cargo workspace route into deterministic package
 /// nodes.  Cargo metadata is queried once for planning; the resulting bytes
 /// are hashed and carried in the formal plan receipt so a recovery run cannot
@@ -826,51 +851,32 @@ fn new_repository_id() -> Digest {
     )
 }
 
-pub fn run_repository_verification(
+struct PreparedRepositoryVerificationCommand {
+    command: cockpit_verification::VerificationCommand,
+    execution_identity: Option<execution_context::ResolvedExecutableIdentity>,
+    context_input: VerificationContextInput,
+    authorized_binding: Option<(ReceiptStoreBinding, VerificationReuseAuthorization)>,
+    store_files_read: usize,
+    store_unavailable_reason: Option<String>,
+    executable_files_read: usize,
+    executable_files_hashed: usize,
+    reuse_authorization: String,
+}
+
+fn prepare_repository_verification_command(
     root: &Path,
     request: &RepositoryVerificationRequest,
-) -> Result<RepositoryVerificationRun, ObserverError> {
-    let service_started = Instant::now();
-    let stage = VerificationStage::parse(&request.stage).map_err(|error| ObserverError::State {
-        path: root.to_path_buf(),
-        message: error,
-    })?;
-    if stage.requires_base_revision()
-        && request
-            .base_commit
-            .as_deref()
-            .is_none_or(|value| !valid_git_object_id(value))
-    {
-        return Err(ObserverError::State {
-            path: root.to_path_buf(),
-            message: format!(
-                "verification stage {} requires a valid base revision",
-                stage.as_str()
-            ),
-        });
-    }
-    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
-        path: root.into(),
-        source,
-    })?;
-    let git =
-        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
-            path: root.clone(),
-            message: error.to_string(),
-        })?;
-    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
-        path: root.clone(),
-        message: error.to_string(),
-    })?;
+    snapshot: &RepositorySnapshot,
+) -> Result<PreparedRepositoryVerificationCommand, ObserverError> {
     let mut store_files_read = 0;
     let mut store_unavailable_reason = None;
-    let execution_identity = resolved_executable_identity(&root, &request.program);
+    let execution_identity = resolved_executable_identity(root, &request.program);
     let mut executable_files_read = execution_identity
         .as_ref()
         .map_or(0, |identity| identity.components.len());
     let mut executable_files_hashed = executable_files_read;
     let base_command = build_repository_verification_command(
-        &root,
+        root,
         request,
         None,
         match &request.policy {
@@ -896,11 +902,16 @@ pub fn run_repository_verification(
         base_commit: request.base_commit.clone(),
     };
     let mut authorized_binding = None;
+    let mut reuse_authorization = match request.policy {
+        RepositoryVerificationPolicy::ProfileAuthorized => "denied:unknown".into(),
+        RepositoryVerificationPolicy::NeverReuse => "not_requested".into(),
+        RepositoryVerificationPolicy::Protected(_) => "protected".into(),
+    };
     let command = if request.policy == RepositoryVerificationPolicy::ProfileAuthorized {
         let mut assessment_cost = VerificationIdentityCost::default();
         let assessment = assess_verification_reuse_measured(
-            &root,
-            &snapshot,
+            root,
+            snapshot,
             &context_input,
             execution_identity.as_ref(),
             &mut assessment_cost,
@@ -913,11 +924,11 @@ pub fn run_repository_verification(
                 let authorization = *authorization;
                 let context = authorization.context.clone();
                 let binding = ReceiptStoreBinding {
-                    repository_id: repository_id(&root).to_string(),
+                    repository_id: repository_id(root).to_string(),
                     profile_digest: context.profile_digest.clone(),
                     node_id: request.node_id.clone(),
                 };
-                let candidate = match load_reusable_receipt(&root, &binding)? {
+                let candidate = match load_reusable_receipt(root, &binding)? {
                     ReceiptStoreLoad::Candidate {
                         receipt,
                         files_read,
@@ -931,18 +942,29 @@ pub fn run_repository_verification(
                         None
                     }
                 };
+                reuse_authorization = "authorized".into();
                 authorized_binding = Some((binding, authorization));
                 build_repository_verification_command(
-                    &root,
+                    root,
                     request,
                     execution_identity.as_ref(),
                     cockpit_verification::VerificationReusePolicy::Reusable,
                 )
                 .with_reuse_candidate(candidate, context)
             }
-            Ok(VerificationReuseAssessment::Denied { .. }) | Err(_) => {
+            Ok(VerificationReuseAssessment::Denied { reason }) => {
+                reuse_authorization = format!("denied:{reason}");
                 build_repository_verification_command(
-                    &root,
+                    root,
+                    request,
+                    None,
+                    cockpit_verification::VerificationReusePolicy::NeverReuse,
+                )
+            }
+            Err(error) => {
+                reuse_authorization = format!("denied:identity_error:{error}");
+                build_repository_verification_command(
+                    root,
                     request,
                     None,
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
@@ -952,6 +974,112 @@ pub fn run_repository_verification(
     } else {
         base_command
     };
+    Ok(PreparedRepositoryVerificationCommand {
+        command,
+        execution_identity,
+        context_input,
+        authorized_binding,
+        store_files_read,
+        store_unavailable_reason,
+        executable_files_read,
+        executable_files_hashed,
+        reuse_authorization,
+    })
+}
+
+/// Plan one verification node without spawning its project command. The same
+/// command identity and reuse candidate preparation is used by execution.
+pub fn plan_repository_verification_action(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+    snapshot: &RepositorySnapshot,
+    now_epoch_seconds: i64,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_verification_request(root, request)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let snapshot_root = fs::canonicalize(&snapshot.root).map_err(|source| ObserverError::Read {
+        path: snapshot.root.clone(),
+        source,
+    })?;
+    if root != snapshot_root {
+        return Err(ObserverError::SnapshotRootMismatch);
+    }
+    let prepared = prepare_repository_verification_command(&root, request, snapshot)?;
+    let plan =
+        cockpit_verification::plan_verification_commands(vec![prepared.command], now_epoch_seconds)
+            .map_err(|error| ObserverError::State {
+                path: root.clone(),
+                message: error.to_string(),
+            })?;
+    let planned = plan
+        .commands()
+        .first()
+        .ok_or_else(|| ObserverError::State {
+            path: root.clone(),
+            message: "verification plan unexpectedly contained no node".into(),
+        })?;
+    let profile_digest = prepared
+        .authorized_binding
+        .as_ref()
+        .map(|(binding, _)| binding.profile_digest.clone());
+    let snapshot_digest = snapshot_digest(snapshot).map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    Ok(serde_json::json!({
+        "nodeId": planned.command.id,
+        "program": request.program,
+        "args": request.args,
+        "dependencies": planned.command.dependencies,
+        "action": planned.action,
+        "state": planned.state,
+        "reason": planned.reason.code(),
+        "bindingMismatches": planned.binding_mismatches,
+        "receiptId": planned.receipt_id,
+        "satisfiedBy": planned.satisfied_by,
+        "reuseAuthorization": prepared.reuse_authorization,
+        "identityBinding": {
+            "repositoryId": repository_id(&root).to_string(),
+            "repositorySnapshotDigest": snapshot_digest.to_string(),
+            "runtimeDigest": request.runtime_digest,
+            "commandDigest": planned.command.command_digest(),
+            "profileDigest": profile_digest,
+        },
+        "planningElapsedMs": plan.planning_elapsed_ms(),
+    }))
+}
+
+pub fn run_repository_verification(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> Result<RepositoryVerificationRun, ObserverError> {
+    let service_started = Instant::now();
+    let stage = validate_verification_request(root, request)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let prepared = prepare_repository_verification_command(&root, request, &snapshot)?;
+    let mut store_files_read = prepared.store_files_read;
+    let mut store_unavailable_reason = prepared.store_unavailable_reason;
+    let mut executable_files_read = prepared.executable_files_read;
+    let mut executable_files_hashed = prepared.executable_files_hashed;
+    let mut authorized_binding = prepared.authorized_binding;
+    let _execution_identity = prepared.execution_identity;
+    let context_input = prepared.context_input;
+    let command = prepared.command;
     let mut receipt = cockpit_verification::execute_bounded(vec![command], request.workers)
         .map_err(|error| ObserverError::State {
             path: root.clone(),

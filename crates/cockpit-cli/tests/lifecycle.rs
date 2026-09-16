@@ -90,6 +90,136 @@ fn run_output(binary: &str, args: &[&str], repo: &std::path::Path) -> std::proce
 }
 
 #[test]
+fn prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command() {
+    let repo = repository();
+    fs::write(repo.join("README.md"), "baseline\n").expect("baseline");
+    commit_baseline(&repo);
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(
+        run_output(binary, &["attach"], &repo).status.success(),
+        "attach failed"
+    );
+    let output = run_output(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-AUTO-PREPARE",
+            "--intent",
+            "reduce manual lifecycle commands",
+            "--goal",
+            "start with current preflight and one before-edit checkpoint",
+            "--scope",
+            "README.md",
+            "--authority",
+            "authorized",
+            "--prepare",
+            "--source",
+            "README.md:baseline intent",
+        ],
+        &repo,
+    );
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("start report");
+    assert_eq!(report["state"], "checkpointed", "{report:#}");
+    assert_eq!(report["preflight"]["state"], "green", "{report:#}");
+    assert_eq!(report["checkpoint"]["state"], "checkpointed");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-AUTO-PREPARE.contract.json"))
+            .expect("contract"),
+    )
+    .expect("contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-AUTO-PREPARE.summary.json"))
+            .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(contract["sources"][0], "README.md:baseline intent");
+    assert_eq!(summary["checkpointCount"], 1);
+    assert_eq!(summary["preflightState"], "green");
+    assert_eq!(
+        summary["preflightContractDigest"],
+        summary["checkpointContractDigest"]
+    );
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
+fn prepared_start_preserves_human_review_and_does_not_checkpoint() {
+    let repo = repository();
+    fs::write(repo.join("README.md"), "baseline\n").expect("baseline");
+    commit_baseline(&repo);
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(run_output(binary, &["attach"], &repo).status.success());
+    fs::write(
+        repo.join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "organization": {
+            "policyId": "prepared-start-review-v1",
+            "layer": "organization",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "single_authorized_human",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "schemaVersion": 1,
+                "requiredTier": "T0",
+                "requiredAssurance": "repository_verified",
+                "policyRefs": ["prepared-start-review-v1"],
+                "stageRefs": ["task"],
+                "gateRefs": [],
+                "reason": "human authority is required before implementation"
+              }
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+    let output = run_output(
+        binary,
+        &[
+            "start",
+            "--id",
+            "WI-AUTO-REVIEW",
+            "--intent",
+            "preserve human authority",
+            "--goal",
+            "do not checkpoint pending human review",
+            "--scope",
+            "README.md",
+            "--authority",
+            "missing",
+            "--prepare",
+        ],
+        &repo,
+    );
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("start report");
+    assert_eq!(report["state"], "review_required", "{report:#}");
+    assert_eq!(
+        report["preflight"]["reviewState"],
+        "needs_human_confirmation"
+    );
+    assert!(report["checkpoint"].is_null());
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(repo.join(".ai/work-items/active/WI-AUTO-REVIEW.summary.json")).expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(summary["checkpointCount"], 0);
+    assert_eq!(summary["preflightState"], "yellow");
+    fs::remove_dir_all(repo).expect("cleanup");
+}
+
+#[test]
 fn finish_command_requires_finalize_plan_for_bound_resource_and_preserves_active_files() {
     let repo = repository();
     let binary = env!("CARGO_BIN_EXE_ai-cockpit");

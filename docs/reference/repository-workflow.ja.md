@@ -22,6 +22,12 @@ AI Cockpit は、限定された変更ごとに 1 Work Item、1 専用 branch/wo
 
 ## 開始からレビューまで
 
+Agent は `start --prepare --source <reference>` により、source の追記と
+preflight の保存を一度に行えます。blocker または人の確認境界がない場合に限り、
+before-edit checkpoint を 1 回だけ作成します。review-required または blocked
+なら編集前に停止します。yellow の verification-pending は検証合格を意味しません。
+MCP `work_item_start` も同じ動作です。
+
 1. remote の既定 branch の最新 commit を取得し、remote、branch、revision を Contract に記録します。
 2. その revision から専用 linked worktree と branch を作成します。
 3. 明示的な scope、out-of-scope、authority、acceptance、required evidence を指定して `ai-cockpit start --repo <worktree> --id <id> --intent <text> --goal <text>` を実行します。
