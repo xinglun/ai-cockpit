@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:bacb86658a580337d1eb4ee6ff1b9a71dcb625c928837bfa4e83d4982513f7be",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-865-closed-docs-promotion",
+        "--check-all"
+      ],
+      "baseCommit": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "commandDigest": "sha256:4b13c2d205efd79d0871190049ed2cb58e5e75f9a833da67ad43bf42f9ce9bf1",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:792ad2291ea7b466610da52d8fe8fd4be20ad2c47eb1dc624328b453a80bcf11",
+  "contractExecutionScopeDigest": "sha256:fcefafd6ca2302a501c801c412832193e90a983f967bc6dd5c21cff3239f0e5b",
+  "createdAt": "2026-09-16T20:16:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-865-closed-docs-promotion/.ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4c5ef1b2586251905865ece908f025614c5eea593fa6b470a54ff5042742cf18",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-865-closed-work-item-docs-promotion"
+}

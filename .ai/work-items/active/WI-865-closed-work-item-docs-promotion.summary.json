@@ -1,0 +1,36 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification-attempt.bacb86658a580337d1eb4ee6ff1b9a71dcb625c928837bfa4e83d4982513f7be.json",
+    ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.contract.json",
+    ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-864-release-v0-2-93.ja.md",
+    "docs/work-items/WI-864-release-v0-2-93.md",
+    "docs/work-items/WI-864-release-v0-2-93.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T20:15:51Z",
+  "checkpointContractDigest": "sha256:792ad2291ea7b466610da52d8fe8fd4be20ad2c47eb1dc624328b453a80bcf11",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:4c5ef1b2586251905865ece908f025614c5eea593fa6b470a54ff5042742cf18",
+  "createdAt": "2026-09-16T20:15:24Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T20:16:30Z",
+  "preflightContractDigest": "sha256:792ad2291ea7b466610da52d8fe8fd4be20ad2c47eb1dc624328b453a80bcf11",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4c5ef1b2586251905865ece908f025614c5eea593fa6b470a54ff5042742cf18",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T20:16:43Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-865-closed-work-item-docs-promotion"
+}

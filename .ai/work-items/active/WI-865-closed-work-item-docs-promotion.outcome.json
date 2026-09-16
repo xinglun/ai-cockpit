@@ -1,0 +1,198 @@
+{
+  "acceptanceResults": [
+    "promote_closed_work_item.py --check-all passes",
+    "Only the six declared documentation projection files change",
+    "The closed WI-864 archive and release evidence remain byte-preserved"
+  ],
+  "createdAt": "2026-09-16T20:16:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1ee59583b5987bf477b03c4c371858c92c746c483ba70bc9c479778e46e5e285",
+  "evidenceRefs": [
+    ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4c5ef1b2586251905865ece908f025614c5eea593fa6b470a54ff5042742cf18",
+      "workItemId": "WI-865-closed-work-item-docs-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-865-closed-work-item-docs-promotion.verification-attempt.bacb86658a580337d1eb4ee6ff1b9a71dcb625c928837bfa4e83d4982513f7be.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-865-closed-work-item-docs-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-864-release-v0-2-93.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-864-release-v0-2-93.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-864-release-v0-2-93.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the closed-work-item promotion check pass without changing product code, release artifacts, or historical governance bytes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-865-closed-work-item-docs-promotion"
+  },
+  "taskReportDigest": "sha256:7052fd5d4c78d956670ccc0ff4b270e9e315c139e22397cffb02e43e8d7b9df0",
+  "taskReportMarkdownDigest": "sha256:fffd02fc2c72b3825f552cbe4d46f4d2b6b261d9611a67ef76d7c3c1c36f6781",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-865-closed-work-item-docs-promotion"
+}
