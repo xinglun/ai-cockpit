@@ -235,6 +235,11 @@ fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
     assert_eq!(response["result"]["isError"], false, "{response:#}");
     let result = &response["result"]["structuredContent"];
     assert_eq!(result["state"], "checkpointed");
+    assert_eq!(result["start"]["startAdvisory"]["classification"], "clear");
+    assert_eq!(
+        result["start"]["startAdvisory"]["currentWorkItemState"],
+        "not_started"
+    );
     assert_eq!(result["preflight"]["state"], "green");
     assert_eq!(result["checkpoint"]["state"], "checkpointed");
     let contract: serde_json::Value = serde_json::from_slice(

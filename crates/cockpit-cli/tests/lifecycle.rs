@@ -126,6 +126,14 @@ fn prepared_start_records_sources_preflight_and_one_checkpoint_in_one_command() 
     );
     let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("start report");
     assert_eq!(report["state"], "checkpointed", "{report:#}");
+    assert_eq!(
+        report["start"]["startAdvisory"]["classification"], "clear",
+        "{report:#}"
+    );
+    assert_eq!(
+        report["start"]["startAdvisory"]["currentWorkItemState"], "not_started",
+        "{report:#}"
+    );
     assert_eq!(report["preflight"]["state"], "green", "{report:#}");
     assert_eq!(report["checkpoint"]["state"], "checkpointed");
     let contract: serde_json::Value = serde_json::from_slice(

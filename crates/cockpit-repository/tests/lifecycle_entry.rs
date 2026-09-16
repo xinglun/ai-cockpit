@@ -242,6 +242,57 @@ fn start_advisory_reports_residual_work_without_forcing_a_stop() {
 }
 
 #[test]
+fn start_blocks_only_an_exact_active_worktree_binding() {
+    let directory = repository();
+    let existing_id = "WI-EXACT-RESOURCE";
+    start_work_item_with_options(
+        directory.path(),
+        existing_id,
+        "bind a resource for the conflict fixture",
+        "prove an exact worktree binding blocks a different Work Item",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("fixture Work Item starts");
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{existing_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract["resourceContext"] = json!({
+        "worktree": directory.path().to_string_lossy(),
+        "branch": "fixture-owner-branch"
+    });
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("bind exact worktree");
+
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-NEW-EXACT-CONFLICT",
+        "reject exact resource collision",
+        "do not share an active Work Item worktree",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect_err("exact active worktree binding must block start");
+    assert!(
+        error
+            .to_string()
+            .contains("current_worktree_bound_to_active_work_item:WI-EXACT-RESOURCE")
+    );
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-NEW-EXACT-CONFLICT.contract.json")
+            .exists()
+    );
+}
+
+#[test]
 fn preflight_blocks_a_declared_dependency_on_a_disjoint_unclosed_archived_item() {
     let unrelated = repository();
     write_unclosed_archive(unrelated.path(), "WI-OLD", &["docs/**"]);

@@ -285,3 +285,43 @@ fn replacement_rejects_a_symlinked_successor_contract() {
             .exists()
     );
 }
+
+#[test]
+fn retirement_does_not_move_another_work_items_variant_artifact() {
+    let directory = repository();
+    let retired_id = "WI-RETIRE-VARIANT-A";
+    let retained_id = "WI-RETIRE-VARIANT-B";
+    for id in [retired_id, retained_id] {
+        start_work_item_with_options(
+            directory.path(),
+            id,
+            "retire an explicitly selected Work Item",
+            "preserve unrelated active evidence",
+            &["src/**".into()],
+            &start_options(),
+        )
+        .expect("start");
+    }
+    let unrelated_variant = directory.path().join(format!(
+        ".ai/work-items/active/{retained_id}.outcome.attempt.json"
+    ));
+    fs::write(&unrelated_variant, br#"{"state":"failed"}"#).expect("variant artifact");
+
+    retire_active_work_item_with_runtime(
+        directory.path(),
+        retired_id,
+        &request("integrated"),
+        &runtime(),
+    )
+    .expect("retire selected Work Item");
+
+    assert!(unrelated_variant.is_file());
+    assert!(
+        !directory
+            .path()
+            .join(format!(
+                ".ai/work-items/archive/{retired_id}.outcome.attempt.json"
+            ))
+            .exists()
+    );
+}

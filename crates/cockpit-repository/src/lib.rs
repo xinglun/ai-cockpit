@@ -637,6 +637,7 @@ pub struct WorkItemStartAdvisory {
     pub schema_version: u32,
     pub repository_id: String,
     pub work_item_id: String,
+    pub current_work_item_state: String,
     /// `clear`, `advisory`, `blocked`, or `unknown`.
     pub classification: String,
     pub current_worktree: Option<WorkItemStartWorktree>,
@@ -1831,6 +1832,7 @@ fn validate_start_entry(
     root: &Path,
     candidate_scope: &[String],
     recovery_continuation: bool,
+    advisory_conflicts: &[String],
 ) -> Result<(), ObserverError> {
     let readiness = repository_readiness(root)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -1838,6 +1840,11 @@ fn validate_start_entry(
         source,
     })?;
     let mut failures = Vec::new();
+    failures.extend(
+        advisory_conflicts
+            .iter()
+            .map(|conflict| format!("exact start resource conflict: {conflict}")),
+    );
     if !recovery_continuation {
         let scope_conflicts = unclosed_archived_scope_conflicts(&root, "", candidate_scope)?;
         if !scope_conflicts.is_empty() {
@@ -6299,6 +6306,12 @@ pub fn retire_active_work_item_with_runtime(
         }
     }
     for variant in active_artifact_variants(&active)? {
+        let Some((variant_work_item_id, _)) = active_artifact_variant_name(&variant.name) else {
+            continue;
+        };
+        if variant_work_item_id != work_item_id {
+            continue;
+        }
         let source = active.join(&variant.name);
         if !is_regular_non_symlink(&source)? {
             return Err(ObserverError::State {

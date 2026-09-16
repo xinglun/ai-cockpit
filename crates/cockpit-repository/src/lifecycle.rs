@@ -42,7 +42,12 @@ pub fn start_work_item_with_options(
     let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
     let start_advisory =
         work_item_start_advisory_with_mode(root, work_item_id, recovery_continuation)?;
-    validate_start_entry(root, scope, recovery_continuation)?;
+    validate_start_entry(
+        root,
+        scope,
+        recovery_continuation,
+        &start_advisory.conflicts,
+    )?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
@@ -124,11 +129,23 @@ fn work_item_start_advisory_with_mode(
             }
         })
         .collect::<Vec<_>>();
-    let active_work_items = load_start_obligations(&root)?;
+    let active_work_items = load_start_obligations(&root, "active", true)?;
+    let archived_work_items = load_start_obligations(&root, "archive", false)?;
     let pending_cleanup = active_work_items
         .iter()
         .filter(|item| item.cleanup_required)
         .cloned()
+        .chain(
+            archived_work_items
+                .iter()
+                .filter(|item| item.cleanup_required)
+                .cloned(),
+        )
+        .collect::<Vec<_>>();
+    let all_resource_obligations = active_work_items
+        .iter()
+        .chain(archived_work_items.iter())
+        .filter(|item| item.cleanup_required)
         .collect::<Vec<_>>();
     let mut warnings = Vec::new();
     let mut conflicts = Vec::new();
@@ -142,7 +159,7 @@ fn work_item_start_advisory_with_mode(
         conflicts.push(format!("active_work_item_exists:{work_item_id}"));
     }
     let current_path = root.to_string_lossy();
-    for item in &active_work_items {
+    for item in &all_resource_obligations {
         if item.work_item_id == work_item_id {
             continue;
         }
@@ -181,6 +198,16 @@ fn work_item_start_advisory_with_mode(
         warnings.push(format!(
             "active_work_items_require_lifecycle_or_cleanup:{}",
             active_work_items.len()
+        ));
+    }
+    let archived_resource_count = archived_work_items
+        .iter()
+        .filter(|item| item.cleanup_required)
+        .count();
+    if archived_resource_count > 0 {
+        warnings.push(format!(
+            "archived_resource_obligations_present:{}",
+            archived_resource_count
         ));
     }
     if !readiness.unclosed_archived_work_items.is_empty() {
@@ -238,6 +265,11 @@ fn work_item_start_advisory_with_mode(
         schema_version: 1,
         repository_id: repository_id(&root).to_string(),
         work_item_id: work_item_id.into(),
+        current_work_item_state: if recovery_continuation {
+            "not_ready_recovery".into()
+        } else {
+            "not_started".into()
+        },
         classification: classification.into(),
         current_worktree: worktrees
             .iter()
@@ -257,11 +289,15 @@ fn branch_name(value: &str) -> String {
     value.strip_prefix("refs/heads/").unwrap_or(value).into()
 }
 
-fn load_start_obligations(root: &Path) -> Result<Vec<WorkItemStartObligation>, ObserverError> {
-    let active = root.join(".ai/work-items/active");
-    let mut paths = fs::read_dir(&active)
+fn load_start_obligations(
+    root: &Path,
+    directory: &str,
+    active: bool,
+) -> Result<Vec<WorkItemStartObligation>, ObserverError> {
+    let directory_path = root.join(".ai/work-items").join(directory);
+    let mut paths = fs::read_dir(&directory_path)
         .map_err(|source| ObserverError::Read {
-            path: active.clone(),
+            path: directory_path.clone(),
             source,
         })?
         .flatten()
@@ -304,9 +340,10 @@ fn load_start_obligations(root: &Path) -> Result<Vec<WorkItemStartObligation>, O
             branch,
             worktree,
             // An active Work Item always owns a branch/worktree lifecycle,
-            // even when it has no provider resourceContext.  The advisory
-            // therefore keeps no-resource leftovers visible as cleanup work.
-            cleanup_required: true,
+            // even when it has no provider resourceContext. Archived records
+            // only carry a cleanup obligation when their persisted resource
+            // binding still exists.
+            cleanup_required: active || resource.is_some(),
         });
     }
     Ok(obligations)
@@ -544,7 +581,7 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    validate_start_entry(root, &[], false)?;
+    validate_start_entry(root, &[], false, &[])?;
     scaffold_work_item_internal(root, work_item_id, mode)
 }
 

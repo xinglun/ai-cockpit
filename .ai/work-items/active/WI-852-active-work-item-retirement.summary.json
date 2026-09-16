@@ -1,12 +1,19 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.4e101fa1d66bb3d6704f4205385773114aa8c3dddfd7acea1856e3f28684ac61.json",
+    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.ce36b6224239d6c37fee9402f92156a7460c0423aa281bbc74a80222d1574b7f.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.13d733185997cb5c72824ac0a8df53d8ddf6c7adf87bd7ec0c96a220bf252de8.json",
     ".ai/work-items/active/WI-852-active-work-item-retirement.contract.json",
-    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "checkpointAt": "2026-09-16T04:47:10Z",
-  "checkpointContractDigest": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+  "checkpointContractDigest": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -122,20 +129,60 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:9fee08f452d5e77f47f0ac821bf83b18fc02abf30aa234a3a08e9eca40708d2b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+      "reason": "Integrate review findings into the current Contract before final validation: preserve independent start blockers and isolate retirement artifact ownership.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:43:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:9fee08f452d5e77f47f0ac821bf83b18fc02abf30aa234a3a08e9eca40708d2b",
+      "reason": "Keep the declared MCP acceptance and its regression test inside the current Work Item scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:43:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+  "checkpointRepositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
   "createdAt": "2026-09-16T04:41:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+    "contractDigest": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "The repository owner confirms the amended WI-852 start-advisory Contract and bounded review; continue the reviewed PR path.",
-    "recordedAt": "2026-09-16T06:36:00Z",
+    "reason": "The repository owner authorized completion of the bounded WI-852 start-advisory implementation after the scope and independent-blocker review corrections.",
+    "recordedAt": "2026-09-16T06:46:30Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+    "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
     "schemaVersion": 1,
     "workItemId": "WI-852-active-work-item-retirement"
   },
@@ -146,10 +193,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T06:30:33Z",
-  "preflightContractDigest": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+  "preflightAt": "2026-09-16T06:46:23Z",
+  "preflightContractDigest": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+  "preflightRepositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -196,7 +243,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-16T06:30:38Z",
+  "updatedAt": "2026-09-16T06:46:29Z",
   "verification": [
     {
       "check": "project-command-0",
