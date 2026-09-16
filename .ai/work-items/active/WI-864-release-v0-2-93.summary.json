@@ -83,6 +83,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "previousContractHash": "sha256:c67e030fc8d3b7e307a186bc471656ff0398bab3a107f49fdc7163c9d0e403b8",
+      "reason": "The failed staged N-1 acceptance exposed a fixture scope bug: generic lifecycle validation used ** and therefore activated unrelated documentation projection preconditions in the new Runtime. Add the fixture and its regression test to the Contract before changing them.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T17:16:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-864-release-v0-2-93"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
@@ -96,11 +116,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T16:32:45Z",
-  "preflightContractDigest": "sha256:37c62c381d674ede0e264e1d9cc9b1908ea6d01444c41ad5f41f98737af40117",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
-  "preflightState": "green",
+  "preflightAt": "2026-09-16T17:17:23Z",
+  "preflightContractDigest": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:4084c63213809af67327944133d8fe0977500d33015bf761e3e1f4a0619c66e5",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -159,7 +179,7 @@
       "verificationPlan": "Run release workflow policy tests and inspect failure/recovery job dependencies and receipts."
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-16T16:32:45Z",
   "verification": [
     {
@@ -211,5 +231,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:c4040db2bb12accd0bedf7e1ecacb85eb76b8871f11ae57b789a1c66882da8d1",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-16T17:16:04Z"
+  },
   "workItemId": "WI-864-release-v0-2-93"
 }

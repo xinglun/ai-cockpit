@@ -150,6 +150,14 @@ fi
 grep -q -- 'schemaVersion:2' "$script"
 grep -Fq -- 'allowedPrefixes' "$script"
 grep -Fq -- '<CARGO_HOME>/**' "$script"
+if grep -Fq -- "--scope '**'" "$script"; then
+  printf 'generic N-1 lifecycle fixtures must not use a repository-wide scope\n' >&2
+  exit 1
+fi
+grep -Fq -- "--scope 'src/**'" "$script" || {
+  printf 'generic N-1 lifecycle fixtures must declare their source scope\n' >&2
+  exit 1
+}
 preflight_line=$(grep -n -- 'old-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
 checkpoint_line=$(grep -n -- 'old-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
 [[ -n "$preflight_line" && -n "$checkpoint_line" && "$preflight_line" -lt "$checkpoint_line" ]] || {

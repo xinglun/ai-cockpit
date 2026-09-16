@@ -4,7 +4,8 @@
     "The reviewed and synchronized main commit is the sole immutable source identity for the v0.2.93 tag.",
     "Candidate fresh install and candidate v0.2.92 to v0.2.93 upgrade pass in independent isolated environments.",
     "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
-    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases."
+    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases.",
+    "The N-1 acceptance fixture declares a source-scoped generic Work Item and does not trigger unrelated documentation projection requirements."
   ],
   "authority": "authorized",
   "baseRevision": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
@@ -105,7 +106,9 @@
     "docs/reference/reference-comparison-metadata.json",
     "docs/work-items/WI-864-release-v0-2-93.md",
     "docs/work-items/WI-864-release-v0-2-93.zh-CN.md",
-    "docs/work-items/WI-864-release-v0-2-93.ja.md"
+    "docs/work-items/WI-864-release-v0-2-93.ja.md",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
   ],
   "sources": [
     "github:repository/xinglun/ai-cockpit",
@@ -113,6 +116,8 @@
     "github:pull/xinglun/ai-cockpit/844"
   ],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "bash tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
   "workItemId": "WI-864-release-v0-2-93"
 }

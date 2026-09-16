@@ -941,7 +941,7 @@ old_control_branch="$(git -C "$old_control_root" branch --show-current)"
 old_branch=release-adopter-n-minus-one
 old_worktree="$adopter"
 git -C "$adopter" switch -q -c "$old_branch"
-run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+run "$from_bin" old-start.json start --repo "$adopter" --id "$work_item" --intent 'Validate upgrade without losing governed history.' --goal 'Prove N-1 compatibility and explicit migration.' --scope 'src/**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 old_contract="$adopter/.ai/work-items/active/$work_item.contract.json"
 [[ -f "$old_contract" && ! -L "$old_contract" ]] || die 'old Work Item Contract was not created as a regular file'
 old_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$old_contract")" || die 'old Contract base revision is missing or malformed'
@@ -1093,7 +1093,7 @@ new_worktree="$adopter"
 git -C "$adopter" branch -f release-adopter-n-minus-one HEAD
 git -C "$adopter" update-ref refs/remotes/origin/release-adopter-n-minus-one HEAD
 git -C "$adopter" switch -q -c "$new_branch" release-adopter-n-minus-one
-run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope '**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
+run "$to_bin" new-start.json start --repo "$adopter" --id "$new_work_item" --intent 'Validate operation after an approved repository migration.' --goal 'Prove the new Runtime can govern a fresh Work Item after N-1 migration.' --scope 'src/**' --out-of-scope target --risk normal --authority authorized --acceptance 'cargo test passes' --required-evidence verification
 new_contract="$adopter/.ai/work-items/active/$new_work_item.contract.json"
 [[ -f "$new_contract" && ! -L "$new_contract" ]] || die 'new Work Item Contract was not created as a regular file'
 new_base_revision="$(jq -er '.baseRevision | select(type == "string" and test("^[0-9a-f]{40}$"))' "$new_contract")" || die 'new Contract base revision is missing or malformed'
