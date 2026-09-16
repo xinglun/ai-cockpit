@@ -6,7 +6,8 @@
     "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
     "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases.",
     "The N-1 acceptance fixture declares a source-scoped generic Work Item and does not trigger unrelated documentation projection requirements.",
-    "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command."
+    "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command.",
+    "The N-1 acceptance scope must explicitly include source paths, generated .ai/** records, and Cargo.lock for historical Runtime compatibility, without using repository-wide **."
   ],
   "authority": "authorized",
   "baseRevision": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",

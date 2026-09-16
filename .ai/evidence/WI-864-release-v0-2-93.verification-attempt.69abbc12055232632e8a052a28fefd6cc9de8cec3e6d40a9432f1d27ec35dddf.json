@@ -1,9 +1,43 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:69abbc12055232632e8a052a28fefd6cc9de8cec3e6d40a9432f1d27ec35dddf",
+  "commands": [
+    {
+      "args": [
+        "tests/release/adopter_upgrade_acceptance_test.sh"
+      ],
+      "baseCommit": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+      "commandDigest": "sha256:6d3a7d7447dcbd22ff82b3a367eefcd89f432bb5968bc85a2ba18f0ff1607389",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:6788591339c4418753052f8b153d6b3978341eba4b9435c1a61f5e0f8beb5dab",
+  "contractExecutionScopeDigest": "sha256:2388af83fdea44cf576f4031522fe13a1b1e303d937fc1f445e2e271a530a0a7",
   "createdAt": "2026-09-16T19:01:29Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:6d3a7d7447dcbd22ff82b3a367eefcd89f432bb5968bc85a2ba18f0ff1607389",
+      "elapsedMs": 2700,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "61646f70746572207570677261646520616363657074616e63652073746174696320636865636b73207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -107,13 +141,13 @@
       }
     ],
     "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-864-release-v0-2-93"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:0e477765da3ae14241bddc935db1422416e5755e7b3e9e5411d101aad1122069",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
   "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-864-release-v0-2-93"
 }

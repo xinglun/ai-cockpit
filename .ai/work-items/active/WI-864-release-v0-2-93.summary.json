@@ -7,7 +7,7 @@
     "tests/release/adopter_upgrade_acceptance_test.sh"
   ],
   "checkpointAt": "2026-09-16T15:52:39Z",
-  "checkpointContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+  "checkpointContractDigest": "sha256:6788591339c4418753052f8b153d6b3978341eba4b9435c1a61f5e0f8beb5dab",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -123,9 +123,29 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:6788591339c4418753052f8b153d6b3978341eba4b9435c1a61f5e0f8beb5dab",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "previousContractHash": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+      "reason": "Include the exact historical Runtime-generated paths required for post-verification preflight while preserving a non-global source boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T19:00:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-864-release-v0-2-93"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
+  "checkpointRepositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
   "createdAt": "2026-09-16T15:51:37Z",
   "intentAlignment": {
     "evidence": [
@@ -136,16 +156,12 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T18:05:28Z",
-  "preflightContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+  "preflightAt": "2026-09-16T19:01:36Z",
+  "preflightContractDigest": "sha256:6788591339c4418753052f8b153d6b3978341eba4b9435c1a61f5e0f8beb5dab",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
+  "preflightRepositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
-  "recoveryRetryDecisionDigest": "sha256:e6eabcfaa2f595804ac9cdc2a3d8a386134e36d29b6ddedc0562a277bcbc468f",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-864-release-v0-2-93.recovery.e6eabcfaa2f595804ac9cdc2a3d8a386134e36d29b6ddedc0562a277bcbc468f.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -259,5 +275,6 @@
       "result": "passed"
     }
   ],
+  "verificationRecoveryReconciled": "sha256:faf42a6ec393a4b7fb76393877de2ff2a837ebb3c90e1f04e84c3cfe0d26eb14",
   "workItemId": "WI-864-release-v0-2-93"
 }

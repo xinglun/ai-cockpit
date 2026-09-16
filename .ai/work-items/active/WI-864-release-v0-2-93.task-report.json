@@ -4,7 +4,7 @@
       ".ai/evidence/WI-864-release-v0-2-93.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
+    "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
     "workItemId": "WI-864-release-v0-2-93"
   },
   "format": "ai-cockpit.task-outcome",
@@ -76,7 +76,7 @@
           ".ai/evidence/WI-864-release-v0-2-93.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],

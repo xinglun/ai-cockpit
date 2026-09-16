@@ -68,6 +68,8 @@ grep -q -- 'acceptance_phase_failed_before_identity' "$script"
 grep -q -- 'record_close_after_cleanup' "$script"
 grep -q -- 'close_ready' "$script"
 grep -q -- 'validate_persisted_acceptance' "$script"
+grep -Fq -- "--scope '.ai/**'" "$script"
+grep -Fq -- "--scope 'Cargo.lock'" "$script"
 grep -q -- 'AI_COCKPIT_ACCEPTANCE_FAIL_AFTER_PHASE' "$script"
 grep -q -- 'COCKPIT_RELEASE_BIN' "$script"
 if grep -q -- 'auth_args' "$script"; then
