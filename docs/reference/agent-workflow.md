@@ -76,7 +76,7 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   also rejected; this is a fail-closed topology check, not a provider bypass.
 - `work-item new` is a start boundary too. Its machine receipt and human
   output include `startAdvisory`, a read-only inventory of residual Work Items,
-  branches, worktrees, and cleanup obligations. Review its `warnings` and
+  locally known non-default remote-tracking branches, worktrees, and cleanup obligations. This branch inventory reflects fetched refs and is not a provider-side claim. Review its `warnings` and
   `nextActions` before implementing: unrelated leftovers are advisory and may
   continue, while an exact resource conflict must be resolved first. After
   every lifecycle command, read the returned next action (or `status`) and

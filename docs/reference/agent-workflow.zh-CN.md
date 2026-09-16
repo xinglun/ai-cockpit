@@ -50,7 +50,7 @@ Rust Runtime 与本仓库的 Protocol 词汇。
 - 在 `start` 或 `work-item new` 前先读取顶层 `status.readiness` 投影。若 archived
   Work Item 没有有效 close decision、工作区已有非 `.ai` 变更、HEAD 是 detached，或已发现的远端默认 base 与 HEAD 不一致，普通的新 Work Item 会被拒绝。只有 `readyOnBase` 才是正向准备度声明；远端元数据缺失或含糊时为 `unknown`，不能隐式视为 green。Recovery successor 仍然必须是 predecessor 的显式续接。
 - 普通 `start` 或 `work-item new` 必须在专用 linked worktree 和非默认分支上执行。仓库 primary worktree 只保留给已同步的 default branch；如果把实现绑定到这里，finalization 无法证明 branch/worktree 已精确移除。Runtime 会在写入 Work Item 前拒绝 primary worktree 和已知 default branch。没有明确远端 default base 的 linked worktree 也会被拒绝；这是 fail-closed 的拓扑检查，不是绕过 provider 的方式。
-- `work-item new` 同样是启动边界。它的机器 receipt 和面向人的输出包含 `startAdvisory`：只读盘点残留 Work Item、branch、worktree 和清理义务。实现前先查看其中的 `warnings` 与 `nextActions`：无关残留只作提示，可以继续；精确资源冲突必须先解决。每个生命周期命令完成后都要读取返回的下一步（或重新读取 `status`），执行后再进入下一阶段。Work Item 的结果完成与 branch/worktree 清理是两项独立事实；清理失败应记录为待处理，不能静默把已完成结果重新变成未完成。
+- `work-item new` 同样是启动边界。它的机器 receipt 和面向人的输出包含 `startAdvisory`：只读盘点残留 Work Item、已获取的非默认远端跟踪分支、worktree 和清理义务；远端分支清单基于本地已获取的 ref，不代表提供方当前完整状态。实现前先查看其中的 `warnings` 与 `nextActions`：无关残留只作提示，可以继续；精确资源冲突必须先解决。每个生命周期命令完成后都要读取返回的下一步（或重新读取 `status`），执行后再进入下一阶段。Work Item 的结果完成与 branch/worktree 清理是两项独立事实；清理失败应记录为待处理，不能静默把已完成结果重新变成未完成。
 - 修改前阅读 `.ai/README.md` 与 `.ai/glossary.md`，查询 `inspect`、`status`、
   `doctor`；修改不得超出声明 scope；保留测试和证据；更新 Summary；执行
   Contract 声明的工程检查。

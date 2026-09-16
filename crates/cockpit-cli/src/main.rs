@@ -2149,6 +2149,9 @@ fn run() -> Result<()> {
                     for conflict in &advisory.conflicts {
                         println!("  conflict: {conflict}");
                     }
+                    for branch in &advisory.remote_branches {
+                        println!("  remote branch: {} ({})", branch.name, branch.head);
+                    }
                     for unknown in &advisory.unknowns {
                         println!("  unknown: {unknown}");
                     }

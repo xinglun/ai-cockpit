@@ -107,6 +107,11 @@ fn work_item_start_advisory_with_mode(
         .and_then(|path| fs::canonicalize(path).ok());
     let current_branch = git_text(&root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
         .filter(|value| !value.is_empty());
+    let remote_branches = git_remote_branch_records(
+        &root,
+        readiness.default_remote.as_deref(),
+        readiness.default_branch.as_deref(),
+    )?;
     let worktrees = records
         .iter()
         .map(|record| {
@@ -214,6 +219,12 @@ fn work_item_start_advisory_with_mode(
             "uncleaned_linked_worktrees_present:{extra_worktrees}"
         ));
     }
+    if !remote_branches.is_empty() {
+        warnings.push(format!(
+            "non_default_remote_branches_present:{}",
+            remote_branches.len()
+        ));
+    }
     if !active_work_items.is_empty() {
         warnings.push(format!(
             "active_work_items_require_lifecycle_or_cleanup:{}",
@@ -296,6 +307,7 @@ fn work_item_start_advisory_with_mode(
             .find(|worktree| worktree.is_current)
             .cloned(),
         worktrees,
+        remote_branches,
         active_work_items,
         pending_cleanup,
         warnings,
@@ -307,6 +319,52 @@ fn work_item_start_advisory_with_mode(
 
 fn branch_name(value: &str) -> String {
     value.strip_prefix("refs/heads/").unwrap_or(value).into()
+}
+
+fn git_remote_branch_records(
+    root: &Path,
+    default_remote: Option<&str>,
+    default_branch: Option<&str>,
+) -> Result<Vec<WorkItemStartRemoteBranch>, ObserverError> {
+    let output = git_text(
+        root,
+        &[
+            "for-each-ref",
+            "--format=%(refname)\t%(objectname)",
+            "refs/remotes",
+        ],
+    )
+    .ok_or_else(|| ObserverError::State {
+        path: root.into(),
+        message: "start advisory cannot inspect remote-tracking branches".into(),
+    })?;
+    let default_ref = default_remote
+        .zip(default_branch)
+        .map(|(remote, branch)| format!("{remote}/{branch}"));
+    let mut branches = Vec::new();
+    for line in output.lines().filter(|line| !line.trim().is_empty()) {
+        let Some((ref_name, head)) = line.split_once('\t') else {
+            return Err(ObserverError::State {
+                path: root.into(),
+                message: "remote-tracking branch observation has an invalid format".into(),
+            });
+        };
+        let Some(name) = ref_name.strip_prefix("refs/remotes/") else {
+            return Err(ObserverError::State {
+                path: root.into(),
+                message: "remote-tracking branch observation has an invalid ref".into(),
+            });
+        };
+        if name.ends_with("/HEAD") || default_ref.as_deref() == Some(name) {
+            continue;
+        }
+        branches.push(WorkItemStartRemoteBranch {
+            name: name.into(),
+            head: head.into(),
+        });
+    }
+    branches.sort_by(|left, right| left.name.cmp(&right.name));
+    Ok(branches)
 }
 
 fn recovery_predecessor_work_item_id(root: &Path, work_item_id: &str) -> Option<String> {
