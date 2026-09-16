@@ -15,18 +15,12 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-867-closed-work-item-docs-promotion.verification-attempt.4feaa33bbe7cd19d0a06468b069c47d5e43292ebaa334c2dd5423b70e65f3fd1.json
+- Changed path: .ai/evidence/WI-867-closed-work-item-docs-promotion.verification-attempt.928c40631af6040fa02bac5461f31237ca5c69b012278bc20e3eed4b4b4079a1.json
 - Changed path: .ai/work-items/active/WI-867-closed-work-item-docs-promotion.contract.json
 - Changed path: .ai/work-items/active/WI-867-closed-work-item-docs-promotion.summary.json
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-864-release-v0-2-93.ja.md
-- Changed path: docs/work-items/WI-864-release-v0-2-93.md
-- Changed path: docs/work-items/WI-864-release-v0-2-93.zh-CN.md
-- Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md
-- Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.md
-- Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md
 
 ## Findings
 

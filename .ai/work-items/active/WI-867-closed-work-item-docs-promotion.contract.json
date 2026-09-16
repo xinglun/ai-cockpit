@@ -3,7 +3,8 @@
     "promote_closed_work_item.py --check-all passes",
     "Only the declared documentation projection files change",
     "The closed WI-864 archive and release evidence remain byte-preserved",
-    "The Work Item includes its own pre-close tri-language documentation and parity projection"
+    "The Work Item includes its own pre-close tri-language documentation and parity projection",
+    "The tri-language pre-archive parity registration includes the required finalize receipt reference for governance integrity."
   ],
   "authority": "authorized",
   "baseRevision": "11908f902154c0883f3b976b91b63031caa5f8a7",
