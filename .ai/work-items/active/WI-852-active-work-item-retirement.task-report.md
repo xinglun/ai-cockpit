@@ -14,11 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.30d811446e3e3f4d1f5c7305db9e731dc5ab477b0d00d0745be0327f3b668368.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.8821ff4f61e9128be7a451ef271c07e2e115b735d3117467f6a1b46f5b715a48.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b65548d36b5bd752c87ba6c8b80e7dc420a0f472ddbc413bf13d99b349c13332.json
-- Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json
+- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.5d39fe3bbe41da3242762c2789d10f19e4b92b7a7ea7568e7b4d732c2018499f.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
 
 ## Findings

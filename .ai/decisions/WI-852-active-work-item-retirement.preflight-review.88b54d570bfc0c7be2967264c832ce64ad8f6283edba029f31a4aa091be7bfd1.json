@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner confirms the bounded WI-852 review after current verification evidence is fresh; continue the reviewed PR path.",
+  "recordedAt": "2026-09-16T06:32:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8748fe5955a79bd1fdaf70e52f8606707d06f74bdac16a27325c70a8137687f5",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
+    "repositorySnapshotDigest": "sha256:8748fe5955a79bd1fdaf70e52f8606707d06f74bdac16a27325c70a8137687f5",
     "workItemId": "WI-852-active-work-item-retirement"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,14 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.30d811446e3e3f4d1f5c7305db9e731dc5ab477b0d00d0745be0327f3b668368.json"
+        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.8821ff4f61e9128be7a451ef271c07e2e115b735d3117467f6a1b46f5b715a48.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.json"
       },
       {
         "evidenceRefs": [
@@ -32,21 +39,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b65548d36b5bd752c87ba6c8b80e7dc420a0f472ddbc413bf13d99b349c13332.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json"
+        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.5d39fe3bbe41da3242762c2789d10f19e4b92b7a7ea7568e7b4d732c2018499f.json"
       },
       {
         "evidenceRefs": [
