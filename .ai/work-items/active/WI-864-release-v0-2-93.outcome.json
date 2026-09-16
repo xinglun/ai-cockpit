@@ -4,11 +4,13 @@
     "The reviewed and synchronized main commit is the sole immutable source identity for the v0.2.93 tag.",
     "Candidate fresh install and candidate v0.2.92 to v0.2.93 upgrade pass in independent isolated environments.",
     "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
-    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases."
+    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases.",
+    "The N-1 acceptance fixture declares a source-scoped generic Work Item and does not trigger unrelated documentation projection requirements.",
+    "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command."
   ],
-  "createdAt": "2026-09-16T16:32:45Z",
+  "createdAt": "2026-09-16T18:06:07Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:e11ff9f5ef6e71d6809618588536c2da3a205875e43dee701a3296ba760fac92",
+  "evidenceDigest": "sha256:643ed8c3a0610abccb9242ae9cccee9f7c0eb8664686045e54809aaa91245ba5",
   "evidenceRefs": [
     ".ai/evidence/WI-864-release-v0-2-93.verification.json"
   ],
@@ -34,7 +36,7 @@
         ".ai/evidence/WI-864-release-v0-2-93.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
+      "repositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
       "workItemId": "WI-864-release-v0-2-93"
     },
     "format": "ai-cockpit.task-outcome",
@@ -48,21 +50,7 @@
             ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-864-release-v0-2-93.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-864-release-v0-2-93.verification-attempt.1298d46491c0a28a2de3ada61e8e83f5afd97eb6037d30c410f212c5a2c525bb.json"
         },
         {
           "evidenceRefs": [
@@ -77,6 +65,20 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
         }
       ],
       "evidence": [
@@ -151,8 +153,8 @@
     "status": "verified",
     "workItemId": "WI-864-release-v0-2-93"
   },
-  "taskReportDigest": "sha256:eca49c36a023604d28f4e26720a016456dd0e380b98b0e1b52e429065626a968",
-  "taskReportMarkdownDigest": "sha256:32bfcbd1118db4b3d101634cbab32ea62842a9dacb213503070de7ddd8e8783a",
+  "taskReportDigest": "sha256:37df9a4a101620862687acfd2f91cce68e521b6aa0ed1e4d010b34d14eb97265",
+  "taskReportMarkdownDigest": "sha256:0a1b5109102c649ea65bae6be4e98ec8801fb2d9542bc8de4c67a3fa14460d54",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

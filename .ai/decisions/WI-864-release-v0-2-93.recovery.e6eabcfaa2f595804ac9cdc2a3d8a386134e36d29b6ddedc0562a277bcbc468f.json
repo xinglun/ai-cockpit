@@ -1,0 +1,28 @@
+{
+  "actor": "agent:codex",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-16T18:10:05Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-864-release-v0-2-93.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35129177151",
+    "https://github.com/xinglun/ai-cockpit/pull/846"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+  "predecessorEventsDigest": "sha256:c526a77ecd39d6e67460c389c358b93696a6c5dfee017ade0daf9ab7d170c9b0",
+  "predecessorOutcomeDigest": "sha256:8b56ecedbdc89b20b5c373500a765f28fda8a989718f3f6d951f80a9e36be50e",
+  "predecessorSummaryDigest": "sha256:c8994d60a2a9c308edbf6006e68baf49b11d6927b9f35fea2349bdaaff1d8ec1",
+  "predecessorWorkItemId": "WI-864-release-v0-2-93",
+  "reason": "The first repair verification reached finish_ready before the new PR identity was bound. Retry the same bounded release acceptance Work Item so finalize-plan for PR #846 is recorded before the fresh verification cycle; preserve the prior verification and finish evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #846 with finalize-plan, rerun only the focused verification required by the amended Contract, then complete hosted checks, release recovery, archive, finalization, and close.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-864-release-v0-2-93"
+}

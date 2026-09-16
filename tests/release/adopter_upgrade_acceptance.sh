@@ -977,6 +977,8 @@ else
       ;;
   esac
 fi
+run "$from_bin" old-preflight-after-verify.json preflight --repo "$adopter" --contract "$adopter/.ai/work-items/active/$work_item.contract.json"
+jq -e '.state=="green"' "$output/old-preflight-after-verify.json" >/dev/null || die 'old Runtime did not refresh preflight after verification'
 run "$from_bin" old-finish.json finish --repo "$adopter" --id "$work_item"
 run "$from_bin" old-archive.json archive --repo "$adopter" --id "$work_item"
 old_archived_contract="$adopter/.ai/work-items/archive/$work_item.contract.json"
