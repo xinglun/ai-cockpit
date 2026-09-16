@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "inspect, status, and doctor accept --json and retain stable JSON output",
+    "help text states that --json is machine-readable and does not change the facts or default exit behavior",
+    "regression tests cover all three commands and existing output remains compatible"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "ba4e9b93f5f99eb4892d972522dd449df02acec6",
+  "createdAt": "2026-09-16T15:11:49Z",
+  "goal": "Expose an explicit machine-readable JSON flag consistently across the installed CLI read-only diagnostics without changing facts, exit codes, or human-facing defaults",
+  "intent": "Make top-level inspect, status, and doctor accept the documented --json output contract",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-repository",
+    "crates/cockpit-mcp",
+    "release-workflows",
+    "global-agent-configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1e4dc670acd25f54050cf2d0990fdac607164ca061767a76ff56c7aba3b04bea",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "low",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/inspect.rs",
+    "crates/cockpit-cli/tests/doctor.rs",
+    "docs/reference/installed-lifecycle.md",
+    "docs/reference/installed-lifecycle.zh-CN.md",
+    "docs/reference/installed-lifecycle.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-863-cli-json-flags.md",
+    "docs/work-items/WI-863-cli-json-flags.zh-CN.md",
+    "docs/work-items/WI-863-cli-json-flags.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-cli --test inspect",
+    "cargo test --locked -p cockpit-cli --test doctor",
+    "cargo fmt --all -- --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-863-cli-json-flags"
+}

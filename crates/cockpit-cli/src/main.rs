@@ -68,6 +68,10 @@ enum CommandKind {
     Inspect {
         #[arg(long)]
         repo: PathBuf,
+        /// Emit the stable machine-readable JSON projection. This is also
+        /// the default output for this read-only diagnostic.
+        #[arg(long)]
+        json: bool,
     },
     Preflight {
         #[arg(long)]
@@ -101,6 +105,10 @@ enum CommandKind {
     Status {
         #[arg(long)]
         repo: PathBuf,
+        /// Emit the stable machine-readable JSON projection. This is also
+        /// the default output for this read-only diagnostic.
+        #[arg(long)]
+        json: bool,
     },
     Compatibility {
         #[arg(long)]
@@ -318,6 +326,10 @@ enum CommandKind {
     Doctor {
         #[arg(long)]
         repo: PathBuf,
+        /// Emit the stable machine-readable JSON projection. This is also
+        /// the default output for this read-only diagnostic.
+        #[arg(long)]
+        json: bool,
     },
     Agent {
         #[command(subcommand)]
@@ -1129,7 +1141,7 @@ fn run() -> Result<()> {
     }
     let runtime_context = runtime_identity::load_current().context("load runtime identity")?;
     match cli.command {
-        CommandKind::Inspect { repo } => {
+        CommandKind::Inspect { repo, json: _ } => {
             let git = GitRepository::discover(&repo).context("discover repository")?;
             let snapshot = git.snapshot().context("create repository snapshot")?;
             let output = json!({
@@ -1199,7 +1211,7 @@ fn run() -> Result<()> {
             let profile = attach(&repo).context("attach repository")?;
             println!("{}", serde_json::to_string_pretty(&profile)?);
         }
-        CommandKind::Status { repo } => {
+        CommandKind::Status { repo, json: _ } => {
             let repository_status =
                 cockpit_repository::status_with_runtime(&repo, Some(&runtime_context))
                     .context("read repository status")?;
@@ -2749,7 +2761,7 @@ fn run() -> Result<()> {
                 println!("Agent adapter detached.");
             }
         },
-        CommandKind::Doctor { repo } => {
+        CommandKind::Doctor { repo, json: _ } => {
             let root = std::fs::canonicalize(&repo).context("canonicalize repository")?;
             let config_path = root.join(".ai/cockpit.toml");
             if !config_path.is_file() {

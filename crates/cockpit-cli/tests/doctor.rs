@@ -34,6 +34,7 @@ fn doctor_reports_protocol_and_runtime_thin_repository_checks() {
     let output = Command::new(binary)
         .args(["doctor", "--repo"])
         .arg(&directory)
+        .arg("--json")
         .output()
         .expect("doctor");
     assert!(

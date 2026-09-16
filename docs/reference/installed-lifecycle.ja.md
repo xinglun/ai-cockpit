@@ -26,6 +26,16 @@ ai-cockpit inspect --repo /path/to/repository
 ai-cockpit doctor --repo /path/to/repository
 ```
 
+read-only diagnostic は script や machine caller 向けに明示的な `--json`
+flag を受け付けます。互換性維持のため JSON は既定の projection でもあり、
+この flag は facts、exit code、repository scope を変更しません。
+
+```text
+ai-cockpit inspect --repo /path/to/repository --json
+ai-cockpit status --repo /path/to/repository --json
+ai-cockpit doctor --repo /path/to/repository --json
+```
+
 Repository は `.ai/cockpit.toml`、Contract、evidence、Knowledge、adapter record を所有します。Runtime に persistent な current repository や global active Work Item はありません。
 
 ## Release と repository boundary
