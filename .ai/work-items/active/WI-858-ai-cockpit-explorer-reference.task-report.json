@@ -4,7 +4,7 @@
       ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:e989f0dfa774287d455ae1a1779996aa6e10ee19686de2aa765b0d5631d886b6",
+    "repositorySnapshotDigest": "sha256:6a62885e078e66dfc0248081fd34b54d0c1f62f03f3032d28de761a715753f58",
     "workItemId": "WI-858-ai-cockpit-explorer-reference"
   },
   "format": "ai-cockpit.task-outcome",
@@ -25,14 +25,7 @@
           ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.3ee372cee0264ffaa4adae2d95db0c110b5d5a6699f7c0105c84ece9c56f648a.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.a81a64e31f51ec03cb5e7b8038d8e3b441ecdf4ef29305111367c843cbe79348.json"
       },
       {
         "evidenceRefs": [
@@ -46,49 +39,7 @@
           ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.outcome.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
       }
     ],
     "evidence": [
@@ -118,7 +69,7 @@
           ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
       }
     ],
     "recurrencePrevention": [],

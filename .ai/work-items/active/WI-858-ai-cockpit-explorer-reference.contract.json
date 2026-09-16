@@ -42,6 +42,8 @@
     "explicit-user-request: add AI Cockpit Explorer to AI Cockpit project materials"
   ],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
   "workItemId": "WI-858-ai-cockpit-explorer-reference"
 }
