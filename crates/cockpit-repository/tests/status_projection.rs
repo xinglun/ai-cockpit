@@ -215,6 +215,66 @@ fn ordinary_close_rejects_unprovable_worktree_binding_without_writing_receipts()
 }
 
 #[test]
+fn ordinary_close_rejects_primary_discovered_default_checkout_without_writing_receipts() {
+    let work_item_id = "WI-STATUS-ORDINARY-PRIMARY-DEFAULT";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+    git(directory.path(), &["branch", "-m", "main"]);
+
+    let remote_parent = tempfile::tempdir().expect("remote parent");
+    let remote_path = remote_parent.path().join("origin.git");
+    let remote_path_text = remote_path.display().to_string();
+    git(
+        remote_parent.path(),
+        &["init", "--bare", "-q", &remote_path_text],
+    );
+    git(&remote_path, &["symbolic-ref", "HEAD", "refs/heads/main"]);
+    git(
+        directory.path(),
+        &["remote", "add", "origin", &remote_path_text],
+    );
+    git(directory.path(), &["push", "-q", "-u", "origin", "main"]);
+    git(
+        directory.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+
+    let error = close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect_err("primary default checkout cannot capture an ordinary cleanup binding");
+    let message = error.to_string();
+    assert!(
+        message.contains("primary repository worktree")
+            || message.contains("discovered default branch"),
+        "unexpected primary-checkout rejection: {message}"
+    );
+    let decisions = directory.path().join(".ai/decisions");
+    assert!(
+        !decisions
+            .join(format!("{work_item_id}.close.json"))
+            .exists(),
+        "rejected close must not write a close decision"
+    );
+    assert!(
+        fs::read_dir(&decisions)
+            .expect("decisions")
+            .all(|entry| !entry
+                .expect("decision entry")
+                .file_name()
+                .to_string_lossy()
+                .contains(&format!("{work_item_id}.cleanup."))),
+        "rejected close must not write a cleanup receipt"
+    );
+}
+
+#[test]
 fn ordinary_close_keeps_verified_work_result_while_cleanup_is_pending() {
     let work_item_id = "WI-STATUS-ORDINARY-PENDING";
     let directory = prepare_ordinary_archive(work_item_id, true);

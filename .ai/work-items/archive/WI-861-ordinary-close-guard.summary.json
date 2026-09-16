@@ -1,0 +1,74 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-861-ordinary-close-guard.verification-attempt.c68b6a07f772dec3359d34a167dcc9806f58fc8793ed73479ea8b1889a5a1daa.json",
+    ".ai/evidence/WI-861-ordinary-close-guard.verification.json",
+    ".ai/work-items/archive/WI-861-ordinary-close-guard.contract.json",
+    ".ai/work-items/archive/WI-861-ordinary-close-guard.events.jsonl",
+    ".ai/work-items/archive/WI-861-ordinary-close-guard.outcome.json",
+    ".ai/work-items/archive/WI-861-ordinary-close-guard.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T13:52:34Z",
+  "checkpointContractDigest": "sha256:0a4db7bdd81e7dce82da0c8e9cdec740e2982163aabe65f772205e8263068158",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:002819b40f997301af7dbb17f153929793491b35308c6e49f4fb9f8851f2c304",
+      "recorded": true,
+      "recordedAt": "2026-09-16T13:52:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:87a102d93512a150e90881664ac993912f839bae8e1de574a1fc8bb093a3cae7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-861-ordinary-close-guard"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0a4db7bdd81e7dce82da0c8e9cdec740e2982163aabe65f772205e8263068158",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:002819b40f997301af7dbb17f153929793491b35308c6e49f4fb9f8851f2c304",
+      "previousContractHash": "sha256:002819b40f997301af7dbb17f153929793491b35308c6e49f4fb9f8851f2c304",
+      "reason": "The initial preflight exposed a missing verification declaration; add the focused repository, CLI, and documentation checks before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T13:53:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:87a102d93512a150e90881664ac993912f839bae8e1de574a1fc8bb093a3cae7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-861-ordinary-close-guard"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:55377e2499b0684e942f76a0b635c1e6e67c7047cda0a4714e483cda94502363",
+  "createdAt": "2026-09-16T13:52:33Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T14:02:25Z",
+  "preflightContractDigest": "sha256:0a4db7bdd81e7dce82da0c8e9cdec740e2982163aabe65f772205e8263068158",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:55377e2499b0684e942f76a0b635c1e6e67c7047cda0a4714e483cda94502363",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T14:02:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-861-ordinary-close-guard"
+}

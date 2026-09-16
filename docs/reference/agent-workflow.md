@@ -74,6 +74,11 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   Runtime rejects the primary worktree and known default branch before writing
   a Work Item. A linked worktree without an unambiguous remote default base is
   also rejected; this is a fail-closed topology check, not a provider bypass.
+  Before closing an ordinary Work Item, the Runtime applies the same topology
+  boundary: a primary checkout or discovered default branch is rejected before
+  any close decision or cleanup receipt is written. Return to the dedicated
+  linked Work Item worktree; this prevents an impossible binding and preserves
+  the verified result for later cleanup.
 - `work-item new` is a start boundary too. Its machine receipt and human
   output include `startAdvisory`, a read-only inventory of residual Work Items,
   locally known non-default remote-tracking branches, worktrees, and cleanup obligations. This branch inventory reflects fetched refs and is not a provider-side claim. Review its `warnings` and

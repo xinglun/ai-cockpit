@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "Primary or discovered default checkout is rejected before a close decision or cleanup receipt is written.",
+    "A dedicated linked worktree on a non-default branch retains the existing close and exact cleanup behavior.",
+    "The rejection identifies the discovered default branch or primary checkout and gives the required next action without hardcoding main.",
+    "Regression coverage proves rejected close leaves no partial governance state and existing cleanup receipts remain valid."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "28a9bcddb500b4c850420baf074437105287b316",
+  "createdAt": "2026-09-16T13:52:33Z",
+  "goal": "Reject unsafe ordinary close contexts before writing close or cleanup evidence, while preserving the dedicated linked-worktree lifecycle.",
+  "intent": "Prevent ordinary Work Item closure from binding cleanup to the repository primary or discovered default checkout, which creates an impossible cleanup obligation after merge.",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI JSON output",
+    " verification planner selection",
+    " release workflow",
+    " historical receipt rewriting",
+    " provider-bound finalization"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:87a102d93512a150e90881664ac993912f839bae8e1de574a1fc8bb093a3cae7",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test status_projection",
+    "cargo test --locked -p cockpit-cli",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-861-ordinary-close-guard"
+}
