@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T14:41:04Z",
+  "files": {
+    "contractDigest": "sha256:5294172aea1b7f347b5011789804968d6d0d153dac53f3b7618c417b1ea609ce",
+    "contractPath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json",
+    "eventsDigest": "sha256:71ce50a28f97dcb910291c3aff501b961c94d4261bcc1b42d781abfbc2c2d9ff",
+    "eventsPath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.events.jsonl",
+    "outcomeDigest": "sha256:3aa0f44578d728f682e0054ffe6701849bcdec786427b169af8cd648f4923ace",
+    "outcomePath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.outcome.json",
+    "summaryDigest": "sha256:0753ecba0d4ae7af063ab6b4a2f79df6cbbf17abb742dbc61d00fe9288d8dc3c",
+    "summaryPath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json",
+    "taskReportDigest": "sha256:d17330d5a3824a2b9cc9aa5e2d83a776b14d219e13a750a79d2f0a1119008f8c",
+    "taskReportMarkdownDigest": "sha256:35344aaa6aa484b2130c25a1e45016b7802933726b2e1108261e51682e85669a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-862-ordinary-cleanup-binding"
+}

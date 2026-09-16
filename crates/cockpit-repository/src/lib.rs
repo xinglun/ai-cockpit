@@ -10592,7 +10592,6 @@ fn close_work_item_with_structured_decision_internal(
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
     let mut finalization_binding: Option<serde_json::Value> = None;
-    let mut historical_compatible = false;
     if amendment_revalidation_resolved && contract.resource_context.is_some() {
         let finalization_path = resource_finalization_decision_path(&root, work_item_id);
         finalization_binding = Some(require_resource_finalization_for_close(
@@ -10655,9 +10654,9 @@ fn close_work_item_with_structured_decision_internal(
         }
         let evidence_state =
             verification_evidence_state(&root, &contract, &snapshot, true, current_runtime)?;
-        historical_compatible = evidence_state != EvidenceState::Complete
-            && archived_evidence_is_historical(&root, &contract, &snapshot, current_runtime)?;
-        if evidence_state != EvidenceState::Complete && !historical_compatible {
+        if evidence_state != EvidenceState::Complete
+            && !archived_evidence_is_historical(&root, &contract, &snapshot, current_runtime)?
+        {
             return Err(ObserverError::State {
                 path: root
                     .join(".ai/evidence")
@@ -10692,26 +10691,28 @@ fn close_work_item_with_structured_decision_internal(
             message: "close requires a verified outcome".into(),
         });
     }
-    let ordinary_cleanup_binding = if contract.resource_context.is_none()
-        && !superseded
-        && !amendment_revalidation_resolved
-        && !historical_compatible
-    {
-        current_runtime
-            .map(|runtime| {
-                capture_ordinary_cleanup_binding(
-                    &root,
-                    work_item_id,
-                    &contract,
-                    &contract_path,
-                    &archive,
-                    runtime,
-                )
-            })
-            .transpose()?
-    } else {
-        None
-    };
+    let ordinary_cleanup_binding =
+        if contract.resource_context.is_none() && !superseded && !amendment_revalidation_resolved {
+            // Historical verification is an assurance about the work result, not
+            // about the current branch/worktree identity.  A no-resource close
+            // must still capture the exact cleanup target whenever the current
+            // checkout can prove it; otherwise a valid historical close loses the
+            // only binding that makes post-close cleanup auditable.
+            current_runtime
+                .map(|runtime| {
+                    capture_ordinary_cleanup_binding(
+                        &root,
+                        work_item_id,
+                        &contract,
+                        &contract_path,
+                        &archive,
+                        runtime,
+                    )
+                })
+                .transpose()?
+        } else {
+            None
+        };
     let timestamp = now();
     let receipt = LifecycleReceipt {
         work_item_id: work_item_id.into(),

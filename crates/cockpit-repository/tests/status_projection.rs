@@ -331,6 +331,46 @@ fn ordinary_close_keeps_verified_work_result_while_cleanup_is_pending() {
 }
 
 #[test]
+fn ordinary_close_preserves_cleanup_binding_for_valid_historical_evidence() {
+    let work_item_id = "WI-STATUS-ORDINARY-HISTORICAL-BINDING";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+    let current_runtime = RuntimeContext {
+        runtime_version: "0.2.0".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"status-runtime-current"),
+    };
+
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &current_runtime,
+    )
+    .expect("valid historical verification evidence should still close");
+
+    let decision: Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/decisions/{work_item_id}.close.json")),
+        )
+        .expect("close decision"),
+    )
+    .expect("close decision JSON");
+    let binding = decision
+        .get("ordinaryCleanupBinding")
+        .expect("historical evidence must not suppress cleanup binding");
+    assert_eq!(binding["workItemId"], work_item_id);
+    assert_eq!(binding["branchRef"], "refs/heads/feature/ordinary-close");
+    assert_eq!(
+        decision["ordinaryCleanupBindingDigest"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:")),
+        true
+    );
+}
+
+#[test]
 fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_removed() {
     let work_item_id = "WI-STATUS-ORDINARY-CLEANUP";
     let primary = repository();

@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "A no-resource close that accepts valid historical verification evidence still captures an exact ordinary cleanup binding before writing the decision.",
+    "Ordinary cleanup remains separate from work-result verification and provider-bound finalization behavior is unchanged.",
+    "Regression coverage proves binding preservation, fail-closed identity checks, and no partial receipt writes."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "2e82a95d9793b22f59cdad1bb060833adbe09012",
+  "createdAt": "2026-09-16T14:30:52Z",
+  "goal": "Ensure a successful ordinary close always records an identity-bound cleanup target even when valid historical evidence is accepted, without weakening fail-closed checks",
+  "intent": "Preserve ordinary cleanup binding when close accepts historical verification evidence",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI JSON output",
+    "verification planner selection",
+    "release workflow",
+    "historical receipt rewriting",
+    "provider-bound finalization"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:714507f66dd7e9a58e7d4f51193889b1c19d867fe2b06c5bdd6e9709ad0788e1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.zh-CN.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test status_projection",
+    "cargo fmt --all -- --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-862-ordinary-cleanup-binding"
+}

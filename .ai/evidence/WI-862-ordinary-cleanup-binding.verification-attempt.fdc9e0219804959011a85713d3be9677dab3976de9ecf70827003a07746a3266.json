@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:fdc9e0219804959011a85713d3be9677dab3976de9ecf70827003a07746a3266",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "status_projection"
+      ],
+      "baseCommit": "2e82a95d9793b22f59cdad1bb060833adbe09012",
+      "commandDigest": "sha256:a8d5406bd19739f74138f619230ddfcace2a044f9e05d411097c0d9edfb11611",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6bb89bfba1aaa5d2a10177be37e405b485ffbd0e5e0208262f64a3277a653782",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:32b6ccae543c06df42c19bbd71cb8040edeebbc2acce8fceb501b999c15a5210",
+  "contractExecutionScopeDigest": "sha256:798e517333ca55f9410bb965cedc6fc9abebe6e28425246bb1dd1e8b148a72b7",
+  "createdAt": "2026-09-16T14:33:59Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-862-ordinary-cleanup-binding/.ai/work-items/active/WI-862-ordinary-cleanup-binding.summary.json: verification requires exactly one completed checkpoint and an active lifecycle state"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:56052f27da6218cbfab520f625920ab70c5b8f688db19b321353e3af14bb364d",
+  "runtimeDigest": "sha256:6bb89bfba1aaa5d2a10177be37e405b485ffbd0e5e0208262f64a3277a653782",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-862-ordinary-cleanup-binding"
+}
