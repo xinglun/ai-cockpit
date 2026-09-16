@@ -1605,6 +1605,127 @@ fn legacy_closed_archive_does_not_block_new_work_item_entry() {
 }
 
 #[test]
+fn historical_noncanonical_close_receipt_does_not_block_new_work_item_entry() {
+    let directory = repository();
+    let work_item_id = "WI-HISTORICAL-NONCANONICAL-CLOSE";
+    start_work_item(
+        directory.path(),
+        work_item_id,
+        "historical close compatibility",
+        "accept an older complete close receipt without rewriting it",
+        &["src/**".into()],
+    )
+    .expect("start");
+    assert_no_resource_context(&directory, work_item_id);
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    record_verification(
+        directory.path(),
+        work_item_id,
+        &serde_json::json!({"passed": true}),
+        "0.1.0",
+        &Digest::sha256_bytes(b"status-runtime"),
+    )
+    .expect("verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    close_work_item_with_structured_decision(
+        directory.path(),
+        work_item_id,
+        &HumanDecision {
+            decision: "approved".into(),
+            actor: "human:owner".into(),
+            authority_source: "historical-compatibility-test".into(),
+            reason: "record the complete close receipt before applying the legacy shape".into(),
+            evidence_refs: vec![],
+            policy_refs: vec![],
+            decided_at: "2026-08-22T12:00:00Z".into(),
+            resume_condition: None,
+        },
+    )
+    .expect("close");
+
+    let close_path = directory
+        .path()
+        .join(format!(".ai/decisions/{work_item_id}.close.json"));
+    let mut close: serde_json::Value =
+        serde_json::from_slice(&fs::read(&close_path).expect("close receipt")).expect("close JSON");
+    close["humanDecision"] = "ready".into();
+    close["structuredDecision"]["decision"] = "ready".into();
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&close).expect("legacy close bytes"),
+    )
+    .expect("current-shape noncanonical close");
+
+    let current_shape_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("current-shape noncanonical close status");
+    assert_eq!(current_shape_status.lifecycle_phase, "archived");
+    assert!(current_shape_status.blocking);
+    assert!(
+        current_shape_status
+            .unknowns
+            .contains(&"close_decision_invalid".into())
+    );
+
+    close["structuredDecision"]["actor"] = "legacy-cli".into();
+    close["structuredDecision"]["authoritySource"] = "explicit-cli".into();
+    let valid_legacy_close = close.clone();
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&close).expect("legacy close bytes"),
+    )
+    .expect("legacy close");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("historical close status");
+    assert_eq!(status.lifecycle_phase, "closed");
+    assert!(!status.blocking);
+
+    close["finalReportDigest"] = Digest::sha256_bytes(b"tampered-final-report")
+        .to_string()
+        .into();
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&close).expect("tampered close bytes"),
+    )
+    .expect("tampered close");
+    let invalid_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("invalid historical close status");
+    assert_eq!(invalid_status.lifecycle_phase, "archived");
+    assert!(invalid_status.blocking);
+    assert!(
+        invalid_status
+            .unknowns
+            .contains(&"close_decision_invalid".into())
+    );
+
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&valid_legacy_close).expect("restored legacy close bytes"),
+    )
+    .expect("restore legacy close");
+
+    start_work_item_with_options(
+        directory.path(),
+        "WI-AFTER-HISTORICAL-NONCANONICAL-CLOSE",
+        "start after historical noncanonical close",
+        "ensure historical close compatibility does not deadlock entry",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("historical noncanonical close must not block entry");
+}
+
+#[test]
 fn current_archive_without_close_blocks_new_work_item_entry() {
     let directory = repository();
     let work_item_id = "WI-CURRENT-UNCLOSED";

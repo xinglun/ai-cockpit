@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:a8786465123d0f5c08386a3902cf69015ca8232f40283a2207f1c4ba91683e87",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "4b621a78bcb46a2ddfe41d6470943fd04a3f2d7b",
+      "commandDigest": "sha256:2b3c73eda1d12c7387aaebbec939fd488f0eb4627d3730b19fd4688e25003e86",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:3078106a843b3560e8ab170d9a16793986a68bfc9c0368aba593e536e26382e3",
+  "contractExecutionScopeDigest": "sha256:d0e514503a9b638f76379a112be107198a424dc47fd0d0196ffa3caf8a262831",
+  "createdAt": "2026-09-15T00:03:44Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit-runtime-historical-finalization-recovery/.ai/work-items/active/runtime-historical-finalization-recovery.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4d95fee4b360a297f3952dde6acad13b98b27c2eb5dd832abb9ec18d7acab3b1",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "runtime-historical-finalization-recovery"
+}
