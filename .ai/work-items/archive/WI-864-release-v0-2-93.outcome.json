@@ -9,6 +9,7 @@
     "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command.",
     "The N-1 acceptance scope must explicitly include source paths, generated .ai/** records, and Cargo.lock for historical Runtime compatibility, without using repository-wide **."
   ],
+  "createdAt": "2026-09-16T19:41:10Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:faf42a6ec393a4b7fb76393877de2ff2a837ebb3c90e1f04e84c3cfe0d26eb14",
   "evidenceRefs": [
@@ -28,8 +29,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -47,35 +48,35 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
           ],
           "inference": false,
           "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
@@ -108,7 +109,7 @@
             ".ai/evidence/WI-864-release-v0-2-93.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -134,7 +135,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
           ],
           "inference": false,
           "text": "Advance the package from v0.2.92 to v0.2.93, preserve release identity and evidence boundaries, and complete candidate/public installation and N-1 upgrade acceptance before close."
@@ -143,7 +144,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+            ".ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -153,8 +154,8 @@
     "status": "verified",
     "workItemId": "WI-864-release-v0-2-93"
   },
-  "taskReportDigest": "sha256:049f6261aaee377a08ae420a53fc73d8f0ede8b1e25493ebb24a59ec30a9b1af",
-  "taskReportMarkdownDigest": "sha256:c573f89eda4d3a7b5c4dcc4a13af01d068ec0e9aec190c6a41fc7a50a369924a",
+  "taskReportDigest": "sha256:2318eadd904bafab2fb6d1a4be18cc3d83989082954f6486a10aed50623d7125",
+  "taskReportMarkdownDigest": "sha256:110dd03929dde9ae1471afa3b2e2f8145847a66ee772911924873b9d79e7f7b4",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
