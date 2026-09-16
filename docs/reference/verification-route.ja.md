@@ -37,6 +37,8 @@ Effective Policy が `T3` または `ProviderVerified` を要求する場合、l
 
 ## CI 境界
 
+CLI の `verify --plan-only` と MCP `verify` の `planOnly: true` は同じ identity preparation を使い、project の検証 command を起動せずに node ごとの execute/reuse 判定、freshness、reason、binding mismatch を返します（`processesSpawned` は 0）。実行も同じ preparation path を使用するため、binding 対象の入力が変わらない限り action と reason は一致します。
+
 `pre_ci` は hosted CI の証拠ではありません。CI shadow 期間は Runtime 検証と既存 Cargo チェックを併用し、CI 結果で赤いガバナンス判断を上書きしません。
 重複チェックの削除は、後続の明示的な収束フェーズで行います。
 

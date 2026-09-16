@@ -898,6 +898,7 @@ pub struct PlannedVerificationCommand {
     pub action: PlannedAction,
     pub state: PlannedState,
     pub reason: PlannedReason,
+    pub binding_mismatches: Vec<String>,
     pub receipt_id: Option<String>,
     pub satisfied_by: PlannedSatisfaction,
 }
@@ -1831,6 +1832,12 @@ pub fn plan_verification_commands(
             state = PlannedState::Stale;
             reason = PlannedReason::DependencyRerunRequired;
         }
+        let binding_mismatches = if reason == PlannedReason::Evidence(ReuseReason::BindingMismatch)
+        {
+            binding_mismatch_fields(&command)
+        } else {
+            Vec::new()
+        };
         actions.insert(id, action.clone());
         planned.push(PlannedVerificationCommand {
             command,
@@ -1842,6 +1849,7 @@ pub fn plan_verification_commands(
             action,
             state,
             reason,
+            binding_mismatches,
             receipt_id,
         });
     }
@@ -2208,6 +2216,66 @@ fn classify_command(
         PlannedReason::Evidence(decision.reason),
         receipt_id,
     )
+}
+
+fn binding_mismatch_fields(command: &VerificationCommand) -> Vec<String> {
+    let Some(candidate) = &command.reuse_candidate else {
+        return Vec::new();
+    };
+    let Some(receipt) = &candidate.receipt else {
+        return Vec::new();
+    };
+    let mut current = candidate.current_context.clone();
+    current.command_digest = command.command_digest();
+    let recorded = &receipt.context;
+    [
+        (
+            "contentDigest",
+            recorded.content_digest != current.content_digest,
+        ),
+        (
+            "diff.baseCommit",
+            recorded.diff.base_commit != current.diff.base_commit,
+        ),
+        (
+            "diff.headCommit",
+            recorded.diff.head_commit != current.diff.head_commit,
+        ),
+        (
+            "diff.changedPathsDigest",
+            recorded.diff.changed_paths_digest != current.diff.changed_paths_digest,
+        ),
+        (
+            "environmentDigest",
+            recorded.environment_digest != current.environment_digest,
+        ),
+        (
+            "commandDigest",
+            recorded.command_digest != current.command_digest,
+        ),
+        ("scopeDigest", recorded.scope_digest != current.scope_digest),
+        (
+            "governanceDigest",
+            recorded.governance_digest != current.governance_digest,
+        ),
+        (
+            "toolchainDigest",
+            recorded.toolchain_digest != current.toolchain_digest,
+        ),
+        (
+            "policyDigest",
+            recorded.policy_digest != current.policy_digest,
+        ),
+        (
+            "profileDigest",
+            recorded.profile_digest != current.profile_digest,
+        ),
+        ("stage", recorded.stage != current.stage),
+        ("runner", recorded.runner != current.runner),
+    ]
+    .into_iter()
+    .filter_map(|(field, differs)| differs.then_some(field.to_owned()))
+    .collect()
 }
 
 fn encode_hex(bytes: &[u8]) -> String {
@@ -2870,6 +2938,59 @@ impl RuntimeMetrics {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn digest(byte: char) -> String {
+        format!("sha256:{}", byte.to_string().repeat(64))
+    }
+
+    fn context(command_digest: String) -> EvidenceContext {
+        EvidenceContext {
+            content_digest: digest('a'),
+            diff: cockpit_evidence::DiffIdentity {
+                base_commit: "a".repeat(40),
+                head_commit: "b".repeat(40),
+                changed_paths_digest: digest('c'),
+            },
+            environment_digest: digest('d'),
+            command_digest,
+            scope_digest: digest('e'),
+            governance_digest: digest('f'),
+            toolchain_digest: digest('1'),
+            policy_digest: digest('2'),
+            profile_digest: digest('3'),
+            stage: "task".into(),
+            runner: "local".into(),
+        }
+    }
+
+    #[test]
+    fn plan_reports_the_bound_fields_that_make_cached_evidence_stale() {
+        let now = 1_000;
+        let command = VerificationCommand::new(
+            "node",
+            "true",
+            Vec::new(),
+            VerificationReusePolicy::Reusable,
+        );
+        let receipt_context = context(command.command_digest());
+        let receipt =
+            ReusableReceipt::new("node", true, receipt_context, &digest('4'), now, now + 60)
+                .expect("valid reusable receipt");
+        let mut current_context = context(command.command_digest());
+        current_context.environment_digest = digest('5');
+        let command = command.with_reuse_candidate(Some(receipt), current_context);
+
+        let plan = plan_verification_commands(vec![command], now).expect("plan");
+        let planned = plan.commands().first().expect("planned node");
+
+        assert_eq!(planned.action, PlannedAction::Execute);
+        assert_eq!(planned.state, PlannedState::Stale);
+        assert_eq!(
+            planned.reason,
+            PlannedReason::Evidence(ReuseReason::BindingMismatch)
+        );
+        assert_eq!(planned.binding_mismatches, vec!["environmentDigest"]);
+    }
 
     #[test]
     fn failed_dependency_is_not_made_ready() {

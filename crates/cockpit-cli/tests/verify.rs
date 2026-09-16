@@ -75,6 +75,111 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
 }
 
 #[test]
+fn work_item_verification_persists_strict_receipt_without_cli_plan_projection() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-typed-receipt-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(&directory).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let run = |args: &[&str]| {
+        let output = Command::new(binary)
+            .args(args)
+            .args(["--repo"])
+            .arg(&directory)
+            .output()
+            .expect("run ai-cockpit");
+        assert!(
+            output.status.success(),
+            "args={args:?}, stdout={}, stderr={}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output
+    };
+    run(&[
+        "start",
+        "--id",
+        "WI-CLI-TYPED-RECEIPT",
+        "--intent",
+        "persist a strict Runtime verification receipt",
+        "--goal",
+        "keep the CLI planning projection out of persisted receipt identity",
+        "--scope",
+        "README.md",
+        "--authority",
+        "authorized",
+        "--acceptance",
+        "A1: strict typed verification receipt is persisted",
+        "--required-evidence",
+        "verification",
+    ]);
+    fs::write(directory.join("README.md"), "typed receipt fixture\n").expect("README");
+    run(&[
+        "preflight",
+        "--contract",
+        ".ai/work-items/active/WI-CLI-TYPED-RECEIPT.contract.json",
+    ]);
+    run(&["checkpoint", "--id", "WI-CLI-TYPED-RECEIPT"]);
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "acceptanceEvidence": [{
+                "acceptanceId": "A1",
+                "evidence": [{
+                    "type": "test",
+                    "path": "README.md",
+                    "locator": "typed receipt fixture",
+                    "verification": "passed"
+                }]
+            }],
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["README.md"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    run(&[
+        "work-item",
+        "controls",
+        "--id",
+        "WI-CLI-TYPED-RECEIPT",
+        "--input",
+        controls.path().to_str().expect("controls path"),
+    ]);
+
+    let verification = run(&[
+        "verify",
+        "--work-item",
+        "WI-CLI-TYPED-RECEIPT",
+        "--command",
+        "true",
+    ]);
+    let response: serde_json::Value =
+        serde_json::from_slice(&verification.stdout).expect("verification response JSON");
+    assert_eq!(response["plannedNodes"].as_array().map(Vec::len), Some(1));
+    let evidence: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.join(".ai/evidence/WI-CLI-TYPED-RECEIPT.verification.json"))
+            .expect("persisted verification evidence"),
+    )
+    .expect("persisted verification evidence JSON");
+    let receipt = evidence.get("receipt").expect("typed receipt field");
+    assert!(receipt.get("plannedNodes").is_none());
+    let _: cockpit_verification::VerificationReceipt =
+        serde_json::from_value(receipt.clone()).expect("strict typed verification receipt");
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_workspace_route_emits_coverage_manifest_and_execution_records() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-verify-workspace-{}-{}",
@@ -496,7 +601,6 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
     };
 
     let first = run();
-    let second = run();
 
     assert_eq!(first["nodesExecuted"], 1);
     assert_eq!(
@@ -504,6 +608,42 @@ fn calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process() {
         "first verification: {first:#}"
     );
     assert_eq!(first["nodesReused"], 0);
+    let planned = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--plan-only"])
+        .env("AI_COCKPIT_DEBUG_SPAWN", "1")
+        .output()
+        .expect("plan reusable verification");
+    assert!(
+        planned.status.success(),
+        "{}",
+        String::from_utf8_lossy(&planned.stderr)
+    );
+    let plan: serde_json::Value = serde_json::from_slice(&planned.stdout).expect("plan JSON");
+    let second = run();
+    assert_eq!(
+        plan["plannedNodes"][0]["nodeId"],
+        first["results"][0]["nodeId"]
+    );
+    assert_eq!(
+        plan["plannedNodes"][0]["action"], second["results"][0]["action"],
+        "plan: {plan:#}; execution: {second:#}"
+    );
+    assert_eq!(
+        plan["plannedNodes"][0]["state"],
+        second["results"][0]["state"]
+    );
+    assert_eq!(
+        plan["plannedNodes"][0]["reason"], second["results"][0]["reason"],
+        "plan: {plan:#}; execution: {second:#}"
+    );
+    assert!(
+        plan["plannedNodes"][0]["identityBinding"]["commandDigest"]
+            .as_str()
+            .is_some_and(|value| value.starts_with("sha256:"))
+    );
+    assert_eq!(plan["processesSpawned"], 0);
     assert_eq!(second["nodesExecuted"], 0);
     assert_eq!(second["processesSpawned"], 0);
     assert_eq!(second["nodesReused"], 1);

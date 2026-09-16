@@ -1,0 +1,224 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-851-runtime-verification-plan.verification-attempt.2836056651240f915efbba95785638b3f7c61c1b78d6456382c4acd4eb54f52e.json",
+    ".ai/evidence/WI-851-runtime-verification-plan.verification-attempt.38623c51a7e9ae1d84a320b4c008d66712ca5dadb23d8668b2de4f5ae712ffff.json",
+    ".ai/work-items/archive/WI-851-runtime-verification-plan.contract.json",
+    ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/verification_service.rs",
+    "crates/cockpit-verification/src/lib.rs",
+    "docs/reference/commands.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/verification-route.ja.md",
+    "docs/reference/verification-route.md",
+    "docs/reference/verification-route.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T02:01:45Z",
+  "checkpointContractDigest": "sha256:ad693d2ef350660f6ef5aaa5459bbd4443f1025764c511342e32390687f214ff",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d7bad55aba551ebd51d0684183ca8178d166dfc7c49d3ed1af74eee4493316aa",
+      "recorded": true,
+      "recordedAt": "2026-09-16T02:01:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-851-runtime-verification-plan"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3c22414c875484c4773138e798b2d51065818f618ad40e29136e631ac49189f1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d7bad55aba551ebd51d0684183ca8178d166dfc7c49d3ed1af74eee4493316aa",
+      "previousContractHash": "sha256:d7bad55aba551ebd51d0684183ca8178d166dfc7c49d3ed1af74eee4493316aa",
+      "reason": "Extend the same planned verification behavior to the shared planner and bind a regression test for reuse decision diagnostics.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T02:15:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35ea4dbdbb2fa0c2039d3fbb0f02efba41aba2711bebcea6336488d0d2759c6f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-851-runtime-verification-plan"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ad693d2ef350660f6ef5aaa5459bbd4443f1025764c511342e32390687f214ff",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d7bad55aba551ebd51d0684183ca8178d166dfc7c49d3ed1af74eee4493316aa",
+      "previousContractHash": "sha256:3c22414c875484c4773138e798b2d51065818f618ad40e29136e631ac49189f1",
+      "reason": "Add the focused repository integration test that proves plan-only rejects the same invalid stage and missing release base as execution",
+      "recorded": true,
+      "recordedAt": "2026-09-16T02:41:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:931bc49a72f09910b2431bb5dab9824fe99679c15fee5ff0fc8b37af0816c1a6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-851-runtime-verification-plan"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:64c94f2f6ed60f73977eb9231c713a2de1611219ea217a4f07d9153220f9f090",
+  "createdAt": "2026-09-16T01:53:27Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-851-runtime-verification-plan.contract.json",
+      "crates/cockpit-cli/src/main.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-verification/src/lib.rs"
+    ],
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T03:04:51Z",
+  "preflightContractDigest": "sha256:ad693d2ef350660f6ef5aaa5459bbd4443f1025764c511342e32390687f214ff",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:64c94f2f6ed60f73977eb9231c713a2de1611219ea217a4f07d9153220f9f090",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "start records current preflight and one checkpoint without separate agent lifecycle commands",
+      "required": true,
+      "scenario": "green start automatically persists preflight and exactly one before_edit checkpoint",
+      "status": "verified",
+      "verificationPlan": "focused CLI lifecycle integration test"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "structured needs_human_confirmation is retained and checkpoint count remains zero",
+      "required": true,
+      "scenario": "human confirmation during start preserves the review boundary and creates no checkpoint",
+      "status": "verified",
+      "verificationPlan": "focused CLI lifecycle integration test"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "a structured blocked attempt is persisted before any expensive project command starts",
+      "required": true,
+      "scenario": "blocked cheap verification precondition starts zero project child processes",
+      "status": "verified",
+      "verificationPlan": "focused verification precondition test with process counter"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        "crates/cockpit-repository/tests/verification_service.rs"
+      ],
+      "expected": "both paths expose deterministic actions, states, reasons, and input identities",
+      "required": true,
+      "scenario": "plan-only and execution report the same identity-bound per-node reuse and rerun decisions",
+      "status": "verified",
+      "verificationPlan": "focused reusable-attempt and stale-identity integration tests"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "attempt exit status, timeout, duration, logs, and input identity survive formal receipt rejection",
+      "required": true,
+      "scenario": "failed verification attempt remains available when formal evidence promotion fails",
+      "status": "verified",
+      "verificationPlan": "focused attempt persistence and receipt promotion failure test"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-cli/tests/verify.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "both interfaces preserve the same green, review-required, blocked, reuse, stale, and receipt-failure outcomes",
+      "required": true,
+      "scenario": "CLI and MCP use equivalent automatic lifecycle and verification planning semantics",
+      "status": "verified",
+      "verificationPlan": "focused CLI/MCP contract parity tests"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T03:05:19Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-851-runtime-verification-plan"
+}

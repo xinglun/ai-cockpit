@@ -1,0 +1,112 @@
+{
+  "acceptanceCriteria": [
+    "start accepts explicit source references and automatically records preflight plus exactly one before_edit checkpoint when preflight is green; red or needs_human_confirmation is durably reported and creates no checkpoint",
+    "verify performs cheap Contract, scope, snapshot, lifecycle, and plan checks before any project verification process and emits a structured reason with zero spawned processes when blocked",
+    "plan-only and normal verify expose the same deterministic per-node action, state, reuse or rerun reason, and identity binding; protected checks never reuse without explicit policy",
+    "normal verify executes only planned nodes, persists execution attempts before formal evidence promotion, and updates authoritative Summary/evidence through Runtime without manual projection edits",
+    "CLI and MCP invoke equivalent lifecycle/verification semantics; tests cover green, human-review, precondition failure, fresh reuse, stale rerun, and receipt-promotion failure"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "9128fa8f268714a307d26bfee4f1e54137cb13ff",
+  "createdAt": "2026-09-16T01:53:27Z",
+  "goal": "A single start operation records a valid preflight and before-edit checkpoint when no human review is required; verify performs cheap checks before child processes and reports identity-bound per-node reuse, rerun, or blocked decisions, then persists attempts and formal evidence without agent-managed Summary or receipt steps.",
+  "intent": "Reduce manual lifecycle coordination while preserving explicit human authority by making the Runtime own preflight, checkpoint, verification planning, result persistence, and Summary projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing human authorization or accepting needs_human_confirmation automatically",
+    "Cross-Contract execution-result reuse",
+    "Release workflow and public-artifact acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bdbd5093a785de8857a1e361a8665a41d7c1607cc1f3946efcdfe029f63495f6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "start records current preflight and one checkpoint without separate agent lifecycle commands",
+      "required": true,
+      "scenario": "green start automatically persists preflight and exactly one before_edit checkpoint",
+      "status": "unverified",
+      "verificationPlan": "focused CLI lifecycle integration test"
+    },
+    {
+      "evidence": [],
+      "expected": "structured needs_human_confirmation is retained and checkpoint count remains zero",
+      "required": true,
+      "scenario": "human confirmation during start preserves the review boundary and creates no checkpoint",
+      "status": "unverified",
+      "verificationPlan": "focused CLI lifecycle integration test"
+    },
+    {
+      "evidence": [],
+      "expected": "a structured blocked attempt is persisted before any expensive project command starts",
+      "required": true,
+      "scenario": "blocked cheap verification precondition starts zero project child processes",
+      "status": "unverified",
+      "verificationPlan": "focused verification precondition test with process counter"
+    },
+    {
+      "evidence": [],
+      "expected": "both paths expose deterministic actions, states, reasons, and input identities",
+      "required": true,
+      "scenario": "plan-only and execution report the same identity-bound per-node reuse and rerun decisions",
+      "status": "unverified",
+      "verificationPlan": "focused reusable-attempt and stale-identity integration tests"
+    },
+    {
+      "evidence": [],
+      "expected": "attempt exit status, timeout, duration, logs, and input identity survive formal receipt rejection",
+      "required": true,
+      "scenario": "failed verification attempt remains available when formal evidence promotion fails",
+      "status": "unverified",
+      "verificationPlan": "focused attempt persistence and receipt promotion failure test"
+    },
+    {
+      "evidence": [],
+      "expected": "both interfaces preserve the same green, review-required, blocked, reuse, stale, and receipt-failure outcomes",
+      "required": true,
+      "scenario": "CLI and MCP use equivalent automatic lifecycle and verification planning semantics",
+      "status": "unverified",
+      "verificationPlan": "focused CLI/MCP contract parity tests"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-cli/tests/lifecycle.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/verification_attempts.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/commands.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/verification-route.md",
+    "docs/reference/verification-route.zh-CN.md",
+    "docs/reference/verification-route.ja.md",
+    "crates/cockpit-verification/src/lib.rs",
+    "crates/cockpit-repository/tests/verification_service.rs"
+  ],
+  "sources": [
+    "User authorization in the current task: Runtime should automatically maintain preflight, checkpoint, Summary, and receipt state; verification must identify reusable and rerun results before expensive execution.",
+    "crates/cockpit-cli/src/main.rs: current verify --plan-only returns before identity-bound reusable-attempt lookup.",
+    "crates/cockpit-repository/src/lifecycle.rs: existing verification-attempt persistence and identity-bound reuse implementation.",
+    "crates/cockpit-verification/src/lib.rs: existing per-node verification action, state, and reason model.",
+    "Observed plan-only and immediately-following execution decisions differ; the shared verification planner must identify which bound context fields make a cached result stale."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-verification",
+    "cargo test --locked -p cockpit-cli --test verify calibrated_auto_command_reuses_a_persisted_receipt_in_a_second_process -- --exact"
+  ],
+  "workItemId": "WI-851-runtime-verification-plan"
+}

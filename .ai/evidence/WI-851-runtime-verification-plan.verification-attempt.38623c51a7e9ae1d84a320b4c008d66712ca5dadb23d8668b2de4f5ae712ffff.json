@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:38623c51a7e9ae1d84a320b4c008d66712ca5dadb23d8668b2de4f5ae712ffff",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "9128fa8f268714a307d26bfee4f1e54137cb13ff",
+      "commandDigest": "sha256:2609d7452088a6d3ec7ac53f67ea6c7c517d6dd3f1773bb2bbe3717a47158ba3",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:ad693d2ef350660f6ef5aaa5459bbd4443f1025764c511342e32390687f214ff",
+  "contractExecutionScopeDigest": "sha256:0395208d3dc4b0007dbf9d836c57d45eae5067696c5559dff502c8cb9c14e26c",
+  "createdAt": "2026-09-16T02:59:36Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-851-runtime-verification-plan/.ai/work-items/active/WI-851-runtime-verification-plan.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64c94f2f6ed60f73977eb9231c713a2de1611219ea217a4f07d9153220f9f090",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-851-runtime-verification-plan"
+}

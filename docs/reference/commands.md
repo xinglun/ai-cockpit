@@ -110,6 +110,7 @@ before any repository operation runs.
 | --- | --- | --- |
 | `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}` | Read repository facts or the capability registry. |
 | `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts `language` (`en`, `zh`, `ja`). | `{"workItemId":"WI-123"}` |
+| `work_item_start` | Required `workItemId`, human-supplied `intent` and `goal`, and non-empty `scope`; optional `outOfScope`, `risk`, `authority`, `acceptanceCriteria`, `requiredEvidenceClasses`, and `sources`. It persists preflight and creates exactly one before-edit checkpoint only when no blocker or human-confirmation boundary is present. | `{"workItemId":"WI-123","intent":"reduce repeated setup","goal":"prepare before implementation","scope":["src/**"],"authority":"authorized","sources":["issue:123"]}` |
 | `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |
 | `preflight` | Required repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`, `safe_actions` | Optional repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -117,7 +118,7 @@ before any repository operation runs.
 | `evidence_get` | Exactly one of `path`, `evidencePath`, or `id`. | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
-| `verify` | Optional `workItemId`, `command`, and string-array `args`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `verify` | Optional `workItemId`, `command`, string-array `args`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
 
 For a person-facing result, call `work_item_outcome` and surface its text
@@ -137,6 +138,10 @@ review when the returned state is yellow, red, unknown, or not ready.
   one metadata query and partitions `cargo test --locked --workspace` into
   identity-bound package nodes; the formal receipt retains the source command,
   workspace members, metadata digest, exit status, bounded logs, and elapsed time.
+- MCP `verify` with `planOnly: true` uses the same per-node identity preparation
+  and reports the planned action, state, reason, and binding mismatches with
+  `processesSpawned: 0`; a subsequent execution must resolve the same actions
+  unless a bound input changes.
 - `verify --archived-recovery --work-item <id> --stage pull_request` is the
   append-only recovery path for an archived Work Item whose source evidence
   projection became stale after a reviewed integration change. It runs one
@@ -163,6 +168,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   there is no implicit expiry or global current Work Item.
 - `start` requires `--id`, `--intent`, and `--goal`; `--authority authorized`
   is needed for a green governed flow.
+- `start --prepare --source <reference>` appends each supplied source before
+  preflight, persists that preflight, and creates one before-edit checkpoint
+  only when no blocker or human-confirmation boundary is present. A yellow
+  verification-pending result is not a passed verification; review-required or
+  blocked results do not create a checkpoint. MCP `work_item_start` applies
+  the same prepared-start behavior and defaults omitted authority to `missing`.
 - `start --required-evidence <class>[,<class>...]` accepts the built-in forms
   `verification`, `verification_receipt`, `verification-receipt`,
   `delegated:<provider>`, `delegated_evidence`, `external_evidence`, and

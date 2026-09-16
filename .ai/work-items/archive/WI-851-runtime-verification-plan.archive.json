@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T03:05:29Z",
+  "files": {
+    "contractDigest": "sha256:17a63667b7758747ecd2dc36f689cdd236432371093b1c4ceb424e1150d64b3a",
+    "contractPath": ".ai/work-items/archive/WI-851-runtime-verification-plan.contract.json",
+    "eventsDigest": "sha256:052b861cd1a1827bbdbd6a20dcaccd43c98e0d2c8519802c6fc9ea3e39346f04",
+    "eventsPath": ".ai/work-items/archive/WI-851-runtime-verification-plan.events.jsonl",
+    "outcomeDigest": "sha256:fec08e3e81df74331c023e9e4aea5ced182aad89f23a4e6e8c16ac36ad076297",
+    "outcomePath": ".ai/work-items/archive/WI-851-runtime-verification-plan.outcome.json",
+    "summaryDigest": "sha256:e49fc555ac9c68faa50d81850f26e39bfa283238ec4ebdbc55d2cc990ede8a63",
+    "summaryPath": ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json",
+    "taskReportDigest": "sha256:201d28b52a3a3c62b36448449279a1173f4dd749ff80b3d1be2b5ed2fd44df2e",
+    "taskReportMarkdownDigest": "sha256:ee7dde2e1e5f968f2e2ed80d808d19b4eae7a6fdcd02575e76f91fe3ac1d0b07",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-851-runtime-verification-plan.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-851-runtime-verification-plan.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-851-runtime-verification-plan"
+}

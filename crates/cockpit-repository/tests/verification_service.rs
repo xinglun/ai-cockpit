@@ -1,6 +1,6 @@
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, plan_repository_verification,
-    run_repository_verification,
+    plan_repository_verification_action, run_repository_verification,
 };
 use cockpit_verification::ProtectedGateClass;
 use std::{
@@ -187,6 +187,35 @@ fn missing_profile_executes_as_never_reuse_instead_of_blocking_verification() {
     assert_eq!(run.receipt.nodes_reused, 0);
     assert_eq!(run.receipt.results[0].reason, "reuse_not_configured");
     assert!(run.receipt.receipt_candidates.is_empty());
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn verification_planning_rejects_invalid_stage_and_missing_release_base() {
+    let root = repository("invalid-plan-input");
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_secs() as i64;
+
+    let mut invalid_stage = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    invalid_stage.stage = "not-a-verification-stage".into();
+    assert!(
+        plan_repository_verification_action(&root, &invalid_stage, &snapshot, now).is_err(),
+        "plan-only must reject a stage that execution cannot run"
+    );
+
+    let mut missing_release_base =
+        request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    missing_release_base.stage = "release".into();
+    assert!(
+        plan_repository_verification_action(&root, &missing_release_base, &snapshot, now).is_err(),
+        "plan-only must reject a release route without its required base revision"
+    );
     fs::remove_dir_all(root).expect("cleanup");
 }
 

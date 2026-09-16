@@ -53,6 +53,12 @@ authorization evidence.
 
 ## CI boundary
 
+The CLI `verify --plan-only` and MCP `verify` with `planOnly: true` use the same
+identity preparation to report per-node execute/reuse decisions, freshness,
+reasons, and binding mismatches without starting project verification commands
+(`processesSpawned` is zero). Execution consumes the same preparation path, so
+the action and reason remain aligned unless a bound input changes.
+
 `pre_ci` is not hosted CI evidence. During the CI shadow phase, Runtime
 verification and existing Cargo checks both run. A CI result cannot override a
 red governance decision. Removing duplicate CI checks requires a later,
