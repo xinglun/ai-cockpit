@@ -70,6 +70,7 @@ pub fn start_work_item_with_options(
 /// before-edit checkpoint when no blocker or human-confirmation boundary is
 /// present. A yellow verification-pending result is checkpointable; it does
 /// not claim that verification has already passed.
+#[allow(clippy::too_many_arguments)]
 pub fn start_work_item_prepared(
     root: &Path,
     work_item_id: &str,
