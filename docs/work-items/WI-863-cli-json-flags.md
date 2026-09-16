@@ -2,6 +2,8 @@
 author: AI Cockpit maintainers
 workItemId: WI-863-cli-json-flags
 title: Consistent JSON flags for read-only CLI diagnostics
+description: Add explicit machine-readable JSON flags to top-level read-only diagnostics while preserving existing facts and exit behavior.
+audience: [maintainer, reviewer]
 status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-863-cli-json-flags

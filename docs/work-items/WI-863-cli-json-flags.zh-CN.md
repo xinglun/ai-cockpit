@@ -2,6 +2,8 @@
 author: AI Cockpit maintainers
 workItemId: WI-863-cli-json-flags
 title: 只读 CLI 诊断的一致 JSON 选项
+description: 为顶层只读诊断增加明确的机器可读 JSON 标志，同时保持现有事实和退出行为不变。
+audience: [maintainer, reviewer]
 status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-863-cli-json-flags
