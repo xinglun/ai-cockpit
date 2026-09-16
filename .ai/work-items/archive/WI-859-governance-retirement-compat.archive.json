@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T12:21:35Z",
+  "files": {
+    "contractDigest": "sha256:627840755f5d734c4b045e0b58cc0148e3d0703da1ef1651fec6986c35223f9d",
+    "contractPath": ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json",
+    "eventsDigest": "sha256:fa18db1b3547162bdbc0b83839bd324899ab08d4df35f7f14bbb0daaa746c285",
+    "eventsPath": ".ai/work-items/archive/WI-859-governance-retirement-compat.events.jsonl",
+    "outcomeDigest": "sha256:3b6ef81615b8945156946c1f2df17cbd83a07b85ee966729b21c3bb44bf15606",
+    "outcomePath": ".ai/work-items/archive/WI-859-governance-retirement-compat.outcome.json",
+    "summaryDigest": "sha256:d00da30546da06b6159e21ad7ef85284ac79dd33517aaa49f0d930e9a002075a",
+    "summaryPath": ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json",
+    "taskReportDigest": "sha256:8627b4c9541fe944776ee489fa2bafe12a1c897ad8a27651d63696b774c516e9",
+    "taskReportMarkdownDigest": "sha256:ce9a21cc98babcb59b569bc9548d753ae92a7f79b06fbfc13983990c846f29b4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-859-governance-retirement-compat.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-859-governance-retirement-compat.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-859-governance-retirement-compat"
+}

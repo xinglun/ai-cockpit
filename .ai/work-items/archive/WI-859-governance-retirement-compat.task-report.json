@@ -15,84 +15,84 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-859-governance-retirement-compat.verification-attempt.2bada2f1dab3274186db214f78cd404acbf494e6387499a2effb2e6de26071e7.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-859-governance-retirement-compat.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.ja.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.ja.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.zh-CN.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: tests/ci/governance_integrity_gate.py"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.summary.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
         ],
         "inference": false,
         "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
@@ -151,7 +151,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.contract.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
         ],
         "inference": false,
         "text": "Recognize valid append-only retirement records without fabricating close or verification evidence, while continuing to fail closed for malformed retirement records"
@@ -160,7 +160,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-859-governance-retirement-compat.contract.json"
+          ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

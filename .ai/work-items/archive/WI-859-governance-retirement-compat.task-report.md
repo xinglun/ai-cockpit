@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-859-governance-retirement-compat.verification-attempt.2bada2f1dab3274186db214f78cd404acbf494e6387499a2effb2e6de26071e7.json
-- Changed path: .ai/work-items/active/WI-859-governance-retirement-compat.contract.json
-- Changed path: .ai/work-items/active/WI-859-governance-retirement-compat.summary.json
+- Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.contract.json
+- Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.summary.json
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md
