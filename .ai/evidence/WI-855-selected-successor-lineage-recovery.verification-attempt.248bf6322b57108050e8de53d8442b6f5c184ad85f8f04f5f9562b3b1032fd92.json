@@ -1,0 +1,45 @@
+{
+  "attemptId": "sha256:248bf6322b57108050e8de53d8442b6f5c184ad85f8f04f5f9562b3b1032fd92",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "selected_successor_lineage_recovery"
+      ],
+      "baseCommit": "4af6c60ec12050d9566505caa0cfed8d516817ff",
+      "commandDigest": "sha256:28f7422499d053090bfc819b2478e0719cc13b02577a509078cc36f38b577540",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:ee33a29406b54ec88b4573787433571910a96d7aa581241abd184e7d64e20ffb",
+  "contractExecutionScopeDigest": "sha256:225033ad7743bd1b8bd9933e5af411990ae26c49c3adf2963f58286264b416bf",
+  "createdAt": "2026-09-16T09:40:38Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-855-multi-hop-successor-recovery/.ai/work-items/active/WI-855-selected-successor-lineage-recovery.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:60300f811af7a01add95fa3139f7d78fe823c31a75e8bded5b7758cb0823e299",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}

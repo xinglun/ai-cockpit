@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-16T09:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json",
+    ".ai/work-items/active/WI-855-selected-successor-lineage-recovery.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:ee33a29406b54ec88b4573787433571910a96d7aa581241abd184e7d64e20ffb",
+  "predecessorEventsDigest": "sha256:b5b0bcdd86d9c920cb5418564d4b24e7a52d2ba3778421ab94230ea862fcd538",
+  "predecessorOutcomeDigest": "sha256:795d9cce48f72cf4bc8a53955d861226ed083cdb8e5a804ffbc64f82d1b2e42d",
+  "predecessorSummaryDigest": "sha256:49d295d564f78e091e310e2c73b1ab8684be64c35cd8809a5ba08e4806b7a164",
+  "predecessorWorkItemId": "WI-855-selected-successor-lineage-recovery",
+  "reason": "Refresh WI-855 after its bounded Contract amendment and documentation projection changed the repository snapshot; retain the prior attempt and re-run only the declared focused verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run current-snapshot preflight, the declared focused verification, finish, and archive; do not create a successor.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}

@@ -503,6 +503,11 @@ fn unclosed_archived_work_items_with_id(
                     work_item_id,
                     expected_repository_id,
                 )
+                && !selected_successor_lineage_recovery_resolves_pending_close(
+                    root,
+                    work_item_id,
+                    expected_repository_id,
+                )
         })
         .collect::<Vec<_>>();
     pending.sort();

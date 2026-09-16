@@ -119,6 +119,7 @@ fn mcp_initialize_and_tool_list_are_read_only_and_deterministic() {
             "preflight",
             "work_item_controls",
             "work_item_recover",
+            "work_item_recover_selected_lineage",
             "verify",
             "work_item_parallel"
         ]
@@ -133,7 +134,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         &runtime,
     );
     let listed = tools["result"]["tools"].as_array().expect("tools");
-    assert_eq!(listed.len(), 19);
+    assert_eq!(listed.len(), 20);
     for tool in listed {
         assert!(tool["description"].as_str().is_some_and(|value| {
             !value.is_empty() && !value.starts_with("Read-only or bounded verification surface:")

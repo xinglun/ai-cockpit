@@ -1,0 +1,121 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-855-selected-successor-lineage-recovery.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.248bf6322b57108050e8de53d8442b6f5c184ad85f8f04f5f9562b3b1032fd92.json",
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.25ac8ce53eef20c5c4eab7f5a07c848b47285324d799996cd4e3757746ff2ff7.json",
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.3d8ba1ce2c15d43860a8cba309df6e4e9403eff55d190a81db14e96f6235e80f.json",
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.e6933837a215ae646b2da0278453ac076247b6cb3890b8f9c88fd0aeff679def.json",
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.outcome.json",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.json",
+    ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/selected_successor_lineage_recovery.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.ja.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T09:04:59Z",
+  "checkpointContractDigest": "sha256:ee33a29406b54ec88b4573787433571910a96d7aa581241abd184e7d64e20ffb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:84419fb8453f8a752a4b62582ccd9330572c44f3dff253a28489f133c048781f",
+      "recorded": true,
+      "recordedAt": "2026-09-16T09:04:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c71537cef3f29f6329b7dff0933822766702e7e8b906be3fa71c4814afe0c5dc",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-855-selected-successor-lineage-recovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ee33a29406b54ec88b4573787433571910a96d7aa581241abd184e7d64e20ffb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:84419fb8453f8a752a4b62582ccd9330572c44f3dff253a28489f133c048781f",
+      "previousContractHash": "sha256:84419fb8453f8a752a4b62582ccd9330572c44f3dff253a28489f133c048781f",
+      "reason": "Include the tri-language workflow projections and the repository integration fixture that are required to deliver the selected lineage recovery boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T09:36:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b524dec5ce40f0dde07b9f7ff1b9196bd0be739561ba2b6cd5575172645bda75",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-855-selected-successor-lineage-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:60300f811af7a01add95fa3139f7d78fe823c31a75e8bded5b7758cb0823e299",
+  "createdAt": "2026-09-16T09:03:27Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/src/status_projection.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T09:48:05Z",
+  "preflightContractDigest": "sha256:ee33a29406b54ec88b4573787433571910a96d7aa581241abd184e7d64e20ffb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:60300f811af7a01add95fa3139f7d78fe823c31a75e8bded5b7758cb0823e299",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs"
+      ],
+      "required": true,
+      "scenario": "valid selected multi-hop lineage",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs"
+      ],
+      "required": true,
+      "scenario": "tampered or incomplete lineage",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T09:48:12Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}

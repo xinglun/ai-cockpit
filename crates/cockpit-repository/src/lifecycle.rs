@@ -4200,6 +4200,616 @@ pub fn record_recovery_decision(
     Ok(value)
 }
 
+/// Record an append-only recovery for an already selected multi-hop successor
+/// lineage. All bytes and identities are validated before the receipt is
+/// written; this route never creates a successor and never rewrites a node.
+pub fn record_selected_successor_lineage_recovery(
+    root: &Path,
+    root_work_item_id: &str,
+    receipt: &serde_json::Value,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(root_work_item_id)?;
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let typed: SelectedSuccessorLineageRecoveryReceipt = serde_json::from_value(receipt.clone())
+        .map_err(|error| {
+            recovery_decision_error(
+                root.join(".ai/decisions"),
+                "lineage_recovery_schema_invalid",
+                format!("invalid selected successor lineage recovery receipt: {error}"),
+            )
+        })?;
+    validate_selected_successor_lineage_recovery(&typed).map_err(|error| {
+        recovery_decision_error(
+            root.join(".ai/decisions"),
+            "lineage_recovery_invalid",
+            error.to_string(),
+        )
+    })?;
+    if typed.root_work_item_id != root_work_item_id {
+        return Err(recovery_decision_error(
+            root.join(".ai/decisions"),
+            "lineage_recovery_root_mismatch",
+            "selected lineage root does not match the requested Work Item",
+        ));
+    }
+    validate_selected_successor_lineage_binding(&root, &typed, Some(runtime))?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, root_work_item_id)?;
+    let value = serde_json::to_value(&typed).map_err(|error| {
+        recovery_decision_error(
+            root.join(".ai/decisions"),
+            "lineage_recovery_serialize_failed",
+            error.to_string(),
+        )
+    })?;
+    let decisions = root.join(".ai/decisions");
+    fs::create_dir_all(&decisions).map_err(|source| ObserverError::Read {
+        path: decisions.clone(),
+        source,
+    })?;
+    let canonical = decisions.join(format!(
+        "{root_work_item_id}.selected-successor-lineage-recovery.json"
+    ));
+    let destination = if !canonical.exists() {
+        canonical
+    } else if is_regular_non_symlink(&canonical).is_ok_and(|is_file| is_file)
+        && read_json(&canonical).is_ok_and(|existing| existing == value)
+    {
+        return Ok(value);
+    } else {
+        let digest = cockpit_protocol::digest_json(&value).map_err(|error| {
+            recovery_decision_error(
+                decisions.clone(),
+                "lineage_recovery_digest_invalid",
+                error.to_string(),
+            )
+        })?;
+        decisions.join(format!(
+            "{root_work_item_id}.selected-successor-lineage-recovery.{}.json",
+            digest.to_string().trim_start_matches("sha256:")
+        ))
+    };
+    if fs::symlink_metadata(&destination).is_ok() {
+        let existing = read_json(&destination)?;
+        if existing == value {
+            return Ok(existing);
+        }
+        return Err(recovery_decision_error(
+            destination,
+            "lineage_recovery_replay_mismatch",
+            "selected successor lineage recovery receipt already exists with different content",
+        ));
+    }
+    atomic_json(&destination, &value)?;
+    Ok(value)
+}
+
+fn selected_lineage_error(
+    root: &Path,
+    code: &'static str,
+    message: impl Into<String>,
+) -> ObserverError {
+    recovery_decision_error(root.join(".ai/decisions"), code, message.into())
+}
+
+fn selected_lineage_relative_path(
+    root: &Path,
+    path: &str,
+    field: &'static str,
+) -> Result<PathBuf, ObserverError> {
+    let relative = Path::new(path);
+    if relative.is_absolute()
+        || relative
+            .components()
+            .any(|component| matches!(component, std::path::Component::ParentDir))
+        || !relative.starts_with(".ai")
+    {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_path_invalid",
+            format!("{field} must be a repository-relative .ai path"),
+        ));
+    }
+    let target = root.join(relative);
+    if !target.starts_with(root) {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_path_invalid",
+            format!("{field} resolves outside the repository"),
+        ));
+    }
+    Ok(target)
+}
+
+fn selected_lineage_file_digest(
+    root: &Path,
+    path: &str,
+    expected: &Digest,
+    field: &'static str,
+) -> Result<Vec<u8>, ObserverError> {
+    let target = selected_lineage_relative_path(root, path, field)?;
+    if !is_regular_non_symlink(&target)? {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_file_invalid",
+            format!("{field} must be a regular non-symlink file: {path}"),
+        ));
+    }
+    let bytes = fs::read(&target).map_err(|source| ObserverError::Read {
+        path: target.clone(),
+        source,
+    })?;
+    let actual = Digest::sha256_bytes(&bytes);
+    if &actual != expected {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_digest_mismatch",
+            format!("{field} digest does not match its immutable bytes: {path}"),
+        ));
+    }
+    Ok(bytes)
+}
+
+fn selected_lineage_json(
+    root: &Path,
+    path: &str,
+    expected: &Digest,
+    field: &'static str,
+) -> Result<serde_json::Value, ObserverError> {
+    let bytes = selected_lineage_file_digest(root, path, expected, field)?;
+    serde_json::from_slice(&bytes).map_err(|error| {
+        selected_lineage_error(
+            root,
+            "lineage_recovery_json_invalid",
+            format!("{field} is not valid JSON: {error}"),
+        )
+    })
+}
+
+fn selected_lineage_expected_path(work_item_id: &str, kind: &str) -> String {
+    match kind {
+        "events" => format!(".ai/work-items/archive/{work_item_id}.events.jsonl"),
+        "verification" => format!(".ai/evidence/{work_item_id}.verification.json"),
+        "close" => format!(".ai/decisions/{work_item_id}.close.json"),
+        "finalization" => format!(".ai/decisions/{work_item_id}.finalize.json"),
+        _ => format!(".ai/work-items/archive/{work_item_id}.{kind}.json"),
+    }
+}
+
+fn selected_lineage_finalization_path_is_allowed(work_item_id: &str, path: &str) -> bool {
+    let prefix = format!(".ai/decisions/{work_item_id}.finalize");
+    path == format!("{prefix}.json")
+        || (path.starts_with(&format!("{prefix}.")) && path.ends_with(".json"))
+}
+
+fn selected_lineage_recovery_path_is_allowed(work_item_id: &str, path: &str) -> bool {
+    let prefix = format!(".ai/decisions/{work_item_id}.recovery");
+    path == format!("{prefix}.json")
+        || (path.starts_with(&format!("{prefix}.")) && path.ends_with(".json"))
+}
+
+fn validate_selected_successor_lineage_binding(
+    root: &Path,
+    receipt: &SelectedSuccessorLineageRecoveryReceipt,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<(), ObserverError> {
+    let expected_repository_id = repository_id(root).to_string();
+    if receipt.repository_id != expected_repository_id {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_repository_mismatch",
+            "selected lineage recovery repository identity does not match this repository",
+        ));
+    }
+    if let Some(runtime) = current_runtime
+        && (receipt.runtime_version != runtime.runtime_version
+            || receipt.runtime_digest != runtime.runtime_digest)
+    {
+        return Err(selected_lineage_error(
+            root,
+            "lineage_recovery_runtime_mismatch",
+            "selected lineage recovery Runtime identity does not match the executing Runtime",
+        ));
+    }
+    for node in &receipt.nodes {
+        validate_work_item_id(&node.work_item_id)?;
+        let expected = [
+            (
+                &node.contract_path,
+                selected_lineage_expected_path(&node.work_item_id, "contract"),
+                "contract",
+            ),
+            (
+                &node.summary_path,
+                selected_lineage_expected_path(&node.work_item_id, "summary"),
+                "summary",
+            ),
+            (
+                &node.outcome_path,
+                selected_lineage_expected_path(&node.work_item_id, "outcome"),
+                "outcome",
+            ),
+            (
+                &node.events_path,
+                selected_lineage_expected_path(&node.work_item_id, "events"),
+                "events",
+            ),
+            (
+                &node.verification_path,
+                selected_lineage_expected_path(&node.work_item_id, "verification"),
+                "verification",
+            ),
+            (
+                &node.archive_manifest_path,
+                selected_lineage_expected_path(&node.work_item_id, "archive"),
+                "archiveManifest",
+            ),
+            (
+                &node.close_path,
+                selected_lineage_expected_path(&node.work_item_id, "close"),
+                "close",
+            ),
+        ];
+        for (actual, expected_path, field) in expected {
+            if actual != &expected_path {
+                return Err(selected_lineage_error(
+                    root,
+                    "lineage_recovery_path_mismatch",
+                    format!("{field} path is not the canonical archived path"),
+                ));
+            }
+        }
+        if !selected_lineage_finalization_path_is_allowed(
+            &node.work_item_id,
+            &node.finalization_path,
+        ) {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_path_mismatch",
+                "finalization path is not a canonical or digest-suffixed decision path",
+            ));
+        }
+        selected_lineage_file_digest(root, &node.contract_path, &node.contract_digest, "contract")?;
+        selected_lineage_file_digest(root, &node.summary_path, &node.summary_digest, "summary")?;
+        selected_lineage_file_digest(root, &node.outcome_path, &node.outcome_digest, "outcome")?;
+        selected_lineage_file_digest(root, &node.events_path, &node.events_digest, "events")?;
+        let verification = selected_lineage_json(
+            root,
+            &node.verification_path,
+            &node.verification_digest,
+            "verification",
+        )?;
+        let outcome =
+            selected_lineage_json(root, &node.outcome_path, &node.outcome_digest, "outcome")?;
+        let manifest = selected_lineage_json(
+            root,
+            &node.archive_manifest_path,
+            &node.archive_manifest_digest,
+            "archiveManifest",
+        )?;
+        let close = selected_lineage_json(root, &node.close_path, &node.close_digest, "close")?;
+        let _finalization_bytes = selected_lineage_file_digest(
+            root,
+            &node.finalization_path,
+            &node.finalization_digest,
+            "finalization",
+        )?;
+        let (finalization, finalization_head_path, finalization_head_digest, finalization_sequence) =
+            resolve_resource_finalization_head(root, &node.work_item_id).map_err(|error| {
+                selected_lineage_error(
+                    root,
+                    "lineage_recovery_finalization_invalid",
+                    format!("finalization head is invalid: {error}"),
+                )
+            })?;
+        let contract = read_contract(&root.join(&node.contract_path))?;
+        let expected_contract_file_digest =
+            Digest::sha256_bytes(&fs::read(root.join(&node.contract_path)).map_err(|source| {
+                ObserverError::Read {
+                    path: root.join(&node.contract_path),
+                    source,
+                }
+            })?);
+        if finalization_head_path != root.join(&node.finalization_path)
+            || finalization.contract_digest.as_ref() != Some(&expected_contract_file_digest)
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_finalization_binding_mismatch",
+                format!(
+                    "finalization head or Contract digest does not bind node: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+        validate_resource_finalization_receipt_for(
+            &finalization,
+            &expected_repository_id,
+            &node.work_item_id,
+            Some(&expected_contract_file_digest),
+            contract.resource_context.as_ref(),
+        )
+        .map_err(|error| {
+            selected_lineage_error(
+                root,
+                "lineage_recovery_finalization_invalid",
+                format!("finalization receipt is invalid: {error}"),
+            )
+        })?;
+        ensure_resource_finalization_base_binding(
+            &finalization,
+            &contract,
+            &finalization_head_path,
+        )?;
+        validate_historical_finalization(root, &finalization, &finalization_head_path)?;
+        if contract.work_item_id != node.work_item_id
+            || contract.repository_id != expected_repository_id
+            || finalization.work_item_id != node.work_item_id
+            || finalization.repository_id != expected_repository_id
+            || finalization.provider != node.finalization_provider
+            || finalization.pull_request != node.finalization_pull_request
+            || finalization.runtime_version != node.finalization_runtime_version
+            || finalization.runtime_digest != node.finalization_runtime_digest
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_identity_mismatch",
+                format!(
+                    "node identity or provider finalization identity mismatch: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+        for (value, field) in [(&verification, "verification"), (&close, "close")] {
+            if value.get("workItemId").and_then(serde_json::Value::as_str)
+                != Some(node.work_item_id.as_str())
+                || value
+                    .get("repositoryId")
+                    .and_then(serde_json::Value::as_str)
+                    != Some(expected_repository_id.as_str())
+            {
+                return Err(selected_lineage_error(
+                    root,
+                    "lineage_recovery_identity_mismatch",
+                    format!(
+                        "{field} does not bind the node identity: {}",
+                        node.work_item_id
+                    ),
+                ));
+            }
+        }
+        if manifest
+            .get("workItemId")
+            .and_then(serde_json::Value::as_str)
+            != Some(node.work_item_id.as_str())
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_identity_mismatch",
+                format!(
+                    "archiveManifest does not bind the node identity: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+        if close
+            .get("resourceFinalizationHeadPath")
+            .and_then(serde_json::Value::as_str)
+            != Some(node.finalization_path.as_str())
+            || close
+                .get("resourceFinalizationHeadDigest")
+                .and_then(serde_json::Value::as_str)
+                != Some(finalization_head_digest.to_string().as_str())
+            || close
+                .get("resourceFinalizationSequence")
+                .and_then(serde_json::Value::as_u64)
+                != Some(finalization_sequence)
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_close_finalization_mismatch",
+                format!(
+                    "close does not bind the selected finalization head: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+        if outcome
+            .pointer("/verification/status")
+            .and_then(serde_json::Value::as_str)
+            != Some("verified")
+            || !matches!(
+                manifest.get("state").and_then(serde_json::Value::as_str),
+                Some("archived" | "superseded" | "retired" | "replaced")
+            )
+            || close.get("state").and_then(serde_json::Value::as_str) != Some("closed")
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_terminal_evidence_invalid",
+                format!(
+                    "node terminal evidence is not complete: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+        for reference in &node.human_decision.evidence_refs {
+            if reference.starts_with(".ai/") {
+                let path =
+                    selected_lineage_relative_path(root, reference, "humanDecision.evidenceRefs")?;
+                if !is_regular_non_symlink(&path)? {
+                    return Err(selected_lineage_error(
+                        root,
+                        "lineage_recovery_evidence_missing",
+                        format!("human decision evidence is not a regular file: {reference}"),
+                    ));
+                }
+            }
+        }
+        if !node.human_decision.actor.starts_with("human:")
+            || chrono::DateTime::parse_from_rfc3339(&node.human_decision.decided_at).is_err()
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_human_decision_invalid",
+                format!(
+                    "human decision is not explicit and timestamped: {}",
+                    node.work_item_id
+                ),
+            ));
+        }
+    }
+    for edge in &receipt.edges {
+        if !selected_lineage_recovery_path_is_allowed(
+            &edge.predecessor_work_item_id,
+            &edge.recovery_path,
+        ) {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_edge_path_invalid",
+                "edge recovery path is not the selected predecessor recovery path",
+            ));
+        }
+        let bytes = selected_lineage_file_digest(
+            root,
+            &edge.recovery_path,
+            &edge.recovery_digest,
+            "recoveryEdge",
+        )?;
+        let recovery: RecoveryDecisionReceipt =
+            serde_json::from_slice(&bytes).map_err(|error| {
+                selected_lineage_error(
+                    root,
+                    "lineage_recovery_edge_invalid",
+                    format!("edge recovery receipt is invalid: {error}"),
+                )
+            })?;
+        let predecessor = receipt
+            .nodes
+            .iter()
+            .find(|node| node.work_item_id == edge.predecessor_work_item_id)
+            .ok_or_else(|| {
+                selected_lineage_error(
+                    root,
+                    "lineage_recovery_edge_mismatch",
+                    "edge predecessor is not present in the selected node list",
+                )
+            })?;
+        let predecessor_contract_digest = contract_digest(&root.join(&predecessor.contract_path))?;
+        let predecessor_summary = selected_lineage_json(
+            root,
+            &predecessor.summary_path,
+            &predecessor.summary_digest,
+            "summary",
+        )?;
+        let predecessor_outcome = selected_lineage_json(
+            root,
+            &predecessor.outcome_path,
+            &predecessor.outcome_digest,
+            "outcome",
+        )?;
+        let predecessor_events = selected_lineage_file_digest(
+            root,
+            &predecessor.events_path,
+            &predecessor.events_digest,
+            "events",
+        )?;
+        let predecessor_summary_digest = cockpit_protocol::digest_json(&predecessor_summary)
+            .map_err(|error| {
+                selected_lineage_error(root, "lineage_recovery_edge_invalid", error.to_string())
+            })?;
+        let predecessor_outcome_digest = cockpit_protocol::digest_json(&predecessor_outcome)
+            .map_err(|error| {
+                selected_lineage_error(root, "lineage_recovery_edge_invalid", error.to_string())
+            })?;
+        if recovery.repository_id != expected_repository_id
+            || recovery.work_item_id != edge.predecessor_work_item_id
+            || recovery.predecessor_work_item_id != edge.predecessor_work_item_id
+            || recovery.successor_work_item_id.as_deref()
+                != Some(edge.successor_work_item_id.as_str())
+            || recovery.predecessor_contract_digest != predecessor_contract_digest
+            || recovery.predecessor_summary_digest != predecessor_summary_digest
+            || recovery.predecessor_outcome_digest.as_ref() != Some(&predecessor_outcome_digest)
+            || recovery.predecessor_events_digest.as_ref()
+                != Some(&Digest::sha256_bytes(&predecessor_events))
+            || !matches!(recovery.decision.as_str(), "successor" | "supersede")
+        {
+            return Err(selected_lineage_error(
+                root,
+                "lineage_recovery_edge_mismatch",
+                "edge does not bind the selected predecessor and successor decision",
+            ));
+        }
+    }
+    Ok(())
+}
+
+/// Read a valid aggregate recovery receipt and report whether it covers an
+/// archived node. Invalid or ambiguous aggregate receipts never hide a close
+/// obligation from repository readiness.
+pub fn selected_successor_lineage_recovery_resolves_pending_close(
+    root: &Path,
+    work_item_id: &str,
+    expected_repository_id: &str,
+) -> bool {
+    let decisions = root.join(".ai/decisions");
+    let Ok(entries) = fs::read_dir(&decisions) else {
+        return false;
+    };
+    let prefix = format!("{work_item_id}.selected-successor-lineage-recovery");
+    let mut matches = Vec::new();
+    for entry in entries.flatten() {
+        let path = entry.path();
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if name != format!("{prefix}.json")
+            && !(name.starts_with(&format!("{prefix}.")) && name.ends_with(".json"))
+        {
+            continue;
+        }
+        if !is_regular_non_symlink(&path).unwrap_or(false) {
+            return false;
+        }
+        let Ok(bytes) = fs::read(&path) else {
+            return false;
+        };
+        let Ok(value) = serde_json::from_slice::<serde_json::Value>(&bytes) else {
+            return false;
+        };
+        if name != format!("{prefix}.json") {
+            let Ok(digest) = cockpit_protocol::digest_json(&value) else {
+                return false;
+            };
+            let expected_name = format!(
+                "{prefix}.{}.json",
+                digest.to_string().trim_start_matches("sha256:")
+            );
+            if name != expected_name {
+                return false;
+            }
+        }
+        let Ok(receipt) = serde_json::from_value::<SelectedSuccessorLineageRecoveryReceipt>(value)
+        else {
+            return false;
+        };
+        if validate_selected_successor_lineage_binding(root, &receipt, None).is_err() {
+            return false;
+        }
+        if receipt.repository_id != expected_repository_id
+            || !receipt
+                .nodes
+                .iter()
+                .any(|node| node.work_item_id == work_item_id)
+        {
+            continue;
+        }
+        matches.push(receipt);
+    }
+    matches.len() == 1
+}
+
 /// Restore the only legal retry point after a lifecycle gate has projected a
 /// blocked Outcome.  The failed Outcome remains bound by the recovery receipt;
 /// a fresh verify/finish cycle will generate the next current projection.

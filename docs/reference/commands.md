@@ -157,6 +157,16 @@ review when the returned state is yellow, red, unknown, or not ready.
   overwritten; preconditions fail before the project command when recovery is
   already valid or contradictory. This is not a Contract-amendment successor;
   use `work-item revalidate-archived` when the archived Contract itself changed.
+- `work-item recover-selected-successor-lineage --repo <path> --id <root>
+  --input <receipt.json>` is the append-only close-recovery path for an already
+  selected multi-hop successor lineage. The receipt enumerates every adjacent
+  predecessor/successor edge and binds each node's archived Contract, Summary,
+  Outcome, Events, verification, archive manifest, close, finalization head,
+  provider PR identity, and explicit human decision to exact bytes and the
+  current Runtime. It never creates a successor or rewrites historical
+  records. Missing, malformed, foreign, stale, digest-mismatched, forked, or
+  ambiguous lineage fails closed; a valid receipt may satisfy only the covered
+  archived nodes' pending-close projection.
 - `verify` without `--command` detects Cargo or npm and may use a confirmed
   profile for cross-process reuse. Reuse is admitted only when the current
   repository, snapshot, profile, runtime, command, scope, stage, runner, base,

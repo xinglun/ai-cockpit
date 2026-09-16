@@ -108,6 +108,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   Contract、Summary、Outcome、Events、historical verification bytes は上書きしません。既に有効な recovery または矛盾した
   candidate がある場合は project command の起動前に停止します。Archived Contract 自体が変わった場合はこの入口ではなく
   `work-item revalidate-archived` を使用します。
+- `work-item recover-selected-successor-lineage --repo <path> --id <root> --input <receipt.json>` は、すでに選択された複数段 successor lineage のための append-only close recovery path です。receipt は隣接する predecessor/successor edge をすべて列挙し、各 node の archived Contract、Summary、Outcome、Events、verification、archive manifest、close、finalization head、provider PR identity、明示的な human decision を正確な bytes と current Runtime に bind しなければなりません。successor を作成せず、歴史 record も書き換えません。missing、malformed、foreign、stale、digest mismatch、fork、ambiguous な lineage は fail-closed です。有効な receipt は対象に含まれる archived node の pending-close projection だけを解消します。
 - `--command` なしの `verify` は Cargo または npm を検出し、confirmed profile で cross-process reuse できます。
   現在の repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency、policy
   identity がすべて exact match の場合だけ reuse を許可します。それ以外は宣言された command を実行し、拒否/昇格理由を返します。

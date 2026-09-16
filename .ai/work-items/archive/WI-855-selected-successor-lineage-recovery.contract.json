@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "A valid already selected multi-hop lineage can be recovered and projected without creating a competing successor.",
+    "Every lineage edge binds repository identity, predecessor/successor Contract and Summary digests, Outcome and Events digests, archive and close digests, and exact provider PR/merge plus Runtime identity.",
+    "Original Contract, Summary, Outcome, Events, archive, verification, finalization, close, and recovery bytes are never edited or deleted.",
+    "Each recovered target requires explicit human actor, authority source, decision time, rationale, evidence references, and resume condition.",
+    "Missing, malformed, stale, foreign, digest-mismatched, competing, ambiguous, or incomplete lineage remains fail-closed and never becomes ordinary green.",
+    "CLI, MCP, English, Simplified Chinese, Japanese documentation, and focused regression tests expose identical semantics."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4af6c60ec12050d9566505caa0cfed8d516817ff",
+  "createdAt": "2026-09-16T09:03:27Z",
+  "goal": "Validate and project only the selected multi-hop lineage with exact repository, Contract, Summary, Outcome, Events, archive, close, finalization, PR, merge, and Runtime bindings while preserving every historical byte.",
+  "intent": "Implement GitHub Issue #829: provide an append-only close recovery path for an already selected, unambiguous multi-hop successor lineage whose legacy predecessor or intermediate close/finalization receipts are invalid under the current projection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Sentinel code or trading/Decision logic",
+    "Issue #828 verification timeout behavior",
+    "direct_merge_no_pr reconciliation",
+    "weakening strict close/finalization or competing-successor validation",
+    "global Agent/MCP configuration and network delivery",
+    "full-workspace test execution and pushing"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c71537cef3f29f6329b7dff0933822766702e7e8b906be3fa71c4814afe0c5dc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high: governance projection and immutable historical evidence",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "all selected edges and terminal evidence are bound without a competing successor",
+      "required": true,
+      "scenario": "valid selected multi-hop lineage",
+      "status": "unverified",
+      "verificationPlan": "run focused positive recovery and status projection tests"
+    },
+    {
+      "evidence": [],
+      "expected": "foreign, stale, malformed, ambiguous, or missing evidence remains fail-closed",
+      "required": true,
+      "scenario": "tampered or incomplete lineage",
+      "status": "unverified",
+      "verificationPlan": "run focused negative recovery and status projection tests"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-protocol/tests/selected_successor_lineage_recovery.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.zh-CN.md",
+    "docs/work-items/WI-855-selected-successor-lineage-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    "crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}

@@ -23,14 +23,15 @@ use cockpit_protocol::{
     PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
-    ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
-    TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
-    WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex,
-    WorkItemStatusIndexEntry, WorkItemStatusSnapshot, default_repository_schema_version,
-    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
+    ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep,
+    SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeEvent, TaskOutcomeReport, TruthState,
+    VerificationDeclaration, VerificationStage, VerificationTier, WorkItemCompatibility,
+    WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, default_repository_schema_version, merge_policy_layers,
+    repository_schema_migration_chain, validate_evidence_retention,
     validate_historical_finalization_recovery, validate_protocol_version,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
-    validate_resource_finalization_transition,
+    validate_resource_finalization_transition, validate_selected_successor_lineage_recovery,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};

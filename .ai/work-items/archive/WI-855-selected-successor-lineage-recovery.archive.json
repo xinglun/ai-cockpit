@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T09:48:18Z",
+  "files": {
+    "contractDigest": "sha256:912278c4fdeea0c82f6bdb23821b7d77790dbbb77bdbca762b56f021856b2db8",
+    "contractPath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json",
+    "eventsDigest": "sha256:0233f2f33afd74ea0af2fd220174ab6b1a622c5c2d03c638781ae1c7c368d362",
+    "eventsPath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.events.jsonl",
+    "outcomeDigest": "sha256:11baaf07d3cee7eb4107c66d8020d3b0696cd21236e10cb73e8b58672b49c5a3",
+    "outcomePath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.outcome.json",
+    "summaryDigest": "sha256:32f5e67c05e53131fadc1b74d7659126612020b026563e0b72e1a1c720e7502d",
+    "summaryPath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json",
+    "taskReportDigest": "sha256:0048839094b6b3332bef88195ae517ef3bfae85f8d7b53065f810172698cedbc",
+    "taskReportMarkdownDigest": "sha256:78faf40b9f9f519116ea3ac799fcb52031eb18055e3129723d6f65a1c4abb58c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}
