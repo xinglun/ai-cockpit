@@ -1,0 +1,268 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64c94f2f6ed60f73977eb9231c713a2de1611219ea217a4f07d9153220f9f090",
+      "workItemId": "WI-851-runtime-verification-plan"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-851-runtime-verification-plan.verification-attempt.2836056651240f915efbba95785638b3f7c61c1b78d6456382c4acd4eb54f52e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-851-runtime-verification-plan.verification-attempt.38623c51a7e9ae1d84a320b4c008d66712ca5dadb23d8668b2de4f5ae712ffff.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-851-runtime-verification-plan.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/verification_service.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-verification/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-route.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-route.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-route.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-851-runtime-verification-plan.verification.json",
+            ".ai/decisions/WI-851-runtime-verification-plan.finalize.da20c9764e0acf6ce28698ac822c73258effaa9bbbdf61a1c2607e10661ae4dc.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-16T03:36:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-851-runtime-verification-plan.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.contract.json"
+          ],
+          "inference": false,
+          "text": "A single start operation records a valid preflight and before-edit checkpoint when no human review is required; verify performs cheap checks before child processes and reports identity-bound per-node reuse, rerun, or blocked decisions, then persists attempts and formal evidence without agent-managed Summary or receipt steps."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-851-runtime-verification-plan.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-851-runtime-verification-plan"
+  },
+  "finalReportDigest": "sha256:245f86c9b5249021a3e7d9e19306190e77e34868d1f07448003b7129452717d4",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-16T03:36:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-851-runtime-verification-plan.verification.json",
+      ".ai/decisions/WI-851-runtime-verification-plan.finalize.da20c9764e0acf6ce28698ac822c73258effaa9bbbdf61a1c2607e10661ae4dc.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "PR #832 is reviewed and merged, hosted checks are green, finalization and exact feature resource cleanup are verified, and the Work Item evidence remains bound to its immutable Contract.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-16T03:35:01Z",
+  "workItemId": "WI-851-runtime-verification-plan"
+}
