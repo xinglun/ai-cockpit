@@ -295,6 +295,48 @@ fn start_advisory_treats_absent_lifecycle_directories_as_empty() {
 }
 
 #[test]
+fn start_advisory_reports_non_default_remote_tracking_branches() {
+    let directory = repository();
+    let remote = tempfile::tempdir().expect("bare remote");
+    run(remote.path(), &["init", "--bare", "-q"]);
+    run(remote.path(), &["symbolic-ref", "HEAD", "refs/heads/trunk"]);
+    run(
+        directory.path(),
+        &["config", "user.email", "test@example.com"],
+    );
+    run(directory.path(), &["config", "user.name", "Test"]);
+    run(directory.path(), &["branch", "-M", "trunk"]);
+    run(directory.path(), &["commit", "--allow-empty", "-m", "base"]);
+    run(
+        directory.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            remote.path().to_str().expect("remote path"),
+        ],
+    );
+    run(directory.path(), &["push", "-u", "origin", "trunk:trunk"]);
+    run(directory.path(), &["remote", "set-head", "origin", "trunk"]);
+    run(
+        directory.path(),
+        &["update-ref", "refs/remotes/origin/codex/stale", "HEAD"],
+    );
+
+    let advisory = work_item_start_advisory(directory.path(), "WI-NEW")
+        .expect("remote-tracking branch observation should be available");
+    assert_eq!(advisory.remote_branches.len(), 1);
+    assert_eq!(advisory.remote_branches[0].name, "origin/codex/stale");
+    assert_eq!(advisory.remote_branches[0].head.len(), 40);
+    assert!(
+        advisory
+            .warnings
+            .iter()
+            .any(|warning| warning == "non_default_remote_branches_present:1")
+    );
+}
+
+#[test]
 fn start_blocks_only_an_exact_active_worktree_binding() {
     let directory = repository();
     let existing_id = "WI-EXACT-RESOURCE";

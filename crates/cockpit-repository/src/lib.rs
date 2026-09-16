@@ -757,12 +757,24 @@ pub struct WorkItemStartAdvisory {
     pub classification: String,
     pub current_worktree: Option<WorkItemStartWorktree>,
     pub worktrees: Vec<WorkItemStartWorktree>,
+    /// Locally known remote-tracking branches other than the discovered
+    /// default branch. This is an observation of fetched refs, not a claim
+    /// that the provider currently has exactly the same set of branches.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub remote_branches: Vec<WorkItemStartRemoteBranch>,
     pub active_work_items: Vec<WorkItemStartObligation>,
     pub pending_cleanup: Vec<WorkItemStartObligation>,
     pub warnings: Vec<String>,
     pub conflicts: Vec<String>,
     pub unknowns: Vec<String>,
     pub next_actions: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartRemoteBranch {
+    pub name: String,
+    pub head: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
