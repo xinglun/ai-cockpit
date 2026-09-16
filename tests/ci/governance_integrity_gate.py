@@ -1365,6 +1365,86 @@ def archive_digests_valid(repo: Path, work_item: str) -> bool:
     return True
 
 
+def retirement_receipt(repo: Path, work_item: str) -> tuple[Path, dict[str, Any]] | None:
+    path = repo / ".ai/decisions" / f"{work_item}.retirement.json"
+    if not path.is_file() or path.is_symlink():
+        return None
+    try:
+        return path, load_json(path)
+    except ValueError:
+        return path, {}
+
+
+def valid_retirement_receipt(
+    repo: Path,
+    work_item: str,
+    receipt_path: Path,
+    receipt: dict[str, Any],
+) -> bool:
+    """Validate Runtime retirement as historical cleanup, never verification."""
+
+    try:
+        project = load_json(repo / ".ai/project.json")
+        manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
+        manifest = load_json(manifest_path)
+    except ValueError:
+        return False
+    digest_pattern = re.compile(r"sha256:[0-9a-f]{64}")
+    nonempty = lambda key: isinstance(receipt.get(key), str) and bool(
+        receipt[key].strip()
+    )
+    disposition = receipt.get("disposition")
+    if disposition not in {"integrated", "replaced"}:
+        return False
+    successor = receipt.get("successorWorkItemId")
+    if disposition == "replaced" and (not isinstance(successor, str) or not successor):
+        return False
+    if disposition == "integrated" and successor is not None:
+        return False
+    if not (
+        receipt.get("schemaVersion") == 1
+        and receipt.get("decisionId") == "work-item-retirement"
+        and receipt.get("workItemId") == work_item
+        and receipt.get("repositoryId") == project.get("repositoryId")
+        and receipt.get("originalBytesPreserved") is True
+        and receipt.get("verificationClaim") == "not_verified"
+        and all(nonempty(key) for key in ("actor", "authoritySource", "reason", "recordedAt"))
+        and digest_pattern.fullmatch(str(receipt.get("runtimeDigest", "")))
+        and nonempty("runtimeVersion")
+        and digest_pattern.fullmatch(str(receipt.get("archiveManifestDigest", "")))
+    ):
+        return False
+    if _json_digest(manifest) != receipt.get("archiveManifestDigest"):
+        return False
+    if not (
+        manifest.get("workItemId") == work_item
+        and manifest.get("state") in {"retired", "replaced"}
+        and manifest.get("retirementDisposition") == disposition
+        and manifest.get("retirementReceiptPath")
+        == str(receipt_path.relative_to(repo))
+        and manifest.get("closeRequired") is False
+        and manifest.get("historicalEvidence") is True
+    ):
+        return False
+    artifacts = receipt.get("artifacts")
+    if not isinstance(artifacts, dict):
+        return False
+    for suffix in ("contract", "summary", "outcome"):
+        artifact = artifacts.get(suffix)
+        relative = f".ai/work-items/archive/{work_item}.{suffix}.json"
+        path = repo / relative
+        if not isinstance(artifact, dict) or artifact.get("path") != relative:
+            return False
+        digest = artifact.get("digest")
+        if not isinstance(digest, str) or not digest_pattern.fullmatch(digest):
+            return False
+        if not path.is_file() or path.is_symlink():
+            return False
+        if "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            return False
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo", required=True)
@@ -1636,6 +1716,25 @@ def main() -> int:
                         f".ai/work-items/archive/{work_item}.archive.json",
                     )
                 )
+            retirement_candidate = retirement_receipt(repo, work_item)
+            retirement_present = retirement_candidate is not None
+            retirement_valid = (
+                retirement_candidate is not None
+                and valid_retirement_receipt(
+                    repo,
+                    work_item,
+                    retirement_candidate[0],
+                    retirement_candidate[1],
+                )
+            )
+            if retirement_present and not retirement_valid:
+                findings.append(
+                    finding(
+                        work_item,
+                        "invalid_retirement_receipt",
+                        f".ai/decisions/{work_item}.retirement.json",
+                    )
+                )
             recovery_candidate = recovery_decision_candidate(repo, work_item)
             recovery_path = (
                 recovery_candidate[0]
@@ -1671,7 +1770,7 @@ def main() -> int:
                 # green.  Without that receipt, the historical Outcome must
                 # remain green for a normal archived Work Item.
                 if not outcome_identity_valid or (
-                    not outcome_green and not recovery_receipt_valid
+                    not outcome_green and not recovery_receipt_valid and not retirement_valid
                 ):
                     findings.append(
                         finding(
@@ -1716,10 +1815,23 @@ def main() -> int:
                 f".ai/decisions/{work_item}.recovery.json",
             )
             decision = None
+            if retirement_present:
+                decision = f".ai/decisions/{work_item}.retirement.json"
+                record["decisionPath"] = decision
+                record["lifecycleState"] = (
+                    (
+                        "replaced"
+                        if retirement_valid
+                        and retirement_candidate[1].get("disposition") == "replaced"
+                        else "retired"
+                    )
+                    if retirement_valid
+                    else "retirement_invalid"
+                )
             close_path = repo / ".ai/decisions" / f"{work_item}.close.json"
             # A recovery receipt explains a predecessor's history; it must not
             # shadow a later valid close decision for the same Work Item.
-            if close_path.is_file() and not close_path.is_symlink():
+            if decision is None and close_path.is_file() and not close_path.is_symlink():
                 decision = str(close_path.relative_to(repo))
                 try:
                     decision_value = load_json(close_path)
@@ -1755,7 +1867,7 @@ def main() -> int:
                 else:
                     record["lifecycleState"] = "closure_invalid"
                     findings.append(finding(work_item, "invalid_terminal_decision", decision))
-            elif recovery_path.is_file() and not recovery_path.is_symlink():
+            elif decision is None and recovery_path.is_file() and not recovery_path.is_symlink():
                 if recovery_receipt_valid:
                     decision = str(recovery_path.relative_to(repo))
                     record["decisionPath"] = decision
@@ -1933,14 +2045,14 @@ def main() -> int:
                 for parity_doc, implemented in PARITY_DOCS:
                     line = work_item_rows.get(parity_doc)
                     if line is None:
-                        if not pending_valid:
+                        if not pending_valid and not retirement_present:
                             findings.append(
                                 finding(work_item, "missing_parity_entry", parity_doc)
                             )
                         continue
                     if evidence not in line:
                         findings.append(finding(work_item, "missing_parity_evidence", parity_doc))
-                    if decision is not None and decision not in line:
+                    if decision is not None and not retirement_present and decision not in line:
                         findings.append(finding(work_item, "missing_parity_decision", parity_doc))
                     lifecycle_status = (
                         "进行中 → 验证关闭后已实现"
@@ -1951,7 +2063,7 @@ def main() -> int:
                             else "In progress → Implemented after verified close"
                         )
                     )
-                    if f"| {lifecycle_status} |" in line:
+                    if f"| {lifecycle_status} |" in line and not retirement_present:
                         lifecycle_records = (
                             f".ai/work-items/archive/{work_item}.contract.json",
                             evidence,

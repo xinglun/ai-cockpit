@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "A valid Runtime retirement receipt with a matching retired archive is accepted by the governance integrity gate without requiring a fabricated close decision.",
+    "Retired historical outcomes remain explicitly not_verified and are not promoted to green implementation evidence.",
+    "Malformed, foreign, digest-mismatched, or missing retirement records remain fail-closed with deterministic diagnostics.",
+    "The gate regression suite covers valid integrated retirement, replaced retirement, and invalid retirement cases."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",
+  "createdAt": "2026-09-16T12:00:49Z",
+  "goal": "Recognize valid append-only retirement records without fabricating close or verification evidence, while continuing to fail closed for malformed retirement records",
+  "intent": "Align the governance integrity gate with the Runtime retirement protocol",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime lifecycle behavior",
+    "CLI/MCP",
+    "release artifacts",
+    "unrelated historical record rewriting"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:971d5881423badd80516a6d62a0f2c9ca8a70bb3c13facc5850c8a5b46ccc2da",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "the gate accepts a valid retirement receipt and matching retired archive while retaining not_verified history",
+      "required": true,
+      "scenario": "valid integrated Runtime retirement is inventory-terminal without a fabricated close",
+      "status": "unverified",
+      "verificationPlan": "run the governance integrity regression and the live repository gate"
+    },
+    {
+      "evidence": [],
+      "expected": "digest, repository, archive, and receipt inconsistencies remain blocking diagnostics",
+      "required": true,
+      "scenario": "malformed or foreign Runtime retirement remains fail-closed",
+      "status": "unverified",
+      "verificationPlan": "run invalid retirement regression fixtures"
+    }
+  ],
+  "scope": [
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "docs/work-items/WI-859-governance-retirement-compat.md",
+    "docs/work-items/WI-859-governance-retirement-compat.zh-CN.md",
+    "docs/work-items/WI-859-governance-retirement-compat.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-859-governance-retirement-compat"
+}

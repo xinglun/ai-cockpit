@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-859-governance-retirement-compat.verification-attempt.2bada2f1dab3274186db214f78cd404acbf494e6387499a2effb2e6de26071e7.json",
+    ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json",
+    ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-859-governance-retirement-compat.ja.md",
+    "docs/work-items/WI-859-governance-retirement-compat.md",
+    "docs/work-items/WI-859-governance-retirement-compat.zh-CN.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "checkpointAt": "2026-09-16T12:04:24Z",
+  "checkpointContractDigest": "sha256:62b7d3453ccb593075844b4e905ef9e9706155704f772e531790b9b51a860773",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:897ba0865c283f38cebad286a0b74e28c6683161cb0594cb90ba76f3a818a2f0",
+  "createdAt": "2026-09-16T12:00:49Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/ci/governance_integrity_gate.py",
+      "tests/ci/governance_integrity_gate_test.sh"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T12:10:34Z",
+  "preflightContractDigest": "sha256:62b7d3453ccb593075844b4e905ef9e9706155704f772e531790b9b51a860773",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:897ba0865c283f38cebad286a0b74e28c6683161cb0594cb90ba76f3a818a2f0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "the gate accepts a valid retirement receipt and matching retired archive while retaining not_verified history",
+      "required": true,
+      "scenario": "valid integrated Runtime retirement is inventory-terminal without a fabricated close",
+      "status": "verified",
+      "verificationPlan": "run the governance integrity regression and the live repository gate"
+    },
+    {
+      "evidence": [
+        "tests/ci/governance_integrity_gate_test.sh"
+      ],
+      "expected": "digest, repository, archive, and receipt inconsistencies remain blocking diagnostics",
+      "required": true,
+      "scenario": "malformed or foreign Runtime retirement remains fail-closed",
+      "status": "verified",
+      "verificationPlan": "run invalid retirement regression fixtures"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T12:13:23Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-859-governance-retirement-compat"
+}

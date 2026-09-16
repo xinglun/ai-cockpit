@@ -1,0 +1,190 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-860-doc-promotion.verification-attempt.5ada0376bc51a9410889ad5e9bb7643f9ac46b0c92c7ac3555cc8ebb8fa6e83b.json",
+    ".ai/evidence/WI-860-doc-promotion.verification-attempt.b0f6ef369871771e995e73c1d082197a4240228a9a85458e36a739adbe2e1722.json",
+    ".ai/evidence/WI-860-doc-promotion.verification.json",
+    ".ai/work-items/archive/WI-860-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-860-doc-promotion.events.jsonl",
+    ".ai/work-items/archive/WI-860-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-860-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-860-doc-promotion.task-report.json",
+    ".ai/work-items/archive/WI-860-doc-promotion.task-report.md"
+  ],
+  "checkpointAt": "2026-09-16T12:24:03Z",
+  "checkpointContractDigest": "sha256:e11a0f8754c67e21e8ea04205098e13cd918a2aa56a71db2f948e49ef3be46a0",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:0df6afa933c9c976dd52eef8e3d4dfef4a3d4ba111c07a8b78fbfaecc16646f0",
+      "recorded": true,
+      "recordedAt": "2026-09-16T12:24:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3894c4960cb0cfcec0f0929ac8bdfcf603824b74201bfaa2a67932fc10d4c5f1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-860-doc-promotion"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:c5dae861d1354a7f5d164c97b2fc64e60b79ea59254c90677d876d8ffd14414e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0df6afa933c9c976dd52eef8e3d4dfef4a3d4ba111c07a8b78fbfaecc16646f0",
+      "previousContractHash": "sha256:0df6afa933c9c976dd52eef8e3d4dfef4a3d4ba111c07a8b78fbfaecc16646f0",
+      "reason": "Hosted quality correctly rejected the promotion PR because the current Work Item lacked its own tri-language projection and parity registration; include that required projection in the same scoped documentation task.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T12:30:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9cedb24b7bc4c917f9d280e86b9093d240c8da12d26f249560b9e8b0395c8882",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-860-doc-promotion"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:2f584cfef166e380e40635de07b6e19fa7fdf0f8df1c2c5a5f0ff497544554db",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0df6afa933c9c976dd52eef8e3d4dfef4a3d4ba111c07a8b78fbfaecc16646f0",
+      "previousContractHash": "sha256:c5dae861d1354a7f5d164c97b2fc64e60b79ea59254c90677d876d8ffd14414e",
+      "reason": "Make the formal verification receipt an explicit in-scope evidence source for the already declared evidence classes before revalidation.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T12:49:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0b96d1364e3104b0f1b16aa75bd853fd4b8815e83880679b8673df14338c452a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-860-doc-promotion"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:e11a0f8754c67e21e8ea04205098e13cd918a2aa56a71db2f948e49ef3be46a0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0df6afa933c9c976dd52eef8e3d4dfef4a3d4ba111c07a8b78fbfaecc16646f0",
+      "previousContractHash": "sha256:2f584cfef166e380e40635de07b6e19fa7fdf0f8df1c2c5a5f0ff497544554db",
+      "reason": "Declare the exact bounded documentation promotion command used for final verification so archive can bind the receipt to its Contract execution plan.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T12:56:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da4c3ddaa5f35bcfe79d81e2f18f94c28644a83a4c5216cda168c990d3fcee27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-860-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ee60813a2f9c26d0cab15d010f59a49996b44f1db48141c1a6e44a59fe79bc9e",
+  "createdAt": "2026-09-16T12:23:31Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:e11a0f8754c67e21e8ea04205098e13cd918a2aa56a71db2f948e49ef3be46a0",
+    "items": [
+      {
+        "class": "promotion report",
+        "evidence": [
+          {
+            "digest": "sha256:b3ff46d565d48c8ec64aa459d264ce478a2ad4120c277281348ba349474baa41",
+            "locator": "promoted closed-work-item projection",
+            "path": "docs/work-items/WI-859-governance-retirement-compat.md",
+            "type": "documentation_promotion",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": " git diff",
+        "evidence": [
+          {
+            "digest": "sha256:8ece6fe468d624c97d126e812e615ce7ee5fb8a3668d36321dfdb3f7ed237739",
+            "locator": "WI-860 scoped projection diff",
+            "path": "docs/reference/reference-parity.md",
+            "type": "documentation_diff",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": " final --check-all output",
+        "evidence": [
+          {
+            "digest": "sha256:1a087fb21e74cda9ee64cea5779ec3f7ea52766ef76427549fd2deab843c8181",
+            "locator": "formal verification receipt containing promotion check output",
+            "path": ".ai/evidence/WI-860-doc-promotion.verification.json",
+            "type": "documentation_check",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "three-language WI-860 projection diff",
+        "evidence": [
+          {
+            "digest": "sha256:980d2ef5103ed193a1511d304065f3f6fd628d4474f2b946b576788c4cb4897d",
+            "locator": "English, Simplified Chinese, and Japanese projection set",
+            "path": "docs/work-items/WI-860-doc-promotion.md",
+            "type": "documentation",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "three-language WI-860 parity rows",
+        "evidence": [
+          {
+            "digest": "sha256:8ece6fe468d624c97d126e812e615ce7ee5fb8a3668d36321dfdb3f7ed237739",
+            "locator": "WI-860 English parity row; localized rows verified in the same scoped set",
+            "path": "docs/reference/reference-parity.md",
+            "type": "parity",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "hosted quality gate result",
+        "evidence": [
+          {
+            "digest": "sha256:1a087fb21e74cda9ee64cea5779ec3f7ea52766ef76427549fd2deab843c8181",
+            "locator": "PR #840 hosted quality gate passed before merge",
+            "path": ".ai/evidence/WI-860-doc-promotion.verification.json",
+            "type": "hosted_quality",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T12:58:35Z",
+  "preflightContractDigest": "sha256:e11a0f8754c67e21e8ea04205098e13cd918a2aa56a71db2f948e49ef3be46a0",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ee60813a2f9c26d0cab15d010f59a49996b44f1db48141c1a6e44a59fe79bc9e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T13:02:10.693182+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-860-doc-promotion"
+}

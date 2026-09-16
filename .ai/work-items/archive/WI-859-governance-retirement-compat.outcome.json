@@ -1,0 +1,213 @@
+{
+  "acceptanceResults": [
+    "A valid Runtime retirement receipt with a matching retired archive is accepted by the governance integrity gate without requiring a fabricated close decision.",
+    "Retired historical outcomes remain explicitly not_verified and are not promoted to green implementation evidence.",
+    "Malformed, foreign, digest-mismatched, or missing retirement records remain fail-closed with deterministic diagnostics.",
+    "The gate regression suite covers valid integrated retirement, replaced retirement, and invalid retirement cases."
+  ],
+  "createdAt": "2026-09-16T12:13:23Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:45e59fc1cacb527f0191296c0c24026284e5e971b6d5d9c5af1cfe4a6234bc3b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:897ba0865c283f38cebad286a0b74e28c6683161cb0594cb90ba76f3a818a2f0",
+      "workItemId": "WI-859-governance-retirement-compat"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-859-governance-retirement-compat.verification-attempt.2bada2f1dab3274186db214f78cd404acbf494e6387499a2effb2e6de26071e7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-859-governance-retirement-compat.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
+          ],
+          "inference": false,
+          "text": "Recognize valid append-only retirement records without fabricating close or verification evidence, while continuing to fail closed for malformed retirement records"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-859-governance-retirement-compat.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-859-governance-retirement-compat"
+  },
+  "taskReportDigest": "sha256:8627b4c9541fe944776ee489fa2bafe12a1c897ad8a27651d63696b774c516e9",
+  "taskReportMarkdownDigest": "sha256:ce9a21cc98babcb59b569bc9548d753ae92a7f79b06fbfc13983990c846f29b4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-859-governance-retirement-compat.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-859-governance-retirement-compat"
+}

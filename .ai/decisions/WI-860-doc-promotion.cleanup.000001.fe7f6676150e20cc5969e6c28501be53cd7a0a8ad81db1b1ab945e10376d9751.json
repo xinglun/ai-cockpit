@@ -1,0 +1,26 @@
+{
+  "bindingDigest": "sha256:a0582676a4fb9725280677a48317cce5a3e604f3ac3c5f137d6abf2655f81a9d",
+  "branchRef": "refs/heads/main",
+  "contractDigest": "sha256:e11a0f8754c67e21e8ea04205098e13cd918a2aa56a71db2f948e49ef3be46a0",
+  "headRevision": "a7e954017d41d839626a60f67e2920bd56768398",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "identity_conflict"
+  },
+  "observedAt": "2026-09-16T13:04:49Z",
+  "operationId": "sha256:5c31e30080f06a6e6e81e0cc5f295217fcaaff4cf8ddc0eda859862fda9f1dbf",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict",
+      "worktree_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:6bb89bfba1aaa5d2a10177be37e405b485ffbd0e5e0208262f64a3277a653782",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-860-doc-promotion",
+  "worktreeId": "sha256:3001e103eb27fdd945824c550f5f4b39e553bc2b7100d87ebc9a534a5acb9a5b"
+}

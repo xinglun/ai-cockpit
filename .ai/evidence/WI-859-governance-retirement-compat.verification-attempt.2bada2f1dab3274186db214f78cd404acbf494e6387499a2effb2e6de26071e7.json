@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:2bada2f1dab3274186db214f78cd404acbf494e6387499a2effb2e6de26071e7",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh"
+      ],
+      "baseCommit": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",
+      "commandDigest": "sha256:0227507fb7d11b48944dfcf8ee4576dfc5c3e4c8774268c45d29019c5a6de61b",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:62b7d3453ccb593075844b4e905ef9e9706155704f772e531790b9b51a860773",
+  "contractExecutionScopeDigest": "sha256:3674c4d0f228e45ee44756fe1d9ca1321323236cac6b93bd8e354960cd89a273",
+  "createdAt": "2026-09-16T12:09:59Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-859-governance-retirement-compat/.ai/work-items/active/WI-859-governance-retirement-compat.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:897ba0865c283f38cebad286a0b74e28c6683161cb0594cb90ba76f3a818a2f0",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-859-governance-retirement-compat"
+}
