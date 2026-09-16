@@ -4,7 +4,7 @@
       ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:cafe78275e0e931f226bf803f05118d3bfc3b66a379258dc8a10920e49db29f3",
+    "repositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
     "workItemId": "WI-852-active-work-item-retirement"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,21 +18,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.457b7513848f0b48595e108802bba7608865c70502d3d2c817c4dc76e4bd1c36.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.e73d5d0ba4c81788d15f316a3bc201629a15731c143c4087a330df294dce9668.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.json"
+        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.30d811446e3e3f4d1f5c7305db9e731dc5ab477b0d00d0745be0327f3b668368.json"
       },
       {
         "evidenceRefs": [
@@ -46,14 +32,14 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.59139cca16364cbf1c13a700de221d243115572fccc81a21988f69affd5be362.json"
+        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5.json"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.c4d2b30714907300c91c3de1d5518a985c0ae83672fb834f057d7509e2bf9f68.json"
+        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b65548d36b5bd752c87ba6c8b80e7dc420a0f472ddbc413bf13d99b349c13332.json"
       },
       {
         "evidenceRefs": [
@@ -68,83 +54,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-cli/src/main.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-cli/tests/retirement.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/active_work_item_retirement.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-852-active-work-item-retirement.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-852-active-work-item-retirement.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-852-active-work-item-retirement.zh-CN.md"
       }
     ],
     "evidence": [

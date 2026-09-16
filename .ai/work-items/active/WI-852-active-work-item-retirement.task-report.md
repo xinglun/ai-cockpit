@@ -14,25 +14,12 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.457b7513848f0b48595e108802bba7608865c70502d3d2c817c4dc76e4bd1c36.json
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.e73d5d0ba4c81788d15f316a3bc201629a15731c143c4087a330df294dce9668.json
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.30d811446e3e3f4d1f5c7305db9e731dc5ab477b0d00d0745be0327f3b668368.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.59139cca16364cbf1c13a700de221d243115572fccc81a21988f69affd5be362.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.c4d2b30714907300c91c3de1d5518a985c0ae83672fb834f057d7509e2bf9f68.json
+- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5.json
+- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b65548d36b5bd752c87ba6c8b80e7dc420a0f472ddbc413bf13d99b349c13332.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
-- Changed path: crates/cockpit-cli/src/main.rs
-- Changed path: crates/cockpit-cli/tests/retirement.rs
-- Changed path: crates/cockpit-protocol/src/lib.rs
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: crates/cockpit-repository/tests/active_work_item_retirement.rs
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-852-active-work-item-retirement.ja.md
-- Changed path: docs/work-items/WI-852-active-work-item-retirement.md
-- Changed path: docs/work-items/WI-852-active-work-item-retirement.zh-CN.md
 
 ## Findings
 

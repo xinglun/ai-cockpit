@@ -4,7 +4,8 @@
     "Retirement preserves original active bytes in an immutable archive projection and never reports them as verified or completed.",
     "An unfinished replacement requires an explicitly linked successor Work Item; a discarded already-integrated delivery cannot silently create a successor.",
     "Malformed, foreign, stale, or duplicate retirement input writes no partial state.",
-    "CLI and human Outcome expose retired, replaced, and retained states with a concrete next action."
+    "CLI and human Outcome expose retired, replaced, and retained states with a concrete next action.",
+    "Replacement discovery rejects duplicate active/archive or symlink successor Contracts before any archive write."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
@@ -52,6 +53,22 @@
       "scenario": "replacement requires explicit successor",
       "status": "unverified",
       "verificationPlan": "run the replacement successor regression scenario"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "duplicate successor candidates are rejected before retirement writes",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "symlink successor candidates are rejected before retirement writes",
+      "status": "verified"
     }
   ],
   "scope": [

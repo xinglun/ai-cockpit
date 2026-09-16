@@ -1,27 +1,14 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.457b7513848f0b48595e108802bba7608865c70502d3d2c817c4dc76e4bd1c36.json",
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.e73d5d0ba4c81788d15f316a3bc201629a15731c143c4087a330df294dce9668.json",
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.json",
+    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.30d811446e3e3f4d1f5c7305db9e731dc5ab477b0d00d0745be0327f3b668368.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.59139cca16364cbf1c13a700de221d243115572fccc81a21988f69affd5be362.json",
-    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.c4d2b30714907300c91c3de1d5518a985c0ae83672fb834f057d7509e2bf9f68.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b65548d36b5bd752c87ba6c8b80e7dc420a0f472ddbc413bf13d99b349c13332.json",
     ".ai/work-items/active/WI-852-active-work-item-retirement.contract.json",
-    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/retirement.rs",
-    "crates/cockpit-protocol/src/lib.rs",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-852-active-work-item-retirement.ja.md",
-    "docs/work-items/WI-852-active-work-item-retirement.md",
-    "docs/work-items/WI-852-active-work-item-retirement.zh-CN.md"
+    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
   ],
   "checkpointAt": "2026-09-16T04:47:10Z",
-  "checkpointContractDigest": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+  "checkpointContractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -97,20 +84,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+      "reason": "Record the reviewer-required duplicate and symlink successor rejection cases within the existing retirement contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T05:36:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:984ef19164c3db1f0b1332a6ab36820d2482635e1d0d90163df08e465fb8c7b0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:cafe78275e0e931f226bf803f05118d3bfc3b66a379258dc8a10920e49db29f3",
+  "checkpointRepositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
   "createdAt": "2026-09-16T04:41:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+    "contractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "The repository owner authorized completion of the bounded Work Item workflow and its explicitly scoped retirement capability; review is limited to the recorded Contract and current repository snapshot.",
-    "recordedAt": "2026-09-16T05:20:00Z",
+    "reason": "The repository owner authorized completion of the bounded Work Item workflow after the in-scope hardening amendment and current verification refresh.",
+    "recordedAt": "2026-09-16T05:45:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:cafe78275e0e931f226bf803f05118d3bfc3b66a379258dc8a10920e49db29f3",
+    "repositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
     "schemaVersion": 1,
     "workItemId": "WI-852-active-work-item-retirement"
   },
@@ -121,10 +128,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T05:13:41Z",
-  "preflightContractDigest": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+  "preflightAt": "2026-09-16T05:40:08Z",
+  "preflightContractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:cafe78275e0e931f226bf803f05118d3bfc3b66a379258dc8a10920e49db29f3",
+  "preflightRepositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -152,10 +159,26 @@
       "required": true,
       "scenario": "replacement requires explicit successor",
       "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "duplicate successor candidates are rejected before retirement writes",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "symlink successor candidates are rejected before retirement writes",
+      "status": "verified"
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-16T05:13:47Z",
+  "updatedAt": "2026-09-16T05:40:16Z",
   "verification": [
     {
       "check": "project-command-0",

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized completion of the bounded Work Item workflow after the in-scope hardening amendment and current verification refresh.",
+  "recordedAt": "2026-09-16T05:45:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}
