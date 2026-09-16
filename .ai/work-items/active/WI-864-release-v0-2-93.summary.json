@@ -142,6 +142,10 @@
   "preflightRepositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
   "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryRetryContractDigest": "sha256:e95a69c31665dd8915c81f83d363790a38dad2e7af268744d4d88d7678517e0b",
+  "recoveryRetryDecisionDigest": "sha256:e6eabcfaa2f595804ac9cdc2a3d8a386134e36d29b6ddedc0562a277bcbc468f",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-864-release-v0-2-93.recovery.e6eabcfaa2f595804ac9cdc2a3d8a386134e36d29b6ddedc0562a277bcbc468f.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -199,8 +203,8 @@
       "verificationPlan": "Run release workflow policy tests and inspect failure/recovery job dependencies and receipts."
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-09-16T18:06:07Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T18:10:29Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
