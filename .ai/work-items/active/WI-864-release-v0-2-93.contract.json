@@ -30,7 +30,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-864-release-v0-2-93",
     "provider": "github",
-    "pullRequest": "pending:WI-864-release-v0-2-93",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/844",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93"
   },
   "risk": "high",
@@ -109,7 +109,8 @@
   ],
   "sources": [
     "github:repository/xinglun/ai-cockpit",
-    "release:v0.2.92->v0.2.93"
+    "release:v0.2.92->v0.2.93",
+    "github:pull/xinglun/ai-cockpit/844"
   ],
   "state": "implementation_active",
   "verification": [],

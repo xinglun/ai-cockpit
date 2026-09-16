@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-17T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-864-release-v0-2-93.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/844"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:c67e030fc8d3b7e307a186bc471656ff0398bab3a107f49fdc7163c9d0e403b8",
+  "predecessorSummaryDigest": "sha256:9fdb301c04bb9206eb536de59c17426e5bcdfc7d63f2866a58f832563dee1722",
+  "predecessorWorkItemId": "WI-864-release-v0-2-93",
+  "reason": "Retry the same release Work Item after binding the real reviewed PR identity; preserve the already recorded successful verification attempts and rerun only the identity-sensitive lifecycle projection if required.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #844 with finalize-plan, obtain hosted checks, then finish and archive without discarding the prior verification evidence.",
+  "runtimeDigest": "sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "workItemId": "WI-864-release-v0-2-93"
+}
