@@ -1,0 +1,246 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:971d5881423badd80516a6d62a0f2c9ca8a70bb3c13facc5850c8a5b46ccc2da",
+      "workItemId": "WI-857-remote-branch-start-advisory"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-857-remote-branch-start-advisory.verification-attempt.935912dfd484ab01f5325f2ec5309a3a4f6efa5e0310e97a8bf5f70304d7e57c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-16T11:15:04Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent untracked remote branch residue from escaping the start handoff and keep result completion separate from cleanup"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-857-remote-branch-start-advisory"
+  },
+  "finalReportDigest": "sha256:7fc35ca0c9af9dce9fb5a1136ce280bc0a2a7b7ceebc59ee176bb702a68b52d2",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:b1c9b976710b5b606973503702aa08123aad2482447a6aa4394aa44cef2726e4",
+    "branch": "main",
+    "branchRef": "refs/heads/main",
+    "capturedAt": "2026-09-16T11:15:11Z",
+    "contractDigest": "sha256:a917340ee070b1057a91a6215adf48307a050a250b5f02823346b82afdd66fb6",
+    "headRevision": "3b197001efda7b4d71daf521d2940977a127b233",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:dfc9e436c707e4edf89457b55813b481a2f6887e4fab7395b5c7d15326724235",
+    "runtimeVersion": "0.2.92",
+    "schemaVersion": 1,
+    "workItemId": "WI-857-remote-branch-start-advisory",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git",
+    "worktreeId": "sha256:3001e103eb27fdd945824c550f5f4b39e553bc2b7100d87ebc9a534a5acb9a5b",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:9041975f4266b61af8bc183bb75630c344de0d2ec0bc22d8a18ea29a4d064dfb",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-16T11:15:04Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "The reviewed PR is merged, hosted checks are green, and formal Runtime verification proves non-main default branch discovery and advisory remote-branch inventory.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-16T11:15:11Z",
+  "workItemId": "WI-857-remote-branch-start-advisory"
+}
