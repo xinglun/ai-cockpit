@@ -4,7 +4,7 @@
       ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
+    "repositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
     "workItemId": "WI-852-active-work-item-retirement"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.ce36b6224239d6c37fee9402f92156a7460c0423aa281bbc74a80222d1574b7f.json"
+        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.b19567a85226a3430a0114d0f3efc9c066bddfe80393a5eb0bb7e15ae1445cd6.json"
       },
       {
         "evidenceRefs": [
@@ -26,13 +26,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.13d733185997cb5c72824ac0a8df53d8ddf6c7adf87bd7ec0c96a220bf252de8.json"
       },
       {
         "evidenceRefs": [
@@ -53,42 +46,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: crates/cockpit-cli/tests/lifecycle.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/active_work_item_retirement.rs"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
       }
     ],
     "evidence": [

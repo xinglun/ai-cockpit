@@ -179,7 +179,8 @@ fn work_item_start_advisory_with_mode(
     let primary_checkout_is_reserved = readiness.default_remote.is_some()
         && readiness.default_branch.is_some()
         && readiness.default_revision.is_some();
-    if primary_checkout_is_reserved
+    if !recovery_continuation
+        && primary_checkout_is_reserved
         && worktrees.iter().any(|worktree| worktree.is_primary)
         && worktrees.iter().any(|worktree| worktree.is_current)
     {

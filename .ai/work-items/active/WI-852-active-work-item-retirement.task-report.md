@@ -14,17 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.ce36b6224239d6c37fee9402f92156a7460c0423aa281bbc74a80222d1574b7f.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.b19567a85226a3430a0114d0f3efc9c066bddfe80393a5eb0bb7e15ae1445cd6.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.13d733185997cb5c72824ac0a8df53d8ddf6c7adf87bd7ec0c96a220bf252de8.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
-- Changed path: crates/cockpit-cli/tests/lifecycle.rs
-- Changed path: crates/cockpit-mcp/tests/rpc.rs
-- Changed path: crates/cockpit-repository/src/lib.rs
 - Changed path: crates/cockpit-repository/src/lifecycle.rs
-- Changed path: crates/cockpit-repository/tests/active_work_item_retirement.rs
-- Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs
 
 ## Findings
 
