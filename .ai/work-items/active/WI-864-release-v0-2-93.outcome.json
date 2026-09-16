@@ -1,0 +1,165 @@
+{
+  "acceptanceResults": [
+    "All workspace package versions and current release documentation identify v0.2.93 consistently.",
+    "The reviewed and synchronized main commit is the sole immutable source identity for the v0.2.93 tag.",
+    "Candidate fresh install and candidate v0.2.92 to v0.2.93 upgrade pass in independent isolated environments.",
+    "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
+    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases."
+  ],
+  "createdAt": "2026-09-16T16:32:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e11ff9f5ef6e71d6809618588536c2da3a205875e43dee701a3296ba760fac92",
+  "evidenceRefs": [
+    ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23b6284842000414757f4e9b25bcef0a3e0511219487c6ee6f281167d20041d9",
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-864-release-v0-2-93.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-864-release-v0-2-93.verification-attempt.1298d46491c0a28a2de3ada61e8e83f5afd97eb6037d30c410f212c5a2c525bb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-864-release-v0-2-93.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+          ],
+          "inference": false,
+          "text": "Advance the package from v0.2.92 to v0.2.93, preserve release identity and evidence boundaries, and complete candidate/public installation and N-1 upgrade acceptance before close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-864-release-v0-2-93.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-864-release-v0-2-93"
+  },
+  "taskReportDigest": "sha256:eca49c36a023604d28f4e26720a016456dd0e380b98b0e1b52e429065626a968",
+  "taskReportMarkdownDigest": "sha256:32bfcbd1118db4b3d101634cbab32ea62842a9dacb213503070de7ddd8e8783a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-864-release-v0-2-93.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-864-release-v0-2-93"
+}

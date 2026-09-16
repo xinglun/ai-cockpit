@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-828-release-v0-2-92
+lastVerifiedBy: WI-864-release-v0-2-93
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.92` with binary digest
-`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`.
+and the reviewed Runtime `ai-cockpit v0.2.93` with binary digest
+`sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1041,3 +1041,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-861-ordinary-close-guard | Implemented | [Work Item](../work-items/WI-861-ordinary-close-guard.md); terminal lifecycle: archive `.ai/work-items/archive/WI-861-ordinary-close-guard.contract.json`; verification `.ai/evidence/WI-861-ordinary-close-guard.verification.json`; close `.ai/decisions/WI-861-ordinary-close-guard.close.json`. |
 | WI-862-ordinary-cleanup-binding | Implemented | [Work Item](../work-items/WI-862-ordinary-cleanup-binding.md); terminal lifecycle: archive `.ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json`; verification `.ai/evidence/WI-862-ordinary-cleanup-binding.verification.json`; close `.ai/decisions/WI-862-ordinary-cleanup-binding.close.json`. |
 | WI-863-cli-json-flags | Implemented | [Work Item](../work-items/WI-863-cli-json-flags.md); terminal lifecycle: archive `.ai/work-items/archive/WI-863-cli-json-flags.contract.json`; verification `.ai/evidence/WI-863-cli-json-flags.verification.json`; close `.ai/decisions/WI-863-cli-json-flags.close.json`. |
+| WI-864-release-v0-2-93 | In progress → Implemented after verified close | [Work Item](../work-items/WI-864-release-v0-2-93.md); candidate and public release acceptance remain pending; planned archive `.ai/work-items/archive/WI-864-release-v0-2-93.contract.json`; verification `.ai/evidence/WI-864-release-v0-2-93.verification.json`; finalization `.ai/decisions/WI-864-release-v0-2-93.finalize.json`; close `.ai/decisions/WI-864-release-v0-2-93.close.json`. |

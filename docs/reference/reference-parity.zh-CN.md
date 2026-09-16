@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-828-release-v0-2-92
+lastVerifiedBy: WI-864-release-v0-2-93
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.92` Runtime（二进制摘要
-`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`）。
+`ai-cockpit v0.2.93` Runtime（二进制摘要
+`sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -880,3 +880,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-861-ordinary-close-guard | 已实现 | [Work Item](../work-items/WI-861-ordinary-close-guard.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-861-ordinary-close-guard.contract.json`; verification `.ai/evidence/WI-861-ordinary-close-guard.verification.json`; close `.ai/decisions/WI-861-ordinary-close-guard.close.json`. |
 | WI-862-ordinary-cleanup-binding | 已实现 | [Work Item](../work-items/WI-862-ordinary-cleanup-binding.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json`; verification `.ai/evidence/WI-862-ordinary-cleanup-binding.verification.json`; close `.ai/decisions/WI-862-ordinary-cleanup-binding.close.json`. |
 | WI-863-cli-json-flags | 已实现 | [Work Item](../work-items/WI-863-cli-json-flags.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-863-cli-json-flags.contract.json`; verification `.ai/evidence/WI-863-cli-json-flags.verification.json`; close `.ai/decisions/WI-863-cli-json-flags.close.json`. |
+| WI-864-release-v0-2-93 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-864-release-v0-2-93.zh-CN.md); 候选和公开发布验收仍待完成；planned archive `.ai/work-items/archive/WI-864-release-v0-2-93.contract.json`; verification `.ai/evidence/WI-864-release-v0-2-93.verification.json`; finalization `.ai/decisions/WI-864-release-v0-2-93.finalize.json`; close `.ai/decisions/WI-864-release-v0-2-93.close.json`. |

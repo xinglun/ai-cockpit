@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-828-release-v0-2-92
+lastVerifiedBy: WI-864-release-v0-2-93
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.92`（binary digest
-`sha256:86433dddb11bb78553b080546a4a465581faaf79e46dfc431cbeda14c8515da6`）を使用します。
+review 済み `ai-cockpit v0.2.93`（binary digest
+`sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -906,3 +906,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-861-ordinary-close-guard | Implemented | [Work Item](../work-items/WI-861-ordinary-close-guard.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-861-ordinary-close-guard.contract.json`; verification `.ai/evidence/WI-861-ordinary-close-guard.verification.json`; close `.ai/decisions/WI-861-ordinary-close-guard.close.json`. |
 | WI-862-ordinary-cleanup-binding | Implemented | [Work Item](../work-items/WI-862-ordinary-cleanup-binding.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json`; verification `.ai/evidence/WI-862-ordinary-cleanup-binding.verification.json`; close `.ai/decisions/WI-862-ordinary-cleanup-binding.close.json`. |
 | WI-863-cli-json-flags | Implemented | [Work Item](../work-items/WI-863-cli-json-flags.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-863-cli-json-flags.contract.json`; verification `.ai/evidence/WI-863-cli-json-flags.verification.json`; close `.ai/decisions/WI-863-cli-json-flags.close.json`. |
+| WI-864-release-v0-2-93 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-864-release-v0-2-93.ja.md); candidate と public release acceptance は未完了です。planned archive `.ai/work-items/archive/WI-864-release-v0-2-93.contract.json`; verification `.ai/evidence/WI-864-release-v0-2-93.verification.json`; finalization `.ai/decisions/WI-864-release-v0-2-93.finalize.json`; close `.ai/decisions/WI-864-release-v0-2-93.close.json`. |
