@@ -362,11 +362,10 @@ fn ordinary_close_preserves_cleanup_binding_for_valid_historical_evidence() {
         .expect("historical evidence must not suppress cleanup binding");
     assert_eq!(binding["workItemId"], work_item_id);
     assert_eq!(binding["branchRef"], "refs/heads/feature/ordinary-close");
-    assert_eq!(
+    assert!(
         decision["ordinaryCleanupBindingDigest"]
             .as_str()
-            .is_some_and(|value| value.starts_with("sha256:")),
-        true
+            .is_some_and(|value| value.starts_with("sha256:"))
     );
 }
 
