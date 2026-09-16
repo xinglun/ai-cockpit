@@ -1,0 +1,206 @@
+{
+  "acceptanceResults": [
+    "work-item new exposes a start advisory when residual Work Items, branches, or worktrees exist and does not force a stop for unrelated leftovers",
+    "the advisory remains machine-readable and includes actionable next actions while existing start behavior remains compatible",
+    "focused regression tests prove the advisory is present on scaffold output and no residual resource is deleted",
+    "workflow documentation in English, Simplified Chinese, and Japanese states the next action after each lifecycle step and separates completed result from cleanup status"
+  ],
+  "createdAt": "2026-09-16T10:24:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:41e89bba36b0f26abc3e962954843e88ff4e0918c145117e914efc0183c4246a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dd1cc5aa6c9e9add2721adc206ff67631d6ffd6f39159c3281ce5c9dd58b4995",
+      "workItemId": "WI-856-lifecycle-start-advisory"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-856-lifecycle-start-advisory.verification-attempt.2d939d254dbd423d06c460bf996fea8fff9f8625d33834afac510938b82a77be.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-856-lifecycle-start-advisory.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.contract.json"
+          ],
+          "inference": false,
+          "text": "Make Work Item creation surface a read-only residual-resource advisory and make the documented lifecycle expose the next action after each stage."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-856-lifecycle-start-advisory.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-856-lifecycle-start-advisory"
+  },
+  "taskReportDigest": "sha256:261df4d4f8dc6ee804caa3b347ffdbd02b3c5cf9925346782a04a7ebd0267d15",
+  "taskReportMarkdownDigest": "sha256:6eb881555df77a48710180fd5f7fcdc45b04a92d968a6e6e1c459d40b2c29d5c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-856-lifecycle-start-advisory.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-856-lifecycle-start-advisory"
+}

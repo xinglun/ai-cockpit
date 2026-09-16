@@ -242,6 +242,45 @@ fn start_advisory_reports_residual_work_without_forcing_a_stop() {
 }
 
 #[test]
+fn scaffold_includes_the_start_advisory_for_the_next_agent() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-OLD",
+        "old work",
+        "leave a residual active Work Item for the scaffold advisory",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("fixture Work Item starts");
+
+    let receipt = scaffold_work_item(directory.path(), "WI-NEW", "code")
+        .expect("unrelated residual work must remain advisory");
+    let advisory = receipt
+        .start_advisory
+        .expect("work-item new must expose the start advisory");
+    assert_eq!(advisory.classification, "advisory");
+    assert!(
+        advisory
+            .active_work_items
+            .iter()
+            .any(|item| item.work_item_id == "WI-OLD")
+    );
+    assert!(
+        advisory
+            .next_actions
+            .iter()
+            .any(|action| action == "review_start_cleanup_advisory_and_continue_if_unrelated")
+    );
+    assert!(
+        directory
+            .path()
+            .join(".ai/work-items/active/WI-OLD.contract.json")
+            .exists()
+    );
+}
+
+#[test]
 fn start_advisory_treats_absent_lifecycle_directories_as_empty() {
     let directory = tempfile::tempdir().expect("repository");
     run(directory.path(), &["init", "-q"]);

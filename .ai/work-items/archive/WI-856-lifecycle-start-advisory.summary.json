@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-856-lifecycle-start-advisory.verification-attempt.2d939d254dbd423d06c460bf996fea8fff9f8625d33834afac510938b82a77be.json",
+    ".ai/work-items/archive/WI-856-lifecycle-start-advisory.contract.json",
+    ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T10:12:40Z",
+  "checkpointContractDigest": "sha256:2fdc955aa48f73c9d1d4256ea5b93f69641c32a2dfdfba419cc2756598aa42bb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:dd1cc5aa6c9e9add2721adc206ff67631d6ffd6f39159c3281ce5c9dd58b4995",
+  "createdAt": "2026-09-16T10:07:50Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T10:24:16Z",
+  "preflightContractDigest": "sha256:2fdc955aa48f73c9d1d4256ea5b93f69641c32a2dfdfba419cc2756598aa42bb",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:dd1cc5aa6c9e9add2721adc206ff67631d6ffd6f39159c3281ce5c9dd58b4995",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T10:24:26Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-856-lifecycle-start-advisory"
+}

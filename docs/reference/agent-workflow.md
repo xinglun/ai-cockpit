@@ -74,6 +74,16 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   Runtime rejects the primary worktree and known default branch before writing
   a Work Item. A linked worktree without an unambiguous remote default base is
   also rejected; this is a fail-closed topology check, not a provider bypass.
+- `work-item new` is a start boundary too. Its machine receipt and human
+  output include `startAdvisory`, a read-only inventory of residual Work Items,
+  branches, worktrees, and cleanup obligations. Review its `warnings` and
+  `nextActions` before implementing: unrelated leftovers are advisory and may
+  continue, while an exact resource conflict must be resolved first. After
+  every lifecycle command, read the returned next action (or `status`) and
+  perform that action before advancing. A completed Work Item result and its
+  branch/worktree cleanup are separate facts; cleanup failure is recorded as
+  pending and must not silently turn a completed result back into unfinished
+  work.
 - Before editing, read `.ai/README.md` and `.ai/glossary.md`; query `inspect`,
   `status`, and `doctor`; keep edits inside the declared scope; preserve tests
   and evidence; update the Summary; and run the Contract's project checks.
