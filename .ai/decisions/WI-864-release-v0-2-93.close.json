@@ -1,0 +1,159 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/adopter_upgrade_acceptance_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/external/WI-864-release-v0-2-93.518a9c82aba7235f3fb0d679465e2192797bdade7261e7157eba9abebf076577.delegated.json",
+            ".ai/decisions/WI-864-release-v0-2-93.finalize.f3e40d1588a72e30731f6ca72d3ebb782437d3f8f61b135a78a83b433fffd65f.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-cleanup at 2026-09-16T20:12:09Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-864-release-v0-2-93.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
+          ],
+          "inference": false,
+          "text": "Advance the package from v0.2.92 to v0.2.93, preserve release identity and evidence boundaries, and complete candidate/public installation and N-1 upgrade acceptance before close."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-864-release-v0-2-93.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-864-release-v0-2-93"
+  },
+  "finalReportDigest": "sha256:e716897764a236cac642c844aa64f1cabe09852b87836c57651801f9ccd492d7",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:5bc2e895992a73d2cd24327b9b786e31741b8e4354d8150b8243dbe616251f4b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-864-release-v0-2-93.finalize.f3e40d1588a72e30731f6ca72d3ebb782437d3f8f61b135a78a83b433fffd65f.json",
+  "resourceFinalizationSequence": 1,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "decidedAt": "2026-09-16T20:12:09Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/external/WI-864-release-v0-2-93.518a9c82aba7235f3fb0d679465e2192797bdade7261e7157eba9abebf076577.delegated.json",
+      ".ai/decisions/WI-864-release-v0-2-93.finalize.f3e40d1588a72e30731f6ca72d3ebb782437d3f8f61b135a78a83b433fffd65f.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "The v0.2.93 release is published and its candidate/public fresh-install and N-1 upgrade evidence, version consistency, handoff, and release close are provider-verified. The exact reviewed branch and worktree are finalized as deleted; preserve the immutable archive and append-only finalization chain.",
+    "resumeCondition": "If a future release changes the bound source or provider evidence, start a new explicitly linked Work Item."
+  },
+  "timestamp": "2026-09-16T20:12:40Z",
+  "workItemId": "WI-864-release-v0-2-93"
+}

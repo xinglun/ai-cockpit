@@ -1,0 +1,64 @@
+{
+  "predecessorReceiptDigest": "sha256:a4b219da0fcc9aa30b90344211c12616b61cf7aa37dcde5e61d6a292a196091f",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorized-cleanup",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+      "name": "codex/wi-864-release-v0-2-93",
+      "remote": "origin"
+    },
+    "contractDigest": "sha256:e788cdc491bc1949bd8bbd8acc0cd0432ea574fec5d1b552a72f0a6603d201f3",
+    "operationId": "github-pr-844-cleanup-20260916",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+      "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+      "mergeCommit": "c33efbe5adc12bace00f3c73ca02c2764fe01d8e",
+      "number": 844,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/844"
+    },
+    "reason": "PR #844 was reviewed and merged as c33efbe5adc12bace00f3c73ca02c2764fe01d8e; the later in-scope repairs were merged through PRs #845, #846, and #847. After preserving the immutable archive and hosted evidence in main, the exact branch and worktree were removed and verified absent.",
+    "receiptId": "github-pr-844-cleanup-20260916",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/wi-864-release-v0-2-93",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/844",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-16T20:12:09Z",
+    "workItemId": "WI-864-release-v0-2-93",
+    "worktree": {
+      "branch": "codex/wi-864-release-v0-2-93",
+      "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+      "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93",
+      "worktreeId": "WI-864-release-v0-2-93"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "github-pr-844-cleanup-20260916"
+}
