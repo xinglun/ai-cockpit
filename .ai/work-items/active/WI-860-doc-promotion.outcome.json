@@ -1,10 +1,11 @@
 {
   "acceptanceResults": [
-    "promote_closed_work_item.py --work-item WI-859-governance-retirement-compat succeeds; --check-all reports current; six scoped projections retain links to archive verification and close evidence; no source tests are re-run"
+    "promote_closed_work_item.py --work-item WI-859-governance-retirement-compat succeeds; --check-all reports current; six scoped projections retain links to archive verification and close evidence; no source tests are re-run",
+    "WI-860 itself has complete English, Simplified Chinese, and Japanese work-item projections and exactly one matching parity row per language before hosted PR validation."
   ],
-  "createdAt": "2026-09-16T12:24:58Z",
+  "createdAt": "2026-09-16T12:33:29Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:b360dd8b6e98b1b7f8e5fbadc6883e85abcdb43e5f9dafbedd1538225b8de86b",
+  "evidenceDigest": "sha256:fdb4377ff5b2cf62454afea76db842d40b8f98088267ad16857460b10c43d7cf",
   "evidenceRefs": [
     ".ai/evidence/WI-860-doc-promotion.verification.json"
   ],
@@ -30,7 +31,7 @@
         ".ai/evidence/WI-860-doc-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:3894c4960cb0cfcec0f0929ac8bdfcf603824b74201bfaa2a67932fc10d4c5f1",
+      "repositorySnapshotDigest": "sha256:ee60813a2f9c26d0cab15d010f59a49996b44f1db48141c1a6e44a59fe79bc9e",
       "workItemId": "WI-860-doc-promotion"
     },
     "format": "ai-cockpit.task-outcome",
@@ -45,13 +46,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.967c74a692ed0dc76203b507f5935e34c7d2ed922b40e66c36f3cbf347034f0d.json"
         },
         {
           "evidenceRefs": [
@@ -93,21 +87,21 @@
             ".ai/work-items/active/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.ja.md"
+          "text": "Changed path: docs/work-items/WI-860-doc-promotion.ja.md"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.md"
+          "text": "Changed path: docs/work-items/WI-860-doc-promotion.md"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.zh-CN.md"
+          "text": "Changed path: docs/work-items/WI-860-doc-promotion.zh-CN.md"
         }
       ],
       "evidence": [
@@ -182,8 +176,8 @@
     "status": "verified",
     "workItemId": "WI-860-doc-promotion"
   },
-  "taskReportDigest": "sha256:2153ca82ca5ca358144afde69da0f808ec66eed2f40aeaecb00fe96ca52762cd",
-  "taskReportMarkdownDigest": "sha256:4e4146f3e8d083e028c1749235a4b67cd0480edb1f5d9f1b48b7140d75db0796",
+  "taskReportDigest": "sha256:8fad15f716749f2b9a91bbb749919d72dcdfdd4bf89cb9221967707992c7b9d8",
+  "taskReportMarkdownDigest": "sha256:085315c474c10b62b15495c54ac11ce20dfcb975dbd26865a074785004df87d8",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

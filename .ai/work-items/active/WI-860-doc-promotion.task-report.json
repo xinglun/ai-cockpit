@@ -4,7 +4,7 @@
       ".ai/evidence/WI-860-doc-promotion.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:3894c4960cb0cfcec0f0929ac8bdfcf603824b74201bfaa2a67932fc10d4c5f1",
+    "repositorySnapshotDigest": "sha256:ee60813a2f9c26d0cab15d010f59a49996b44f1db48141c1a6e44a59fe79bc9e",
     "workItemId": "WI-860-doc-promotion"
   },
   "format": "ai-cockpit.task-outcome",
@@ -19,13 +19,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-860-doc-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.967c74a692ed0dc76203b507f5935e34c7d2ed922b40e66c36f3cbf347034f0d.json"
       },
       {
         "evidenceRefs": [
@@ -67,21 +60,21 @@
           ".ai/work-items/active/WI-860-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.ja.md"
+        "text": "Changed path: docs/work-items/WI-860-doc-promotion.ja.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-860-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.md"
+        "text": "Changed path: docs/work-items/WI-860-doc-promotion.md"
       },
       {
         "evidenceRefs": [
           ".ai/work-items/active/WI-860-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/work-items/WI-859-governance-retirement-compat.zh-CN.md"
+        "text": "Changed path: docs/work-items/WI-860-doc-promotion.zh-CN.md"
       }
     ],
     "evidence": [
