@@ -9,7 +9,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
     record_work_item_governance_controls, repository_id, require_verification_preconditions,
     run_repository_verification, scaffold_work_item, set_work_item_intelligence,
-    start_work_item_with_options, status,
+    start_work_item_with_options, status, work_item_start_advisory,
 };
 use serde_json::json;
 use std::fs;
@@ -201,6 +201,44 @@ fn unrelated_archived_pending_close_remains_visible_without_blocking_entry() {
         fs::read(archive_path).expect("archive bytes"),
         archive_bytes
     );
+}
+
+#[test]
+fn start_advisory_reports_residual_work_without_forcing_a_stop() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-OLD",
+        "old work",
+        "leave a residual active Work Item for the next start advisory",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("fixture Work Item starts");
+
+    let advisory = work_item_start_advisory(directory.path(), "WI-NEW")
+        .expect("start advisory should be read-only");
+    assert_eq!(advisory.work_item_id, "WI-NEW");
+    assert_eq!(advisory.classification, "advisory");
+    assert!(
+        advisory
+            .active_work_items
+            .iter()
+            .any(|item| item.work_item_id == "WI-OLD")
+    );
+    assert!(
+        advisory
+            .warnings
+            .iter()
+            .any(|warning| warning == "active_work_items_require_lifecycle_or_cleanup:1")
+    );
+    assert!(
+        advisory
+            .next_actions
+            .iter()
+            .any(|action| action == "review_start_cleanup_advisory_and_continue_if_unrelated")
+    );
+    assert!(advisory.conflicts.is_empty());
 }
 
 #[test]

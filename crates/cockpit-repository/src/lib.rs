@@ -625,6 +625,49 @@ pub struct LifecycleReceipt {
     pub work_item_id: String,
     pub state: String,
     pub timestamp: String,
+    /// Read-only inventory shown at Work Item start.  It is intentionally
+    /// advisory: unrelated residual resources do not stop a new Work Item.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub start_advisory: Option<WorkItemStartAdvisory>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartAdvisory {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    /// `clear`, `advisory`, `blocked`, or `unknown`.
+    pub classification: String,
+    pub current_worktree: Option<WorkItemStartWorktree>,
+    pub worktrees: Vec<WorkItemStartWorktree>,
+    pub active_work_items: Vec<WorkItemStartObligation>,
+    pub pending_cleanup: Vec<WorkItemStartObligation>,
+    pub warnings: Vec<String>,
+    pub conflicts: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub next_actions: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartWorktree {
+    pub path: String,
+    pub branch: Option<String>,
+    pub head: Option<String>,
+    pub is_primary: bool,
+    pub is_current: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartObligation {
+    pub work_item_id: String,
+    pub state: String,
+    pub contract_path: String,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+    pub cleanup_required: bool,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -6971,6 +7014,7 @@ fn archive_work_item_internal(
         work_item_id: work_item_id.into(),
         state: "archived".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 
@@ -7117,6 +7161,7 @@ fn archive_superseded_work_item(
         work_item_id: work_item_id.into(),
         state: "superseded".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 
@@ -10507,6 +10552,7 @@ fn close_work_item_with_structured_decision_internal(
         work_item_id: work_item_id.into(),
         state: "closed".into(),
         timestamp: timestamp.clone(),
+        start_advisory: None,
     };
     let receipt_value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
         path: root.join(".ai/decisions"),
