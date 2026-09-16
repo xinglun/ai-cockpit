@@ -304,6 +304,9 @@ Adapter 只是把上述规则投影到仓库本地的薄层，不是第二套 po
 Outcome 和 closure 语义。它只是 advisory discovery guidance；当前治理状态始终
 以显式 Runtime 查询为准，provider prompt 不能授予权限。
 
+有效历史验证证据只证明工作结果，不得抑制 Runtime 所拥有的普通清理绑定。
+结果保证与精确的分支／worktree 清理身份是两个独立事实，必须都保留为可审计证据。
+
 ## 安全边界
 
 规则保持语言中立并属于仓库本地。不得写入 secret 或机器凭据，不得修改用户全局

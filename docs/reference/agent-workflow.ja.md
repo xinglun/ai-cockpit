@@ -349,6 +349,8 @@ Outcome、closure の意味をそのまま伝えます。これは advisory な 
 guidance であり、現在の governance state は常に明示的な Runtime query から
 取得します。provider の prompt が authority を付与することはありません。
 
+有効な historical verification evidence は Work Item の成果だけを証明し、Runtime が所有する ordinary cleanup binding を抑制してはなりません。成果の保証と、正確な branch/worktree cleanup identity は独立した事実であり、どちらも監査可能な形で残します。
+
 ## 安全境界
 
 規則は language-neutral かつ repository-local に保ちます。secret や machine

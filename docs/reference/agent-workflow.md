@@ -466,6 +466,11 @@ Summary, visible Outcome, and closure semantics documented above. It is
 advisory discovery guidance: current governance state must always come from
 the explicit Runtime query, and a provider's prompt cannot grant authority.
 
+Valid historical verification evidence certifies the work result only; it must
+never suppress the Runtime-owned ordinary cleanup binding. Result assurance and
+the exact branch/worktree cleanup identity are independent facts, and both must
+remain auditable.
+
 ## Safety boundary
 
 Rules remain language-neutral and repository-local. Do not include secrets or

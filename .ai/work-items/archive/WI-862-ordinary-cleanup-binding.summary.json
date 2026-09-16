@@ -1,0 +1,44 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.3512f62abdb6747b8326cc5a3e4133bbd2ec089da07f42c7627ab9df9bdeeb7c.json",
+    ".ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.a019b759731fd106541bae5e181484b69f6663dd061270d4c2d2139e797a85d8.json",
+    ".ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.fdc9e0219804959011a85713d3be9677dab3976de9ecf70827003a07746a3266.json",
+    ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json",
+    ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json",
+    ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/agent-workflow.ja.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.ja.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.md",
+    "docs/work-items/WI-862-ordinary-cleanup-binding.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T14:34:06Z",
+  "checkpointContractDigest": "sha256:32b6ccae543c06df42c19bbd71cb8040edeebbc2acce8fceb501b999c15a5210",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ab4736a05ddfdb3e83fa99529238c055eeea1e3cb42c44c45dfe0ffd7c883785",
+  "createdAt": "2026-09-16T14:30:52Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T14:40:50Z",
+  "preflightContractDigest": "sha256:32b6ccae543c06df42c19bbd71cb8040edeebbc2acce8fceb501b999c15a5210",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:ab4736a05ddfdb3e83fa99529238c055eeea1e3cb42c44c45dfe0ffd7c883785",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T14:40:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-862-ordinary-cleanup-binding"
+}
