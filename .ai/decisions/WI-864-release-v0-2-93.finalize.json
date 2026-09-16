@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+    "name": "codex/wi-864-release-v0-2-93",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e788cdc491bc1949bd8bbd8acc0cd0432ea574fec5d1b552a72f0a6603d201f3",
+  "operationId": "github-pr-844-merge-observation-20260916",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+    "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+    "mergeCommit": "c33efbe5adc12bace00f3c73ca02c2764fe01d8e",
+    "number": 844,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/844"
+  },
+  "reason": "PR #844 was reviewed and merged as c33efbe5adc12bace00f3c73ca02c2764fe01d8e. This receipt binds the original provider PR identity; the later in-scope workflow repairs were delivered by PRs #845, #846, and #847 and are already present in main. The exact branch and worktree remain retained until the append-only cleanup transition.",
+  "receiptId": "github-pr-844-finalization-observation-20260916",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-864-release-v0-2-93",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/844",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-16T20:07:28Z",
+  "workItemId": "WI-864-release-v0-2-93",
+  "worktree": {
+    "branch": "codex/wi-864-release-v0-2-93",
+    "headRevision": "1192ed07ca2ea9196cf7edd1764fb77fef41c21e",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93",
+    "worktreeId": "WI-864-release-v0-2-93"
+  }
+}
