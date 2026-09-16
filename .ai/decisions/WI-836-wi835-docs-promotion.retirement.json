@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:bf48c4542c1dc18604ea103793b3451fc52f730638eb2a18df48d0a64f3a0123",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:cc459386ed2b42b8f3de5692041560303eb55fc7d2cf9d9a7385083e0d2d99f7",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.contract.json"
+    },
+    "events": {
+      "digest": "sha256:a9bc2bfb255ac65e20b59350976daabdc6744f5307044d6699d5276a56638b2a",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:ca7624ae795b0996c3e221dab9bb0869c717eac423186557ddca1b59c0f1e59c",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:3dc9afe02ee86f7559013bf42b5ae43d4d166e3ed26e3b4c885bbdafe44d65e3",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:a643c310195eabb41cd0e57e52ad733c132c424bde0c557fe54133639707814c",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:d89cf257c2269c9b5e0a9e8fbccf83d06ab10450c9f7953faa68cf622944c901",
+      "path": ".ai/work-items/archive/WI-836-wi835-docs-promotion.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:a940f70c3ceace774a0567e22a22a9aaa0649f3d7dc14e156f163b48f7f2d46d",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:a586f53f0b0b3b01f225bf5b16789f21cb43f427ac3dc1497a5a1ce20463e2fe",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-836-wi835-docs-promotion"
+}

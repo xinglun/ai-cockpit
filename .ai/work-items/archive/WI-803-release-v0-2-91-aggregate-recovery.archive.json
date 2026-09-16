@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:07Z",
+  "files": {
+    "contractDigest": "sha256:d14c6303743e4461979c81fc10accfb25b74267b2318d494e24f81e3aba0e166",
+    "contractPath": ".ai/work-items/archive/WI-803-release-v0-2-91-aggregate-recovery.contract.json",
+    "outcomeDigest": "sha256:2e75057a6302f08adbbfd3a5899634db7b7b18c88b214131d3c55d61ce4509f6",
+    "outcomePath": ".ai/work-items/archive/WI-803-release-v0-2-91-aggregate-recovery.outcome.json",
+    "summaryDigest": "sha256:61124da52365cae91bd37738e18f13eb24cfd54700c51dacc90b58441641a822",
+    "summaryPath": ".ai/work-items/archive/WI-803-release-v0-2-91-aggregate-recovery.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-803-release-v0-2-91-aggregate-recovery.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+}

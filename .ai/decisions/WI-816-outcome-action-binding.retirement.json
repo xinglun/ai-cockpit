@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:83e1a693872b0044eebb2c3a4232099dfd9a8277454b55803d571b0096bc9a2c",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:1b7b7dfce7132f33c2383599d7b96ae296b36d02c134b95c52aa1dc4e1066ea5",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.contract.json"
+    },
+    "events": {
+      "digest": "sha256:4debd81f3223c9c9a2b48c7202f3e928f8a70937c0f8587e382a25bc4fb46c11",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:ada6de96a0b9e66e91d075566ec03e88b4be2ad57d367b040b872f170ad1a34c",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:16e7c5024f85342d30003608e8858ab50c522b4a9fcc367077a5737087aac945",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:c513318f4d13ef9687edc8945ff8218f50f1a57a2f7afa0fc541bf9aca3a18f0",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:ef2ab1fa2e98cdd218c77423623d0a65a9147bf417b2697dad4854c9a4c1f331",
+      "path": ".ai/work-items/archive/WI-816-outcome-action-binding.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:2b231c6fc24eb30120e541c65228fb6f66bbca68603549265e4015f0d4787fe0",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:26Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:284c29dc8cb81e0d7c404cc7881c0edc556403c5a71644eb6339ff14e8bc432d",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-816-outcome-action-binding"
+}

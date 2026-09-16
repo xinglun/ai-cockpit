@@ -1,0 +1,33 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:2c1d28207ed9e44758a98da44984a9a63372982a9efe3d700ea4d149b202eefd",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:1e1523e73d41952b666f61bd6ac27cc31189991925a7333407255b4c73648303",
+      "path": ".ai/work-items/archive/WI-829-release-trigger-repair.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:4d3f626b27ce607c41cfa59711f82b8c77ff3b8742ed17391d2aceea7d7d198b",
+      "path": ".ai/work-items/archive/WI-829-release-trigger-repair.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:9805313216e598445a3105389591826f6f8f048ccf7cc25ec3f8d559fd878d1f",
+      "path": ".ai/work-items/archive/WI-829-release-trigger-repair.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:ac649ca2f85f9ab609cf10b35aeebe14d5ef7a51010ea0b73ade47d59e240f29",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:26Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:38b47bf6b8d8c706faf445a4391b64f23b8a60dba7fe438647d49ce62ff46365",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-829-release-trigger-repair"
+}

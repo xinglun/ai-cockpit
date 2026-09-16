@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:eb87e2b846069249d2081406a27bfe6e716c99b132635c5d84ebe4e695a21d68",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:9123424c2b4eb8f2698de32387c1cee7056eef7d11b736d43db4b6bba449d1ed",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.contract.json"
+    },
+    "events": {
+      "digest": "sha256:58ff8e9ed5beced3d7fdf119dec5c11b4e81d4f24058eb395133e5114059232a",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:e1c2448187f794c053fcac229a344409eb82b428faa1a061cdd17e63141184c7",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:9a6a1cc1654a069088dde9aa97464c718a9578f131c2723b30926fc20cddb6ad",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:e5534dcf4a561c34a47dc27b2c900bed6e6474de1ab42acbc9e2fe928b39f9cb",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:5adac9cea5329070a793501eb4f85ca05fc0715bbd8aea5c5e23b1e245e470c4",
+      "path": ".ai/work-items/archive/WI-808-release-handoff-recovery.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:37c4508fc84206a05774115f8f6a01e058455cb415009a40748fb3570dc30cc7",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:13Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:7d5c9bea1d5955be8a29976a9dcb26226577631536c3bfd51ce858f0f271651f",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-808-release-handoff-recovery"
+}

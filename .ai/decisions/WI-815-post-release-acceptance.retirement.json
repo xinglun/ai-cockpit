@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:866cd0f198b68815bf92db7bfd49cd3b9bf48e1f5456522f4e85b0e1e8c13f55",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:8f72e0cf8cdeac6347898688fb3a995ed195727c5b166a4b80dbd55706168345",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.contract.json"
+    },
+    "events": {
+      "digest": "sha256:b9b56778813db44af5e3cbaa16c79f617ef3553e668f7a75562bec8b2850077e",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:1f96f20be3f90561d2b7b1100acca1decc3a741288f07c132bc22ad10d1dc697",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:5e5b742e89dffe5a8a4f330bad9b790627d5291b4a0e9191d9f17da4869fb053",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:b137ef85bbb994baf7205d608198c87012e2f1069348a246676dc545f5120d4a",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:ff4a1d01becc87e621632f70d4b17629664322a867b613069fa809202a481c35",
+      "path": ".ai/work-items/archive/WI-815-post-release-acceptance.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:2aafab4f115b1135774292dd3d69f2fc57f2640f88de5251670522717224eaa3",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:25Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:7201dfa62258a926f67b963c6d747f6f355e3b3fb76e61f0b9c7e6912eb0620b",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-815-post-release-acceptance"
+}

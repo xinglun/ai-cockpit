@@ -1,0 +1,46 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:5b887124511146379aa0972f2134bc6561099f74b3a9c393eb094b9a09d7fe29",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:d45d036e827b2911eac094b33b8d9476da6e26827ede9bd9b41a6afae90ea881",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.contract.json"
+    },
+    "events": {
+      "digest": "sha256:12059b38d509666b67037ac98b3d3ee3118381e742663f612e346164b8c6357f",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:9e23e799a6b3e2ccee1535282427782ebeb0d84b400b86dbcc9c4e1d362e1799",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:b727632a3510a39c3b90b0b3c29663606c175cd4a1352211c503ee1688f761f0",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:97de66ea15888dcefdb1932a1e9add7ade725c1c178128102d7223b9b12d8a13",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:155f776f875443fda1e97387a1d986ab14e19440051f64a256ad5f1d58a580f3",
+      "path": ".ai/work-items/archive/WI-810-release-recovery-mode.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:4b3886a7db34a4b3cffd1d23c54b89bba4688bf11e967371a1dc39a140b4b801",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The predecessor's retry path was superseded by the explicitly linked successor Work Item; preserve both original records and their lineage without claiming the predecessor was independently verified.",
+  "recordedAt": "2026-09-16T11:29:19Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-811-release-recovery-finalize-order",
+  "summaryDigest": "sha256:b8bab666b4f262abe34e62b98822b6fbdefe22301043cb82cbb37aa5977d85a7",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-810-release-recovery-mode"
+}

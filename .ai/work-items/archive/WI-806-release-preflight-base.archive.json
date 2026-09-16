@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:13Z",
+  "files": {
+    "contractDigest": "sha256:11536fc06c64869581869c9fdcdcb2adc3e7d09add84c7c53e30b37c6fd204b0",
+    "contractPath": ".ai/work-items/archive/WI-806-release-preflight-base.contract.json",
+    "eventsDigest": "sha256:19bb03b39b0944bd09db8559a643b150926643c2754f8ccb12267abd9ce29277",
+    "eventsPath": ".ai/work-items/archive/WI-806-release-preflight-base.events.jsonl",
+    "outcomeDigest": "sha256:a30619f4bfa406dadaa6f3421e27298dcfaa53a9e346dc4574e496233c8a4027",
+    "outcomePath": ".ai/work-items/archive/WI-806-release-preflight-base.outcome.json",
+    "summaryDigest": "sha256:d46c862c0f7259cf8884558e9fc580df1772abca95078e38b37d7595396d192e",
+    "summaryPath": ".ai/work-items/archive/WI-806-release-preflight-base.summary.json",
+    "taskReportDigest": "sha256:8c3c46e0f7aeecf4886ccb585c907f1daaf7220ef2dac191a44da051d8d0796d",
+    "taskReportMarkdownDigest": "sha256:6f02660f3f29e4dcdb483243c66a1cc76421da121e20475c45a9ae5bef8b49a0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-806-release-preflight-base.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-806-release-preflight-base.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-806-release-preflight-base.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-806-release-preflight-base"
+}

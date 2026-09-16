@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:13Z",
+  "files": {
+    "contractDigest": "sha256:9123424c2b4eb8f2698de32387c1cee7056eef7d11b736d43db4b6bba449d1ed",
+    "contractPath": ".ai/work-items/archive/WI-808-release-handoff-recovery.contract.json",
+    "eventsDigest": "sha256:58ff8e9ed5beced3d7fdf119dec5c11b4e81d4f24058eb395133e5114059232a",
+    "eventsPath": ".ai/work-items/archive/WI-808-release-handoff-recovery.events.jsonl",
+    "outcomeDigest": "sha256:e1c2448187f794c053fcac229a344409eb82b428faa1a061cdd17e63141184c7",
+    "outcomePath": ".ai/work-items/archive/WI-808-release-handoff-recovery.outcome.json",
+    "summaryDigest": "sha256:9a6a1cc1654a069088dde9aa97464c718a9578f131c2723b30926fc20cddb6ad",
+    "summaryPath": ".ai/work-items/archive/WI-808-release-handoff-recovery.summary.json",
+    "taskReportDigest": "sha256:e5534dcf4a561c34a47dc27b2c900bed6e6474de1ab42acbc9e2fe928b39f9cb",
+    "taskReportMarkdownDigest": "sha256:5adac9cea5329070a793501eb4f85ca05fc0715bbd8aea5c5e23b1e245e470c4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-808-release-handoff-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-808-release-handoff-recovery.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-808-release-handoff-recovery.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-808-release-handoff-recovery"
+}

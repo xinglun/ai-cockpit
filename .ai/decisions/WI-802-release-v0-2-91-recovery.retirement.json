@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:8437b2c25c32d927fec2e4033a98d9bbd8ae261d90dec9d8bee782abfb1986e6",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:75decade7612527f04ad341118ea93cb53ec5e4a119fd10108efea4d3adef718",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.contract.json"
+    },
+    "events": {
+      "digest": "sha256:c10d7fa793454664adc6fb1cf878ef62f334168f0bc89ca1677489bf6a0bfccf",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:5dd68361b6c3b832fd834665afe9af3b8465039c824955b9fe1ff376cfcabd19",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a8a5bbd48db70ed2deb4895da06a2ea02ebe2041e9a6aecd663d0eb41efcefb0",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:55bce5d1090da4e4f1875acd9eb94a4f1da3c047b6c82b3798f4e82c09050a79",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:9308386c5a7a023f30311f8637df28fa11bd1d5bf92fe410571e0af1b8293c90",
+      "path": ".ai/work-items/archive/WI-802-release-v0-2-91-recovery.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:2827d1fd1b6072ea2463aded9807c8fd570677cdbe3b9bf93ef0bade9cb7a527",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:07Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:fda533f222af955a0e0d330d84714dfe62f8f508949a94c7b1028138bd790df6",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-802-release-v0-2-91-recovery"
+}

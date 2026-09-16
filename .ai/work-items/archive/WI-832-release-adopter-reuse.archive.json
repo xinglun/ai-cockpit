@@ -1,0 +1,27 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:27Z",
+  "files": {
+    "approachDigest": "sha256:eed9ecb9f0d57789abb2534c9979e20e71bce890e5b5a3862b11eb3fb828fc28",
+    "approachPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.approach.json",
+    "contractDigest": "sha256:a30a63224c761d0bbbfe98fcd9190a6e250e9788a9e19dc42e0c258c5fdf762b",
+    "contractPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.contract.json",
+    "eventsDigest": "sha256:83b612b0a245b597c1e81209875c0a6259f9e2f2698e4ed5dd19c2ebca82854f",
+    "eventsPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.events.jsonl",
+    "outcomeDigest": "sha256:42e731c3bb90afa52e31300baf98d79e9dc9b9a23fd976785d6593b4968336e0",
+    "outcomePath": ".ai/work-items/archive/WI-832-release-adopter-reuse.outcome.json",
+    "summaryDigest": "sha256:bd3be0eb868e2fa0558b72ba433fbca76ea5ec475b04e66964bb2c4d5e74e6a5",
+    "summaryPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.summary.json",
+    "taskReportDigest": "sha256:31b4fe6f229a96caac62d760796cbe747061b88028258458b60a2bf0e99540c0",
+    "taskReportMarkdownDigest": "sha256:9790dd2256992075706a8b3333d15429c1dcd4f7d8fa1feb63783410e2e9b83a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-832-release-adopter-reuse.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-832-release-adopter-reuse.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-832-release-adopter-reuse"
+}

@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:27Z",
+  "files": {
+    "contractDigest": "sha256:3aee7665073fedf462ba46b299477d96f649a5cbf31004c56cf441d87d928db0",
+    "contractPath": ".ai/work-items/archive/WI-831-release-identity-boundary.contract.json",
+    "outcomeDigest": "sha256:7e6279bc00be4e3839cea2995aef733bd180df475de66f5125337ee2493b025b",
+    "outcomePath": ".ai/work-items/archive/WI-831-release-identity-boundary.outcome.json",
+    "summaryDigest": "sha256:ef9b658e52dab5ef4976879849ec04e5b70fd62c81cc8d081fb129aefcd8747e",
+    "summaryPath": ".ai/work-items/archive/WI-831-release-identity-boundary.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-831-release-identity-boundary.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-831-release-identity-boundary"
+}

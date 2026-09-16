@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:90d623bed0416c17fbe0d6fc24bf6d10939eb6fbaab0df761994d80b672d3cc4",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:4c3483670a40fb9bf4ee150f69e322ccbe198de3bdd2c0994f01001331f4832e",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.contract.json"
+    },
+    "events": {
+      "digest": "sha256:c06f2594cdb0e8f7f9311550b2df0d990b66394c59030ffadca68620d3c72cee",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:2b7907dde2f558306571902782eff88f0637d1c53ef2af222fa3904abc787a7b",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:5ec01797fbc690624571bcfbbe766823cd072fe952a442f3a622f6ef275f7b5f",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:954ab51d5cea0df235006f4f52cba6491e35c78bf9b39be810c30735dc3ac194",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:9df32fcaf640740ac83953ef4e9295a3dc94b4eb5c2a62cc20430f5d082aab99",
+      "path": ".ai/work-items/archive/WI-811-release-recovery-finalize-order.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:046512f24aa3b7c6a0b59129c7918d70760c23f06a0ec2c30f5a7012bdd4d513",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:25Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:af39ba619972cf13f2be0383de3fda0343f8d3d7e0901d78b4f775d0a03bfcc3",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-811-release-recovery-finalize-order"
+}

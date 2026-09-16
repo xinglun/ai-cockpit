@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:547a0d97e55bdce2588121fe5b9749401c85dc58e21c59f35d51927ffea32e89",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:10f1dac5ad2d8db907e5c2807d5d828e6a657f065b25a671662f3b77b8627958",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.contract.json"
+    },
+    "events": {
+      "digest": "sha256:31a31d0bf865b270a19326183d775e5777ac04ed57caab20f4654ea169138c44",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:4211e1eedfcd6f79089fc7f7110c5095f04797c23cca41b7324512db9ca95775",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:28e4ff6e437192530a07b929bb47f49c6dbcbd823b14f3661ba5bd8eb09976b2",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:c020d7340526675546355d71741ccdb7ca1651054a049208d4c2878922799f33",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:5b04be3ff82934e848a50dbc43401bfd93e17f03d070f94a18921725024f6576",
+      "path": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:53655122ed8fcb1fa0a277a7e6e65a6045633c13510eaf2c3abe295b482cbf9f",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:13Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:679f0dd9007708559b16ea226304a7995eb90a7279013af6a6239625ae32b8a4",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}

@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:25Z",
+  "files": {
+    "contractDigest": "sha256:8f72e0cf8cdeac6347898688fb3a995ed195727c5b166a4b80dbd55706168345",
+    "contractPath": ".ai/work-items/archive/WI-815-post-release-acceptance.contract.json",
+    "eventsDigest": "sha256:b9b56778813db44af5e3cbaa16c79f617ef3553e668f7a75562bec8b2850077e",
+    "eventsPath": ".ai/work-items/archive/WI-815-post-release-acceptance.events.jsonl",
+    "outcomeDigest": "sha256:1f96f20be3f90561d2b7b1100acca1decc3a741288f07c132bc22ad10d1dc697",
+    "outcomePath": ".ai/work-items/archive/WI-815-post-release-acceptance.outcome.json",
+    "summaryDigest": "sha256:5e5b742e89dffe5a8a4f330bad9b790627d5291b4a0e9191d9f17da4869fb053",
+    "summaryPath": ".ai/work-items/archive/WI-815-post-release-acceptance.summary.json",
+    "taskReportDigest": "sha256:b137ef85bbb994baf7205d608198c87012e2f1069348a246676dc545f5120d4a",
+    "taskReportMarkdownDigest": "sha256:ff4a1d01becc87e621632f70d4b17629664322a867b613069fa809202a481c35",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-815-post-release-acceptance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-815-post-release-acceptance.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-815-post-release-acceptance.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-815-post-release-acceptance"
+}

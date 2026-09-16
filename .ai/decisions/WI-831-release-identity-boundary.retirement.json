@@ -1,0 +1,33 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:4e8247c40c4e47b0d051bcd845985ed65d3cf2522c36225359a56547b3b854f1",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:3aee7665073fedf462ba46b299477d96f649a5cbf31004c56cf441d87d928db0",
+      "path": ".ai/work-items/archive/WI-831-release-identity-boundary.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:7e6279bc00be4e3839cea2995aef733bd180df475de66f5125337ee2493b025b",
+      "path": ".ai/work-items/archive/WI-831-release-identity-boundary.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ef9b658e52dab5ef4976879849ec04e5b70fd62c81cc8d081fb129aefcd8747e",
+      "path": ".ai/work-items/archive/WI-831-release-identity-boundary.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:f4b643d644d6c89b42e3bf02ecab06c3e020a860b0ba53dce48534c21118d31f",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:fe612b8a9acfcd9fc6673ed0cd7bdc849af417b5111e4d98722cafe8f877e144",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-831-release-identity-boundary"
+}

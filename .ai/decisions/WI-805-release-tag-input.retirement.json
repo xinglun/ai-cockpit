@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:48a2750aecb83c945d22cba6f6be5b431067af4a703034845ac62e61d6cd7733",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:a1d2710d14977e4a727a996461d8f6f31e7b23ebae59ba3609b592f8e18309d9",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.contract.json"
+    },
+    "events": {
+      "digest": "sha256:998cec9f5be10caccfb718d6d4867a60179f857eda0fe8c05cc868f5a8151f1f",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:743def51aa58af8e452a9c4739df6cc4a3bffbbfaa13e8f70f0c983fc8171a1a",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:717d5dcf8eb8416ad08607afd70057a492daaf5d5d01417a32aed53fac69c64f",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:324cbd21194b2902e2fdeb213955b1d5057d5c4c60dad323efeab2f01b47846b",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:ad53a03e5a2f83cb1ca0ebb691cd09302750582ce41026973100c1a06ac48c45",
+      "path": ".ai/work-items/archive/WI-805-release-tag-input.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:770d0eee517f7e9d2d55f099ae05b050358dbc27143b2bbcbf32b7796febd708",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:07Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:8720497c73839481ed8c63beada334c978ccee1a3ea705a0903b4721c675854b",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-805-release-tag-input"
+}

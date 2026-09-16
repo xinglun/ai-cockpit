@@ -1,0 +1,13 @@
+{
+  "historicalStatus": "integrated",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "retired",
+  "summary": "This Work Item was explicitly retired; its original active records were preserved and were not revalidated as a current result.",
+  "verification": {
+    "claim": "retirement never asserts verification",
+    "required": true,
+    "status": "not_verified"
+  },
+  "workItemId": "WI-829-release-trigger-repair"
+}

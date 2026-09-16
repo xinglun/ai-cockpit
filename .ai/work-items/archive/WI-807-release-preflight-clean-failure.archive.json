@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:13Z",
+  "files": {
+    "contractDigest": "sha256:10f1dac5ad2d8db907e5c2807d5d828e6a657f065b25a671662f3b77b8627958",
+    "contractPath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.contract.json",
+    "eventsDigest": "sha256:31a31d0bf865b270a19326183d775e5777ac04ed57caab20f4654ea169138c44",
+    "eventsPath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.events.jsonl",
+    "outcomeDigest": "sha256:4211e1eedfcd6f79089fc7f7110c5095f04797c23cca41b7324512db9ca95775",
+    "outcomePath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.outcome.json",
+    "summaryDigest": "sha256:28e4ff6e437192530a07b929bb47f49c6dbcbd823b14f3661ba5bd8eb09976b2",
+    "summaryPath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.summary.json",
+    "taskReportDigest": "sha256:c020d7340526675546355d71741ccdb7ca1651054a049208d4c2878922799f33",
+    "taskReportMarkdownDigest": "sha256:5b04be3ff82934e848a50dbc43401bfd93e17f03d070f94a18921725024f6576",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-807-release-preflight-clean-failure.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-807-release-preflight-clean-failure.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-807-release-preflight-clean-failure"
+}

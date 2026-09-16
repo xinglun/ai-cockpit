@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:2c12295c71b85b8ff42837484f1e7c53cdd351afca426424f64d6762fe062748",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:4a773f8b7ab3ff3031aa47ff62b4de0bdd0874ecfffb55579161887a2aef3101",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.contract.json"
+    },
+    "events": {
+      "digest": "sha256:8f045ed9934feae4855ef1f60ce211c1aaa96fc8d9353a615d0fabce0d0cc838",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:1a5ede673a10e2de5dd0e9c683d0057018b28a99f3c188c667055a781c1718b7",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:8448bd7b38a7c4f5f7ddee37a9d88d51290798983507b12fa9170d5222df1d4d",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:6e53b9f00fa987fa7aaaed9ae7dd35ebc47654495a770f258d0fc31eb9425e3d",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:5f51cce9fbeed3be0de34af2740a50c350b8cd2019059b007b195704e2bffcb5",
+      "path": ".ai/work-items/archive/WI-814-archived-pr-gate.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:ea29c15daee17cab0853179d9564ada8a1056974666bbf347ec349d29ee468d2",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:25Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:c3f7329f63b803819827313280a2a45377ce72e4f5cb4fcaac6f5557154dade4",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-814-archived-pr-gate"
+}

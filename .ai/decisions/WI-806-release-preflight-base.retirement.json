@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:a75dd554ae99b0e7ab0c9c82938642764cd2291a39a84cf455d41435855a1b2a",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:11536fc06c64869581869c9fdcdcb2adc3e7d09add84c7c53e30b37c6fd204b0",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.contract.json"
+    },
+    "events": {
+      "digest": "sha256:19bb03b39b0944bd09db8559a643b150926643c2754f8ccb12267abd9ce29277",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:a30619f4bfa406dadaa6f3421e27298dcfaa53a9e346dc4574e496233c8a4027",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:d46c862c0f7259cf8884558e9fc580df1772abca95078e38b37d7595396d192e",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:8c3c46e0f7aeecf4886ccb585c907f1daaf7220ef2dac191a44da051d8d0796d",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:6f02660f3f29e4dcdb483243c66a1cc76421da121e20475c45a9ae5bef8b49a0",
+      "path": ".ai/work-items/archive/WI-806-release-preflight-base.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:66bce4cc352cd949daff76195c58e8518c2ac3b20d69f88eae1056814ee8c449",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:13Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:2a1409caa20b9d719e4431222b6f03b76f929334a8596ea4fecc023f94200e0d",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-806-release-preflight-base"
+}

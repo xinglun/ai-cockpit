@@ -1,0 +1,49 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:2279a043718d1352aa8c9ad8b0d9672824ba43df14df9cff75c5d1038bf057b5",
+  "artifacts": {
+    "approach": {
+      "digest": "sha256:eed9ecb9f0d57789abb2534c9979e20e71bce890e5b5a3862b11eb3fb828fc28",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.approach.json"
+    },
+    "contract": {
+      "digest": "sha256:a30a63224c761d0bbbfe98fcd9190a6e250e9788a9e19dc42e0c258c5fdf762b",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.contract.json"
+    },
+    "events": {
+      "digest": "sha256:83b612b0a245b597c1e81209875c0a6259f9e2f2698e4ed5dd19c2ebca82854f",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:42e731c3bb90afa52e31300baf98d79e9dc9b9a23fd976785d6593b4968336e0",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:bd3be0eb868e2fa0558b72ba433fbca76ea5ec475b04e66964bb2c4d5e74e6a5",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:31b4fe6f229a96caac62d760796cbe747061b88028258458b60a2bf0e99540c0",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:9790dd2256992075706a8b3333d15429c1dcd4f7d8fa1feb63783410e2e9b83a",
+      "path": ".ai/work-items/archive/WI-832-release-adopter-reuse.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:05608d8c626705092ba59c673490fc8c3a8eb4adb8853c1c50b9f836fc8776f1",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:9446df17240d5a0ee9f24012dd96104635a434508cb0f20d6542e5b5ac40407e",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-832-release-adopter-reuse"
+}

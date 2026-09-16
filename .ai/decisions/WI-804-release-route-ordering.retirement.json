@@ -1,0 +1,45 @@
+{
+  "actor": "human:explicit-authorization",
+  "archiveManifestDigest": "sha256:3d206d99d0d9d4ce5c236f7108670f1ff3c2b7b8e7ae6a834165cac1802c1882",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:c7e87f8c928d468b80f6bfe5b531b82f00e0ec17149189c047ef2f41a0d76a63",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.contract.json"
+    },
+    "events": {
+      "digest": "sha256:6354d2629c48ff5757c54880ac3f918c60a2d43a6a0b3ba29d7fb32d57802218",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:70037d6484e27d92fca72821f9fad3f7c0873ad9640793f8f88cded6062719f8",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:6fc3cf5e72f0e5b4b17edeb2e4c2de604bd10244149e6b773f4d6cfa3c70e1d9",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:6e140a752b89116fd62475d020dc388aa2d28dfc493f471e33b840a34d6e85fd",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:a0a281f2a3a9a180ee029c1cb1dddb079d0f5c1d9576b895866e951f2ea5c99c",
+      "path": ".ai/work-items/archive/WI-804-release-route-ordering.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:603929050387137e41038ea751284248f53831abfbb89daf63daff5bd1bd3172",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed delivery is already represented on synchronized origin/main or by the completed immutable release chain; preserve the original active bytes as historical evidence without claiming a new verification result.",
+  "recordedAt": "2026-09-16T11:29:07Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d52f4b02b1a4688bec5603e14ecb0148ca3101f5586f74acfc8fc6c7a92ba7e",
+  "runtimeDigest": "sha256:66f1266e225c9a489eabb2ee93f2bf72d93da9a868ca2c99c7f13133c922952b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:7a5609a58efcdeebc25b89eac99d83a48eee642a055b4d6773b1bd290a36dcbb",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-804-release-route-ordering"
+}

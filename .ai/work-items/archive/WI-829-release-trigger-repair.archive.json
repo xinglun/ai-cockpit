@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-16T11:29:26Z",
+  "files": {
+    "contractDigest": "sha256:1e1523e73d41952b666f61bd6ac27cc31189991925a7333407255b4c73648303",
+    "contractPath": ".ai/work-items/archive/WI-829-release-trigger-repair.contract.json",
+    "outcomeDigest": "sha256:4d3f626b27ce607c41cfa59711f82b8c77ff3b8742ed17391d2aceea7d7d198b",
+    "outcomePath": ".ai/work-items/archive/WI-829-release-trigger-repair.outcome.json",
+    "summaryDigest": "sha256:9805313216e598445a3105389591826f6f8f048ccf7cc25ec3f8d559fd878d1f",
+    "summaryPath": ".ai/work-items/archive/WI-829-release-trigger-repair.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-829-release-trigger-repair.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-829-release-trigger-repair"
+}
