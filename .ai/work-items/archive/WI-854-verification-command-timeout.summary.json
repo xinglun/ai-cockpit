@@ -5,12 +5,12 @@
     ".ai/evidence/WI-854-verification-command-timeout.verification-attempt.b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134.json",
     ".ai/evidence/WI-854-verification-command-timeout.verification-attempt.de932e44d7cf658a27c59a09cdee535776696ade1a9eafa8f35fad55b3480a4f.json",
     ".ai/evidence/WI-854-verification-command-timeout.verification.json",
-    ".ai/work-items/active/WI-854-verification-command-timeout.contract.json",
-    ".ai/work-items/active/WI-854-verification-command-timeout.events.jsonl",
-    ".ai/work-items/active/WI-854-verification-command-timeout.outcome.json",
-    ".ai/work-items/active/WI-854-verification-command-timeout.summary.json",
-    ".ai/work-items/active/WI-854-verification-command-timeout.task-report.json",
-    ".ai/work-items/active/WI-854-verification-command-timeout.task-report.md"
+    ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json",
+    ".ai/work-items/archive/WI-854-verification-command-timeout.events.jsonl",
+    ".ai/work-items/archive/WI-854-verification-command-timeout.outcome.json",
+    ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json",
+    ".ai/work-items/archive/WI-854-verification-command-timeout.task-report.json",
+    ".ai/work-items/archive/WI-854-verification-command-timeout.task-report.md"
   ],
   "checkpointAt": "2026-09-16T04:50:11Z",
   "checkpointContractDigest": "sha256:e6a71b0000b7bca9acd39cc990822c95231b9a9203f0291f4cadf914d732b13a",
@@ -61,14 +61,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-16T08:44:52Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T08:55:10Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:639bdb94209da0ae017ceb95321d015de25a5a20fd92725cff70aedfde0a771b",
   "workItemId": "WI-854-verification-command-timeout"
 }

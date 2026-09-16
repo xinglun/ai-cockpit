@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -19,12 +19,12 @@
 - Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134.json
 - Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.de932e44d7cf658a27c59a09cdee535776696ade1a9eafa8f35fad55b3480a4f.json
 - Changed path: .ai/evidence/WI-854-verification-command-timeout.verification.json
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.contract.json
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.events.jsonl
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.outcome.json
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.summary.json
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.task-report.json
-- Changed path: .ai/work-items/active/WI-854-verification-command-timeout.task-report.md
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.contract.json
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.events.jsonl
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.outcome.json
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.summary.json
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.json
+- Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.md
 
 ## Findings
 

@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T08:55:15Z",
+  "files": {
+    "contractDigest": "sha256:4196311a109f3d1a64c02f807ddc5324184bcebbc45eb51163e9ed503b1517b7",
+    "contractPath": ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json",
+    "eventsDigest": "sha256:91d3347627d622dab216f381a267322e0f72c9247c24b43fdd2e285898344107",
+    "eventsPath": ".ai/work-items/archive/WI-854-verification-command-timeout.events.jsonl",
+    "intelligenceDigest": "sha256:f9a1952ed08c60a886b300f76d36e8605f527a77e93ee1eb03354f77ee2962f5",
+    "intelligencePath": ".ai/work-items/archive/WI-854-verification-command-timeout.intelligence.json",
+    "outcomeDigest": "sha256:0f687fc5882d03001955d51205e170d9f82d642e4a336f47c92342ad52b903f3",
+    "outcomePath": ".ai/work-items/archive/WI-854-verification-command-timeout.outcome.json",
+    "summaryDigest": "sha256:df1ffc782f4d90eee2c271047de9be357ded576f90536b49a3e08d1e75008f39",
+    "summaryPath": ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json",
+    "taskReportDigest": "sha256:ebdfe599b3486b65f92dc707c062697bb9bb916c72459a3f281de79b7384533e",
+    "taskReportMarkdownDigest": "sha256:db0a271ec56773f82dc2ff1da6ee8997a1b8a65736881f6b8df7252f3a7ac944",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-854-verification-command-timeout.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-854-verification-command-timeout.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-854-verification-command-timeout"
+}

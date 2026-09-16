@@ -15,80 +15,80 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.213380e1bb97141496005b3e05ea868c19af0e238213fe20c49a16aa91dbbddd.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.de932e44d7cf658a27c59a09cdee535776696ade1a9eafa8f35fad55b3480a4f.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.events.jsonl"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.events.jsonl"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.outcome.json"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.outcome.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.task-report.json"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-854-verification-command-timeout.task-report.md"
+        "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.md"
       }
     ],
     "evidence": [
@@ -118,7 +118,7 @@
           ".ai/evidence/WI-854-verification-command-timeout.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -144,7 +144,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.contract.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
         ],
         "inference": false,
         "text": "Add a finite authorized timeout override with default compatibility, pre-spawn upper-bound rejection, identity-bound plan and receipts, process-tree cleanup, CLI/MCP surfaces, tri-language command documentation, and focused regressions."
@@ -153,7 +153,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-854-verification-command-timeout.contract.json"
+          ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

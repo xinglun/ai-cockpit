@@ -1,0 +1,208 @@
+{
+  "acceptanceResults": [
+    "Absent timeout override remains 300 seconds and existing verification targets and pass semantics are unchanged.",
+    "Only finite positive overrides authorized by the Contract or repository policy are accepted; values above the finite Runtime cap are rejected before spawn.",
+    "Effective timeout is present in plan receipt execution receipt and reuse identity so changed values cannot reuse prior evidence.",
+    "Timeout or interruption fails closed records deadline and elapsed data with unknown exit code where applicable and terminates the child process tree.",
+    "Focused deterministic regressions cover default override cap rejection pre-spawn descendant cleanup receipt identity and CLI/MCP/docs semantics.",
+    "The current PR comparison base is the synchronized latest main revision while the Contract baseRevision remains the immutable Work Item start identity."
+  ],
+  "createdAt": "2026-09-16T08:55:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:639bdb94209da0ae017ceb95321d015de25a5a20fd92725cff70aedfde0a771b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+      "workItemId": "WI-854-verification-command-timeout"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.213380e1bb97141496005b3e05ea868c19af0e238213fe20c49a16aa91dbbddd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification-attempt.de932e44d7cf658a27c59a09cdee535776696ade1a9eafa8f35fad55b3480a4f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-854-verification-command-timeout.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-854-verification-command-timeout.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-854-verification-command-timeout.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
+          ],
+          "inference": false,
+          "text": "Add a finite authorized timeout override with default compatibility, pre-spawn upper-bound rejection, identity-bound plan and receipts, process-tree cleanup, CLI/MCP surfaces, tri-language command documentation, and focused regressions."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-854-verification-command-timeout.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-854-verification-command-timeout"
+  },
+  "taskReportDigest": "sha256:ebdfe599b3486b65f92dc707c062697bb9bb916c72459a3f281de79b7384533e",
+  "taskReportMarkdownDigest": "sha256:db0a271ec56773f82dc2ff1da6ee8997a1b8a65736881f6b8df7252f3a7ac944",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-854-verification-command-timeout.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-854-verification-command-timeout"
+}
