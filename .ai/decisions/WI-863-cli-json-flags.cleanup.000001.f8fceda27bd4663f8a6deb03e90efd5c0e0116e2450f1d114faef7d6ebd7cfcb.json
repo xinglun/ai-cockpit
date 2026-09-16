@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:0287dd94495c170e5068e0c5a42f04c2bcaf2b72c140c7b1f461172d36b7e6fa",
+  "branchRef": "refs/heads/codex/wi-863-cli-json-flags",
+  "contractDigest": "sha256:526c0cd65a14b8fd712f3d7d45c258b9fcea222a50d4dc085198252e3395c58a",
+  "headRevision": "8013fae69a6411f1e4278f613543539432716c7e",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-16T15:40:42Z",
+  "operationId": "sha256:16e81aa8d096dd2d7ddac7f6c423291357aa1eeeaaa8b237bc6fe52d0b1d1212",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:6dfe52a2bdc8d9b6ee915623d54604c4888765c32c745524ca5a429e458b628b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-863-cli-json-flags",
+  "worktreeId": "sha256:0f1ef4f0d0b30fc5167d6f6439d82a53739fb6b39b00867f3e08af17a3f9d516"
+}
