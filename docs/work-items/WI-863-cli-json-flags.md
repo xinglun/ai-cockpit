@@ -2,9 +2,12 @@
 author: AI Cockpit maintainers
 workItemId: WI-863-cli-json-flags
 title: Consistent JSON flags for read-only CLI diagnostics
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-863-cli-json-flags
+terminalArchive: .ai/work-items/archive/WI-863-cli-json-flags.contract.json
+terminalVerification: .ai/evidence/WI-863-cli-json-flags.verification.json
+terminalDecision: .ai/decisions/WI-863-cli-json-flags.close.json
 ---
 
 # WI-863 — Consistent JSON flags for read-only CLI diagnostics
