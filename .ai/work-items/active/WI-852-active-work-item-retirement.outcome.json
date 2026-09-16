@@ -15,9 +15,8 @@
     "The start advisory treats absent active or archive Work Item directories in a new or empty repository as an empty inventory, while preserving fail-closed behavior for other read errors and covering this boundary with a regression test.",
     "A recovery successor may reuse only the predecessor checkout explicitly bound by its predecessorWorkItemId and recovery decision; unrelated active or archived resource owners remain exact start conflicts, with both paths covered by recovery regression tests."
   ],
-  "createdAt": "2026-09-16T07:23:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:6dad5f63d7931736e1188f5e63825ccb2d5c4820348177fb29ba685af678f369",
+  "evidenceDigest": "sha256:51d312f35e8922fd7765d362d481626ca3cb6af3d4995370d09940802f40a8fe",
   "evidenceRefs": [
     ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
   ],
@@ -35,15 +34,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
+      "repositorySnapshotDigest": "sha256:dbaa47b6e581a76240beaf059e674ccfa2cdbf075e421d722c970fd61de48c32",
       "workItemId": "WI-852-active-work-item-retirement"
     },
     "format": "ai-cockpit.task-outcome",
@@ -57,7 +56,14 @@
             ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.11099141789ead080f08a7d0917ce465689d4f66609eedddbf22f31a4b4846aa.json"
+          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.4974bfe42ecbe78f2d11c2b18642519b7e9d0eb11d2eee40c94fff6dab52befc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.3c32d042255b73ebffe416c4559f72e4378961b81b6a520df399a1e7650a00cf.json"
         },
         {
           "evidenceRefs": [
@@ -71,7 +77,14 @@
             ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json"
+          "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.3cb3dbe0a9e8f81f28af2967a190512b0d1fb8742de0cab361372738e0614035.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b237b1c757abf9ffb8fb50ae068f3183ce50e2a404893e82ca6e53eec366bdc3.json"
         },
         {
           "evidenceRefs": [
@@ -79,13 +92,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
         }
       ],
       "evidence": [
@@ -115,7 +121,7 @@
             ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -160,8 +166,8 @@
     "status": "verified",
     "workItemId": "WI-852-active-work-item-retirement"
   },
-  "taskReportDigest": "sha256:696a01b1a1ed4bad99433ae9eb24b4963477638c5c5b4cfec1154b086aff516c",
-  "taskReportMarkdownDigest": "sha256:117db55f686c34a8e9947b08fbdeaeab93ed61bed297bb1678e03c39db4327c3",
+  "taskReportDigest": "sha256:45b340cb46fe3198bcf0fd10fca9eeef56ea1207a81ebc29f54064dfbd4e487e",
+  "taskReportMarkdownDigest": "sha256:78a029e28fb7bd1915726f79cdb0386a398f848c622c4a73e04b4cc5c588607d",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
