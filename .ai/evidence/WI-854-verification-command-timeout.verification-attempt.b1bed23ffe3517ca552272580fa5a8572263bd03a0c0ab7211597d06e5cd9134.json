@@ -1,0 +1,47 @@
+{
+  "attemptId": "sha256:b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "verification_service",
+        "--test",
+        "verification_attempts"
+      ],
+      "baseCommit": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+      "commandDigest": "sha256:0dcd0c6a1099b5dafbb3fef3bce7e80cca405fe4245c0f4898dc41685b2ae1da",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:e6a71b0000b7bca9acd39cc990822c95231b9a9203f0291f4cadf914d732b13a",
+  "contractExecutionScopeDigest": "sha256:273d4f33578d19b6fa5e8758dbe89c3a643066fbd00a0630e1b4a83d00f3410f",
+  "createdAt": "2026-09-16T08:46:38Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-828-verification-timeout/.ai/work-items/active/WI-854-verification-command-timeout.contract.json: verification requires a preflight result for the current Contract"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-854-verification-command-timeout"
+}
