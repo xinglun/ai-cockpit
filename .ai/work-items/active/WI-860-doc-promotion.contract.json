@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "promote_closed_work_item.py --work-item WI-859-governance-retirement-compat succeeds; --check-all reports current; six scoped projections retain links to archive verification and close evidence; no source tests are re-run"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c3acc3aeb8e86d9065c1fcf23fcd25dd90eb718d",
+  "createdAt": "2026-09-16T12:23:31Z",
+  "goal": "Make all closed WI-859 tri-language work-item and reference-parity projections current, preserving the terminal evidence bindings.",
+  "intent": "Promote the closed WI-859 documentation projections without reopening or re-verifying the completed implementation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    " source implementation",
+    " tests",
+    " release artifacts",
+    " and unrelated documentation projections"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:897ba0865c283f38cebad286a0b74e28c6683161cb0594cb90ba76f3a818a2f0",
+  "requiredEvidenceClasses": [
+    "promotion report",
+    " git diff",
+    " final --check-all output"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-859-governance-retirement-compat.md",
+    "docs/work-items/WI-859-governance-retirement-compat.zh-CN.md",
+    "docs/work-items/WI-859-governance-retirement-compat.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-860-doc-promotion"
+}

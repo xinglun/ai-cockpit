@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-859 — governance retirement compatibility"
 description: "Align the static governance integrity gate with the Runtime retirement protocol."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-859-governance-retirement-compat
 lastVerifiedBy: WI-859-governance-retirement-compat
+terminalArchive: .ai/work-items/archive/WI-859-governance-retirement-compat.contract.json
+terminalVerification: .ai/evidence/WI-859-governance-retirement-compat.verification.json
+terminalDecision: .ai/decisions/WI-859-governance-retirement-compat.close.json
 ---
 
 [简体中文](WI-859-governance-retirement-compat.zh-CN.md) · [日本語](WI-859-governance-retirement-compat.ja.md)

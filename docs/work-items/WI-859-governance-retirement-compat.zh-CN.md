@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-859——治理退休兼容"
 description: "让静态治理完整性门禁理解 Runtime 的退休协议。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-859-governance-retirement-compat
 lastVerifiedBy: WI-859-governance-retirement-compat
+terminalArchive: .ai/work-items/archive/WI-859-governance-retirement-compat.contract.json
+terminalVerification: .ai/evidence/WI-859-governance-retirement-compat.verification.json
+terminalDecision: .ai/decisions/WI-859-governance-retirement-compat.close.json
 ---
 
 [English](WI-859-governance-retirement-compat.md) · [日本語](WI-859-governance-retirement-compat.ja.md)
