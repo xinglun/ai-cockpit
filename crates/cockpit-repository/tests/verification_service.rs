@@ -1,3 +1,7 @@
+use cockpit_protocol::{
+    ApprovalMode, EvidenceAssurance, GovernancePolicy, GovernancePolicyDocument, PolicyLayer,
+    PolicyRule, VerificationRequirement, VerificationTier,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, plan_repository_verification,
     plan_repository_verification_action, run_repository_verification,
@@ -70,8 +74,42 @@ fn request(
         runtime_digest: format!("sha256:{}", "a".repeat(64)),
         base_commit: None,
         workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
         policy,
     }
+}
+
+fn authorize_timeout(root: &Path, max_timeout_seconds: u64) {
+    fs::create_dir_all(root.join(".ai")).expect("AI directory");
+    let policy = GovernancePolicyDocument {
+        schema_version: 1,
+        organization: None,
+        project: Some(GovernancePolicy {
+            policy_id: "project-verification-timeout".into(),
+            layer: PolicyLayer::Project,
+            rules: vec![PolicyRule {
+                operation: "modify_source".into(),
+                approval_mode: ApprovalMode::NoHumanApprovalForLowRisk,
+                required_evidence: Vec::new(),
+                verification_requirement: Some(VerificationRequirement {
+                    schema_version: 1,
+                    required_tier: VerificationTier::T0,
+                    required_assurance: EvidenceAssurance::SelfDeclared,
+                    policy_refs: vec!["project-verification-timeout".into()],
+                    stage_refs: vec!["task".into()],
+                    gate_refs: Vec::new(),
+                    reason: "authorize bounded verification timeout regression".into(),
+                    max_timeout_seconds: Some(max_timeout_seconds),
+                }),
+            }],
+        }),
+    };
+    fs::write(
+        root.join(".ai/policy.json"),
+        serde_json::to_vec_pretty(&policy).expect("policy JSON"),
+    )
+    .expect("policy");
 }
 
 #[test]
@@ -105,6 +143,55 @@ fn cargo_workspace_verification_is_partitioned_with_a_complete_deterministic_man
             .collect::<Vec<_>>()
     );
     assert!(manifest.validate().is_ok());
+}
+
+#[test]
+fn repository_timeout_is_bound_into_plan_and_execution_receipts() {
+    let root = repository("timeout-receipt");
+    authorize_timeout(&root, 1);
+    let mut request = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    request.timeout_seconds = Some(1);
+
+    let run = run_repository_verification(&root, &request).expect("verify");
+
+    assert_eq!(run.receipt.timeout_seconds, Some(1));
+    assert_eq!(run.receipt.execution_records[0].timeout_seconds, 1);
+    assert_eq!(
+        run.receipt
+            .plan_receipt
+            .expect("plan receipt")
+            .timeout_seconds,
+        Some(1)
+    );
+    fs::remove_dir_all(root).expect("cleanup");
+}
+
+#[test]
+fn timeout_override_requires_policy_and_cap_is_rejected_before_spawn() {
+    let root = repository("timeout-policy");
+    let mut unauthorized = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    unauthorized.timeout_seconds = Some(1);
+    let snapshot = cockpit_git::GitRepository::discover(&root)
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_secs() as i64;
+    assert!(
+        plan_repository_verification_action(&root, &unauthorized, &snapshot, now).is_err(),
+        "explicit override without policy must fail before planning/spawn"
+    );
+
+    let mut over_cap = request("true", vec![], RepositoryVerificationPolicy::NeverReuse);
+    over_cap.timeout_seconds = Some(901);
+    authorize_timeout(&root, 900);
+    assert!(
+        plan_repository_verification_action(&root, &over_cap, &snapshot, now).is_err(),
+        "timeout above the Runtime cap must fail before planning/spawn"
+    );
+    fs::remove_dir_all(root).expect("cleanup");
 }
 
 #[cfg(unix)]

@@ -4569,6 +4569,11 @@ fn verification_attempt_command_value(
         cockpit_verification::VerificationReusePolicy::NeverReuse,
     )
     .with_current_dir(root)
+    .with_timeout_seconds(
+        request
+            .timeout_seconds
+            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
+    )
     .command_digest();
     serde_json::json!({
         "nodeId": request.node_id,
@@ -4579,6 +4584,9 @@ fn verification_attempt_command_value(
         "runner": request.runner,
         "runtimeDigest": request.runtime_digest,
         "baseCommit": request.base_commit,
+        "timeoutSeconds": request
+            .timeout_seconds
+            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
         "commandDigest": command_digest,
     })
 }

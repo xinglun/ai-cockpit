@@ -1331,6 +1331,8 @@ fn ordinary_no_resource_work_item_completes_without_derived_document_projection(
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1581,6 +1583,8 @@ fn empty_amendment_invalidation_does_not_block_fresh_verification_preconditions(
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1651,6 +1655,8 @@ fn verification_record_rolls_back_projection_when_outcome_refresh_fails() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1714,6 +1720,8 @@ fn verification_record_rolls_back_projection_when_outcome_refresh_fails() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1785,6 +1793,8 @@ fn tampered_verification_attempt_is_not_reused_even_when_execution_fields_match(
         runtime_digest: runtime.runtime_digest.to_string(),
         base_commit: None,
         workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
         policy: RepositoryVerificationPolicy::NeverReuse,
     };
     let run = run_repository_verification(directory.path(), &request).expect("verification");

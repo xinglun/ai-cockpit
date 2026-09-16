@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-854-verification-command-timeout.contract.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.summary.json"
+  ],
+  "checkpointAt": "2026-09-16T04:50:11Z",
+  "checkpointContractDigest": "sha256:249d859b70ef0288ab3341d4245a3684670f979bc2b707d93254956696a502fb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:75db86d085c1b95b44698ed2a9d70075abbf1b19fc4daed4f64526b5ddc1b017",
+  "createdAt": "2026-09-16T04:50:00Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T04:50:08Z",
+  "preflightContractDigest": "sha256:249d859b70ef0288ab3341d4245a3684670f979bc2b707d93254956696a502fb",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:75db86d085c1b95b44698ed2a9d70075abbf1b19fc4daed4f64526b5ddc1b017",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T04:50:11Z",
+  "workItemId": "WI-854-verification-command-timeout"
+}

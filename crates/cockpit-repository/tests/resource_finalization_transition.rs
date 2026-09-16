@@ -91,6 +91,8 @@ fn repository_with_worktree(
             runtime_digest: current.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -358,6 +360,8 @@ fn direct_merge_repository() -> (
             runtime_digest: current.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

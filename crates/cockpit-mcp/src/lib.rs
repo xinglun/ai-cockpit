@@ -204,6 +204,12 @@ fn mcp_tool_schema(name: &str) -> Value {
                     "items": {"type": "string"},
                     "description": "Command arguments as a string array.",
                 },
+                "timeoutSeconds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 900,
+                    "description": "Finite command timeout in seconds. Omission preserves the 300-second Runtime default; explicit values require Contract or repository policy authorization.",
+                },
                 "planOnly": {
                     "type": "boolean",
                     "description": "Return identity-bound execute/reuse/stale actions without starting project verification commands.",
@@ -355,7 +361,13 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => &["workItemId"][..],
         "work_item_controls" => &["workItemId", "id", "controls", "input"][..],
         "work_item_recover" => &["workItemId", "id", "receipt", "input"][..],
-        "verify" => &["workItemId", "command", "args", "planOnly"][..],
+        "verify" => &[
+            "workItemId",
+            "command",
+            "args",
+            "timeoutSeconds",
+            "planOnly",
+        ][..],
         "work_item_parallel" => &["action", "workItemId", "id", "leaseId"][..],
         _ => return Err(format!("unknown tool: {name}")),
     };
@@ -471,6 +483,13 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             {
                 return Err(format!(
                     "invalid arguments for {name}: planOnly must be a boolean"
+                ));
+            }
+            if let Some(value) = object.get("timeoutSeconds")
+                && value.as_u64().is_none_or(|seconds| seconds == 0)
+            {
+                return Err(format!(
+                    "invalid arguments for {name}: timeoutSeconds must be a positive integer"
                 ));
             }
         }
@@ -993,6 +1012,14 @@ fn verify_for_repo(
         .get("planOnly")
         .and_then(Value::as_bool)
         .unwrap_or(false);
+    let timeout_seconds = arguments
+        .get("timeoutSeconds")
+        .map(|value| {
+            value
+                .as_u64()
+                .ok_or("timeoutSeconds argument must be a positive integer".to_owned())
+        })
+        .transpose()?;
     let initial_snapshot = if work_item_id.is_some() || plan_only {
         Some(
             cockpit_git::GitRepository::discover(&root)
@@ -1046,6 +1073,8 @@ fn verify_for_repo(
         runtime_digest: runtime.runtime_digest.to_string(),
         base_commit: None,
         workers: 2,
+        work_item_id: work_item_id.map(str::to_owned),
+        timeout_seconds,
         policy: if explicit {
             cockpit_repository::RepositoryVerificationPolicy::NeverReuse
         } else {
@@ -1144,11 +1173,17 @@ fn verify_for_repo(
             "nodesToExecute": usize::from(!reused),
             "nodesReused": usize::from(reused),
             "processesSpawned": 0,
+            "timeoutSeconds": request.timeout_seconds.unwrap_or(
+                cockpit_verification::DEFAULT_EXECUTION_SECONDS,
+            ),
             "requests": [{
                 "nodeId": request.node_id,
                 "program": request.program,
                 "args": request.args,
                 "dependencies": [],
+                "timeoutSeconds": request.timeout_seconds.unwrap_or(
+                    cockpit_verification::DEFAULT_EXECUTION_SECONDS,
+                ),
             }],
             "plannedNodes": [planned],
         }));

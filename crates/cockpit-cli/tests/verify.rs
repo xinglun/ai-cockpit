@@ -62,6 +62,9 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
             .is_some_and(|value| value.starts_with("sha256:"))
     );
     assert_eq!(json["planReceipt"]["stage"], "task");
+    assert_eq!(json["timeoutSeconds"], 300);
+    assert_eq!(json["planReceipt"]["timeoutSeconds"], 300);
+    assert_eq!(json["executionRecords"][0]["timeoutSeconds"], 300);
     assert_eq!(json["planReceipt"]["initialTier"], "T0");
     assert_eq!(json["planReceipt"]["assurance"], "self_declared");
     assert_eq!(json["costObservation"]["confidence"], "complete");
@@ -71,6 +74,73 @@ fn verify_executes_an_explicit_never_reuse_command_with_bounded_telemetry() {
             .as_str()
             .is_some_and(|value| value.starts_with("sha256:"))
     );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn verify_cli_accepts_policy_authorized_timeout_and_rejects_the_runtime_cap_before_spawn() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-timeout-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(directory.join(".ai")).expect("directory");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    fs::write(
+        directory.join(".ai/policy.json"),
+        r#"{
+          "schemaVersion": 1,
+          "project": {
+            "policyId": "project-timeout-cli",
+            "layer": "project",
+            "rules": [{
+              "operation": "modify_source",
+              "approvalMode": "no_human_approval_for_low_risk",
+              "requiredEvidence": [],
+              "verificationRequirement": {
+                "schemaVersion": 1,
+                "requiredTier": "T0",
+                "requiredAssurance": "self_declared",
+                "policyRefs": ["project-timeout-cli"],
+                "stageRefs": ["task"],
+                "gateRefs": [],
+                "reason": "authorize CLI timeout regression",
+                "maxTimeoutSeconds": 1
+              }
+            }]
+          }
+        }"#,
+    )
+    .expect("policy");
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let authorized = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--command", "true", "--timeout-seconds", "1"])
+        .output()
+        .expect("authorized verify");
+    assert!(
+        authorized.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&authorized.stderr)
+    );
+    let receipt: serde_json::Value = serde_json::from_slice(&authorized.stdout).expect("JSON");
+    assert_eq!(receipt["timeoutSeconds"], 1);
+    assert_eq!(receipt["planReceipt"]["timeoutSeconds"], 1);
+    assert_eq!(receipt["executionRecords"][0]["timeoutSeconds"], 1);
+
+    let rejected = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--command", "true", "--timeout-seconds", "901"])
+        .output()
+        .expect("cap rejection");
+    assert!(!rejected.status.success());
+    assert!(String::from_utf8_lossy(&rejected.stderr).contains("finite range 1..=900s"));
     fs::remove_dir_all(directory).expect("cleanup");
 }
 

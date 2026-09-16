@@ -146,6 +146,8 @@ fn complete_ordinary_archive(
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -669,6 +671,8 @@ fn historical_recovery_fixture(
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -778,6 +782,8 @@ fn historical_recovery_fixture(
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1107,6 +1113,8 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

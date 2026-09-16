@@ -1,8 +1,9 @@
 use cockpit_evidence::{DiffIdentity, EvidenceContext, ReusableReceipt};
 use cockpit_verification::{
-    ExecutionError, MAX_CAPTURE_BYTES_PER_STREAM, PlannedAction, PlannedSatisfaction,
-    ProtectedGateClass, VerificationCommand, VerificationReusePolicy, execute_bounded,
-    execute_bounded_at, execute_bounded_with_resource_budget, execute_verification_plan_bounded,
+    DEFAULT_EXECUTION_SECONDS, ExecutionError, MAX_ALLOWED_EXECUTION_SECONDS,
+    MAX_CAPTURE_BYTES_PER_STREAM, PlannedAction, PlannedSatisfaction, ProtectedGateClass,
+    VerificationCommand, VerificationReusePolicy, execute_bounded, execute_bounded_at,
+    execute_bounded_with_resource_budget, execute_verification_plan_bounded,
     plan_verification_commands,
 };
 use std::sync::{
@@ -55,6 +56,53 @@ fn reusable_command(id: &str, program: &str, args: Vec<String>) -> VerificationC
 
 fn always_command(id: &str, program: &str, args: Vec<String>) -> VerificationCommand {
     VerificationCommand::new(id, program, args, VerificationReusePolicy::NeverReuse)
+}
+
+#[test]
+fn timeout_is_bound_into_command_and_execution_receipt_identity() {
+    let default = always_command("timeout-default", "true", vec![]);
+    let override_command = default.clone().with_timeout_seconds(1);
+
+    assert_eq!(default.timeout_seconds(), DEFAULT_EXECUTION_SECONDS);
+    assert_eq!(override_command.timeout_seconds(), 1);
+    assert_ne!(default.command_digest(), override_command.command_digest());
+
+    let receipt = execute_bounded_at(vec![override_command], 1, NOW).expect("execute");
+    assert_eq!(receipt.timeout_seconds, Some(1));
+    assert_eq!(receipt.execution_records[0].timeout_seconds, 1);
+    assert!(receipt.execution_records[0].deadline_ms >= receipt.execution_records[0].elapsed_ms);
+}
+
+#[test]
+fn timeout_above_runtime_cap_is_rejected_before_spawn() {
+    let command = always_command("too-long", "true", vec![])
+        .with_timeout_seconds(MAX_ALLOWED_EXECUTION_SECONDS + 1);
+
+    assert!(matches!(
+        execute_bounded_at(vec![command], 1, NOW),
+        Err(ExecutionError::InvalidTimeout { .. })
+    ));
+}
+
+#[cfg(unix)]
+#[test]
+fn timeout_terminates_the_process_tree_and_fails_closed() {
+    let command = always_command(
+        "timeout-tree",
+        "sh",
+        vec!["-c".into(), "sleep 30 & wait".into()],
+    )
+    .with_timeout_seconds(1);
+    let started = std::time::Instant::now();
+
+    let receipt = execute_bounded_at(vec![command], 1, NOW).expect("execute timeout");
+
+    assert!(!receipt.passed);
+    let record = &receipt.execution_records[0];
+    assert!(record.timed_out);
+    assert_eq!(record.exit_code, None);
+    assert!(record.elapsed_ms >= 900);
+    assert!(started.elapsed() < std::time::Duration::from_secs(5));
 }
 
 fn diagnostic_command() -> VerificationCommand {

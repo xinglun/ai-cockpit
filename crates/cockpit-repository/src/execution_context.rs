@@ -551,9 +551,17 @@ pub(super) fn build_repository_verification_command(
             policy,
         )
     };
-    command.with_current_dir(root).with_environment(
-        execution_identity.map_or_else(Vec::new, ResolvedExecutableIdentity::execution_environment),
-    )
+    command
+        .with_current_dir(root)
+        .with_environment(
+            execution_identity
+                .map_or_else(Vec::new, ResolvedExecutableIdentity::execution_environment),
+        )
+        .with_timeout_seconds(
+            request
+                .timeout_seconds
+                .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
+        )
 }
 
 pub(super) fn resolve_executable(root: &Path, program: &str) -> Option<PathBuf> {

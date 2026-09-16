@@ -15,7 +15,10 @@ use thiserror::Error;
 
 pub const MAX_CAPTURE_BYTES_PER_STREAM: usize = 64 * 1024;
 pub const REUSABLE_RECEIPT_TTL_SECONDS: i64 = 24 * 60 * 60;
-pub const MAX_EXECUTION_SECONDS: u64 = 300;
+pub const DEFAULT_EXECUTION_SECONDS: u64 = cockpit_protocol::DEFAULT_VERIFICATION_TIMEOUT_SECONDS;
+pub const MAX_ALLOWED_EXECUTION_SECONDS: u64 = cockpit_protocol::MAX_VERIFICATION_TIMEOUT_SECONDS;
+/// Compatibility alias for consumers that used the old default timeout name.
+pub const MAX_EXECUTION_SECONDS: u64 = DEFAULT_EXECUTION_SECONDS;
 
 /// A machine-readable measurement captured by a repository-local performance
 /// fixture.  The identity fields are intentionally required: a timing value
@@ -413,6 +416,10 @@ pub struct VerificationResult {
 pub struct VerificationExecutionRecord {
     pub node_id: String,
     pub command_digest: String,
+    #[serde(default)]
+    pub timeout_seconds: u64,
+    #[serde(default)]
+    pub deadline_ms: u128,
     pub spawned: bool,
     pub passed: bool,
     pub exit_code: Option<i32>,
@@ -742,6 +749,7 @@ pub struct VerificationCommand {
     logical_identity: Option<(String, Vec<String>)>,
     environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
     resource_weight: usize,
+    timeout_seconds: u64,
 }
 
 impl VerificationCommand {
@@ -762,6 +770,7 @@ impl VerificationCommand {
             logical_identity: None,
             environment: Vec::new(),
             resource_weight: 1,
+            timeout_seconds: DEFAULT_EXECUTION_SECONDS,
         }
     }
 
@@ -819,6 +828,17 @@ impl VerificationCommand {
         self.resource_weight
     }
 
+    /// Set the finite execution deadline for this command. The planner and
+    /// executor validate the value before any child process is spawned.
+    pub fn with_timeout_seconds(mut self, timeout_seconds: u64) -> Self {
+        self.timeout_seconds = timeout_seconds;
+        self
+    }
+
+    pub fn timeout_seconds(&self) -> u64 {
+        self.timeout_seconds
+    }
+
     pub fn command_digest(&self) -> String {
         let current_dir = self
             .current_dir
@@ -830,8 +850,14 @@ impl VerificationCommand {
             .map_or((&self.program, &self.args), |(program, args)| {
                 (program, args)
             });
-        let identity = serde_json::to_vec(&(program, args, current_dir, self.resource_weight))
-            .expect("verification command identity is serializable");
+        let identity = serde_json::to_vec(&(
+            program,
+            args,
+            current_dir,
+            self.resource_weight,
+            self.timeout_seconds,
+        ))
+        .expect("verification command identity is serializable");
         Digest::sha256_bytes(&identity).to_string()
     }
 
@@ -1001,6 +1027,8 @@ pub struct VerificationReceipt {
     pub runtime_version: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub runtime_digest: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub timeout_seconds: Option<u64>,
     pub results: Vec<VerificationResult>,
     /// One record for every process the bounded scheduler actually spawned.
     /// Historical receipts may omit this field; current formal verification
@@ -1207,6 +1235,8 @@ pub struct VerificationPlanReceipt {
     pub repository_snapshot_digest: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub base_revision: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub timeout_seconds: Option<u64>,
     pub stage: cockpit_protocol::VerificationStage,
     pub initial_tier: cockpit_protocol::VerificationTier,
     pub final_tier: cockpit_protocol::VerificationTier,
@@ -1251,6 +1281,7 @@ impl VerificationPlanReceipt {
             repository_id: None,
             repository_snapshot_digest: None,
             base_revision: None,
+            timeout_seconds: None,
             stage,
             initial_tier,
             final_tier,
@@ -1281,6 +1312,10 @@ impl VerificationPlanReceipt {
         }
         if self.final_tier.rank() < self.initial_tier.rank() {
             return Err("verification tier downgrade requires an explicit decision".into());
+        }
+        if let Some(timeout_seconds) = self.timeout_seconds {
+            validate_timeout_seconds(timeout_seconds, "plan-receipt")
+                .map_err(|error| error.to_string())?;
         }
         if let Some(required_tier) = self.required_tier
             && self.final_tier.rank() < required_tier.rank()
@@ -1786,6 +1821,14 @@ pub enum ExecutionError {
     InvalidResourceBudget,
     #[error("verification command {0} exceeds the resource budget")]
     CommandExceedsResourceBudget(String),
+    #[error(
+        "verification command {command} has timeout {timeout_seconds}s outside the finite range 1..={max_seconds}s"
+    )]
+    InvalidTimeout {
+        command: String,
+        timeout_seconds: u64,
+        max_seconds: u64,
+    },
     #[error("verification worker mutex was poisoned")]
     WorkerPoisoned,
     #[error(transparent)]
@@ -1800,6 +1843,7 @@ pub fn plan_verification_commands(
     let mut graph = VerificationGraph::default();
     let mut by_id = BTreeMap::new();
     for command in commands {
+        validate_timeout_seconds(command.timeout_seconds, &command.id)?;
         graph.add(VerificationNode::new(
             &command.id,
             if command.is_protected() {
@@ -1972,6 +2016,10 @@ fn execute_verification_plan_bounded_with_budget_at(
     let planning_elapsed_ms = plan.planning_elapsed_ms;
     let planned_count = plan.commands.len();
     let result_plan = plan.commands.clone();
+    for entry in &result_plan {
+        validate_timeout_seconds(entry.command.timeout_seconds, &entry.command.id)?;
+    }
+    let timeout_seconds = common_timeout_seconds(&result_plan);
     let nodes_reused = plan
         .commands
         .iter()
@@ -2082,6 +2130,8 @@ fn execute_verification_plan_bounded_with_budget_at(
             execution_records.push(VerificationExecutionRecord {
                 node_id: entry.command.id.clone(),
                 command_digest: entry.command.command_digest(),
+                timeout_seconds: outcome.timeout_seconds,
+                deadline_ms: outcome.deadline_ms,
                 spawned: outcome.spawned,
                 passed: outcome.passed,
                 exit_code: outcome.exit_code,
@@ -2137,6 +2187,7 @@ fn execute_verification_plan_bounded_with_budget_at(
         repository_id: None,
         runtime_version: None,
         runtime_digest: None,
+        timeout_seconds,
         results,
         execution_records,
         receipt_candidates,
@@ -2301,6 +2352,8 @@ struct ExecutionOutcome {
     output_truncated: bool,
     timed_out: bool,
     elapsed_ms: u128,
+    timeout_seconds: u64,
+    deadline_ms: u128,
 }
 
 #[derive(Serialize)]
@@ -2329,6 +2382,9 @@ struct CaptureWorker {
 
 fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     let started = Instant::now();
+    let timeout_seconds = command.timeout_seconds;
+    let deadline_ms =
+        unix_epoch_millis().saturating_add(u128::from(timeout_seconds).saturating_mul(1_000));
     let mut process = Command::new(&command.program);
     process
         .args(&command.args)
@@ -2367,6 +2423,8 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
                 output_truncated: false,
                 timed_out: false,
                 elapsed_ms: started.elapsed().as_millis(),
+                timeout_seconds,
+                deadline_ms,
             };
         }
     };
@@ -2389,6 +2447,8 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
                 output_truncated: false,
                 timed_out: false,
                 elapsed_ms: started.elapsed().as_millis(),
+                timeout_seconds,
+                deadline_ms,
             };
         }
     };
@@ -2409,13 +2469,15 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             output_truncated: false,
             timed_out: false,
             elapsed_ms: started.elapsed().as_millis(),
+            timeout_seconds,
+            deadline_ms,
         };
     }
     let stdout = child.stdout.take();
     let stderr = child.stderr.take();
     let stdout_worker = stdout.map(capture_stream_async);
     let stderr_worker = stderr.map(capture_stream_async);
-    let deadline = Instant::now() + Duration::from_secs(MAX_EXECUTION_SECONDS);
+    let deadline = Instant::now() + Duration::from_secs(timeout_seconds);
     let (status, mut timed_out) = loop {
         match child.try_wait() {
             Ok(Some(status)) => break (Some(status), false),
@@ -2451,6 +2513,8 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             output_truncated: stdout.truncated || stderr.truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
+            timeout_seconds,
+            deadline_ms,
         };
     };
     if stdout.failed || stderr.failed {
@@ -2466,6 +2530,8 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
             output_truncated: stdout.truncated || stderr.truncated,
             timed_out,
             elapsed_ms: started.elapsed().as_millis(),
+            timeout_seconds,
+            deadline_ms,
         };
     }
     let identity = OutputIdentity {
@@ -2492,12 +2558,39 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         output_truncated: stdout.truncated || stderr.truncated,
         timed_out,
         elapsed_ms: started.elapsed().as_millis(),
+        timeout_seconds,
+        deadline_ms,
     }
 }
 
 fn terminate_process_tree(child: &mut std::process::Child, child_id: u32) {
     terminate_descendants(child_id);
     let _ = child.kill();
+}
+
+fn unix_epoch_millis() -> u128 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map_or(0, |duration| duration.as_millis())
+}
+
+pub fn validate_timeout_seconds(timeout_seconds: u64, command: &str) -> Result<(), ExecutionError> {
+    if (1..=MAX_ALLOWED_EXECUTION_SECONDS).contains(&timeout_seconds) {
+        return Ok(());
+    }
+    Err(ExecutionError::InvalidTimeout {
+        command: command.into(),
+        timeout_seconds,
+        max_seconds: MAX_ALLOWED_EXECUTION_SECONDS,
+    })
+}
+
+fn common_timeout_seconds(commands: &[PlannedVerificationCommand]) -> Option<u64> {
+    let first = commands.first()?.command.timeout_seconds;
+    commands
+        .iter()
+        .all(|entry| entry.command.timeout_seconds == first)
+        .then_some(first)
 }
 
 #[cfg(unix)]

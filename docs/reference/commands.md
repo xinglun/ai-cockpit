@@ -118,7 +118,7 @@ before any repository operation runs.
 | `evidence_get` | Exactly one of `path`, `evidencePath`, or `id`. | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | Required `workItemId`. | `{"workItemId":"WI-123"}` |
 | `work_item_controls`, `work_item_recover` | Exactly one Work Item id plus exactly one object: `controls`/`input`, or `receipt`/`input`. | `{"workItemId":"WI-123","controls":{...}}` |
-| `verify` | Optional `workItemId`, `command`, string-array `args`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"planOnly":true}` |
+| `verify` | Optional `workItemId`, `command`, string-array `args`, finite `timeoutSeconds`, and boolean `planOnly`; command is allowlisted. | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action`: `inspect`/`acquire`/`release`/`list`; inspect/acquire/release require an id, release also requires `leaseId`. | `{"action":"inspect","workItemId":"WI-123"}` |
 
 For a person-facing result, call `work_item_outcome` and surface its text
@@ -133,6 +133,12 @@ review when the returned state is yellow, red, unknown, or not ready.
   and is always fresh. `--work-item <id>` records the receipt for that Work Item;
   its detected Cargo/npm command uses the dynamic profile-authorized path, while
   an explicit custom command remains fresh.
+- `verify --timeout-seconds <n>` uses a finite timeout in the inclusive range
+  `1..=900` seconds. Omitting it preserves the 300-second Runtime default; every
+  explicit value is an override and requires a finite Contract or repository
+  policy ceiling. Values above the Runtime cap are rejected before spawn. The
+  effective timeout is included in the plan, receipt, command digest, and reuse
+  identity; a deadline fails closed and terminates the process tree.
 - `verify --plan-only` resolves the route and emits the deterministic plan without
   spawning project verification commands. For a Cargo workspace, the plan runs
   one metadata query and partitions `cargo test --locked --workspace` into

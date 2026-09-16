@@ -375,6 +375,8 @@ fn runtime_bound_verification_keeps_governance_bound_to_current_runtime() {
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

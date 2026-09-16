@@ -212,6 +212,8 @@ fn profile_authorized_verification_reuses_exact_receipt_without_source_changes()
         runtime_digest: digest('b'),
         base_commit: None,
         workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
         policy: RepositoryVerificationPolicy::ProfileAuthorized,
     };
 

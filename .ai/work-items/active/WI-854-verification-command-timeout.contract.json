@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "Absent timeout override remains 300 seconds and existing verification targets and pass semantics are unchanged.",
+    "Only finite positive overrides authorized by the Contract or repository policy are accepted; values above the finite Runtime cap are rejected before spawn.",
+    "Effective timeout is present in plan receipt execution receipt and reuse identity so changed values cannot reuse prior evidence.",
+    "Timeout or interruption fails closed records deadline and elapsed data with unknown exit code where applicable and terminates the child process tree.",
+    "Focused deterministic regressions cover default override cap rejection pre-spawn descendant cleanup receipt identity and CLI/MCP/docs semantics."
+  ],
+  "authority": "authorized",
+  "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+  "createdAt": "2026-09-16T04:50:00Z",
+  "goal": "Add a finite authorized timeout override with default compatibility, pre-spawn upper-bound rejection, identity-bound plan and receipts, process-tree cleanup, CLI/MCP surfaces, tri-language command documentation, and focused regressions.",
+  "intent": "Implement GitHub Issue #828 bounded timeout for verification commands while preserving fail-closed verification semantics.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Changing required checks",
+    " pass semantics",
+    " verification execution boundary design from WI-820",
+    " unlimited timeouts",
+    " external evidence substitution",
+    " full workspace execution",
+    " pushing",
+    " pull request creation or merge",
+    " release work",
+    " unrelated dirty root worktree."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75db86d085c1b95b44698ed2a9d70075abbf1b19fc4daed4f64526b5ddc1b017",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "cockpit-verification execution timeout model and cleanup tests; cockpit-repository Contract/policy authorization and plan/receipt/reuse identity; CLI verify timeout option; MCP verify timeout field; English Simplified Chinese and Japanese command documentation; focused regression tests."
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-854-verification-command-timeout"
+}

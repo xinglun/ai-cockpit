@@ -84,6 +84,8 @@ fn request(_root: &Path) -> RepositoryVerificationRequest {
         runtime_digest: runtime().runtime_digest.to_string(),
         base_commit: None,
         workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
         policy: RepositoryVerificationPolicy::NeverReuse,
     }
 }
@@ -101,6 +103,11 @@ fn attempt_receipt(
         cockpit_verification::VerificationReusePolicy::NeverReuse,
     )
     .with_current_dir(&root)
+    .with_timeout_seconds(
+        request
+            .timeout_seconds
+            .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
+    )
     .command_digest();
     json!({
         "passed": passed,
@@ -115,6 +122,9 @@ fn attempt_receipt(
             "stdoutTruncated": false,
             "stderrTruncated": false,
             "timedOut": false,
+            "timeoutSeconds": request
+                .timeout_seconds
+                .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
             "elapsedMs": 17
         }],
         "processesSpawned": 1,
@@ -281,6 +291,42 @@ fn timed_out_attempt_is_preserved_but_never_reused() {
             &runtime(),
         )
         .expect("load timeout")
+        .is_none()
+    );
+}
+
+#[test]
+fn changed_timeout_invalidates_reuse_without_rewriting_the_attempt() {
+    let directory = repository();
+    let root = directory.path();
+    let snapshot = GitRepository::discover(root)
+        .expect("git")
+        .snapshot()
+        .expect("snapshot");
+    let request = request(root);
+    persist_verification_attempt(
+        root,
+        "WI-ATTEMPT",
+        std::slice::from_ref(&request),
+        &snapshot,
+        &runtime(),
+        "formal_receipt_rejected",
+        None,
+        Some(&attempt_receipt(root, &request, true)),
+    )
+    .expect("persist attempt");
+
+    let mut changed = request.clone();
+    changed.timeout_seconds = Some(1);
+    assert!(
+        load_reusable_verification_attempt(
+            root,
+            "WI-ATTEMPT",
+            std::slice::from_ref(&changed),
+            &snapshot,
+            &runtime(),
+        )
+        .expect("load changed timeout")
         .is_none()
     );
 }

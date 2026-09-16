@@ -198,6 +198,10 @@ pub struct RepositoryVerificationRequest {
     pub runtime_digest: String,
     pub base_commit: Option<String>,
     pub workers: usize,
+    pub work_item_id: Option<String>,
+    /// Effective timeout after Contract/repository policy authorization.
+    /// `None` preserves the Runtime default.
+    pub timeout_seconds: Option<u64>,
     pub policy: RepositoryVerificationPolicy,
 }
 
@@ -235,7 +239,112 @@ fn validate_verification_request(
             ),
         });
     }
+    authorize_verification_timeout(root, request)?;
     Ok(stage)
+}
+
+/// Validate the effective timeout before any repository command is planned or
+/// spawned. The Runtime cap is unconditional; an explicit value, including a
+/// lower value, is an override and must be granted by the active Contract or
+/// repository policy with a finite ceiling.
+fn authorize_verification_timeout(
+    root: &Path,
+    request: &RepositoryVerificationRequest,
+) -> Result<(), ObserverError> {
+    let Some(timeout_seconds) = request.timeout_seconds else {
+        return Ok(());
+    };
+    cockpit_verification::validate_timeout_seconds(timeout_seconds, &request.program).map_err(
+        |error| ObserverError::State {
+            path: root.to_path_buf(),
+            message: error.to_string(),
+        },
+    )?;
+
+    let ceiling =
+        authorized_timeout_ceiling(root, request.work_item_id.as_deref(), &request.stage)?;
+    match ceiling {
+        Some(ceiling) if timeout_seconds <= ceiling => Ok(()),
+        Some(ceiling) => Err(ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: format!(
+                "verification timeout override {}s exceeds the authorized ceiling {}s",
+                timeout_seconds, ceiling
+            ),
+        }),
+        None => Err(ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: format!(
+                "explicit verification timeout override {}s requires finite Contract or repository policy authorization",
+                timeout_seconds
+            ),
+        }),
+    }
+}
+
+fn authorized_timeout_ceiling(
+    root: &Path,
+    work_item_id: Option<&str>,
+    stage: &str,
+) -> Result<Option<u64>, ObserverError> {
+    let (policy, operation) = if let Some(work_item_id) = work_item_id {
+        validate_work_item_id(work_item_id)?;
+        let contract_path = root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json"));
+        let contract = read_contract(&contract_path)?;
+        (
+            effective_policy_for_contract(root, &contract)?,
+            verification_operation_for_contract(&contract).to_owned(),
+        )
+    } else {
+        (effective_repository_policy(root)?, "modify_source".into())
+    };
+    let Some(policy) = policy else {
+        return Ok(None);
+    };
+    let Some(rule) = policy.rules.iter().find(|rule| rule.operation == operation) else {
+        return Ok(None);
+    };
+    let Some(max_timeout_seconds) = rule
+        .verification_requirement
+        .as_ref()
+        .and_then(|requirement| requirement.max_timeout_seconds)
+    else {
+        return Ok(None);
+    };
+    let plan =
+        cockpit_verification::plan_policy_requirement(&cockpit_verification::PolicyPlannerInput {
+            operation,
+            stage: stage.into(),
+            protected_gate: None,
+            policies: vec![policy],
+        })
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: error.to_string(),
+        })?;
+    debug_assert_eq!(
+        plan.requirement.max_timeout_seconds,
+        Some(max_timeout_seconds)
+    );
+    Ok(Some(max_timeout_seconds))
+}
+
+fn effective_repository_policy(root: &Path) -> Result<Option<GovernancePolicy>, ObserverError> {
+    let Some(document) = policy_document(root)? else {
+        return Ok(None);
+    };
+    let layers = [document.organization.as_ref(), document.project.as_ref()]
+        .into_iter()
+        .flatten()
+        .collect::<Vec<_>>();
+    merge_policy_layers(&layers)
+        .map(Some)
+        .map_err(|error| ObserverError::State {
+            path: root.join(".ai/policy.json"),
+            message: error.to_string(),
+        })
 }
 
 /// Partition the canonical Cargo workspace route into deterministic package
@@ -392,6 +501,11 @@ pub fn plan_repository_verification(
                     cockpit_verification::VerificationReusePolicy::NeverReuse,
                 )
                 .with_current_dir(root)
+                .with_timeout_seconds(
+                    request
+                        .timeout_seconds
+                        .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
+                )
                 .command_digest()
             })
             .collect(),
@@ -1087,6 +1201,7 @@ pub fn plan_repository_verification_action(
         "receiptId": planned.receipt_id,
         "satisfiedBy": planned.satisfied_by,
         "reuseAuthorization": prepared.reuse_authorization,
+        "timeoutSeconds": planned.command.timeout_seconds(),
         "identityBinding": {
             "repositoryId": repository_id(&root).to_string(),
             "repositorySnapshotDigest": snapshot_digest.to_string(),
@@ -1315,6 +1430,7 @@ pub fn run_repository_verification(
         plan_receipt.planning_elapsed_ms = receipt.planning_elapsed_ms;
         plan_receipt.execution_elapsed_ms = receipt.execution_elapsed_ms;
         plan_receipt.saved_executions = receipt.nodes_reused;
+        plan_receipt.timeout_seconds = receipt.timeout_seconds;
         receipt.plan_receipt = Some(plan_receipt);
     }
     Ok(RepositoryVerificationRun {

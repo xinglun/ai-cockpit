@@ -109,6 +109,8 @@ fn archived_resource_repository() -> (tempfile::TempDir, PathBuf) {
             runtime_digest: current_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -467,6 +469,8 @@ fn hosted_gate_does_not_block_on_a_local_runtime_receipt() {
             runtime_digest: local_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

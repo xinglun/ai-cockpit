@@ -221,6 +221,11 @@ enum CommandKind {
         workers: usize,
         #[arg(long, default_value = "task")]
         stage: String,
+        /// Finite command timeout in seconds. Explicit values require a
+        /// finite Contract or repository policy ceiling; omission preserves
+        /// the 300-second Runtime default.
+        #[arg(long)]
+        timeout_seconds: Option<u64>,
         /// Resolve the route and emit its deterministic verification plan
         /// without spawning project verification commands.
         #[arg(long)]
@@ -1360,6 +1365,7 @@ fn run() -> Result<()> {
             args,
             workers,
             stage,
+            timeout_seconds,
             plan_only,
             base_revision,
             archived_recovery,
@@ -1445,6 +1451,8 @@ fn run() -> Result<()> {
                         .and_then(|route| route.base_revision.clone())
                         .or_else(|| base_revision.clone()),
                     workers,
+                    work_item_id: work_item.clone(),
+                    timeout_seconds,
                     // Detected Work Item commands use the same exact,
                     // identity-bound profile authorization as bare `verify`.
                     // Explicit custom commands remain fresh unless a future
@@ -1645,6 +1653,9 @@ fn run() -> Result<()> {
                         "program": request.program,
                         "args": request.args,
                         "dependencies": [],
+                        "timeoutSeconds": request.timeout_seconds.unwrap_or(
+                            cockpit_verification::DEFAULT_EXECUTION_SECONDS,
+                        ),
                     })).collect::<Vec<_>>(),
                     "state": "planned",
                     "workItemId": work_item,
@@ -1656,6 +1667,12 @@ fn run() -> Result<()> {
                     "nodesToExecute": planned_nodes.len().saturating_sub(nodes_reused),
                     "nodesReused": nodes_reused,
                     "processesSpawned": 0,
+                    "timeoutSeconds": requests.first().map_or(
+                        cockpit_verification::DEFAULT_EXECUTION_SECONDS,
+                        |request| request.timeout_seconds.unwrap_or(
+                            cockpit_verification::DEFAULT_EXECUTION_SECONDS,
+                        ),
+                    ),
                     "plannedNodes": planned_nodes,
                 });
                 println!("{}", serde_json::to_string_pretty(&plan)?);
@@ -1821,6 +1838,7 @@ fn run() -> Result<()> {
             plan_receipt.execution_elapsed_ms = run.receipt.execution_elapsed_ms;
             plan_receipt.planning_elapsed_ms = run.receipt.planning_elapsed_ms;
             plan_receipt.saved_executions = run.receipt.nodes_reused;
+            plan_receipt.timeout_seconds = run.receipt.timeout_seconds;
             run.receipt.plan_receipt = Some(plan_receipt);
             let cost_observation = run.receipt.cost_observation();
             run.receipt.cost_observation = Some(cost_observation);
