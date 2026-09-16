@@ -1,0 +1,164 @@
+{
+  "attemptId": "sha256:4feaa33bbe7cd19d0a06468b069c47d5e43292ebaa334c2dd5423b70e65f3fd1",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py --repo /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-867-closed-docs-promotion --check-all"
+      ],
+      "baseCommit": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "commandDigest": "sha256:01f71d1d49bd468fc5fd83689c548fe0af7f06c250e0d5408725cfddd1413d6c",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:5c94c647a252a56c47027af65444a02c65edec48759f68d50379afc095a1e7c2",
+  "contractExecutionScopeDigest": "sha256:9ceb3ea4146c028d31c825f17c8f347f1747eca2f0aec884fd33c9f7359cd3e8",
+  "createdAt": "2026-09-16T20:46:14Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:01f71d1d49bd468fc5fd83689c548fe0af7f06c250e0d5408725cfddd1413d6c",
+      "elapsedMs": 24,
+      "exitCode": 2,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "707974686f6e333a2063616e2774206f70656e2066696c6520272f55736572732f7365692d72696e6e2f6465762f776f726b73706163655f727573742f61692d636f636b7069742f2e776f726b74726565732f77692d3836372d636c6f7365642d646f63732d70726f6d6f74696f6e2f74657374732f646f63732f70726f6d6f74655f636c6f7365645f776f726b5f6974656d2e7079202d2d7265706f202f55736572732f7365692d72696e6e2f6465762f776f726b73706163655f727573742f61692d636f636b7069742f2e776f726b74726565732f77692d3836372d636c6f7365642d646f63732d70726f6d6f74696f6e202d2d636865636b2d616c6c273a205b4572726e6f20325d204e6f20737563682066696c65206f72206469726563746f72790a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 262,
+      "executionElapsedMs": 24,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 262,
+    "executionElapsedMs": 24,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:01f71d1d49bd468fc5fd83689c548fe0af7f06c250e0d5408725cfddd1413d6c",
+        "elapsedMs": 24,
+        "exitCode": 2,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "707974686f6e333a2063616e2774206f70656e2066696c6520272f55736572732f7365692d72696e6e2f6465762f776f726b73706163655f727573742f61692d636f636b7069742f2e776f726b74726565732f77692d3836372d636c6f7365642d646f63732d70726f6d6f74696f6e2f74657374732f646f63732f70726f6d6f74655f636c6f7365645f776f726b5f6974656d2e7079202d2d7265706f202f55736572732f7365692d72696e6e2f6465762f776f726b73706163655f727573742f61692d636f636b7069742f2e776f726b74726565732f77692d3836372d636c6f7365642d646f63732d70726f6d6f74696f6e202d2d636865636b2d616c6c273a205b4572726e6f20325d204e6f20737563682066696c65206f72206469726563746f72790a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 23,
+    "filesRead": 23,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/work-items/WI-864-release-v0-2-93.ja.md",
+        "docs/work-items/WI-864-release-v0-2-93.md",
+        "docs/work-items/WI-864-release-v0-2-93.zh-CN.md",
+        "docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md",
+        "docs/work-items/WI-867-closed-work-item-docs-promotion.md",
+        "docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 24,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:39da9255ca2a0f8c36c38e8b23b857a69378e83f49fb71f25d3b2d07e9102448",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-867-closed-work-item-docs-promotion"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:862890e94ac34c21f1796212c744957c6bab2866904e717137c7b463877f643c",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:39da9255ca2a0f8c36c38e8b23b857a69378e83f49fb71f25d3b2d07e9102448",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "WI-867-closed-work-item-docs-promotion"
+}
