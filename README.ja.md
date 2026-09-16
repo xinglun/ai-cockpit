@@ -131,6 +131,7 @@ global Agent/MCP 設定は変更しません。Discovery、adapter install、con
 
 - [ドキュメントマップ](docs/README.ja.md) — adopter、contributor、reviewer、MCP、maintainer の入口。
 - [機能と境界](docs/capabilities.ja.md) — 現在の command surface と外部責任。
+- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/) — governance lifecycle の任意の interactive guide。
 - [Release と配布](docs/release/distribution.ja.md) — install、検証、rollback、MCP 設定。
 
 source checkout では、contributor は `cargo run -p cockpit-cli -- --help` で command

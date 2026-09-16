@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the canonical English, Japanese, and Simplified Chinese README materials.",
+    "The three language reference parity pages identify the Explorer as an optional project reference with equivalent meaning.",
+    "The change is documentation-only, keeps the URL unchanged, and passes focused repository documentation checks.",
+    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials."
+  ],
+  "authority": "authorized",
+  "baseRevision": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",
+  "createdAt": "2026-09-16T11:36:34Z",
+  "goal": "Publish the exact Explorer link in the project materials without changing Runtime behavior or governance facts.",
+  "intent": "Add the AI Cockpit Explorer as a project reference for onboarding and non-engineering stakeholders.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "CLI/MCP protocol",
+    "release artifacts",
+    "the Explorer repository itself"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:971d5881423badd80516a6d62a0f2c9ca8a70bb3c13facc5850c8a5b46ccc2da",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "README.md",
+    "README.ja.md",
+    "README.zh-CN.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.ja.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.zh-CN.md"
+  ],
+  "sources": [
+    "https://xinglun.github.io/ai-cockpit-explorer",
+    "explicit-user-request: add AI Cockpit Explorer to AI Cockpit project materials"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}

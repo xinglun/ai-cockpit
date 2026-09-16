@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.416079608c07dce894930343fdc11d1ab286db145f681669ca331e5cb5cc8ab2.json",
+    ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.52e36a952831eab3c1bb81e9cbfd8699c0b77f8cdc1a3ba8edc2b885e6c35bec.json",
+    ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.events.jsonl",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.outcome.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.md",
+    "README.ja.md",
+    "README.md",
+    "README.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.ja.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.md",
+    "docs/work-items/WI-858-ai-cockpit-explorer-reference.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T11:38:13Z",
+  "checkpointContractDigest": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "recorded": true,
+      "recordedAt": "2026-09-16T11:38:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:937e145278fc6b3b34bbcc881c5613085d8a0aca7df4db97aeb4b04cb7767582",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "previousContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "reason": "The initial implementation omitted the README projection; make the completed README locations explicit before revalidation.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T11:44:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8420fa3f89543f1f67529e9878c1171d7c6055fd073b480535b543b1684ce49b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:95d6aeaa518755bd3da48edcb9d92d91c696202dce25ba2354eefa442e142a17",
+  "createdAt": "2026-09-16T11:36:34Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T11:45:21Z",
+  "preflightContractDigest": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:95d6aeaa518755bd3da48edcb9d92d91c696202dce25ba2354eefa442e142a17",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T11:45:30Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}
