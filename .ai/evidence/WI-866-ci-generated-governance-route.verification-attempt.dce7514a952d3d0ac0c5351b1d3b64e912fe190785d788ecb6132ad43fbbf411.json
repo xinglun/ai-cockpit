@@ -1,0 +1,153 @@
+{
+  "attemptId": "sha256:dce7514a952d3d0ac0c5351b1d3b64e912fe190785d788ecb6132ad43fbbf411",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/quality_route_test.py"
+      ],
+      "baseCommit": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "commandDigest": "sha256:f0db7f8427db50a6cc31ca7871d8e3a5f51b4444ba0214902075b1956eda9a5f",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:65c26c4e525ad0de7e6004a302c44ee4c8a06d5fa0294bda2bc201356220eda6",
+  "contractExecutionScopeDigest": "sha256:d61cdb1c673b251b37e101ba280334b2d614536b0e16df1656905719b0325efc",
+  "createdAt": "2026-09-16T20:34:07Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:f0db7f8427db50a6cc31ca7871d8e3a5f51b4444ba0214902075b1956eda9a5f",
+      "elapsedMs": 958,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "7265706f7369746f7279207175616c69747920726f7574652072656772657373696f6e207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 1186,
+      "executionElapsedMs": 958,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 1186,
+    "executionElapsedMs": 958,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:f0db7f8427db50a6cc31ca7871d8e3a5f51b4444ba0214902075b1956eda9a5f",
+        "elapsedMs": 958,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "7265706f7369746f7279207175616c69747920726f7574652072656772657373696f6e207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 9,
+    "filesRead": 9,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "tests/ci/quality_route.py",
+        "tests/ci/quality_route_test.py"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "11908f902154c0883f3b976b91b63031caa5f8a7",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 958,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6c651f86758e21906d1e90cbc91cdc6bc0404bd23e06d4e20961d06948bf827f",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-866-ci-generated-governance-route"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:6da602cec64d63ea45bb796d7a7128cfb248f7df60393ef9fa8c1b9833e13e47",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6c651f86758e21906d1e90cbc91cdc6bc0404bd23e06d4e20961d06948bf827f",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-866-ci-generated-governance-route"
+}

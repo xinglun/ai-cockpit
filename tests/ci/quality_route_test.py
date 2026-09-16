@@ -101,6 +101,24 @@ assert selected(["docs/release/distribution.md", "Cargo.lock"]) == "strict"
 assert selected(["unclassified/new-surface.xyz"]) == "strict"
 assert selected(["docs/release/distribution.md"], risk="high") == "strict"
 assert selected(["docs/release/distribution.md"], stage="release") == "strict"
+generated_docs = [
+    "docs/work-items/WI-865-closed-work-item-docs-promotion.md",
+    ".ai/work-items/active/WI-865-closed-work-item-docs-promotion.contract.json",
+    ".ai/evidence/WI-865-closed-work-item-docs-promotion.verification.json",
+    ".ai/decisions/observer-snapshot.json",
+]
+assert selected(generated_docs) == "light"
+generated_docs_route = route.select_route(
+    manifest,
+    paths=generated_docs,
+    risk="normal",
+    stage="pull_request",
+    requested_profile=None,
+)
+assert all(item["profile"] == "light" for item in generated_docs_route["pathDecisions"])
+assert selected(["docs/work-items/WI-865.md", ".ai/project/profile-policy.json"]) == "strict"
+assert selected(["docs/work-items/WI-865.md", ".ai/evidence/reuse/index.json"]) == "strict"
+assert selected([".ai/work-items/active/WI-865.contract.json"]) == "strict"
 
 closure_manifest = copy.deepcopy(manifest)
 closure_manifest["gates"] = [

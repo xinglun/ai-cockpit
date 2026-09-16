@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "A documentation-only change with Runtime-generated lifecycle records selects the light route and does not launch unrelated release gates.",
+    "Actual .ai policy or release-owned changes remain strict.",
+    "Route regression tests pass and the existing CI workflow remains valid."
+  ],
+  "authority": "authorized",
+  "baseRevision": "11908f902154c0883f3b976b91b63031caa5f8a7",
+  "createdAt": "2026-09-16T20:28:21Z",
+  "goal": "Make route selection and its regression tests distinguish generated lifecycle evidence from source/CI policy changes while preserving strict routing for actual governance and release changes.",
+  "intent": "Prevent Runtime-generated governance records from escalating documentation-only pull requests into unrelated strict release validation.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/**",
+    "docs/**",
+    "src/**",
+    "release artifacts",
+    "provider operations"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "tests/ci/quality_route.py",
+    "tests/ci/quality_route_test.py",
+    "tests/ci/repository_gate_manifest.json",
+    "tests/ci/repository_gate_manifest_test.py"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-866-ci-generated-governance-route"
+}
