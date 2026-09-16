@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:7050e2208a95fca8ca37b78305a67bb0269d53fd085d851c694bb2aa56b3a5ac",
+  "branchRef": "refs/heads/codex/wi-862-ordinary-cleanup-binding",
+  "contractDigest": "sha256:32b6ccae543c06df42c19bbd71cb8040edeebbc2acce8fceb501b999c15a5210",
+  "headRevision": "69ef3c5c12bb145f80bec98da9f7e9307439c675",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-16T14:56:39Z",
+  "operationId": "sha256:2a198a6c3b6dfb9277206ce4bf3f44e1d930c008f8a0b4b60490c135afda818e",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:6bb89bfba1aaa5d2a10177be37e405b485ffbd0e5e0208262f64a3277a653782",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-862-ordinary-cleanup-binding",
+  "worktreeId": "sha256:658766143d49f3c5a77b3926c0393cc399581b4dd0db500f46c207374909599e"
+}
