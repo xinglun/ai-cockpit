@@ -4,7 +4,7 @@
       ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:8748fe5955a79bd1fdaf70e52f8606707d06f74bdac16a27325c70a8137687f5",
+    "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
     "workItemId": "WI-852-active-work-item-retirement"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,14 +18,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.8821ff4f61e9128be7a451ef271c07e2e115b735d3117467f6a1b46f5b715a48.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.json"
+        "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.4e101fa1d66bb3d6704f4205385773114aa8c3dddfd7acea1856e3f28684ac61.json"
       },
       {
         "evidenceRefs": [
@@ -39,7 +32,7 @@
           ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.5d39fe3bbe41da3242762c2789d10f19e4b92b7a7ea7568e7b4d732c2018499f.json"
+        "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json"
       },
       {
         "evidenceRefs": [

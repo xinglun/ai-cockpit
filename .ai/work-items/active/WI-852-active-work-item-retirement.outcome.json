@@ -5,11 +5,14 @@
     "An unfinished replacement requires an explicitly linked successor Work Item; a discarded already-integrated delivery cannot silently create a successor.",
     "Malformed, foreign, stale, or duplicate retirement input writes no partial state.",
     "CLI and human Outcome expose retired, replaced, and retained states with a concrete next action.",
-    "Replacement discovery rejects duplicate active/archive or symlink successor Contracts before any archive write."
+    "Replacement discovery rejects duplicate active/archive or symlink successor Contracts before any archive write.",
+    "Starting or activating a Work Item emits a read-only, repository-bound advisory listing active Work Items, linked worktrees, and persisted cleanup obligations, together with the current Work Item state and next action.",
+    "Unrelated residual branches, worktrees, or lifecycle obligations are warnings that do not force-stop start; an exact active identity or branch/worktree resource collision is classified as blocked before scaffold creation.",
+    "The same advisory is exposed by the CLI start result and MCP work_item_start result, and its schema and regression tests prove that start does not mutate or delete residual resources."
   ],
-  "createdAt": "2026-09-16T06:06:20Z",
+  "createdAt": "2026-09-16T06:30:38Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:914d761937f2ff28d892ce6fd353337aef9c7b7801514761bf3dcbdc5f2447b0",
+  "evidenceDigest": "sha256:54bf189ae27a65d1bcd9368a4d5973762aaef83c53123e6a890c60a408c89fa1",
   "evidenceRefs": [
     ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
   ],
@@ -35,7 +38,7 @@
         ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8748fe5955a79bd1fdaf70e52f8606707d06f74bdac16a27325c70a8137687f5",
+      "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
       "workItemId": "WI-852-active-work-item-retirement"
     },
     "format": "ai-cockpit.task-outcome",
@@ -49,14 +52,7 @@
             ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.8821ff4f61e9128be7a451ef271c07e2e115b735d3117467f6a1b46f5b715a48.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.4e101fa1d66bb3d6704f4205385773114aa8c3dddfd7acea1856e3f28684ac61.json"
         },
         {
           "evidenceRefs": [
@@ -70,7 +66,7 @@
             ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.5d39fe3bbe41da3242762c2789d10f19e4b92b7a7ea7568e7b4d732c2018499f.json"
+          "text": "Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json"
         },
         {
           "evidenceRefs": [
@@ -152,8 +148,8 @@
     "status": "verified",
     "workItemId": "WI-852-active-work-item-retirement"
   },
-  "taskReportDigest": "sha256:bc678ead07ab34e8ae3acabdc5b1bf6e3485c75607a8a8bdfd2f850b1f7e31fa",
-  "taskReportMarkdownDigest": "sha256:1544da73a7f63fe4b6d5016995d0cfdeadab20b52b4ff904cb078d4b02b89bb4",
+  "taskReportDigest": "sha256:8d5bfb047cf5c3b6454388017b86602fdea9d5b222fc5c5ade2ea7f1d05ffe19",
+  "taskReportMarkdownDigest": "sha256:8f92f8c42ef7e43d6073cee25136978fb12ccd0408dd8a162ddfb7b24af2b4d5",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

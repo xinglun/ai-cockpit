@@ -5,7 +5,10 @@
     "An unfinished replacement requires an explicitly linked successor Work Item; a discarded already-integrated delivery cannot silently create a successor.",
     "Malformed, foreign, stale, or duplicate retirement input writes no partial state.",
     "CLI and human Outcome expose retired, replaced, and retained states with a concrete next action.",
-    "Replacement discovery rejects duplicate active/archive or symlink successor Contracts before any archive write."
+    "Replacement discovery rejects duplicate active/archive or symlink successor Contracts before any archive write.",
+    "Starting or activating a Work Item emits a read-only, repository-bound advisory listing active Work Items, linked worktrees, and persisted cleanup obligations, together with the current Work Item state and next action.",
+    "Unrelated residual branches, worktrees, or lifecycle obligations are warnings that do not force-stop start; an exact active identity or branch/worktree resource collision is classified as blocked before scaffold creation.",
+    "The same advisory is exposed by the CLI start result and MCP work_item_start result, and its schema and regression tests prove that start does not mutate or delete residual resources."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",

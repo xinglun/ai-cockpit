@@ -14,10 +14,9 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.8821ff4f61e9128be7a451ef271c07e2e115b735d3117467f6a1b46f5b715a48.json
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.4e101fa1d66bb3d6704f4205385773114aa8c3dddfd7acea1856e3f28684ac61.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.5d39fe3bbe41da3242762c2789d10f19e4b92b7a7ea7568e7b4d732c2018499f.json
+- Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
 
 ## Findings
