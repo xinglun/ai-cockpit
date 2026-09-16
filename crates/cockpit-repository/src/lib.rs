@@ -11648,17 +11648,34 @@ pub(crate) fn close_decision_is_valid_for_status(
         return true;
     }
 
-    historical_legacy_close_decision_is_valid(&value, work_item_id, repository_id)
+    historical_legacy_close_decision_is_valid(root, &value, work_item_id, repository_id)
 }
 
 /// 旧 Runtime の close receipt を、完全な Outcome binding が残る場合だけ
 /// historical compatibility として受理する。現在の close は引き続き
 /// canonical vocabulary を要求し、自由形式の短絡入力は受理しない。
 fn historical_legacy_close_decision_is_valid(
+    root: &Path,
     value: &serde_json::Value,
     work_item_id: &str,
     repository_id: &str,
 ) -> bool {
+    let Some(structured) = value.get("structuredDecision") else {
+        return false;
+    };
+    // A complete report proves the contents were not tampered with, but it
+    // does not prove that a non-canonical decision came from an older
+    // Runtime.  Restrict compatibility to the explicit marker emitted by the
+    // legacy CLI; current human decisions with a changed token must remain
+    // invalid even when their report digest still matches.
+    if structured.get("actor").and_then(serde_json::Value::as_str) != Some("legacy-cli")
+        || structured
+            .get("authoritySource")
+            .and_then(serde_json::Value::as_str)
+            != Some("explicit-cli")
+    {
+        return false;
+    }
     let Some(final_report) = value.get("finalReport") else {
         return false;
     };
@@ -11701,8 +11718,7 @@ fn historical_legacy_close_decision_is_valid(
     }
     if (value.get("ordinaryCleanupBinding").is_some()
         || value.get("ordinaryCleanupBindingDigest").is_some())
-        && ordinary_cleanup_binding_from_decision(root, work_item_id, repository_id, &value)
-            .is_err()
+        && ordinary_cleanup_binding_from_decision(root, work_item_id, repository_id, value).is_err()
     {
         return false;
     }

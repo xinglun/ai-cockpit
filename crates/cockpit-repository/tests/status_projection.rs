@@ -1613,7 +1613,7 @@ fn historical_noncanonical_close_receipt_does_not_block_new_work_item_entry() {
         work_item_id,
         "historical close compatibility",
         "accept an older complete close receipt without rewriting it",
-        &["**".into()],
+        &["src/**".into()],
     )
     .expect("start");
     assert_no_resource_context(&directory, work_item_id);
@@ -1655,6 +1655,25 @@ fn historical_noncanonical_close_receipt_does_not_block_new_work_item_entry() {
         serde_json::from_slice(&fs::read(&close_path).expect("close receipt")).expect("close JSON");
     close["humanDecision"] = "ready".into();
     close["structuredDecision"]["decision"] = "ready".into();
+    fs::write(
+        &close_path,
+        serde_json::to_vec_pretty(&close).expect("legacy close bytes"),
+    )
+    .expect("current-shape noncanonical close");
+
+    let current_shape_status =
+        work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("current-shape noncanonical close status");
+    assert_eq!(current_shape_status.lifecycle_phase, "archived");
+    assert!(current_shape_status.blocking);
+    assert!(
+        current_shape_status
+            .unknowns
+            .contains(&"close_decision_invalid".into())
+    );
+
+    close["structuredDecision"]["actor"] = "legacy-cli".into();
+    close["structuredDecision"]["authoritySource"] = "explicit-cli".into();
     let valid_legacy_close = close.clone();
     fs::write(
         &close_path,
