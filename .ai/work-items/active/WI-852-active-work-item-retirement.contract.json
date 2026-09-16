@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "A retirement receipt binds the active Work Item Contract, Summary, Outcome, Events, repository, and Runtime identities.",
+    "Retirement preserves original active bytes in an immutable archive projection and never reports them as verified or completed.",
+    "An unfinished replacement requires an explicitly linked successor Work Item; a discarded already-integrated delivery cannot silently create a successor.",
+    "Malformed, foreign, stale, or duplicate retirement input writes no partial state.",
+    "CLI and human Outcome expose retired, replaced, and retained states with a concrete next action."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+  "createdAt": "2026-09-16T04:41:48Z",
+  "goal": "Remove stale active Work Items from repository readiness through a Runtime-validated retirement decision, preserve all original bytes and identities, and require a separately linked successor only when unfinished scope remains.",
+  "intent": "Provide an explicit append-only retirement and replacement route for stale active Work Items whose delivery is already recorded in main or whose work is intentionally replaced, without claiming verification or deleting history.",
+  "mode": "implementation",
+  "outOfScope": [
+    "release publication",
+    " existing historical record deletion or rewriting",
+    " WI-850 local worktree",
+    " unrelated product behavior",
+    " weakening verification",
+    " bypassing PR review"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75db86d085c1b95b44698ed2a9d70075abbf1b19fc4daed4f64526b5ddc1b017",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "archive bytes equal the original active Contract and Summary bytes",
+      "required": true,
+      "scenario": "integrated retirement preserves original bytes",
+      "status": "unverified",
+      "verificationPlan": "run the active_work_item_retirement integrated scenario"
+    },
+    {
+      "evidence": [],
+      "expected": "foreign or stale identity fails before archive writes",
+      "required": true,
+      "scenario": "stale retirement binding is rejected",
+      "status": "unverified",
+      "verificationPlan": "run the stale binding regression scenario"
+    },
+    {
+      "evidence": [],
+      "expected": "replacement without an existing linked successor is rejected",
+      "required": true,
+      "scenario": "replacement requires explicit successor",
+      "status": "unverified",
+      "verificationPlan": "run the replacement successor regression scenario"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/** crates/cockpit-cli/** crates/cockpit-protocol/** docs/reference/** tests/**",
+    "crates/cockpit-repository/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-protocol/**",
+    "docs/reference/**",
+    "tests/**",
+    "docs/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-852-active-work-item-retirement"
+}
