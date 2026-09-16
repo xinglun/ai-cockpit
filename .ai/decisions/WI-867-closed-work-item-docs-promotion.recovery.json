@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-16T21:31:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json",
+    ".ai/work-items/active/WI-867-closed-work-item-docs-promotion.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:recovery-retry-boundary",
+    "AGENTS.md:Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:f9162fa0bc94064cdd7ff14c12f1acb277a5665e4d1df56a43597d6bbfe3681f",
+  "predecessorEventsDigest": "sha256:6120c65476cd0ee49fa93223291d6808977180bef87143d7a838ed697f151c10",
+  "predecessorOutcomeDigest": "sha256:36600b676f44fd71ba4fefaaca87da3d6513fe7c0001a8fbf500a7835653d556",
+  "predecessorSummaryDigest": "sha256:0f2de88ec0df85d3714818845ffc2cc2cfd58573f517daea08fc2897894abf90",
+  "predecessorWorkItemId": "WI-867-closed-work-item-docs-promotion",
+  "reason": "Refresh the documentation promotion evidence after integrating reviewed main commits changed the repository snapshot and made the prior finish-ready verification stale; preserve prior evidence and rerun only the bounded documentation promotion check.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and the bounded documentation promotion check with the current repository snapshot, then finish and complete the already reviewed PR lifecycle without rerunning unrelated workspace validation.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-867-closed-work-item-docs-promotion"
+}

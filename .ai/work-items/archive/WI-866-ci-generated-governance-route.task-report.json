@@ -15,31 +15,31 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-866-ci-generated-governance-route.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-866-ci-generated-governance-route.verification-attempt.023feef716797bb92b9d0ab9d4f9eb10714c247c04461faadb8c96a0cd2e19a8.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
       }
     ],
     "evidence": [
@@ -95,7 +95,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json"
         ],
         "inference": false,
         "text": "Make route selection and its regression tests distinguish generated lifecycle evidence from source/CI policy changes while preserving strict routing for actual governance and release changes."
@@ -104,7 +104,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json"
+          ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

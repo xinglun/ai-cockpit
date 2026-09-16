@@ -1,32 +1,6 @@
 {
-  "acceptanceResults": [
-    "A documentation-only change with Runtime-generated lifecycle records selects the light route and does not launch unrelated release gates.",
-    "Actual .ai policy or release-owned changes remain strict.",
-    "Route regression tests pass and the existing CI workflow remains valid."
-  ],
-  "createdAt": "2026-09-16T21:22:38Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:da76c6cfa3823a419cbba984bdf0d365aca2fd783a6baab605ce313bda9c4972",
-  "evidenceRefs": [
-    ".ai/evidence/WI-866-ci-generated-governance-route.verification.json"
-  ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-866-ci-generated-governance-route.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-866-ci-generated-governance-route.verification.json"
@@ -43,31 +17,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-866-ci-generated-governance-route.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-866-ci-generated-governance-route.verification-attempt.023feef716797bb92b9d0ab9d4f9eb10714c247c04461faadb8c96a0cd2e19a8.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-866-ci-generated-governance-route.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
         }
       ],
       "evidence": [
@@ -87,7 +61,16 @@
         "user_visible_benefit_invented_from_implementation_facts"
       ],
       "forcedStops": [],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-866-ci-generated-governance-route.verification.json",
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-16T21:37:00Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -123,7 +106,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json"
           ],
           "inference": false,
           "text": "Make route selection and its regression tests distinguish generated lifecycle evidence from source/CI policy changes while preserving strict routing for actual governance and release changes."
@@ -132,7 +115,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json"
+            ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -142,15 +125,25 @@
     "status": "verified",
     "workItemId": "WI-866-ci-generated-governance-route"
   },
-  "taskReportDigest": "sha256:c661085850788fabd04a6f9a187f4726067447fe4a929581bf1bf59ee352d52b",
-  "taskReportMarkdownDigest": "sha256:5744e3b42d126ceeb6e0c6dc8b33b6c35bc151634031dada9e45f225637b333d",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-866-ci-generated-governance-route.verification.json",
-    "required": true,
-    "status": "verified"
+  "finalReportDigest": "sha256:176dacb3f134595f1ae3539b7c9ab677c1613546b3afdc04945ef5d3b1e9367f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-16T21:37:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-866-ci-generated-governance-route.verification.json",
+      ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:Work Item change discipline"
+    ],
+    "reason": "The reviewed PR is merged, hosted CI is green, and the bounded route regression has fresh current-snapshot evidence. I approve closing this Work Item.",
+    "resumeCondition": "No resume condition; any new scope starts as a new Work Item."
   },
+  "timestamp": "2026-09-16T21:36:38Z",
   "workItemId": "WI-866-ci-generated-governance-route"
 }

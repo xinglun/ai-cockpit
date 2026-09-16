@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T21:36:22Z",
+  "files": {
+    "contractDigest": "sha256:e869d3edccb0dc3dba967b754ea4ae88579c21bdd7819150b6e407137b8295c8",
+    "contractPath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json",
+    "eventsDigest": "sha256:01e68193fb2ac9559bc4ccf5f92996bf7ce64bbca273e86fa2ef6371285415a7",
+    "eventsPath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.events.jsonl",
+    "outcomeDigest": "sha256:b5c2de7a7a55be471b82e54b621c1186638b927def18eae96b3a5b1f26843d8a",
+    "outcomePath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.outcome.json",
+    "summaryDigest": "sha256:1387372c39ddf5527a8cd355b4bc84dc6896139ea56dcbb720e6795af9a22ad5",
+    "summaryPath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json",
+    "taskReportDigest": "sha256:acb3977a3f77222b0bcb32c3a6f2ed1f1a647c0e9ca74977f98c6aca613f0d33",
+    "taskReportMarkdownDigest": "sha256:a7c3dd16bdadea16b5f746c7665ca3739ff50252b7456fd894ec52b427f38339",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-866-ci-generated-governance-route.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-866-ci-generated-governance-route"
+}

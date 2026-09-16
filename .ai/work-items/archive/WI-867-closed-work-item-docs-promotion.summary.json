@@ -1,12 +1,22 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-866-ci-generated-governance-route.close.json",
+    ".ai/decisions/WI-867-closed-work-item-docs-promotion.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-867-closed-work-item-docs-promotion.verification-attempt.928c40631af6040fa02bac5461f31237ca5c69b012278bc20e3eed4b4b4079a1.json",
-    ".ai/work-items/active/WI-867-closed-work-item-docs-promotion.contract.json",
-    ".ai/work-items/active/WI-867-closed-work-item-docs-promotion.summary.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md"
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.events.jsonl",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.outcome.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.task-report.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.task-report.md",
+    ".ai/work-items/archive/WI-867-closed-work-item-docs-promotion.summary.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.archive.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.contract.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.events.jsonl",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.outcome.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.task-report.json",
+    ".ai/work-items/archive/WI-866-ci-generated-governance-route.task-report.md"
   ],
   "checkpointAt": "2026-09-16T20:46:07Z",
   "checkpointContractDigest": "sha256:f9162fa0bc94064cdd7ff14c12f1acb277a5665e4d1df56a43597d6bbfe3681f",
@@ -47,18 +57,18 @@
       "workItemId": "WI-867-closed-work-item-docs-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:05b375fdfe838f57f899d65e9cf2464ab16322669d57ec3a80cdd5afa67ffecf",
+  "checkpointRepositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
   "createdAt": "2026-09-16T20:44:20Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-16T20:56:49Z",
+  "preflightAt": "2026-09-16T21:37:10Z",
   "preflightContractDigest": "sha256:f9162fa0bc94064cdd7ff14c12f1acb277a5665e4d1df56a43597d6bbfe3681f",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:05b375fdfe838f57f899d65e9cf2464ab16322669d57ec3a80cdd5afa67ffecf",
+  "preflightRepositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-16T20:56:53Z",
+  "updatedAt": "2026-09-16T21:37:14Z",
   "verification": [
     {
       "check": "project-command-0",

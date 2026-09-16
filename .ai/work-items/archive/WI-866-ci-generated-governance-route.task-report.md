@@ -17,7 +17,7 @@
 - Changed path: .ai/decisions/WI-866-ci-generated-governance-route.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-866-ci-generated-governance-route.verification-attempt.023feef716797bb92b9d0ab9d4f9eb10714c247c04461faadb8c96a0cd2e19a8.json
-- Changed path: .ai/work-items/active/WI-866-ci-generated-governance-route.summary.json
+- Changed path: .ai/work-items/archive/WI-866-ci-generated-governance-route.summary.json
 
 ## Findings
 
