@@ -296,11 +296,23 @@ fn load_start_obligations(
     active: bool,
 ) -> Result<Vec<WorkItemStartObligation>, ObserverError> {
     let directory_path = root.join(".ai/work-items").join(directory);
-    let mut paths = fs::read_dir(&directory_path)
-        .map_err(|source| ObserverError::Read {
-            path: directory_path.clone(),
-            source,
-        })?
+    let entries = match fs::read_dir(&directory_path) {
+        Ok(entries) => entries,
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
+            // A newly attached or test-created repository may not have any
+            // Work Items yet.  The start advisory is read-only and should
+            // treat an absent lifecycle directory as an empty inventory;
+            // other I/O failures remain fail-closed below.
+            return Ok(Vec::new());
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: directory_path.clone(),
+                source,
+            });
+        }
+    };
+    let mut paths = entries
         .flatten()
         .map(|entry| entry.path())
         .filter(|path| {

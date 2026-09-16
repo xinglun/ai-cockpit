@@ -1,13 +1,15 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.b19567a85226a3430a0114d0f3efc9c066bddfe80393a5eb0bb7e15ae1445cd6.json",
+    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.a0f6c9f5038973ba73e0a003a92cdc8e2fc4cd308e97e475de18b8fa9885db97.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.fbd63f1f227c94d7b15212ce47eb4d343f757b831c81f8723884392ecd2e7f07.json",
     ".ai/work-items/active/WI-852-active-work-item-retirement.contract.json",
     ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json",
-    "crates/cockpit-repository/src/lifecycle.rs"
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "checkpointAt": "2026-09-16T04:47:10Z",
-  "checkpointContractDigest": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+  "checkpointContractDigest": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -183,20 +185,40 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+      "reason": "Hosted CI exposed an in-scope start-advisory compatibility defect: a new repository may legitimately lack lifecycle directories; add the missing-directory boundary without weakening fail-closed handling of other read errors.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T07:07:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
+  "checkpointRepositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
   "createdAt": "2026-09-16T04:41:48Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+    "contractDigest": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "The repository owner authorized completion of the bounded WI-852 start-advisory implementation and its recovery-continuation boundary.",
-    "recordedAt": "2026-09-16T07:01:00Z",
+    "reason": "The repository owner authorized the bounded WI-852 start-advisory compatibility fix and its regression verification.",
+    "recordedAt": "2026-09-16T07:11:12Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
+    "repositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
     "schemaVersion": 1,
     "workItemId": "WI-852-active-work-item-retirement"
   },
@@ -207,10 +229,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T06:56:51Z",
-  "preflightContractDigest": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+  "preflightAt": "2026-09-16T07:11:39Z",
+  "preflightContractDigest": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
+  "preflightRepositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -257,7 +279,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-16T06:56:56Z",
+  "updatedAt": "2026-09-16T07:11:52Z",
   "verification": [
     {
       "check": "project-command-0",

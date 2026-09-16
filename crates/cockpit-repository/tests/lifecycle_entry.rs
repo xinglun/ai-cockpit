@@ -242,6 +242,20 @@ fn start_advisory_reports_residual_work_without_forcing_a_stop() {
 }
 
 #[test]
+fn start_advisory_treats_absent_lifecycle_directories_as_empty() {
+    let directory = tempfile::tempdir().expect("repository");
+    run(directory.path(), &["init", "-q"]);
+
+    let advisory = work_item_start_advisory(directory.path(), "WI-NEW")
+        .expect("an empty repository has no residual Work Items to report");
+    assert_eq!(advisory.classification, "clear");
+    assert!(advisory.active_work_items.is_empty());
+    assert!(advisory.pending_cleanup.is_empty());
+    assert!(advisory.warnings.is_empty());
+    assert!(advisory.conflicts.is_empty());
+}
+
+#[test]
 fn start_blocks_only_an_exact_active_worktree_binding() {
     let directory = repository();
     let existing_id = "WI-EXACT-RESOURCE";
