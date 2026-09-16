@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4318ffbb8b3d50113e5260626656df2333cb70b91865b63e16b8b6adbdc10a16",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "User authorized completion of the bounded Work Item workflow and its explicitly scoped retirement capability; review is limited to the recorded Contract and current repository snapshot.",
+  "recordedAt": "2026-09-16T05:03:56Z",
+  "recordedBy": "explicit-user-authorization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0997e26875051f0a470f83ddcfdbfba98364281a679f3462b500669df43a2635",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

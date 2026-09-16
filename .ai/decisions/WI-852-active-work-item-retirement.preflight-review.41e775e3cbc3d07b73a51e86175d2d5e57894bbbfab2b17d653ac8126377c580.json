@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirm the bounded WI-852 fix and its verification for the exact current Contract and repository snapshot after the successful formal verification.",
+  "recordedAt": "2026-09-16T08:25:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dbaa47b6e581a76240beaf059e674ccfa2cdbf075e421d722c970fd61de48c32",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

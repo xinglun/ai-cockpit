@@ -1,0 +1,45 @@
+{
+  "attemptId": "sha256:9bda4762ad85ea738a5e6893669352d465bfdbd9a9b186049c154a33d90c0ea5",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "active_work_item_retirement",
+        "--no-fail-fast"
+      ],
+      "baseCommit": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+      "commandDigest": "sha256:9b9a6aea2ff9de55b21c2b7e18fc70f1b10598075868e69ffe6a1f129dd9bc9b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4f0868bd225a8fcddfb0f4f823178633ab98c370126e3b7ab15039c2ef3826b0",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+  "contractExecutionScopeDigest": "sha256:da0df2c422b2a2670c87b1047d3db9747ce0a01dd8c34244d6f1b5862d349013",
+  "createdAt": "2026-09-16T05:34:08Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-852-active-work-item-retirement/.ai/work-items/active/WI-852-active-work-item-retirement.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e1eebe1dd5406bad93eaf9c15411048f70217efb03b4121101ea22fb147774bb",
+  "runtimeDigest": "sha256:4f0868bd225a8fcddfb0f4f823178633ab98c370126e3b7ab15039c2ef3826b0",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-852-active-work-item-retirement"
+}

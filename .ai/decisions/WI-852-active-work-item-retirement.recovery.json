@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-16T06:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-852-active-work-item-retirement.verification.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+  "predecessorEventsDigest": "sha256:15eed5cc77707af494683143710866100d1bf6dcf40351e63b09d3951a5fa8b8",
+  "predecessorOutcomeDigest": "sha256:cb36112aaae9feb25bcf0fa5d85ccb8f4a5a8125b3802854c831c665a09fee63",
+  "predecessorSummaryDigest": "sha256:43f1592e7e6eced8c81c1c1a90be8595ef7b7aadad09c4948b637b1bda4c3674",
+  "predecessorWorkItemId": "WI-852-active-work-item-retirement",
+  "reason": "Refresh the lifecycle after the reviewed documentation registration commit made the prior verification evidence stale; preserve the failed attempt and rerun only the current Work Item checks.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh current-snapshot preflight and verification for WI-852, then continue the reviewed PR path.",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

@@ -15,8 +15,8 @@ use cockpit_repository::{
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
     record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
-    run_repository_verification, scaffold_work_item, start_work_item_with_options,
-    verify_resource_finalization,
+    retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
+    start_work_item_with_options, verify_resource_finalization,
 };
 use cockpit_verification::gate_plan::{
     GATE_PLAN_FAILURE_EXIT_CODE, GatePlan, GatePlanError, GatePlanFailure, GatePlanInput,
@@ -536,6 +536,16 @@ enum WorkItemCommand {
         repo: PathBuf,
         #[arg(long)]
         id: String,
+    },
+    /// Retire an active Work Item as already integrated or explicitly replaced.
+    /// The input is a strict ActiveWorkItemRetirementRequest JSON document.
+    Retire {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        #[arg(long)]
+        input: PathBuf,
     },
     /// Bind branch/worktree/provider/PR context before archive.
     FinalizePlan {
@@ -2397,6 +2407,18 @@ fn run() -> Result<()> {
                     cockpit_repository::record_work_item_governance_controls(&repo, &id, &controls)
                         .context("record Work Item governance controls")?;
                 println!("{}", serde_json::to_string_pretty(&summary)?);
+            }
+            WorkItemCommand::Retire { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let request: cockpit_protocol::ActiveWorkItemRetirementRequest =
+                    serde_json::from_slice(
+                        &std::fs::read(&input).context("read Work Item retirement input")?,
+                    )
+                    .context("parse Work Item retirement input")?;
+                let receipt =
+                    retire_active_work_item_with_runtime(&repo, &id, &request, &runtime_context)
+                        .context("retire active Work Item")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             WorkItemCommand::Recover { repo, id, input } => {
                 require_compatible(&repo, &runtime_context)?;

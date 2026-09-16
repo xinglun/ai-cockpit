@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner confirms the amended WI-852 start-advisory Contract and bounded review; continue the reviewed PR path.",
+  "recordedAt": "2026-09-16T06:36:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

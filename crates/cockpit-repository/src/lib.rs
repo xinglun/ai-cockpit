@@ -7,18 +7,20 @@ use cockpit_core::{
 };
 use cockpit_git::{ChangeContentState, ChangeKind, RepositorySnapshot};
 use cockpit_protocol::{
-    AdopterCapabilityState, AdopterCapabilityTruth, AgentAdapterCompatibility,
-    AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces, AgentRootBinding,
-    ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence, CapabilityExclusion,
-    CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry, CheckpointEvidence,
-    ConcurrencyBoundary, Contract, ContractSource, DataClassification, DelegatedEvidence,
-    DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance, EvidenceDisposition,
-    EvidenceDispositionItem, EvidencePersistence, EvidenceRetention, EvidenceRetentionPolicy,
-    EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost, GovernancePolicy,
-    GovernancePolicyDocument, HistoricalFinalizationKind, HistoricalFinalizationRecoveryReceipt,
-    HumanBenefitReport, HumanDecision, ImplementationApproach, OutcomeClaim, OutcomeReportBindings,
-    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
-    ParallelSlotLease, PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
+    ActiveWorkItemRetirementArtifact, ActiveWorkItemRetirementReceipt,
+    ActiveWorkItemRetirementRequest, AdopterCapabilityState, AdopterCapabilityTruth,
+    AgentAdapterCompatibility, AgentInterfaceAvailability, AgentInterfaceManifest, AgentInterfaces,
+    AgentRootBinding, ApprovalMode, AuditEvent, AuditExportManifest, CapabilityConfidence,
+    CapabilityExclusion, CapabilityOwnership, CapabilityTruth, CapabilityTruthRegistry,
+    CheckpointEvidence, ConcurrencyBoundary, Contract, ContractSource, DataClassification,
+    DelegatedEvidence, DelegatedEvidenceReceipt, DiagnosisState, EvidenceAssurance,
+    EvidenceDisposition, EvidenceDispositionItem, EvidencePersistence, EvidenceRetention,
+    EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost,
+    GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
+    HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
+    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
+    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
+    PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep, TaskOutcomeEvent,
@@ -623,6 +625,50 @@ pub struct LifecycleReceipt {
     pub work_item_id: String,
     pub state: String,
     pub timestamp: String,
+    /// Read-only inventory shown at Work Item start.  It is intentionally
+    /// advisory: unrelated residual resources do not stop a new Work Item.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub start_advisory: Option<WorkItemStartAdvisory>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartAdvisory {
+    pub schema_version: u32,
+    pub repository_id: String,
+    pub work_item_id: String,
+    pub current_work_item_state: String,
+    /// `clear`, `advisory`, `blocked`, or `unknown`.
+    pub classification: String,
+    pub current_worktree: Option<WorkItemStartWorktree>,
+    pub worktrees: Vec<WorkItemStartWorktree>,
+    pub active_work_items: Vec<WorkItemStartObligation>,
+    pub pending_cleanup: Vec<WorkItemStartObligation>,
+    pub warnings: Vec<String>,
+    pub conflicts: Vec<String>,
+    pub unknowns: Vec<String>,
+    pub next_actions: Vec<String>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartWorktree {
+    pub path: String,
+    pub branch: Option<String>,
+    pub head: Option<String>,
+    pub is_primary: bool,
+    pub is_current: bool,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemStartObligation {
+    pub work_item_id: String,
+    pub state: String,
+    pub contract_path: String,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+    pub cleanup_required: bool,
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -1786,6 +1832,7 @@ fn validate_start_entry(
     root: &Path,
     candidate_scope: &[String],
     recovery_continuation: bool,
+    advisory_conflicts: &[String],
 ) -> Result<(), ObserverError> {
     let readiness = repository_readiness(root)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
@@ -1793,6 +1840,11 @@ fn validate_start_entry(
         source,
     })?;
     let mut failures = Vec::new();
+    failures.extend(
+        advisory_conflicts
+            .iter()
+            .map(|conflict| format!("exact start resource conflict: {conflict}")),
+    );
     if !recovery_continuation {
         let scope_conflicts = unclosed_archived_scope_conflicts(&root, "", candidate_scope)?;
         if !scope_conflicts.is_empty() {
@@ -6040,6 +6092,439 @@ pub fn archive_historical_work_item_with_runtime(
     archive_work_item_internal(root, work_item_id, None, Some(runtime))
 }
 
+/// Retire an active Work Item through an explicit, append-only terminal
+/// disposition. This is the bounded cleanup route for work whose delivery is
+/// already represented on the synchronized base (`integrated`) or is being
+/// replaced by an explicitly linked Work Item (`replaced`). It preserves the
+/// original active bytes, records their digests, and never produces a
+/// verification or completion claim.
+pub fn retire_active_work_item_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    request: &ActiveWorkItemRetirementRequest,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    validate_work_item_id(work_item_id)?;
+    if request.schema_version != 1 || request.decision_id != "work-item-retirement" {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "retirement request schema or decision id is invalid".into(),
+        });
+    }
+    if !matches!(request.disposition.as_str(), "integrated" | "replaced") {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "retirement disposition must be integrated or replaced".into(),
+        });
+    }
+    if request.actor.trim().is_empty()
+        || request.authority_source.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || runtime.runtime_version.trim().is_empty()
+    {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "retirement request requires actor, authority, reason, and Runtime identity"
+                .into(),
+        });
+    }
+    if request.disposition == "integrated" && request.successor_work_item_id.is_some() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "integrated retirement cannot include a successor Work Item".into(),
+        });
+    }
+    if request.disposition == "replaced" && request.successor_work_item_id.is_none() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "replaced retirement requires an explicitly linked successor Work Item".into(),
+        });
+    }
+
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
+    let active = root.join(".ai/work-items/active");
+    let archive = root.join(".ai/work-items/archive");
+    let decisions = root.join(".ai/decisions");
+    let active_contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let active_summary_path = active.join(format!("{work_item_id}.summary.json"));
+    if !is_regular_non_symlink(&active_contract_path)?
+        || !is_regular_non_symlink(&active_summary_path)?
+    {
+        return Err(ObserverError::State {
+            path: active_contract_path,
+            message: "retirement requires regular active Contract and Summary files".into(),
+        });
+    }
+    let contract = read_contract(&active_contract_path)?;
+    let summary = read_json(&active_summary_path)?;
+    let expected_repository_id = repository_id(&root).to_string();
+    if contract.work_item_id != work_item_id
+        || contract.repository_id != expected_repository_id
+        || summary["workItemId"] != serde_json::json!(work_item_id)
+        || summary["repositoryId"] != serde_json::json!(expected_repository_id)
+    {
+        return Err(ObserverError::State {
+            path: active_contract_path,
+            message: "retirement active Contract/Summary identity mismatch".into(),
+        });
+    }
+    let git =
+        cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
+            path: root.clone(),
+            message: error.to_string(),
+        })?;
+    let snapshot = git.snapshot().map_err(|error| ObserverError::State {
+        path: root.clone(),
+        message: error.to_string(),
+    })?;
+    let current_snapshot_digest = snapshot_digest(&snapshot)?;
+    let current_contract_digest = contract_digest(&active_contract_path)?;
+    let current_summary_digest =
+        cockpit_protocol::digest_json(&summary).map_err(|error| ObserverError::State {
+            path: active_summary_path.clone(),
+            message: error.to_string(),
+        })?;
+    if request
+        .repository_id
+        .as_ref()
+        .is_some_and(|value| value != &expected_repository_id)
+        || request
+            .contract_digest
+            .as_ref()
+            .is_some_and(|value| value != &current_contract_digest)
+        || request
+            .summary_digest
+            .as_ref()
+            .is_some_and(|value| value != &current_summary_digest)
+        || request
+            .repository_snapshot_digest
+            .as_ref()
+            .is_some_and(|value| value != &current_snapshot_digest)
+    {
+        return Err(ObserverError::State {
+            path: active_contract_path,
+            message: "retirement request contains a stale or foreign repository identity, Contract, Summary, or snapshot binding".into(),
+        });
+    }
+
+    if let Some(successor_id) = request.successor_work_item_id.as_deref() {
+        validate_work_item_id(successor_id).map_err(|_| ObserverError::State {
+            path: root.join(".ai/work-items"),
+            message: "successor Work Item identity is invalid".into(),
+        })?;
+        if successor_id == work_item_id {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "successor Work Item equals retired Work Item".into(),
+            });
+        }
+        let successor_candidates = [
+            root.join(".ai/work-items/active")
+                .join(format!("{successor_id}.contract.json")),
+            root.join(".ai/work-items/archive")
+                .join(format!("{successor_id}.contract.json")),
+        ];
+        let mut successor_paths = Vec::new();
+        for path in successor_candidates {
+            match fs::symlink_metadata(&path) {
+                Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_file() => {
+                    return Err(ObserverError::State {
+                        path,
+                        message:
+                            "replacement successor Contract must be a regular non-symlink file"
+                                .into(),
+                    });
+                }
+                Ok(_) => successor_paths.push(path),
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(source) => return Err(ObserverError::Read { path, source }),
+            }
+        }
+        if successor_paths.is_empty() {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: "replacement successor Work Item does not exist".into(),
+            });
+        }
+        if successor_paths.len() > 1 {
+            return Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message:
+                    "replacement successor Work Item has duplicate active and archived Contracts"
+                        .into(),
+            });
+        }
+        let successor_path = successor_paths.pop().expect("checked non-empty");
+        let successor = read_contract(&successor_path)?;
+        if successor.repository_id != expected_repository_id
+            || successor.predecessor_work_item_id.as_deref() != Some(work_item_id)
+        {
+            return Err(ObserverError::State {
+                path: successor_path,
+                message: "replacement successor is not explicitly linked to the retired Work Item"
+                    .into(),
+            });
+        }
+    }
+
+    let receipt_path = decisions.join(format!("{work_item_id}.retirement.json"));
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    if fs::symlink_metadata(&receipt_path).is_ok() || fs::symlink_metadata(&manifest_path).is_ok() {
+        return Err(ObserverError::State {
+            path: receipt_path,
+            message: "Work Item retirement already has a terminal record".into(),
+        });
+    }
+
+    let mut planned = Vec::<(String, PathBuf, PathBuf, Vec<u8>)>::new();
+    for (key, suffix) in [
+        ("contract", "contract.json"),
+        ("summary", "summary.json"),
+        ("outcome", "outcome.json"),
+        ("approach", "approach.json"),
+        ("intelligence", "intelligence.json"),
+        ("events", "events.jsonl"),
+        ("taskReport", "task-report.json"),
+        ("taskReportMarkdown", "task-report.md"),
+    ] {
+        let source = active.join(format!("{work_item_id}.{suffix}"));
+        if optional_regular_artifact(&source, "active retirement artifact")? {
+            let bytes = fs::read(&source).map_err(|source_error| ObserverError::Read {
+                path: source.clone(),
+                source: source_error,
+            })?;
+            planned.push((
+                key.into(),
+                source,
+                archive.join(format!("{work_item_id}.{suffix}")),
+                bytes,
+            ));
+        }
+    }
+    for variant in active_artifact_variants(&active)? {
+        let Some((variant_work_item_id, _)) = active_artifact_variant_name(&variant.name) else {
+            continue;
+        };
+        if variant_work_item_id != work_item_id {
+            continue;
+        }
+        let source = active.join(&variant.name);
+        if !is_regular_non_symlink(&source)? {
+            return Err(ObserverError::State {
+                path: source,
+                message: "retirement artifact variant must be a regular non-symlink file".into(),
+            });
+        }
+        planned.push((
+            format!("historicalArtifact{}", planned.len()),
+            source.clone(),
+            archive.join(&variant.name),
+            fs::read(&source).map_err(|source_error| ObserverError::Read {
+                path: source,
+                source: source_error,
+            })?,
+        ));
+    }
+    if !planned.iter().any(|(key, _, _, _)| key == "outcome") {
+        let outcome = serde_json::json!({
+            "protocolVersion": 1,
+            "workItemId": work_item_id,
+            "repositoryId": expected_repository_id,
+            "state": "retired",
+            "verification": {
+                "status": "not_verified",
+                "required": true,
+                "claim": "retirement never asserts verification"
+            },
+            "historicalStatus": request.disposition,
+            "summary": "This Work Item was explicitly retired; its original active records were preserved and were not revalidated as a current result."
+        });
+        planned.push((
+            "outcome".into(),
+            PathBuf::new(),
+            archive.join(format!("{work_item_id}.outcome.json")),
+            serde_json::to_vec_pretty(&outcome).map_err(|error| ObserverError::State {
+                path: archive.join(format!("{work_item_id}.outcome.json")),
+                message: error.to_string(),
+            })?,
+        ));
+    }
+    for (_, _, target, _) in &planned {
+        if fs::symlink_metadata(target).is_ok() {
+            return Err(ObserverError::State {
+                path: target.clone(),
+                message: "retirement archive target already exists".into(),
+            });
+        }
+    }
+
+    let mut artifacts = BTreeMap::new();
+    for (key, _, target, bytes) in &planned {
+        artifacts.insert(
+            key.clone(),
+            ActiveWorkItemRetirementArtifact {
+                path: repository_relative_path(&root, target),
+                digest: Digest::sha256_bytes(bytes),
+            },
+        );
+    }
+    let mut files = serde_json::Map::new();
+    for (key, artifact) in &artifacts {
+        files.insert(format!("{key}Path"), serde_json::json!(artifact.path));
+        files.insert(format!("{key}Digest"), serde_json::json!(artifact.digest));
+    }
+    fs::create_dir_all(&archive).map_err(|source| ObserverError::Read {
+        path: archive.clone(),
+        source,
+    })?;
+    fs::create_dir_all(&decisions).map_err(|source| ObserverError::Read {
+        path: decisions.clone(),
+        source,
+    })?;
+
+    let manifest = serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "state": if request.disposition == "integrated" { "retired" } else { "replaced" },
+        "historicalEvidence": true,
+        "closeRequired": false,
+        "retirementDisposition": request.disposition,
+        "retirementReceiptPath": repository_relative_path(&root, &receipt_path),
+        "successorWorkItemId": request.successor_work_item_id,
+        "files": files,
+        "createdAt": now(),
+    });
+    let manifest_digest =
+        cockpit_protocol::digest_json(&manifest).map_err(|error| ObserverError::State {
+            path: manifest_path.clone(),
+            message: error.to_string(),
+        })?;
+    let receipt = ActiveWorkItemRetirementReceipt {
+        schema_version: 1,
+        decision_id: request.decision_id.clone(),
+        disposition: request.disposition.clone(),
+        work_item_id: work_item_id.into(),
+        repository_id: expected_repository_id,
+        contract_digest: current_contract_digest,
+        summary_digest: current_summary_digest,
+        repository_snapshot_digest: current_snapshot_digest,
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        actor: request.actor.clone(),
+        authority_source: request.authority_source.clone(),
+        reason: request.reason.clone(),
+        successor_work_item_id: request.successor_work_item_id.clone(),
+        artifacts,
+        archive_manifest_digest: manifest_digest,
+        verification_claim: "not_verified".into(),
+        original_bytes_preserved: true,
+        recorded_at: now(),
+    };
+    let receipt_value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
+        path: receipt_path.clone(),
+        message: error.to_string(),
+    })?;
+
+    let mut moved = Vec::new();
+    let mut generated = Vec::new();
+    let rollback = |moved: &mut Vec<(PathBuf, PathBuf)>, generated: &mut Vec<PathBuf>| {
+        let mut failures = Vec::new();
+        for path in generated.drain(..).rev() {
+            if let Err(error) = fs::remove_file(&path)
+                && error.kind() != std::io::ErrorKind::NotFound
+            {
+                failures.push(format!("remove {}: {error}", path.display()));
+            }
+        }
+        for (source, target) in moved.drain(..).rev() {
+            if let Err(error) = fs::rename(&target, &source) {
+                failures.push(format!(
+                    "restore {} from {}: {error}",
+                    source.display(),
+                    target.display()
+                ));
+            }
+        }
+        if failures.is_empty() {
+            Ok(())
+        } else {
+            Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!(
+                    "retirement rollback did not restore all original bytes: {}",
+                    failures.join("; ")
+                ),
+            })
+        }
+    };
+    for (_, source, target, bytes) in &planned {
+        let result = if source.as_os_str().is_empty() {
+            atomic_write(target, bytes).map(|_| generated.push(target.clone()))
+        } else {
+            fs::rename(source, target)
+                .map(|_| moved.push((source.clone(), target.clone())))
+                .map_err(|source_error| ObserverError::Read {
+                    path: target.clone(),
+                    source: source_error,
+                })
+        };
+        if let Err(error) = result {
+            return match rollback(&mut moved, &mut generated) {
+                Ok(()) => Err(error),
+                Err(rollback_error) => Err(ObserverError::State {
+                    path: root.join(".ai/work-items"),
+                    message: format!("{error}; {rollback_error}"),
+                }),
+            };
+        }
+    }
+    if let Err(error) = atomic_json(&manifest_path, &manifest) {
+        let cleanup_error = match fs::remove_file(&manifest_path) {
+            Ok(()) => None,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => Some(format!("remove manifest: {error}")),
+        };
+        return match rollback(&mut moved, &mut generated) {
+            Ok(()) if cleanup_error.is_none() => Err(error),
+            Ok(()) => Err(ObserverError::State {
+                path: manifest_path,
+                message: format!("{error}; {}", cleanup_error.expect("checked some")),
+            }),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {rollback_error}"),
+            }),
+        };
+    }
+    if let Err(error) = atomic_json(&receipt_path, &receipt_value) {
+        let mut cleanup_failures = Vec::new();
+        for path in [&manifest_path, &receipt_path] {
+            if let Err(remove_error) = fs::remove_file(path)
+                && remove_error.kind() != std::io::ErrorKind::NotFound
+            {
+                cleanup_failures.push(format!("remove {}: {remove_error}", path.display()));
+            }
+        }
+        return match rollback(&mut moved, &mut generated) {
+            Ok(()) if cleanup_failures.is_empty() => Err(error),
+            Ok(()) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {}", cleanup_failures.join("; ")),
+            }),
+            Err(rollback_error) => Err(ObserverError::State {
+                path: root.join(".ai/work-items"),
+                message: format!("{error}; {rollback_error}"),
+            }),
+        };
+    }
+    let _ = fs::remove_file(root.join(".ai/knowledge/index.json"));
+    Ok(receipt_value)
+}
+
 /// Reconcile Runtime-owned failed-attempt projections left in `active` after
 /// an older or interrupted archive.  This operation is intentionally
 /// separate from `archive`: the canonical Work Item is already immutable, so
@@ -6542,6 +7027,7 @@ fn archive_work_item_internal(
         work_item_id: work_item_id.into(),
         state: "archived".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 
@@ -6688,6 +7174,7 @@ fn archive_superseded_work_item(
         work_item_id: work_item_id.into(),
         state: "superseded".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 
@@ -10078,6 +10565,7 @@ fn close_work_item_with_structured_decision_internal(
         work_item_id: work_item_id.into(),
         state: "closed".into(),
         timestamp: timestamp.clone(),
+        start_advisory: None,
     };
     let receipt_value = serde_json::to_value(&receipt).map_err(|error| ObserverError::State {
         path: root.join(".ai/decisions"),
@@ -10276,7 +10764,10 @@ fn verify_archive_manifest_with_options(
     allow_task_report_markdown_digest_mismatch: bool,
 ) -> Result<Option<String>, ObserverError> {
     if manifest["workItemId"] != serde_json::Value::String(work_item_id.into())
-        || !matches!(manifest["state"].as_str(), Some("archived" | "superseded"))
+        || !matches!(
+            manifest["state"].as_str(),
+            Some("archived" | "superseded" | "retired" | "replaced")
+        )
     {
         return Err(ObserverError::State {
             path: root
@@ -10317,7 +10808,10 @@ fn verify_archive_manifest_with_options(
     // archived Outcome. Superseded predecessors must retain their original
     // Outcome bytes verbatim; their manifest is the immutable binding for the
     // copied report artifacts and therefore must not force a historical rewrite.
-    if manifest["state"] != serde_json::json!("superseded") {
+    if !matches!(
+        manifest["state"].as_str(),
+        Some("superseded" | "retired" | "replaced")
+    ) {
         let archived_outcome = read_json(&archive.join(format!("{work_item_id}.outcome.json")))?;
         for name in ["taskReport", "taskReportMarkdown"] {
             let manifest_digest = manifest["files"][format!("{name}Digest")].as_str();
@@ -12783,6 +13277,16 @@ fn outcome_v2_internal_with_snapshot(
     let archived = contract_path
         .parent()
         .is_some_and(|path| path.ends_with("archive"));
+    let retirement_state = if archived {
+        let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+        read_json(&manifest_path)
+            .ok()
+            .and_then(|manifest| manifest.get("state").cloned())
+            .and_then(|state| state.as_str().map(str::to_owned))
+            .filter(|state| matches!(state.as_str(), "retired" | "replaced"))
+    } else {
+        None
+    };
     let legacy = legacy_verification_evidence(&root, work_item_id);
     // Archived v2 evidence is immutable historical truth. When the bytes are
     // otherwise valid but were produced by an older Runtime, the current
@@ -12830,7 +13334,10 @@ fn outcome_v2_internal_with_snapshot(
     } else {
         None
     };
-    let historical = legacy || historical_runtime || archived_revalidation.is_some();
+    let historical = legacy
+        || historical_runtime
+        || archived_revalidation.is_some()
+        || retirement_state.is_some();
     let evidence_state = if historical {
         None
     } else {
@@ -12846,14 +13353,18 @@ fn outcome_v2_internal_with_snapshot(
         (
             OutcomeState::NotReady,
             DecisionState::Yellow,
-            if legacy {
+            if retirement_state.is_some() {
+                "This Work Item was retired or replaced; its original bytes were preserved and were not revalidated as a current result."
+            } else if legacy {
                 "Historical verification evidence uses a legacy schema and is not revalidated as a current result."
             } else if archived_revalidation.is_some() {
                 "The archived Contract was reviewed and amended; historical evidence is preserved while a successor revalidates the current Contract."
             } else {
                 "Historical verification evidence was produced by an older Runtime and is not revalidated as a current result."
             },
-            Some(if legacy {
+            Some(if retirement_state.is_some() {
+                "retired_or_replaced"
+            } else if legacy {
                 "legacy_evidence_historical"
             } else if archived_revalidation.is_some() {
                 "contract_amendment_revalidation_pending"
@@ -13062,7 +13573,9 @@ fn outcome_v2_internal_with_snapshot(
         evidence_unknown = Some(RECOVERY_DECISION_INVALID);
     }
     let historical_status = if historical {
-        Some(if legacy {
+        Some(if let Some(state) = retirement_state.as_deref() {
+            state.to_owned()
+        } else if legacy {
             "legacy".to_owned()
         } else if archived_revalidation.is_some() {
             "contract_amendment_revalidation".to_owned()

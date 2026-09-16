@@ -1,0 +1,310 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.4974bfe42ecbe78f2d11c2b18642519b7e9d0eb11d2eee40c94fff6dab52befc.json",
+    ".ai/decisions/WI-852-active-work-item-retirement.recovery.3c32d042255b73ebffe416c4559f72e4378961b81b6a520df399a1e7650a00cf.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.3cb3dbe0a9e8f81f28af2967a190512b0d1fb8742de0cab361372738e0614035.json",
+    ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b237b1c757abf9ffb8fb50ae068f3183ce50e2a404893e82ca6e53eec366bdc3.json",
+    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+  ],
+  "checkpointAt": "2026-09-16T04:47:10Z",
+  "checkpointContractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "recorded": true,
+      "recordedAt": "2026-09-16T04:47:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:75db86d085c1b95b44698ed2a9d70075abbf1b19fc4daed4f64526b5ddc1b017",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:18d62defa29041526d74471634a5af9ed27af519eb21678032f497221ae23b94",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "reason": "Declare the high-risk retirement and replacement scenario matrix before final verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T05:02:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0997e26875051f0a470f83ddcfdbfba98364281a679f3462b500669df43a2635",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4318ffbb8b3d50113e5260626656df2333cb70b91865b63e16b8b6adbdc10a16",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:18d62defa29041526d74471634a5af9ed27af519eb21678032f497221ae23b94",
+      "reason": "Correct the start declaration to bind each implementation path as an explicit scope entry.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T05:03:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0997e26875051f0a470f83ddcfdbfba98364281a679f3462b500669df43a2635",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:4318ffbb8b3d50113e5260626656df2333cb70b91865b63e16b8b6adbdc10a16",
+      "reason": "Include the required tri-language Work Item projection in the explicit governance scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T05:06:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cafe78275e0e931f226bf803f05118d3bfc3b66a379258dc8a10920e49db29f3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:6b1dee69c90a817220f69e7db5415afd2717f24fec318a649e72355a5cf0a1b0",
+      "reason": "Record the reviewer-required duplicate and symlink successor rejection cases within the existing retirement contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T05:36:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:984ef19164c3db1f0b1332a6ab36820d2482635e1d0d90163df08e465fb8c7b0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:86c8c566557b9050d735f859a5edc3ede07d243b9e1f63928f0f68e756c4eca4",
+      "reason": "bind start-time residual resource advisory to the active Work Item root cause",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:26:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:9fee08f452d5e77f47f0ac821bf83b18fc02abf30aa234a3a08e9eca40708d2b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+      "reason": "Integrate review findings into the current Contract before final validation: preserve independent start blockers and isolate retirement artifact ownership.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:43:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:9fee08f452d5e77f47f0ac821bf83b18fc02abf30aa234a3a08e9eca40708d2b",
+      "reason": "Keep the declared MCP acceptance and its regression test inside the current Work Item scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:43:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b2df07c7be621fc39c4b5867a4c9d8170180b850745c52a4e0b770c370b0c8aa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:cb4a0014dbb2adb8bbd6db525a156635696fb1a064cd93867251931054effbcf",
+      "reason": "Preserve the existing recovery continuation boundary discovered by the hosted lifecycle regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T06:55:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+      "reason": "Hosted CI exposed an in-scope start-advisory compatibility defect: a new repository may legitimately lack lifecycle directories; add the missing-directory boundary without weakening fail-closed handling of other read errors.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T07:07:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:617d46436f6e29b0c2ef1ce7b625cf412933496ce22ca8c5503ab109e28b3025",
+      "previousContractHash": "sha256:8e849dd6e3034ea6ceb43b4fa5f2d7a24e12c3f83af72a08a383b29e5fcc63ed",
+      "reason": "Hosted workspace coverage exposed an in-scope recovery continuation boundary: a valid successor must reuse only its explicitly bound predecessor checkout; unrelated resource owners must remain blocking.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T07:21:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-852-active-work-item-retirement"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dbaa47b6e581a76240beaf059e674ccfa2cdbf075e421d722c970fd61de48c32",
+  "createdAt": "2026-09-16T04:41:48Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirm the bounded WI-852 fix and its verification for the exact current Contract and repository snapshot after the successful formal verification.",
+    "recordedAt": "2026-09-16T08:25:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:dbaa47b6e581a76240beaf059e674ccfa2cdbf075e421d722c970fd61de48c32",
+    "schemaVersion": 1,
+    "workItemId": "WI-852-active-work-item-retirement"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "User authorization in current task"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T08:23:37Z",
+  "preflightContractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:dbaa47b6e581a76240beaf059e674ccfa2cdbf075e421d722c970fd61de48c32",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "integrated retirement preserves original bytes",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "stale retirement binding is rejected",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "replacement requires explicit successor",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "duplicate successor candidates are rejected before retirement writes",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      ],
+      "required": true,
+      "scenario": "symlink successor candidates are rejected before retirement writes",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T08:23:37.178235+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:51d312f35e8922fd7765d362d481626ca3cb6af3d4995370d09940802f40a8fe",
+  "workItemId": "WI-852-active-work-item-retirement"
+}

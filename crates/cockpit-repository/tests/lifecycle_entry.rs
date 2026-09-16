@@ -9,7 +9,7 @@ use cockpit_repository::{
     preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
     record_work_item_governance_controls, repository_id, require_verification_preconditions,
     run_repository_verification, scaffold_work_item, set_work_item_intelligence,
-    start_work_item_with_options, status,
+    start_work_item_with_options, status, work_item_start_advisory,
 };
 use serde_json::json;
 use std::fs;
@@ -200,6 +200,109 @@ fn unrelated_archived_pending_close_remains_visible_without_blocking_entry() {
     assert_eq!(
         fs::read(archive_path).expect("archive bytes"),
         archive_bytes
+    );
+}
+
+#[test]
+fn start_advisory_reports_residual_work_without_forcing_a_stop() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-OLD",
+        "old work",
+        "leave a residual active Work Item for the next start advisory",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("fixture Work Item starts");
+
+    let advisory = work_item_start_advisory(directory.path(), "WI-NEW")
+        .expect("start advisory should be read-only");
+    assert_eq!(advisory.work_item_id, "WI-NEW");
+    assert_eq!(advisory.classification, "advisory");
+    assert!(
+        advisory
+            .active_work_items
+            .iter()
+            .any(|item| item.work_item_id == "WI-OLD")
+    );
+    assert!(
+        advisory
+            .warnings
+            .iter()
+            .any(|warning| warning == "active_work_items_require_lifecycle_or_cleanup:1")
+    );
+    assert!(
+        advisory
+            .next_actions
+            .iter()
+            .any(|action| action == "review_start_cleanup_advisory_and_continue_if_unrelated")
+    );
+    assert!(advisory.conflicts.is_empty());
+}
+
+#[test]
+fn start_advisory_treats_absent_lifecycle_directories_as_empty() {
+    let directory = tempfile::tempdir().expect("repository");
+    run(directory.path(), &["init", "-q"]);
+
+    let advisory = work_item_start_advisory(directory.path(), "WI-NEW")
+        .expect("an empty repository has no residual Work Items to report");
+    assert_eq!(advisory.classification, "clear");
+    assert!(advisory.active_work_items.is_empty());
+    assert!(advisory.pending_cleanup.is_empty());
+    assert!(advisory.warnings.is_empty());
+    assert!(advisory.conflicts.is_empty());
+}
+
+#[test]
+fn start_blocks_only_an_exact_active_worktree_binding() {
+    let directory = repository();
+    let existing_id = "WI-EXACT-RESOURCE";
+    start_work_item_with_options(
+        directory.path(),
+        existing_id,
+        "bind a resource for the conflict fixture",
+        "prove an exact worktree binding blocks a different Work Item",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("fixture Work Item starts");
+    let contract_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{existing_id}.contract.json"));
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract["resourceContext"] = json!({
+        "worktree": directory.path().to_string_lossy(),
+        "branch": "fixture-owner-branch"
+    });
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("bind exact worktree");
+
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-NEW-EXACT-CONFLICT",
+        "reject exact resource collision",
+        "do not share an active Work Item worktree",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect_err("exact active worktree binding must block start");
+    assert!(
+        error
+            .to_string()
+            .contains("current_worktree_bound_to_active_work_item:WI-EXACT-RESOURCE")
+    );
+    assert!(
+        !directory
+            .path()
+            .join(".ai/work-items/active/WI-NEW-EXACT-CONFLICT.contract.json")
+            .exists()
     );
 }
 

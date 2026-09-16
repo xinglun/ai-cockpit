@@ -30,6 +30,7 @@ pub const AGENT_INTERFACE_CAPABILITIES: &[&str] = &[
     "work-item-lifecycle",
     "work-item-outcome",
     "work-item-recovery",
+    "work-item-retirement",
     "work-item-finalization",
     "work-item-parallel",
     "evidence",
@@ -3597,6 +3598,66 @@ pub struct RecoveryDecisionReceipt {
     pub policy_refs: Vec<String>,
     pub decided_at: String,
     pub resume_condition: String,
+}
+
+/// An explicit terminal disposition for an active Work Item whose delivery is
+/// already represented elsewhere or is being replaced by a separately
+/// governed successor.  Retirement preserves the predecessor bytes and never
+/// asserts that they were verified or completed.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActiveWorkItemRetirementRequest {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub disposition: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub successor_work_item_id: Option<String>,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub contract_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub summary_digest: Option<Digest>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub repository_snapshot_digest: Option<Digest>,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActiveWorkItemRetirementArtifact {
+    pub path: String,
+    pub digest: Digest,
+}
+
+/// Runtime-generated, append-only evidence for an active Work Item
+/// retirement.  It is intentionally distinct from verification and close
+/// receipts so a cleanup decision cannot be mistaken for a successful result.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct ActiveWorkItemRetirementReceipt {
+    pub schema_version: u32,
+    pub decision_id: String,
+    pub disposition: String,
+    pub work_item_id: String,
+    pub repository_id: String,
+    pub contract_digest: Digest,
+    pub summary_digest: Digest,
+    pub repository_snapshot_digest: Digest,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub successor_work_item_id: Option<String>,
+    pub artifacts: BTreeMap<String, ActiveWorkItemRetirementArtifact>,
+    pub archive_manifest_digest: Digest,
+    pub verification_claim: String,
+    pub original_bytes_preserved: bool,
+    pub recorded_at: String,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

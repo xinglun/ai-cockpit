@@ -40,11 +40,21 @@ pub fn start_work_item_with_options(
     // is still awaiting closure.  All ordinary starts must pass the same
     // repository entry gate as `work-item new`.
     let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
-    validate_start_entry(root, scope, recovery_continuation)?;
+    let start_advisory =
+        work_item_start_advisory_with_mode(root, work_item_id, recovery_continuation)?;
+    validate_start_entry(
+        root,
+        scope,
+        recovery_continuation,
+        &start_advisory.conflicts,
+    )?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
     {
-        return Ok(receipt);
+        return Ok(LifecycleReceipt {
+            start_advisory: Some(start_advisory),
+            ..receipt
+        });
     }
     create_work_item_scaffold(
         root,
@@ -62,7 +72,323 @@ pub fn start_work_item_with_options(
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
         timestamp: now(),
+        start_advisory: Some(start_advisory),
     })
+}
+
+/// Inspect residual Work Item resources before a new Work Item is started.
+///
+/// This is deliberately a read-only advisory.  It tells an Agent which
+/// branches, linked worktrees, active Work Items, and persisted cleanup
+/// obligations need attention.  Only an exact identity/resource collision is
+/// classified as a conflict; unrelated leftovers remain warnings so they do
+/// not turn normal development into a forced stop.
+pub fn work_item_start_advisory(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<WorkItemStartAdvisory, ObserverError> {
+    work_item_start_advisory_with_mode(root, work_item_id, false)
+}
+
+fn work_item_start_advisory_with_mode(
+    root: &Path,
+    work_item_id: &str,
+    recovery_continuation: bool,
+) -> Result<WorkItemStartAdvisory, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let readiness = repository_readiness(&root)?;
+    let records = git_worktree_records(&root)?;
+    let primary = records
+        .first()
+        .and_then(|record| record.path.as_ref())
+        .and_then(|path| fs::canonicalize(path).ok());
+    let current_branch = git_text(&root, &["symbolic-ref", "--quiet", "--short", "HEAD"])
+        .filter(|value| !value.is_empty());
+    let worktrees = records
+        .iter()
+        .map(|record| {
+            let path = record.path.as_ref().map(|path| {
+                fs::canonicalize(path)
+                    .unwrap_or_else(|_| path.clone())
+                    .to_string_lossy()
+                    .into_owned()
+            });
+            let is_current = path.as_deref() == Some(root.to_string_lossy().as_ref());
+            let is_primary = primary
+                .as_ref()
+                .is_some_and(|primary| path.as_deref() == Some(primary.to_string_lossy().as_ref()));
+            WorkItemStartWorktree {
+                path: path.unwrap_or_else(|| "<unknown>".into()),
+                branch: record.branch_ref.as_deref().map(branch_name),
+                head: record.head.clone(),
+                is_primary,
+                is_current,
+            }
+        })
+        .collect::<Vec<_>>();
+    let active_work_items = load_start_obligations(&root, "active", true)?;
+    let archived_work_items = load_start_obligations(&root, "archive", false)?;
+    let recovery_predecessor = if recovery_continuation {
+        recovery_predecessor_work_item_id(&root, work_item_id)
+    } else {
+        None
+    };
+    let pending_cleanup = active_work_items
+        .iter()
+        .filter(|item| item.cleanup_required)
+        .cloned()
+        .chain(
+            archived_work_items
+                .iter()
+                .filter(|item| item.cleanup_required)
+                .cloned(),
+        )
+        .collect::<Vec<_>>();
+    let all_resource_obligations = active_work_items
+        .iter()
+        .chain(archived_work_items.iter())
+        .filter(|item| item.cleanup_required)
+        .collect::<Vec<_>>();
+    let mut warnings = Vec::new();
+    let mut conflicts = Vec::new();
+    let mut unknowns = Vec::new();
+
+    if !recovery_continuation
+        && active_work_items
+            .iter()
+            .any(|item| item.work_item_id == work_item_id && item.state != "not_ready")
+    {
+        conflicts.push(format!("active_work_item_exists:{work_item_id}"));
+    }
+    let current_path = root.to_string_lossy();
+    for item in &all_resource_obligations {
+        if item.work_item_id == work_item_id {
+            continue;
+        }
+        if recovery_predecessor.as_deref() == Some(item.work_item_id.as_str()) {
+            // A recovery successor is deliberately activated in the
+            // predecessor's existing checkout.  The predecessor binding is
+            // the reason this continuation is safe; unrelated resource
+            // owners must still remain exact conflicts.
+            continue;
+        }
+        if item.worktree.as_deref() == Some(current_path.as_ref()) {
+            conflicts.push(format!(
+                "current_worktree_bound_to_active_work_item:{}",
+                item.work_item_id
+            ));
+        }
+        if item.branch.is_some() && item.branch == current_branch {
+            conflicts.push(format!(
+                "current_branch_bound_to_active_work_item:{}",
+                item.work_item_id
+            ));
+        }
+    }
+    let primary_checkout_is_reserved = readiness.default_remote.is_some()
+        && readiness.default_branch.is_some()
+        && readiness.default_revision.is_some();
+    if !recovery_continuation
+        && primary_checkout_is_reserved
+        && worktrees
+            .iter()
+            .any(|worktree| worktree.is_primary && worktree.is_current)
+    {
+        conflicts.push("current_checkout_is_primary_resource".into());
+    }
+    let extra_worktrees = worktrees
+        .iter()
+        .filter(|worktree| !worktree.is_primary && !worktree.is_current)
+        .count();
+    if extra_worktrees > 0 {
+        warnings.push(format!(
+            "uncleaned_linked_worktrees_present:{extra_worktrees}"
+        ));
+    }
+    if !active_work_items.is_empty() {
+        warnings.push(format!(
+            "active_work_items_require_lifecycle_or_cleanup:{}",
+            active_work_items.len()
+        ));
+    }
+    let archived_resource_count = archived_work_items
+        .iter()
+        .filter(|item| item.cleanup_required)
+        .count();
+    if archived_resource_count > 0 {
+        warnings.push(format!(
+            "archived_resource_obligations_present:{}",
+            archived_resource_count
+        ));
+    }
+    if !readiness.unclosed_archived_work_items.is_empty() {
+        warnings.push(format!(
+            "archived_work_items_pending_close:{}",
+            readiness.unclosed_archived_work_items.join(",")
+        ));
+    }
+    if !readiness.orphaned_active_artifacts.is_empty() {
+        warnings.push(format!(
+            "orphaned_active_artifacts_present:{}",
+            readiness.orphaned_active_artifacts.len()
+        ));
+    }
+    if !readiness.historical_finalization.is_empty() {
+        warnings.push(format!(
+            "historical_finalization_obligations_present:{}",
+            readiness.historical_finalization.len()
+        ));
+    }
+    if worktrees
+        .iter()
+        .any(|worktree| worktree.path == "<unknown>")
+    {
+        unknowns.push("worktree_path_unknown".into());
+    }
+    if current_branch.is_none() {
+        unknowns.push("current_branch_unknown".into());
+    }
+    let mut next_actions = Vec::new();
+    if !conflicts.is_empty() {
+        next_actions.push("resolve_exact_start_resource_conflicts".into());
+    } else if !warnings.is_empty() {
+        next_actions.push("review_start_cleanup_advisory_and_continue_if_unrelated".into());
+    }
+    if conflicts.is_empty() {
+        next_actions.push("proceed_with_start_entry_checks".into());
+    }
+    let classification = if !conflicts.is_empty() {
+        "blocked"
+    } else if !unknowns.is_empty() {
+        "unknown"
+    } else if !warnings.is_empty() {
+        "advisory"
+    } else {
+        "clear"
+    };
+    warnings.sort();
+    warnings.dedup();
+    conflicts.sort();
+    conflicts.dedup();
+    unknowns.sort();
+    unknowns.dedup();
+    Ok(WorkItemStartAdvisory {
+        schema_version: 1,
+        repository_id: repository_id(&root).to_string(),
+        work_item_id: work_item_id.into(),
+        current_work_item_state: if recovery_continuation {
+            "not_ready_recovery".into()
+        } else {
+            "not_started".into()
+        },
+        classification: classification.into(),
+        current_worktree: worktrees
+            .iter()
+            .find(|worktree| worktree.is_current)
+            .cloned(),
+        worktrees,
+        active_work_items,
+        pending_cleanup,
+        warnings,
+        conflicts,
+        unknowns,
+        next_actions,
+    })
+}
+
+fn branch_name(value: &str) -> String {
+    value.strip_prefix("refs/heads/").unwrap_or(value).into()
+}
+
+fn recovery_predecessor_work_item_id(root: &Path, work_item_id: &str) -> Option<String> {
+    let contract = read_json(
+        &root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json")),
+    )
+    .ok()?;
+    (contract["state"] == serde_json::json!("not_ready"))
+        .then(|| {
+            contract["predecessorWorkItemId"]
+                .as_str()
+                .map(str::to_owned)
+        })
+        .flatten()
+}
+
+fn load_start_obligations(
+    root: &Path,
+    directory: &str,
+    active: bool,
+) -> Result<Vec<WorkItemStartObligation>, ObserverError> {
+    let directory_path = root.join(".ai/work-items").join(directory);
+    let entries = match fs::read_dir(&directory_path) {
+        Ok(entries) => entries,
+        Err(source) if source.kind() == std::io::ErrorKind::NotFound => {
+            // A newly attached or test-created repository may not have any
+            // Work Items yet.  The start advisory is read-only and should
+            // treat an absent lifecycle directory as an empty inventory;
+            // other I/O failures remain fail-closed below.
+            return Ok(Vec::new());
+        }
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: directory_path.clone(),
+                source,
+            });
+        }
+    };
+    let mut paths = entries
+        .flatten()
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| name.ends_with(".contract.json"))
+        })
+        .collect::<Vec<_>>();
+    paths.sort();
+    let mut obligations = Vec::new();
+    for path in paths {
+        let value = read_json(&path)?;
+        let Some(work_item_id) = value.get("workItemId").and_then(serde_json::Value::as_str) else {
+            continue;
+        };
+        let resource = value.get("resourceContext");
+        let branch = resource
+            .and_then(|resource| resource.get("branch"))
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_owned);
+        let worktree = resource
+            .and_then(|resource| resource.get("worktree"))
+            .and_then(serde_json::Value::as_str)
+            .map(|path| {
+                fs::canonicalize(path)
+                    .unwrap_or_else(|_| PathBuf::from(path))
+                    .to_string_lossy()
+                    .into_owned()
+            });
+        obligations.push(WorkItemStartObligation {
+            work_item_id: work_item_id.into(),
+            state: value
+                .get("state")
+                .and_then(serde_json::Value::as_str)
+                .unwrap_or("unknown")
+                .into(),
+            contract_path: repository_relative_path(root, &path),
+            branch,
+            worktree,
+            // An active Work Item always owns a branch/worktree lifecycle,
+            // even when it has no provider resourceContext. Archived records
+            // only carry a cleanup obligation when their persisted resource
+            // binding still exists.
+            cleanup_required: active || resource.is_some(),
+        });
+    }
+    Ok(obligations)
 }
 
 /// One-shot agent entry: create/activate a Work Item, append the supplied
@@ -265,6 +591,7 @@ fn activate_not_ready_scaffold(
         work_item_id: work_item_id.into(),
         state: "implementation_active".into(),
         timestamp: now(),
+        start_advisory: None,
     }))
 }
 
@@ -296,7 +623,7 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    validate_start_entry(root, &[], false)?;
+    validate_start_entry(root, &[], false, &[])?;
     scaffold_work_item_internal(root, work_item_id, mode)
 }
 
@@ -710,6 +1037,7 @@ pub fn checkpoint_work_item(
         work_item_id: work_item_id.into(),
         state: "checkpointed".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 
@@ -1853,6 +2181,7 @@ fn finish_work_item_internal_unlocked(
         work_item_id: work_item_id.into(),
         state: "finish_ready".into(),
         timestamp,
+        start_advisory: None,
     })
 }
 

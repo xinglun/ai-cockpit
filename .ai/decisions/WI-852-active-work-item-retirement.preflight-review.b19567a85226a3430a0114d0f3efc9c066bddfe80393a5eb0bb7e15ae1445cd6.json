@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:5d7254e1344459334f7f87e5cc3e5db429f0f2f9fe0f27c9cabb85153d211ce9",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "The repository owner authorized completion of the bounded WI-852 start-advisory implementation and its recovery-continuation boundary.",
+  "recordedAt": "2026-09-16T06:56:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0c13729cdf64588e5fb80b0f0f5034cd1ed69439de1f02b6f841ed031456feeb",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

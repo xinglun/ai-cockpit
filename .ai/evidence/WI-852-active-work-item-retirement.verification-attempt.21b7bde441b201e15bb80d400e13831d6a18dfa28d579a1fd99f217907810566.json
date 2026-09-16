@@ -1,0 +1,155 @@
+{
+  "attemptId": "sha256:21b7bde441b201e15bb80d400e13831d6a18dfa28d579a1fd99f217907810566",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry",
+        "start_advisory_reports_residual_work_without_forcing_a_stop"
+      ],
+      "baseCommit": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+      "commandDigest": "sha256:b541523d6c5d74144c078fd6e38604b8be6a6145c336e23a9977612600fb0d96",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:75148a508d529b4d757b2a42bc0d6b97978770e227fb35da1233abc395bf0ea0",
+  "contractExecutionScopeDigest": "sha256:da0df2c422b2a2670c87b1047d3db9747ce0a01dd8c34244d6f1b5862d349013",
+  "createdAt": "2026-09-16T06:29:36Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:b541523d6c5d74144c078fd6e38604b8be6a6145c336e23a9977612600fb0d96",
+      "elapsedMs": 657,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "2020202046696e6973686564206074657374602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20302e3334730a202020202052756e6e696e672074657374732f6c6966656379636c655f656e7472792e727320287461726765742f64656275672f646570732f6c6966656379636c655f656e7472792d39383234326164353232633939363465290a",
+      "stderrTruncated": false,
+      "stdout": "0a72756e6e696e67203120746573740a746573742073746172745f61647669736f72795f7265706f7274735f726573696475616c5f776f726b5f776974686f75745f666f7263696e675f615f73746f70202e2e2e206f6b0a0a7465737420726573756c743a206f6b2e2031207061737365643b2030206661696c65643b20302069676e6f7265643b2030206d656173757265643b2033312066696c7465726564206f75743b2066696e697368656420696e20302e3235730a0a",
+      "stdoutTruncated": false,
+      "timedOut": false
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 871,
+      "executionElapsedMs": 657,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "runtimeVersion": "0.2.92",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 871,
+    "executionElapsedMs": 657,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:b541523d6c5d74144c078fd6e38604b8be6a6145c336e23a9977612600fb0d96",
+        "elapsedMs": 657,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "2020202046696e6973686564206074657374602070726f66696c65205b756e6f7074696d697a6564202b206465627567696e666f5d2074617267657428732920696e20302e3334730a202020202052756e6e696e672074657374732f6c6966656379636c655f656e7472792e727320287461726765742f64656275672f646570732f6c6966656379636c655f656e7472792d39383234326164353232633939363465290a",
+        "stderrTruncated": false,
+        "stdout": "0a72756e6e696e67203120746573740a746573742073746172745f61647669736f72795f7265706f7274735f726573696475616c5f776f726b5f776974686f75745f666f7263696e675f615f73746f70202e2e2e206f6b0a0a7465737420726573756c743a206f6b2e2031207061737365643b2030206661696c65643b20302069676e6f7265643b2030206d656173757265643b2033312066696c7465726564206f75743b2066696e697368656420696e20302e3235730a0a",
+        "stdoutTruncated": false,
+        "timedOut": false
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 657,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:daaa0cef30ad6702b2377bd7add5e28e4011129a1451c80214c432f48b04a1a9",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+    "runtimeVersion": "0.2.92"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:018f8ab20fd9d4fc3342a5566292b2135f2eeb04b0d6a7e82219d4b7954f082b",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-852-active-work-item-retirement"
+}
