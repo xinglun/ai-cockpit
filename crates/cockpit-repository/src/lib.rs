@@ -9743,6 +9743,24 @@ fn capture_ordinary_cleanup_binding(
         path: root.into(),
         source,
     })?;
+    let readiness = repository_readiness(&canonical_root)?;
+    let layout = discover_worktree_layout(&canonical_root)?;
+    let current_is_primary = layout.primary == canonical_root;
+    let current_is_discovered_default =
+        readiness.current_branch.as_deref() == readiness.default_branch.as_deref();
+    if current_is_primary && (layout.paths.len() > 1 || current_is_discovered_default) {
+        let discovered_default = readiness
+            .default_branch
+            .as_deref()
+            .map(|branch| format!("discovered default branch {branch}"))
+            .unwrap_or_else(|| "the primary repository worktree".into());
+        return Err(ObserverError::State {
+            path: canonical_root,
+            message: format!(
+                "ordinary close requires a dedicated linked worktree on a non-default branch; current checkout is {discovered_default}; switch to the Work Item worktree before close"
+            ),
+        });
+    }
     let records = git_worktree_records(root)?;
     let matching = records
         .into_iter()

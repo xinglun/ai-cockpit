@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T14:02:47Z",
+  "files": {
+    "contractDigest": "sha256:f76c9012a95ac8ef025815dbc86cb15b0195934e7cfc60459e79ec670cfd3c98",
+    "contractPath": ".ai/work-items/archive/WI-861-ordinary-close-guard.contract.json",
+    "eventsDigest": "sha256:931a10dbc09331439df91e0708c48505d2a3553661a828474277c373a8169a00",
+    "eventsPath": ".ai/work-items/archive/WI-861-ordinary-close-guard.events.jsonl",
+    "outcomeDigest": "sha256:8bb51595297a7325d480f84712a6a7d6e0454212ecb8d0761a1dd4d8447a9a25",
+    "outcomePath": ".ai/work-items/archive/WI-861-ordinary-close-guard.outcome.json",
+    "summaryDigest": "sha256:e02682bc7b90477b7745dec8c6f9be382814065259533d443cb806216f2a6528",
+    "summaryPath": ".ai/work-items/archive/WI-861-ordinary-close-guard.summary.json",
+    "taskReportDigest": "sha256:4296dac401d7a0268dea2a4c8d51b8f5b1bbcd2785628ccca195871faed193e1",
+    "taskReportMarkdownDigest": "sha256:f372c8efb36bc4d5045fc191765f9df0d96055f99f55c6f2c417a9f756fb6482",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-861-ordinary-close-guard.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-861-ordinary-close-guard.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-861-ordinary-close-guard"
+}
