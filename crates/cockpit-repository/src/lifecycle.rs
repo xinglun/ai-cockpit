@@ -159,7 +159,7 @@ fn work_item_start_advisory_with_mode(
     if !recovery_continuation
         && active_work_items
             .iter()
-            .any(|item| item.work_item_id == work_item_id)
+            .any(|item| item.work_item_id == work_item_id && item.state != "not_ready")
     {
         conflicts.push(format!("active_work_item_exists:{work_item_id}"));
     }
