@@ -1,8 +1,8 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.6bcb18854f39557aa7ce18937d1904939f4d48830b9a0e7002a18f71432a4f2a.json",
-    ".ai/decisions/WI-852-active-work-item-retirement.recovery.3c32d042255b73ebffe416c4559f72e4378961b81b6a520df399a1e7650a00cf.json",
+    ".ai/decisions/WI-852-active-work-item-retirement.preflight-review.11099141789ead080f08a7d0917ce465689d4f66609eedddbf22f31a4b4846aa.json",
     ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-852-active-work-item-retirement.contract.json",
     ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json",
     "crates/cockpit-repository/src/lifecycle.rs"
   ],
@@ -225,18 +225,18 @@
       "workItemId": "WI-852-active-work-item-retirement"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:578b554cd689bfc4558762f0d4ccba32162567842aa0c5d88aaaa04da20afeaf",
+  "checkpointRepositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
   "createdAt": "2026-09-16T04:41:48Z",
   "decisionEvidence": {
     "contractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-    "reason": "Confirm the bounded WI-852 start-advisory fix and its regression verification for the exact current Contract and repository snapshot.",
-    "recordedAt": "2026-09-16T07:50:00Z",
+    "reason": "The repository owner authorized the bounded WI-852 start-advisory compatibility fix and its regression verification.",
+    "recordedAt": "2026-09-16T07:22:35Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:578b554cd689bfc4558762f0d4ccba32162567842aa0c5d88aaaa04da20afeaf",
+    "repositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
     "schemaVersion": 1,
     "workItemId": "WI-852-active-work-item-retirement"
   },
@@ -247,10 +247,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-16T07:51:29Z",
+  "preflightAt": "2026-09-16T07:22:56Z",
   "preflightContractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:578b554cd689bfc4558762f0d4ccba32162567842aa0c5d88aaaa04da20afeaf",
+  "preflightRepositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -297,7 +297,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-16T07:51:36Z",
+  "updatedAt": "2026-09-16T07:23:02Z",
   "verification": [
     {
       "check": "project-command-0",

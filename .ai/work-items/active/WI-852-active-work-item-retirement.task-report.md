@@ -14,9 +14,9 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.6bcb18854f39557aa7ce18937d1904939f4d48830b9a0e7002a18f71432a4f2a.json
-- Changed path: .ai/decisions/WI-852-active-work-item-retirement.recovery.3c32d042255b73ebffe416c4559f72e4378961b81b6a520df399a1e7650a00cf.json
+- Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.11099141789ead080f08a7d0917ce465689d4f66609eedddbf22f31a4b4846aa.json
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.contract.json
 - Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
 - Changed path: crates/cockpit-repository/src/lifecycle.rs
 
