@@ -15,14 +15,15 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-860-doc-promotion.contract.json
-- Changed path: .ai/work-items/active/WI-860-doc-promotion.summary.json
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-860-doc-promotion.ja.md
-- Changed path: docs/work-items/WI-860-doc-promotion.md
-- Changed path: docs/work-items/WI-860-doc-promotion.zh-CN.md
+- Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.5ada0376bc51a9410889ad5e9bb7643f9ac46b0c92c7ac3555cc8ebb8fa6e83b.json
+- Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.b0f6ef369871771e995e73c1d082197a4240228a9a85458e36a739adbe2e1722.json
+- Changed path: .ai/evidence/WI-860-doc-promotion.verification.json
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.contract.json
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.events.jsonl
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.outcome.json
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.summary.json
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.task-report.json
+- Changed path: .ai/work-items/archive/WI-860-doc-promotion.task-report.md
 
 ## Findings
 

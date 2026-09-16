@@ -3,9 +3,9 @@
     "promote_closed_work_item.py --work-item WI-859-governance-retirement-compat succeeds; --check-all reports current; six scoped projections retain links to archive verification and close evidence; no source tests are re-run",
     "WI-860 itself has complete English, Simplified Chinese, and Japanese work-item projections and exactly one matching parity row per language before hosted PR validation."
   ],
-  "createdAt": "2026-09-16T12:33:29Z",
+  "createdAt": "2026-09-16T12:58:40Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fdb4377ff5b2cf62454afea76db842d40b8f98088267ad16857460b10c43d7cf",
+  "evidenceDigest": "sha256:57065845450bb6156cc9c3ef1c4847715bd707c636334bd1ff05978a14a6c2ab",
   "evidenceRefs": [
     ".ai/evidence/WI-860-doc-promotion.verification.json"
   ],
@@ -42,66 +42,73 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-860-doc-promotion.contract.json"
+          "text": "Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.5ada0376bc51a9410889ad5e9bb7643f9ac46b0c92c7ac3555cc8ebb8fa6e83b.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-860-doc-promotion.summary.json"
+          "text": "Changed path: .ai/evidence/WI-860-doc-promotion.verification-attempt.b0f6ef369871771e995e73c1d082197a4240228a9a85458e36a739adbe2e1722.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
+          "text": "Changed path: .ai/evidence/WI-860-doc-promotion.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-860-doc-promotion.ja.md"
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-860-doc-promotion.md"
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/work-items/WI-860-doc-promotion.zh-CN.md"
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-860-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-860-doc-promotion.task-report.md"
         }
       ],
       "evidence": [
@@ -157,7 +164,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make all closed WI-859 tri-language work-item and reference-parity projections current, preserving the terminal evidence bindings."
@@ -166,7 +173,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-860-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-860-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -176,8 +183,8 @@
     "status": "verified",
     "workItemId": "WI-860-doc-promotion"
   },
-  "taskReportDigest": "sha256:8fad15f716749f2b9a91bbb749919d72dcdfdd4bf89cb9221967707992c7b9d8",
-  "taskReportMarkdownDigest": "sha256:085315c474c10b62b15495c54ac11ce20dfcb975dbd26865a074785004df87d8",
+  "taskReportDigest": "sha256:e99f80ae3a12d7b830dd4bbb8e800dd322e6137d95a4ac9604dcb1b403908518",
+  "taskReportMarkdownDigest": "sha256:e7390ff245572e7709acd9d875eee1363855b4ebf6890facdf7a3645b8a1803c",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

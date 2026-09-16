@@ -38,10 +38,13 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-860-doc-promotion.md",
     "docs/work-items/WI-860-doc-promotion.zh-CN.md",
-    "docs/work-items/WI-860-doc-promotion.ja.md"
+    "docs/work-items/WI-860-doc-promotion.ja.md",
+    ".ai/evidence/WI-860-doc-promotion.verification.json"
   ],
   "sources": [],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
   "workItemId": "WI-860-doc-promotion"
 }
