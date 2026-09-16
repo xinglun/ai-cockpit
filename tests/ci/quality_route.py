@@ -15,6 +15,25 @@ PROFILE_ORDER = ("light", "standard", "strict")
 STAGES = ("task", "pre_ci", "pull_request", "merge", "release")
 HIGH_RISKS = {"high", "critical", "destructive"}
 
+# Runtime writes these records while an Agent prepares a Work Item. They are
+# still included in the route receipt, but must not turn a documentation-only
+# pull request into an unrelated strict/release route. Curated evidence under
+# a subdirectory (for example .ai/evidence/reuse or .ai/evidence/external)
+# remains a governance input and is intentionally not covered here.
+GENERATED_LIFECYCLE_PATTERNS = (
+    ".ai/work-items/active/**",
+    ".ai/decisions/observer-snapshot.json",
+)
+
+
+def is_generated_lifecycle_path(path: str) -> bool:
+    if any(fnmatch.fnmatchcase(path, pattern) for pattern in GENERATED_LIFECYCLE_PATTERNS):
+        return True
+    evidence_prefix = ".ai/evidence/"
+    if path.startswith(evidence_prefix):
+        return "/" not in path[len(evidence_prefix) :]
+    return False
+
 
 class RouteValidationError(ValueError):
     """A stable, human-actionable route failure without raw command output."""
@@ -303,9 +322,16 @@ def select_route(manifest: dict[str, Any], *, paths: list[str], risk: str, stage
     if stage not in STAGES:
         raise ValueError(f"unsupported stage: {stage}")
     normalized = normalize_paths(paths)
+    non_generated = [path for path in normalized if not is_generated_lifecycle_path(path)]
+    documentation_only_with_generated_records = bool(non_generated) and all(
+        any(fnmatch.fnmatchcase(path, pattern) for pattern in manifest["pathProfiles"]["light"])
+        for path in non_generated
+    ) and any(is_generated_lifecycle_path(path) for path in normalized)
     decisions: list[dict[str, Any]] = []
     for path in normalized:
-        if any(fnmatch.fnmatchcase(path, pattern) for pattern in manifest["releaseOwnedPatterns"]):
+        if documentation_only_with_generated_records and is_generated_lifecycle_path(path):
+            profile, reason = "light", f"generated lifecycle record follows documentation-only route: {path}"
+        elif any(fnmatch.fnmatchcase(path, pattern) for pattern in manifest["releaseOwnedPatterns"]):
             profile, reason = "strict", f"release-owned path requires strict: {path}"
         else:
             matches = [profile for profile in PROFILE_ORDER if any(fnmatch.fnmatchcase(path, pattern) for pattern in manifest["pathProfiles"][profile])]

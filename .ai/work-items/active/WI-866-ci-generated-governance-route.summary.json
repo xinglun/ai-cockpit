@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.contract.json",
+    ".ai/work-items/active/WI-866-ci-generated-governance-route.summary.json",
+    "tests/ci/quality_route.py",
+    "tests/ci/quality_route_test.py"
+  ],
+  "checkpointAt": "2026-09-16T20:31:32Z",
+  "checkpointContractDigest": "sha256:65c26c4e525ad0de7e6004a302c44ee4c8a06d5fa0294bda2bc201356220eda6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6c651f86758e21906d1e90cbc91cdc6bc0404bd23e06d4e20961d06948bf827f",
+  "createdAt": "2026-09-16T20:28:21Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T20:34:08Z",
+  "preflightContractDigest": "sha256:65c26c4e525ad0de7e6004a302c44ee4c8a06d5fa0294bda2bc201356220eda6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6c651f86758e21906d1e90cbc91cdc6bc0404bd23e06d4e20961d06948bf827f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T20:34:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-866-ci-generated-governance-route"
+}
