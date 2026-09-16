@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T11:13:30Z",
+  "files": {
+    "contractDigest": "sha256:88d4327a95a114bba0e0391933b0279177f2eba47b7b0b72e1d3890309ea1ea6",
+    "contractPath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json",
+    "eventsDigest": "sha256:60c7fd78828b8a0b075e2372d58b21c172dc83f8c0cf26650fa7ac34343f67af",
+    "eventsPath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.events.jsonl",
+    "outcomeDigest": "sha256:0aa17dc5b5c75268fba1993512fd1fbf5c2514b90d012ebdce28740e8d83e1b8",
+    "outcomePath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.outcome.json",
+    "summaryDigest": "sha256:397be2f061627eb9a3c1321a4337510a9905da62a60911b70bd9e79e98cbe326",
+    "summaryPath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json",
+    "taskReportDigest": "sha256:444b296fcff7ab7b75ebaf9fcc24f4789cf7c440dd0af448033d089ba7f62ea2",
+    "taskReportMarkdownDigest": "sha256:4bbcaf50dfe5300253e48ff992b61791f45abb08d8fef0c8335b5227059126e9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-857-remote-branch-start-advisory"
+}

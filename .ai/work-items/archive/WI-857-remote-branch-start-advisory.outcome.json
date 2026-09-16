@@ -45,112 +45,112 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-857-remote-branch-start-advisory.verification-attempt.935912dfd484ab01f5325f2ec5309a3a4f6efa5e0310e97a8bf5f70304d7e57c.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-857-remote-branch-start-advisory.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.events.jsonl"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.outcome.json"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.task-report.json"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-857-remote-branch-start-advisory.task-report.md"
+          "text": "Changed path: .ai/work-items/archive/WI-857-remote-branch-start-advisory.task-report.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-cli/src/main.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.summary.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
@@ -209,7 +209,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.contract.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
           ],
           "inference": false,
           "text": "Prevent untracked remote branch residue from escaping the start handoff and keep result completion separate from cleanup"
@@ -218,7 +218,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-857-remote-branch-start-advisory.contract.json"
+            ".ai/work-items/archive/WI-857-remote-branch-start-advisory.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -228,8 +228,8 @@
     "status": "verified",
     "workItemId": "WI-857-remote-branch-start-advisory"
   },
-  "taskReportDigest": "sha256:5d8bef7bed3674942308f9286547f2d002b033481cf2765eaa41bdfee8da39b1",
-  "taskReportMarkdownDigest": "sha256:f0602b6a348476b2c2e4f581e9399e1686d4f648ecb2eb3a5e0a2321b4cac6c3",
+  "taskReportDigest": "sha256:444b296fcff7ab7b75ebaf9fcc24f4789cf7c440dd0af448033d089ba7f62ea2",
+  "taskReportMarkdownDigest": "sha256:4bbcaf50dfe5300253e48ff992b61791f45abb08d8fef0c8335b5227059126e9",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
