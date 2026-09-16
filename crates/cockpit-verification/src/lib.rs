@@ -3126,6 +3126,8 @@ mod tests {
                 output_truncated: false,
                 timed_out: false,
                 elapsed_ms: 0,
+                timeout_seconds: command.timeout_seconds,
+                deadline_ms: 0,
             },
         );
 
