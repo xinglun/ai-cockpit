@@ -131,6 +131,11 @@ fn work_item_start_advisory_with_mode(
         .collect::<Vec<_>>();
     let active_work_items = load_start_obligations(&root, "active", true)?;
     let archived_work_items = load_start_obligations(&root, "archive", false)?;
+    let recovery_predecessor = if recovery_continuation {
+        recovery_predecessor_work_item_id(&root, work_item_id)
+    } else {
+        None
+    };
     let pending_cleanup = active_work_items
         .iter()
         .filter(|item| item.cleanup_required)
@@ -161,6 +166,13 @@ fn work_item_start_advisory_with_mode(
     let current_path = root.to_string_lossy();
     for item in &all_resource_obligations {
         if item.work_item_id == work_item_id {
+            continue;
+        }
+        if recovery_predecessor.as_deref() == Some(item.work_item_id.as_str()) {
+            // A recovery successor is deliberately activated in the
+            // predecessor's existing checkout.  The predecessor binding is
+            // the reason this continuation is safe; unrelated resource
+            // owners must still remain exact conflicts.
             continue;
         }
         if item.worktree.as_deref() == Some(current_path.as_ref()) {
@@ -288,6 +300,22 @@ fn work_item_start_advisory_with_mode(
 
 fn branch_name(value: &str) -> String {
     value.strip_prefix("refs/heads/").unwrap_or(value).into()
+}
+
+fn recovery_predecessor_work_item_id(root: &Path, work_item_id: &str) -> Option<String> {
+    let contract = read_json(
+        &root
+            .join(".ai/work-items/active")
+            .join(format!("{work_item_id}.contract.json")),
+    )
+    .ok()?;
+    (contract["state"] == serde_json::json!("not_ready"))
+        .then(|| {
+            contract["predecessorWorkItemId"]
+                .as_str()
+                .map(str::to_owned)
+        })
+        .flatten()
 }
 
 fn load_start_obligations(

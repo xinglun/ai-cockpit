@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "The repository owner authorized the bounded WI-852 start-advisory compatibility fix and its regression verification.",
+  "recordedAt": "2026-09-16T07:22:35Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
+  "schemaVersion": 1,
+  "workItemId": "WI-852-active-work-item-retirement"
+}

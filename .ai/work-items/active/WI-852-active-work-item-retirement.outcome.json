@@ -12,11 +12,12 @@
     "Start-entry diagnostics retain all independent blocking reasons, including exact resource conflicts and base synchronization failures, in one structured failure instead of hiding one behind an earlier return.",
     "Retirement moves only artifacts belonging to the selected Work Item and preserves artifacts belonging to every other active Work Item byte-for-byte.",
     "A recovery continuation may resume its own existing ahead checkout without being rejected by the ordinary primary-checkout advisory, while a new Work Item remains blocked by an exact resource collision.",
-    "The start advisory treats absent active or archive Work Item directories in a new or empty repository as an empty inventory, while preserving fail-closed behavior for other read errors and covering this boundary with a regression test."
+    "The start advisory treats absent active or archive Work Item directories in a new or empty repository as an empty inventory, while preserving fail-closed behavior for other read errors and covering this boundary with a regression test.",
+    "A recovery successor may reuse only the predecessor checkout explicitly bound by its predecessorWorkItemId and recovery decision; unrelated active or archived resource owners remain exact start conflicts, with both paths covered by recovery regression tests."
   ],
-  "createdAt": "2026-09-16T07:11:52Z",
+  "createdAt": "2026-09-16T07:23:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:c6c32ce7600ff31740cc3d68517a4ea22a08d1bfb6a32e926f7a1d1083487dcf",
+  "evidenceDigest": "sha256:6dad5f63d7931736e1188f5e63825ccb2d5c4820348177fb29ba685af678f369",
   "evidenceRefs": [
     ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
   ],
@@ -42,7 +43,7 @@
         ".ai/evidence/WI-852-active-work-item-retirement.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:c6e8136e0aa5f63513c2759076df1598604b6c326e39f0da57619c07ab859179",
+      "repositorySnapshotDigest": "sha256:60f922c54eaa37c4ddcf2cf96583493f549e917979bab57a9c7d2a87f52b1cc4",
       "workItemId": "WI-852-active-work-item-retirement"
     },
     "format": "ai-cockpit.task-outcome",
@@ -56,7 +57,7 @@
             ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.a0f6c9f5038973ba73e0a003a92cdc8e2fc4cd308e97e475de18b8fa9885db97.json"
+          "text": "Changed path: .ai/decisions/WI-852-active-work-item-retirement.preflight-review.11099141789ead080f08a7d0917ce465689d4f66609eedddbf22f31a4b4846aa.json"
         },
         {
           "evidenceRefs": [
@@ -64,13 +65,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.fbd63f1f227c94d7b15212ce47eb4d343f757b831c81f8723884392ecd2e7f07.json"
         },
         {
           "evidenceRefs": [
@@ -92,13 +86,6 @@
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         }
       ],
       "evidence": [
@@ -173,8 +160,8 @@
     "status": "verified",
     "workItemId": "WI-852-active-work-item-retirement"
   },
-  "taskReportDigest": "sha256:96e3717bd179c9c8a6b94926642a8c82f339a0abfaecf1a2e179c497e60fcabc",
-  "taskReportMarkdownDigest": "sha256:131b5dd40c6c267dbf9a761a94e6a79f8449b2fa61f1693c196c231c958b9d4e",
+  "taskReportDigest": "sha256:696a01b1a1ed4bad99433ae9eb24b4963477638c5c5b4cfec1154b086aff516c",
+  "taskReportMarkdownDigest": "sha256:117db55f686c34a8e9947b08fbdeaeab93ed61bed297bb1678e03c39db4327c3",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

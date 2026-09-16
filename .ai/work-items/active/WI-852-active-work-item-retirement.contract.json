@@ -12,7 +12,8 @@
     "Start-entry diagnostics retain all independent blocking reasons, including exact resource conflicts and base synchronization failures, in one structured failure instead of hiding one behind an earlier return.",
     "Retirement moves only artifacts belonging to the selected Work Item and preserves artifacts belonging to every other active Work Item byte-for-byte.",
     "A recovery continuation may resume its own existing ahead checkout without being rejected by the ordinary primary-checkout advisory, while a new Work Item remains blocked by an exact resource collision.",
-    "The start advisory treats absent active or archive Work Item directories in a new or empty repository as an empty inventory, while preserving fail-closed behavior for other read errors and covering this boundary with a regression test."
+    "The start advisory treats absent active or archive Work Item directories in a new or empty repository as an empty inventory, while preserving fail-closed behavior for other read errors and covering this boundary with a regression test.",
+    "A recovery successor may reuse only the predecessor checkout explicitly bound by its predecessorWorkItemId and recovery decision; unrelated active or archived resource owners remain exact start conflicts, with both paths covered by recovery regression tests."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "61b8bcc3115a9378c20e4ff80fc36c9bab77d685",
