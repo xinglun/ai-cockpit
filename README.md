@@ -148,6 +148,8 @@ installation, connection, verification, and compliance remain separate states.
   MCP, or maintainer route.
 - [Capabilities and boundaries](docs/capabilities.md) — see the current command
   surface and the responsibilities that remain external.
+- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/) — an
+  optional interactive guide to the governance lifecycle.
 - [Release and distribution](docs/release/distribution.md) — installation,
   verification, rollback, and MCP configuration.
 

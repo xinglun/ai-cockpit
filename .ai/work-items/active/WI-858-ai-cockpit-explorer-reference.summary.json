@@ -1,0 +1,155 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.a81a64e31f51ec03cb5e7b8038d8e3b441ecdf4ef29305111367c843cbe79348.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json",
+    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+  ],
+  "checkpointAt": "2026-09-16T11:38:13Z",
+  "checkpointContractDigest": "sha256:35572ec5dede31a1114dc34cf28268d3f5f3f6cbb43aa9eab2aeca4b647a170c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "recorded": true,
+      "recordedAt": "2026-09-16T11:38:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:937e145278fc6b3b34bbcc881c5613085d8a0aca7df4db97aeb4b04cb7767582",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "previousContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "reason": "The initial implementation omitted the README projection; make the completed README locations explicit before revalidation.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T11:44:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8420fa3f89543f1f67529e9878c1171d7c6055fd073b480535b543b1684ce49b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a19b218aa38b73c655f29b2f91b3ac6b78f05a41e83596e474bae7ec7899e353",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "previousContractHash": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+      "reason": "Hosted docs governance identified that pre-archive parity registration must include all planned terminal record paths; record and correct that requirement in the current Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T11:52:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:906438c236a0f78e3318653236ac67cf9f421ad81c8a40c746da55544c55e084",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:35572ec5dede31a1114dc34cf28268d3f5f3f6cbb43aa9eab2aeca4b647a170c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:728b37a24abc71fd3bffd1fc9122dda8389c92b7a1d21f93334273d9e50a25a8",
+      "previousContractHash": "sha256:a19b218aa38b73c655f29b2f91b3ac6b78f05a41e83596e474bae7ec7899e353",
+      "reason": "Declare the exact focused documentation check already required by the unchanged WI-858 acceptance criteria so the synchronized reviewed branch can obtain a current preflight and verification binding.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T13:16:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c9717ffa8ca6fc5b7d477051edb3d383ed80cee46762d597dd856f12c95f182",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:6a62885e078e66dfc0248081fd34b54d0c1f62f03f3032d28de761a715753f58",
+  "createdAt": "2026-09-16T11:36:34Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T13:23:56Z",
+  "preflightContractDigest": "sha256:35572ec5dede31a1114dc34cf28268d3f5f3f6cbb43aa9eab2aeca4b647a170c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:6a62885e078e66dfc0248081fd34b54d0c1f62f03f3032d28de761a715753f58",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T11:53:21Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:52564844d5d5a40ca93c7216cbfa9d44e1cbf8413578e9a49aabc32ed8198365",
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}

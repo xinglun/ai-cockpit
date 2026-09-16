@@ -1,0 +1,40 @@
+{
+  "attemptId": "sha256:52e36a952831eab3c1bb81e9cbfd8699c0b77f8cdc1a3ba8edc2b885e6c35bec",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",
+      "commandDigest": "sha256:e6ffa4af24e7429df3fdbcc3d1ae5beedcb4dbdbb480bc980618d15d82293ae5",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:d1222cb874a06092d8abea3869f8e275f5ba632ea2e444396443404ca18fe219",
+  "contractExecutionScopeDigest": "sha256:23020fd51a8d280827bd718d167f36df7d2926f2ab4019b6f236c4ae82ab0ca7",
+  "createdAt": "2026-09-16T11:45:07Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-858-ai-cockpit-explorer-reference/.ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:95d6aeaa518755bd3da48edcb9d92d91c696202dce25ba2354eefa442e142a17",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}

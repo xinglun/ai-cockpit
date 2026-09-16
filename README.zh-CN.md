@@ -123,6 +123,7 @@ ai-cockpit agent doctor --repo /project-a --json
 
 - [文档导航](docs/README.zh-CN.md)——选择采用者、贡献者、审查者、MCP 或维护者路径。
 - [功能与边界](docs/capabilities.zh-CN.md)——查看当前命令能力和外部责任。
+- [AI Cockpit Explorer](https://xinglun.github.io/ai-cockpit-explorer/)——可选的治理生命周期交互式指南。
 - [发布与分发](docs/release/distribution.zh-CN.md)——安装、验证、回滚和 MCP 配置。
 
 在源码检出中，贡献者可用 `cargo run -p cockpit-cli -- --help` 查看命令面。公开

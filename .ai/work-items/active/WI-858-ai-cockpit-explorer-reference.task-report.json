@@ -1,0 +1,116 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6a62885e078e66dfc0248081fd34b54d0c1f62f03f3032d28de761a715753f58",
+    "workItemId": "WI-858-ai-cockpit-explorer-reference"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.a81a64e31f51ec03cb5e7b8038d8e3b441ecdf4ef29305111367c843cbe79348.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+        ],
+        "inference": false,
+        "text": "Publish the exact Explorer link in the project materials without changing Runtime behavior or governance facts."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}
