@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -19,7 +19,7 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.3cb3dbe0a9e8f81f28af2967a190512b0d1fb8742de0cab361372738e0614035.json
 - Changed path: .ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b237b1c757abf9ffb8fb50ae068f3183ce50e2a404893e82ca6e53eec366bdc3.json
-- Changed path: .ai/work-items/active/WI-852-active-work-item-retirement.summary.json
+- Changed path: .ai/work-items/archive/WI-852-active-work-item-retirement.summary.json
 
 ## Findings
 

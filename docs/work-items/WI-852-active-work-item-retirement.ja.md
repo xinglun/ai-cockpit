@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-852 — active Work Item の retirement"
 description: "元の bytes を書き換えず、検証済みと主張せずに、統合済みの active Work Item を退役させる。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-852-active-work-item-retirement
 lastVerifiedBy: WI-852-active-work-item-retirement
+terminalArchive: .ai/work-items/archive/WI-852-active-work-item-retirement.contract.json
+terminalVerification: .ai/evidence/WI-852-active-work-item-retirement.verification.json
+terminalDecision: .ai/decisions/WI-852-active-work-item-retirement.close.json
 ---
 
 [English](WI-852-active-work-item-retirement.md) · [简体中文](WI-852-active-work-item-retirement.zh-CN.md)

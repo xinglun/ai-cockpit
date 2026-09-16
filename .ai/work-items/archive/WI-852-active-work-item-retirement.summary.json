@@ -5,7 +5,7 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.3cb3dbe0a9e8f81f28af2967a190512b0d1fb8742de0cab361372738e0614035.json",
     ".ai/evidence/WI-852-active-work-item-retirement.verification-attempt.b237b1c757abf9ffb8fb50ae068f3183ce50e2a404893e82ca6e53eec366bdc3.json",
-    ".ai/work-items/active/WI-852-active-work-item-retirement.summary.json"
+    ".ai/work-items/archive/WI-852-active-work-item-retirement.summary.json"
   ],
   "checkpointAt": "2026-09-16T04:47:10Z",
   "checkpointContractDigest": "sha256:ef6bfa02a05c7dded8844a1bf53dd19b161c594c87a9820e9882f3b78f6474d8",
@@ -297,14 +297,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-16T08:23:37.178235+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T08:33:32Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:51d312f35e8922fd7765d362d481626ca3cb6af3d4995370d09940802f40a8fe",
   "workItemId": "WI-852-active-work-item-retirement"
 }
