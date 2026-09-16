@@ -1,0 +1,260 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ab4736a05ddfdb3e83fa99529238c055eeea1e3cb42c44c45dfe0ffd7c883785",
+      "workItemId": "WI-862-ordinary-cleanup-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.3512f62abdb6747b8326cc5a3e4133bbd2ec089da07f42c7627ab9df9bdeeb7c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.a019b759731fd106541bae5e181484b69f6663dd061270d4c2d2139e797a85d8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-862-ordinary-cleanup-binding.verification-attempt.fdc9e0219804959011a85713d3be9677dab3976de9ecf70827003a07746a3266.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-862-ordinary-cleanup-binding.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-862-ordinary-cleanup-binding.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-862-ordinary-cleanup-binding.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-16T14:42:18Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure a successful ordinary close always records an identity-bound cleanup target even when valid historical evidence is accepted, without weakening fail-closed checks"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-862-ordinary-cleanup-binding"
+  },
+  "finalReportDigest": "sha256:4ca7c7760ca9993ff52381386ecbde2e314003906d5c21a42af974db573d013b",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:a30c027a1cc0cb44265ba9324a3939b49108e6fa0fc240c769eb9ed6d173002c",
+    "branch": "codex/wi-862-ordinary-cleanup-binding",
+    "branchRef": "refs/heads/codex/wi-862-ordinary-cleanup-binding",
+    "capturedAt": "2026-09-16T14:42:18Z",
+    "contractDigest": "sha256:32b6ccae543c06df42c19bbd71cb8040edeebbc2acce8fceb501b999c15a5210",
+    "headRevision": "69ef3c5c12bb145f80bec98da9f7e9307439c675",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:6bb89bfba1aaa5d2a10177be37e405b485ffbd0e5e0208262f64a3277a653782",
+    "runtimeVersion": "0.2.92",
+    "schemaVersion": 1,
+    "workItemId": "WI-862-ordinary-cleanup-binding",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/wi-862-ordinary-cleanup-binding",
+    "worktreeId": "sha256:658766143d49f3c5a77b3926c0393cc399581b4dd0db500f46c207374909599e",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-862-ordinary-cleanup-binding"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:7050e2208a95fca8ca37b78305a67bb0269d53fd085d851c694bb2aa56b3a5ac",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-16T14:42:18Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-862-ordinary-cleanup-binding.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User-authorized close after passing formal verification and archive; exact ordinary cleanup binding is recorded for post-merge cleanup.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-16T14:42:18Z",
+  "workItemId": "WI-862-ordinary-cleanup-binding"
+}

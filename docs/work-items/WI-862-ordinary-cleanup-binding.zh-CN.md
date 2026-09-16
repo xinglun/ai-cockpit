@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-862——普通 cleanup binding 连续性"
 description: "当 close 接受合法历史 verification evidence 时，仍保留准确的普通 cleanup binding。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-862-ordinary-cleanup-binding
 lastVerifiedBy: WI-862-ordinary-cleanup-binding
+terminalArchive: .ai/work-items/archive/WI-862-ordinary-cleanup-binding.contract.json
+terminalVerification: .ai/evidence/WI-862-ordinary-cleanup-binding.verification.json
+terminalDecision: .ai/decisions/WI-862-ordinary-cleanup-binding.close.json
 ---
 
 [English](WI-862-ordinary-cleanup-binding.md) · [日本語](WI-862-ordinary-cleanup-binding.ja.md)
