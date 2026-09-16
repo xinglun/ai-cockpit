@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-858 — AI Cockpit Explorer project reference"
 description: "Add the AI Cockpit Explorer as an optional onboarding and project reference."
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-858-ai-cockpit-explorer-reference
 lastVerifiedBy: WI-858-ai-cockpit-explorer-reference
+terminalArchive: .ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json
+terminalVerification: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json
+terminalDecision: .ai/decisions/WI-858-ai-cockpit-explorer-reference.close.json
 ---
 
 [简体中文](WI-858-ai-cockpit-explorer-reference.zh-CN.md) · [日本語](WI-858-ai-cockpit-explorer-reference.ja.md)

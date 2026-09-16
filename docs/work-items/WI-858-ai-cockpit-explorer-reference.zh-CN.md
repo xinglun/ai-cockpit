@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-858——AI Cockpit Explorer 项目资料入口"
 description: "将 AI Cockpit Explorer 作为可选的入门和项目资料入口加入项目文档。"
 audience: [adopter, maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-858-ai-cockpit-explorer-reference
 lastVerifiedBy: WI-858-ai-cockpit-explorer-reference
+terminalArchive: .ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json
+terminalVerification: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json
+terminalDecision: .ai/decisions/WI-858-ai-cockpit-explorer-reference.close.json
 ---
 
 [English](WI-858-ai-cockpit-explorer-reference.md) · [日本語](WI-858-ai-cockpit-explorer-reference.ja.md)
