@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T13:33:24Z",
+  "files": {
+    "contractDigest": "sha256:8e107f495df19215154ebbc701e618c15730a9291bf725c47b5f828a29015173",
+    "contractPath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json",
+    "eventsDigest": "sha256:ba6d3f1f74d5e46ccc82d4920fc353c23a5b1f2c3fb0cf80e8ed7e8c0e249e7a",
+    "eventsPath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.events.jsonl",
+    "outcomeDigest": "sha256:0d1b111a99b7accc49c29fb7d322e597ebcff239181ed995aafb04418cd9f1fe",
+    "outcomePath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.outcome.json",
+    "summaryDigest": "sha256:8c1bc5263863b2c73de85c0b402a1a1edc42d7279e16e3b6c90f9abb9b5b163b",
+    "summaryPath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json",
+    "taskReportDigest": "sha256:cace3ad7008092c9417118afef608bd47b8a798b82995d8161624f486abad859",
+    "taskReportMarkdownDigest": "sha256:a749bc896c1b4f987f936a074cc78e840b901a35f33e647ebb7c850ac32e7643",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-858-ai-cockpit-explorer-reference"
+}

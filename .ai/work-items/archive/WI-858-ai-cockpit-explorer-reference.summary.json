@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.a81a64e31f51ec03cb5e7b8038d8e3b441ecdf4ef29305111367c843cbe79348.json",
-    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json",
-    ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+    ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json",
+    ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
   ],
   "checkpointAt": "2026-09-16T11:38:13Z",
   "checkpointContractDigest": "sha256:35572ec5dede31a1114dc34cf28268d3f5f3f6cbb43aa9eab2aeca4b647a170c",
@@ -94,8 +94,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-16T11:53:21Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T13:33:17Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -150,6 +150,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:52564844d5d5a40ca93c7216cbfa9d44e1cbf8413578e9a49aabc32ed8198365",
   "workItemId": "WI-858-ai-cockpit-explorer-reference"
 }

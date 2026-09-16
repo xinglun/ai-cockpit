@@ -6,6 +6,7 @@
     "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials.",
     "Each tri-language parity row pre-registers the archive, verification, finalization, and close record paths required by the governance integrity gate."
   ],
+  "createdAt": "2026-09-16T13:33:17Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:52564844d5d5a40ca93c7216cbfa9d44e1cbf8413578e9a49aabc32ed8198365",
   "evidenceRefs": [
@@ -25,8 +26,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -44,31 +45,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.a81a64e31f51ec03cb5e7b8038d8e3b441ecdf4ef29305111367c843cbe79348.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.summary.json"
         }
       ],
       "evidence": [
@@ -98,7 +99,7 @@
             ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -124,7 +125,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json"
           ],
           "inference": false,
           "text": "Publish the exact Explorer link in the project materials without changing Runtime behavior or governance facts."
@@ -133,7 +134,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
+            ".ai/work-items/archive/WI-858-ai-cockpit-explorer-reference.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -143,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-858-ai-cockpit-explorer-reference"
   },
-  "taskReportDigest": "sha256:33204b4b90f32f36c719e21c5e6f9235e33e0bc74598037a8973ffbb5d1b8191",
-  "taskReportMarkdownDigest": "sha256:e14c5b920586e9a25131b207642b1503356f4a42315ec030dce8c53d116a12bf",
+  "taskReportDigest": "sha256:cace3ad7008092c9417118afef608bd47b8a798b82995d8161624f486abad859",
+  "taskReportMarkdownDigest": "sha256:a749bc896c1b4f987f936a074cc78e840b901a35f33e647ebb7c850ac32e7643",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
