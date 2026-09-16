@@ -15,24 +15,16 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.416079608c07dce894930343fdc11d1ab286db145f681669ca331e5cb5cc8ab2.json
-- Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.52e36a952831eab3c1bb81e9cbfd8699c0b77f8cdc1a3ba8edc2b885e6c35bec.json
+- Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.3ee372cee0264ffaa4adae2d95db0c110b5d5a6699f7c0105c84ece9c56f648a.json
 - Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json
 - Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json
-- Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.events.jsonl
 - Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.outcome.json
 - Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json
 - Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.json
 - Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.task-report.md
-- Changed path: README.ja.md
-- Changed path: README.md
-- Changed path: README.zh-CN.md
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.ja.md
-- Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.md
-- Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.zh-CN.md
 
 ## Findings
 

@@ -3,7 +3,8 @@
     "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the canonical English, Japanese, and Simplified Chinese README materials.",
     "The three language reference parity pages identify the Explorer as an optional project reference with equivalent meaning.",
     "The change is documentation-only, keeps the URL unchanged, and passes focused repository documentation checks.",
-    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials."
+    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials.",
+    "Each tri-language parity row pre-registers the archive, verification, finalization, and close record paths required by the governance integrity gate."
   ],
   "authority": "authorized",
   "baseRevision": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",

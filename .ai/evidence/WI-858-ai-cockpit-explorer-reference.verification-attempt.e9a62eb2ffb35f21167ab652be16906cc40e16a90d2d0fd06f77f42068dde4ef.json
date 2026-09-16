@@ -1,9 +1,29 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:e9a62eb2ffb35f21167ab652be16906cc40e16a90d2d0fd06f77f42068dde4ef",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "e692917f9ae141b1dab5bfdc0986ec9a04306d20",
+      "commandDigest": "sha256:e6ffa4af24e7429df3fdbcc3d1ae5beedcb4dbdbb480bc980618d15d82293ae5",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
   "contractDigest": "sha256:a19b218aa38b73c655f29b2f91b3ac6b78f05a41e83596e474bae7ec7899e353",
+  "contractExecutionScopeDigest": "sha256:23020fd51a8d280827bd718d167f36df7d2926f2ab4019b6f236c4ae82ab0ca7",
   "createdAt": "2026-09-16T11:52:53Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -95,13 +115,13 @@
       }
     ],
     "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
-    "runtimeVersion": "0.2.92",
-    "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    "runtimeVersion": "0.2.92"
   },
-  "receiptDigest": "sha256:1fe00d44825dceb31e457e329670014e5da80935d2d48233c7db80b4c6f13cb8",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:e989f0dfa774287d455ae1a1779996aa6e10ee19686de2aa765b0d5631d886b6",
   "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
   "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-858-ai-cockpit-explorer-reference"
 }

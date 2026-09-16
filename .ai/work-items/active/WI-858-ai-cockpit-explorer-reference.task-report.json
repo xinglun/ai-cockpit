@@ -4,7 +4,7 @@
       ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:95d6aeaa518755bd3da48edcb9d92d91c696202dce25ba2354eefa442e142a17",
+    "repositorySnapshotDigest": "sha256:e989f0dfa774287d455ae1a1779996aa6e10ee19686de2aa765b0d5631d886b6",
     "workItemId": "WI-858-ai-cockpit-explorer-reference"
   },
   "format": "ai-cockpit.task-outcome",
@@ -25,14 +25,7 @@
           ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.416079608c07dce894930343fdc11d1ab286db145f681669ca331e5cb5cc8ab2.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.52e36a952831eab3c1bb81e9cbfd8699c0b77f8cdc1a3ba8edc2b885e6c35bec.json"
+        "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.3ee372cee0264ffaa4adae2d95db0c110b5d5a6699f7c0105c84ece9c56f648a.json"
       },
       {
         "evidenceRefs": [
@@ -47,13 +40,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.events.jsonl"
       },
       {
         "evidenceRefs": [
@@ -88,27 +74,6 @@
           ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: README.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: README.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: README.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: docs/reference/reference-parity.ja.md"
       },
       {
@@ -124,27 +89,6 @@
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.zh-CN.md"
       }
     ],
     "evidence": [

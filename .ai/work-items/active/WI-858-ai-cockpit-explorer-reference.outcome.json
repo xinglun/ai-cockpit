@@ -3,11 +3,12 @@
     "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the canonical English, Japanese, and Simplified Chinese README materials.",
     "The three language reference parity pages identify the Explorer as an optional project reference with equivalent meaning.",
     "The change is documentation-only, keeps the URL unchanged, and passes focused repository documentation checks.",
-    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials."
+    "The exact URL https://xinglun.github.io/ai-cockpit-explorer is present in the Start here, 从这里开始, and ここから開始 sections of the three README materials.",
+    "Each tri-language parity row pre-registers the archive, verification, finalization, and close record paths required by the governance integrity gate."
   ],
-  "createdAt": "2026-09-16T11:45:30Z",
+  "createdAt": "2026-09-16T11:53:21Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:d5546e578d9457ca6b520e6286fc241ea9e545b7600ad02d54e6ad4adc8eaa81",
+  "evidenceDigest": "sha256:93083d869aad04bf6a4fa6026d9140a03ea59f6ae56afcd9a3248ba86e404dab",
   "evidenceRefs": [
     ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-858-ai-cockpit-explorer-reference.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:95d6aeaa518755bd3da48edcb9d92d91c696202dce25ba2354eefa442e142a17",
+      "repositorySnapshotDigest": "sha256:e989f0dfa774287d455ae1a1779996aa6e10ee19686de2aa765b0d5631d886b6",
       "workItemId": "WI-858-ai-cockpit-explorer-reference"
     },
     "format": "ai-cockpit.task-outcome",
@@ -54,14 +55,7 @@
             ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.416079608c07dce894930343fdc11d1ab286db145f681669ca331e5cb5cc8ab2.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.52e36a952831eab3c1bb81e9cbfd8699c0b77f8cdc1a3ba8edc2b885e6c35bec.json"
+          "text": "Changed path: .ai/evidence/WI-858-ai-cockpit-explorer-reference.verification-attempt.3ee372cee0264ffaa4adae2d95db0c110b5d5a6699f7c0105c84ece9c56f648a.json"
         },
         {
           "evidenceRefs": [
@@ -76,13 +70,6 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-858-ai-cockpit-explorer-reference.events.jsonl"
         },
         {
           "evidenceRefs": [
@@ -117,27 +104,6 @@
             ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: README.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: README.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: README.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
@@ -153,27 +119,6 @@
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-858-ai-cockpit-explorer-reference.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-858-ai-cockpit-explorer-reference.zh-CN.md"
         }
       ],
       "evidence": [
@@ -248,8 +193,8 @@
     "status": "verified",
     "workItemId": "WI-858-ai-cockpit-explorer-reference"
   },
-  "taskReportDigest": "sha256:2f64c92b88538cabe14a3a38e654175c26711e934a0f931d093a7e3136507e07",
-  "taskReportMarkdownDigest": "sha256:cbf95dfaf316f347cf09e98544c6fd1098b03dc081dab204d7069003d92f429b",
+  "taskReportDigest": "sha256:55ccb5464b5c720a13bb377507fe58b2abeb80a368ebbea78523abfbfcbc1543",
+  "taskReportMarkdownDigest": "sha256:2c2c3ee03141c04a5809125d0183021d0da7d1b8853c4c4b063ffa79e1fe1e8e",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
