@@ -27,6 +27,16 @@ ai-cockpit inspect --repo /path/to/repository
 ai-cockpit doctor --repo /path/to/repository
 ```
 
+The read-only diagnostics accept an explicit `--json` flag for scripts and
+other machine callers. JSON is also the compatibility-preserving default
+projection, so the flag does not change facts, exit codes, or repository scope:
+
+```text
+ai-cockpit inspect --repo /path/to/repository --json
+ai-cockpit status --repo /path/to/repository --json
+ai-cockpit doctor --repo /path/to/repository --json
+```
+
 The repository owns `.ai/cockpit.toml`, Contract, evidence, knowledge, and
 adapter records. The Runtime has no persistent current repository or global
 active Work Item.

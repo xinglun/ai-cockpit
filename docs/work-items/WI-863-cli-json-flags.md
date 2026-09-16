@@ -1,0 +1,19 @@
+---
+author: AI Cockpit maintainers
+workItemId: WI-863-cli-json-flags
+title: Consistent JSON flags for read-only CLI diagnostics
+description: Add explicit machine-readable JSON flags to top-level read-only diagnostics while preserving existing facts and exit behavior.
+audience: [maintainer, reviewer]
+status: implemented
+authority: explicit-user-authorization
+lastVerifiedBy: WI-863-cli-json-flags
+terminalArchive: .ai/work-items/archive/WI-863-cli-json-flags.contract.json
+terminalVerification: .ai/evidence/WI-863-cli-json-flags.verification.json
+terminalDecision: .ai/decisions/WI-863-cli-json-flags.close.json
+---
+
+# WI-863 — Consistent JSON flags for read-only CLI diagnostics
+
+Add the documented `--json` option to the top-level `inspect`, `status`, and
+`doctor` commands. The option selects the stable machine-readable projection;
+it does not change facts, exit codes, or repository scope.

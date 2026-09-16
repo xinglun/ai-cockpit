@@ -1,0 +1,41 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-863-cli-json-flags.contract.json",
+    ".ai/work-items/archive/WI-863-cli-json-flags.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/doctor.rs",
+    "crates/cockpit-cli/tests/inspect.rs",
+    "docs/reference/installed-lifecycle.ja.md",
+    "docs/reference/installed-lifecycle.md",
+    "docs/reference/installed-lifecycle.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-863-cli-json-flags.ja.md",
+    "docs/work-items/WI-863-cli-json-flags.md",
+    "docs/work-items/WI-863-cli-json-flags.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T15:17:48Z",
+  "checkpointContractDigest": "sha256:526c0cd65a14b8fd712f3d7d45c258b9fcea222a50d4dc085198252e3395c58a",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d923bd01d76c521bcce6141954486936b25b3659056791a24b60731aabf0e21e",
+  "createdAt": "2026-09-16T15:11:49Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T15:20:31Z",
+  "preflightContractDigest": "sha256:526c0cd65a14b8fd712f3d7d45c258b9fcea222a50d4dc085198252e3395c58a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d923bd01d76c521bcce6141954486936b25b3659056791a24b60731aabf0e21e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-16T15:22:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-863-cli-json-flags"
+}

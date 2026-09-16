@@ -26,6 +26,15 @@ ai-cockpit inspect --repo /path/to/repository
 ai-cockpit doctor --repo /path/to/repository
 ```
 
+只读诊断支持为脚本和其他机器调用显式指定 `--json`。为保持兼容，JSON
+也是默认投影；该选项不会改变事实、退出码或仓库范围：
+
+```text
+ai-cockpit inspect --repo /path/to/repository --json
+ai-cockpit status --repo /path/to/repository --json
+ai-cockpit doctor --repo /path/to/repository --json
+```
+
 仓库拥有 `.ai/cockpit.toml`、Contract、证据、Knowledge 和 adapter 记录。Runtime 没有持久 current repository 或全局 active Work Item。
 
 ## Release 与仓库边界
