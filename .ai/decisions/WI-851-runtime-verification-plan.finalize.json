@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "aa883d77ddae492a63f13fda75d86d2a75925fcc",
+    "name": "codex/wi-851-runtime-verification-plan",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "9128fa8f268714a307d26bfee4f1e54137cb13ff",
+  "contractDigest": "sha256:17a63667b7758747ecd2dc36f689cdd236432371093b1c4ceb424e1150d64b3a",
+  "operationId": "wi-851-pr-832-merge-observation-8a28064f",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "9128fa8f268714a307d26bfee4f1e54137cb13ff",
+    "headRevision": "aa883d77ddae492a63f13fda75d86d2a75925fcc",
+    "mergeCommit": "8a28064f5fbc16e6f0e6a88d9027e00dcd6a82b0",
+    "number": 832,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/832"
+  },
+  "reason": "PR #832 passed all hosted checks and merged as 8a28064f5fbc16e6f0e6a88d9027e00dcd6a82b0; exact feature resources remain until the cleanup transition.",
+  "receiptId": "wi-851-pr-832-merge-observation",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-851-runtime-verification-plan",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/832",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-851-runtime-verification-plan"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-16T03:24:51Z",
+  "workItemId": "WI-851-runtime-verification-plan",
+  "worktree": {
+    "branch": "codex/wi-851-runtime-verification-plan",
+    "headRevision": "aa883d77ddae492a63f13fda75d86d2a75925fcc",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-851-runtime-verification-plan",
+    "worktreeId": "WI-851-runtime-verification-plan"
+  }
+}
