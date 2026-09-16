@@ -35,12 +35,13 @@ pub fn start_work_item_with_options(
             message,
         }
     })?;
-    let start_advisory = work_item_start_advisory(root, work_item_id)?;
     // Recovery-generated `not_ready` scaffolds are an explicit continuation
     // of an existing lifecycle and may be activated while their predecessor
     // is still awaiting closure.  All ordinary starts must pass the same
     // repository entry gate as `work-item new`.
     let recovery_continuation = recovery_scaffold_exists(root, work_item_id);
+    let start_advisory =
+        work_item_start_advisory_with_mode(root, work_item_id, recovery_continuation)?;
     validate_start_entry(root, scope, recovery_continuation)?;
     if let Some(receipt) =
         activate_not_ready_scaffold(root, work_item_id, intent, goal, scope, options)?
@@ -80,6 +81,14 @@ pub fn start_work_item_with_options(
 pub fn work_item_start_advisory(
     root: &Path,
     work_item_id: &str,
+) -> Result<WorkItemStartAdvisory, ObserverError> {
+    work_item_start_advisory_with_mode(root, work_item_id, false)
+}
+
+fn work_item_start_advisory_with_mode(
+    root: &Path,
+    work_item_id: &str,
+    recovery_continuation: bool,
 ) -> Result<WorkItemStartAdvisory, ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
@@ -125,9 +134,10 @@ pub fn work_item_start_advisory(
     let mut conflicts = Vec::new();
     let mut unknowns = Vec::new();
 
-    if active_work_items
-        .iter()
-        .any(|item| item.work_item_id == work_item_id)
+    if !recovery_continuation
+        && active_work_items
+            .iter()
+            .any(|item| item.work_item_id == work_item_id)
     {
         conflicts.push(format!("active_work_item_exists:{work_item_id}"));
     }
@@ -293,7 +303,10 @@ fn load_start_obligations(root: &Path) -> Result<Vec<WorkItemStartObligation>, O
             contract_path: repository_relative_path(root, &path),
             branch,
             worktree,
-            cleanup_required: resource.is_some(),
+            // An active Work Item always owns a branch/worktree lifecycle,
+            // even when it has no provider resourceContext.  The advisory
+            // therefore keeps no-resource leftovers visible as cleanup work.
+            cleanup_required: true,
         });
     }
     Ok(obligations)
