@@ -1,0 +1,239 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-863-cli-json-flags.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d923bd01d76c521bcce6141954486936b25b3659056791a24b60731aabf0e21e",
+      "workItemId": "WI-863-cli-json-flags"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-863-cli-json-flags.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/doctor.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/inspect.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/installed-lifecycle.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/installed-lifecycle.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/installed-lifecycle.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-863-cli-json-flags.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-863-cli-json-flags.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-863-cli-json-flags.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-863-cli-json-flags.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-863-cli-json-flags.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-863-cli-json-flags.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-16T15:23:24Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-863-cli-json-flags.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-863-cli-json-flags.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-863-cli-json-flags.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.contract.json"
+          ],
+          "inference": false,
+          "text": "Expose an explicit machine-readable JSON flag consistently across the installed CLI read-only diagnostics without changing facts, exit codes, or human-facing defaults"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-863-cli-json-flags.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-863-cli-json-flags"
+  },
+  "finalReportDigest": "sha256:b6cc26887a51df3e5f3394fc74a5ca6ac3f395c24661fb98d7fba945de8fcd96",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:4b422d72082b115189828b018c1882d66c278df0a35bd5c7e296bebed9d28114",
+    "branch": "codex/wi-863-cli-json-flags",
+    "branchRef": "refs/heads/codex/wi-863-cli-json-flags",
+    "capturedAt": "2026-09-16T15:23:24Z",
+    "contractDigest": "sha256:526c0cd65a14b8fd712f3d7d45c258b9fcea222a50d4dc085198252e3395c58a",
+    "headRevision": "8013fae69a6411f1e4278f613543539432716c7e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:6dfe52a2bdc8d9b6ee915623d54604c4888765c32c745524ca5a429e458b628b",
+    "runtimeVersion": "0.2.92",
+    "schemaVersion": 1,
+    "workItemId": "WI-863-cli-json-flags",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/wi-863-cli-json-flags",
+    "worktreeId": "sha256:0f1ef4f0d0b30fc5167d6f6439d82a53739fb6b39b00867f3e08af17a3f9d516",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-863-cli-json-flags"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:0287dd94495c170e5068e0c5a42f04c2bcaf2b72c140c7b1f461172d36b7e6fa",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-16T15:23:24Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-863-cli-json-flags.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User-authorized close after passing formal package verification and preserving default JSON compatibility.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-16T15:23:24Z",
+  "workItemId": "WI-863-cli-json-flags"
+}
