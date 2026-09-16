@@ -1,0 +1,369 @@
+{
+  "acceptanceResults": [
+    "A valid already selected multi-hop lineage can be recovered and projected without creating a competing successor.",
+    "Every lineage edge binds repository identity, predecessor/successor Contract and Summary digests, Outcome and Events digests, archive and close digests, and exact provider PR/merge plus Runtime identity.",
+    "Original Contract, Summary, Outcome, Events, archive, verification, finalization, close, and recovery bytes are never edited or deleted.",
+    "Each recovered target requires explicit human actor, authority source, decision time, rationale, evidence references, and resume condition.",
+    "Missing, malformed, stale, foreign, digest-mismatched, competing, ambiguous, or incomplete lineage remains fail-closed and never becomes ordinary green.",
+    "CLI, MCP, English, Simplified Chinese, Japanese documentation, and focused regression tests expose identical semantics."
+  ],
+  "createdAt": "2026-09-16T09:48:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dade1475ae721b15752f995683d8c68fd919efcce1dac1872f358cb83b9b2368",
+  "evidenceRefs": [
+    ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:60300f811af7a01add95fa3139f7d78fe823c31a75e8bded5b7758cb0823e299",
+      "workItemId": "WI-855-selected-successor-lineage-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-855-selected-successor-lineage-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.248bf6322b57108050e8de53d8442b6f5c184ad85f8f04f5f9562b3b1032fd92.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.25ac8ce53eef20c5c4eab7f5a07c848b47285324d799996cd4e3757746ff2ff7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.3d8ba1ce2c15d43860a8cba309df6e4e9403eff55d190a81db14e96f6235e80f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-855-selected-successor-lineage-recovery.verification-attempt.e6933837a215ae646b2da0278453ac076247b6cb3890b8f9c88fd0aeff679def.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-855-selected-successor-lineage-recovery.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/selected_successor_lineage_recovery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/selected_successor_lineage_recovery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-855-selected-successor-lineage-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-855-selected-successor-lineage-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-855-selected-successor-lineage-recovery.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Validate and project only the selected multi-hop lineage with exact repository, Contract, Summary, Outcome, Events, archive, close, finalization, PR, merge, and Runtime bindings while preserving every historical byte."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-855-selected-successor-lineage-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-855-selected-successor-lineage-recovery"
+  },
+  "taskReportDigest": "sha256:0048839094b6b3332bef88195ae517ef3bfae85f8d7b53065f810172698cedbc",
+  "taskReportMarkdownDigest": "sha256:78faf40b9f9f519116ea3ac799fcb52031eb18055e3129723d6f65a1c4abb58c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-855-selected-successor-lineage-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-855-selected-successor-lineage-recovery"
+}

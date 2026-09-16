@@ -669,6 +669,17 @@ enum WorkItemCommand {
         #[arg(long)]
         input: PathBuf,
     },
+    /// Record an append-only recovery for an already selected multi-hop
+    /// successor lineage without creating another successor Work Item.
+    RecoverSelectedSuccessorLineage {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        id: String,
+        /// JSON SelectedSuccessorLineageRecoveryReceipt.
+        #[arg(long)]
+        input: PathBuf,
+    },
     Boundary {
         #[arg(long)]
         repo: PathBuf,
@@ -2451,6 +2462,21 @@ fn run() -> Result<()> {
                     &runtime_context,
                 )
                 .context("record Work Item recovery decision")?;
+                println!("{}", serde_json::to_string_pretty(&receipt)?);
+            }
+            WorkItemCommand::RecoverSelectedSuccessorLineage { repo, id, input } => {
+                require_compatible(&repo, &runtime_context)?;
+                let receipt: serde_json::Value = serde_json::from_slice(
+                    &std::fs::read(&input).context("read selected successor lineage receipt")?,
+                )
+                .context("parse selected successor lineage receipt")?;
+                let receipt = cockpit_repository::record_selected_successor_lineage_recovery(
+                    &repo,
+                    &id,
+                    &receipt,
+                    &runtime_context,
+                )
+                .context("record selected successor lineage recovery")?;
                 println!("{}", serde_json::to_string_pretty(&receipt)?);
             }
             WorkItemCommand::Boundary { repo, id, file } => {

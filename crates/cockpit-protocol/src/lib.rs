@@ -3623,6 +3623,232 @@ pub struct RecoveryDecisionReceipt {
     pub resume_condition: String,
 }
 
+pub const SELECTED_SUCCESSOR_LINEAGE_RECOVERY_SCHEMA_VERSION: u32 = 1;
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SelectedSuccessorLineageHumanDecision {
+    pub actor: String,
+    pub authority_source: String,
+    pub reason: String,
+    pub evidence_refs: Vec<String>,
+    pub policy_refs: Vec<String>,
+    pub decided_at: String,
+    pub resume_condition: String,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SelectedSuccessorLineageNode {
+    pub work_item_id: String,
+    pub contract_path: String,
+    pub contract_digest: Digest,
+    pub summary_path: String,
+    pub summary_digest: Digest,
+    pub outcome_path: String,
+    pub outcome_digest: Digest,
+    pub events_path: String,
+    pub events_digest: Digest,
+    pub verification_path: String,
+    pub verification_digest: Digest,
+    pub archive_manifest_path: String,
+    pub archive_manifest_digest: Digest,
+    pub close_path: String,
+    pub close_digest: Digest,
+    pub finalization_path: String,
+    pub finalization_digest: Digest,
+    pub finalization_provider: String,
+    pub finalization_pull_request: ResourceFinalizationPullRequestIdentity,
+    pub finalization_runtime_version: String,
+    pub finalization_runtime_digest: Digest,
+    pub human_decision: SelectedSuccessorLineageHumanDecision,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SelectedSuccessorLineageEdge {
+    pub sequence: u64,
+    pub predecessor_work_item_id: String,
+    pub successor_work_item_id: String,
+    pub recovery_path: String,
+    pub recovery_digest: Digest,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct SelectedSuccessorLineageRecoveryReceipt {
+    pub schema_version: u32,
+    pub receipt_id: String,
+    pub root_work_item_id: String,
+    pub repository_id: String,
+    pub edges: Vec<SelectedSuccessorLineageEdge>,
+    pub nodes: Vec<SelectedSuccessorLineageNode>,
+    pub runtime_version: String,
+    pub runtime_digest: Digest,
+}
+
+#[derive(Debug, Error, PartialEq, Eq)]
+pub enum SelectedSuccessorLineageRecoveryError {
+    #[error("selected successor lineage recovery schema version must be 1")]
+    UnsupportedSchema,
+    #[error("selected successor lineage recovery field is empty: {0}")]
+    EmptyField(&'static str),
+    #[error("selected successor lineage recovery requires a non-empty {0}")]
+    EmptyCollection(&'static str),
+    #[error("selected successor lineage recovery lineage is invalid: {0}")]
+    InvalidLineage(&'static str),
+}
+
+fn validate_selected_successor_lineage_text(
+    value: &str,
+    field: &'static str,
+) -> Result<(), SelectedSuccessorLineageRecoveryError> {
+    if value.trim().is_empty() {
+        return Err(SelectedSuccessorLineageRecoveryError::EmptyField(field));
+    }
+    Ok(())
+}
+
+pub fn validate_selected_successor_lineage_recovery(
+    receipt: &SelectedSuccessorLineageRecoveryReceipt,
+) -> Result<(), SelectedSuccessorLineageRecoveryError> {
+    if receipt.schema_version != SELECTED_SUCCESSOR_LINEAGE_RECOVERY_SCHEMA_VERSION {
+        return Err(SelectedSuccessorLineageRecoveryError::UnsupportedSchema);
+    }
+    if receipt.receipt_id != "selected-successor-lineage-recovery" {
+        return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+            "receiptId must be selected-successor-lineage-recovery",
+        ));
+    }
+    for (value, field) in [
+        (&receipt.root_work_item_id, "rootWorkItemId"),
+        (&receipt.repository_id, "repositoryId"),
+        (&receipt.runtime_version, "runtimeVersion"),
+    ] {
+        validate_selected_successor_lineage_text(value, field)?;
+    }
+    if receipt.edges.is_empty() {
+        return Err(SelectedSuccessorLineageRecoveryError::EmptyCollection(
+            "edges",
+        ));
+    }
+    if receipt.nodes.len() != receipt.edges.len() + 1 {
+        return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+            "nodes must contain exactly one more entry than edges",
+        ));
+    }
+    let mut node_ids = std::collections::BTreeSet::new();
+    for (index, node) in receipt.nodes.iter().enumerate() {
+        validate_selected_successor_lineage_text(&node.work_item_id, "workItemId")?;
+        if !node_ids.insert(&node.work_item_id) {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "lineage nodes must be unique",
+            ));
+        }
+        for (value, field) in [
+            (&node.contract_path, "contractPath"),
+            (&node.summary_path, "summaryPath"),
+            (&node.outcome_path, "outcomePath"),
+            (&node.events_path, "eventsPath"),
+            (&node.verification_path, "verificationPath"),
+            (&node.archive_manifest_path, "archiveManifestPath"),
+            (&node.close_path, "closePath"),
+            (&node.finalization_path, "finalizationPath"),
+            (&node.finalization_provider, "finalizationProvider"),
+            (
+                &node.finalization_runtime_version,
+                "finalizationRuntimeVersion",
+            ),
+            (&node.finalization_pull_request.url, "pullRequest.url"),
+            (
+                &node.finalization_pull_request.head_revision,
+                "pullRequest.headRevision",
+            ),
+            (
+                &node.finalization_pull_request.base_branch,
+                "pullRequest.baseBranch",
+            ),
+            (
+                &node.finalization_pull_request.base_remote,
+                "pullRequest.baseRemote",
+            ),
+            (
+                &node.finalization_pull_request.base_revision,
+                "pullRequest.baseRevision",
+            ),
+        ] {
+            validate_selected_successor_lineage_text(value, field)?;
+        }
+        if node.finalization_pull_request.number == 0 {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "pullRequest.number must be positive",
+            ));
+        }
+        if node
+            .finalization_pull_request
+            .merge_commit
+            .as_deref()
+            .is_none_or(|value| value.trim().is_empty())
+        {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "pullRequest.mergeCommit is required",
+            ));
+        }
+        for (value, field) in [
+            (&node.human_decision.actor, "humanDecision.actor"),
+            (
+                &node.human_decision.authority_source,
+                "humanDecision.authoritySource",
+            ),
+            (&node.human_decision.reason, "humanDecision.reason"),
+            (&node.human_decision.decided_at, "humanDecision.decidedAt"),
+            (
+                &node.human_decision.resume_condition,
+                "humanDecision.resumeCondition",
+            ),
+        ] {
+            validate_selected_successor_lineage_text(value, field)?;
+        }
+        if node.human_decision.evidence_refs.is_empty() {
+            return Err(SelectedSuccessorLineageRecoveryError::EmptyCollection(
+                "humanDecision.evidenceRefs",
+            ));
+        }
+        if index == 0 && node.work_item_id != receipt.root_work_item_id {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "first node must be rootWorkItemId",
+            ));
+        }
+    }
+    for (index, edge) in receipt.edges.iter().enumerate() {
+        if edge.sequence != index as u64 {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "edge sequences must be contiguous and zero-based",
+            ));
+        }
+        for (value, field) in [
+            (&edge.predecessor_work_item_id, "predecessorWorkItemId"),
+            (&edge.successor_work_item_id, "successorWorkItemId"),
+            (&edge.recovery_path, "recoveryPath"),
+        ] {
+            validate_selected_successor_lineage_text(value, field)?;
+        }
+        if edge.predecessor_work_item_id == edge.successor_work_item_id {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "lineage edges may not self-cycle",
+            ));
+        }
+        if receipt.nodes[index].work_item_id != edge.predecessor_work_item_id
+            || receipt.nodes[index + 1].work_item_id != edge.successor_work_item_id
+        {
+            return Err(SelectedSuccessorLineageRecoveryError::InvalidLineage(
+                "edges must connect adjacent nodes",
+            ));
+        }
+    }
+    Ok(())
+}
+
 /// An explicit terminal disposition for an active Work Item whose delivery is
 /// already represented elsewhere or is being replaced by a separately
 /// governed successor.  Retirement preserves the predecessor bytes and never

@@ -4,7 +4,7 @@ use std::fs;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
-const TOOL_NAMES: [&str; 19] = [
+const TOOL_NAMES: [&str; 20] = [
     "status",
     "work_item_get",
     "work_item_start",
@@ -22,6 +22,7 @@ const TOOL_NAMES: [&str; 19] = [
     "preflight",
     "work_item_controls",
     "work_item_recover",
+    "work_item_recover_selected_lineage",
     "verify",
     "work_item_parallel",
 ];
@@ -195,6 +196,23 @@ fn mcp_tool_schema(name: &str) -> Value {
             ]);
             schema
         }
+        "work_item_recover_selected_lineage" => {
+            let mut properties = id_properties;
+            properties["receipt"] = json!({
+                "type": "object",
+                "description": "Identity-bound append-only multi-hop successor lineage recovery receipt.",
+            });
+            properties["input"] = json!({
+                "type": "object",
+                "description": "Deprecated alias for receipt.",
+            });
+            let mut schema = object_schema(properties, &[]);
+            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            schema["allOf"] = json!([
+                {"oneOf": [{"required": ["receipt"]}, {"required": ["input"]}]}
+            ]);
+            schema
+        }
         "verify" => object_schema(
             json!({
                 "workItemId": string_property("Optional Work Item to bind the verification receipt."),
@@ -313,6 +331,10 @@ fn mcp_tool_definitions() -> Vec<Value> {
             "Record an identity-bound retry, successor, or supersede decision.",
         ),
         (
+            "work_item_recover_selected_lineage",
+            "Record append-only recovery for an already selected multi-hop successor lineage without creating a competing successor.",
+        ),
+        (
             "verify",
             "Plan or run an allowlisted verification command and optionally bind its receipt.",
         ),
@@ -361,6 +383,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "delegated_evidence_list" => &["workItemId"][..],
         "work_item_controls" => &["workItemId", "id", "controls", "input"][..],
         "work_item_recover" => &["workItemId", "id", "receipt", "input"][..],
+        "work_item_recover_selected_lineage" => &["workItemId", "id", "receipt", "input"][..],
         "verify" => &[
             "workItemId",
             "command",
@@ -447,6 +470,10 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             require_exactly_one_object_alias(object, &["controls", "input"], name)?;
         }
         "work_item_recover" => {
+            require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            require_exactly_one_object_alias(object, &["receipt", "input"], name)?;
+        }
+        "work_item_recover_selected_lineage" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             require_exactly_one_object_alias(object, &["receipt", "input"], name)?;
         }
@@ -803,6 +830,8 @@ pub fn handle_request_for_repo(
         }
         "work_item_recover" => require_compatible(repo, runtime)
             .and_then(|_| work_item_recover(repo, &arguments, runtime)),
+        "work_item_recover_selected_lineage" => require_compatible(repo, runtime)
+            .and_then(|_| work_item_recover_selected_lineage(repo, &arguments, runtime)),
         "verify" => verify_for_repo(repo, &arguments, runtime),
         "work_item_parallel" => {
             require_compatible(repo, runtime).and_then(|_| work_item_parallel(repo, &arguments))
@@ -995,6 +1024,30 @@ fn work_item_recover(
         .ok_or("receipt argument is required")?;
     cockpit_repository::record_recovery_decision(repo, work_item_id, receipt, runtime)
         .map_err(|error| error.to_string())
+}
+
+fn work_item_recover_selected_lineage(
+    repo: &Path,
+    arguments: &Value,
+    runtime: &cockpit_protocol::RuntimeContext,
+) -> Result<Value, String> {
+    let work_item_id = arguments
+        .get("workItemId")
+        .or_else(|| arguments.get("id"))
+        .and_then(Value::as_str)
+        .ok_or("workItemId argument is required")?;
+    validate_id(work_item_id)?;
+    let receipt = arguments
+        .get("receipt")
+        .or_else(|| arguments.get("input"))
+        .ok_or("receipt argument is required")?;
+    cockpit_repository::record_selected_successor_lineage_recovery(
+        repo,
+        work_item_id,
+        receipt,
+        runtime,
+    )
+    .map_err(|error| error.to_string())
 }
 
 fn verify_for_repo(

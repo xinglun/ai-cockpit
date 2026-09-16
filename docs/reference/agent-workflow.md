@@ -120,6 +120,15 @@ the installed Rust Runtime and this repository's Protocol vocabulary.
   finalization, and human close; only its repository-bound terminal evidence
   permits the predecessor's historical close. Missing or contradictory history
   remains fail-closed and no predecessor bytes are rewritten.
+- If an already selected recovery has multiple successor hops, use
+  `work-item recover-selected-successor-lineage` once the complete lineage is
+  available. It is an append-only aggregate receipt: every adjacent edge and
+  every archived node must bind exact Contract, Summary, Outcome, Events,
+  verification, archive, close, finalization, provider PR, and human-decision
+  evidence. A valid aggregate only projects the covered nodes past pending
+  close; it does not create another successor, promote incomplete history, or
+  replace any historical bytes. Any missing, stale, foreign, malformed,
+  forked, or ambiguous member remains fail-closed.
 - A required high-risk scenario that can only run after implementation may be
   marked `unverified` in Contract `scenarioCoverage` only when both a non-empty
   `expected` (or `expectedResult`) and a concrete `verificationPlan` are

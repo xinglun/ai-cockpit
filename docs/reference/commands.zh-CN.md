@@ -101,6 +101,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   `evidence_class_projection` 判断。归档 Contract、Summary、Outcome、Events 和历史 verification 字节不会被覆写；
   若恢复已有效或已有矛盾候选，会在启动工程命令前失败。若归档 Contract 本身发生变化，不得使用此入口，应使用
   `work-item revalidate-archived` 创建 successor。
+- `work-item recover-selected-successor-lineage --repo <path> --id <root> --input <receipt.json>` 是针对已经选定的多段 successor lineage 的 append-only close recovery 入口。Receipt 必须列出每条相邻 predecessor/successor edge，并将每个节点的 archived Contract、Summary、Outcome、Events、verification、archive manifest、close、finalization head、provider PR identity 和明确的人类决定绑定到准确字节及当前 Runtime。它不会创建 successor，也不会改写历史记录；缺失、malformed、foreign、stale、digest 不匹配、分叉或歧义 lineage 必须 fail closed。有效 receipt 只能解除其覆盖的 archived 节点的 pending-close 投影。
 - 不提供 `--command` 的 `verify` 会检测 Cargo 或 npm，并可能使用已确认 profile 做跨进程 reuse。只有当前
   repository、snapshot、profile、Runtime、command、scope、stage、runner、base、toolchain、dependency 和 policy
   identity 全部精确匹配时才允许 reuse；否则执行声明的命令并报告拒绝/升级原因。耗时或缓存状态绝不会跳过 required/protected node。
