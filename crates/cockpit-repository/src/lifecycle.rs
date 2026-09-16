@@ -191,12 +191,18 @@ fn work_item_start_advisory_with_mode(
     let primary_checkout_is_reserved = readiness.default_remote.is_some()
         && readiness.default_branch.is_some()
         && readiness.default_revision.is_some();
-    if !recovery_continuation
-        && primary_checkout_is_reserved
-        && worktrees
-            .iter()
-            .any(|worktree| worktree.is_primary && worktree.is_current)
-    {
+    let primary_checkout_is_current = worktrees
+        .iter()
+        .any(|worktree| worktree.is_primary && worktree.is_current);
+    // Keep the advisory's conflict classification aligned with the entry
+    // gate: a single local calibration checkout on a named non-default branch
+    // remains usable, while the synchronized primary checkout (or a primary
+    // checkout coexisting with linked worktrees) is an exact conflict.
+    let primary_checkout_is_reserved_here = primary_checkout_is_reserved
+        && primary_checkout_is_current
+        && (worktrees.len() > 1
+            || current_branch.as_deref() == readiness.default_branch.as_deref());
+    if !recovery_continuation && primary_checkout_is_reserved_here {
         conflicts.push("current_checkout_is_primary_resource".into());
     }
     let extra_worktrees = worktrees
@@ -623,8 +629,16 @@ pub fn scaffold_work_item(
     work_item_id: &str,
     mode: &str,
 ) -> Result<WorkItemScaffoldReceipt, ObserverError> {
-    validate_start_entry(root, &[], false, &[])?;
-    scaffold_work_item_internal(root, work_item_id, mode)
+    // `work-item new` is itself a start boundary. Capture the same
+    // read-only residual-resource inventory as `start` before writing the
+    // scaffold, then reuse its exact conflicts for entry validation. The
+    // advisory is returned to both machine callers and the CLI so an Agent
+    // cannot silently miss cleanup work between Work Items.
+    let start_advisory = work_item_start_advisory(root, work_item_id)?;
+    validate_start_entry(root, &[], false, &start_advisory.conflicts)?;
+    let mut receipt = scaffold_work_item_internal(root, work_item_id, mode)?;
+    receipt.start_advisory = Some(start_advisory);
+    Ok(receipt)
 }
 
 /// Create a recovery successor scaffold.  Recovery is not an independent
@@ -682,6 +696,7 @@ fn scaffold_work_item_internal(
             "acceptanceCriteria".into(),
             "authority".into(),
         ],
+        start_advisory: None,
     })
 }
 

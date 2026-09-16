@@ -878,6 +878,11 @@ pub struct WorkItemScaffoldReceipt {
     pub state: String,
     pub known_facts: WorkItemScaffoldFacts,
     pub human_input_required: Vec<String>,
+    /// Read-only inventory shown when a new scaffold is created. This keeps
+    /// `work-item new` aligned with the ordinary start boundary without
+    /// turning unrelated residual resources into a forced stop.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub start_advisory: Option<WorkItemStartAdvisory>,
 }
 
 /// The persisted Work Item verification envelope.  This is deliberately

@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "work-item new exposes a start advisory when residual Work Items, branches, or worktrees exist and does not force a stop for unrelated leftovers",
+    "the advisory remains machine-readable and includes actionable next actions while existing start behavior remains compatible",
+    "focused regression tests prove the advisory is present on scaffold output and no residual resource is deleted",
+    "workflow documentation in English, Simplified Chinese, and Japanese states the next action after each lifecycle step and separates completed result from cleanup status"
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "4781f2c63ed68c94e3ad0cff19f2b876411be810",
+  "createdAt": "2026-09-16T10:07:50Z",
+  "goal": "Make Work Item creation surface a read-only residual-resource advisory and make the documented lifecycle expose the next action after each stage.",
+  "intent": "Prevent the repository cleanup process from silently leaving residual branches or worktrees that the next Agent never sees.",
+  "mode": "implementation",
+  "outOfScope": [
+    "existing branches and worktrees",
+    "historical evidence and generated lifecycle receipts",
+    "unrelated lifecycle semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:815a8661041e9667b01df69b48238c47316115fe69c812c2b30a4edc0094014a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/agent-workflow.zh-CN.md",
+    "docs/reference/agent-workflow.ja.md",
+    ".ai/work-items/active/WI-856-lifecycle-start-advisory.*"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry",
+    "cargo test --locked -p cockpit-cli"
+  ],
+  "workItemId": "WI-856-lifecycle-start-advisory"
+}

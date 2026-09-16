@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-16T10:24:43Z",
+  "files": {
+    "contractDigest": "sha256:dca89755963a04d6015852b9d6de01171e6b653b35fd2cde0bf2b72e2e55b06a",
+    "contractPath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.contract.json",
+    "eventsDigest": "sha256:df28668967f2c30ac046f157dccce9f5f0f9b425ea7419fcd0cfe9b18d7729ff",
+    "eventsPath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.events.jsonl",
+    "outcomeDigest": "sha256:4a39c394b785255f1670c266637052b3eb3325cdbfa09650ed984b9da2aed85c",
+    "outcomePath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.outcome.json",
+    "summaryDigest": "sha256:a8227eb8beeefa63b000908db2712ed8b46f6c835b4ae5baaa97d437946506bb",
+    "summaryPath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.summary.json",
+    "taskReportDigest": "sha256:261df4d4f8dc6ee804caa3b347ffdbd02b3c5cf9925346782a04a7ebd0267d15",
+    "taskReportMarkdownDigest": "sha256:6eb881555df77a48710180fd5f7fcdc45b04a92d968a6e6e1c459d40b2c29d5c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-856-lifecycle-start-advisory.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-856-lifecycle-start-advisory"
+}

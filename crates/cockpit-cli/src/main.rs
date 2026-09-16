@@ -2141,6 +2141,22 @@ fn run() -> Result<()> {
                 for field in &receipt.human_input_required {
                     println!("  {field}");
                 }
+                if let Some(advisory) = receipt.start_advisory.as_ref() {
+                    println!("\nStart cleanup advisory: {}", advisory.classification);
+                    for warning in &advisory.warnings {
+                        println!("  warning: {warning}");
+                    }
+                    for conflict in &advisory.conflicts {
+                        println!("  conflict: {conflict}");
+                    }
+                    for unknown in &advisory.unknowns {
+                        println!("  unknown: {unknown}");
+                    }
+                    println!("\nNext actions:");
+                    for action in &advisory.next_actions {
+                        println!("  {action}");
+                    }
+                }
                 println!("\nState: {}", receipt.state);
                 println!("\n{}", serde_json::to_string_pretty(&receipt)?);
             }

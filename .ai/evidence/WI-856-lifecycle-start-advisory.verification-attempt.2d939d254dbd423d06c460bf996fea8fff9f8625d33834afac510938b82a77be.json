@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:2d939d254dbd423d06c460bf996fea8fff9f8625d33834afac510938b82a77be",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "4781f2c63ed68c94e3ad0cff19f2b876411be810",
+      "commandDigest": "sha256:38a307b0163645423ed8349bb58a67f1cf8b863505271b991915061ba71de0a6",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+      "scope": [
+        "**"
+      ],
+      "stage": "task"
+    }
+  ],
+  "contractDigest": "sha256:2fdc955aa48f73c9d1d4256ea5b93f69641c32a2dfdfba419cc2756598aa42bb",
+  "contractExecutionScopeDigest": "sha256:f712b179826b521c4166fac37ba8da590188fd1128c091561dda1f95182cff59",
+  "createdAt": "2026-09-16T10:17:54Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-856-lifecycle-cleanup-advisory/.ai/work-items/active/WI-856-lifecycle-start-advisory.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dd1cc5aa6c9e9add2721adc206ff67631d6ffd6f39159c3281ce5c9dd58b4995",
+  "runtimeDigest": "sha256:4a87171fd6130d9c37bd21ed7630c4ef4cb0e0cb54d45c99a29d5ed55eeb4969",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-856-lifecycle-start-advisory"
+}
