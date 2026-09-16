@@ -89,6 +89,8 @@ fn record_typed(directory: &tempfile::TempDir, id: &str, current: &RuntimeContex
             runtime_digest: current.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

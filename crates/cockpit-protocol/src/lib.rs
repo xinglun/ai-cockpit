@@ -431,6 +431,8 @@ impl EvidenceAssurance {
 }
 
 pub const VERIFICATION_SEMANTICS_SCHEMA_VERSION: u32 = 1;
+pub const DEFAULT_VERIFICATION_TIMEOUT_SECONDS: u64 = 300;
+pub const MAX_VERIFICATION_TIMEOUT_SECONDS: u64 = 900;
 
 /// A requirement is policy-traceable input to a future planner.  Tier and
 /// assurance are independent: every pair is representable, and an unmet
@@ -446,6 +448,10 @@ pub struct VerificationRequirement {
     pub stage_refs: Vec<String>,
     pub gate_refs: Vec<String>,
     pub reason: String,
+    /// Maximum timeout a caller may request for a verification command. This
+    /// is an authorization ceiling, not a default and never weakens checks.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_timeout_seconds: Option<u64>,
 }
 
 impl VerificationRequirement {
@@ -480,6 +486,13 @@ impl VerificationRequirement {
                 "verification requirement must name a policy stage or gate reference".into(),
             );
         }
+        if let Some(timeout_seconds) = self.max_timeout_seconds
+            && !(1..=MAX_VERIFICATION_TIMEOUT_SECONDS).contains(&timeout_seconds)
+        {
+            return Err(format!(
+                "verification timeout authorization must be in the finite range 1..={MAX_VERIFICATION_TIMEOUT_SECONDS}s"
+            ));
+        }
         Ok(())
     }
 
@@ -495,6 +508,10 @@ impl VerificationRequirement {
     pub const fn is_at_least_as_strict_as(&self, parent: &Self) -> bool {
         self.required_tier.rank() >= parent.required_tier.rank()
             && self.required_assurance.rank() >= parent.required_assurance.rank()
+            && match (parent.max_timeout_seconds, self.max_timeout_seconds) {
+                (Some(parent), Some(child)) => child <= parent,
+                _ => true,
+            }
     }
 }
 
@@ -806,6 +823,12 @@ fn merge_verification_requirements(
     if child.required_assurance.rank() > merged.required_assurance.rank() {
         merged.required_assurance = child.required_assurance;
     }
+    merged.max_timeout_seconds = match (parent.max_timeout_seconds, child.max_timeout_seconds) {
+        (Some(parent), Some(child)) => Some(parent.min(child)),
+        (Some(parent), None) => Some(parent),
+        (None, Some(child)) => Some(child),
+        (None, None) => None,
+    };
     for reference in &child.policy_refs {
         if !merged.policy_refs.contains(reference) {
             merged.policy_refs.push(reference.clone());

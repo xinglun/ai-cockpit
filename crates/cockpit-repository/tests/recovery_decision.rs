@@ -325,6 +325,8 @@ fn ready_archived_repository() -> tempfile::TempDir {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -507,6 +509,8 @@ fn readiness_accepts_a_closed_terminal_recovery_successor() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1227,6 +1231,8 @@ fn retry_recovery_classifies_previous_runtime_evidence_as_stale_before_verify() 
             runtime_digest: previous_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1381,6 +1387,8 @@ fn retry_verify_preflight_finish_keeps_recovery_receipt_bound_to_the_attempt() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1496,6 +1504,8 @@ fn retry_after_previous_completion_appends_a_new_completion_without_rewriting_hi
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1558,6 +1568,8 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1634,6 +1646,8 @@ fn contract_amendment_allows_fresh_verification_to_reconcile_stale_evidence() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -1751,6 +1765,8 @@ fn pending_retry_requires_a_matching_receipt_at_each_lifecycle_boundary() {
                 runtime_digest: runtime.runtime_digest.to_string(),
                 base_commit: None,
                 workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
                 policy: RepositoryVerificationPolicy::NeverReuse,
             },
         )

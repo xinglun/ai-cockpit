@@ -87,7 +87,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `evidence_get` | `path`、`evidencePath`、`id` のいずれか 1 つ。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | `workItemId` が必須。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | Work Item id を 1 つ、さらに object を 1 つ（それぞれ `controls`/`input`、または `receipt`/`input`）。 | `{"workItemId":"WI-123","controls":{...}}` |
-| `verify` | `workItemId`、`command`、string 配列 `args` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `verify` | `workItemId`、`command`、string 配列 `args`、有限な `timeoutSeconds`、boolean の `planOnly` は任意。command は allowlist 制。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` は `inspect`/`acquire`/`release`/`list`。前三者は id が必要で、`release` は `leaseId` も必要。 | `{"action":"inspect","workItemId":"WI-123"}` |
 
 人向けの結果には `work_item_outcome` を呼び、その text content を折りたたまず表示します。`--json` は自動化専用です。raw の `work_item_get` は handoff ではありません。`isError: true` は成功した空結果ではなく停止を意味します。MCP は host Agent を設定したり chat に自動投稿したり、intent、authority、acceptance、human decision を補完したりしません。結果が yellow、red、unknown、not_ready の場合、Agent/host は停止して human review を求めなければなりません。
@@ -95,6 +95,10 @@ Agent は次の順序で capability を発見します。repository-bound の st
 - `verify --command <program> --args <comma-separated>` は explicit command を常に fresh に実行します。
   `--work-item <id>` は receipt を記録しますが、検出された Cargo/npm command は dynamic な
   profile-authorized path を使い、explicit custom command は常に fresh です。
+- `verify --timeout-seconds <n>` は `1..=900` 秒の有限 timeout を使います。省略時は
+  Runtime の 300 秒 default を維持します。明示値はすべて override であり、有限な上限を Contract または
+  repository policy が認可していなければなりません。Runtime 上限超過は spawn 前に拒否されます。有効 timeout は
+  plan、receipt、command digest、reuse identity に bind され、deadline 到達時は fail closed で process tree を終了します。
 - `verify --plan-only` は route を解決して deterministic な plan だけを出力し、project verification command は起動しません。
   Cargo workspace では metadata query を 1 回だけ行い、`cargo test --locked --workspace` を identity-bound な package node に分割します。
   formal receipt には source command、workspace member、metadata digest、exit status、bounded log、elapsed time が残ります。

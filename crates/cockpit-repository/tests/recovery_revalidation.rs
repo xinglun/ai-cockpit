@@ -113,6 +113,8 @@ fn archived_amended_repository() -> tempfile::TempDir {
             runtime_digest: runtime().runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -563,6 +565,8 @@ fn successor_terminal_lifecycle_allows_predecessor_historical_close() {
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

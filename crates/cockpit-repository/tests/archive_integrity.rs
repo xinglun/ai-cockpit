@@ -206,6 +206,8 @@ fn record_old_typed_verification(
             runtime_digest: runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -776,6 +778,8 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
             runtime_digest: old_runtime.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
         },
     )
@@ -823,6 +827,8 @@ fn archived_source_recovery_preserves_history_and_replaces_only_stale_projection
         runtime_digest: current_runtime.runtime_digest.to_string(),
         base_commit: None,
         workers: 1,
+        work_item_id: None,
+        timeout_seconds: None,
         policy: cockpit_repository::RepositoryVerificationPolicy::NeverReuse,
     };
     let mut current_run =

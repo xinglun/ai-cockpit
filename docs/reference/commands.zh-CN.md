@@ -82,13 +82,17 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `evidence_get` | `path`、`evidencePath`、`id` 三者只能提供一个。 | `{"id":"WI-123"}` |
 | `delegated_evidence_list` | 必填 `workItemId`。 | `{"workItemId":"WI-123"}` |
 | `work_item_controls`、`work_item_recover` | 一个 Work Item id，加一个对象：分别为 `controls`/`input` 或 `receipt`/`input`。 | `{"workItemId":"WI-123","controls":{...}}` |
-| `verify` | 可选 `workItemId`、`command` 和字符串数组 `args`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"]}` |
+| `verify` | 可选 `workItemId`、`command`、字符串数组 `args`、有限的 `timeoutSeconds` 和布尔值 `planOnly`；命令必须在 allowlist 中。 | `{"workItemId":"WI-123","command":"cargo","args":["test","--locked","--workspace"],"timeoutSeconds":600,"planOnly":true}` |
 | `work_item_parallel` | `action` 为 `inspect`/`acquire`/`release`/`list`；前三者需要 id，`release` 还需要 `leaseId`。 | `{"action":"inspect","workItemId":"WI-123"}` |
 
 需要面向人的结果时，请调用 `work_item_outcome`，并原样展示其文本内容，不要折叠。只有自动化才使用 `--json`；原始 `work_item_get` 数据不是面向人的交接结果。返回 `isError: true` 表示停止，而不是成功的空结果。MCP 不会配置宿主 Agent、自动发消息到聊天窗口，也不会臆造 intent、authority、acceptance 或 human decision；当结果为 yellow、red、unknown 或 not_ready 时，Agent/宿主必须停止并请求人工审查。
 
 - `verify --command <program> --args <comma-separated>` 执行显式命令且总是 fresh；`--work-item <id>`
   记录该 Work Item 的 receipt，但检测到的 Cargo/npm 命令使用动态的 profile-authorized 路径，显式自定义命令仍总是 fresh。
+- `verify --timeout-seconds <n>` 使用 `1..=900` 秒的有限 timeout。省略该参数保持
+  Runtime 默认的 300 秒；每个显式值都是 override，必须由 Contract 或 repository policy 提供有限的授权上限。
+  超过 Runtime 上限的值会在 spawn 前拒绝。生效 timeout 会绑定到 plan、receipt、command digest 和 reuse identity；
+  到期会 fail closed 并终止整个进程树。
 - `verify --plan-only` 只解析路由并输出确定性的计划，不启动工程验证命令。对于 Cargo workspace，计划只执行一次
   metadata 查询，并将 `cargo test --locked --workspace` 分区为绑定身份的 package 节点；正式 receipt 保留源命令、workspace
   成员、metadata digest、退出状态、有界日志和耗时。

@@ -17,6 +17,7 @@ fn requirement(
         stage_refs: vec!["release".into()],
         gate_refs: vec!["protected:hosted-ci".into()],
         reason: format!("{policy} release requirement"),
+        max_timeout_seconds: None,
     }
 }
 

@@ -251,6 +251,8 @@ fn tampered_policy_plan_required_tier_blocks_outcome() {
             runtime_digest: current.runtime_digest.to_string(),
             base_commit: None,
             workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
             policy: RepositoryVerificationPolicy::NeverReuse,
         },
     )

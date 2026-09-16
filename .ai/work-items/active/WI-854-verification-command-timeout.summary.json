@@ -1,0 +1,74 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-854-verification-command-timeout.verification-attempt.213380e1bb97141496005b3e05ea868c19af0e238213fe20c49a16aa91dbbddd.json",
+    ".ai/evidence/WI-854-verification-command-timeout.verification-attempt.b1bed23ffe3517ca552272580fa5a8572263bd03a0c0ab7211597d06e5cd9134.json",
+    ".ai/evidence/WI-854-verification-command-timeout.verification-attempt.de932e44d7cf658a27c59a09cdee535776696ade1a9eafa8f35fad55b3480a4f.json",
+    ".ai/evidence/WI-854-verification-command-timeout.verification.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.contract.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.events.jsonl",
+    ".ai/work-items/active/WI-854-verification-command-timeout.outcome.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.summary.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.task-report.json",
+    ".ai/work-items/active/WI-854-verification-command-timeout.task-report.md"
+  ],
+  "checkpointAt": "2026-09-16T04:50:11Z",
+  "checkpointContractDigest": "sha256:e6a71b0000b7bca9acd39cc990822c95231b9a9203f0291f4cadf914d732b13a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:249d859b70ef0288ab3341d4245a3684670f979bc2b707d93254956696a502fb",
+      "recorded": true,
+      "recordedAt": "2026-09-16T04:50:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-854-verification-command-timeout"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e6a71b0000b7bca9acd39cc990822c95231b9a9203f0291f4cadf914d732b13a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:249d859b70ef0288ab3341d4245a3684670f979bc2b707d93254956696a502fb",
+      "previousContractHash": "sha256:249d859b70ef0288ab3341d4245a3684670f979bc2b707d93254956696a502fb",
+      "reason": "Make the PR file scope explicit after the read-only gate identified scope_exceeded; preserve immutable Contract base and add no new authority.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T08:46:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-854-verification-command-timeout"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+  "createdAt": "2026-09-16T04:50:00Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T08:47:04Z",
+  "preflightContractDigest": "sha256:e6a71b0000b7bca9acd39cc990822c95231b9a9203f0291f4cadf914d732b13a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:afea23a900a37adc14e355b2c9647f6e637b896651fa2bb00c934c90c8e2e752",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T08:44:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:639bdb94209da0ae017ceb95321d015de25a5a20fd92725cff70aedfde0a771b",
+  "workItemId": "WI-854-verification-command-timeout"
+}

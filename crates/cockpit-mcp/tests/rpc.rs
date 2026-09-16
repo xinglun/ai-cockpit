@@ -170,6 +170,18 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
     );
     assert_eq!(verify["inputSchema"]["properties"]["args"]["type"], "array");
     assert_eq!(
+        verify["inputSchema"]["properties"]["timeoutSeconds"]["type"],
+        "integer"
+    );
+    assert_eq!(
+        verify["inputSchema"]["properties"]["timeoutSeconds"]["minimum"],
+        1
+    );
+    assert_eq!(
+        verify["inputSchema"]["properties"]["timeoutSeconds"]["maximum"],
+        900
+    );
+    assert_eq!(
         verify["inputSchema"]["properties"]["command"]["type"],
         "string"
     );
@@ -412,6 +424,7 @@ fn mcp_plan_only_reports_actions_without_running_project_commands() {
     assert_eq!(plan["nodesToExecute"], 1);
     assert_eq!(plan["processesSpawned"], 0);
     assert_eq!(plan["plannedNodes"][0]["action"], "execute");
+    assert_eq!(plan["plannedNodes"][0]["timeoutSeconds"], 300);
     assert!(!directory.path().join("verify-ran").exists());
 
     let execution = handle_request_for_repo(
@@ -435,6 +448,26 @@ fn mcp_plan_only_reports_actions_without_running_project_commands() {
         execution["result"]["structuredContent"]["results"][0]["reason"]
     );
     assert!(directory.path().join("verify-ran").is_file());
+
+    let rejected = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":34,"method":"tools/call",
+            "params":{"name":"verify","arguments":{
+                "command":"true",
+                "args":[],
+                "timeoutSeconds":901
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(rejected["result"]["isError"], true);
+    assert!(
+        rejected["result"]["content"][0]["text"]
+            .as_str()
+            .expect("cap error")
+            .contains("finite range 1..=900s")
+    );
 }
 
 #[test]
@@ -502,6 +535,26 @@ fn mcp_tool_calls_reject_unknown_or_malformed_arguments_before_dispatch() {
             .contains("invalid work item id")
     );
     assert!(!root.join("spawned-before-validation").exists());
+
+    let cap = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":5,"method":"tools/call",
+            "params":{"name":"verify","arguments":{
+                "command":"true",
+                "args":[],
+                "timeoutSeconds":901
+            }}
+        }),
+        root,
+        &test_runtime_context(),
+    );
+    assert_eq!(cap["result"]["isError"], true);
+    assert!(
+        cap["result"]["content"][0]["text"]
+            .as_str()
+            .expect("cap error")
+            .contains("finite range 1..=900s")
+    );
 }
 
 #[test]
