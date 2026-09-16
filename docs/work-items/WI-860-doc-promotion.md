@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-860 — closed Work Item documentation promotion"
 description: "Promote WI-859 terminal documentation projections and keep the promotion task self-describing."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-860-doc-promotion
 lastVerifiedBy: WI-860-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-860-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-860-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-860-doc-promotion.close.json
 ---
 
 [简体中文](WI-860-doc-promotion.zh-CN.md) · [日本語](WI-860-doc-promotion.ja.md)
