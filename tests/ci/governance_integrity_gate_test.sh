@@ -70,6 +70,128 @@ PY
 
 run_case valid 0 none
 
+# Runtime retirement is an explicit historical-cleanup terminal route.  It
+# must satisfy the gate from its own immutable receipt and archive bindings,
+# without requiring a fabricated close decision or promoting the old Outcome.
+build_fixture "$fixtures/valid.json" "$tmp/retired-valid"
+python3 - "$tmp/retired-valid" "$tmp/retired-replaced" "$tmp/retired-invalid" "$gate" <<'PY'
+import hashlib
+import json
+import shutil
+import sys
+from pathlib import Path
+
+valid_root = Path(sys.argv[1])
+replaced_root = Path(sys.argv[2])
+invalid_root = Path(sys.argv[3])
+gate_path = Path(sys.argv[4])
+
+def digest_json(value):
+    encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    return "sha256:" + hashlib.sha256(encoded).hexdigest()
+
+shutil.copytree(valid_root, invalid_root)
+shutil.copytree(valid_root, replaced_root)
+
+def configure(root, disposition="integrated", invalid=False):
+    work_item = "WI-900-release-v9-9-9"
+    decisions = root / ".ai/decisions"
+    archive = root / ".ai/work-items/archive"
+    (decisions / f"{work_item}.close.json").unlink()
+    manifest_path = archive / f"{work_item}.archive.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest.update(
+        {
+            "closeRequired": False,
+            "historicalEvidence": True,
+            "retirementDisposition": disposition,
+            "retirementReceiptPath": f".ai/decisions/{work_item}.retirement.json",
+            "state": "replaced" if disposition == "replaced" else "retired",
+        }
+    )
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    artifacts = {}
+    for suffix in ("contract", "summary", "outcome"):
+        relative = f".ai/work-items/archive/{work_item}.{suffix}.json"
+        path = root / relative
+        artifacts[suffix] = {
+            "digest": "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest(),
+            "path": relative,
+        }
+    project = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))
+    receipt = {
+        "actor": "human:fixture",
+        "archiveManifestDigest": digest_json(manifest),
+        "artifacts": artifacts,
+        "authoritySource": "fixture-policy",
+        "contractDigest": "sha256:" + "c" * 64,
+        "decisionId": "work-item-retirement",
+        "disposition": disposition,
+        "originalBytesPreserved": True,
+        "reason": "The delivery is already represented on the synchronized base.",
+        "recordedAt": "2026-03-02T00:00:00Z",
+        "repositoryId": project["repositoryId"],
+        "repositorySnapshotDigest": "sha256:" + "d" * 64,
+        "runtimeDigest": "sha256:" + "a" * 64,
+        "runtimeVersion": "0.2.92",
+        "schemaVersion": 1,
+        "summaryDigest": "sha256:" + "e" * 64,
+        "verificationClaim": "not_verified",
+        "workItemId": work_item,
+    }
+    if disposition == "replaced":
+        receipt["successorWorkItemId"] = "WI-100-release-v1-0-0"
+    if invalid:
+        receipt["repositoryId"] = "sha256:" + "f" * 64
+    (decisions / f"{work_item}.retirement.json").write_text(
+        json.dumps(receipt, indent=2) + "\n", encoding="utf-8"
+    )
+
+configure(valid_root)
+configure(replaced_root, disposition="replaced")
+configure(invalid_root, invalid=True)
+PY
+python3 "$gate" --repo "$tmp/retired-valid" --report "$tmp/retired-valid-report.json" >/dev/null
+python3 - "$tmp/retired-valid-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
+assert item["lifecycleState"] == "retired", item
+assert item["decisionPath"].endswith(".retirement.json"), item
+PY
+python3 "$gate" --repo "$tmp/retired-replaced" --report "$tmp/retired-replaced-report.json" >/dev/null
+python3 - "$tmp/retired-replaced-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
+assert item["lifecycleState"] == "replaced", item
+assert item["decisionPath"].endswith(".retirement.json"), item
+PY
+set +e
+python3 "$gate" --repo "$tmp/retired-invalid" --report "$tmp/retired-invalid-report.json" >/dev/null
+retired_invalid_code=$?
+set -e
+[[ "$retired_invalid_code" -eq 1 ]] || {
+  printf 'invalid retirement: expected exit 1, got %s\n' "$retired_invalid_code" >&2
+  exit 1
+}
+python3 - "$tmp/retired-invalid-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = report["findings"]
+assert any(item["code"] == "invalid_retirement_receipt" for item in findings), findings
+assert not any(item["code"] == "missing_terminal_decision" for item in findings), findings
+PY
+printf 'governance retirement compatibility regression passed\n'
+
 # ``confirmed`` is an explicit positive Runtime decision token equivalent to
 # ``approved`` for terminal promotion; arbitrary/rejected decisions remain
 # non-green.
