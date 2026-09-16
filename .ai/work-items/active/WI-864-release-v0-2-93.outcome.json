@@ -6,11 +6,11 @@
     "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
     "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases.",
     "The N-1 acceptance fixture declares a source-scoped generic Work Item and does not trigger unrelated documentation projection requirements.",
-    "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command."
+    "Candidate and N-1 upgrade acceptance must refresh preflight after verification before invoking finish, including when the historical Runtime reports required evidence as yellow before verification; a passing verification must be preserved and the lifecycle must reach finish without rerunning the expensive project command.",
+    "The N-1 acceptance scope must explicitly include source paths, generated .ai/** records, and Cargo.lock for historical Runtime compatibility, without using repository-wide **."
   ],
-  "createdAt": "2026-09-16T18:06:07Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:643ed8c3a0610abccb9242ae9cccee9f7c0eb8664686045e54809aaa91245ba5",
+  "evidenceDigest": "sha256:faf42a6ec393a4b7fb76393877de2ff2a837ebb3c90e1f04e84c3cfe0d26eb14",
   "evidenceRefs": [
     ".ai/evidence/WI-864-release-v0-2-93.verification.json"
   ],
@@ -28,15 +28,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-864-release-v0-2-93.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:152165bf72a275d876b59d5013c96a5076925a164420d82cea6cac196a06d0c6",
+      "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
       "workItemId": "WI-864-release-v0-2-93"
     },
     "format": "ai-cockpit.task-outcome",
@@ -108,7 +108,7 @@
             ".ai/evidence/WI-864-release-v0-2-93.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -153,8 +153,8 @@
     "status": "verified",
     "workItemId": "WI-864-release-v0-2-93"
   },
-  "taskReportDigest": "sha256:37df9a4a101620862687acfd2f91cce68e521b6aa0ed1e4d010b34d14eb97265",
-  "taskReportMarkdownDigest": "sha256:0a1b5109102c649ea65bae6be4e98ec8801fb2d9542bc8de4c67a3fa14460d54",
+  "taskReportDigest": "sha256:049f6261aaee377a08ae420a53fc73d8f0ede8b1e25493ebb24a59ec30a9b1af",
+  "taskReportMarkdownDigest": "sha256:c573f89eda4d3a7b5c4dcc4a13af01d068ec0e9aec190c6a41fc7a50a369924a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
