@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "promote_closed_work_item.py --check-all passes",
+    "Only the declared documentation projection files change",
+    "The closed WI-864 archive and release evidence remain byte-preserved",
+    "The Work Item includes its own pre-close tri-language documentation and parity projection"
+  ],
+  "authority": "authorized",
+  "baseRevision": "11908f902154c0883f3b976b91b63031caa5f8a7",
+  "createdAt": "2026-09-16T20:44:20Z",
+  "goal": "Make the closed-work-item promotion check pass with a self-contained documentation Work Item that does not create a successor for its own close projection.",
+  "intent": "Promote the closed WI-864 release records into required tri-language documentation without changing product code or historical governance bytes.",
+  "mode": "implementation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "tests/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "release artifacts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:beee021ff8154cf11a80775055447bf57fcd4c2620a86937814f7a91a525028a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-864-release-v0-2-93.md",
+    "docs/work-items/WI-864-release-v0-2-93.zh-CN.md",
+    "docs/work-items/WI-864-release-v0-2-93.ja.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-867-closed-work-item-docs-promotion"
+}
