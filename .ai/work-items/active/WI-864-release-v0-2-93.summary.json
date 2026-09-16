@@ -1,0 +1,214 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-864-release-v0-2-93.verification-attempt.08dc7630bb1238b6a504503b7b3764663a800035c30388720a95ab86f9c9bbbd.json",
+    ".ai/evidence/WI-864-release-v0-2-93.verification-attempt.2b5b9460820eb4b03389e4120af0a0ce24efc605eef35075e2570b1572d8deb0.json",
+    ".ai/evidence/WI-864-release-v0-2-93.verification-attempt.4ef235e0b230077dd49683a31dc84dca92d427200e3f32ca6c111b7b06b1e4c8.json",
+    ".ai/evidence/WI-864-release-v0-2-93.verification-attempt.eb65a5f2ead7cb095114fcb17ca9e1bca705ecec23a1b97c5609f146d92f1138.json",
+    ".ai/evidence/WI-864-release-v0-2-93.verification.json",
+    ".ai/work-items/active/WI-864-release-v0-2-93.contract.json",
+    ".ai/work-items/active/WI-864-release-v0-2-93.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-864-release-v0-2-93.ja.md",
+    "docs/work-items/WI-864-release-v0-2-93.md",
+    "docs/work-items/WI-864-release-v0-2-93.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-16T15:52:39Z",
+  "checkpointContractDigest": "sha256:9e0cb8d63a499c381f105e8bca95c1f20eea23342aeca7e5830d78106e793181",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "recorded": true,
+      "recordedAt": "2026-09-16T15:52:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dccfcb8a4abce49c683290e1c11829acf287c67d82f1808e5082889c290f3abe",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dd01ea0c1bf41ff79b7c942a0d9505c5377cefe27f8afd7a91d243048f0a1b70",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "previousContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "reason": "Include the repository reference-comparison and parity projections whose Runtime identity must track the release version.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T16:00:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f9598cd0ed762f004bce526ff7a36f06f99e4f732980e109d319a1eba3289f3c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9e0cb8d63a499c381f105e8bca95c1f20eea23342aeca7e5830d78106e793181",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7288a19228ab5abfe358b08db7d5f191f4da8de1871fd2a73449c8fe239d3109",
+      "previousContractHash": "sha256:dd01ea0c1bf41ff79b7c942a0d9505c5377cefe27f8afd7a91d243048f0a1b70",
+      "reason": "Include the required tri-language Work Item projection and prevent late documentation-gate rejection.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T16:03:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:495e33cfc247ea0aa2ba071efe210e13b04d0b18fa2a92d298c465b59d4fafb8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-864-release-v0-2-93"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d3bd128f19c12026166c03120be7d95c46a081f103c10bf3d9b4e047f5bf991d",
+  "createdAt": "2026-09-16T15:51:37Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/architecture/versioning.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-16T16:16:11Z",
+  "preflightContractDigest": "sha256:9e0cb8d63a499c381f105e8bca95c1f20eea23342aeca7e5830d78106e793181",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:d3bd128f19c12026166c03120be7d95c46a081f103c10bf3d9b4e047f5bf991d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "Cargo.toml",
+        "docs/release/distribution.md"
+      ],
+      "expected": "The package metadata, release documentation, architecture versioning, and artifact naming consistently identify v0.2.93 while preserving v0.2.92 as N-1.",
+      "required": true,
+      "scenario": "release_current_version_consistency",
+      "status": "unverified",
+      "verificationPlan": "Run version_consistency.sh and inspect all tri-language release and versioning projections."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Candidate fresh installation and v0.2.92 to v0.2.93 upgrade run in independent isolated environments and retain structured receipts.",
+      "required": true,
+      "scenario": "candidate_isolated_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Inspect release workflow dependency graph and run candidate acceptance jobs."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Public v0.2.93 downloaded Release assets pass fresh install, N-1 upgrade, manifest, checksum, and version consistency acceptance.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run the public acceptance jobs after publication and verify downloaded immutable assets."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release"
+      ],
+      "expected": "A failed release phase preserves structured identity-bound evidence and recovery reruns only missing or identity-invalid phases.",
+      "required": true,
+      "scenario": "resumable_release_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run release workflow policy tests and inspect failure/recovery job dependencies and receipts."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-16T15:59:10.841442+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ab8c1796291f158a968852c59ebee420a7b368ffa9ec9126a507aba665aaca1e",
+  "workItemId": "WI-864-release-v0-2-93"
+}

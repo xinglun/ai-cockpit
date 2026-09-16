@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:eb65a5f2ead7cb095114fcb17ca9e1bca705ecec23a1b97c5609f146d92f1138",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+      "commandDigest": "sha256:d424888f8d144dbd9a2c4c1915ed44c7c674cd24c3de8051a5d75eb4fe1cda62",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:dd01ea0c1bf41ff79b7c942a0d9505c5377cefe27f8afd7a91d243048f0a1b70",
+  "contractExecutionScopeDigest": "sha256:b019b9d4a646be4fe48f2a5ad6855b4f413353bf81e5248c6d9507d712f30005",
+  "createdAt": "2026-09-16T16:02:57Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93/.ai/work-items/active/WI-864-release-v0-2-93.contract.json: verification preconditions are blocked: documentation_projection_missing:docs/work-items/WI-864-release-v0-2-93.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-864-release-v0-2-93.zh-CN.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-864-release-v0-2-93.ja.md:must be a regular non-symlink file, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-864-release-v0-2-93 but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-864-release-v0-2-93 but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-864-release-v0-2-93 but found 0"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:495e33cfc247ea0aa2ba071efe210e13b04d0b18fa2a92d298c465b59d4fafb8",
+  "runtimeDigest": "sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-864-release-v0-2-93"
+}

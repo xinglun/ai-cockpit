@@ -1,0 +1,117 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions and current release documentation identify v0.2.93 consistently.",
+    "The reviewed and synchronized main commit is the sole immutable source identity for the v0.2.93 tag.",
+    "Candidate fresh install and candidate v0.2.92 to v0.2.93 upgrade pass in independent isolated environments.",
+    "Public v0.2.93 fresh install, v0.2.92 upgrade, manifest, checksum, and version consistency acceptance pass using downloaded Release assets.",
+    "Failed phases retain structured evidence and recovery reuses only identity-compatible successful phases."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+  "createdAt": "2026-09-16T15:51:37Z",
+  "goal": "Advance the package from v0.2.92 to v0.2.93, preserve release identity and evidence boundaries, and complete candidate/public installation and N-1 upgrade acceptance before close.",
+  "intent": "Publish the next AI Cockpit release from a reviewed synchronized main commit and prove public artifact adoption.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust behavior changes unrelated to versioning",
+    "provider Release or tag mutation before all pre-publication gates pass",
+    "local source checkout as a substitute for public artifact acceptance"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dccfcb8a4abce49c683290e1c11829acf287c67d82f1808e5082889c290f3abe",
+  "requiredEvidenceClasses": [
+    "verification",
+    "delegated:github-actions"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-864-release-v0-2-93",
+    "provider": "github",
+    "pullRequest": "pending:WI-864-release-v0-2-93",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "Cargo.toml",
+        "docs/release/distribution.md"
+      ],
+      "expected": "The package metadata, release documentation, architecture versioning, and artifact naming consistently identify v0.2.93 while preserving v0.2.92 as N-1.",
+      "required": true,
+      "scenario": "release_current_version_consistency",
+      "status": "unverified",
+      "verificationPlan": "Run version_consistency.sh and inspect all tri-language release and versioning projections."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Candidate fresh installation and v0.2.92 to v0.2.93 upgrade run in independent isolated environments and retain structured receipts.",
+      "required": true,
+      "scenario": "candidate_isolated_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Inspect release workflow dependency graph and run candidate acceptance jobs."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Public v0.2.93 downloaded Release assets pass fresh install, N-1 upgrade, manifest, checksum, and version consistency acceptance.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run the public acceptance jobs after publication and verify downloaded immutable assets."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release"
+      ],
+      "expected": "A failed release phase preserves structured identity-bound evidence and recovery reruns only missing or identity-invalid phases.",
+      "required": true,
+      "scenario": "resumable_release_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run release workflow policy tests and inspect failure/recovery job dependencies and receipts."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-864-release-v0-2-93.md",
+    "docs/work-items/WI-864-release-v0-2-93.zh-CN.md",
+    "docs/work-items/WI-864-release-v0-2-93.ja.md"
+  ],
+  "sources": [
+    "github:repository/xinglun/ai-cockpit",
+    "release:v0.2.92->v0.2.93"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-864-release-v0-2-93"
+}

@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:08dc7630bb1238b6a504503b7b3764663a800035c30388720a95ab86f9c9bbbd",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c86b59d3ef6256c508dfe5f69c943ebcf3afb451",
+      "commandDigest": "sha256:d424888f8d144dbd9a2c4c1915ed44c7c674cd24c3de8051a5d75eb4fe1cda62",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:6dfe52a2bdc8d9b6ee915623d54604c4888765c32c745524ca5a429e458b628b",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1098bb577044cbc18df863e9222d6955d9d3a7a7ba848e2d1e991f491f61d3d4",
+  "contractExecutionScopeDigest": "sha256:24bdf1d99e7a0a2070eef18528ac5efdc0c7d7284b85c457dc00024f353afd30",
+  "createdAt": "2026-09-16T15:58:34Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-864-release-v0-2-93/.ai/work-items/active/WI-864-release-v0-2-93.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f9598cd0ed762f004bce526ff7a36f06f99e4f732980e109d319a1eba3289f3c",
+  "runtimeDigest": "sha256:6dfe52a2bdc8d9b6ee915623d54604c4888765c32c745524ca5a429e458b628b",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-864-release-v0-2-93"
+}
