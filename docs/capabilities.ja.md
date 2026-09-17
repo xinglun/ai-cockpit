@@ -189,6 +189,12 @@ ai-cockpit work-item new --repo /path/to/repository \
 
 いずれのコマンドも通常の次の Work Item を作る前に repository-scoped entry gate を評価します。Contract より前に存在する `.ai` 以外の変更、detached HEAD、現在の HEAD とローカルで検出された remote default revision の不一致、または有効な close decision のない archived Work Item は fail closed になります。gate は archived records を書き換えません。identity-bound recovery decision から作られた successor は predecessor の継続であり、gate を迂回する独立 Work Item ではありません。
 
+この continuation だけに狭い例外があります。recovery receipt が唯一で repository-bound であり、
+決定的な filename suffix の証明によって historical scope と candidate scope が disjoint だと
+示せる場合に限り、Runtime は本来 unknown の relation を受け入れます。通常の Work Item では
+unknown scope relation は引き続き blocker であり、malformed、foreign、stale、symlink、digest
+mismatch の evidence は例外の根拠になりません。
+
 top-level `status` の `readiness` に同じ read-only readiness projection が含まれます。名前付きの clean branch が検出された default revision に一致し、active Work Item と close 待ち archived Work Item がない場合だけ `readyOnBase` は `true` です。remote metadata が欠落または曖昧なら `state: unknown` であり、green にはなりません。`blocked` と `unclosedArchivedWorkItems` が正確な修復境界を示します。
 
 skeleton の作成は repository と Work Item ID ごとに repository-local の exclusive reservation で

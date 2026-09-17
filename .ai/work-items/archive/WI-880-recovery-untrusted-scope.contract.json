@@ -1,0 +1,101 @@
+{
+  "acceptanceCriteria": [
+    "A unique repository-bound predecessor-bound recovery successor can pass current preflight and continue its lifecycle without creating a competing successor when an unrelated archived scope is untrusted.",
+    "A candidate scope that can be proven disjoint from an unrelated archived Work Item does not receive a global archived_work_item_scope_untrusted blocker for that recovery successor.",
+    "A candidate scope that may overlap an archived scope, has a mismatched recovery edge, or lacks a unique repository-bound recovery decision remains blocked.",
+    "Malformed, foreign, stale, symlink, and digest-mismatched archive, Contract, manifest, recovery, and successor evidence remain fail-closed; historical bytes remain unchanged.",
+    "Ordinary new Work Item archived-scope conflicts, active-resource conflicts, successor ambiguity rejection, and strict close validation remain unchanged.",
+    "CLI/MCP use the shared decision path and English, Japanese, and Simplified Chinese docs describe the same recovery semantics with deterministic regression fixtures."
+  ],
+  "authority": "authorized",
+  "baseRevision": "74e198effb13c7053f65469be6c260d18dffaab0",
+  "createdAt": "2026-09-17T13:14:39Z",
+  "goal": "Make a repository-bound, predecessor-bound recovery continuation able to complete preflight through close when unrelated archived scope evidence is untrusted, without weakening ordinary Work Item conflict checks or historical evidence integrity.",
+  "intent": "Resolve Issue #851 by allowing only identity-bound recovery successors to continue past proven-unrelated historical scope unknowns while preserving fail-closed overlap and evidence checks.",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel source",
+    " Signal Context",
+    " geopolitical classification",
+    " trading behavior",
+    " Issue #828",
+    " withdrawn Issue #827",
+    " release publication",
+    " dependency/toolchain upgrade",
+    " rewriting any archived Contract/archive/verification/finalization/close bytes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f7ff37e59967d1e91f25f386ea8dd9289b4eb4311a0ce7800b4a20b68389e938",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A unique repository-bound predecessor-bound recovery successor can proceed when an unrelated archived scope is proven disjoint.",
+      "required": true,
+      "scenario": "disjoint-untrusted-historical-scope",
+      "status": "unverified",
+      "verificationPlan": "Run the repository recovery fixture with a disjoint untrusted archived scope and assert the successor preflight is not blocked by the unrelated scope."
+    },
+    {
+      "evidence": [],
+      "expected": "Potential overlap, mismatched recovery edges, and missing unique repository-bound decisions remain fail-closed.",
+      "required": true,
+      "scenario": "overlap-and-ambiguous-recovery-remain-blocked",
+      "status": "unverified",
+      "verificationPlan": "Run recovery fixtures for overlap, foreign predecessor, missing decision, and ambiguous lineage and assert the existing blockers remain."
+    },
+    {
+      "evidence": [],
+      "expected": "Malformed, stale, symlinked, foreign, and digest-mismatched evidence is not accepted or skipped.",
+      "required": true,
+      "scenario": "malformed-and-foreign-evidence-remains-fail_closed",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle-entry tamper fixtures for archive, Contract, manifest, recovery, and successor evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Ordinary new Work Item archived-scope conflicts and active-resource conflicts retain their existing blockers.",
+      "required": true,
+      "scenario": "ordinary-conflicts-unchanged",
+      "status": "unverified",
+      "verificationPlan": "Run existing ordinary preflight conflict fixtures alongside the recovery-specific fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI, MCP, English, Japanese, and Simplified Chinese recovery outputs use the same decision path and facts.",
+      "required": true,
+      "scenario": "cli-mcp-and-trilingual-recovery-parity",
+      "status": "unverified",
+      "verificationPlan": "Run CLI/MCP parity tests and the three localized repository-workflow reference checks."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/superpowers/plans/2026-09-17-WI-880-recovery-untrusted-scope.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    "commit:74e198effb13c7053f65469be6c260d18dffaab0",
+    "crates/cockpit-repository/src/lib.rs:unclosed_archived_scope_conflicts",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs:recovery_continuation_does_not_bypass_untrusted_archived_scope"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-880-recovery-untrusted-scope"
+}

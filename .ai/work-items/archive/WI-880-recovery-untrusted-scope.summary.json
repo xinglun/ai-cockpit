@@ -1,0 +1,114 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.c872351b9a08894d829aabb02f7e1e01774ba5501c73882e8363680729a18f5b.json",
+    ".ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.d487a87bd97432fa084d5b3724c93da4910a7c2c8ca97fe7b816fd68ac7dc5dd.json",
+    ".ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.dcecb999c4a20449e8cf26562bee17df1e0b3aa134c3a01c8022a91a652efb3b.json",
+    ".ai/work-items/archive/WI-880-recovery-untrusted-scope.contract.json",
+    ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/capabilities.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/reference/repository-workflow.ja.md",
+    "docs/reference/repository-workflow.md",
+    "docs/reference/repository-workflow.zh-CN.md",
+    "docs/superpowers/plans/2026-09-17-WI-880-recovery-untrusted-scope.md"
+  ],
+  "checkpointAt": "2026-09-17T14:26:47Z",
+  "checkpointContractDigest": "sha256:081adadb361893be5ef92f616396521983364697e56d46d1f91592bc1cea6db6",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:4ab5b4eed724a11ad973c2503640e4845ea2b90b84e6874ae8b4ae577fa095fb",
+  "createdAt": "2026-09-17T13:14:39Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "crates/cockpit-repository/tests/status_projection.rs",
+      "docs/superpowers/plans/2026-09-17-WI-880-recovery-untrusted-scope.md"
+    ],
+    "reason": "The implementation is limited to the identity-bound recovery entry gate required by Issue #851; it preserves ordinary fail-closed scope checks and immutable history.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-17T15:05:06Z",
+  "preflightContractDigest": "sha256:081adadb361893be5ef92f616396521983364697e56d46d1f91592bc1cea6db6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4ab5b4eed724a11ad973c2503640e4845ea2b90b84e6874ae8b4ae577fa095fb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "expected": "A valid recovery successor skips only a proven-disjoint unknown historical scope.",
+      "required": true,
+      "scenario": "disjoint-untrusted-historical-scope",
+      "status": "verified",
+      "verificationPlan": "Run the focused status projection recovery fixture."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "expected": "Overlap and mismatched recovery edges remain blocked.",
+      "required": true,
+      "scenario": "overlap-and-ambiguous-recovery-remain-blocked",
+      "status": "verified",
+      "verificationPlan": "Run the focused overlap and mismatched-edge fixtures."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "expected": "Malformed, foreign, stale, symlinked, and digest-mismatched evidence remains fail-closed.",
+      "required": true,
+      "scenario": "malformed-and-foreign-evidence-remains-fail_closed",
+      "status": "verified",
+      "verificationPlan": "Run lifecycle and status tamper fixtures."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "expected": "Ordinary Work Items retain unknown-scope and resource conflict blockers.",
+      "required": true,
+      "scenario": "ordinary-conflicts-unchanged",
+      "status": "verified",
+      "verificationPlan": "Run lifecycle and status ordinary conflict fixtures."
+    },
+    {
+      "evidence": [
+        "docs/reference/repository-workflow.md",
+        "docs/reference/repository-workflow.zh-CN.md",
+        "docs/reference/repository-workflow.ja.md",
+        "docs/capabilities.md",
+        "docs/capabilities.zh-CN.md",
+        "docs/capabilities.ja.md"
+      ],
+      "expected": "The shared recovery semantics are documented consistently across all three languages.",
+      "required": true,
+      "scenario": "cli-mcp-and-trilingual-recovery-parity",
+      "status": "verified",
+      "verificationPlan": "Run documentation and parity checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T15:05:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-880-recovery-untrusted-scope"
+}

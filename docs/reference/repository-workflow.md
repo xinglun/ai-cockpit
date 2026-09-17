@@ -152,6 +152,15 @@ incomplete evidence remains `recovery_decision_invalid` and cannot authorize a
 transition. This compatibility projection never turns an unfinished successor
 green and never rewrites predecessor bytes.
 
+The entry gate has one narrow recovery exception: an active successor whose
+Contract names a predecessor is eligible only after the Runtime validates the
+unique repository-bound recovery receipt. That receipt may authorize the
+successor's relation to its predecessor, and a separately manifest-verified
+historical scope may be skipped only when a deterministic filename-suffix
+proof establishes disjointness. Ordinary Work Items still fail closed on an
+unknown scope relation. Missing, malformed, foreign, stale, symlinked, or
+digest-mismatched evidence never qualifies for this exception.
+
 A predecessor has one selected successor lineage. After a valid `successor`
 receipt exists, another `successor` decision for a different Work Item is
 rejected with the stable `recovery_decision_invalid:competing_successor`

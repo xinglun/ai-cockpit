@@ -97,6 +97,13 @@ python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all
 
 由新 Runtime 创建的 successor 必须携带准确的 predecessor Work Item、Contract digest、recovery path 和 repository 绑定。对于在这些 Contract 字段存在之前创建的历史 successor，Runtime 只在 recovery receipt 本身同时绑定 predecessor/successor，且 successor 具备已验证 archive、严格 verification evidence 和已确认 close decision 时提供窄化兼容路径。新追加的 recovery receipt 会标记 `successorBindingMode: legacy_terminal_evidence`；缺失、foreign、stale、malformed、symlink 或不完整 evidence 仍落入 `recovery_decision_invalid`，不能授权任何转换。该兼容投影不会把未完成 successor 变成 green，也不会重写 predecessor bytes。
 
+入口门禁只有一个窄化的 recovery 例外：active successor 的 Contract 明确命名 predecessor
+后，Runtime 仍必须先验证唯一且绑定本仓库的 recovery receipt。该 receipt 可以授权 successor
+与其 predecessor 的关系；对于另一个已经通过 manifest 校验的历史 scope，只有确定性的文件名
+后缀证明其与候选 scope 不相交时，才可以跳过该历史 scope。普通 Work Item 遇到未知 scope
+关系仍然 fail closed。缺失、malformed、foreign、stale、symlink 或 digest 不匹配的 evidence
+永远不能取得此例外。
+
 一个 predecessor 只能有一条已选定的 successor lineage。已有有效的
 `successor` receipt 后，若再次为同一 predecessor 指向不同 Work Item，Runtime
 会以稳定边界 `recovery_decision_invalid:competing_successor` 拒绝；应继续原

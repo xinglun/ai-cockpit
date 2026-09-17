@@ -226,6 +226,12 @@ fail-closed stop. Archived records are never rewritten. A recovery successor
 created from an identity-bound recovery decision is a continuation of the
 predecessor, not an independent bypass of this gate.
 
+For that continuation only, the Runtime may accept an otherwise unknown
+historical scope relation when the recovery receipt is unique and repository
+bound and a deterministic filename-suffix proof establishes disjointness.
+Unknown scope relations remain blocking for ordinary Work Items, and malformed,
+foreign, stale, symlinked, or digest-mismatched evidence never qualifies.
+
 Top-level `status` exposes the same read-only readiness projection under
 `readiness`. `readyOnBase` is true only for a clean named branch at the
 discovered default revision with no active Work Item and no pending archived
