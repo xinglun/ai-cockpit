@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:736adb91b2187e964662bfdf62ab2da68b03aaf130327c6ed338f43bf4ee761b",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:4d0e849873e1a784ede00c9467671cd1c374c21a328bc0877935b5abdeb5d100",
+      "path": ".ai/work-items/archive/WI-887-closed-docs-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:30380557bcf97d894d0fae7841aff50e59930535ff32eb0b6c4dbe6eef4b4013",
+      "path": ".ai/work-items/archive/WI-887-closed-docs-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:af12fddd3f73b4988e13158f021f1693c7e576da31c96f139ee08aae4c8af876",
+      "path": ".ai/work-items/archive/WI-887-closed-docs-promotion.summary.json"
+    }
+  },
+  "authoritySource": "user:release-after-all-work-items",
+  "contractDigest": "sha256:12b781ddb0f2b432d9146f6a1d2107934363bbc2f690a372bc35b4c00971abcc",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "文档投影专用 WI 在启动前被现行 projection gate 阻塞；不扩张递归文档链，保留原始 active 记录并改用官方 helper 完成已关闭 WI-886 的窄范围投影。",
+  "recordedAt": "2026-09-17T19:04:47Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:db58646792022b1386f3ac1e16d5ddf76850e6c9ebd1ff54e3f9f2b0c4f3ba22",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-887-closed-docs-promotion"
+}

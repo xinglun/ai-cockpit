@@ -1,0 +1,16 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-17T19:04:03Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T19:04:03Z",
+  "preflightContractDigest": "sha256:12b781ddb0f2b432d9146f6a1d2107934363bbc2f690a372bc35b4c00971abcc",
+  "preflightDecisionDigest": "sha256:641725e1c75530c6e95bcff328160ad2b76b9c2208c16c88f300421dfa414073",
+  "preflightRepositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-17T19:04:03Z",
+  "workItemId": "WI-887-closed-docs-promotion"
+}

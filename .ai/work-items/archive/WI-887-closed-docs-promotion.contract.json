@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "All three Work Item pages show implemented status and terminal archive, verification, finalization, and close references.",
+    "All three parity rows use the terminal status and the same identity-bound evidence paths.",
+    "The projection helper check passes for WI-886 and no unrelated paths change."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "c3f8132ea4f9b878738764263d3f7edb5ad04780",
+  "createdAt": "2026-09-17T19:04:03Z",
+  "goal": "Make the closed WI-886 documentation projection match its immutable archive, verification, finalization, and close evidence without changing runtime behavior.",
+  "intent": "Promote the closed WI-886 terminal evidence into its required tri-language Work Item pages and reference parity rows.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust code",
+    " tests",
+    " lifecycle protocol",
+    " governance evidence bytes",
+    " release or publication",
+    " other Work Items and other documentation"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.md",
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.zh-CN.md",
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.archive.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-887-closed-docs-promotion"
+}

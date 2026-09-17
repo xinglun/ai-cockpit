@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T19:04:47Z",
+  "files": {
+    "contractDigest": "sha256:4d0e849873e1a784ede00c9467671cd1c374c21a328bc0877935b5abdeb5d100",
+    "contractPath": ".ai/work-items/archive/WI-887-closed-docs-promotion.contract.json",
+    "outcomeDigest": "sha256:30380557bcf97d894d0fae7841aff50e59930535ff32eb0b6c4dbe6eef4b4013",
+    "outcomePath": ".ai/work-items/archive/WI-887-closed-docs-promotion.outcome.json",
+    "summaryDigest": "sha256:af12fddd3f73b4988e13158f021f1693c7e576da31c96f139ee08aae4c8af876",
+    "summaryPath": ".ai/work-items/archive/WI-887-closed-docs-promotion.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-887-closed-docs-promotion.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-887-closed-docs-promotion"
+}
