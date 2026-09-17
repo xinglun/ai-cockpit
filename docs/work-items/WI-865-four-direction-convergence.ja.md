@@ -7,9 +7,12 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-865-four-direction-convergence
+terminalArchive: .ai/work-items/archive/WI-865-four-direction-convergence.contract.json
+terminalVerification: .ai/evidence/WI-865-four-direction-convergence.verification.json
+terminalDecision: .ai/decisions/WI-865-four-direction-convergence.close.json
 ---
 
 # WI-865 — 四方向 convergence の受入れ

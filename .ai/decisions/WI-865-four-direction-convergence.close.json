@@ -1,0 +1,372 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-865-evidence-refresh.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-865-four-direction-convergence.preflight-review.471bc5d5ede80a41a8f39fc959140fed8aeb291ca746a75bae899badaa04424a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-865-four-direction-convergence.preflight-review.8e39d33b1de050f1ba86f18068bc3878bb29247bb9d14f7c92293aaef22bf39a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-865-four-direction-convergence.verification-attempt.5460eece5de7504a05f401e1027f381087070bc90b234f16fe71c43372bf4d20.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-865-four-direction-convergence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/tests/outcome_delivery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/Cargo.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-first-start.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-17-ai-cockpit-four-direction-convergence.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: rust-toolchain.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/p0_regression_gate.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/p0_regression_gate_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:user via conversation at 2026-09-17T03:22:48Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "在不发布新版本且保留授权、证据真实性、不可变历史和供应链控制的边界内，完成四方向收敛代码、测试、测量、三语使用路径和验收材料。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-865-four-direction-convergence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-865-four-direction-convergence"
+  },
+  "finalReportDigest": "sha256:78365129733782e9dffe1a499e7b38bae8cf16bfb10905f3fc822f9b7e9f4491",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:25165487cdc8446cbbbec3ad8c19f35696223f265a2b194deb38657eb646d5f3",
+    "branch": "codex/wi-865-four-direction-convergence",
+    "branchRef": "refs/heads/codex/wi-865-four-direction-convergence",
+    "capturedAt": "2026-09-17T03:23:43Z",
+    "contractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+    "headRevision": "554d017c470422ba9c1692a320b179f0d71c06fa",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-865-four-direction-convergence",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-865-four-direction-convergence",
+    "worktreeId": "sha256:42bc6315e07d84c66c3cf91e61963a0f262be2127c550d475e7918d578bf87b3",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-865-four-direction-convergence"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:1dd7c6d72cada662d682d87676edfd1613e24b50b88bac70ce44295e68e96d0b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "conversation",
+    "decidedAt": "2026-09-17T03:22:48Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json"
+    ],
+    "policyRefs": [],
+    "reason": "User confirmed completion of the Outcome repair, four-direction convergence, Issue #851 correspondence, and Rust 1.98.1/dependency work; release is explicitly deferred until all Work Items are complete and final acceptance passes.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-17T03:23:43Z",
+  "workItemId": "WI-865-four-direction-convergence"
+}
