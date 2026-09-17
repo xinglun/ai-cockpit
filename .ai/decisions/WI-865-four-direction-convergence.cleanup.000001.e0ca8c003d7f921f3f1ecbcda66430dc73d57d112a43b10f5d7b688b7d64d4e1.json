@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:1dd7c6d72cada662d682d87676edfd1613e24b50b88bac70ce44295e68e96d0b",
+  "branchRef": "refs/heads/codex/wi-865-four-direction-convergence",
+  "contractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+  "headRevision": "554d017c470422ba9c1692a320b179f0d71c06fa",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T03:40:33Z",
+  "operationId": "sha256:a96fce3aabf20ddba9546615af73946b6963a680217c254ec48d5244dea71a0f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-865-four-direction-convergence",
+  "worktreeId": "sha256:42bc6315e07d84c66c3cf91e61963a0f262be2127c550d475e7918d578bf87b3"
+}
