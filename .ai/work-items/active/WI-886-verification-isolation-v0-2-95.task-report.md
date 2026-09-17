@@ -14,10 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.532823d144e915fabfdf5806db25df6717ae06272853cf97f3a9fdcd9e3c4d38.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.recovery.16a97434cfb152bfa7680ba0c298e98ef08ba1008f5ecc7a3aea41557fbd770c.json
+- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6223dfb1935ea68cc0c4fac5920b0073112bdacdc12fa347c97f98f1a938211d.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json
+- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.3c3319461d6ff6e0658478e1e36291aaf95e34179ceea4ff99b04a767f959ba0.json
+- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.eacf8e5a6f15a347075807c8f050ce37ce7d32e75e0d93c02b78dccad019d527.json
 - Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json
 
 ## Findings

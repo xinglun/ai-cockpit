@@ -1,13 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.532823d144e915fabfdf5806db25df6717ae06272853cf97f3a9fdcd9e3c4d38.json",
-    ".ai/decisions/WI-886-verification-isolation-v0-2-95.recovery.16a97434cfb152bfa7680ba0c298e98ef08ba1008f5ecc7a3aea41557fbd770c.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6223dfb1935ea68cc0c4fac5920b0073112bdacdc12fa347c97f98f1a938211d.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.3c3319461d6ff6e0658478e1e36291aaf95e34179ceea4ff99b04a767f959ba0.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.eacf8e5a6f15a347075807c8f050ce37ce7d32e75e0d93c02b78dccad019d527.json",
     ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
   ],
   "checkpointAt": "2026-09-17T17:28:07Z",
-  "checkpointContractDigest": "sha256:9623fbf6687bb05d822c1025a5e8b76841f206a3130ee7405b5a63294a443b55",
+  "checkpointContractDigest": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -43,20 +43,40 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8c36937460eaf5f71dde0ab865231c8443ccaa414353a70be542a55265c7a8fe",
+      "previousContractHash": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+      "reason": "Hosted quality gate found the candidate version and prearchive parity lifecycle bindings were incomplete; keep the corrective documentation changes in the current WI.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T18:10:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:fcb146e6852b6c6cbea45de459a4fdcfc69f4e7466a845d1006cfb7da7cc5a1e",
+  "checkpointRepositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
   "createdAt": "2026-09-17T17:26:05Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:9623fbf6687bb05d822c1025a5e8b76841f206a3130ee7405b5a63294a443b55",
+    "contractDigest": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Confirm the current preflight result after binding the reviewed GitHub PR finalization context.",
-    "recordedAt": "2026-09-17T18:08:00Z",
+    "reason": "确认当前 WI-886 在验证证据更新后继续执行原授权范围内的验证与 PR 路径。",
+    "recordedAt": "2026-09-18T03:15:00Z",
     "recordedBy": "human:user",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:fcb146e6852b6c6cbea45de459a4fdcfc69f4e7466a845d1006cfb7da7cc5a1e",
+    "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
     "schemaVersion": 1,
     "workItemId": "WI-886-verification-isolation-v0-2-95"
   },
@@ -68,10 +88,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-17T18:00:00Z",
-  "preflightContractDigest": "sha256:9623fbf6687bb05d822c1025a5e8b76841f206a3130ee7405b5a63294a443b55",
+  "preflightAt": "2026-09-17T18:14:35Z",
+  "preflightContractDigest": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:fcb146e6852b6c6cbea45de459a4fdcfc69f4e7466a845d1006cfb7da7cc5a1e",
+  "preflightRepositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -99,7 +119,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-17T18:00:07Z",
+  "updatedAt": "2026-09-17T18:14:40Z",
   "verification": [
     {
       "check": "project-command-0",

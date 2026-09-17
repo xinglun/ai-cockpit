@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认当前 WI-886 在验证证据更新后继续执行原授权范围内的验证与 PR 路径。",
+  "recordedAt": "2026-09-18T03:15:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}
