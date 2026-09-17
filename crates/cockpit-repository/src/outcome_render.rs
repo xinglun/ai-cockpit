@@ -2,8 +2,9 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
     FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
-    HumanDecision, OutcomeClaim, OutcomeFinalizationProjection, OutcomeReleaseProjection,
-    OutcomeState, OutcomeV2, RuntimeContext, TaskOutcomeReport,
+    HumanDecision, OutcomeClaim, OutcomeDelivery, OutcomeDeliverySegment,
+    OutcomeFinalizationProjection, OutcomeReleaseProjection, OutcomeState, OutcomeV2,
+    RuntimeContext, TaskOutcomeReport,
 };
 use serde_json::Value;
 use std::fs;
@@ -16,6 +17,11 @@ use crate::{
 };
 
 const MAX_OUTCOME_ASSEMBLY_ATTEMPTS: usize = 2;
+/// Keep each assistant message bounded while retaining the complete body in
+/// the structured delivery object.  Splitting is deterministic and Unicode
+/// safe; it never changes the evidence-derived human text.
+pub const OUTCOME_DELIVERY_MAX_SEGMENT_CHARS: usize = 12_000;
+pub const OUTCOME_DELIVERY_SCHEMA_VERSION: u32 = 1;
 
 /// The facts used to assemble a human Outcome are bound to one validated
 /// observation boundary. This metadata is diagnostic evidence only; it never
@@ -967,6 +973,112 @@ pub fn render_human_outcome_with_view(
 /// Render the complete evidence-oriented handoff explicitly.
 pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> String {
     render_human_outcome_with_view(input, language, OutcomeRenderView::Full)
+}
+
+/// Prepare the immutable, full-view payload used by archive delivery.  The
+/// archive manifest digest is part of the identity, so a later archive or
+/// evidence change cannot be silently delivered as the old result.
+pub fn prepare_archive_outcome_delivery(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    language: &str,
+) -> Result<OutcomeDelivery, ObserverError> {
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    if !manifest_path.is_file() {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "archive delivery requires an immutable archive manifest".into(),
+        });
+    }
+    let manifest_bytes = fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+        path: manifest_path.clone(),
+        source,
+    })?;
+    let archive_identity = Digest::sha256_bytes(&manifest_bytes);
+    let input = outcome_render_input_with_runtime(root, work_item_id, runtime)?;
+    let language = normalized_language(language).to_owned();
+    let body = render_full_human_outcome(&input, &language);
+    let body_digest = Digest::sha256_bytes(body.as_bytes());
+    let delivery_id = Digest::sha256_bytes(
+        format!("{work_item_id}|{archive_identity}|{language}|{body_digest}").as_bytes(),
+    );
+    let segments = segment_outcome_delivery_body(
+        &delivery_id,
+        work_item_id,
+        &archive_identity,
+        &language,
+        &body,
+    );
+    let body_summary = body
+        .lines()
+        .find(|line| !line.trim().is_empty())
+        .unwrap_or_default()
+        .chars()
+        .take(240)
+        .collect::<String>();
+    let next_action = localized_delivery_next_action(&language);
+    Ok(OutcomeDelivery {
+        schema_version: OUTCOME_DELIVERY_SCHEMA_VERSION,
+        delivery_id,
+        work_item_id: work_item_id.to_owned(),
+        archive_identity,
+        language,
+        view: "full".into(),
+        body,
+        body_digest,
+        body_summary,
+        segments,
+        delivery_state: "prepared".into(),
+        host_confirmation: "unknown".into(),
+        next_action,
+        outcome: Some(input.outcome.clone()),
+        error: None,
+    })
+}
+
+fn segment_outcome_delivery_body(
+    delivery_id: &Digest,
+    work_item_id: &str,
+    archive_identity: &Digest,
+    language: &str,
+    body: &str,
+) -> Vec<OutcomeDeliverySegment> {
+    let chars = body.chars().collect::<Vec<_>>();
+    let chunks = if chars.is_empty() {
+        vec![String::new()]
+    } else {
+        chars
+            .chunks(OUTCOME_DELIVERY_MAX_SEGMENT_CHARS)
+            .map(|chunk| chunk.iter().collect::<String>())
+            .collect::<Vec<_>>()
+    };
+    let total_parts = chunks.len() as u32;
+    chunks
+        .into_iter()
+        .enumerate()
+        .map(|(index, body)| OutcomeDeliverySegment {
+            schema_version: OUTCOME_DELIVERY_SCHEMA_VERSION,
+            delivery_id: delivery_id.clone(),
+            work_item_id: work_item_id.to_owned(),
+            archive_identity: archive_identity.clone(),
+            language: language.to_owned(),
+            part: index as u32 + 1,
+            total_parts,
+            body_digest: Digest::sha256_bytes(body.as_bytes()),
+            body,
+        })
+        .collect()
+}
+
+fn localized_delivery_next_action(language: &str) -> String {
+    match language {
+        "zh" => "Runtime 已准备并返回完整正文；宿主是否接受或展示未知，请将同一正文作为独立 assistant 消息转发。".into(),
+        "ja" => "Runtime は完全な本文を準備して返しました。ホストの受理・表示は不明です。同じ本文を独立した assistant message として転送してください。".into(),
+        _ => "Runtime prepared and returned the complete body; host acceptance or display is unknown. Forward the same body as an independent assistant message.".into(),
+    }
 }
 
 fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String {
@@ -3132,5 +3244,29 @@ mod render_tests {
             "{text}"
         );
         assert!(text.contains("this is not a current failure"), "{text}");
+    }
+
+    #[test]
+    fn archive_delivery_segments_reassemble_without_truncation() {
+        let body = "x".repeat(super::OUTCOME_DELIVERY_MAX_SEGMENT_CHARS * 2 + 17);
+        let delivery_id = Digest::sha256_bytes(b"delivery");
+        let archive_id = Digest::sha256_bytes(b"archive");
+        let segments =
+            super::segment_outcome_delivery_body(&delivery_id, "WI-LONG", &archive_id, "en", &body);
+        assert_eq!(segments.len(), 3);
+        assert_eq!(segments[0].part, 1);
+        assert_eq!(segments[2].part, 3);
+        assert_eq!(segments[0].total_parts, 3);
+        assert_eq!(
+            segments.iter().map(|part| part.body.len()).sum::<usize>(),
+            body.len()
+        );
+        assert_eq!(
+            segments
+                .iter()
+                .map(|part| part.body.as_str())
+                .collect::<String>(),
+            body
+        );
     }
 }

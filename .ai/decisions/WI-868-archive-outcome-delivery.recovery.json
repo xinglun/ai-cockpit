@@ -1,0 +1,26 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "user-request-2026-09-17",
+  "decidedAt": "2026-09-17T00:55:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-868-archive-outcome-delivery.archive.json",
+    ".ai/work-items/active/WI-869-archive-outcome-delivery.contract.json"
+  ],
+  "policyRefs": [
+    "successor-lineage-preserves-predecessor-bytes"
+  ],
+  "predecessorContractDigest": "sha256:4326576129f82d87a4d7a756f05c25bf1498565579cf9a56de6b46a291ac7003",
+  "predecessorOutcomeDigest": "sha256:165407df1bc1836ad145428fd30049352e65caf921f5705ab7756c268ee4ca0e",
+  "predecessorSummaryDigest": "sha256:34843f0ac7598c42eec3822b0991d8d61bb7ee5230638f0031a803d0d067bfbc",
+  "predecessorWorkItemId": "WI-868-archive-outcome-delivery",
+  "reason": "WI-868 was an invalid setup attempt; WI-869 is the explicitly selected bounded continuation and preserves the predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Continue WI-869; do not re-run WI-868 verification or archive.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-869-archive-outcome-delivery",
+  "workItemId": "WI-868-archive-outcome-delivery"
+}

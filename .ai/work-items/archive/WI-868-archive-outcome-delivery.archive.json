@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T00:24:50Z",
+  "files": {
+    "contractDigest": "sha256:b17b2ece7809bb533b95974b7a51744192afcd42c661b28130c312cc25e8d4ea",
+    "contractPath": ".ai/work-items/archive/WI-868-archive-outcome-delivery.contract.json",
+    "outcomeDigest": "sha256:a93ceeeb5008fdb344e6bfe867333bfdad15c99c74b6b48a72bbfc33445730d2",
+    "outcomePath": ".ai/work-items/archive/WI-868-archive-outcome-delivery.outcome.json",
+    "summaryDigest": "sha256:f181b242afc091a02c51d21287e8a485247c064aacecf5fb3384b2072295ad4e",
+    "summaryPath": ".ai/work-items/archive/WI-868-archive-outcome-delivery.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-868-archive-outcome-delivery.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-869-archive-outcome-delivery",
+  "workItemId": "WI-868-archive-outcome-delivery"
+}

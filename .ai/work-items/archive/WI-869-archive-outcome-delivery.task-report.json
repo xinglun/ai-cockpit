@@ -1,0 +1,333 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:d1638091fd09912f87ac13e0a38c36910c2a49d9f414ac5c7a18ac48ca6df976",
+    "workItemId": "WI-869-archive-outcome-delivery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-868-archive-outcome-delivery.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-868-archive-outcome-delivery.retirement.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-869-archive-outcome-delivery.verification-attempt.8dbf3fa9f15e979e923166087db78b286b188f3d71a0ae19835e08f2b59382b4.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-869-archive-outcome-delivery.verification-attempt.a35e824032065aae5d70769ea8f319c6b2f57fd07866d4740c16507e20a0c12e.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-869-archive-outcome-delivery.verification-attempt.d6e9b02cc8081a2ed9567c9a090e1922b40641d55dead1c885d50e69d47c964b.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-869-archive-outcome-delivery.intelligence.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-868-archive-outcome-delivery.archive.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-868-archive-outcome-delivery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-868-archive-outcome-delivery.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-868-archive-outcome-delivery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/outcome_delivery.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-first-start.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/outcome-report.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/outcome-report.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-869-archive-outcome-delivery.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-869-archive-outcome-delivery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-869-archive-outcome-delivery.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate.py"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/governance_integrity_gate_test.sh"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-869-archive-outcome-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json"
+        ],
+        "inference": false,
+        "text": "普通与历史归档都返回版本化完整人类 Outcome；CLI --json/MCP/Agent 传递不丢正文；可控适配层支持独立分段、补投、去重和能力边界的真实测试；失败只补投且不重跑验证或归档。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-869-archive-outcome-delivery"
+}

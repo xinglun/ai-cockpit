@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:8dbf3fa9f15e979e923166087db78b286b188f3d71a0ae19835e08f2b59382b4",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "ef4625f9e88e9af030a7f448896061ea24ece770",
+      "commandDigest": "sha256:406ba5ec981ccfe4a7ab91a267073c086ab2f42ad589fde380dd707342fa9a20",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:86406e1fd16ae15333dfc6c82a3ecbf4e5b7f558e3f53c57922effabc22007e0",
+  "contractExecutionScopeDigest": "sha256:127aa506b3975fde823a2343d69a129f5eabcd32b29a315c65fafbc3b119a6a4",
+  "createdAt": "2026-09-17T01:12:09Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-868-archive-outcome-delivery/.ai/work-items/active/WI-869-archive-outcome-delivery.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1638091fd09912f87ac13e0a38c36910c2a49d9f414ac5c7a18ac48ca6df976",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-869-archive-outcome-delivery"
+}

@@ -14,7 +14,8 @@ use cockpit_repository::{
     checkpoint_work_item, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
     generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
-    record_resource_finalization, resolve_archived_verification_route, resolve_verification_route,
+    prepare_archive_outcome_delivery, record_resource_finalization,
+    resolve_archived_verification_route, resolve_verification_route,
     retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
     start_work_item_with_options, verify_resource_finalization,
 };
@@ -175,7 +176,8 @@ enum CommandKind {
         repo: PathBuf,
         #[arg(long)]
         id: String,
-        /// Emit machine-only output without the human Outcome handoff on stderr.
+        /// Emit valid JSON; the full Outcome remains in outcomeDelivery while
+        /// the separate human handoff on stderr is suppressed.
         #[arg(long)]
         json: bool,
     },
@@ -187,7 +189,8 @@ enum CommandKind {
         repo: PathBuf,
         #[arg(long)]
         id: String,
-        /// Emit machine-only output without the human Outcome handoff.
+        /// Emit valid JSON; the full Outcome remains in outcomeDelivery while
+        /// the separate human handoff is suppressed.
         #[arg(long)]
         json: bool,
     },
@@ -1307,19 +1310,19 @@ fn run() -> Result<()> {
                     return Err(error).context("finish work item");
                 }
             };
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, false)?;
         }
         CommandKind::Archive { repo, id, json } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive work item")?;
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, true)?;
         }
         CommandKind::ArchiveHistorical { repo, id, json } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_historical_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive historical Work Item")?;
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, true)?;
         }
         CommandKind::Close {
             repo,
@@ -1379,7 +1382,7 @@ fn run() -> Result<()> {
                 )
                 .context("close work item")?
             };
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json)?;
+            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, false)?;
         }
         CommandKind::Verify {
             repo,
@@ -3013,25 +3016,78 @@ fn print_lifecycle_result(
     receipt: &cockpit_repository::LifecycleReceipt,
     runtime: &cockpit_protocol::RuntimeContext,
     json: bool,
+    archive_delivery: bool,
 ) -> Result<()> {
-    let output = lifecycle_output(repo, work_item_id, receipt)?;
-    let handoff = if json {
-        None
+    // Archive delivery is assembled from the same validated observation that
+    // produces the human body. Avoid reading a persisted Outcome first and
+    // then combining it with a later observation.
+    let mut output = if archive_delivery {
+        serde_json::to_value(receipt)?
     } else {
-        // Lifecycle commands must render from the same bounded observation
-        // assembly as the standalone CLI and MCP Outcome routes.  The
-        // persisted Outcome is still returned in machine JSON, but it is not
-        // used as a shortcut for re-reading decision/finalization facts after
-        // the lifecycle receipt was written; doing so could mix observations
-        // from different repository states.
+        lifecycle_output(repo, work_item_id, receipt)?
+    };
+    let mut handoff = None;
+    if archive_delivery {
+        match prepare_archive_outcome_delivery(repo, work_item_id, runtime, output_language()) {
+            Ok(mut delivery) => {
+                // The CLI has returned the structured value to its consumer;
+                // this is not a host-display or human-read confirmation.
+                delivery.delivery_state = "returned_to_consumer".into();
+                delivery.host_confirmation = "unknown".into();
+                if output.get("outcome").is_none()
+                    && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
+                    && let Some(outcome) = previous.get("outcome")
+                {
+                    // Keep the legacy lifecycle projection at its existing
+                    // top-level shape; the versioned delivery object carries
+                    // the assembled OutcomeV2 used for the human body.
+                    output["outcome"] = outcome.clone();
+                }
+                if !json {
+                    handoff = Some(delivery.body.clone());
+                }
+                output["outcomeDelivery"] = serde_json::to_value(delivery)?;
+            }
+            Err(error) => {
+                // Archive already succeeded. Preserve the lifecycle Outcome
+                // in the machine response while reporting delivery
+                // preparation failure separately; never make a consumer
+                // re-archive merely because the handoff projection failed.
+                if output.get("outcome").is_none()
+                    && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
+                    && let Some(outcome) = previous.get("outcome")
+                {
+                    output["outcome"] = outcome.clone();
+                }
+                output["outcomeDelivery"] = json!({
+                    "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
+                    "workItemId": work_item_id,
+                    "language": output_language(),
+                    "view": "full",
+                    "deliveryState": "preparation_failed",
+                    "hostConfirmation": "unknown",
+                    "body": null,
+                    "bodySummary": "Full Outcome delivery preparation failed.",
+                    "segments": [],
+                    "error": error.to_string(),
+                    "nextAction": "Keep the archive; inspect the preparation error and retry delivery without archiving again."
+                });
+                if !json {
+                    handoff = Some(format!(
+                        "Archive completed, but full Outcome delivery preparation failed: {error}"
+                    ));
+                }
+            }
+        }
+    } else if !json {
         let input =
             cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
                 .context("read lifecycle Outcome handoff")?;
-        Some(cockpit_repository::render_human_outcome(
+        handoff = Some(cockpit_repository::render_full_human_outcome(
             &input,
             output_language(),
-        ))
-    };
+        ));
+    }
     println!("{}", serde_json::to_string_pretty(&output)?);
     if let Some(handoff) = handoff {
         eprintln!("{handoff}");

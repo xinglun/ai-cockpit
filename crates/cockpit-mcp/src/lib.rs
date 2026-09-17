@@ -100,6 +100,11 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "default": "summary",
                 "description": "Human handoff projection; summary is the reader-first default and full retains the complete audit report."
             });
+            properties["delivery"] = json!({
+                "type": "boolean",
+                "default": false,
+                "description": "For an archived Work Item, return the versioned full Outcome delivery payload. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
+            });
             let mut schema = object_schema(properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
@@ -375,7 +380,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             "requiredEvidenceClasses",
             "sources",
         ][..],
-        "work_item_outcome" => &["workItemId", "id", "language", "view"][..],
+        "work_item_outcome" => &["workItemId", "id", "language", "view", "delivery"][..],
         "work_item_status" => &["workItemId", "id", "all"][..],
         "blockers" | "safe_actions" | "preflight" => &["contract"][..],
         "knowledge_query" => &["topic", "component", "state", "workItemId"][..],
@@ -405,6 +410,13 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             if name == "work_item_outcome" {
                 optional_string(object, "language", name)?;
+                if let Some(delivery) = object.get("delivery")
+                    && !delivery.is_boolean()
+                {
+                    return Err(format!(
+                        "invalid arguments for {name}: delivery must be a boolean"
+                    ));
+                }
                 if let Some(view) = object.get("view") {
                     let view = view.as_str().ok_or_else(|| {
                         format!("invalid arguments for {name}: view must be a string")
@@ -1434,9 +1446,11 @@ fn work_item_outcome(
         .and_then(Value::as_str)
         .ok_or("workItemId argument is required")?;
     validate_id(id)?;
-    let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
-        .map_err(|error| error.to_string())?;
     let language = requested_language(arguments);
+    let delivery_requested = arguments
+        .get("delivery")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
     let view = arguments
         .get("view")
         .and_then(Value::as_str)
@@ -1445,6 +1459,29 @@ fn work_item_outcome(
             _ => cockpit_repository::OutcomeRenderView::Summary,
         })
         .unwrap_or(cockpit_repository::OutcomeRenderView::Summary);
+    if delivery_requested {
+        let mut delivery =
+            cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)
+                .map_err(|error| error.to_string())?;
+        delivery.delivery_state = "returned_to_consumer".into();
+        delivery.host_confirmation = "unknown".into();
+        let handoff = delivery.body.clone();
+        let outcome = delivery
+            .outcome
+            .clone()
+            .ok_or("archive Outcome delivery did not contain assembled Outcome facts")?;
+        return Ok(json!({
+            "workItemId": id,
+            "outcome": outcome,
+            "humanHandoff": handoff,
+            "outcomeDelivery": delivery,
+            "language": language,
+            "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated.",
+            "hostDisplayConfirmation": "unknown"
+        }));
+    }
+    let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)
+        .map_err(|error| error.to_string())?;
     let handoff = cockpit_repository::render_human_outcome_with_view(&input, language, view);
     Ok(json!({
         "workItemId": id,

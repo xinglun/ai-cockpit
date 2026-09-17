@@ -160,6 +160,10 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         outcome["inputSchema"]["properties"]["view"]["enum"],
         serde_json::json!(["summary", "full"])
     );
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["delivery"]["type"],
+        "boolean"
+    );
     assert!(outcome["inputSchema"]["oneOf"].is_array());
     let verify = listed
         .iter()
@@ -814,6 +818,84 @@ fn mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity() {
     assert!(full_handoff.contains("发现的问题"));
     assert!(full_handoff.contains("证据"));
     fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
+fn mcp_archive_outcome_delivery_returns_the_complete_body_from_one_observation() {
+    let directory = TestTempDir::new("cockpit-mcp-archive-delivery");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(directory.path())
+        .status()
+        .expect("git init");
+    cockpit_repository::attach(directory.path()).expect("attach");
+    let id = "WI-MCP-ARCHIVE-DELIVERY";
+    cockpit_repository::start_work_item_with_options(
+        directory.path(),
+        id,
+        "deliver the archived outcome",
+        "show the complete report in the conversation",
+        &[".ai/**".into()],
+        &cockpit_repository::WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    cockpit_repository::plan_resource_finalization(
+        directory.path(),
+        id,
+        &cockpit_protocol::ResourceFinalizationContext {
+            branch: format!("feature/{id}"),
+            worktree: directory.path().display().to_string(),
+            base_branch: "main".into(),
+            base_remote: "origin".into(),
+            provider: "github".into(),
+            pull_request: format!("https://github.com/example/ai-cockpit/pull/{id}"),
+        },
+    )
+    .expect("finalization plan");
+    let contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    cockpit_repository::preflight_work_item(directory.path(), &contract).expect("preflight");
+    cockpit_repository::checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    cockpit_repository::record_verification(
+        directory.path(),
+        id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.93-test",
+        &cockpit_core::Digest::sha256_bytes(b"mcp-archive-delivery-runtime"),
+    )
+    .expect("verification");
+    cockpit_repository::finish_work_item(directory.path(), id).expect("finish");
+    cockpit_repository::archive_work_item(directory.path(), id).expect("archive");
+
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":21,
+            "method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{"workItemId":id,"language":"en","delivery":true}}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    let structured = &response["result"]["structuredContent"];
+    let handoff = structured["humanHandoff"].as_str().expect("handoff");
+    assert_eq!(response["result"]["content"][0]["text"], handoff);
+    assert_eq!(structured["outcomeDelivery"]["view"], "full");
+    assert_eq!(
+        structured["outcomeDelivery"]["deliveryState"],
+        "returned_to_consumer"
+    );
+    assert_eq!(structured["outcomeDelivery"]["workItemId"], id);
+    assert_eq!(structured["outcomeDelivery"]["body"], handoff);
+    assert!(handoff.contains("What was completed"));
+    assert!(handoff.contains("Problems found"));
+    assert!(handoff.contains("Human decisions"));
+    assert!(handoff.contains("Next action"));
 }
 
 #[test]
