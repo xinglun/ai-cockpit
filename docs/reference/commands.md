@@ -298,6 +298,14 @@ review when the returned state is yellow, red, unknown, or not ready.
   it never turns a failed gate into success. The CLI cannot force an embedding
   Agent or UI to open or expand a conversation panel. A host must surface the
   stderr handoff, or replay it deterministically with `work-item outcome`.
+- `archive` and `archive-historical` always prepare the complete full Outcome.
+  If `AI_COCKPIT_OUTCOME_HOST_PROGRAM` names an executable host adapter, each
+  segment is sent as a JSON `assistant_message` request and the adapter must
+  return the actual per-message receipt. Without that environment setting the
+  result is explicitly `full_handoff_only` with unknown host acceptance and
+  display. After an interrupted send, `work-item outcome --delivery` retries
+  the same archived delivery from its identity-bound progress record; it never
+  archives or verifies again.
 - `work-item status --repo <path> --id <id>` is read-only and reports lifecycle,
   governance, activity health, fact counts, blockers, unknowns, evidence, and
   source digests. It never schedules work or invents a percentage.

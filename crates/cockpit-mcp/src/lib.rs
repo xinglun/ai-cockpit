@@ -105,6 +105,10 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "default": false,
                 "description": "For an archived Work Item, return the versioned full Outcome delivery payload. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
             });
+            properties["deliveryProgress"] = json!({
+                "type": "object",
+                "description": "Optional identity-bound accepted-segment progress from a previous interrupted delivery. It is ignored for return-only handoff and never authorizes a new archive."
+            });
             let mut schema = object_schema(properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
@@ -1463,11 +1467,96 @@ fn work_item_outcome(
         let mut delivery =
             cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)
                 .map_err(|error| error.to_string())?;
-        let mut host = cockpit_agent::ReturnOnlyOutcomeHost::default();
-        let delivery_report = cockpit_agent::deliver_outcome(&delivery, &mut host, None)
-            .map_err(|error| error.to_string())?;
-        delivery.delivery_state = "returned_to_consumer".into();
-        delivery.host_confirmation = "unknown".into();
+        let progress_path = repo
+            .join(".ai/outcome-delivery")
+            .join(format!("{id}.progress.json"));
+        let mut host =
+            cockpit_agent::configured_outcome_host().map_err(|error| error.to_string())?;
+        let supplied_progress = arguments
+            .get("deliveryProgress")
+            .map(|value| {
+                serde_json::from_value::<cockpit_agent::OutcomeDeliveryProgress>(value.clone())
+                    .map_err(|error| format!("invalid deliveryProgress: {error}"))
+            })
+            .transpose()?;
+        let stored_progress = if host.is_return_only() || supplied_progress.is_some() {
+            None
+        } else {
+            cockpit_agent::load_outcome_delivery_progress(&progress_path)
+                .map_err(|error| error.to_string())?
+        };
+        let progress = supplied_progress.as_ref().or(stored_progress.as_ref());
+        let mode = host.mode();
+        let (delivery_report, host_confirmation) =
+            match cockpit_agent::deliver_outcome(&delivery, &mut host, progress) {
+                Ok(report) => {
+                    if host.is_return_only() {
+                        delivery.delivery_state = "returned_to_consumer".into();
+                        delivery.host_confirmation = "unknown".into();
+                    } else {
+                        delivery.delivery_state = report.delivery_state.clone();
+                        delivery.host_confirmation = report.host_confirmation.clone();
+                        if report.complete && report.progress.confirmed.len() == report.total_parts
+                        {
+                            cockpit_agent::remove_outcome_delivery_progress(&progress_path)
+                                .map_err(|error| error.to_string())?;
+                        } else if report.complete || !report.progress.confirmed.is_empty() {
+                            cockpit_agent::persist_outcome_delivery_progress(
+                                &progress_path,
+                                &report.progress,
+                            )
+                            .map_err(|error| error.to_string())?;
+                        }
+                    }
+                    (
+                        serde_json::to_value(report).map_err(|error| error.to_string())?,
+                        delivery.host_confirmation.clone(),
+                    )
+                }
+                Err(cockpit_agent::AgentError::DeliveryFailed {
+                    sent_parts,
+                    progress,
+                    message,
+                }) => {
+                    cockpit_agent::persist_outcome_delivery_progress(&progress_path, &progress)
+                        .map_err(|error| error.to_string())?;
+                    delivery.delivery_state = "delivery_failed".into();
+                    delivery.host_confirmation = "unknown".into();
+                    delivery.error = Some(message.clone());
+                    delivery.next_action =
+                        "Retry with the same delivery identity; do not archive again.".into();
+                    (
+                        json!({
+                            "deliveryId": delivery.delivery_id,
+                            "workItemId": id,
+                            "sentParts": sent_parts,
+                            "totalParts": delivery.segments.len(),
+                            "complete": false,
+                            "deliveryState": "delivery_failed",
+                            "hostConfirmation": "unknown",
+                            "progress": progress,
+                            "error": message,
+                            "nextAction": delivery.next_action,
+                        }),
+                        "unknown".into(),
+                    )
+                }
+                Err(error) => {
+                    delivery.delivery_state = "delivery_failed".into();
+                    delivery.host_confirmation = "unknown".into();
+                    delivery.error = Some(error.to_string());
+                    delivery.next_action =
+                        "Inspect the host adapter error and retry without archiving again.".into();
+                    (
+                        json!({
+                            "deliveryState": "delivery_failed",
+                            "hostConfirmation": "unknown",
+                            "error": error.to_string(),
+                        }),
+                        "unknown".into(),
+                    )
+                }
+            };
         let handoff = delivery.body.clone();
         let outcome = delivery
             .outcome
@@ -1479,11 +1568,11 @@ fn work_item_outcome(
             "humanHandoff": handoff,
             "outcomeDelivery": delivery,
             "deliveryReport": delivery_report,
-            "returnedSegmentEvents": host.returned_segment_count(),
-            "hostDeliveryMode": "full_handoff_only",
+            "hostDeliveryMode": mode,
             "language": language,
             "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated.",
-            "hostDisplayConfirmation": "unknown"
+            "hostDisplayConfirmation": host_confirmation,
+            "returnedSegmentEvents": host.returned_segment_count()
         }));
     }
     let input = cockpit_repository::outcome_render_input_with_runtime(repo, id, runtime)

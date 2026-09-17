@@ -542,6 +542,11 @@ enum WorkItemCommand {
         repo: PathBuf,
         #[arg(long)]
         id: String,
+        /// Deliver the immutable archived full Outcome through the configured
+        /// host adapter. Without a host command this is an explicit
+        /// full-handoff-only result and never a display claim.
+        #[arg(long)]
+        delivery: bool,
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
         #[arg(long)]
         json: bool,
@@ -2239,27 +2244,53 @@ fn run() -> Result<()> {
             WorkItemCommand::Outcome {
                 repo,
                 id,
+                delivery,
                 json,
                 view,
             } => {
                 require_compatible(&repo, &runtime_context)?;
-                let input = cockpit_repository::outcome_render_input_with_runtime(
-                    &repo,
-                    &id,
-                    &runtime_context,
-                )
-                .context("read Work Item outcome")?;
-                if json {
-                    println!("{}", serde_json::to_string_pretty(&input.outcome)?);
+                if delivery {
+                    let prepared = prepare_archive_outcome_delivery(
+                        &repo,
+                        &id,
+                        &runtime_context,
+                        output_language(),
+                    )
+                    .context("prepare archived Outcome delivery")?;
+                    let result = deliver_prepared_outcome(&repo, &id, prepared)?;
+                    let mut output = serde_json::to_value(&result.delivery)?;
+                    output["deliveryReport"] = result
+                        .delivery_report
+                        .unwrap_or_else(|| json!({"deliveryState": "unknown"}));
+                    output["hostDeliveryMode"] = json!(result.host_delivery_mode);
+                    output["hostDisplayConfirmation"] = json!(result.host_display_confirmation);
+                    if let Some(count) = result.returned_segment_events {
+                        output["returnedSegmentEvents"] = json!(count);
+                    }
+                    if json {
+                        println!("{}", serde_json::to_string_pretty(&output)?);
+                    } else {
+                        println!("{}", result.handoff);
+                    }
                 } else {
-                    println!(
-                        "{}",
-                        cockpit_repository::render_human_outcome_with_view(
-                            &input,
-                            output_language(),
-                            view.repository_view(),
-                        )
-                    );
+                    let input = cockpit_repository::outcome_render_input_with_runtime(
+                        &repo,
+                        &id,
+                        &runtime_context,
+                    )
+                    .context("read Work Item outcome")?;
+                    if json {
+                        println!("{}", serde_json::to_string_pretty(&input.outcome)?);
+                    } else {
+                        println!(
+                            "{}",
+                            cockpit_repository::render_human_outcome_with_view(
+                                &input,
+                                output_language(),
+                                view.repository_view(),
+                            )
+                        );
+                    }
                 }
             }
             WorkItemCommand::ReconcileArtifacts { repo, id } => {
@@ -2989,25 +3020,126 @@ fn parse_persistence(value: &str) -> Result<EvidencePersistence> {
     }
 }
 
-fn lifecycle_output(
-    repo: &std::path::Path,
+struct PreparedOutcomeDeliveryResult {
+    delivery: cockpit_protocol::OutcomeDelivery,
+    delivery_report: Option<serde_json::Value>,
+    host_delivery_mode: &'static str,
+    host_display_confirmation: String,
+    returned_segment_events: Option<usize>,
+    handoff: String,
+}
+
+fn outcome_delivery_progress_path(repo: &Path, work_item_id: &str) -> PathBuf {
+    repo.join(".ai/outcome-delivery")
+        .join(format!("{work_item_id}.progress.json"))
+}
+
+fn deliver_prepared_outcome(
+    repo: &Path,
     work_item_id: &str,
-    receipt: &cockpit_repository::LifecycleReceipt,
-) -> Result<serde_json::Value> {
-    let mut output = serde_json::to_value(receipt)?;
-    for directory in ["active", "archive"] {
-        let path = repo
-            .join(".ai/work-items")
-            .join(directory)
-            .join(format!("{work_item_id}.outcome.json"));
-        if path.is_file() {
-            let bytes =
-                std::fs::read(&path).with_context(|| format!("read outcome {}", path.display()))?;
-            output["outcome"] = serde_json::from_slice(&bytes).context("parse outcome")?;
-            break;
+    mut delivery: cockpit_protocol::OutcomeDelivery,
+) -> Result<PreparedOutcomeDeliveryResult> {
+    let progress_path = outcome_delivery_progress_path(repo, work_item_id);
+    let mut host =
+        cockpit_agent::configured_outcome_host().map_err(|error| anyhow::anyhow!(error))?;
+    let progress = if host.is_return_only() {
+        None
+    } else {
+        cockpit_agent::load_outcome_delivery_progress(&progress_path)
+            .map_err(|error| anyhow::anyhow!(error))?
+    };
+    let mode = host.mode();
+    match cockpit_agent::deliver_outcome(&delivery, &mut host, progress.as_ref()) {
+        Ok(report) => {
+            if host.is_return_only() {
+                delivery.delivery_state = "returned_to_consumer".into();
+                delivery.host_confirmation = "unknown".into();
+            } else {
+                delivery.delivery_state = report.delivery_state.clone();
+                delivery.host_confirmation = report.host_confirmation.clone();
+            }
+            if !host.is_return_only() {
+                if report.complete && report.progress.confirmed.len() == report.total_parts {
+                    cockpit_agent::remove_outcome_delivery_progress(&progress_path)
+                        .map_err(|error| anyhow::anyhow!(error))?;
+                } else if !report.progress.confirmed.is_empty() || report.complete {
+                    cockpit_agent::persist_outcome_delivery_progress(
+                        &progress_path,
+                        &report.progress,
+                    )
+                    .map_err(|error| anyhow::anyhow!(error))?;
+                }
+            }
+            let host_display_confirmation = report.host_confirmation.clone();
+            let returned_segment_events = host.returned_segment_count();
+            Ok(PreparedOutcomeDeliveryResult {
+                handoff: delivery.body.clone(),
+                delivery,
+                delivery_report: Some(serde_json::to_value(report)?),
+                host_delivery_mode: mode,
+                host_display_confirmation,
+                returned_segment_events,
+            })
+        }
+        Err(cockpit_agent::AgentError::DeliveryFailed {
+            sent_parts,
+            progress,
+            message,
+        }) => {
+            cockpit_agent::persist_outcome_delivery_progress(&progress_path, &progress)
+                .map_err(|error| anyhow::anyhow!(error))?;
+            delivery.delivery_state = "delivery_failed".into();
+            delivery.host_confirmation = "unknown".into();
+            delivery.error = Some(message.clone());
+            delivery.next_action =
+                "Retry delivery with the same archived Outcome; do not archive again.".into();
+            let report = json!({
+                "deliveryId": delivery.delivery_id,
+                "workItemId": work_item_id,
+                "sentParts": sent_parts,
+                "totalParts": delivery.segments.len(),
+                "complete": false,
+                "deliveryState": "delivery_failed",
+                "hostConfirmation": "unknown",
+                "progress": progress,
+                "error": message,
+                "nextAction": delivery.next_action,
+            });
+            Ok(PreparedOutcomeDeliveryResult {
+                handoff: format!(
+                    "{}\n\nDelivery status: interrupted after {sent_parts} part(s); retry the same full Outcome.",
+                    delivery.body
+                ),
+                delivery,
+                delivery_report: Some(report),
+                host_delivery_mode: mode,
+                host_display_confirmation: "unknown".into(),
+                returned_segment_events: host.returned_segment_count(),
+            })
+        }
+        Err(error) => {
+            delivery.delivery_state = "delivery_failed".into();
+            delivery.host_confirmation = "unknown".into();
+            delivery.error = Some(error.to_string());
+            delivery.next_action =
+                "Inspect the host adapter error and retry delivery without archiving again.".into();
+            Ok(PreparedOutcomeDeliveryResult {
+                handoff: format!(
+                    "{}\n\nDelivery status: host adapter failed; retry the same full Outcome.",
+                    delivery.body
+                ),
+                delivery,
+                delivery_report: Some(json!({
+                    "deliveryState": "delivery_failed",
+                    "hostConfirmation": "unknown",
+                    "error": error.to_string(),
+                })),
+                host_delivery_mode: mode,
+                host_display_confirmation: "unknown".into(),
+                returned_segment_events: host.returned_segment_count(),
+            })
         }
     }
-    Ok(output)
 }
 
 fn print_lifecycle_result(
@@ -3021,72 +3153,30 @@ fn print_lifecycle_result(
     // Archive delivery is assembled from the same validated observation that
     // produces the human body. Avoid reading a persisted Outcome first and
     // then combining it with a later observation.
-    let mut output = if archive_delivery {
-        serde_json::to_value(receipt)?
-    } else {
-        lifecycle_output(repo, work_item_id, receipt)?
-    };
+    let mut output = serde_json::to_value(receipt)?;
     let mut handoff = None;
     if archive_delivery {
         match prepare_archive_outcome_delivery(repo, work_item_id, runtime, output_language()) {
-            Ok(mut delivery) => {
-                let mut host = cockpit_agent::ReturnOnlyOutcomeHost::default();
-                match cockpit_agent::deliver_outcome(&delivery, &mut host, None) {
-                    Ok(delivery_report) => {
-                        // The CLI has returned the structured value to its
-                        // consumer; this is not a host-display or human-read
-                        // confirmation.
-                        delivery.delivery_state = "returned_to_consumer".into();
-                        delivery.host_confirmation = "unknown".into();
-                        if output.get("outcome").is_none()
-                            && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
-                            && let Some(outcome) = previous.get("outcome")
-                        {
-                            // Keep the legacy lifecycle projection at its
-                            // existing top-level shape; the versioned
-                            // delivery object carries the assembled
-                            // OutcomeV2 used for the human body.
-                            output["outcome"] = outcome.clone();
-                        }
-                        if !json {
-                            handoff = Some(delivery.body.clone());
-                        }
-                        output["outcomeDelivery"] = serde_json::to_value(&delivery)?;
-                        output["deliveryReport"] = serde_json::to_value(delivery_report)?;
-                        output["returnedSegmentEvents"] = json!(host.returned_segment_count());
-                        output["hostDeliveryMode"] = json!("full_handoff_only");
-                        output["hostDisplayConfirmation"] = json!("unknown");
+            Ok(delivery) => {
+                let result = deliver_prepared_outcome(repo, work_item_id, delivery)?;
+                if output.get("outcome").is_none() {
+                    if let Some(outcome) = result.delivery.legacy_outcome.as_ref() {
+                        output["outcome"] = outcome.clone();
+                    } else if let Some(outcome) = result.delivery.outcome.as_ref() {
+                        output["outcome"] = serde_json::to_value(outcome)?;
                     }
-                    Err(error) => {
-                        // Archive already succeeded. Preserve that fact and
-                        // report a return-handoff failure separately; never
-                        // make a consumer re-archive merely because the
-                        // return-only adapter rejected the prepared body.
-                        if output.get("outcome").is_none()
-                            && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
-                            && let Some(outcome) = previous.get("outcome")
-                        {
-                            output["outcome"] = outcome.clone();
-                        }
-                        output["outcomeDelivery"] = json!({
-                            "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
-                            "workItemId": work_item_id,
-                            "language": output_language(),
-                            "view": "full",
-                            "deliveryState": "preparation_failed",
-                            "hostConfirmation": "unknown",
-                            "body": null,
-                            "bodySummary": "Full Outcome delivery preparation failed.",
-                            "segments": [],
-                            "error": error.to_string(),
-                            "nextAction": "Keep the archive; inspect the preparation error and retry delivery without archiving again."
-                        });
-                        if !json {
-                            handoff = Some(format!(
-                                "Archive completed, but full Outcome delivery preparation failed: {error}"
-                            ));
-                        }
-                    }
+                }
+                if !json {
+                    handoff = Some(result.handoff);
+                }
+                output["outcomeDelivery"] = serde_json::to_value(&result.delivery)?;
+                if let Some(report) = result.delivery_report {
+                    output["deliveryReport"] = report;
+                }
+                output["hostDeliveryMode"] = json!(result.host_delivery_mode);
+                output["hostDisplayConfirmation"] = json!(result.host_display_confirmation);
+                if let Some(count) = result.returned_segment_events {
+                    output["returnedSegmentEvents"] = json!(count);
                 }
             }
             Err(error) => {
@@ -3094,12 +3184,6 @@ fn print_lifecycle_result(
                 // in the machine response while reporting delivery
                 // preparation failure separately; never make a consumer
                 // re-archive merely because the handoff projection failed.
-                if output.get("outcome").is_none()
-                    && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
-                    && let Some(outcome) = previous.get("outcome")
-                {
-                    output["outcome"] = outcome.clone();
-                }
                 output["outcomeDelivery"] = json!({
                     "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
                     "workItemId": work_item_id,
@@ -3124,10 +3208,22 @@ fn print_lifecycle_result(
         let input =
             cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
                 .context("read lifecycle Outcome handoff")?;
+        output["outcome"] = input
+            .legacy_outcome
+            .clone()
+            .unwrap_or(serde_json::to_value(&input.outcome)?);
         handoff = Some(cockpit_repository::render_full_human_outcome(
             &input,
             output_language(),
         ));
+    } else {
+        let input =
+            cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
+                .context("read lifecycle Outcome JSON")?;
+        output["outcome"] = input
+            .legacy_outcome
+            .clone()
+            .unwrap_or(serde_json::to_value(&input.outcome)?);
     }
     println!("{}", serde_json::to_string_pretty(&output)?);
     if let Some(handoff) = handoff {

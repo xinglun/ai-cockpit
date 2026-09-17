@@ -2521,7 +2521,11 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
         return ExecutionOutcome {
             spawned: true,
             passed: false,
-            exit_code: status.code(),
+            // A timeout is a bounded cancellation outcome, even when the
+            // shell happens to report a normal code while its process tree is
+            // being torn down. Never expose that code as a successful-looking
+            // exit status.
+            exit_code: (!timed_out).then(|| status.code()).flatten(),
             stdout: stdout.bytes,
             stderr: stderr.bytes,
             stdout_truncated: stdout.truncated,
@@ -2549,7 +2553,7 @@ fn execute_captured(command: &VerificationCommand) -> ExecutionOutcome {
     ExecutionOutcome {
         spawned: true,
         passed: status.success() && !timed_out,
-        exit_code: status.code(),
+        exit_code: (!timed_out).then(|| status.code()).flatten(),
         stdout: stdout.bytes,
         stderr: stderr.bytes,
         stdout_truncated: stdout.truncated,

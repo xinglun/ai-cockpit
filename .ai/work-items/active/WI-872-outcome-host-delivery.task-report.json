@@ -1,0 +1,270 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b3487ae12a9159fed1597250c43dd56efa1254e51faaef1a8e48f558ef5756f7",
+    "workItemId": "WI-872-outcome-host-delivery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.8845fc22e57ae2fa549b949117b9a28844d084129c10141835b6422ca7859603.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.927a5924ce2d08f55bbb9b8606b536583a7b304f45a62a2b61096d3377578887.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.dfd8f0a03b372597dddc8e3d5c03284f06a3fa876a16b9015702c6b4afb459b3.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.e8ff7e3e68d20f921b16a5b5f351df3f11581b9d511ae47e5b42f66b61dac908.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/outcome_delivery.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/outcome_host_command.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-verification/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-first-start.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-872-outcome-host-delivery.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-872-outcome-host-delivery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-872-outcome-host-delivery.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+        ],
+        "inference": false,
+        "text": "After every archive, the same validated full Outcome can be delivered through a real host adapter or honestly remain an explicit return-only handoff; retries reuse identity-bound progress and never rerun archive or verification."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-872-outcome-host-delivery"
+}
