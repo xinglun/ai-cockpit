@@ -75,8 +75,8 @@ pub use execution_context::{
 };
 use execution_context::{
     VerificationIdentityCost, assess_verification_reuse_measured,
-    build_repository_verification_command, refresh_verification_context,
-    resolved_executable_identity, valid_git_object_id,
+    build_repository_verification_command, effective_verification_environment,
+    refresh_verification_context, resolved_executable_identity, valid_git_object_id,
 };
 pub use governance_controls::*;
 pub use lifecycle::*;
@@ -16479,7 +16479,7 @@ fn collect_files(
 
 #[cfg(test)]
 mod environment_identity_tests {
-    use super::execution_environment_digest_from_values;
+    use super::{effective_verification_environment, execution_environment_digest_from_values};
     use std::{ffi::OsString, path::Path};
 
     fn digest(values: &[(&str, &str)]) -> String {
@@ -16525,5 +16525,49 @@ mod environment_identity_tests {
         let first = digest(&[("PATH", "/usr/bin"), ("PWD", "/repo")]);
         let second = digest(&[("PATH", "/opt/toolchain"), ("PWD", "/repo")]);
         assert_ne!(first, second);
+    }
+
+    #[test]
+    fn cargo_verification_uses_one_non_incremental_shared_target() {
+        let environment = effective_verification_environment(
+            "cargo",
+            vec![
+                (OsString::from("HOME"), OsString::from("/Users/tester")),
+                (
+                    OsString::from("CARGO_TARGET_DIR"),
+                    OsString::from("/repo/target"),
+                ),
+                (OsString::from("CARGO_INCREMENTAL"), OsString::from("1")),
+            ],
+        );
+        let target = environment
+            .iter()
+            .find(|(name, _)| name == "CARGO_TARGET_DIR")
+            .map(|(_, value)| value.to_string_lossy());
+        assert_eq!(
+            target.as_deref(),
+            Some("/Users/tester/.cache/ai-cockpit-verify-target")
+        );
+        assert!(
+            environment
+                .iter()
+                .any(|(name, value)| { name == "CARGO_INCREMENTAL" && value == "0" })
+        );
+    }
+
+    #[test]
+    fn non_cargo_verification_keeps_declared_environment() {
+        let environment = effective_verification_environment(
+            "python3",
+            vec![
+                (
+                    OsString::from("CARGO_TARGET_DIR"),
+                    OsString::from("/repo/target"),
+                ),
+                (OsString::from("CARGO_INCREMENTAL"), OsString::from("1")),
+            ],
+        );
+        assert_eq!(environment[0].1, "/repo/target");
+        assert_eq!(environment[1].1, "1");
     }
 }

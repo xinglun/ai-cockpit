@@ -1,0 +1,140 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-878-verification-target-policy.contract.json",
+    ".ai/work-items/archive/WI-878-verification-target-policy.summary.json",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/verification-execution-policy.ja.md",
+    "docs/reference/verification-execution-policy.md",
+    "docs/reference/verification-execution-policy.zh-CN.md",
+    "docs/work-items/WI-878-verification-target-policy.ja.md",
+    "docs/work-items/WI-878-verification-target-policy.md",
+    "docs/work-items/WI-878-verification-target-policy.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-17T08:04:46Z",
+  "checkpointContractDigest": "sha256:3de51ee5a01559e6bfb49d50628b385a4c561e6db5c530f333d716fb16c65f0c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1d05cfec7e5e9ae944d514b61ce66973b18d9011ddbeb245e900236b8e487463",
+      "recorded": true,
+      "recordedAt": "2026-09-17T08:04:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:104c9fcfc6f88aad88cb1a05d8ccd0d49bcaf41c3176e58da09d933e0c1671e1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-878-verification-target-policy"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9421a18b666b04955f2548608bcfe1640d08076a92d09ac92c2b4a754d368cba",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d05cfec7e5e9ae944d514b61ce66973b18d9011ddbeb245e900236b8e487463",
+      "previousContractHash": "sha256:1d05cfec7e5e9ae944d514b61ce66973b18d9011ddbeb245e900236b8e487463",
+      "reason": "Extend the active Contract to cover the tri-language policy documentation and repository regression tests required by the verification-cache cleanup request.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T08:09:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6ec3a4988190ec56ea572407fde7731c5e1236f43c57a8ff6554f188473150ca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-878-verification-target-policy"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3de51ee5a01559e6bfb49d50628b385a4c561e6db5c530f333d716fb16c65f0c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1d05cfec7e5e9ae944d514b61ce66973b18d9011ddbeb245e900236b8e487463",
+      "previousContractHash": "sha256:9421a18b666b04955f2548608bcfe1640d08076a92d09ac92c2b4a754d368cba",
+      "reason": "Include the required tri-language prearchive parity registrations in the active Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T08:13:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2f3194373ea3efc6247781e7a67d9dcf3b5945b73615aa22c2d8635727e6be58",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-878-verification-target-policy"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:66426f8be1c2ddc83695d9407f044c02d7cc7354b3c368351fb0c8b1c0ef6b9e",
+  "createdAt": "2026-09-17T08:04:45Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T08:19:28Z",
+  "preflightContractDigest": "sha256:3de51ee5a01559e6bfb49d50628b385a4c561e6db5c530f333d716fb16c65f0c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:66426f8be1c2ddc83695d9407f044c02d7cc7354b3c368351fb0c8b1c0ef6b9e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T08:20:15Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-878-verification-target-policy"
+}

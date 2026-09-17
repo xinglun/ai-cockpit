@@ -1,0 +1,228 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace verification applies CARGO_INCREMENTAL=0 and a stable shared target directory when the Runtime launches cargo.",
+    "Non-Cargo commands keep their declared environment and existing command behavior.",
+    "The selected environment is covered by focused tests and documented in English, Simplified Chinese, and Japanese.",
+    "No verification process starts before the environment policy is resolved; no per-worktree target is created by the policy.",
+    "The policy and cleanup boundary are documented with equivalent facts in English, Simplified Chinese, and Japanese."
+  ],
+  "createdAt": "2026-09-17T08:20:15Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d5bdfc41bb15e2814318516cbbaa1177414a0bdc2428fa501939dbca8a1a414e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-878-verification-target-policy.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-878-verification-target-policy.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-878-verification-target-policy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:66426f8be1c2ddc83695d9407f044c02d7cc7354b3c368351fb0c8b1c0ef6b9e",
+      "workItemId": "WI-878-verification-target-policy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-878-verification-target-policy.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/execution_context.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-878-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-878-verification-target-policy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-878-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-878-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-878-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "Make workspace Cargo verification use CARGO_INCREMENTAL=0 and one explicit shared target directory by default, preserve dependency reuse, document the cleanup boundary, and prove the selected environment is applied before any verification child process starts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-878-verification-target-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-878-verification-target-policy"
+  },
+  "taskReportDigest": "sha256:cb1398c8a94f723c673f6c3dccb4b9495cd059d3c20d5b079b0bd04ce3b2bffe",
+  "taskReportMarkdownDigest": "sha256:3bed745d8e8f8a83dcca078db7bd62b2743acbec6309311b8e4f07a3f69efa28",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-878-verification-target-policy.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-878-verification-target-policy"
+}

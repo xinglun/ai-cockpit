@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace verification applies CARGO_INCREMENTAL=0 and a stable shared target directory when the Runtime launches cargo.",
+    "Non-Cargo commands keep their declared environment and existing command behavior.",
+    "The selected environment is covered by focused tests and documented in English, Simplified Chinese, and Japanese.",
+    "No verification process starts before the environment policy is resolved; no per-worktree target is created by the policy.",
+    "The policy and cleanup boundary are documented with equivalent facts in English, Simplified Chinese, and Japanese."
+  ],
+  "authority": "authorized",
+  "baseRevision": "279b20b32f3f1876ac96b0f0a7f2df202114edb7",
+  "createdAt": "2026-09-17T08:04:45Z",
+  "goal": "Make workspace Cargo verification use CARGO_INCREMENTAL=0 and one explicit shared target directory by default, preserve dependency reuse, document the cleanup boundary, and prove the selected environment is applied before any verification child process starts.",
+  "intent": "Prevent verification runs from creating unbounded per-worktree Cargo target caches.",
+  "mode": "implementation",
+  "outOfScope": [
+    "object repositories and their main branches",
+    "release publication or version tagging",
+    "changing verification reuse authorization semantics",
+    "Issue #851 recovery behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:104c9fcfc6f88aad88cb1a05d8ccd0d49bcaf41c3176e58da09d933e0c1671e1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/**",
+    "crates/cockpit-repository/tests/**",
+    "docs/reference/verification-execution-policy.md",
+    "docs/reference/verification-execution-policy.zh-CN.md",
+    "docs/reference/verification-execution-policy.ja.md",
+    "docs/work-items/WI-878-verification-target-policy.md",
+    "docs/work-items/WI-878-verification-target-policy.zh-CN.md",
+    "docs/work-items/WI-878-verification-target-policy.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "user instruction: CARGO_INCREMENTAL=0 and shared CARGO_TARGET_DIR verification policy"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test -p cockpit-repository --lib environment_identity_tests -- --nocapture",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh"
+  ],
+  "workItemId": "WI-878-verification-target-policy"
+}
