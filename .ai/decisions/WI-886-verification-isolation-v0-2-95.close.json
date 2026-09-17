@@ -1,0 +1,282 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.38c232d6d2c1b8246d7be938b51906ae17a69a788968083746e89fc14012a039.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+            ".ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json",
+            ".ai/evidence/external/WI-886-verification-isolation-v0-2-95.164bfdf63f4dcbb13bafb1a6b7df9e423744825364c7b22349be5222e1971831.delegated.json",
+            ".ai/evidence/external/github-pr-864.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via user:release-after-all-work-items at 2026-09-17T18:53:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json"
+          ],
+          "inference": false,
+          "text": "让验证执行在显式隔离 CARGO_TARGET_DIR 时不写入 HOME/XDG 禁止根；用真实候选与下载工件验收证明隔离、清理和升级路径，再发布 v0.2.95"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-886-verification-isolation-v0-2-95"
+  },
+  "finalReportDigest": "sha256:2f2fe7a19f0f21c5b90d7662ee20fdadd2ef5b45bf8029c20f777106c93f190b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:25ab4fe9cfe173e9646af61e526fd3956b03f2187fa8b8cdc144ef92a614de9b",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "user:release-after-all-work-items",
+    "decidedAt": "2026-09-17T18:53:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+      ".ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json",
+      ".ai/evidence/external/WI-886-verification-isolation-v0-2-95.164bfdf63f4dcbb13bafb1a6b7df9e423744825364c7b22349be5222e1971831.delegated.json",
+      ".ai/evidence/external/github-pr-864.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "已审阅验证、PR #864 hosted checks、归档和 exact cleanup；关闭 WI-886。用户可见收益未声明，保留 unknown；本决定不授权发布。",
+    "resumeCondition": "若需发布验收，等待所有 WIs 和四方向验收完成后再按发布 Contract 执行；不重复验证或归档。"
+  },
+  "timestamp": "2026-09-17T18:57:50Z",
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}
