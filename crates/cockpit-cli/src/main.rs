@@ -3495,17 +3495,17 @@ mod tests {
                     .collect();
                 assert_eq!(values, parameter.enum_values, "{}", parameter.name);
             }
-            if let Some(default) = parameter.default.as_deref() {
-                if parameter.name == "view" {
-                    assert_eq!(
-                        argument
-                            .get_default_values()
-                            .iter()
-                            .map(|value| value.to_string_lossy().into_owned())
-                            .collect::<Vec<_>>(),
-                        vec![default.to_owned()]
-                    );
-                }
+            if let Some(default) = parameter.default.as_deref()
+                && parameter.name == "view"
+            {
+                assert_eq!(
+                    argument
+                        .get_default_values()
+                        .iter()
+                        .map(|value| value.to_string_lossy().into_owned())
+                        .collect::<Vec<_>>(),
+                    vec![default.to_owned()]
+                );
             }
         }
     }
