@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json
-- Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.contract.json
-- Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.summary.json
+- Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.contract.json
+- Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.summary.json
 
 ## Findings
 

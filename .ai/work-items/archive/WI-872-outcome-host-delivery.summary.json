@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json",
-    ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json",
-    ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+    ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json",
+    ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
   ],
   "checkpointAt": "2026-09-17T04:18:51Z",
   "checkpointContractDigest": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
@@ -123,8 +123,8 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-17T05:08:47Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T05:42:05Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -175,6 +175,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:9a3f8ba2f35136ca99556181b56f47dfa812f7598b826ff9c49ac98f18140942",
   "workItemId": "WI-872-outcome-host-delivery"
 }

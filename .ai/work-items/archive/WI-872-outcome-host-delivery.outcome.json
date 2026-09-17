@@ -10,6 +10,7 @@
     "A timeout remains a bounded cancellation with no normal exit code even when the terminated shell reports code 0 under Rust 1.98.1.",
     "The active Work Item is registered in all three reference-parity documents before archive with the required planned archive, verification, finalization, and close paths, so hosted governance can validate the prearchive documentation boundary."
   ],
+  "createdAt": "2026-09-17T05:42:05Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:9a3f8ba2f35136ca99556181b56f47dfa812f7598b826ff9c49ac98f18140942",
   "evidenceRefs": [
@@ -29,8 +30,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -48,31 +49,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
         }
       ],
       "evidence": [
@@ -102,7 +103,7 @@
             ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -128,7 +129,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
           ],
           "inference": false,
           "text": "After every archive, the same validated full Outcome can be delivered through a real host adapter or honestly remain an explicit return-only handoff; retries reuse identity-bound progress and never rerun archive or verification."
@@ -137,7 +138,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -147,8 +148,8 @@
     "status": "verified",
     "workItemId": "WI-872-outcome-host-delivery"
   },
-  "taskReportDigest": "sha256:d4b4bb9c2401fbbceabf797477f4923648131132d0ce7312cfad05c2577300f6",
-  "taskReportMarkdownDigest": "sha256:8091dbf64cb5a4e09721056b0d6cf0efc4635ce37169fde28f0548be0c1de699",
+  "taskReportDigest": "sha256:f2437733a7e980f965bde3e07a3c908ad78808d78442b0b9b5a6a832d94120e3",
+  "taskReportMarkdownDigest": "sha256:a90df9c6acd2977ac887df84401429d12dee14f0f94816a1ef4d82cc850b8c9b",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
