@@ -5,7 +5,7 @@ description: 让 Cargo 验证缓存可复用且占用可控。
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-878-verification-target-policy
+lastVerifiedBy: WI-879-verification-target-policy
 ---
 
 # 验证执行缓存策略

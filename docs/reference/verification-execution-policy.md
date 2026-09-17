@@ -5,7 +5,7 @@ description: Keep Cargo verification caches bounded and reusable across Work Ite
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-878-verification-target-policy
+lastVerifiedBy: WI-879-verification-target-policy
 ---
 
 # Verification execution cache policy

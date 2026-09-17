@@ -5,7 +5,7 @@ description: Cargo 検証の cache を再利用可能かつ制御可能に保つ
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-878-verification-target-policy
+lastVerifiedBy: WI-879-verification-target-policy
 ---
 
 # Verification execution cache policy
