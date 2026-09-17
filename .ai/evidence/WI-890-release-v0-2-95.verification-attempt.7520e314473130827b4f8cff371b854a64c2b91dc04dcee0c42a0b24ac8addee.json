@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:7520e314473130827b4f8cff371b854a64c2b91dc04dcee0c42a0b24ac8addee",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "6155d16392b367ac004eda651ee398df5166b7ec",
+      "commandDigest": "sha256:687478e30e22aa0c3c04f038282b36e929f09ae9a5173b8c11a1c3c19ebd8bca",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:8744350a06be6254ca14d6a70e0ef43b47b9076d00aac4ec194e97075c90e88c",
+  "contractExecutionScopeDigest": "sha256:01ad47336211f70c29c15ea9abb989b94247eec3d1c94be3b99058b8a416e620",
+  "createdAt": "2026-09-17T21:34:10Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-890-release-v0-2-95/.ai/work-items/active/WI-890-release-v0-2-95.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-890-release-v0-2-95"
+}
