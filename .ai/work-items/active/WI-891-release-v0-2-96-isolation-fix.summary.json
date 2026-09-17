@@ -1,10 +1,7 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-891-release-v0-2-96-isolation-fix.preflight-review.f1abb0ef0a006c4b7a3f70876f43bc59ccd22629c36b1924e843ff3433388045.json",
+    ".ai/decisions/WI-891-release-v0-2-96-isolation-fix.preflight-review.9a56029c626338a5bd4e6e26c8e29fe826452139ab905318a824b636e48bcc65.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification-attempt.037acbc946b8ee29840bd8c11ffd667218a4b4a1311d3623629e56270188d88e.json",
-    ".ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification-attempt.df61ddd43bb0d7a2a3bc7cf05e52c3d42f72bbae3c818df990a6432599fd4f1d.json",
-    ".ai/work-items/active/WI-891-release-v0-2-96-isolation-fix.contract.json",
     ".ai/work-items/active/WI-891-release-v0-2-96-isolation-fix.summary.json"
   ],
   "checkpointAt": "2026-09-17T22:49:00Z",
@@ -46,7 +43,7 @@
       "workItemId": "WI-891-release-v0-2-96-isolation-fix"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:9c38ad57177c16c1eb551db9817f5997521f0e0bd1ce491256b65e07b2315add",
+  "checkpointRepositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
   "createdAt": "2026-09-17T22:41:51Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
@@ -54,10 +51,10 @@
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
     "reason": "Confirm bounded review of the successor Contract after the immutable v0.2.95 publication candidate exposed the target-directory isolation defect; this decision authorizes implementation and verification only.",
-    "recordedAt": "2026-09-17T23:08:27Z",
+    "recordedAt": "2026-09-18T08:25:00+09:00",
     "recordedBy": "xinglun",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:9c38ad57177c16c1eb551db9817f5997521f0e0bd1ce491256b65e07b2315add",
+    "repositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
     "schemaVersion": 1,
     "workItemId": "WI-891-release-v0-2-96-isolation-fix"
   },
@@ -74,11 +71,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
   "predecessorWorkItemId": "WI-890-release-v0-2-95",
-  "preflightAt": "2026-09-17T23:08:36Z",
+  "preflightAt": "2026-09-17T23:25:45Z",
   "preflightContractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:9c38ad57177c16c1eb551db9817f5997521f0e0bd1ce491256b65e07b2315add",
-  "preflightState": "green",
+  "preflightRepositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-890-release-v0-2-95.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -95,7 +92,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-17T23:08:27.909235+00:00",
+  "updatedAt": "2026-09-17T23:26:09.848258+00:00",
   "verification": [
     {
       "check": "project-command-0",
