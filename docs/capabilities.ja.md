@@ -398,6 +398,10 @@ handoff には status marker、unknown、evidence、有効な structured human d
 MCP は Contract source text を翻訳せず、人間の decision も発明しません。
 人間向け projection は validated OutcomeV2 の presentation layer であり、ガバナンス権限そのものではありません。
 
+Outcome interface discovery trial では、`capability show --repo <path> --surface
+work-item-outcome` または `capability_show` の同じ `surface` で protocol-owned の parameter fact を取得できます。
+`format=markdown` と表示 `language` は deterministic な reference projection だけを変え、Work Item history の読取り、verification の実行、権限の付与は行いません。
+
 ### Readiness を診断する
 
 ```bash

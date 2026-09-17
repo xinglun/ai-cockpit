@@ -73,7 +73,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 
 | 工具 | 参数 | 常用调用 |
 | --- | --- | --- |
-| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}` | 读取仓库事实或能力注册表。 |
+| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`；`capability_show` 还可选 `surface`、`format` 和 `language` 获取只读接口描述。 | 读取仓库事实或能力注册表。 |
 | `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选 `language`（`en`、`zh`、`ja`）。 | `{"workItemId":"WI-123"}` |
 | `work_item_status` | `{"all":true}`，或只提供一个 Work Item id。 | `{"all":true}` |
 | `preflight` | 必填、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -184,6 +184,36 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `capability show --repo <path>` 输出绑定 Runtime identity 与 repository 的 registry。观察到的技术能力、profile
   confirmation、repository binding、adopter acceptance 与 external ownership 是不同状态；仅有文件不能证明
   `adopter_accepted`，缺失、格式错误、过期或 foreign 输入保持 unknown。MCP 使用 `capability_show`。
+- Outcome 试点的只读接口事实可以在 `capability show` 上增加 `--surface work-item-outcome` 获取。以下生成区域来自
+  Runtime 协议投影；它只描述解析和线协议结构，不授予权限，也不代表生命周期已就绪。
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
+### 接口事实: `work-item-outcome`
+
+- Schema: `v1`
+- Runtime: `0.2.93`
+- 参数名、类型、必填性、默认值和枚举值是结构化事实；本描述不授予权限。
+
+#### `cli` · 传输: `argv`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `json` | `boolean` | `no` | `false` | `—` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+
+#### `mcp` · 传输: `json-rpc`
+
+| 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `id` |
+| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
 - 重复执行 `observe`、`capability show`、顶层 `status` 和单项/全量 Work Item status，不会写入 tracked
   repository bytes 或 observer cache。
 - `work-item validate --repo <path> --id <id> [--json]` 只读统一检查 Contract/Summary 的 scenario coverage、stable acceptance evidence、intent alignment 和可选最终维度 receipt。

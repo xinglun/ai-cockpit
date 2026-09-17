@@ -4,6 +4,14 @@ use std::collections::BTreeMap;
 use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
+pub mod interface_description;
+
+pub use interface_description::{
+    INTERFACE_DESCRIPTION_SCHEMA_VERSION, InterfaceDescription, InterfaceParameter,
+    InterfaceSurface, WORK_ITEM_OUTCOME_SURFACE, render_interface_description_markdown,
+    work_item_outcome_interface_description,
+};
+
 pub const PROTOCOL_VERSION: u32 = 1;
 pub const AGENT_INTERFACE_VERSION: u32 = 1;
 pub const REPOSITORY_SCHEMA_VERSION: u32 = 2;

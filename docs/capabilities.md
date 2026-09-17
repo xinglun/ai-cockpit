@@ -513,6 +513,13 @@ MCP does not translate Contract source text or invent a human decision.
 The human-facing projection is a presentation layer over validated OutcomeV2;
 it is not a governance authority.
 
+For the Outcome interface discovery trial, `capability show --repo <path>
+--surface work-item-outcome` (or `capability_show` with the same `surface`)
+returns the protocol-owned parameter facts. `format=markdown` and the
+presentation `language` affect only the deterministic reference projection;
+the description does not inspect Work Item history, execute verification, or
+grant authorization.
+
 ### Diagnose readiness
 
 ```bash

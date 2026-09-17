@@ -1,0 +1,281 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-881-interface-discovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2983cf5491910c1f3d0ad69a07874345b43da66ebd3317d613e778fee190eaa9",
+      "workItemId": "WI-881-interface-discovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-881-interface-discovery.verification-attempt.c498553e51dc89d2278a0d451150b23a9cd02289809d93ec80d8898b17d8b6b9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-881-interface-discovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/tests/install.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-first-start.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-17-WI-881-interface-discovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/specs/2026-09-17-interface-discovery-design.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-881-interface-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-881-interface-discovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-881-interface-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via user-message:authorized-to-complete-all-wi-tasks at 2026-09-17T14:06:18Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-881-interface-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-881-interface-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-881-interface-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "For one selected command-family trial, maintain interface facts once, expose deterministic machine and human descriptions through existing CLI/MCP discovery paths, keep embedded Agent guidance ownership-safe and version-consistent, and prove reduced duplicate maintenance without changing lifecycle or Outcome delivery behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-881-interface-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-881-interface-discovery"
+  },
+  "finalReportDigest": "sha256:8159bc4f02042debf46346458e47903574a05e5828a128e4a14d12f57c6b2853",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:20f47633a35d87327e7e6246c0e92a365e9055f748e2a55f38e45f87a5b8bfd5",
+    "branch": "codex/wi-881-interface-discovery",
+    "branchRef": "refs/heads/codex/wi-881-interface-discovery",
+    "capturedAt": "2026-09-17T14:06:26Z",
+    "contractDigest": "sha256:aef2cb63890b182c9d5827ccd1c1f8983daa841dc4e42ed5c8dff457c45a9f3a",
+    "headRevision": "a6f3151b5e0479565011deda0ffb8594fb181554",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-881-interface-discovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-881-interface-discovery",
+    "worktreeId": "sha256:cd993840e671f7231b1961e29a93b31d1feaff65b1449f5184c15f6a0b0e6fdc",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-881-interface-discovery"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:fc85fff9dccc2b14bae3324888b7e376e4c27a89e43a79fcd1e7b9b7e702441f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user-message:authorized-to-complete-all-wi-tasks",
+    "decidedAt": "2026-09-17T14:06:18Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-881-interface-discovery.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed implementation and successful workspace verification; approving ordinary Work Item closure. This decision does not authorize release.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-17T14:06:26Z",
+  "workItemId": "WI-881-interface-discovery"
+}

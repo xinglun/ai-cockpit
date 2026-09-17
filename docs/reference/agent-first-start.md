@@ -166,6 +166,12 @@ such as digest functions, identity parsers, internal planners, and test or
 maintenance utilities intentionally remain non-CLI APIs; use their owning
 Runtime command or MCP tool instead of invoking implementation details.
 
+For the Outcome interface facts, add
+`--surface work-item-outcome` to `capability show`. This is a deterministic,
+read-only description of the CLI/MCP parameters and wire shape; it does not
+read Work Item history, start verification, or grant authorization. Use the
+same surface when checking a generated reference before relying on it.
+
 ## Non-negotiable boundaries
 
 - Do not edit global Agent or MCP configuration, secrets, credentials, or

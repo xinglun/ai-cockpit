@@ -1221,6 +1221,91 @@ fn repository_bound_capability_show_exposes_runtime_identity() {
 }
 
 #[test]
+fn capability_show_describes_outcome_without_repository_observation() {
+    let directory = TestTempDir::new("cockpit-mcp-interface-description");
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":15,
+            "method":"tools/call",
+            "params":{
+                "name":"capability_show",
+                "arguments":{
+                    "surface":"work-item-outcome",
+                    "format":"json"
+                }
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        response["result"]["structuredContent"]["name"],
+        "work-item-outcome"
+    );
+    assert_eq!(response["result"]["structuredContent"]["schemaVersion"], 1);
+    assert_eq!(
+        response["result"]["structuredContent"]["surfaces"][1]["parameters"][2]["default"],
+        "summary"
+    );
+
+    let markdown = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":16,
+            "method":"tools/call",
+            "params":{
+                "name":"capability_show",
+                "arguments":{
+                    "surface":"work-item-outcome",
+                    "format":"markdown",
+                    "language":"zh"
+                }
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(markdown["result"]["isError"], false);
+    assert_eq!(
+        markdown["result"]["structuredContent"]["format"],
+        "markdown"
+    );
+    assert!(
+        markdown["result"]["structuredContent"]["body"]
+            .as_str()
+            .expect("markdown body")
+            .contains("接口事实")
+    );
+}
+
+#[test]
+fn capability_show_rejects_unknown_description_surface_before_dispatch() {
+    let directory = TestTempDir::new("cockpit-mcp-interface-description-invalid");
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":17,
+            "method":"tools/call",
+            "params":{
+                "name":"capability_show",
+                "arguments":{"surface":"work-item-status"}
+            }
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    assert_eq!(response["result"]["isError"], true);
+    assert!(
+        response["result"]["content"][0]["text"]
+            .as_str()
+            .expect("invalid surface error")
+            .contains("unsupported surface")
+    );
+}
+
+#[test]
 fn repository_observe_accepts_the_attached_profile_wrapper() {
     let suffix = SystemTime::now()
         .duration_since(UNIX_EPOCH)

@@ -389,6 +389,10 @@ CLI 能力面可用 `ai-cockpit --help` 和对应的 `ai-cockpit <group> --help`
 结构化人工决定和下一步。MCP 不翻译 Contract 原文，也不擅自生成人类决定。
 面向人的 projection 只是已校验 OutcomeV2 之上的 presentation layer，不是治理授权来源。
 
+Outcome 接口试点可以使用 `capability show --repo <path> --surface
+work-item-outcome`，或在 `capability_show` 中传入相同的 `surface`，读取由协议拥有的参数事实。
+`format=markdown` 和展示 `language` 只影响确定性的参考投影；描述不会读取 Work Item 历史、执行验证或授予权限。
+
 ### 诊断准备度
 
 ```bash
