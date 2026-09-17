@@ -26,6 +26,14 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-883-release-v0-2-94-current-main",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/863",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-883-release-v0-2-94-current-main"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

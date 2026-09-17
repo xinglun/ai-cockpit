@@ -14,37 +14,17 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.80a2cd6e32b1a5c431d15514d684363dd24d54db302dc55d0f4e96593f563b0c.json
+- Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.5ad10f65e1c85aeaf141eb6ef069ceb405c6854c0e0f8cf0d826d19c00bc1de9.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.9abcdc1fe744729fcb9180f19a765d404512db7c293e3895ce48e4cc59e3cb08.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.b7484428178e7f92a17b6eea740c531fe298b81803883db69d2a2142a6188026.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.ed852dbc4b7ce471a67b60502d0d57c76dd4aa2e808be66b19aae5be19fe2ea9.json
+- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.fef27a9a0dd55aedcbb532fa1b2ee91ca00e9d5f394f19ed1cf4b53d573264f5.json
+- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification.json
 - Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json
+- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.events.jsonl
+- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.outcome.json
 - Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json
-- Changed path: Cargo.lock
-- Changed path: Cargo.toml
-- Changed path: docs/architecture/release-distribution.ja.md
-- Changed path: docs/architecture/release-distribution.md
-- Changed path: docs/architecture/release-distribution.zh-CN.md
-- Changed path: docs/architecture/versioning.ja.md
-- Changed path: docs/architecture/versioning.md
-- Changed path: docs/architecture/versioning.zh-CN.md
-- Changed path: docs/reference/commands.ja.md
-- Changed path: docs/reference/commands.md
-- Changed path: docs/reference/commands.zh-CN.md
-- Changed path: docs/reference/reference-comparison-metadata.json
-- Changed path: docs/reference/reference-file-comparison.ja.md
-- Changed path: docs/reference/reference-file-comparison.md
-- Changed path: docs/reference/reference-file-comparison.zh-CN.md
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/release/distribution.ja.md
-- Changed path: docs/release/distribution.md
-- Changed path: docs/release/distribution.zh-CN.md
-- Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.ja.md
-- Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.md
-- Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.zh-CN.md
+- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.json
+- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.md
 
 ## Findings
 
