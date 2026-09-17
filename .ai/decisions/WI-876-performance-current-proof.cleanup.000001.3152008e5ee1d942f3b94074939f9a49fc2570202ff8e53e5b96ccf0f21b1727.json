@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:54138d1c6d71e4d3ad26d29f059b8f2d3deda4a8f08520f9ea04a9de5a7bc87f",
+  "branchRef": "refs/heads/codex/wi-876-performance-current-proof",
+  "contractDigest": "sha256:7c6ebb7b62e4636db46a81306b9094d722307115482e8614895882da8da3accb",
+  "headRevision": "88bcd5d76a59045b62ea5fd6b3e327f276de1bdd",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T07:26:51Z",
+  "operationId": "sha256:a1bef3e9719e67667af8803fd6d4e7852b3394c7467b5f0578512d1d8cfb47a4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-876-performance-current-proof",
+  "worktreeId": "sha256:b033a14bc2e2e8d93eac61b9ced73c1a6c15aa4ad98523a7856ec7af9f809fae"
+}

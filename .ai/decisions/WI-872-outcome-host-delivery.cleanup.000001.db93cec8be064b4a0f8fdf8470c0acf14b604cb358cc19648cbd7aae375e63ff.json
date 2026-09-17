@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:5993915f72a3e77a28a913559419fec3924fb2bfc57bbf842e0bea2df8793ae2",
+  "branchRef": "refs/heads/codex/wi-872-outcome-host-delivery",
+  "contractDigest": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
+  "headRevision": "cd8bf15e47463265333a68c8a290b001c9933a20",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T05:59:30Z",
+  "operationId": "sha256:7e80c82897f673055a9cdcc1b2118ea8b394f4c86d1287a5ffee5d673eee5d28",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-872-outcome-host-delivery",
+  "worktreeId": "sha256:95e2f472078fe3b1ba3d38f475a2ef290cdf56d1f0069947645ee062fb816f02"
+}

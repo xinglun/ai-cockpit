@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:a2b71822509f9a7f71a1da734c8df356448a50206318effeca40dea82604648b",
+  "branchRef": "refs/heads/codex/wi-879-verification-target-policy",
+  "contractDigest": "sha256:2e417dc245e15410bf9f0415fc4efb3ea363c016d53f3a07876a32370fefdf37",
+  "headRevision": "8e24f9eab653cfd7b1a4df687ec86753680fb00e",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T13:10:31Z",
+  "operationId": "sha256:93864a9e08db7065daa6095dd2ec8b6c01990338cadc107839851061ee0d41c2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-879-verification-target-policy",
+  "worktreeId": "sha256:f2c129d989d4fa401690ab4384043919bac334fe894cd376b81dc84ebfb366f9"
+}
