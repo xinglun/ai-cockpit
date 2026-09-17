@@ -1,0 +1,92 @@
+{
+  "acceptanceCriteria": [
+    "v0.2.95 is consistent across workspace manifests and release metadata",
+    "release verification and hosted CI pass on the reviewed PR",
+    "provider Release, tag, checksums, SBOM/archive assets, and manifests are identity-bound and downloadable",
+    "downloaded immutable artifact passes installation and upgrade acceptance in an isolated temporary root",
+    "cleanup and finalization receipts prove exact resources are cleaned; release remains last step",
+    "The English, Simplified Chinese, and Japanese Work Item projections and reference-parity rows are present and synchronized."
+  ],
+  "authority": "user:release-after-all-work-items",
+  "baseRevision": "6155d16392b367ac004eda651ee398df5166b7ec",
+  "createdAt": "2026-09-17T21:24:48Z",
+  "goal": "Complete immutable v0.2.95 release preparation, hosted review/CI, provider release publication, downloaded artifact acceptance, and exact resource finalization; do not claim release success without all evidence.",
+  "intent": "Publish the completed AI Cockpit four-direction convergence, Outcome, Issue #851, BAML-inspired interface discovery, Rust toolchain, and current performance work as v0.2.95.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new product behavior",
+    " object repository branches or mains",
+    " Outcome/HCI implementation changes",
+    " new performance optimization",
+    " new issues",
+    " publishing any version other than v0.2.95"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8fbc66a2c3ed2c112af4f63a70114fcf33e867c9228cb47001a7bfb4cda69c4d",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All workspace packages, release metadata, tri-language release docs, and artifact naming identify v0.2.95 while preserving v0.2.93 as N-1.",
+      "required": true,
+      "scenario": "release_current_version_consistency",
+      "status": "unverified",
+      "verificationPlan": "Run tests/release/version_consistency.sh --repo . and inspect the source version receipt before provider publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The release branch is reviewed through a pull request and all required hosted checks pass on the merge candidate.",
+      "required": true,
+      "scenario": "reviewed_candidate_hosted_ci",
+      "status": "unverified",
+      "verificationPlan": "Run the Runtime verification and repository release gate, create one reviewed PR with gh, and retain the hosted check run and merge commit."
+    },
+    {
+      "evidence": [],
+      "expected": "Candidate fresh-install and v0.2.93 to v0.2.95 upgrade acceptance pass in isolated HOME, XDG_CONFIG_HOME, CARGO_HOME, and target roots.",
+      "required": true,
+      "scenario": "candidate_isolated_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Use the staged adopter acceptance jobs and preserve their identity-bound receipts before publishing the provider Release."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded immutable v0.2.95 Release assets pass checksum, manifest, fresh-install, and N-1 upgrade acceptance.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "After merge and publication, use gh release download and run post-release version consistency and adopter acceptance against the downloaded assets."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "tests/release/**",
+    "docs/release/**",
+    "docs/architecture/release-distribution.**",
+    "docs/architecture/versioning.**",
+    "docs/work-items/WI-890-release-v0-2-95.**",
+    ".ai/evidence/WI-890-release-v0-2-95/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    "https://github.com/boundaryml/baml",
+    "v0.2.95 release target after all WI closure"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/check_reference_parity.py --repo ."
+  ],
+  "workItemId": "WI-890-release-v0-2-95"
+}

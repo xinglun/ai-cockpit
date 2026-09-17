@@ -1,0 +1,181 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-890-release-v0-2-95.preflight-review.73228af951af14aac79afd6aa813eaa16b02115b761111afa53b5948593a4b02.json",
+    ".ai/decisions/WI-890-release-v0-2-95.preflight-review.87b74b725b2d497e0b86037bc36833ab13585486002abae901a8023fced55754.json",
+    ".ai/decisions/WI-890-release-v0-2-95.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-890-release-v0-2-95.verification-attempt.7520e314473130827b4f8cff371b854a64c2b91dc04dcee0c42a0b24ac8addee.json",
+    ".ai/evidence/WI-890-release-v0-2-95.verification-attempt.ea4c29f2323df45bd8608c048cc9edd34c319a202657d74d036e31e81b0fe401.json",
+    ".ai/work-items/active/WI-890-release-v0-2-95.contract.json",
+    ".ai/work-items/active/WI-890-release-v0-2-95.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-890-release-v0-2-95.ja.md",
+    "docs/work-items/WI-890-release-v0-2-95.md",
+    "docs/work-items/WI-890-release-v0-2-95.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-17T21:32:10Z",
+  "checkpointContractDigest": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:8744350a06be6254ca14d6a70e0ef43b47b9076d00aac4ec194e97075c90e88c",
+      "recorded": true,
+      "recordedAt": "2026-09-17T21:32:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1889e9bf57af4e9fa732aa4b443a0c6f85ac8135f38f0523e471c88affe8486a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-890-release-v0-2-95"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8744350a06be6254ca14d6a70e0ef43b47b9076d00aac4ec194e97075c90e88c",
+      "previousContractHash": "sha256:8744350a06be6254ca14d6a70e0ef43b47b9076d00aac4ec194e97075c90e88c",
+      "reason": "Declare the concrete high-risk release scenarios required by Runtime before verification; post-publication acceptance remains planned and unverified until the provider artifact exists.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T21:35:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-890-release-v0-2-95"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+  "createdAt": "2026-09-17T21:24:48Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "确认按全部 Work Item 完成后的最后发布路径继续；当前验证已通过，后续仅执行评审合并、发布及下载制品验收，不扩大产品范围。",
+    "recordedAt": "2026-09-18T00:30:00Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+    "schemaVersion": 1,
+    "workItemId": "WI-890-release-v0-2-95"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-890-release-v0-2-95.contract.json",
+      "docs/work-items/WI-890-release-v0-2-95.md",
+      "docs/release/distribution.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T21:45:43Z",
+  "preflightContractDigest": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        ".ai/evidence/WI-890-release-v0-2-95.verification.json"
+      ],
+      "expected": "All workspace packages, release metadata, tri-language release docs, and artifact naming identify v0.2.95 while preserving v0.2.93 as N-1.",
+      "required": true,
+      "scenario": "release_current_version_consistency",
+      "status": "verified",
+      "verificationPlan": "Run tests/release/version_consistency.sh --repo . and inspect the source version receipt before provider publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The release branch is reviewed through a pull request and all required hosted checks pass on the merge candidate.",
+      "reason": "The reviewed PR and its hosted checks are provider-side evidence that can exist only after this pre-publication Work Item is archived; they remain required before publication.",
+      "required": true,
+      "scenario": "reviewed_candidate_hosted_ci",
+      "status": "not_applicable",
+      "verificationPlan": "Run the Runtime verification and repository release gate, create one reviewed PR with gh, and retain the hosted check run and merge commit."
+    },
+    {
+      "evidence": [],
+      "expected": "Candidate fresh-install and v0.2.93 to v0.2.95 upgrade acceptance pass in isolated HOME, XDG_CONFIG_HOME, CARGO_HOME, and target roots.",
+      "reason": "Candidate archives and staged adopter acceptance are produced by the release workflow after the reviewed merge; they remain required before provider publication.",
+      "required": true,
+      "scenario": "candidate_isolated_acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "Use the staged adopter acceptance jobs and preserve their identity-bound receipts before publishing the provider Release."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded immutable v0.2.95 Release assets pass checksum, manifest, fresh-install, and N-1 upgrade acceptance.",
+      "reason": "The public immutable Release does not exist before publication; downloaded-artifact acceptance remains required before finalization and close.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "After merge and publication, use gh release download and run post-release version consistency and adopter acceptance against the downloaded assets."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T21:45:49Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-890-release-v0-2-95"
+}

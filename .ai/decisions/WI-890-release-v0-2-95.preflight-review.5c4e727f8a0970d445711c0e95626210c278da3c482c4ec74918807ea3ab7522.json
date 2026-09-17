@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "确认按全部 Work Item 完成后的最后发布路径继续；当前验证已通过，后续仅执行评审合并、发布及下载制品验收，不扩大产品范围。",
+  "recordedAt": "2026-09-18T00:30:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+  "schemaVersion": 1,
+  "workItemId": "WI-890-release-v0-2-95"
+}
