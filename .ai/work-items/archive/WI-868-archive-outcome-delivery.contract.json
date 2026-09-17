@@ -1,0 +1,56 @@
+{
+  "acceptanceCriteria": [
+    "普通 archive 和 archive-historical 都返回同一份版本化完整 Outcome 交付数据；正文包含 WI/目标、行为变化、验证范围、问题与停止/解决、风险/未知/未完成、影响与推断、人工决定、生命周期/清理/下一步和证据",
+    "--json stdout 始终为合法 JSON 且包含完整交付；忽略 stderr 仍可完成传递；人类输出与结构化正文同源",
+    "连续归档不同 WI 身份独立；三语事实和下一步一致；长正文分段有序且无静默截断",
+    "可控宿主端到端检查实际 assistant 消息；中断仅补投同一正文且验证新增执行数和归档新增执行数均为 0；按宿主能力如实表达 accepted/display unknown，不能伪称已展示",
+    "内容过期或身份不匹配不作为当前结果交付；查询可默认 summary，但归档交付固定 full；Agent 指令明确工具输出不等于对话交付"
+  ],
+  "authority": "用户在 2026-09-17 当前对话中的显式任务授权；Runtime 负责治理边界",
+  "baseRevision": "ef4625f9e88e9af030a7f448896061ea24ece770",
+  "createdAt": "2026-09-17T00:16:14Z",
+  "goal": "普通与历史归档都返回版本化完整人类 Outcome；CLI --json/MCP/Agent 传递不丢正文；可控适配层支持独立分段、补投、去重和能力边界的真实测试；失败只补投且不重跑验证或归档。",
+  "intent": "修复每个 Work Item 归档后完整 Outcome 未可靠进入用户对话的问题，恢复归档成功到可见交付的可信链路。",
+  "mode": "code",
+  "outOfScope": [
+    "重构整个生命周期或拆分整个 cockpit-repository",
+    "新增人工确认收到门禁",
+    "因消息投递失败重新执行验证或归档或创建 successor",
+    "发布新版本、发布级供应链和外部宿主展示确认"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-mcp/tests",
+    "crates/cockpit-agent/tests",
+    "docs/reference",
+    "docs/operations",
+    "docs/features",
+    "docs/architecture",
+    "docs/work-items/WI-868-archive-outcome-delivery.md",
+    "docs/work-items/WI-868-archive-outcome-delivery.zh-CN.md",
+    "docs/work-items/WI-868-archive-outcome-delivery.ja.md"
+  ],
+  "sources": [
+    "user-request:2026-09-17:archive-outcome-dialog-delivery"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-868-archive-outcome-delivery"
+}

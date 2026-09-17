@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-868-archive-outcome-delivery.contract.json",
+    ".ai/work-items/active/WI-868-archive-outcome-delivery.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-17T00:16:14Z",
+  "mode": "code",
+  "preflightAt": "2026-09-17T00:19:30Z",
+  "preflightContractDigest": "sha256:4326576129f82d87a4d7a756f05c25bf1498565579cf9a56de6b46a291ac7003",
+  "preflightDecisionDigest": "sha256:cce331606226100744144216964b9425c5340671bb71d27bf2344bfd67803d5d",
+  "preflightRepositorySnapshotDigest": "sha256:54982afebb81bd65d5889b78e794e5a6be41379abfb2a8dca6acfd4c8a3c50cc",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-17T00:17:22Z",
+  "workItemId": "WI-868-archive-outcome-delivery"
+}

@@ -95,6 +95,31 @@ build files, governance files, or repository data.
    action, issue count, risks, and verification. Never claim green, completed,
    merged, or released from a local pass or a folded machine record.
 
+## Archive Outcome delivery boundary
+
+`work-item outcome` is a query: its default is the reader-first `summary`, and
+`--view full` is required when a person asks for the complete report. Archive
+delivery is different. After `archive` or `archive-historical`, the Runtime
+prepares one versioned `outcomeDelivery` object whose `view` is always `full`;
+the same body is present in normal and `--json` output, so an adapter that only
+reads stdout does not lose the human report. Do not replace that body with
+“archived”, “see attachment”, or a new Agent summary.
+
+The boundaries are deliberately separate: Runtime-generated means the body was
+prepared; a CLI/MCP result means it was returned to the tool consumer; a host
+acceptance receipt means the host accepted the assistant message; and a host
+display confirmation is the only basis for saying it was displayed. The
+repository currently provides no general Codex or Claude display-confirmation
+API. When a host adapter lacks that API, return the complete body and forward
+each segment as an independent assistant message, report `unknown` for host
+acceptance/display, and never claim that a person read or approved it.
+
+If delivery is interrupted, retry the same `deliveryId`, archive identity,
+language, body digest, and ordered segments. Resume from the first unaccepted
+part when the host provides idempotency; otherwise state the duplicate-message
+risk. A retry never reruns verification or archive and never grants merge,
+release, or other authorization.
+
 ## CLI capability discovery
 
 The stable command-line surface is grouped by responsibility: repository

@@ -35,8 +35,28 @@ explicit `--json` mode suppresses the stderr report for machine-only callers.
 If `finish` is blocked, it renders the persisted red or yellow Outcome before
 returning the original nonzero error. This extra handoff never weakens a gate.
 The CLI cannot force a host application to open or expand a conversation UI;
-hosts must surface stderr, and a person can replay the durable handoff with
+hosts must surface the returned body or stderr, and a person can replay the durable handoff with
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>`.
+
+## Archive delivery boundary
+
+`archive` and supported historical-archive paths always prepare the complete
+human Outcome. Normal output writes that body to stderr and returns the same
+body in the versioned `outcomeDelivery` object on stdout. `--json` keeps stdout
+as valid JSON and suppresses the separate stderr handoff; it does not remove the
+body, its digest, or its ordered segments from `outcomeDelivery`. The MCP
+`work_item_outcome` tool accepts `delivery: true` for the same full view and
+returns the body in both `humanHandoff` and `content[0].text`.
+
+Preparation, tool return, host acceptance, and host display are separate facts.
+The Runtime can prove preparation and the tool can prove return to its consumer;
+the current CLI/MCP boundary has no general Codex or Claude display-confirmation
+API, so host confirmation is `unknown` unless a host explicitly supplies it.
+Adapters must send each segment as its own assistant message, preserve the
+delivery id and body digest, and resume or retry that same payload after an
+interruption. A retry never re-runs verification or archive. Without host
+idempotency, a resumed delivery reports duplicate-message risk rather than
+claiming strict exactly-once delivery or that a person read or approved it.
 
 The default summary has four sections:
 
@@ -79,7 +99,8 @@ JSON fields, validation rules, exit codes, authorization semantics, and persiste
 evidence remain compatible; optional reason/finalization fields are additive.
 Top-level `finish`, `archive`, and `close` continue to render the
 complete handoff on stderr for lifecycle error and audit context; `--json` still
-suppresses that human channel.
+suppresses that separate human channel, while archive JSON retains the complete
+`outcomeDelivery` body for adapters.
 
 Status markers are decision signals, not release authorization:
 
@@ -197,7 +218,9 @@ dump. `structuredContent.outcome` remains the stable OutcomeV2 object;
 `humanHandoff` is only a presentation projection and cannot authorize a merge,
 release, or decision. `work_item_get` remains a machine record lookup. The
 optional `language` selects `en`, `zh`, or `ja` for Runtime-generated labels;
-Contract source text remains unchanged.
+Contract source text remains unchanged. For an archived WI, pass
+`delivery: true`; this is the full, independent delivery payload and must not be
+replaced by a later Agent summary.
 
 ## Task Outcome report and events
 

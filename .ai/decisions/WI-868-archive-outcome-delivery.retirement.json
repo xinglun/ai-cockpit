@@ -1,0 +1,34 @@
+{
+  "actor": "human:explicit-user-authorization",
+  "archiveManifestDigest": "sha256:32fe49e8353c1dbace4f9af090eb5c8d892a09f8a2fa61af63b94d7e3021095b",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:b17b2ece7809bb533b95974b7a51744192afcd42c661b28130c312cc25e8d4ea",
+      "path": ".ai/work-items/archive/WI-868-archive-outcome-delivery.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:a93ceeeb5008fdb344e6bfe867333bfdad15c99c74b6b48a72bbfc33445730d2",
+      "path": ".ai/work-items/archive/WI-868-archive-outcome-delivery.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:f181b242afc091a02c51d21287e8a485247c064aacecf5fb3384b2072295ad4e",
+      "path": ".ai/work-items/archive/WI-868-archive-outcome-delivery.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:4326576129f82d87a4d7a756f05c25bf1498565579cf9a56de6b46a291ac7003",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The initial declaration used an unrecognized authority value and cannot pass the Runtime preflight; preserve it as a governance setup attempt and continue the same requested scope under a corrected Contract.",
+  "recordedAt": "2026-09-17T00:24:50Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-869-archive-outcome-delivery",
+  "summaryDigest": "sha256:34843f0ac7598c42eec3822b0991d8d61bb7ee5230638f0031a803d0d067bfbc",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-868-archive-outcome-delivery"
+}
