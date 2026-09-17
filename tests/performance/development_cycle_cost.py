@@ -43,11 +43,24 @@ def summarize_stage(stage: str, records: list[dict[str, Any]]) -> dict[str, Any]
     raw = [_number(record["elapsedMs"]) for record in records if record.get("valid", True)]
     result: dict[str, Any] = {
         "stage": stage,
+        "sourceRecords": records,
         "rawSamplesMs": raw,
         "rawSampleCount": len(raw),
         "agentOperations": [record.get("agentOperations") for record in records],
         "preflightRejects": [record.get("preflightRejects") for record in records],
     }
+    agent_values = [record.get("agentOperations") for record in records]
+    reject_values = [record.get("preflightRejects") for record in records]
+    result["agentOperationsBinding"] = (
+        {"available": True, "values": agent_values}
+        if all(isinstance(value, int) and not isinstance(value, bool) and value >= 0 for value in agent_values)
+        else {"available": False, "reason": "agent operation count not persisted for one or more captures"}
+    )
+    result["preflightRejectsBinding"] = (
+        {"available": True, "values": reject_values}
+        if all(isinstance(value, int) and not isinstance(value, bool) and value >= 0 for value in reject_values)
+        else {"available": False, "reason": "preflight rejection count not persisted for one or more captures"}
+    )
     if not raw:
         result["available"] = False
         result["reason"] = "no_valid_stage_samples"
@@ -79,6 +92,7 @@ def build_report(document: dict[str, Any]) -> dict[str, Any]:
     stages = [
         summarize_stage(stage, grouped[stage]) if grouped[stage] else {
             "stage": stage,
+            "sourceRecords": [],
             "available": False,
             "reason": "stage_not_captured",
             "rawSamplesMs": [],
@@ -87,6 +101,8 @@ def build_report(document: dict[str, Any]) -> dict[str, Any]:
             "p95Ms": None,
             "agentOperations": [],
             "preflightRejects": [],
+            "agentOperationsBinding": {"available": False, "reason": "stage_not_captured"},
+            "preflightRejectsBinding": {"available": False, "reason": "stage_not_captured"},
         }
         for stage in STAGES
     ]

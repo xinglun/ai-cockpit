@@ -1,0 +1,361 @@
+{
+  "acceptanceResults": [
+    "The collector and comparator require at least 100 valid warm samples for release-grade percentile comparison and reject 99.",
+    "The paired report covers inspect, status, Outcome, verification planning, verification reuse, small and large repositories, multi-history Work Items, single and multi-file changes, and invalid evidence with explicit unavailable reasons.",
+    "Each external sample binds applicable read/hash/parse/Git/subprocess/execution/reuse counters and non-overlapping phase boundaries, or records why a metric is unavailable; diagnostics on/off overhead is measured separately.",
+    "Development-cycle cost separately reports Contract-to-reviewable, verification-to-finish, and post-merge cleanup with raw samples, p50/p95, agent operations, and preflight rejects.",
+    "Local focused tests and repository quality gates pass; no release is published by this Work Item."
+  ],
+  "createdAt": "2026-09-17T07:13:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4a69eb7f2a4d5d9bbabe387d1d870013f0a4bb52e567ba2e39857b1b856252de",
+  "evidenceRefs": [
+    ".ai/evidence/WI-876-performance-current-proof.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-876-performance-current-proof.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-876-performance-current-proof.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da38a219639d4b2b53c21a7307769cd731f8ada021cfe3b60a92cde0ce5f6434",
+      "workItemId": "WI-876-performance-current-proof"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-876-performance-current-proof/development-cycle-capture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-876-performance-current-proof/development-cycle-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-876-performance-current-proof/diagnostics-overhead-org-x.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-876-performance-current-proof/paired-current-seven-scenarios.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-876-performance-current-proof/paired-current-six-scenarios.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-876-performance-current-proof.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-876-performance-current-proof.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-876-performance-current-proof.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-876-performance-current-proof.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/README.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/development_cycle_cost.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/development_cycle_cost_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/fixtures/p0-baseline.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/fixtures/p0-candidate-budget-fail.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/fixtures/p0-candidate-incomparable-environment.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/fixtures/p0-candidate-insufficient-percentile.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/fixtures/p0-candidate-pass.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/p0_regression_gate.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/p0_regression_gate_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/paired_performance_report.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/paired_performance_report_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark_scenarios.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-876-performance-current-proof.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-876-performance-current-proof.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-876-performance-current-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-876-performance-current-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-876-performance-current-proof.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure and compare the same scenarios on one machine and toolchain with release-grade warm samples, bind diagnostics and counters to each operation, and report explicit unknowns without claiming unsupported improvement."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-876-performance-current-proof.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-876-performance-current-proof"
+  },
+  "taskReportDigest": "sha256:a4a794e80d38d2ef0f02a0d566cfc361afd876d0d7aeda1ddade077fdcf19f07",
+  "taskReportMarkdownDigest": "sha256:46d00a9898691975094eac6da6d0ddfc55c8f704113bd8bb734b65f4d9590877",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-876-performance-current-proof.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-876-performance-current-proof"
+}

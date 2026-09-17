@@ -10,6 +10,7 @@ SCENARIO_NAMES = (
     "multi-file-change",
     "large-file-change",
     "many-historical-wi",
+    "invalid-evidence",
     "concurrent-validation-requests",
     "resident-mcp-repeat-query",
     "current-repository",
@@ -78,6 +79,12 @@ def scenario_matrix_entry(
         if historical_work_item_count < 100:
             return {"name": name, "status": "not_measured", "reason": "historical_work_item_count_below_100"}
         return {"name": name, "status": "measured", "reason": "historical_work_item_scale_match"}
+    if name == "invalid-evidence":
+        if not dirty:
+            return {"name": name, "status": "not_measured", "reason": "repository_not_dirty_with_invalid_evidence"}
+        if changed_path_count < 1:
+            return {"name": name, "status": "not_measured", "reason": "invalid_evidence_change_not_observed"}
+        return {"name": name, "status": "measured", "reason": "evidence_change_requires_runtime_freshness_decision"}
     if name == "concurrent-validation-requests":
         return {"name": name, "status": "not_measured", "reason": "harness_does_not_measure_concurrency"}
     if name == "resident-mcp-repeat-query":

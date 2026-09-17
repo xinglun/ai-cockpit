@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "The collector and comparator require at least 100 valid warm samples for release-grade percentile comparison and reject 99.",
+    "The paired report covers inspect, status, Outcome, verification planning, verification reuse, small and large repositories, multi-history Work Items, single and multi-file changes, and invalid evidence with explicit unavailable reasons.",
+    "Each external sample binds applicable read/hash/parse/Git/subprocess/execution/reuse counters and non-overlapping phase boundaries, or records why a metric is unavailable; diagnostics on/off overhead is measured separately.",
+    "Development-cycle cost separately reports Contract-to-reviewable, verification-to-finish, and post-merge cleanup with raw samples, p50/p95, agent operations, and preflight rejects.",
+    "Local focused tests and repository quality gates pass; no release is published by this Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "333ac79911567feb60a77ff5fb121b53ee697986",
+  "createdAt": "2026-09-17T06:11:08Z",
+  "goal": "Measure and compare the same scenarios on one machine and toolchain with release-grade warm samples, bind diagnostics and counters to each operation, and report explicit unknowns without claiming unsupported improvement.",
+  "intent": "Produce current-version paired Runtime and development-cycle performance evidence for the four-direction convergence acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "runtime production behavior changes",
+    "release publication",
+    "HCI/Outcome/architecture changes",
+    "Issue #851 recovery behavior",
+    "deleting prior benchmark evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f66d31c94e2fb65d480ce06945c58487147b75e1bfd866e85470b9bbe50a4fa",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**",
+    "docs/performance/**",
+    "docs/work-items/WI-876-performance-current-proof.*",
+    "docs/reference/reference-parity.*",
+    ".ai/evidence/WI-876-performance-current-proof/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-876-performance-current-proof"
+}

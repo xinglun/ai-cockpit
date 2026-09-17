@@ -36,6 +36,8 @@ class DevelopmentCycleCostTests(unittest.TestCase):
         self.assertEqual(contract["p95Ms"], 120.0)
         self.assertEqual(contract["agentOperations"], [4, 3])
         self.assertEqual(contract["preflightRejects"], [1, 0])
+        self.assertEqual(contract["agentOperationsBinding"], {"available": True, "values": [4, 3]})
+        self.assertEqual(contract["preflightRejectsBinding"], {"available": True, "values": [1, 0]})
         self.assertIsNone(report["stages"][2]["p95Ms"])
         self.assertEqual(report["stages"][2]["reason"], "stage_not_captured")
 
