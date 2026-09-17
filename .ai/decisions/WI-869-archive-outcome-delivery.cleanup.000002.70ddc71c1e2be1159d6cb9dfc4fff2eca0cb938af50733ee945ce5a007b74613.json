@@ -1,0 +1,24 @@
+{
+  "bindingDigest": "sha256:a0dcbbaf72e55ac895941663bee34c8598a8da1efe77c7ec4a07db554d0124ca",
+  "branchRef": "refs/heads/codex/wi-868-archive-outcome-delivery",
+  "contractDigest": "sha256:537242683ac7f1600ea1d663799eca2311a18e4de4c008e067f1558005afe6a9",
+  "headRevision": "225891e3d10fb5d12388ccb72fd12c378e39d69a",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T01:57:10Z",
+  "operationId": "sha256:f726ef7077ae47f6d1246639d00f3e35c877360068c0d5260dba331421fe9361",
+  "predecessorReceiptDigest": "sha256:8b1e0513a253638bd0a5d486873e04e4a567360418e0b9a7dadb1180ee2b9077",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "workItemId": "WI-869-archive-outcome-delivery",
+  "worktreeId": "sha256:2093ab3c627e0a05174336874ad7a46af980c28405814a4036949f966859c97a"
+}
