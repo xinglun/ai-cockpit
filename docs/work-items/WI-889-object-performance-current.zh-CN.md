@@ -4,9 +4,12 @@ workItemId: WI-889-object-performance-current
 title: 当前对象仓库性能证据
 description: 在选定对象仓库上建立当前版本 Runtime 与开发周期的配对测量。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-889-object-performance-current
+terminalArchive: .ai/work-items/archive/WI-889-object-performance-current.contract.json
+terminalVerification: .ai/evidence/WI-889-object-performance-current.verification.json
+terminalDecision: .ai/decisions/WI-889-object-performance-current.close.json
 ---
 
 # WI-889——当前对象仓库性能证据

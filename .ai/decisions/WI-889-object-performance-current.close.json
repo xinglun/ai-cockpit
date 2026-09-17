@@ -1,0 +1,204 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-889-object-performance-current.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+      "workItemId": "WI-889-object-performance-current"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-889-object-performance-current.verification-attempt.fe3b05ca3c63550470fe5064a88f55103a5095309e66c5d1dc0df0dee107dcce.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-889-object-performance-capture.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-889-object-performance-current.16210426f253eef56dd5760151eb992fedeb7a41f5ba9e4d15fd5eb130180d81.delegated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-889-object-performance-current.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-889-object-performance-current.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-889-object-performance-current.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-889-object-performance-current/development-cycle-cost.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by xinglun via user:authorized-to-complete-all-wi-tasks at 2026-09-17T20:53:48Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-889-object-performance-current.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-889-object-performance-current.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-889-object-performance-current.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.contract.json"
+          ],
+          "inference": false,
+          "text": "Measure current v0.2.95 Runtime behavior against the public v0.2.93 baseline on representative object repositories, report valid warm samples and explicit unknowns, and keep release publication as a later step."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-889-object-performance-current.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-889-object-performance-current"
+  },
+  "finalReportDigest": "sha256:8dfa365d2d73018d5f10d3d39461c8c00aac3dfb6d1aa77dde1fd1bd6902d45f",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:716018636d428b456f973b2a78c75c34c5c8e7980bac9461f2da777417e234e1",
+    "branch": "codex/wi-889-object-performance-current",
+    "branchRef": "refs/heads/codex/wi-889-object-performance-current",
+    "capturedAt": "2026-09-17T20:53:49Z",
+    "contractDigest": "sha256:60220d5e10333db3fc1cad8cff4a7f9d17c753d964f9a7a030d0e667bea168a4",
+    "headRevision": "32ac8022a3f8964d4879c93a71e79aaad1daa408",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+    "runtimeVersion": "0.2.95",
+    "schemaVersion": 1,
+    "workItemId": "WI-889-object-performance-current",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-889-object-performance-current",
+    "worktreeId": "sha256:5567771e039389d263d0677860c3bbb281c24f1b437ad1eb5391663df50f0c0c",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-889-object-performance-current"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:bb70e28199b8b19dea4aa21b29c027284ff670d393e6dec82727bf0e9511b03c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user:authorized-to-complete-all-wi-tasks",
+    "decidedAt": "2026-09-17T20:53:48Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-889-object-performance-current/development-cycle-cost.json"
+    ],
+    "policyRefs": [],
+    "reason": "The 100-sample paired evidence and required focused/workspace checks are complete; confirm closure while preserving the explicit no-improvement and unavailable-stage findings; release remains deferred.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-17T20:53:49Z",
+  "workItemId": "WI-889-object-performance-current"
+}

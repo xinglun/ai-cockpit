@@ -4,9 +4,12 @@ workItemId: WI-889-object-performance-current
 title: 現行 object repository の performance evidence
 description: 選定した object repository で現行 Runtime と開発サイクルを paired measurement する。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-889-object-performance-current
+terminalArchive: .ai/work-items/archive/WI-889-object-performance-current.contract.json
+terminalVerification: .ai/evidence/WI-889-object-performance-current.verification.json
+terminalDecision: .ai/decisions/WI-889-object-performance-current.close.json
 ---
 
 # WI-889 — 現行 object repository の performance evidence
