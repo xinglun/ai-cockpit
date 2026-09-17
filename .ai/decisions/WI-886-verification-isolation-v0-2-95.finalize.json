@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "wi-886-finalize-20260917T185255Z",
+  "operationId": "wi-886-provider-cleanup-pr-864",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-886-verification-isolation-v0-2-95",
+  "runtimeVersion": "0.2.95",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "provider": "github",
+  "pullRequest": {
+    "number": 864,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/864",
+    "headRevision": "596cab7cf8efda46991cf1fc4826379e1e448a39",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c3e0dae6f9e23ff3c47a188abe022e11dde10990",
+    "mergeCommit": "b573a83902b6a1581dc2630fa1829711426638ad"
+  },
+  "branch": {
+    "name": "codex/wi-886-verification-isolation-v0-2-95",
+    "remote": "origin",
+    "headRevision": "596cab7cf8efda46991cf1fc4826379e1e448a39"
+  },
+  "worktree": {
+    "worktreeId": "codex-wi-886-verification-isolation-v0-2-95",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-886-verification-isolation-v0-2-95",
+    "branch": "codex/wi-886-verification-isolation-v0-2-95",
+    "headRevision": "596cab7cf8efda46991cf1fc4826379e1e448a39"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:xinglun",
+  "authoritySource": "repository-policy:merge-cleanup",
+  "reason": "reviewed PR #864 merged; exact remote branch and worktree removed after archive records were synchronized",
+  "timestamp": "2026-09-17T18:52:55Z",
+  "contractDigest": "sha256:2d28c996b8c192b868a36840e7219e5f8dd58e2fd8b517698a75dccc48ef137c",
+  "contractBaseRevision": "c3e0dae6f9e23ff3c47a188abe022e11dde10990",
+  "resourceContext": {
+    "branch": "codex/wi-886-verification-isolation-v0-2-95",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-886-verification-isolation-v0-2-95",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/864"
+  }
+}

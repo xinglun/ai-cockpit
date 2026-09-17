@@ -1,0 +1,23 @@
+{
+  "provider": "github",
+  "subject": "pr:864@b573a83902b6a1581dc2630fa1829711426638ad",
+  "repository": "xinglun/ai-cockpit",
+  "pullRequest": 864,
+  "state": "MERGED",
+  "baseRef": "main",
+  "headRef": "codex/wi-886-verification-isolation-v0-2-95",
+  "headSha": "596cab7cf8efda46991cf1fc4826379e1e448a39",
+  "mergeCommit": "b573a83902b6a1581dc2630fa1829711426638ad",
+  "mergedAt": "2026-09-17T18:43:42Z",
+  "qualityRun": {
+    "id": 35259797074,
+    "status": "completed",
+    "conclusion": "success",
+    "workflow": "ai-cockpit quality",
+    "jobs": ["route", "v1-behavioral-oracle", "quality", "windows-runtime"]
+  },
+  "source": [
+    "gh pr view 864 --repo xinglun/ai-cockpit",
+    "gh run view 35259797074 --repo xinglun/ai-cockpit"
+  ]
+}

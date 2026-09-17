@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.38c232d6d2c1b8246d7be938b51906ae17a69a788968083746e89fc14012a039.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json",
-    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json",
+    ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json",
+    ".ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json",
     "docs/architecture/release-distribution.ja.md",
     "docs/architecture/release-distribution.md",
     "docs/architecture/release-distribution.zh-CN.md",

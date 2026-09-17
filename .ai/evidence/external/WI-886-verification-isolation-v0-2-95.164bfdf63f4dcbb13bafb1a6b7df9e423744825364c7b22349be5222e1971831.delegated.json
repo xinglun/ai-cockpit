@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-17T18:49:55Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-17T18:43:42Z",
+    "digest": "sha256:164bfdf63f4dcbb13bafb1a6b7df9e423744825364c7b22349be5222e1971831",
+    "origin": "https://github.com/xinglun/ai-cockpit/pull/864",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/github-pr-864.json",
+    "subject": "pr:864@b573a83902b6a1581dc2630fa1829711426638ad",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

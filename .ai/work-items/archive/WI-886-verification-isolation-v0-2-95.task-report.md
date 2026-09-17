@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.38c232d6d2c1b8246d7be938b51906ae17a69a788968083746e89fc14012a039.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json
-- Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json
+- Changed path: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json
+- Changed path: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.summary.json
 - Changed path: docs/architecture/release-distribution.ja.md
 - Changed path: docs/architecture/release-distribution.md
 - Changed path: docs/architecture/release-distribution.zh-CN.md
