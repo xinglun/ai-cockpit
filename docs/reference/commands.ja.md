@@ -78,7 +78,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 
 | Tool | 引数 | 典型的な call |
 | --- | --- | --- |
-| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}` | repository の事実または capability registry を読む。 |
+| `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`。`capability_show` は read-only interface description 用に `surface`、`format`、`language` も任意で受け付けます。 | repository の事実または capability registry を読む。 |
 | `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は任意の `language`（`en`、`zh`、`ja`）を受け付ける。 | `{"workItemId":"WI-123"}` |
 | `work_item_status` | `{"all":true}`、または Work Item id をちょうど 1 つ。 | `{"all":true}` |
 | `preflight` | repository 相対の `contract` が必須。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -204,6 +204,37 @@ Agent は次の順序で capability を発見します。repository-bound の st
   observed technical capability、profile confirmation、repository binding、adopter acceptance、external ownership
   は別 state です。file の存在だけでは `adopter_accepted` を証明せず、missing、malformed、stale、foreign
   input は unknown のままです。MCP では `capability_show` を使います。
+- Outcome 試行の読み取り専用インターフェース事実は、`capability show` に
+  `--surface work-item-outcome` を追加して取得できます。以下の生成領域は Runtime の protocol projection
+  から出力され、解析と wire shape だけを表し、権限や lifecycle の readiness を与えません。
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
+### インターフェース事実: `work-item-outcome`
+
+- Schema: `v1`
+- Runtime: `0.2.93`
+- パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
+
+#### `cli` · トランスポート: `argv`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `json` | `boolean` | `no` | `false` | `—` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+
+#### `mcp` · トランスポート: `json-rpc`
+
+| パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `id` |
+| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
 - `observe`、`capability show`、top-level `status`、single/all Work Item status を繰り返しても、tracked
   repository bytes や observer cache は書きません。
 - `work-item validate --repo <path> --id <id> [--json]` は Contract/Summary の scenario coverage、stable acceptance evidence、intent alignment、任意の final-dimensions receipt を read-only で検証します。

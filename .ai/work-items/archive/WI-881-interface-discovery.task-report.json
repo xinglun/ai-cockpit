@@ -1,0 +1,235 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-881-interface-discovery.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:2983cf5491910c1f3d0ad69a07874345b43da66ebd3317d613e778fee190eaa9",
+    "workItemId": "WI-881-interface-discovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-881-interface-discovery.verification-attempt.c498553e51dc89d2278a0d451150b23a9cd02289809d93ec80d8898b17d8b6b9.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-881-interface-discovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-881-interface-discovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/install.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/capabilities.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/capabilities.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/capabilities.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/agent-first-start.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/superpowers/plans/2026-09-17-WI-881-interface-discovery.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/superpowers/specs/2026-09-17-interface-discovery-design.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-881-interface-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-881-interface-discovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-881-interface-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-881-interface-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-881-interface-discovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.contract.json"
+        ],
+        "inference": false,
+        "text": "For one selected command-family trial, maintain interface facts once, expose deterministic machine and human descriptions through existing CLI/MCP discovery paths, keep embedded Agent guidance ownership-safe and version-consistent, and prove reduced duplicate maintenance without changing lifecycle or Outcome delivery behavior."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-881-interface-discovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-881-interface-discovery"
+}

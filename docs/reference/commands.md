@@ -81,6 +81,39 @@ managed sections. Use `ai-cockpit --help`, the relevant group help, and
 `capability show --repo <path>` to discover exact command schemas; a listed
 capability is not authorization or readiness.
 
+For the read-only interface facts used by the Outcome trial, add
+`--surface work-item-outcome` to `capability show`. The generated facts below
+come from the Runtime protocol projection; they describe parsing and wire
+shape, not permission or lifecycle readiness.
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
+### Interface facts: `work-item-outcome`
+
+- Schema: `v1`
+- Runtime: `0.2.93`
+- Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
+
+#### `cli` · Transport: `argv`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `id` | `string` | `yes` | `—` | `—` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `json` | `boolean` | `no` | `false` | `—` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+
+#### `mcp` · Transport: `json-rpc`
+
+| Parameters | Type | Required | Default | Enum | Aliases |
+| --- | --- | --- | --- | --- | --- |
+| `workItemId` | `string` | `yes` | `—` | `—` | `id` |
+| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `delivery` | `boolean` | `no` | `false` | `—` | `—` |
+| `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
+
+<!-- AI_COCKPIT_INTERFACE_FACTS:END work-item-outcome -->
+
 ## Release recovery identity binding
 
 The release workflow accepts a governance identity (`work_item_id` or
@@ -108,7 +141,7 @@ before any repository operation runs.
 
 | Tool | Arguments | Typical call |
 | --- | --- | --- |
-| `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}` | Read repository facts or the capability registry. |
+| `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}`; `capability_show` also accepts optional `surface`, `format`, and `language` for a read-only interface description. | Read repository facts or the capability registry. |
 | `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts `language` (`en`, `zh`, `ja`). | `{"workItemId":"WI-123"}` |
 | `work_item_start` | Required `workItemId`, human-supplied `intent` and `goal`, and non-empty `scope`; optional `outOfScope`, `risk`, `authority`, `acceptanceCriteria`, `requiredEvidenceClasses`, and `sources`. It persists preflight and creates exactly one before-edit checkpoint only when no blocker or human-confirmation boundary is present. | `{"workItemId":"WI-123","intent":"reduce repeated setup","goal":"prepare before implementation","scope":["src/**"],"authority":"authorized","sources":["issue:123"]}` |
 | `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |

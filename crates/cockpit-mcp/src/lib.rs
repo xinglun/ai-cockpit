@@ -62,9 +62,29 @@ fn mcp_tool_schema(name: &str) -> Value {
         "id": string_property("Deprecated alias for workItemId."),
     });
     match name {
-        "status" | "work_item_list" | "repository_observe" | "capability_show" => {
-            object_schema(json!({}), &[])
-        }
+        "status" | "work_item_list" | "repository_observe" => object_schema(json!({}), &[]),
+        "capability_show" => object_schema(
+            json!({
+                "surface": {
+                    "type": "string",
+                    "enum": [cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE],
+                    "description": "Optional read-only interface description surface.",
+                },
+                "format": {
+                    "type": "string",
+                    "enum": ["json", "markdown"],
+                    "default": "json",
+                    "description": "Description encoding; JSON is language-neutral.",
+                },
+                "language": {
+                    "type": "string",
+                    "enum": ["en", "zh", "zh-CN", "ja"],
+                    "default": "en",
+                    "description": "Markdown labels only; structured facts remain unchanged.",
+                },
+            }),
+            &[],
+        ),
         "work_item_get" => {
             let mut schema = object_schema(id_properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
@@ -325,7 +345,7 @@ fn mcp_tool_definitions() -> Vec<Value> {
         ),
         (
             "capability_show",
-            "Show Runtime- and repository-bound capability truth.",
+            "Show Runtime- and repository-bound capability truth, or a deterministic read-only interface description.",
         ),
         (
             "preflight",
@@ -370,7 +390,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         .ok_or_else(|| format!("invalid arguments for {name}: expected a JSON object"))?;
 
     let allowed = match name {
-        "status" | "work_item_list" | "repository_observe" | "capability_show" => &[][..],
+        "status" | "work_item_list" | "repository_observe" => &[][..],
+        "capability_show" => &["surface", "format", "language"][..],
         "work_item_get" | "work_item_validate" => &["workItemId", "id"][..],
         "work_item_start" => &[
             "workItemId",
@@ -577,7 +598,41 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 _ => unreachable!(),
             }
         }
-        "status" | "work_item_list" | "repository_observe" | "capability_show" => {}
+        "capability_show" => {
+            if let Some(surface) = object.get("surface") {
+                let surface = surface.as_str().ok_or_else(|| {
+                    "invalid arguments for capability_show: surface must be a string".to_owned()
+                })?;
+                if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
+                    return Err(format!(
+                        "invalid arguments for capability_show: unsupported surface {surface}"
+                    ));
+                }
+            }
+            if let Some(format) = object.get("format") {
+                let format = format.as_str().ok_or_else(|| {
+                    "invalid arguments for capability_show: format must be a string".to_owned()
+                })?;
+                if !matches!(format, "json" | "markdown") {
+                    return Err(
+                        "invalid arguments for capability_show: format must be json or markdown"
+                            .into(),
+                    );
+                }
+            }
+            if let Some(language) = object.get("language") {
+                let language = language.as_str().ok_or_else(|| {
+                    "invalid arguments for capability_show: language must be a string".to_owned()
+                })?;
+                if !matches!(language, "en" | "zh" | "ja" | "zh-CN") {
+                    return Err(
+                        "invalid arguments for capability_show: language must be en, zh, zh-CN, or ja"
+                            .into(),
+                    );
+                }
+            }
+        }
+        "status" | "work_item_list" | "repository_observe" => {}
         _ => {}
     }
     Ok(())
@@ -759,13 +814,42 @@ pub fn handle_request_for_repo(
             .map_err(|error| error.to_string())
             .and_then(|value| serde_json::to_value(value).map_err(|error| error.to_string())),
         "repository_observe" => repository_observe(repo),
-        "capability_show" => require_compatible(repo, runtime).and_then(|_| {
-            cockpit_repository::capability_truth_registry_with_runtime(repo, runtime)
-                .map_err(|error| error.to_string())
-                .and_then(|registry| {
-                    serde_json::to_value(registry).map_err(|error| error.to_string())
+        "capability_show" => {
+            if arguments.get("surface").is_some() {
+                let description = cockpit_protocol::work_item_outcome_interface_description();
+                match arguments
+                    .get("format")
+                    .and_then(Value::as_str)
+                    .unwrap_or("json")
+                {
+                    "json" => serde_json::to_value(description).map_err(|error| error.to_string()),
+                    "markdown" => Ok(json!({
+                        "surface": cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE,
+                        "format": "markdown",
+                        "language": arguments
+                            .get("language")
+                            .and_then(Value::as_str)
+                            .unwrap_or("en"),
+                        "body": cockpit_protocol::render_interface_description_markdown(
+                            &description,
+                            arguments
+                                .get("language")
+                                .and_then(Value::as_str)
+                                .unwrap_or("en"),
+                        ),
+                    })),
+                    _ => unreachable!("capability_show format is validated before dispatch"),
+                }
+            } else {
+                require_compatible(repo, runtime).and_then(|_| {
+                    cockpit_repository::capability_truth_registry_with_runtime(repo, runtime)
+                        .map_err(|error| error.to_string())
+                        .and_then(|registry| {
+                            serde_json::to_value(registry).map_err(|error| error.to_string())
+                        })
                 })
-        }),
+            }
+        }
         "knowledge_query" => require_compatible(repo, runtime).and_then(|_| {
             let projection_path = repo.join(".ai/knowledge/index.json");
             let before = fs::read(&projection_path).ok();

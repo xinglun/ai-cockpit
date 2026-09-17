@@ -356,3 +356,41 @@ fn cli_subprocess_and_mcp_handler_agree_on_the_same_outcome() {
         }
     }
 }
+
+#[test]
+fn cli_and_mcp_interface_descriptions_share_the_protocol_facts() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    let cli_output = Command::new(binary)
+        .args(["capability", "show", "--repo"])
+        .arg(repo.path())
+        .args(["--surface", "work-item-outcome", "--format", "json"])
+        .output()
+        .expect("cli interface description");
+    assert!(
+        cli_output.status.success(),
+        "stderr={}",
+        String::from_utf8_lossy(&cli_output.stderr)
+    );
+    let cli_description: serde_json::Value =
+        serde_json::from_slice(&cli_output.stdout).expect("CLI description JSON");
+
+    let response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc": "2.0",
+            "id": 18,
+            "method": "tools/call",
+            "params": {
+                "name": "capability_show",
+                "arguments": {"surface": "work-item-outcome", "format": "json"}
+            }
+        }),
+        repo.path(),
+        &current_runtime_context(binary),
+    );
+    assert_eq!(response["result"]["isError"], false);
+    assert_eq!(
+        cli_description, response["result"]["structuredContent"],
+        "CLI and MCP must project the same protocol-owned interface facts"
+    );
+}

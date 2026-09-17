@@ -742,7 +742,23 @@ enum CapabilityCommand {
     Show {
         #[arg(long)]
         repo: PathBuf,
+        /// Optionally return a deterministic description for one discoverable
+        /// interface without observing repository state.
+        #[arg(long)]
+        surface: Option<String>,
+        /// Description encoding; the existing no-surface registry remains JSON.
+        #[arg(long, value_enum, default_value = "json")]
+        format: CapabilityFormat,
+        /// Language for Markdown labels; structured JSON is language-neutral.
+        #[arg(long, default_value = "en")]
+        language: String,
     },
+}
+
+#[derive(Clone, Debug, clap::ValueEnum)]
+enum CapabilityFormat {
+    Json,
+    Markdown,
 }
 
 #[derive(Debug, Subcommand)]
@@ -2579,14 +2595,43 @@ fn run() -> Result<()> {
             },
         },
         CommandKind::Capability { command } => match command {
-            CapabilityCommand::Show { repo } => {
-                require_compatible(&repo, &runtime_context)?;
-                let registry = cockpit_repository::capability_truth_registry_with_runtime(
-                    &repo,
-                    &runtime_context,
-                )
-                .context("derive capability truth registry")?;
-                println!("{}", serde_json::to_string_pretty(&registry)?);
+            CapabilityCommand::Show {
+                repo,
+                surface,
+                format,
+                language,
+            } => {
+                if let Some(surface) = surface {
+                    if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
+                        anyhow::bail!(
+                            "unknown capability description surface `{surface}`; supported surface: {}",
+                            cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE
+                        );
+                    }
+                    let description = cockpit_protocol::work_item_outcome_interface_description();
+                    match format {
+                        CapabilityFormat::Json => {
+                            println!("{}", serde_json::to_string_pretty(&description)?);
+                        }
+                        CapabilityFormat::Markdown => {
+                            print!(
+                                "{}",
+                                cockpit_protocol::render_interface_description_markdown(
+                                    &description,
+                                    &language,
+                                )
+                            );
+                        }
+                    }
+                } else {
+                    require_compatible(&repo, &runtime_context)?;
+                    let registry = cockpit_repository::capability_truth_registry_with_runtime(
+                        &repo,
+                        &runtime_context,
+                    )
+                    .context("derive capability truth registry")?;
+                    println!("{}", serde_json::to_string_pretty(&registry)?);
+                }
             }
         },
         CommandKind::Diagnose { repo, work_item } => {
@@ -3340,12 +3385,12 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{
-        Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
-        record_ordinary_cleanup_command,
+        CapabilityCommand, CapabilityFormat, Cli, CommandKind, WorkItemCommand,
+        concurrent_phase_elapsed, record_ordinary_cleanup_command,
     };
-    use clap::Parser;
+    use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
-    use cockpit_protocol::RuntimeContext;
+    use cockpit_protocol::{RuntimeContext, work_item_outcome_interface_description};
     use std::process::Command;
 
     #[test]
@@ -3378,6 +3423,91 @@ mod tests {
             std::path::PathBuf::from("/tmp/ordinary-cleanup-repository")
         );
         assert_eq!(id, "WI-ORDINARY-CLEANUP");
+    }
+
+    #[test]
+    fn capability_description_parser_has_a_read_only_surface_and_format() {
+        let cli = Cli::try_parse_from([
+            "ai-cockpit",
+            "capability",
+            "show",
+            "--repo",
+            "/tmp/interface-description-repository",
+            "--surface",
+            "work-item-outcome",
+            "--format",
+            "markdown",
+            "--language",
+            "zh-CN",
+        ])
+        .expect("parse interface description command");
+
+        let CommandKind::Capability {
+            command:
+                CapabilityCommand::Show {
+                    repo,
+                    surface,
+                    format: CapabilityFormat::Markdown,
+                    language,
+                },
+        } = cli.command
+        else {
+            panic!("capability description must parse to the existing show entry point");
+        };
+        assert_eq!(
+            repo,
+            std::path::PathBuf::from("/tmp/interface-description-repository")
+        );
+        assert_eq!(surface.as_deref(), Some("work-item-outcome"));
+        assert_eq!(language, "zh-CN");
+    }
+
+    #[test]
+    fn outcome_description_facts_match_clap_arguments() {
+        let root = Cli::command();
+        let outcome = root
+            .find_subcommand("work-item")
+            .and_then(|command| command.find_subcommand("outcome"))
+            .expect("work-item outcome command");
+        let description = work_item_outcome_interface_description();
+        let cli_surface = description
+            .surfaces
+            .iter()
+            .find(|surface| surface.name == "cli")
+            .expect("CLI description surface");
+
+        for parameter in &cli_surface.parameters {
+            let argument = outcome
+                .get_arguments()
+                .find(|argument| argument.get_id().as_str() == parameter.name)
+                .unwrap_or_else(|| panic!("missing Clap argument {}", parameter.name));
+            assert_eq!(
+                argument.is_required_set(),
+                parameter.required,
+                "{}",
+                parameter.name
+            );
+            if !parameter.enum_values.is_empty() {
+                let values: Vec<_> = argument
+                    .get_possible_values()
+                    .into_iter()
+                    .map(|value| value.get_name().to_owned())
+                    .collect();
+                assert_eq!(values, parameter.enum_values, "{}", parameter.name);
+            }
+            if let Some(default) = parameter.default.as_deref() {
+                if parameter.name == "view" {
+                    assert_eq!(
+                        argument
+                            .get_default_values()
+                            .iter()
+                            .map(|value| value.to_string_lossy().into_owned())
+                            .collect::<Vec<_>>(),
+                        vec![default.to_owned()]
+                    );
+                }
+            }
+        }
     }
 
     #[test]

@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:c498553e51dc89d2278a0d451150b23a9cd02289809d93ec80d8898b17d8b6b9",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "74e198effb13c7053f65469be6c260d18dffaab0",
+      "commandDigest": "sha256:ac493f722c50a78eb3d152fa914627132c442609bfd16eb94c89cca22f9c1eab",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:aef2cb63890b182c9d5827ccd1c1f8983daa841dc4e42ed5c8dff457c45a9f3a",
+  "contractExecutionScopeDigest": "sha256:9bbe2006c11fa26fd152c2d2ce0fc1e143c495264670008dd6c90dc0d1cdad49",
+  "createdAt": "2026-09-17T13:49:23Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-881-interface-discovery/.ai/work-items/active/WI-881-interface-discovery.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2983cf5491910c1f3d0ad69a07874345b43da66ebd3317d613e778fee190eaa9",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-881-interface-discovery"
+}

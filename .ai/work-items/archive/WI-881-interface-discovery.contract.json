@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "One selected command-family parameter change is reflected in CLI behavior, the machine description, MCP schema, and the generated reference facts without editing separate copies of the same interface fact.",
+    "The description exposes stable names, types, requiredness, defaults, enumerations, schema version, and Runtime version; its values agree with actual parsing and MCP validation.",
+    "Two consecutive generations are byte-identical, deterministic without network/time/machine paths, and preserve human-authored explanation outside a marked generated region in English, Simplified Chinese, and Japanese.",
+    "Agent guidance and managed adapter checks distinguish current, owned-old, user-modified, and unknown-ownership states; doctor is read-only, updates are ownership-safe, and repeated install/update is idempotent.",
+    "Description and documentation validation do not start verification subprocesses, scan Work Item history, infer permissions, or alter lifecycle, authorization, Outcome, or receipt semantics.",
+    "Existing amendment, events, task report, and Outcome records remain the handoff source; no parallel handoff log or receipt system is introduced.",
+    "The final Outcome records before/after maintenance locations, operation steps, verification commands, measured durations, resolved limits, and unknown benefits without claiming unmeasured improvement."
+  ],
+  "authority": "authorized",
+  "baseRevision": "74e198effb13c7053f65469be6c260d18dffaab0",
+  "createdAt": "2026-09-17T13:25:07Z",
+  "goal": "For one selected command-family trial, maintain interface facts once, expose deterministic machine and human descriptions through existing CLI/MCP discovery paths, keep embedded Agent guidance ownership-safe and version-consistent, and prove reduced duplicate maintenance without changing lifecycle or Outcome delivery behavior.",
+  "intent": "Reduce AI Cockpit interface-documentation and Agent-operation cost by using a shared deterministic description projection for one command-family trial, embedded guidance consistency checks, and existing handoff records without changing governance semantics.",
+  "mode": "code",
+  "outOfScope": [
+    "BAML as a dependency or runtime",
+    "lifecycle",
+    " verification executor",
+    " authorization",
+    " receipt protocol redesign",
+    "full documentation migration or wholesale translation rewrite",
+    "new approval or acknowledgement gates",
+    "Sentinel and object-repository main branches",
+    "Rust toolchain/dependency upgrade",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f7ff37e59967d1e91f25f386ea8dd9289b4eb4311a0ce7800b4a20b68389e938",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The selected work-item outcome parameter facts, defaults, enum values, and requiredness are emitted from the declared shared description projection and agree with actual CLI parsing and MCP schema behavior.",
+      "required": true,
+      "scenario": "outcome-interface-description-parity",
+      "status": "unverified",
+      "verificationPlan": "Run focused CLI and MCP parity tests against valid and invalid outcome arguments, including summary/full defaults, language values, delivery, and alias requirements."
+    },
+    {
+      "evidence": [],
+      "expected": "Two description/reference generations are byte-identical and update only a marked generated interface-fact region while preserving human-authored explanation in all three languages.",
+      "required": true,
+      "scenario": "deterministic-reference-generation",
+      "status": "unverified",
+      "verificationPlan": "Run the generator twice in an isolated fixture, compare digests, and run the tri-language documentation checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Embedded guidance, managed adapter content, install, doctor, old-version detection, user modification detection, and idempotent update retain ownership-safe behavior.",
+      "required": true,
+      "scenario": "agent-guidance-ownership",
+      "status": "unverified",
+      "verificationPlan": "Run cockpit-agent install and doctor tests for current, stale-but-owned, modified, and repeated-install states."
+    },
+    {
+      "evidence": [],
+      "expected": "Interface description and documentation validation do not scan Work Item history or start verification subprocesses.",
+      "required": true,
+      "scenario": "discovery-is-read_only",
+      "status": "unverified",
+      "verificationPlan": "Run command-level tests with subprocess and repository-observation counters asserted at zero."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-cli/tests/agent.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/doctor.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/agent-first-start.zh-CN.md",
+    "docs/reference/agent-first-start.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/capabilities.md",
+    "docs/capabilities.zh-CN.md",
+    "docs/capabilities.ja.md",
+    "docs/superpowers/specs/2026-09-17-interface-discovery-design.md",
+    "docs/superpowers/plans/2026-09-17-WI-881-interface-discovery.md",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-protocol/src/interface_description.rs"
+  ],
+  "sources": [
+    "https://github.com/boundaryml/baml/tree/6ed9c768a56b7bc626b09846122ff5074aa903cf",
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    "commit:74e198effb13c7053f65469be6c260d18dffaab0",
+    "crates/cockpit-cli/src/main.rs:WorkItemCommand::Outcome",
+    "crates/cockpit-mcp/src/lib.rs:mcp_tool_schema(work_item_outcome)",
+    "crates/cockpit-agent/src/lib.rs:managed_block/install/doctor"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-881-interface-discovery"
+}
