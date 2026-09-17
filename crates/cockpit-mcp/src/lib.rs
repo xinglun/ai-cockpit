@@ -1463,6 +1463,9 @@ fn work_item_outcome(
         let mut delivery =
             cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)
                 .map_err(|error| error.to_string())?;
+        let mut host = cockpit_agent::ReturnOnlyOutcomeHost::default();
+        let delivery_report = cockpit_agent::deliver_outcome(&delivery, &mut host, None)
+            .map_err(|error| error.to_string())?;
         delivery.delivery_state = "returned_to_consumer".into();
         delivery.host_confirmation = "unknown".into();
         let handoff = delivery.body.clone();
@@ -1475,6 +1478,9 @@ fn work_item_outcome(
             "outcome": outcome,
             "humanHandoff": handoff,
             "outcomeDelivery": delivery,
+            "deliveryReport": delivery_report,
+            "returnedSegmentEvents": host.returned_segment_count(),
+            "hostDeliveryMode": "full_handoff_only",
             "language": language,
             "contractLanguageBoundary": "Acceptance criteria remain in their original Contract language and are not machine-translated.",
             "hostDisplayConfirmation": "unknown"

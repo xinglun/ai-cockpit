@@ -112,7 +112,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - `work-item slot acquire|release|list` 管理 `.ai/parallel/leases/` 下的独占 lease。lease 绑定
   repository 与 Work Item；缺失、格式错误、含糊或过期状态都会 fail closed，不存在全局 current Work Item。
 - `start` 要求 `--id`、`--intent`、`--goal`；要得到 green governed flow 需要 `--authority authorized`。
-- `start` 或 `work-item new` 之前，Runtime 会执行 repository-scoped 入口门禁。非 `.ai` 的工作区变更、detached HEAD、已发现的远端默认 ref 与当前 HEAD 不一致，或存在没有有效 close decision 的 archived Work Item，都会 fail closed；门禁不会改写 archived bytes。`work-item recover` 创建的 successor 是显式的同一修复链续接，不是独立的下一个 Work Item。
+- `start` 或 `work-item new` 之前，Runtime 会执行 repository-scoped 入口门禁。非 `.ai` 的工作区变更、detached HEAD、已发现的远端默认 ref 与当前 HEAD 不一致，或存在没有有效 close decision 的 archived Work Item，都会 fail closed；门禁不会改写 archived bytes。`work-item recover` 创建的 successor 是显式的同一修复链续接，不是独立的下一个 Work Item。它的 preflight 仍会检查 archived scope 关系：可证明不相交且有效的历史 scope 不会成为全局 blocker；重叠只有在同一 repository 绑定的 recovery decision 下才允许；格式错误、外部身份、过期、符号链接或摘要不匹配的历史仍 fail-closed。
 - 同一入口门禁还会拒绝普通 Work Item 使用 repository primary worktree 或已知 default branch。请使用 feature branch 上的专用 linked worktree。没有明确远端 default base 的 linked worktree 会被拒绝，不会被当作 ready；没有 linked worktree 的本地 calibration repository 仍保持 `status: unknown`，直到配置了可发现的 base。
 - `work-item new --repo <path> --id <id> --mode <mode>` 创建 `not_ready` 骨架，只填充 snapshot-derived facts，
   人类字段保持空值或 `unknown`；过渡期 `start` 复用同一 writer。repository-local 独占 reservation

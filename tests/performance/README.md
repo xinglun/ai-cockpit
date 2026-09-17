@@ -73,6 +73,8 @@ provider stages are unavailable, never zero.
 Each record retains raw samples, warmup count, sample count, quantile method,
 Runtime/repository identity, repository state, data scale, scenario-matrix
 status, phase boundaries, cache-invalidation reasons, and resource metrics.
+It also records the resolved `rustc`, `cargo`, and active rustup toolchain
+identity; paired baseline/candidate comparisons reject a toolchain mismatch.
 Internal read bytes, hash bytes, Git calls, child-process counts, and peak
 memory are marked unavailable when the Runtime or platform cannot provide
 them; they are never represented as zero. It requires an external executable

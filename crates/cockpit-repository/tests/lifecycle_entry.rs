@@ -1993,6 +1993,7 @@ fn start_rejects_clean_branch_ahead_of_discoverable_default_base() {
 #[test]
 fn recovery_scaffold_may_activate_on_its_existing_ahead_branch() {
     let directory = repository();
+    write_unclosed_archive(directory.path(), "WI-OLD", &["docs/**"]);
     fs::write(directory.path().join("README.md"), "base\n").expect("base file");
     run(directory.path(), &["add", "-A"]);
     run(
@@ -2073,6 +2074,113 @@ fn recovery_scaffold_may_activate_on_its_existing_ahead_branch() {
         },
     )
     .expect("recovery continuation should bypass only the ordinary base check");
+}
+
+#[test]
+fn recovery_continuation_does_not_bypass_untrusted_archived_scope() {
+    let directory = repository();
+    let (manifest_path, _) = write_unclosed_archive(directory.path(), "WI-OLD", &["src/**"]);
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/archive/WI-OLD.contract.json");
+    fs::write(directory.path().join("README.md"), "base\n").expect("base file");
+    run(directory.path(), &["add", "-A"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "base",
+        ],
+    );
+    run(directory.path(), &["branch", "-M", "main"]);
+    let base = output(directory.path(), &["rev-parse", "HEAD"])
+        .trim()
+        .to_owned();
+    run(
+        directory.path(),
+        &[
+            "remote",
+            "add",
+            "origin",
+            "https://example.invalid/origin.git",
+        ],
+    );
+    run(
+        directory.path(),
+        &["update-ref", "refs/remotes/origin/main", &base],
+    );
+    run(
+        directory.path(),
+        &[
+            "symbolic-ref",
+            "refs/remotes/origin/HEAD",
+            "refs/remotes/origin/main",
+        ],
+    );
+    run(directory.path(), &["checkout", "-qb", "recovery"]);
+    scaffold_work_item(directory.path(), "WI-RECOVERY", "implementation")
+        .expect("recovery scaffold");
+    let mut predecessor: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("predecessor Contract"))
+            .expect("predecessor Contract JSON");
+    predecessor["scope"] = serde_json::json!(["other/**"]);
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&predecessor).expect("tampered predecessor Contract"),
+    )
+    .expect("tamper predecessor Contract");
+    // Keep the manifest bytes unchanged so the Runtime must classify the
+    // historical scope as untrusted instead of allowing recovery to bypass it.
+    assert!(fs::read(&manifest_path).is_ok());
+    let recovery_contract = directory
+        .path()
+        .join(".ai/work-items/active/WI-RECOVERY.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&recovery_contract).expect("recovery contract"))
+            .expect("recovery contract JSON");
+    contract["predecessorWorkItemId"] = serde_json::json!("WI-OLD");
+    fs::write(
+        &recovery_contract,
+        serde_json::to_vec_pretty(&contract).expect("serialize recovery contract"),
+    )
+    .expect("bind recovery predecessor");
+    run(directory.path(), &["add", "-A"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=test",
+            "commit",
+            "-qm",
+            "reserve recovery continuation",
+        ],
+    );
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-RECOVERY",
+        "continue the recovery",
+        "do not bypass untrusted historical scope",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["untrusted history remains blocking".into()],
+            ..start_options()
+        },
+    )
+    .expect_err("recovery must remain blocked by untrusted history");
+    assert!(
+        error
+            .to_string()
+            .contains("archived_work_item_scope_untrusted:WI-OLD"),
+        "unexpected recovery blocker: {error}"
+    );
 }
 
 #[test]

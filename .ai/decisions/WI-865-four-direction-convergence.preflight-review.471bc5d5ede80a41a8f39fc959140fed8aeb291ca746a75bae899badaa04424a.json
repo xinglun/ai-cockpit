@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8a5a2578d38463f49e2d8327555a930a6aadb0f11bcba939d193c7d5a318a641",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:31e2c2ba4027adf5e11f23f6ea2d4af01d0c20853664916b5461a2097b571b46",
+  "reason": "用户确认按当前 WI-865 Contract 和当前仓库快照继续完成全部任务；发布仅在全部 WI 完成并通过最终验收后执行。",
+  "recordedAt": "2026-09-17T03:08:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+  "schemaVersion": 1,
+  "workItemId": "WI-865-four-direction-convergence"
+}

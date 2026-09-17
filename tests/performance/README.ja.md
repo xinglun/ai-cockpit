@@ -40,7 +40,7 @@ Portable `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
 保持し、最初に測定した独立 CLI process、OS cache warmup 後の独立 CLI process、常駐 MCP の未測定を明示的に
 区別します。各 record は raw sample、warmup 数、sample 数、quantile method、Runtime/repository identity、
 repository state、data scale、scenario matrix、phase boundary、cache invalidation reason、resource metric を
-保持します。Runtime または platform から信頼できる値を得られない read bytes、hash bytes、Git call 数、
+保持します。解決された `rustc`、`cargo`、active rustup toolchain の identity も保存し、baseline/candidate の paired 比較は toolchain が一致しない場合に拒否します。Runtime または platform から信頼できる値を得られない read bytes、hash bytes、Git call 数、
 child process 数、peak memory は unavailable と記録し、zero にはしません。外部の executable regular file
 だけを受け付け、Runtime identity と file SHA-256 を記録して atomic に出力し、source fallback の build/run は
 行いません。1 iteration の sanity run から p95/p99 を主張してはなりません。release gate には明示的にレビュー

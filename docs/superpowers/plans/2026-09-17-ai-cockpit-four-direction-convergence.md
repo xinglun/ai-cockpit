@@ -1,6 +1,6 @@
 ---
 title: "AI Cockpit four-direction convergence"
-status: implemented
+status: in_progress
 workItem: WI-865-four-direction-convergence
 ---
 

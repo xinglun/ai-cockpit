@@ -44,6 +44,7 @@ pub fn start_work_item_with_options(
         work_item_start_advisory_with_mode(root, work_item_id, recovery_continuation)?;
     validate_start_entry(
         root,
+        work_item_id,
         scope,
         recovery_continuation,
         &start_advisory.conflicts,
@@ -693,7 +694,7 @@ pub fn scaffold_work_item(
     // advisory is returned to both machine callers and the CLI so an Agent
     // cannot silently miss cleanup work between Work Items.
     let start_advisory = work_item_start_advisory(root, work_item_id)?;
-    validate_start_entry(root, &[], false, &start_advisory.conflicts)?;
+    validate_start_entry(root, work_item_id, &[], false, &start_advisory.conflicts)?;
     let mut receipt = scaffold_work_item_internal(root, work_item_id, mode)?;
     receipt.start_advisory = Some(start_advisory);
     Ok(receipt)

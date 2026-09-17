@@ -36,7 +36,8 @@ request-scoped 和 identity-bound，不创建全局 repository cache，也不复
 [work-item-id] [budgets.json]` 输出 schema 2 的端到端进程墙钟证据。它保留采样顺序，区分首次测量的
 独立 CLI 进程、一次有界 OS 缓存预热后的独立 CLI 进程，并明确标记常驻 MCP 未测量。每条记录保留原始
 样本、预热次数、样本数、分位数方法、Runtime/仓库身份、仓库状态、数据规模、场景矩阵状态、阶段边界、
-缓存失效原因和资源指标。Runtime 或平台无法可靠提供的实际读取字节、哈希字节、Git 调用数、子进程数和
+缓存失效原因和资源指标。同时记录解析出的 `rustc`、`cargo` 和 active rustup toolchain 身份；基线与候选的配对比较在 toolchain 不一致时拒绝。
+Runtime 或平台无法可靠提供的实际读取字节、哈希字节、Git 调用数、子进程数和
 峰值内存会标记为不可用，绝不填零。脚本要求外部可执行普通文件，记录 Runtime 报告的身份和文件 SHA-256，
 原子写出结果，绝不构建或回退到源码。单次迭代 sanity run 不得用于 p95/p99 声明；发布 gate 必须再用
 经过明确审查的 budget 文件调用 `p0_regression_gate.sh`；旧 schema 1 夹具继续调用 `regression_gate.sh`。

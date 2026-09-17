@@ -53,6 +53,13 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 本文 digest を保持し、中断後は同じ payload を resume/retry します。retry は verification や
 archive を再実行しません。host に idempotency がない場合は重複メッセージのリスクを示し、
 厳密な exactly-once や人が読んだ/承認したという主張をしません。
+本番 CLI と MCP の境界は同じ return-only adapter で segment の handoff 数を記録し、
+`hostDeliveryMode: "full_handoff_only"` と示します。これは完全な本文が tool consumer に渡ったことだけを示し、
+下流の Codex/Claude 会話で assistant message が表示されたことは主張しません。本リポジトリには Codex/Claude の
+送信 API がないため、自動的な会話 delivery は未対応で `unknown` として報告します。host adapter が送信 API を
+提供する場合は共有 delivery 関数を呼び、message ごとの receipt を返さなければなりません。resume は単独の数値 offset を受け付けず、
+同じ delivery、Work Item、archive、language、segment digest に bind された連続 progress record と
+accepted receipt が必要です。unknown の receipt はこの境界を進めません。
 
 既定の summary は四つのセクションです。
 

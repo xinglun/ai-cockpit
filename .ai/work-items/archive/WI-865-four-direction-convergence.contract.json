@@ -9,7 +9,11 @@
     "Archive delivery never derives accepted or displayed state from host capability flags; each sent segment requires an actual host result or remains explicitly unknown.",
     "Delivery resume uses an identity-bound progress record for the same Work Item, archive, language, and body; an unproven resume position, including zero-send completion, is rejected and cannot claim completion.",
     "Supported host boundaries are documented honestly: automatic assistant-message delivery is claimed only where a production host callback exists; otherwise the full Outcome is a complete handoff with unknown display state and explicit forwarding action.",
-    "Issue #851 recovery successors still apply archived-scope checks: provably disjoint valid history is advisory, overlapping history requires the exact recovery decision, and malformed, foreign, stale, symlinked, or digest-mismatched history remains fail-closed with tri-language regression fixtures."
+    "Issue #851 recovery successors still apply archived-scope checks: provably disjoint valid history is advisory, overlapping history requires the exact recovery decision, and malformed, foreign, stale, symlinked, or digest-mismatched history remains fail-closed with tri-language regression fixtures.",
+    "The repository declares the authorized stable Rust 1.98.1 toolchain and workspace rust-version consistently, with format, check, lint, and test verification performed under that toolchain.",
+    "The locked dependency graph is refreshed only through Cargo's resolver/update path, remains reproducible, and passes the affected and workspace verification commands without weakening evidence, authorization, or release controls.",
+    "Dependency and toolchain changes are reported separately from the Outcome delivery fix, and no release or publication is performed in this Work Item before final acceptance.",
+    "The lifecycle entry implementation covered by the Issue #851 recovery-scope regression remains within the amended Contract and is verified together with its repository-bound tests."
   ],
   "authority": "用户 2026-09-17 四方向收敛开发指示明确授权本轮代码、测试、测量、评审材料以及后续受控 PR/合并；明确禁止自动发布新版本。",
   "baseRevision": "ef4625f9e88e9af030a7f448896061ea24ece770",
@@ -26,7 +30,10 @@
   "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
   "requiredEvidenceClasses": [
     "verification",
-    "verification_receipt"
+    "verification_receipt",
+    "rust_toolchain_identity",
+    "locked_dependency_graph",
+    "workspace_verification_under_candidate_toolchain"
   ],
   "risk": "high",
   "scenarioCoverage": [
@@ -101,6 +108,14 @@
       "scenario": "issue-851-recovery-scope",
       "status": "unverified",
       "verificationPlan": "Run deterministic lifecycle fixtures for disjoint glob scopes, authorized overlap, wrong successor, malformed/foreign/stale/symlink/digest-mismatched archives, and tri-language projections."
+    },
+    {
+      "evidence": [],
+      "expected": "the declared Rust 1.98.1 toolchain and refreshed locked dependency graph pass the declared workspace checks",
+      "required": true,
+      "scenario": "rust-1-98-1-workspace-verification",
+      "status": "unverified",
+      "verificationPlan": "Record rustc/cargo/rustup identity, inspect the Cargo.lock diff, and run format, clippy, check, and workspace tests under stable-aarch64-apple-darwin."
     }
   ],
   "scope": [
@@ -127,17 +142,28 @@
     "crates/cockpit-repository/tests/lifecycle_entry.rs",
     "crates/cockpit-repository/tests/status_projection.rs",
     "docs/reference/agent-first-start.md",
-    "docs/reference/commands*"
+    "docs/reference/commands*",
+    "rust-toolchain.toml",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-repository/src/lifecycle.rs"
   ],
   "sources": [
     "user:2026-09-17-four-direction-convergence",
     "github:issue-851:https://github.com/xinglun/ai-cockpit/issues/851",
     "github:pr-852:review-feedback:archive-outcome-delivery-production-handoff",
-    "user:2026-09-17-archive-outcome-delivery-follow-up"
+    "user:2026-09-17-archive-outcome-delivery-follow-up",
+    "User authorization in the current task to upgrade the project's Rust version and dependency packages.",
+    "User-provided toolchain observation: stable-aarch64-apple-darwin is rustc 1.98.1 (48a229cea 2026-09-01), replacing the repository pin at rustc 1.94.1.",
+    "Runtime scope audit identified lifecycle.rs as the existing Issue #851 recovery-entry implementation path that must be explicitly bound to this Work Item."
   ],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo fmt --all -- --check",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo clippy -p cockpit-agent -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets -- -D warnings",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --workspace --locked",
+    "cargo test -p cockpit-repository --test lifecycle_entry"
   ],
   "workItemId": "WI-865-four-direction-convergence"
 }

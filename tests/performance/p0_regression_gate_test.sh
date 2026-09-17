@@ -67,4 +67,27 @@ with tempfile.TemporaryDirectory() as directory:
         raise SystemExit("P0 gate accepted 99 valid warm samples")
 print("P0 gate rejected 99 valid warm samples")
 PY
+python3 - "$gate" "$fixtures/p0-baseline.json" "$fixtures/p0-candidate-pass.json" <<'PY'
+import copy
+import json
+import pathlib
+import subprocess
+import sys
+import tempfile
+
+gate, baseline, candidate = sys.argv[1:]
+with tempfile.TemporaryDirectory() as directory:
+    baseline_path = pathlib.Path(directory) / "baseline-toolchain.json"
+    candidate_path = pathlib.Path(directory) / "candidate-toolchain.json"
+    baseline_value = json.loads(pathlib.Path(baseline).read_text(encoding="utf-8"))
+    candidate_value = json.loads(pathlib.Path(candidate).read_text(encoding="utf-8"))
+    baseline_value["environment"]["toolchain"] = {"rustcVersion": "rustc 1.98.1"}
+    candidate_value["environment"]["toolchain"] = {"rustcVersion": "rustc 1.94.1"}
+    baseline_path.write_text(json.dumps(baseline_value), encoding="utf-8")
+    candidate_path.write_text(json.dumps(candidate_value), encoding="utf-8")
+    result = subprocess.run([gate, str(baseline_path), str(candidate_path)], capture_output=True, text=True)
+    if result.returncode == 0:
+        raise SystemExit("P0 gate accepted different Rust toolchains")
+print("P0 gate rejected different Rust toolchains")
+PY
 echo "P0 performance regression gate passed identity, evidence, and negative checks"

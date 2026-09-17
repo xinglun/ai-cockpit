@@ -1965,6 +1965,7 @@ pub fn apply_migration(
 
 fn validate_start_entry(
     root: &Path,
+    candidate_work_item_id: &str,
     candidate_scope: &[String],
     recovery_continuation: bool,
     advisory_conflicts: &[String],
@@ -1980,14 +1981,13 @@ fn validate_start_entry(
             .iter()
             .map(|conflict| format!("exact start resource conflict: {conflict}")),
     );
-    if !recovery_continuation {
-        let scope_conflicts = unclosed_archived_scope_conflicts(&root, "", candidate_scope)?;
-        if !scope_conflicts.is_empty() {
-            failures.push(format!(
-                "archived Work Item scope conflict: {}",
-                scope_conflicts.join(", ")
-            ));
-        }
+    let scope_conflicts =
+        unclosed_archived_scope_conflicts(&root, candidate_work_item_id, candidate_scope)?;
+    if !scope_conflicts.is_empty() {
+        failures.push(format!(
+            "archived Work Item scope conflict: {}",
+            scope_conflicts.join(", ")
+        ));
     }
     if !readiness.dirty_paths.is_empty() {
         failures.push(format!(

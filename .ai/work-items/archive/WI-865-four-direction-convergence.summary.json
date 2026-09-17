@@ -1,0 +1,412 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-865-evidence-refresh.json",
+    ".ai/decisions/WI-865-four-direction-convergence.preflight-review.471bc5d5ede80a41a8f39fc959140fed8aeb291ca746a75bae899badaa04424a.json",
+    ".ai/decisions/WI-865-four-direction-convergence.preflight-review.8e39d33b1de050f1ba86f18068bc3878bb29247bb9d14f7c92293aaef22bf39a.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-865-four-direction-convergence.verification-attempt.5460eece5de7504a05f401e1027f381087070bc90b234f16fe71c43372bf4d20.json",
+    ".ai/work-items/archive/WI-865-four-direction-convergence.contract.json",
+    ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/outcome_delivery.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/Cargo.toml",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/superpowers/plans/2026-09-17-ai-cockpit-four-direction-convergence.md",
+    "rust-toolchain.toml",
+    "tests/performance/README.ja.md",
+    "tests/performance/README.md",
+    "tests/performance/README.zh-CN.md",
+    "tests/performance/p0_regression_gate.sh",
+    "tests/performance/p0_regression_gate_test.sh",
+    "tests/performance/runtime_benchmark.sh"
+  ],
+  "checkpointAt": "2026-09-16T23:28:27Z",
+  "checkpointContractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "recorded": true,
+      "recordedAt": "2026-09-16T23:28:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:bff2c9347710f7d13f97660e71b90bea345726a30c291b85da6fdc6ecbac0d0b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "reason": "WI-865 implementation added the scoped Runtime, protocol, Outcome, performance, documentation, and architecture-map paths required by the authorized four-direction convergence.",
+      "recorded": true,
+      "recordedAt": "2026-09-16T23:59:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dcc87e54ae83110e155b6994590dca15ca2878c18c9f6e2024e193386a4a6477",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:c682153489650c637e25cb3928d30c6dba6ec80e591c81148857126b5299cd11",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:bff2c9347710f7d13f97660e71b90bea345726a30c291b85da6fdc6ecbac0d0b",
+      "reason": "WI-865 documentation registration and generated evidence paths are within the authorized convergence scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T00:01:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0200b478cb8a16586116448180e3a4b386929f63bf85e2526a2d7fd6c7c8a8b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fa860be353398ddcabfd13779aa145ee7490e15bc77433c0d2cfff4eaf28c0f9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:c682153489650c637e25cb3928d30c6dba6ec80e591c81148857126b5299cd11",
+      "reason": "WI-865 acceptance report translations are part of the authorized documentation deliverable.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T00:03:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a0200b478cb8a16586116448180e3a4b386929f63bf85e2526a2d7fd6c7c8a8b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:37d3e78186f7e06d8d754bb548f112b7f747b6a8cae6e060cef323c83d1557e8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:fa860be353398ddcabfd13779aa145ee7490e15bc77433c0d2cfff4eaf28c0f9",
+      "reason": "Add explicit Issue #851 recovery-scope coverage and close the remaining archived Outcome host-delivery gaps identified in PR #852 review.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T02:13:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4547f501aa2191dac62ce639affff025edd6870e688b176f929b43c75ed9d4cb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:8a5a2578d38463f49e2d8327555a930a6aadb0f11bcba939d193c7d5a318a641",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:37d3e78186f7e06d8d754bb548f112b7f747b6a8cae6e060cef323c83d1557e8",
+      "reason": "User added authorized Rust 1.98.1 toolchain and dependency-package upgrade scope; make the candidate reproducible and verify it before any release.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T02:53:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cf4cac343b37ed263bb91b14f223a1c6987b4d275342bebf2f05c3657529fa55",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f0767e786b3e91f6e64754bdf0f82475bdc83f9e7d8dda23f284850183507244",
+      "previousContractHash": "sha256:8a5a2578d38463f49e2d8327555a930a6aadb0f11bcba939d193c7d5a318a641",
+      "reason": "Bind the already implemented Issue #851 recovery-entry lifecycle path to the current Work Item after the Runtime scope audit found the explicit path was missing.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T03:08:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-865-four-direction-convergence"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+  "createdAt": "2026-09-16T23:22:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "用户确认当前 WI-865 的 Outcome、四方向收敛、Issue #851、Rust 1.98.1 和依赖升级范围继续完成；发布仅在全部 WI 完成并通过最终验收后执行。",
+    "recordedAt": "2026-09-17T03:20:30Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+    "schemaVersion": 1,
+    "workItemId": "WI-865-four-direction-convergence"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+    "items": [
+      {
+        "class": "rust_toolchain_identity",
+        "evidence": [
+          {
+            "digest": "sha256:a7a23801522d469e93021507fc88e9f5651056fce0e6aa22b3d3157c5f3dc6fe",
+            "locator": "toolchain.channel",
+            "path": "rust-toolchain.toml",
+            "type": "configuration",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:461cfe6fdb873dc574d44d5af749a42efa9a7191cd347b39ce9ef1718c3beed3",
+            "locator": "workspace.package.rust-version",
+            "path": "Cargo.toml",
+            "type": "configuration",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "locked_dependency_graph",
+        "evidence": [
+          {
+            "digest": "sha256:626e5cf6415dac9a67f4389297cb0b45856415853fe203fbaec62ee8c81eb4c7",
+            "locator": "package-resolution",
+            "path": "Cargo.lock",
+            "type": "dependency-lock",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "workspace_verification_under_candidate_toolchain",
+        "evidence": [
+          {
+            "digest": "sha256:88fbad8315f695d5ae8cfa174ff508828bdf8c0a3dfcbc0391552597bdea8a5b",
+            "locator": "toolchain_metadata",
+            "path": "tests/performance/runtime_benchmark.sh",
+            "type": "verification-script",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:01815791e79bdd3f101aa1cff5771fabad868ed6b392b4eea34b932dee36096d",
+            "locator": "toolchain-mismatch-gate",
+            "path": "tests/performance/p0_regression_gate_test.sh",
+            "type": "verification-test",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "user-authorized-WI-865-scope",
+      "current-contract-and-runtime-boundary"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-17T03:22:03Z",
+  "preflightContractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/outcome_report.rs::outcome_observation_rejects_symlinked_active_contract",
+        "crates/cockpit-repository/src/outcome_render.rs::outcome_assembly_stops_after_bounded_record_changes"
+      ],
+      "required": true,
+      "scenario": "outcome-observation-race",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/performance/runtime_benchmark_stats_test.py",
+        "tests/performance/p0_regression_gate_test.sh::99-valid-warm-samples"
+      ],
+      "required": true,
+      "scenario": "performance-sample-floor",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs::verification_preconditions_reject_missing_governance_controls_before_execution",
+        ".ai/evidence/WI-865-four-direction-convergence.verification-attempt.5460eece5de7504a05f401e1027f381087070bc90b234f16fe71c43372bf4d20.json"
+      ],
+      "required": true,
+      "scenario": "verification-precondition-rejection",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-verification/tests/reuse.rs",
+        "crates/cockpit-verification/tests/verification_attempts.rs"
+      ],
+      "required": true,
+      "scenario": "verification-reuse-and-failure-preservation",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/agent.rs::first_start_prints_the_canonical_gate_without_mutating_an_unattached_repo",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs::scaffold_includes_the_start_advisory_for_the_next_agent"
+      ],
+      "required": true,
+      "scenario": "prepared-first-work-item",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/outcome_handoff.rs::default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_json",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs::summary_keeps_missing_benefit_and_localizes_reader_sections"
+      ],
+      "required": true,
+      "scenario": "tri-language-outcome-parity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/performance/development_cycle_cost_test.py",
+        "tests/performance/runtime_benchmark.sh"
+      ],
+      "required": true,
+      "scenario": "development-cycle-cost",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs",
+        "crates/cockpit-mcp/tests/rpc.rs::mcp_archive_outcome_delivery_returns_the_complete_body_from_one_observation",
+        "crates/cockpit-cli/tests/outcome_handoff.rs::archive_normal_output_has_the_same_full_body_as_structured_stdout"
+      ],
+      "required": true,
+      "scenario": "archive-outcome-host-delivery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs::recovery_continuation_does_not_bypass_untrusted_archived_scope",
+        "crates/cockpit-repository/src/lifecycle.rs::validate_start_entry"
+      ],
+      "required": true,
+      "scenario": "issue-851-recovery-scope",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "rust-toolchain.toml",
+        "Cargo.toml",
+        "Cargo.lock",
+        ".ai/evidence/WI-865-four-direction-convergence.verification.json"
+      ],
+      "required": true,
+      "scenario": "rust-1-98-1-workspace-verification",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T03:22:08Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-865-four-direction-convergence"
+}

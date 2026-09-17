@@ -205,6 +205,10 @@ review when the returned state is yellow, red, unknown, or not ready.
   Item without a valid close decision fails closed. The gate never rewrites
   archived bytes. A recovery successor is an explicit continuation and may be
   scaffolded through `work-item recover`; it is not an independent next item.
+  Its preflight still evaluates archived-scope relations: a valid, provably
+  disjoint historical scope is not a global blocker, an overlap is allowed
+  only for the exact repository-bound recovery decision, and malformed,
+  foreign, stale, symlinked, or digest-mismatched history remains fail-closed.
 - The same entry gate rejects the repository primary worktree and the known
   default branch for ordinary Work Items. Use a dedicated linked worktree on a
   feature branch. A linked worktree without an unambiguous discovered remote

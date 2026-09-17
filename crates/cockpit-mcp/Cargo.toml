@@ -7,6 +7,7 @@ rust-version.workspace = true
 
 [dependencies]
 cockpit-core = { path = "../cockpit-core" }
+cockpit-agent = { path = "../cockpit-agent" }
 cockpit-git = { path = "../cockpit-git" }
 cockpit-knowledge = { path = "../cockpit-knowledge" }
 cockpit-protocol = { path = "../cockpit-protocol" }

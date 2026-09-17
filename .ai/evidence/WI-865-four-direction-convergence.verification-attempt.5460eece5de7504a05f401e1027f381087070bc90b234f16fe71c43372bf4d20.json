@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:5460eece5de7504a05f401e1027f381087070bc90b234f16fe71c43372bf4d20",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "ef4625f9e88e9af030a7f448896061ea24ece770",
+      "commandDigest": "sha256:49386371dcf42b037076f876badde43e9f8ad1ae3f6682b78ae787fd2279a05e",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:cb2ea2b0a7ab4fa35d0c9a74119ce12da8fd917c24f9e95dd797c1242cf39eb1",
+  "contractExecutionScopeDigest": "sha256:494d341927104cdbb33d75829077d6f5368a1eef2a9a2e5ec24b66f242c09db5",
+  "createdAt": "2026-09-17T03:09:46Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-865-four-direction-convergence/.ai/work-items/active/WI-865-four-direction-convergence.contract.json: verification preconditions are blocked: evidence_classes_stale"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:27eef6d891381c8135416ec16408de2b39168b6466db18da13a8e99457bfaa7a",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-865-four-direction-convergence"
+}
