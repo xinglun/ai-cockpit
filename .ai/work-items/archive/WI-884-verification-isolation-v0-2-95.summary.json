@@ -1,0 +1,16 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-17T17:21:34Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T17:21:35Z",
+  "preflightContractDigest": "sha256:fcbe589630f464956cf5acff1ce3d3f6828e7d70bf5d034e6e25f75c87cab6a1",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "preflightRepositorySnapshotDigest": "sha256:d64b047f809b2ef0468dd34dec9c51f9678434e354f5e135610c12698a7ac74d",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-17T17:21:34Z",
+  "workItemId": "WI-884-verification-isolation-v0-2-95"
+}

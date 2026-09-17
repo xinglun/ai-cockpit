@@ -1,0 +1,16 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-873-performance-current-proof.contract.json",
+    ".ai/work-items/active/WI-873-performance-current-proof.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-17T06:03:53Z",
+  "mode": "implementation",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-17T06:03:53Z",
+  "workItemId": "WI-874-performance-current-proof"
+}

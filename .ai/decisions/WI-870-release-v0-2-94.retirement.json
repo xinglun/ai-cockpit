@@ -1,0 +1,34 @@
+{
+  "actor": "human:explicit-user-authorization",
+  "archiveManifestDigest": "sha256:3e9e9ccadb652bfae0ca3dad6bf909787893c3471a0a3bd4492d4bf8f6ebc922",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:82519b3dbf20795ef3a36caef4628f29e63c903cf36ef35fc928d7c522bbb61f",
+      "path": ".ai/work-items/archive/WI-870-release-v0-2-94.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:180d8435e6c919b3d5a0e983ea71a19722bce404af5ab8d756867fb4ee4804f1",
+      "path": ".ai/work-items/archive/WI-870-release-v0-2-94.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:79cb20c51c30d41e090ac22d00384ca60e397f1de65cd66d53d94835c6814ce5",
+      "path": ".ai/work-items/archive/WI-870-release-v0-2-94.summary.json"
+    }
+  },
+  "authoritySource": "conversation",
+  "contractDigest": "sha256:92e6aa20b27aa22f772db1f2754cbbeda58df91533082d816eaa4328b1860925",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Retire WI-870 as a preserved historical release preparation whose frozen base predates the merged Outcome and four-direction convergence work. WI-871 is the explicitly linked current-main continuation; this retirement does not assert verification or publication.",
+  "recordedAt": "2026-09-17T03:49:25Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4907128a9cf9d6c2d57ce5a6e3b4cf75164868d8bf93ea7d7f23da265deb4a22",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-871-release-v0-2-94-current-main",
+  "summaryDigest": "sha256:a11e837ff99771661d984f98249ea93d9e8370afeb4f1f96c03b548eec2d5df0",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-870-release-v0-2-94"
+}

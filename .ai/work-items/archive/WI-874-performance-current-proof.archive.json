@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T06:06:23Z",
+  "files": {
+    "contractDigest": "sha256:1fc530e259163ddbdb1b60011b4428780c9ada18970a7bc138f542d494080f85",
+    "contractPath": ".ai/work-items/archive/WI-874-performance-current-proof.contract.json",
+    "outcomeDigest": "sha256:177c512e4a9a0d01249016ab2c2a6f84d2d67c862378796bafd3b421846cf845",
+    "outcomePath": ".ai/work-items/archive/WI-874-performance-current-proof.outcome.json",
+    "summaryDigest": "sha256:ed3ec404aaf9daf6dcd6738699b7210c1b49f5eed816854a959640fe11888da6",
+    "summaryPath": ".ai/work-items/archive/WI-874-performance-current-proof.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-874-performance-current-proof.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-874-performance-current-proof"
+}

@@ -1,0 +1,25 @@
+{
+  "actor": "human:explicit-user-authorization",
+  "authoritySource": "conversation",
+  "decidedAt": "2026-09-17T03:40:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "docs/work-items/WI-870-release-v0-2-94.md",
+    ".ai/work-items/active/WI-870-release-v0-2-94.contract.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:92e6aa20b27aa22f772db1f2754cbbeda58df91533082d816eaa4328b1860925",
+  "predecessorSummaryDigest": "sha256:a11e837ff99771661d984f98249ea93d9e8370afeb4f1f96c03b548eec2d5df0",
+  "predecessorWorkItemId": "WI-870-release-v0-2-94",
+  "reason": "WI-870 was prepared before the Outcome and four-direction convergence Work Item merged. Its frozen Contract base is no longer the synchronized main revision. Preserve its preparation bytes and continue the same release scope from the current main through an explicitly linked successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-871 must start from synchronized main, complete release verification and reviewed PR gates, then perform immutable public artifact acceptance before release closure.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-871-release-v0-2-94-current-main",
+  "workItemId": "WI-870-release-v0-2-94"
+}

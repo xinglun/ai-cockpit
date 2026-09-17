@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:1579bc7593c0411951590454fea344ab618c61c84ff93a39c7791cf2e77d93c2",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:4eda320c034565eed0406be1d196191848ce5944ccd19304bfe46c50f621803b",
+      "path": ".ai/work-items/archive/WI-873-performance-current-proof.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:d7d2f15101aacc7b7753245520e6a50093108871c7ee1418c2d689f97292b75e",
+      "path": ".ai/work-items/archive/WI-873-performance-current-proof.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:9e37434762eed829eb0f54e12bf8eb32365ae36b2947c83bc51b60e2c6b75acc",
+      "path": ".ai/work-items/archive/WI-873-performance-current-proof.summary.json"
+    }
+  },
+  "authoritySource": "user:authorized-to-complete-all-wi-tasks",
+  "contractDigest": "sha256:9e884bce7b093311bb4ad5d832cd8a0e6d73c39b363aed9d6c6c065b9c0706f9",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The bounded work was superseded by the completed current-main implementation; preserve the active preparation bytes as historical evidence without claiming independent verification.",
+  "recordedAt": "2026-09-17T21:09:50Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f8fb674273ca40c0fe1527bd5fe84b2c17a5d8b364d10889f709baac1dbc2cc6",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:c7426d704ad2e9cf0e9d0faa10611c9ae89508a196bdd2a400d149e7f361ff63",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-873-performance-current-proof"
+}

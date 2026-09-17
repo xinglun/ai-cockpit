@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T21:09:50Z",
+  "files": {
+    "contractDigest": "sha256:b44d13d0ce21ed0bd6625c2360e96d9f74c20f455a5cec910ac6ffb0427dabad",
+    "contractPath": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.contract.json",
+    "outcomeDigest": "sha256:5627f12b1366d3312a31bbfa806f2200b3f36668a9af8f9f10f3eb7d0a0aa7a7",
+    "outcomePath": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.outcome.json",
+    "summaryDigest": "sha256:4adc8c12a44a7046f5a4f4b920efe17ada4b6130a2d7c3e6cc67eb8d1159041f",
+    "summaryPath": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-884-verification-isolation-v0-2-95.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-884-verification-isolation-v0-2-95"
+}

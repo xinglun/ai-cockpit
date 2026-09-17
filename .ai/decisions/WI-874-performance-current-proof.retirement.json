@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:ac0572d8a7f23ccb28054f5473dc965ad3c3b732cc58993b9618bea1fa6baff6",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:1fc530e259163ddbdb1b60011b4428780c9ada18970a7bc138f542d494080f85",
+      "path": ".ai/work-items/archive/WI-874-performance-current-proof.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:177c512e4a9a0d01249016ab2c2a6f84d2d67c862378796bafd3b421846cf845",
+      "path": ".ai/work-items/archive/WI-874-performance-current-proof.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ed3ec404aaf9daf6dcd6738699b7210c1b49f5eed816854a959640fe11888da6",
+      "path": ".ai/work-items/archive/WI-874-performance-current-proof.summary.json"
+    }
+  },
+  "authoritySource": "user-message:authorized-to-complete-all-wi-tasks",
+  "contractDigest": "sha256:d0642c7946f7c6a79834a2f854f78b1db0cae401c79781175d2502e2896bb617",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "This not_ready successor scaffold was created only to recover from an invalid WI-873 start input; it was never activated or implemented, so retire the setup artifact without claiming verification.",
+  "recordedAt": "2026-09-17T06:06:23Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f66d31c94e2fb65d480ce06945c58487147b75e1bfd866e85470b9bbe50a4fa",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:21c481bd0de5bb259a5f6a66485e3bdef0e16c2448fdca64685a9acfaf03574c",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-874-performance-current-proof"
+}

@@ -1,0 +1,21 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "333ac79911567feb60a77ff5fb121b53ee697986",
+  "createdAt": "2026-09-17T06:03:53Z",
+  "goal": "",
+  "intent": "",
+  "mode": "implementation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6f66d31c94e2fb65d480ce06945c58487147b75e1bfd866e85470b9bbe50a4fa",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-874-performance-current-proof"
+}

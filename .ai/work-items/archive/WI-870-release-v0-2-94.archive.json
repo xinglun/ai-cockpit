@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T03:49:25Z",
+  "files": {
+    "contractDigest": "sha256:82519b3dbf20795ef3a36caef4628f29e63c903cf36ef35fc928d7c522bbb61f",
+    "contractPath": ".ai/work-items/archive/WI-870-release-v0-2-94.contract.json",
+    "outcomeDigest": "sha256:180d8435e6c919b3d5a0e983ea71a19722bce404af5ab8d756867fb4ee4804f1",
+    "outcomePath": ".ai/work-items/archive/WI-870-release-v0-2-94.outcome.json",
+    "summaryDigest": "sha256:79cb20c51c30d41e090ac22d00384ca60e397f1de65cd66d53d94835c6814ce5",
+    "summaryPath": ".ai/work-items/archive/WI-870-release-v0-2-94.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-870-release-v0-2-94.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-871-release-v0-2-94-current-main",
+  "workItemId": "WI-870-release-v0-2-94"
+}

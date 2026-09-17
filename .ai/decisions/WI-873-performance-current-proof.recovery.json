@@ -1,0 +1,23 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "user-message:authorized-to-complete-all-wi-tasks",
+  "decidedAt": "2026-09-17T06:07:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-874-performance-current-proof.contract.json",
+    ".ai/decisions/WI-874-performance-current-proof.retirement.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:9e884bce7b093311bb4ad5d832cd8a0e6d73c39b363aed9d6c6c065b9c0706f9",
+  "predecessorSummaryDigest": "sha256:c7426d704ad2e9cf0e9d0faa10611c9ae89508a196bdd2a400d149e7f361ff63",
+  "predecessorWorkItemId": "WI-873-performance-current-proof",
+  "reason": "Continue the same bounded performance-proof scope after the predecessor start was rejected for an unrecognized authority value; preserve the failed setup and bind the corrected successor explicitly.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the explicitly bound successor with authorized Contract fields and complete current-version performance measurement and evidence.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-875-performance-current-proof",
+  "workItemId": "WI-873-performance-current-proof"
+}

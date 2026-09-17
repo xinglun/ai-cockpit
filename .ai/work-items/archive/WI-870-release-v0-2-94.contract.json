@@ -1,0 +1,127 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions, release documentation, manifests, checksums, and artifact naming identify v0.2.94 consistently while preserving v0.2.93 as N-1.",
+    "The reviewed, synchronized main commit is the sole immutable source identity for the v0.2.94 tag and release workflow.",
+    "Candidate fresh installation and v0.2.93 to v0.2.94 upgrade pass in independent isolated environments with structured receipts.",
+    "Public v0.2.94 downloaded Release assets pass fresh install, v0.2.93 upgrade, manifest, checksum, and version consistency acceptance.",
+    "Failed release phases retain identity-bound evidence and recovery reuses only compatible successful phases without rerunning them.",
+    "Release workflow policy, source archive policy, tri-language documentation, and exact resource cleanup pass before close; unknown host or user-read status is not inferred."
+  ],
+  "authority": "authorized",
+  "baseRevision": "31276eb1ff62fbe25e3da25ed03f8dd2d73c64ff",
+  "createdAt": "2026-09-17T01:58:52Z",
+  "goal": "Advance AI Cockpit from v0.2.93 to v0.2.94 with immutable release identity, candidate/public installation evidence, and exact cleanup.",
+  "intent": "Publish v0.2.94 from reviewed main and prove public artifact adoption.",
+  "mode": "release",
+  "outOfScope": [
+    "Rust behavior changes unrelated to versioning or release acceptance",
+    "provider tag or Release mutation before all pre-publication gates pass",
+    "local source checkout or workspace binary as a substitute for public downloaded-artifact acceptance",
+    "lifecycle refactoring unrelated to release evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4ea90c3ee32784f6d1ec68f28521a2e772266ab2d718f4c1c83f363b15ce9596",
+  "requiredEvidenceClasses": [
+    "verification",
+    "delegated:github-actions"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/version_consistency_test.sh",
+        "Cargo.toml",
+        "Cargo.lock",
+        "docs/release/distribution.md"
+      ],
+      "expected": "Workspace metadata, release docs, manifests, checksums, and artifact naming identify v0.2.94 while preserving v0.2.93 as N-1.",
+      "required": true,
+      "scenario": "release_current_version_consistency",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency and release policy checks before expensive builds."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh"
+      ],
+      "expected": "Candidate fresh install and v0.2.93 upgrade pass in separate isolated roots and retain receipts.",
+      "required": true,
+      "scenario": "candidate_isolated_acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run candidate acceptance through the governed release workflow and inspect receipts."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Downloaded immutable v0.2.94 Release assets pass fresh install, N-1 upgrade, manifest, checksum, and version acceptance.",
+      "required": true,
+      "scenario": "public_artifact_acceptance",
+      "status": "unverified",
+      "verificationPlan": "After publication, run public acceptance against downloaded Release assets only."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance_resume_test.sh",
+        "tests/release/source_archive_policy_test.sh"
+      ],
+      "expected": "Failures preserve structured identity-bound evidence and retries execute only missing or identity-invalid phases.",
+      "required": true,
+      "scenario": "resumable_release_recovery",
+      "status": "unverified",
+      "verificationPlan": "Run workflow recovery and source archive policy regression tests and inspect phase receipts."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-870-release-v0-2-94.md",
+    "docs/work-items/WI-870-release-v0-2-94.zh-CN.md",
+    "docs/work-items/WI-870-release-v0-2-94.ja.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/adopter_acceptance_resume_test.sh",
+    "tests/release/source_archive_policy_test.sh",
+    ".github/workflows/release.yml",
+    ".ai/decisions/observer-snapshot.json"
+  ],
+  "sources": [
+    "github:repository/xinglun/ai-cockpit",
+    "release:v0.2.93->v0.2.94",
+    "github:pull/xinglun/ai-cockpit/852"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-870-release-v0-2-94"
+}

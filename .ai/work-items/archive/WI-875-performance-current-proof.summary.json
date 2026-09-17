@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-873-performance-current-proof.recovery.json",
+    ".ai/decisions/WI-874-performance-current-proof.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-873-performance-current-proof.contract.json",
+    ".ai/work-items/active/WI-873-performance-current-proof.summary.json",
+    ".ai/work-items/active/WI-875-performance-current-proof.contract.json",
+    ".ai/work-items/active/WI-875-performance-current-proof.summary.json",
+    ".ai/work-items/archive/WI-874-performance-current-proof.archive.json",
+    ".ai/work-items/archive/WI-874-performance-current-proof.contract.json",
+    ".ai/work-items/archive/WI-874-performance-current-proof.outcome.json",
+    ".ai/work-items/archive/WI-874-performance-current-proof.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-17T06:07:22Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:9e884bce7b093311bb4ad5d832cd8a0e6d73c39b363aed9d6c6c065b9c0706f9",
+  "predecessorWorkItemId": "WI-873-performance-current-proof",
+  "preflightAt": "2026-09-17T06:09:18Z",
+  "preflightContractDigest": "sha256:41ffbb3340b6b1350e714bbdf504be586510346b5c7c25bad21c3b74b7904018",
+  "preflightDecisionDigest": "sha256:23ab9d52ca3a22d0e64f878db44b9e8dff77030ece0e3ba4193b923922377a50",
+  "preflightRepositorySnapshotDigest": "sha256:f8fb674273ca40c0fe1527bd5fe84b2c17a5d8b364d10889f709baac1dbc2cc6",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-873-performance-current-proof.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-17T06:07:45Z",
+  "workItemId": "WI-875-performance-current-proof"
+}

@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:8ab4f400c6acd079360baf9d5574f3dc0a6e286505caab7c23feca4211381481",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:b44d13d0ce21ed0bd6625c2360e96d9f74c20f455a5cec910ac6ffb0427dabad",
+      "path": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:5627f12b1366d3312a31bbfa806f2200b3f36668a9af8f9f10f3eb7d0a0aa7a7",
+      "path": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:4adc8c12a44a7046f5a4f4b920efe17ada4b6130a2d7c3e6cc67eb8d1159041f",
+      "path": ".ai/work-items/archive/WI-884-verification-isolation-v0-2-95.summary.json"
+    }
+  },
+  "authoritySource": "user:authorized-to-complete-all-wi-tasks",
+  "contractDigest": "sha256:fcbe589630f464956cf5acff1ce3d3f6828e7d70bf5d034e6e25f75c87cab6a1",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The bounded work was superseded by the completed current-main implementation; preserve the active preparation bytes as historical evidence without claiming independent verification.",
+  "recordedAt": "2026-09-17T21:09:50Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2808f4b8b96dee7f3b9e5ddb3b68aa1328af80aa3353d8424a1d2cdf28f57687",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:ec102eea7e768ef1d637d447f4627cf343d1564d211497affb514a5fd8cf24d8",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-884-verification-isolation-v0-2-95"
+}
