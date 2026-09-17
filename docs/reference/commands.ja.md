@@ -181,6 +181,12 @@ Agent は次の順序で capability を発見します。repository-bound の st
   を先に表示し、元の nonzero error を返します。failed gate を成功に変換しません。
   CLI は埋め込み先の Agent/UI に会話 panel の表示や展開を強制できません。host は
   stderr handoff を表示するか、`work-item outcome` で決定的に再生する必要があります。
+- `archive` と `archive-historical` は常に完全な Outcome を準備します。
+  `AI_COCKPIT_OUTCOME_HOST_PROGRAM` が host adapter executable を指定すると、各 segment を
+  JSON `assistant_message` request として送り、adapter は実際の message 単位 receipt を返す
+  必要があります。未設定の場合は `full_handoff_only` と host の受理・表示 unknown を明示します。
+  送信が中断した後は `work-item outcome --delivery` で同じ archive delivery を ID に束縛された
+  progress record から再試行でき、archive や verification は再実行しません。
 - `work-item status --repo <path> --id <id>` は read-only で lifecycle、governance、activity health、fact count、blocker、unknown、evidence、source digest を返します。scheduler を動かさず、割合を発明しません。
 - `work-item inspect --repo <path> --id <id>` は compatibility、implementation approach、parallel slot の read-only projection です。
   approach はメモリ上で計算され、`.ai/work-items/active/<id>.approach.json` は作成・更新されません。

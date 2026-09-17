@@ -166,6 +166,11 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
   CLI 先输出已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误，绝不会把失败门禁
   转成成功。CLI 无法强制宿主 Agent 或 UI 打开/展开对话面板；宿主必须展示 stderr
   handoff，或用 `work-item outcome` 确定性重放。
+- `archive` 和 `archive-historical` 始终准备完整 Outcome。如果
+  `AI_COCKPIT_OUTCOME_HOST_PROGRAM` 指向宿主适配器可执行文件，CLI 会为每个分段发送
+  JSON `assistant_message` 请求，适配器必须返回实际逐消息 receipt。未设置时明确报告
+  `full_handoff_only`，宿主接受和展示均为未知。发送中断后可用
+  `work-item outcome --delivery` 从身份绑定的进度记录重试同一归档交付，不会再次归档或验证。
 - `work-item status --repo <path> --id <id>` 是只读命令，输出生命周期、治理状态、活动健康、事实计数、阻塞项、未知项、evidence 和 source digest；不会调度任务，也不会臆造百分比。
 - `work-item inspect --repo <path> --id <id>` 是兼容性、implementation approach 和并行 slot 的只读投影。
   它在内存中计算 approach，不会创建或刷新 `.ai/work-items/active/<id>.approach.json`。只有明确需要

@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "359d149a0630b0f510ffb6b9752a089c4adb04f2",
+      "commandDigest": "sha256:6043eaedc381915de773a00f38fc5b5e328a89b4ca6f053495b6b1c0ad563f8a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "pr",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6f0a983502a37525ea5f69bb9ea3d4fc67de35e807cc6112ba7abe696c99d2b0",
+  "contractExecutionScopeDigest": "sha256:6cb643cf157f728f145dc8e62d11f1ab1d80a41bd75abca343ec35f6f42623d5",
+  "createdAt": "2026-09-17T05:26:57Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-872-outcome-host-delivery/.ai/work-items/active/WI-872-outcome-host-delivery.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-872-outcome-host-delivery"
+}
