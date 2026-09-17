@@ -309,6 +309,18 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
             assert_eq!(json["deliveryReport"]["deliveryState"], "unknown");
             assert_eq!(json["deliveryReport"]["hostConfirmation"], "unknown");
             assert_eq!(json["hostDisplayConfirmation"], "unknown");
+            let events = json["assistantMessageEvents"]
+                .as_array()
+                .expect("conversation-facing assistant message events");
+            let segments = json["outcomeDelivery"]["segments"]
+                .as_array()
+                .expect("delivery segments");
+            assert_eq!(events.len(), segments.len());
+            for (event, segment) in events.iter().zip(segments) {
+                assert_eq!(event["schemaVersion"], 1);
+                assert_eq!(event["event"], "assistant_message");
+                assert_eq!(event["segment"], *segment);
+            }
         }
         assert!(!String::from_utf8_lossy(&output.stderr).contains("Outcome:"));
     }
@@ -410,6 +422,13 @@ fn archived_outcome_delivery_query_reuses_the_full_body_without_rearchiving() {
     assert_eq!(delivery_json["archiveIdentity"], archive_identity);
     assert_eq!(delivery_json["hostDeliveryMode"], "full_handoff_only");
     assert_eq!(delivery_json["hostDisplayConfirmation"], "unknown");
+    assert_eq!(
+        delivery_json["assistantMessageEvents"]
+            .as_array()
+            .unwrap()
+            .len(),
+        delivery_json["segments"].as_array().unwrap().len()
+    );
 
     let human = run(
         binary,

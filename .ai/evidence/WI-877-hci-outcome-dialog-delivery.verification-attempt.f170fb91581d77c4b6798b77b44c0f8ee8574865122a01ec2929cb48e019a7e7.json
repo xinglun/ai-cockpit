@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:f170fb91581d77c4b6798b77b44c0f8ee8574865122a01ec2929cb48e019a7e7",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "279b20b32f3f1876ac96b0f0a7f2df202114edb7",
+      "commandDigest": "sha256:583d449fe67e0be17af2361a9594239a62872400dc30e5ebeed79bbeee00bff5",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b3284b9029bf6ecb5411c67afc5769db7184f44cb1d349aafd3b2ea4044770a3",
+  "contractExecutionScopeDigest": "sha256:22a671d823d7c38530df1b028c5bfe711d1e449079c03d30379969411835ed8d",
+  "createdAt": "2026-09-17T07:41:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-877-hci-outcome-dialog-delivery/.ai/work-items/active/WI-877-hci-outcome-dialog-delivery.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5d631e349051ace520ed2098fb46cee910a3f37c19e3e0a7341db37f243b8c27",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-877-hci-outcome-dialog-delivery"
+}

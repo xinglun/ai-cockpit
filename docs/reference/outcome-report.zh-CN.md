@@ -54,6 +54,12 @@ Codex 或 Claude 对话已经展示 assistant 消息。本仓库没有 Codex 或
 续投不接受单独的数字偏移量，必须使用与同一 delivery、WI、归档、语言和分段摘要绑定的连续进度记录；
 未确认的返回不能推进该边界。
 
+需要明确对话交接的适配层还会在结构化归档结果中得到 `assistantMessageEvents`。
+每个事件的 `event` 都是 `"assistant_message"`，并携带一个逐字的 `segment`；列表保持顺序，
+其数量、身份和正文摘要哈希与 `outcomeDelivery.segments` 完全一致。对话层可以把每个分段直接作为
+独立 assistant 消息输出，不必重新读取仓库或概括正文。这些事件只证明已准备的交接载荷，不能把
+`full_handoff_only` 或 `unknown` 提升为宿主已展示确认。
+
 默认摘要包含四个部分：
 
 1. 结果：当前验证、生命周期、人工决定和治理信号
