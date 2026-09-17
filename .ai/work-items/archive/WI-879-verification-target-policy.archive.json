@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-17T12:56:34Z",
+  "files": {
+    "contractDigest": "sha256:7f9c2b6780df55f372220aedfbfb435eb0c900f2d6eb67dd9634b90da7f8a17d",
+    "contractPath": ".ai/work-items/archive/WI-879-verification-target-policy.contract.json",
+    "eventsDigest": "sha256:02af8b785568194a4f109996d2a84df5df01c7e6f97a9e5ed94d784e96aa4487",
+    "eventsPath": ".ai/work-items/archive/WI-879-verification-target-policy.events.jsonl",
+    "outcomeDigest": "sha256:eda4ecd17cf1637903c8a106a3d3b9adc469bb149abd0668dff3a90de1daf35f",
+    "outcomePath": ".ai/work-items/archive/WI-879-verification-target-policy.outcome.json",
+    "summaryDigest": "sha256:0813f35edc61930addcf7587890c0d86ba869d60676e5ca43f67661264dcd5c5",
+    "summaryPath": ".ai/work-items/archive/WI-879-verification-target-policy.summary.json",
+    "taskReportDigest": "sha256:8e0b647fa26412de56a7c2a1aa4d8ed0c5fe7167a9ddfd40eaee5e82a263cf93",
+    "taskReportMarkdownDigest": "sha256:75ad3d37729c3e996ebb9af2384b5de97e83f678cb9b595e8062645f516fa3ef",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-879-verification-target-policy.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-879-verification-target-policy.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-879-verification-target-policy"
+}

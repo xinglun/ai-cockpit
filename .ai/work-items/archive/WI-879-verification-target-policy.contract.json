@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "The cargo verification target policy implementation compiles without unused imports.",
+    "The focused cockpit-repository environment identity tests pass.",
+    "The repository quality workflow passes for the replacement PR.",
+    "The replacement preserves the shared non-incremental Cargo verification target behavior and its tri-language documentation."
+  ],
+  "authority": "user-message:authorized-to-complete-all-wi-tasks",
+  "baseRevision": "7db8fd9b11638772e450c2f0a999c0ae8e7358d1",
+  "createdAt": "2026-09-17T12:43:35Z",
+  "goal": "Remove the unused import regression from the verification target policy implementation and prove the replacement branch passes local and hosted quality gates.",
+  "intent": "Repair the in-scope hosted quality failure left by archived WI-878 without mutating its immutable evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "new behavior",
+    " dependency changes",
+    " release publication",
+    " Issue #851 recovery",
+    " object repositories",
+    " archived WI-878 evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1e5d080bbcec13886f5a615f978cc8d90f5702763dcd69372e484f0fce9144ba",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/verification-execution-policy.md",
+    "docs/reference/verification-execution-policy.zh-CN.md",
+    "docs/reference/verification-execution-policy.ja.md",
+    "docs/work-items/WI-878-verification-target-policy.md",
+    "docs/work-items/WI-878-verification-target-policy.zh-CN.md",
+    "docs/work-items/WI-878-verification-target-policy.ja.md",
+    "docs/work-items/WI-879-verification-target-policy.md",
+    "docs/work-items/WI-879-verification-target-policy.zh-CN.md",
+    "docs/work-items/WI-879-verification-target-policy.ja.md"
+  ],
+  "sources": [
+    "PR #859 quality run 35199500309: https://github.com/xinglun/ai-cockpit/actions/runs/35199500309"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-879-verification-target-policy"
+}

@@ -91,7 +91,7 @@ pub(super) fn assess_verification_reuse_measured(
             .files_hashed
             .saturating_add(executable_identity.components.len());
     }
-    let execution_environment = execution_environment_digest(&snapshot.root)?;
+    let execution_environment = execution_environment_digest(&snapshot.root, &input.program)?;
 
     let ai = root.join(".ai");
     let config_path = ai.join("cockpit.toml");
@@ -269,7 +269,7 @@ pub(super) fn refresh_verification_context(
     let Some(executable_identity) = executable_identity else {
         return Ok(None);
     };
-    let execution_environment = execution_environment_digest(&snapshot.root)?;
+    let execution_environment = execution_environment_digest(&snapshot.root, &input.program)?;
     let mut changed_paths = snapshot
         .changed_paths
         .iter()
@@ -553,10 +553,11 @@ pub(super) fn build_repository_verification_command(
     };
     command
         .with_current_dir(root)
-        .with_environment(
+        .with_environment(effective_verification_environment(
+            &request.program,
             execution_identity
                 .map_or_else(Vec::new, ResolvedExecutableIdentity::execution_environment),
-        )
+        ))
         .with_timeout_seconds(
             request
                 .timeout_seconds
@@ -882,8 +883,46 @@ pub(super) fn is_executable_file(path: &Path) -> bool {
     }
 }
 
-pub(super) fn execution_environment_digest(path: &Path) -> Result<String, ObserverError> {
-    execution_environment_digest_from_values(std::env::vars_os(), path)
+pub(super) fn execution_environment_digest(
+    path: &Path,
+    program: &str,
+) -> Result<String, ObserverError> {
+    execution_environment_digest_from_values(
+        effective_verification_environment(program, std::env::vars_os().collect()),
+        path,
+    )
+}
+
+pub(super) fn effective_verification_environment(
+    program: &str,
+    mut environment: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
+    let is_cargo = Path::new(program)
+        .file_name()
+        .is_some_and(|name| name == "cargo" || name == "cargo.exe");
+    if !is_cargo {
+        return environment;
+    }
+
+    environment.retain(|(name, _)| name != "CARGO_INCREMENTAL" && name != "CARGO_TARGET_DIR");
+    environment.push((
+        std::ffi::OsString::from("CARGO_INCREMENTAL"),
+        std::ffi::OsString::from("0"),
+    ));
+    let home = environment
+        .iter()
+        .find(|(name, _)| name == "HOME")
+        .map(|(_, value)| PathBuf::from(value))
+        .or_else(|| std::env::var_os("HOME").map(PathBuf::from))
+        .or_else(|| std::env::var_os("USERPROFILE").map(PathBuf::from));
+    if let Some(home) = home {
+        environment.push((
+            std::ffi::OsString::from("CARGO_TARGET_DIR"),
+            home.join(".cache/ai-cockpit-verify-target")
+                .into_os_string(),
+        ));
+    }
+    environment
 }
 
 pub(super) fn execution_environment_digest_from_values<I>(

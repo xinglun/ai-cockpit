@@ -1,0 +1,232 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-879-verification-target-policy.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35a201e38b4b328e4151c921c591980c87e243c0a6006ce1dcf89ea758173544",
+      "workItemId": "WI-879-verification-target-policy"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-879-verification-target-policy.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/execution_context.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/verification-execution-policy.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-878-verification-target-policy.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-879-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-879-verification-target-policy.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-879-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by user via user-message:authorized-to-complete-all-wi-tasks at 2026-09-17T12:58:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-879-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-879-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-879-verification-target-policy.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "Remove the unused import regression from the verification target policy implementation and prove the replacement branch passes local and hosted quality gates."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-879-verification-target-policy.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-879-verification-target-policy"
+  },
+  "finalReportDigest": "sha256:043964f4f62b1ffed37d222f20fc69d30ba4f7ddf447a825592ec1ff34652210",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:7534b35690f98f518a5e3004ba2fb4e4deec64cffd24f0107d3df54e281ab2cc",
+    "branch": "codex/wi-879-verification-target-policy",
+    "branchRef": "refs/heads/codex/wi-879-verification-target-policy",
+    "capturedAt": "2026-09-17T12:57:43Z",
+    "contractDigest": "sha256:2e417dc245e15410bf9f0415fc4efb3ea363c016d53f3a07876a32370fefdf37",
+    "headRevision": "8e24f9eab653cfd7b1a4df687ec86753680fb00e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-879-verification-target-policy",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-879-verification-target-policy",
+    "worktreeId": "sha256:f2c129d989d4fa401690ab4384043919bac334fe894cd376b81dc84ebfb366f9",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-879-verification-target-policy"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:a2b71822509f9a7f71a1da734c8df356448a50206318effeca40dea82604648b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "user-message:authorized-to-complete-all-wi-tasks",
+    "decidedAt": "2026-09-17T12:58:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-879-verification-target-policy.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User authorized completion of all Work Items; the hosted quality defect was repaired in the successor and fresh Runtime verification passed.",
+    "resumeCondition": "Continue only if hosted review or final audit identifies a new in-scope defect."
+  },
+  "timestamp": "2026-09-17T12:57:43Z",
+  "workItemId": "WI-879-verification-target-policy"
+}
