@@ -34,3 +34,33 @@ Use the existing performance harness with `CARGO_INCREMENTAL=0` and the shared
 verification target directory. Run focused format, performance, and document
 projection checks before any expensive workspace verification. Preserve the
 raw evidence and report unknown metrics rather than substituting zero.
+
+## Current paired result
+
+The baseline (`0.2.93`) and candidate (`0.2.95`) were built with Rust/Cargo
+`1.98.1` on `aarch64-apple-darwin`, using the same isolated object-repository
+views and seven measured scenarios. Every compared operation has 100 valid warm
+samples. The comparator reports p50, p95, and p99; the 5 ms noise decision is
+kept on the established p50/p95 budget metrics, while p99 is retained as a
+tail diagnostic. All 38 comparisons are `within_noise`; this is a valid
+comparison but does not prove an improvement.
+
+The measured views were goods-garden (current repository and file-change
+scenarios), sentinel (many-files-clean), and
+ai-investigation-orchestrator (many-historical-wi). A direct small-clean
+object view was attempted but rejected by the harness because each supplied
+object repository exceeded its `<=100` tracked-file threshold; it is reported
+as unavailable rather than replaced with a synthetic repository. The raw
+collector output, including process/resource counters and invalidation reasons,
+is retained in [the compressed capture archive](../../.ai/evidence/WI-889-object-performance-current/raw/runtime-captures.tar.gz)
+with [checksums](../../.ai/evidence/WI-889-object-performance-current/raw/SHA256SUMS).
+
+Diagnostics overhead is a separate paired measurement. On the current
+repository, diagnostics-on versus diagnostics-off added 5.134 ms p50 and
+5.255 ms p95 to `verification-plan`, 0 ms p50 and 1.183 ms p95 to `status`,
+and 0.674 ms p50 and 1.689 ms p95 to `work-item-outcome`.
+
+Runtime latency and development-cycle cost are intentionally separate. The
+Contract→reviewable-PR, verification→finish, and post-merge-cleanup stages are
+not claimed until their lifecycle timestamps exist; unavailable stages remain
+explicitly unavailable in the development-cycle report.

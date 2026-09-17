@@ -1,19 +1,91 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-889-object-performance-current.verification-attempt.d0916b932b95810b43a772e32d8b42151b22f7ec3763d3913d604a5cc6d434ac.json",
+    ".ai/evidence/WI-889-object-performance-current.verification.json",
+    ".ai/evidence/WI-889-object-performance-current/paired-current-seven-scenarios-with-diagnostics.json",
+    ".ai/evidence/WI-889-object-performance-current/paired-current-seven-scenarios.json",
+    ".ai/evidence/WI-889-object-performance-current/raw/README.md",
+    ".ai/evidence/WI-889-object-performance-current/raw/SHA256SUMS",
+    ".ai/evidence/WI-889-object-performance-current/raw/runtime-captures.tar.gz",
+    ".ai/work-items/active/WI-889-object-performance-current.summary.json",
+    "docs/performance/baseline.ja.md",
+    "docs/performance/baseline.md",
+    "docs/performance/baseline.zh-CN.md",
+    "docs/work-items/WI-889-object-performance-current.ja.md",
+    "docs/work-items/WI-889-object-performance-current.md",
+    "docs/work-items/WI-889-object-performance-current.zh-CN.md",
+    "tests/performance/README.ja.md",
+    "tests/performance/README.md",
+    "tests/performance/README.zh-CN.md",
+    "tests/performance/paired_performance_report.py",
+    "tests/performance/paired_performance_report_test.py"
+  ],
   "checkpointAt": "2026-09-17T19:26:48Z",
   "checkpointContractDigest": "sha256:bc934271cd386c56f0d7a218fe78cc682a2a6b5fc74419d72bcc14b52f28fb2f",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:e44b9d0ae127cc6d5b4132bcbc980967621d050e7e5dd199a175ee3e0a6333e4",
+  "checkpointRepositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
   "createdAt": "2026-09-17T19:23:54Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-17T19:26:48Z",
+  "preflightAt": "2026-09-17T20:33:33Z",
   "preflightContractDigest": "sha256:bc934271cd386c56f0d7a218fe78cc682a2a6b5fc74419d72bcc14b52f28fb2f",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:e44b9d0ae127cc6d5b4132bcbc980967621d050e7e5dd199a175ee3e0a6333e4",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-17T19:26:48Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:446fd9755d4941e1beee7190f1971a059982ad407db0d09f2fe84cf4b7c0e20a",
   "workItemId": "WI-889-object-performance-current"
 }

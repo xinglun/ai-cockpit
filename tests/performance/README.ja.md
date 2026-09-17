@@ -25,7 +25,7 @@ evidence の完全性、比較可能な環境を結び付けます。budget は
 schema 2 の release-grade 収集と比較では、budget が使う各 percentile（`p50`、`p95`、`p99`）に少なくとも
 100 個の有効な warm sample が必要です。少数 sample は `runtime_benchmark_stats.summarize` で診断できますが、
 P0 gate を満たす証拠にはなりません。
-`paired_performance_report.py` は scenario ごとに raw warm sample を比較し、p50/p95 の差分と明示された noise budget を出力します。identity または budget が取得できない場合は `unknown` とし、欠測を zero や改善として扱いません。
+`paired_performance_report.py` は scenario ごとに raw warm sample を比較し、p50/p95/p99 の差分と明示された noise budget を出力します。identity または budget が取得できない場合は `unknown` とし、欠測を zero や改善として扱いません。
 
 Verification scheduler は command ごとの resource weight と明示的な resource budget に対応します。
 weight が zero または budget 超過なら fail-closed になり、dependency order、protected node、

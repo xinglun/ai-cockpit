@@ -31,3 +31,28 @@ lastVerifiedBy: WI-889-object-performance-current
 使用现有性能 harness，并设置 `CARGO_INCREMENTAL=0` 和共享验证 target
 目录。在昂贵 workspace 验证前先完成格式、性能和文档投影定向检查。保留
 原始证据；指标未知时明确写出未知，不以零代替。
+
+## 当前配对结果
+
+基线（`0.2.93`）与候选（`0.2.95`）在同一台
+`aarch64-apple-darwin`、Rust/Cargo `1.98.1` 和相同的隔离对象仓库视图上
+完成七个场景的配对采集。每个比较操作都有 100 个有效 warm 样本。比较器
+输出 p50、p95 和 p99；5 ms 噪声判定沿用稳定的 p50/p95 预算，p99 作为尾部
+诊断保留。38 项比较全部为 `within_noise`；比较有效，但没有证明候选版本
+已经改善。
+
+测量视图为 goods-garden（当前仓库和文件变更场景）、sentinel
+（many-files-clean）以及 ai-investigation-orchestrator
+（many-historical-wi）。曾尝试直接测量 small-clean，但所有提供的对象仓库
+都超过 harness 要求的 `<=100` 个 tracked 文件，因此如实标记为不可取得，
+没有用合成仓库替代。包含进程/资源计数和失效原因的完整采集器输出保存在
+[压缩原始采集包](../../.ai/evidence/WI-889-object-performance-current/raw/runtime-captures.tar.gz)
+及其 [SHA-256 校验](../../.ai/evidence/WI-889-object-performance-current/raw/SHA256SUMS)。
+
+诊断开销单独配对测量。在当前仓库，diagnostics-on 相对 off 对
+`verification-plan` 增加 p50 5.134 ms、p95 5.255 ms；对 `status` 增加 p50
+0 ms、p95 1.183 ms；对 `work-item-outcome` 增加 p50 0.674 ms、p95 1.689 ms。
+
+Runtime 延迟与开发周期成本分开报告。Contract→可创建 PR、验证→finish 和
+合并后清理只有在生命周期时间戳存在时才会声明；未取得的阶段在开发周期
+报告中保持明确的不可用状态。
