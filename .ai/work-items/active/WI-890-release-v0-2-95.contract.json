@@ -5,7 +5,8 @@
     "provider Release, tag, checksums, SBOM/archive assets, and manifests are identity-bound and downloadable",
     "downloaded immutable artifact passes installation and upgrade acceptance in an isolated temporary root",
     "cleanup and finalization receipts prove exact resources are cleaned; release remains last step",
-    "The English, Simplified Chinese, and Japanese Work Item projections and reference-parity rows are present and synchronized."
+    "The English, Simplified Chinese, and Japanese Work Item projections and reference-parity rows are present and synchronized.",
+    "Pinned verification execution preserves an explicitly supplied CARGO_TARGET_DIR so staged adopter acceptance leaves isolated HOME and XDG roots unchanged."
   ],
   "authority": "user:release-after-all-work-items",
   "baseRevision": "6155d16392b367ac004eda651ee398df5166b7ec",
@@ -77,7 +78,9 @@
     ".ai/evidence/WI-890-release-v0-2-95/**",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.zh-CN.md"
+    "docs/reference/reference-parity.zh-CN.md",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/851",
@@ -86,7 +89,8 @@
   ],
   "state": "implementation_active",
   "verification": [
-    "python3 tests/docs/check_reference_parity.py --repo ."
+    "python3 tests/docs/check_reference_parity.py --repo .",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository environment_identity_tests"
   ],
   "workItemId": "WI-890-release-v0-2-95"
 }

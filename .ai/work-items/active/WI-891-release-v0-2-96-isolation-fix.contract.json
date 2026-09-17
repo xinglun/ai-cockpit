@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "Explicit CARGO_TARGET_DIR is preserved through pinned verification execution and no build output enters isolated HOME or XDG_CONFIG_HOME.",
+    "The fix is reviewed through a pull request and all required hosted checks pass on the merge candidate.",
+    "The immutable v0.2.96 provider Release has identity-bound tag, checksums, SBOM/archive assets, manifest, and downloadable assets.",
+    "Downloaded immutable v0.2.96 assets pass checksum, fresh-install, and v0.2.93 to v0.2.96 upgrade acceptance in isolated HOME, XDG_CONFIG_HOME, CARGO_HOME, and target roots with exact cleanup.",
+    "The English, Simplified Chinese, and Japanese Work Item projections and reference-parity rows remain synchronized."
+  ],
+  "authority": "user:release-after-all-work-items",
+  "baseRevision": "20cc3e4731de3d2780a3ebbe54045e2abc4c408b",
+  "createdAt": "2026-09-17T22:41:51Z",
+  "goal": "Complete the Runtime fix for explicit CARGO_TARGET_DIR propagation, review and merge it, and pass immutable v0.2.96 provider publication plus isolated fresh-install and v0.2.93 upgrade acceptance without changing object repositories or moving v0.2.95.",
+  "intent": "Repair verification environment inheritance exposed by the failed immutable v0.2.95 publication candidate, then publish the completed release as v0.2.96 with downloaded-artifact acceptance.",
+  "mode": "implementation",
+  "outOfScope": [
+    "object repository branches or mains",
+    "new Outcome or HCI behavior",
+    "new performance optimization",
+    "moving or deleting the immutable v0.2.95 tag",
+    "publishing before all acceptance evidence is complete"
+  ],
+  "predecessorContractDigest": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+  "predecessorWorkItemId": "WI-890-release-v0-2-95",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-890-release-v0-2-95.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Pinned verification preserves an explicitly inherited CARGO_TARGET_DIR and leaves isolated HOME and XDG_CONFIG_HOME unchanged.",
+      "required": true,
+      "scenario": "explicit verification target directory remains isolated",
+      "status": "unverified",
+      "verificationPlan": "Run the focused environment identity tests, the repository verification receipt, and the release acceptance harness against the immutable candidate."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/release.yml",
+    "tests/release/**",
+    "docs/release/**",
+    "docs/architecture/release-distribution.**",
+    "docs/architecture/versioning.**",
+    "docs/work-items/WI-891-release-v0-2-96-isolation-fix.**",
+    ".ai/evidence/WI-891-release-v0-2-96-isolation-fix/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "sources": [
+    "release-workflow:35280599749",
+    "immutable-failed-candidate:v0.2.95"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}

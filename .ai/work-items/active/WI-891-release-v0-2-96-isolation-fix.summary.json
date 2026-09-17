@@ -1,0 +1,104 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-891-release-v0-2-96-isolation-fix.preflight-review.9a56029c626338a5bd4e6e26c8e29fe826452139ab905318a824b636e48bcc65.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-891-release-v0-2-96-isolation-fix.summary.json"
+  ],
+  "checkpointAt": "2026-09-17T22:49:00Z",
+  "checkpointContractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ec2a427ab3fd057186e8b38e70f334b5b12f5eacd8ff1bff5b41339773919904",
+      "recorded": true,
+      "recordedAt": "2026-09-17T22:49:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:546b9e79f36f411d6d3642f34fb7342233bc9138ccdb18557588149b3cbdad14",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ec2a427ab3fd057186e8b38e70f334b5b12f5eacd8ff1bff5b41339773919904",
+      "previousContractHash": "sha256:ec2a427ab3fd057186e8b38e70f334b5b12f5eacd8ff1bff5b41339773919904",
+      "reason": "Bind the release-isolation regression scenario before refreshing verification evidence; the hosted quality gate requires explicit high-risk scenario coverage.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T22:59:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9c38ad57177c16c1eb551db9817f5997521f0e0bd1ce491256b65e07b2315add",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
+  "createdAt": "2026-09-17T22:41:51Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirm bounded review of the successor Contract after the immutable v0.2.95 publication candidate exposed the target-directory isolation defect; this decision authorizes implementation and verification only.",
+    "recordedAt": "2026-09-18T08:25:00+09:00",
+    "recordedBy": "xinglun",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
+    "schemaVersion": 1,
+    "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/decisions/WI-890-release-v0-2-95.recovery.json",
+      "crates/cockpit-repository/src/execution_context.rs",
+      "crates/cockpit-repository/src/lib.rs",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "The successor scope is limited to the failed release isolation root cause and its immutable v0.2.96 acceptance route; object repositories, v0.2.95 and unrelated Outcome/HCI work remain out of scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+  "predecessorWorkItemId": "WI-890-release-v0-2-95",
+  "preflightAt": "2026-09-17T23:25:45Z",
+  "preflightContractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-890-release-v0-2-95.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification.json"
+      ],
+      "expected": "Pinned verification preserves an explicitly inherited CARGO_TARGET_DIR and leaves isolated HOME and XDG_CONFIG_HOME unchanged.",
+      "required": true,
+      "scenario": "explicit verification target directory remains isolated",
+      "status": "verified",
+      "verificationPlan": "Run the focused environment identity tests, the repository verification receipt, and the release acceptance harness against the immutable candidate."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-17T23:26:09.848258+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:a69c3763a4ac310edcbf5d10de384a9e35ae9cf7386fbe48da3227a72b13410b",
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}

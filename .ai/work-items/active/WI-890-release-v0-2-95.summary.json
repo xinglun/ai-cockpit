@@ -52,6 +52,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-890-release-v0-2-95"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8744350a06be6254ca14d6a70e0ef43b47b9076d00aac4ec194e97075c90e88c",
+      "previousContractHash": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
+      "reason": "Release candidate isolation acceptance exposed that pinned verification execution replaced the caller-provided CARGO_TARGET_DIR with the HOME fallback; amend the current release scope to fix and verify this in-scope release blocker before retrying publication.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T22:37:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c28e42ee31109dd52e27f764b90c4533dd34169bf29b18dd7e3ea5c7844e8178",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-890-release-v0-2-95"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
@@ -82,7 +102,7 @@
   "preflightContractDigest": "sha256:6c66081820cf11d0764615219e11e5c7529f43b3151c14c21ca872234b6c6cbb",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:7d3c9d17a47f28be09b1f0ac38e36d0e9bd161053317145537e9ba582a8a82a0",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -125,7 +145,7 @@
       "verificationPlan": "After merge and publication, use gh release download and run post-release version consistency and adopter acceptance against the downloaded assets."
     }
   ],
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-17T21:45:49Z",
   "verification": [
     {
@@ -177,5 +197,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-17T22:37:10Z"
+  },
   "workItemId": "WI-890-release-v0-2-95"
 }

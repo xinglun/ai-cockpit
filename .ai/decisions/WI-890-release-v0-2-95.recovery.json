@@ -1,0 +1,28 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "user:release-after-all-work-items",
+  "decidedAt": "2026-09-17T22:41:39Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "release-workflow:35280599749",
+    "/Users/sei-rinn/.cache/ai-cockpit-bench/release-failure-35280599749"
+  ],
+  "policyRefs": [
+    "immutable-release-tag",
+    "release-adopter-isolation"
+  ],
+  "predecessorContractDigest": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+  "predecessorEventsDigest": "sha256:67e1003b9dbc376f68d6910d5b75ec01a7f6d381c1410cb08c696043c0933f8f",
+  "predecessorOutcomeDigest": "sha256:e5619202c4f6f999031c900294bcf5d802f9d5c8aa4fc8171dfabe1024e30c9b",
+  "predecessorSummaryDigest": "sha256:2ce97fb59ee20bf02197b9e8456ac4c542c5323da43c13de93c990686b0ed4d2",
+  "predecessorWorkItemId": "WI-890-release-v0-2-95",
+  "reason": "The immutable v0.2.95 publication candidate failed staged fresh-install and N-1 upgrade isolation because pinned verification replaced the caller-provided CARGO_TARGET_DIR with the HOME fallback. The fix changes the release source commit and therefore requires a new immutable release identity.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-891 on a reviewed PR, publish only its immutable v0.2.96 tag, and pass downloaded-artifact fresh-install and v0.2.93 upgrade acceptance with HOME, XDG_CONFIG_HOME, CARGO_HOME, and CARGO_TARGET_DIR isolated and cleaned.",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-891-release-v0-2-96-isolation-fix",
+  "workItemId": "WI-890-release-v0-2-95"
+}

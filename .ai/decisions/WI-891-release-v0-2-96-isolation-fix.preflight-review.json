@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ec2a427ab3fd057186e8b38e70f334b5b12f5eacd8ff1bff5b41339773919904",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "Confirm bounded review of the successor Contract after the immutable v0.2.95 publication candidate exposed the target-directory isolation defect; this decision authorizes implementation and verification only.",
+  "recordedAt": "2026-09-17T22:46:00Z",
+  "recordedBy": "xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:546b9e79f36f411d6d3642f34fb7342233bc9138ccdb18557588149b3cbdad14",
+  "schemaVersion": 1,
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}
