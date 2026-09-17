@@ -141,6 +141,40 @@ impl OutcomeMessageReceipt {
     }
 }
 
+/// A conversation-facing assistant-message event derived directly from one
+/// validated Outcome delivery segment. Adapters may forward these events as
+/// independent assistant messages without reconstructing or summarizing the
+/// human Outcome. The segment remains the single source of body, identity,
+/// ordering, and digest facts.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OutcomeAssistantMessageEvent {
+    pub schema_version: u32,
+    pub event: String,
+    pub segment: OutcomeDeliverySegment,
+}
+
+impl OutcomeAssistantMessageEvent {
+    pub fn from_segment(segment: &OutcomeDeliverySegment) -> Self {
+        Self {
+            schema_version: 1,
+            event: "assistant_message".into(),
+            segment: segment.clone(),
+        }
+    }
+}
+
+/// Project the exact ordered delivery segments into conversation-facing
+/// events. This is presentation plumbing only: it does not perform or imply
+/// host acceptance, display, authorization, or a human decision.
+pub fn assistant_message_events(delivery: &OutcomeDelivery) -> Vec<OutcomeAssistantMessageEvent> {
+    delivery
+        .segments
+        .iter()
+        .map(OutcomeAssistantMessageEvent::from_segment)
+        .collect()
+}
+
 /// Append-only progress bound to one full Outcome delivery. Only receipts
 /// with an explicit `accepted=true` can advance the resume boundary; an
 /// unknown host result must be retried (and may duplicate without idempotency).
@@ -349,14 +383,6 @@ impl CommandOutcomeMessageHost {
     }
 }
 
-#[derive(Serialize)]
-#[serde(rename_all = "camelCase")]
-struct OutcomeHostMessage<'a> {
-    schema_version: u32,
-    event: &'static str,
-    segment: &'a OutcomeDeliverySegment,
-}
-
 impl OutcomeMessageHost for CommandOutcomeMessageHost {
     fn capabilities(&self) -> HostDeliveryCapabilities {
         self.capabilities
@@ -366,15 +392,11 @@ impl OutcomeMessageHost for CommandOutcomeMessageHost {
         &mut self,
         message: &OutcomeDeliverySegment,
     ) -> Result<OutcomeMessageReceipt, AgentError> {
-        let request = serde_json::to_vec(&OutcomeHostMessage {
-            schema_version: 1,
-            event: "assistant_message",
-            segment: message,
-        })
-        .map_err(|error| AgentError::State {
-            path: self.program.clone(),
-            message: format!("serialize host message: {error}"),
-        })?;
+        let request = serde_json::to_vec(&OutcomeAssistantMessageEvent::from_segment(message))
+            .map_err(|error| AgentError::State {
+                path: self.program.clone(),
+                message: format!("serialize host message: {error}"),
+            })?;
         let mut child = Command::new(&self.program)
             .args(self.resolved_args(message))
             .stdin(Stdio::piped())
@@ -1609,7 +1631,7 @@ fn managed_block(provider: &AgentProvider, repository_id: &str) -> String {
         first_start,
         ADAPTER_END_MARKER
     );
-    let added_guidance = "\n\nCanonical delivery order follows the Contract: latest remote default base → dedicated branch/worktree → implement → finish → declared hosted/candidate/release/public stages → archive → finalize → finalize-verify → close → synchronize and clean. If no later evidence is declared, finish may be followed directly by archive. Never attempt archive before the required evidence for its stage exists. Push, review, merge, and publication are required only when declared; never merge a feature branch into local main before PR review, delete its branch before merge, or let a provider auto-delete it to bypass finalization. If a remote step fails, preserve the retry checkout and identity until recovery is complete.\n\nA terminal green Outcome is the Rust equivalent of status=completed plus humanStatusColor=green: it requires state=Verified, decisionState=green, current Contract/Summary/evidence bindings, and direct human-visible delivery. Include issue count, blockers/stopping reason, resolved issues, risks, unknowns, verification, impact, human decision, and next action; every factual claim needs evidence, and unproven benefit is an inference.\n\n`work-item outcome` is a status query and may use its default summary; an archive or historical-archive handoff must use the complete full Outcome. Tool output is not the same event as a visible assistant message: CLI and MCP currently provide `full_handoff_only` with host acceptance/display `unknown`. Do not reply only `archived`, `see attachment`, or a newly summarized report; preserve the returned body, delivery identity, ordered segments, and any actual per-message receipts.\n\nWhen a defect is found in the current Work Item, repair it there by amending and revalidating its Contract before opening another Work Item or Issue. A successor is allowed only for a genuinely different scope, authority, or base, an independent compatible change, an unsafe in-scope repair, immutable failed delivery, or explicit human direction.";
+    let added_guidance = "\n\nCanonical delivery order follows the Contract: latest remote default base → dedicated branch/worktree → implement → finish → declared hosted/candidate/release/public stages → archive → finalize → finalize-verify → close → synchronize and clean. If no later evidence is declared, finish may be followed directly by archive. Never attempt archive before the required evidence for its stage exists. Push, review, merge, and publication are required only when declared; never merge a feature branch into local main before PR review, delete its branch before merge, or let a provider auto-delete it to bypass finalization. If a remote step fails, preserve the retry checkout and identity until recovery is complete.\n\nA terminal green Outcome is the Rust equivalent of status=completed plus humanStatusColor=green: it requires state=Verified, decisionState=green, current Contract/Summary/evidence bindings, and direct human-visible delivery. Include issue count, blockers/stopping reason, resolved issues, risks, unknowns, verification, impact, human decision, and next action; every factual claim needs evidence, and unproven benefit is an inference.\n\n`work-item outcome` is a status query and may use its default summary; an archive or historical-archive handoff must use the complete full Outcome. Tool output is not the same event as a visible assistant message: CLI and MCP currently provide `full_handoff_only` with host acceptance/display `unknown`. When `assistantMessageEvents` is present, emit each `segment.body` verbatim as one independent assistant message, in order; do not reply only `archived`, `see attachment`, or a newly summarized report. Preserve the returned body, delivery identity, ordered segments, and any actual per-message receipts. The event list proves the exact prepared handoff, not host display when confirmation is `unknown`.\n\nWhen a defect is found in the current Work Item, repair it there by amending and revalidating its Contract before opening another Work Item or Issue. A successor is allowed only for a genuinely different scope, authority, or base, an independent compatible change, an unsafe in-scope repair, immutable failed delivery, or explicit human direction.";
     block = block.replace(
         "\n\nNever edit global Agent or MCP configuration, secrets, or credentials.",
         &format!("{added_guidance}\n\nNever edit global Agent or MCP configuration, secrets, or credentials."),

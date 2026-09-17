@@ -61,6 +61,13 @@ archive を再実行しません。host に idempotency がない場合は重複
 同じ delivery、Work Item、archive、language、segment digest に bind された連続 progress record と
 accepted receipt が必要です。unknown の receipt はこの境界を進めません。
 
+対話 handoff を明示的に扱う adapter には、構造化された archive result の
+`assistantMessageEvents` も返されます。各 event は `event: "assistant_message"` を持ち、
+逐語的な一つの `segment` を含みます。リストの順序、件数、identity、body digest は
+`outcomeDelivery.segments` と一致します。conversation layer は repository を再読したり要約したりせず、
+各 segment を独立した assistant message として出力できます。この event は準備済み handoff payload のみを示し、
+`full_handoff_only` や `unknown` を host display confirmation に昇格させるものではありません。
+
 既定の summary は四つのセクションです。
 
 1. 結果：現在の検証、ライフサイクル、人間の判断、ガバナンスシグナル

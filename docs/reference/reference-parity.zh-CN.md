@@ -76,6 +76,7 @@ capabilityClaims:
 | 有界验证与 fail-closed evidence reuse | 已实现 | Runtime identity、snapshot/toolchain/environment binding、receipt 和 fail-closed validation 均有记录。 |
 | MCP repository binding | 已实现 | repository-bound stdio MCP 以显式绑定提供相同的治理服务。 |
 | 面向人的 MCP projection | 已实现 | Runtime 校验 OutcomeV2 并生成本地化 `humanHandoff`；Agent 或对话层负责选择、展示和传递，但不能把 presentation 当作治理授权来源。 |
+| 面向对话的归档 Outcome 事件 | 已实现 | 归档和 `delivery: true` 返回同一份完整 `OutcomeDelivery` 以及有序 `assistantMessageEvents`；适配层可逐段逐字转发，宿主不支持展示时仍明确为 `unknown`。 |
 | 公开 Release 与新 adopter 验收 | 部分实现 | WI-301 已证明公开 v0.2.33 在 `aarch64-apple-darwin` 上的完整 post-release 基线；其他 target 仍只有 build/smoke evidence，除非另行持久化验收 receipt。 |
 | 第二技术栈 adopter 验收 | 延期 | 当前 harness 使用 Cargo adopter；第二技术栈属于后续工作。 |
 | Runtime-only upgrade 与 repository migration | 已实现 | compatibility 检查和显式 migration 保留历史记录并绑定 Runtime identity。 |
@@ -887,3 +888,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-872-outcome-host-delivery——归档 Outcome 宿主交付 | 已实现 | [Work Item](../work-items/WI-872-outcome-host-delivery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-872-outcome-host-delivery.contract.json`; verification `.ai/evidence/WI-872-outcome-host-delivery.verification.json`; close `.ai/decisions/WI-872-outcome-host-delivery.close.json`. |
 | WI-876-performance-current-proof——当前版本 Runtime 与开发周期配对性能证明 | 已实现 | [Work Item](../work-items/WI-876-performance-current-proof.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-876-performance-current-proof.contract.json`; verification `.ai/evidence/WI-876-performance-current-proof.verification.json`; close `.ai/decisions/WI-876-performance-current-proof.close.json`. |
 | WI-878-verification-target-policy——受控且可复用的 Cargo 验证 target 缓存 | 已实现 | [Work Item](../work-items/WI-878-verification-target-policy.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-878-verification-target-policy.contract.json`; verification `.ai/evidence/WI-878-verification-target-policy.verification.json`; close `.ai/decisions/WI-878-verification-target-policy.close.json`. |
+| WI-877-hci-outcome-dialog-delivery——面向对话的归档 Outcome 事件 | 已实现 | [Work Item](../work-items/WI-877-hci-outcome-dialog-delivery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json`; verification `.ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json`; close `.ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json`. |

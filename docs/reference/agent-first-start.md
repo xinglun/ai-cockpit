@@ -124,6 +124,13 @@ boundary, not a built-in Codex or Claude connector; without it they remain
 `full_handoff_only`. A receipt can prove host acceptance/display only, never
 that a person read or approved the message.
 
+The structured archive result also includes `assistantMessageEvents`. When a
+conversation layer is responsible for the handoff, emit the `segment.body` of
+each event as one independent assistant message, in order and verbatim. Do not
+answer only “archived”, “see attachment”, or a newly summarized report. The
+event list proves the exact prepared payload; it does not prove that a host
+displayed it when `hostDisplayConfirmation` is `unknown`.
+
 If delivery is interrupted, retry the same `deliveryId`, archive identity,
 language, body digest, and ordered segments. Resume from the first unaccepted
 part only from a contiguous progress record containing actual accepted receipts;

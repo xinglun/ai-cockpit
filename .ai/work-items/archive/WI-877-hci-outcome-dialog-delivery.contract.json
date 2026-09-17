@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "Every normal and supported historical archive returns the complete full Outcome body in structured output; --json remains valid JSON and does not omit it.",
+    "The conversation-facing handoff is emitted from the same validated delivery payload, preserves WI identity, language, ordered segments, and body digest, and never substitutes archived, see attachment, or an agent-generated summary.",
+    "Host acceptance and display are derived only from per-message receipts; capability declarations alone cannot produce displayed or accepted status; zero sends cannot be reported complete.",
+    "Interrupted delivery resumes only from an identity-bound contiguous accepted receipt chain, with no new verification or archive execution; two consecutive Work Items remain separate.",
+    "When no supported host send API is configured, output explicitly states full_handoff_only and unknown display, and documentation identifies this as a capability limit rather than automatic dialog delivery.",
+    "CLI, MCP, and English/Simplified Chinese/Japanese presentation preserve the same facts and next action; focused tests inspect actual assistant-message event payloads at the controllable adapter boundary."
+  ],
+  "authority": "user-message:authorized-to-complete-all-wi-tasks",
+  "baseRevision": "279b20b32f3f1876ac96b0f0a7f2df202114edb7",
+  "createdAt": "2026-09-17T07:31:02Z",
+  "goal": "Close the remaining HCI gap from the four-direction convergence review by making archive and supported historical-archive output reliably consumable as a complete conversation handoff, with explicit host limits and no duplicate verification or archive execution on retry.",
+  "intent": "Deliver each archived Work Item Outcome as one complete, identity-bound human handoff in the conversation-facing path; distinguish tool return, host acceptance, display confirmation, and unknown capability without claiming unsupported Codex or Claude integration.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Do not implement or claim a built-in Codex or Claude send API; do not change lifecycle authorization rules",
+    " verification execution",
+    " release publication",
+    " Issue #851 recovery semantics",
+    " object repositories",
+    " or release assets."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:104c9fcfc6f88aad88cb1a05d8ccd0d49bcaf41c3176e58da09d933e0c1671e1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "Modify only the Outcome delivery contract and production paths in crates/cockpit-agent",
+    " crates/cockpit-cli",
+    " and crates/cockpit-mcp; their focused tests; and the corresponding tri-language Outcome/Agent usage documentation and parity evidence.",
+    "crates/cockpit-agent/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.zh-CN.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.ja.md"
+  ],
+  "sources": [
+    "user-message:prior-review-of-main-333ac799",
+    "docs/reference/outcome-report.md"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-877-hci-outcome-dialog-delivery"
+}

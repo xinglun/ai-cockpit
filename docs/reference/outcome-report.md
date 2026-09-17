@@ -69,6 +69,15 @@ contiguous progress record containing accepted receipts bound to the same
 delivery, Work Item, archive, language, and segment digests. An unknown receipt
 cannot advance that boundary.
 
+For adapters that need an explicit conversation handoff, the structured archive
+result also exposes `assistantMessageEvents`. Each event has
+`event: "assistant_message"` and carries one verbatim `segment`; the list is
+ordered and has the same count, identities, and body digests as
+`outcomeDelivery.segments`. A conversation layer may emit each segment as its
+own assistant message without re-reading the repository or summarizing the
+body. The events prove only the prepared handoff payload; they do not upgrade
+`full_handoff_only` or `unknown` into host display confirmation.
+
 The default summary has four sections:
 
 1. Result: current verification, lifecycle, human decision, and governance signal

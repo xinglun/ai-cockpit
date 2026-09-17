@@ -2259,6 +2259,9 @@ fn run() -> Result<()> {
                     .context("prepare archived Outcome delivery")?;
                     let result = deliver_prepared_outcome(&repo, &id, prepared)?;
                     let mut output = serde_json::to_value(&result.delivery)?;
+                    output["assistantMessageEvents"] = serde_json::to_value(
+                        cockpit_agent::assistant_message_events(&result.delivery),
+                    )?;
                     output["deliveryReport"] = result
                         .delivery_report
                         .unwrap_or_else(|| json!({"deliveryState": "unknown"}));
@@ -3170,6 +3173,9 @@ fn print_lifecycle_result(
                     handoff = Some(result.handoff);
                 }
                 output["outcomeDelivery"] = serde_json::to_value(&result.delivery)?;
+                output["assistantMessageEvents"] = serde_json::to_value(
+                    cockpit_agent::assistant_message_events(&result.delivery),
+                )?;
                 if let Some(report) = result.delivery_report {
                     output["deliveryReport"] = report;
                 }
@@ -3197,6 +3203,7 @@ fn print_lifecycle_result(
                     "error": error.to_string(),
                     "nextAction": "Keep the archive; inspect the preparation error and retry delivery without archiving again."
                 });
+                output["assistantMessageEvents"] = json!([]);
                 if !json {
                     handoff = Some(format!(
                         "Archive completed, but full Outcome delivery preparation failed: {error}"

@@ -103,7 +103,7 @@ fn mcp_tool_schema(name: &str) -> Value {
             properties["delivery"] = json!({
                 "type": "boolean",
                 "default": false,
-                "description": "For an archived Work Item, return the versioned full Outcome delivery payload. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
+                "description": "For an archived Work Item, return the versioned full Outcome delivery payload and ordered assistantMessageEvents. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
             });
             properties["deliveryProgress"] = json!({
                 "type": "object",
@@ -1566,6 +1566,7 @@ fn work_item_outcome(
             "workItemId": id,
             "outcome": outcome,
             "humanHandoff": handoff,
+            "assistantMessageEvents": cockpit_agent::assistant_message_events(&delivery),
             "outcomeDelivery": delivery,
             "deliveryReport": delivery_report,
             "hostDeliveryMode": mode,

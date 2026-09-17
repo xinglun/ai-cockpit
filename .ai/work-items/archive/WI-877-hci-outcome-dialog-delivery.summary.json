@@ -1,0 +1,148 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification-attempt.f170fb91581d77c4b6798b77b44c0f8ee8574865122a01ec2929cb48e019a7e7.json",
+    ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json",
+    ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "crates/cockpit-agent/tests/outcome_delivery.rs",
+    "crates/cockpit-agent/tests/outcome_host_command.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/outcome-report.ja.md",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.ja.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.md",
+    "docs/work-items/WI-877-hci-outcome-dialog-delivery.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-17T07:31:04Z",
+  "checkpointContractDigest": "sha256:5060ca245184c017397bd0eb26b0a9b9ce3d184184a69215ad4c24b521e32753",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b3284b9029bf6ecb5411c67afc5769db7184f44cb1d349aafd3b2ea4044770a3",
+      "recorded": true,
+      "recordedAt": "2026-09-17T07:31:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:104c9fcfc6f88aad88cb1a05d8ccd0d49bcaf41c3176e58da09d933e0c1671e1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:60c13d0232a4a32ce0059a07bd0793fae4e98df6cd5600725968153a8f3aaa2e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b3284b9029bf6ecb5411c67afc5769db7184f44cb1d349aafd3b2ea4044770a3",
+      "previousContractHash": "sha256:b3284b9029bf6ecb5411c67afc5769db7184f44cb1d349aafd3b2ea4044770a3",
+      "reason": "Bind the actual source and documentation paths touched by the conversation-facing event contract before rerunning preflight.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T07:42:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5d631e349051ace520ed2098fb46cee910a3f37c19e3e0a7341db37f243b8c27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:5060ca245184c017397bd0eb26b0a9b9ce3d184184a69215ad4c24b521e32753",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b3284b9029bf6ecb5411c67afc5769db7184f44cb1d349aafd3b2ea4044770a3",
+      "previousContractHash": "sha256:60c13d0232a4a32ce0059a07bd0793fae4e98df6cd5600725968153a8f3aaa2e",
+      "reason": "Include the required tri-language Work Item projection files for the HCI delivery contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T07:43:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5d631e349051ace520ed2098fb46cee910a3f37c19e3e0a7341db37f243b8c27",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8565cedf01461497249300240477ca55e77114eacb58dbee4708ae46a9d4a526",
+  "createdAt": "2026-09-17T07:31:02Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T07:49:38Z",
+  "preflightContractDigest": "sha256:5060ca245184c017397bd0eb26b0a9b9ce3d184184a69215ad4c24b521e32753",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:8565cedf01461497249300240477ca55e77114eacb58dbee4708ae46a9d4a526",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T07:49:50Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-877-hci-outcome-dialog-delivery"
+}
