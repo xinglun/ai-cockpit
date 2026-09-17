@@ -1,0 +1,159 @@
+{
+  "acceptanceResults": [
+    "All workspace package versions, release documentation, manifests, checksums, and artifact naming identify v0.2.94 consistently while preserving v0.2.93 as N-1.",
+    "The reviewed synchronized main commit is the sole immutable source identity for the v0.2.94 tag and release workflow.",
+    "Candidate fresh installation and v0.2.93 to v0.2.94 upgrade pass in independent isolated environments with structured receipts.",
+    "Public v0.2.94 downloaded Release assets pass fresh install, v0.2.93 upgrade, manifest, checksum, and version consistency acceptance.",
+    "Failed release phases retain identity-bound evidence and recovery reuses only compatible successful phases without rerunning them.",
+    "Release workflow policy, source archive policy, tri-language documentation, and exact resource cleanup pass before close; unknown host or user-read status is not inferred."
+  ],
+  "createdAt": "2026-09-17T16:37:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:1dd6ed6b8ade1b6ea361d158081e8103422e7ea8b0d83e841975e5b60492e36b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d64b047f809b2ef0468dd34dec9c51f9678434e354f5e135610c12698a7ac74d",
+      "workItemId": "WI-883-release-v0-2-94-current-main"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.5bd18a5577a90029aaae8b5bc0d22009f5fcdfdaf59e847da232de50d92688b5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.136c43db8907dec7dab491457c2cd0cda17217e00ea996483acaa7d45b3b51fa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
+          ],
+          "inference": false,
+          "text": "Advance AI Cockpit from v0.2.93 to v0.2.94 from current synchronized main and prove candidate plus public downloaded-artifact adoption."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-883-release-v0-2-94-current-main"
+  },
+  "taskReportDigest": "sha256:69eb047512e0fe6ad346a756f36f28c9b6e1ff91e1769f00c82e54ea8392d6b0",
+  "taskReportMarkdownDigest": "sha256:80259283831850a8b2724d80838a316373f39d4ed3c2075430e9aef417b7df3b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "https://github.com/xinglun/ai-cockpit/pull/863"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:ff4383a0f979ecffffa7f576e99ba70fa158aa4ecfe62048832c009d00aa79ed",
+  "predecessorEventsDigest": "sha256:125cbd460fc11d843ed15d36bf2a16301ac03a509e110bac98ae789d1873e573",
+  "predecessorOutcomeDigest": "sha256:2b197a5a933c8dc59d54a87815b6bb6adf43e989bce3210159a3d79e3cdeb016",
+  "predecessorSummaryDigest": "sha256:aef11e9ddd9a1f64406484de6fc4c932fec8edb5eb4d7b0fb71447d533d2d901",
+  "predecessorWorkItemId": "WI-883-release-v0-2-94-current-main",
+  "reason": "The three-language parity lifecycle binding was corrected after the previous candidate Runtime verification, changing the repository snapshot while preserving the same release scope and PR. Retry the same Work Item under Runtime 0.2.94 so evidence binds the corrected documentation snapshot; preserve all prior attempts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use Runtime 0.2.94 to rerun the required verification and preflight for the corrected parity snapshot, then finish; do not publish or create a tag until hosted checks and post-merge artifact gates pass.",
+  "runtimeDigest": "sha256:4b176c72179c58f6d7f40f919ebf0d9b096ff912a04b75ecadad61a66bb97650",
+  "runtimeVersion": "0.2.94",
+  "schemaVersion": 1,
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}

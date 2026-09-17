@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-864-release-v0-2-93
+lastVerifiedBy: WI-883-release-v0-2-94-current-main
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.93` with binary digest
-`sha256:e5364341e64e67b3cec66ace0b83002a65e157a5c5ba65bac6c356f08e93d767`.
+and the reviewed Runtime `ai-cockpit v0.2.94` with binary digest
+`sha256:4b176c72179c58f6d7f40f919ebf0d9b096ff912a04b75ecadad61a66bb97650`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1050,3 +1050,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-876-performance-current-proof — current-version paired Runtime and development-cycle performance proof | Implemented | [Work Item](../work-items/WI-876-performance-current-proof.md); terminal lifecycle: archive `.ai/work-items/archive/WI-876-performance-current-proof.contract.json`; verification `.ai/evidence/WI-876-performance-current-proof.verification.json`; close `.ai/decisions/WI-876-performance-current-proof.close.json`. |
 | WI-877-hci-outcome-dialog-delivery — conversation-facing archived Outcome events | Implemented | [Work Item](../work-items/WI-877-hci-outcome-dialog-delivery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json`; verification `.ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json`; close `.ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json`. |
 | WI-879-verification-target-policy — replacement of the archived verification target policy quality regression | Implemented | [Work Item](../work-items/WI-879-verification-target-policy.md); terminal lifecycle: archive `.ai/work-items/archive/WI-879-verification-target-policy.contract.json`; verification `.ai/evidence/WI-879-verification-target-policy.verification.json`; close `.ai/decisions/WI-879-verification-target-policy.close.json`. |
+| WI-883-release-v0-2-94-current-main — current-main v0.2.94 release route | In progress → Implemented after verified close | [Work Item](../work-items/WI-883-release-v0-2-94-current-main.md); publication remains gated on verified Outcome, HCI, four-direction, Issue #851, interface-discovery, Rust/toolchain, candidate, merge, and downloaded-artifact evidence; archive `.ai/work-items/archive/WI-883-release-v0-2-94-current-main.contract.json`; verification `.ai/evidence/WI-883-release-v0-2-94-current-main.verification.json`; finalization `.ai/decisions/WI-883-release-v0-2-94-current-main.finalize.json`; close `.ai/decisions/WI-883-release-v0-2-94-current-main.close.json`. |

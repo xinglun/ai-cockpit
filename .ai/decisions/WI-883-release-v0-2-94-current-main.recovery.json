@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T00:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/863"
+  ],
+  "policyRefs": [
+    "AGENTS.md:resource-finalization-order",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:678533f029a0c666039f63b91f41cbcbd48a98d4834c7c241d4e7501e5b58561",
+  "predecessorEventsDigest": "sha256:6a3fdd6b8013c6a7c49ee91321995a99c26d37a077cf7734b7b66a0ef3e91101",
+  "predecessorOutcomeDigest": "sha256:025c71a9b71f5185b6f3106d6163911ae547eb4cfbf8658f52e9e2b4bee1791e",
+  "predecessorSummaryDigest": "sha256:46beca2b4d7b0fc21b43d00e272b4eac77fb23bf7a6e068f96fa0324568fafa2",
+  "predecessorWorkItemId": "WI-883-release-v0-2-94-current-main",
+  "reason": "The first bounded release verification reached finish_ready before the reviewed PR identity was bound. Retry the same release Work Item so finalize-plan for PR #863 is recorded before the next verification cycle; preserve the prior verification evidence and do not rerun the expensive project command unless identity-sensitive validation requires it.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #863 with finalize-plan, rerun only the required identity-sensitive verification if the Runtime requires it, then rerun preflight and finish before hosted checks, archive, finalization, and close.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}
