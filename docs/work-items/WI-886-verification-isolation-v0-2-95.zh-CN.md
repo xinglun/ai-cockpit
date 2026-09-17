@@ -4,10 +4,14 @@ workItemId: WI-886-verification-isolation-v0-2-95
 title: 修复发布验收隔离并发布 v0.2.95
 description: 保留显式验证目标隔离，并在不可变的 v0.2.94 验收失败后证明候选版本和下载制品验收。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 predecessorWorkItemId: WI-883-release-v0-2-94-current-main
 lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+terminalArchive: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json
+terminalVerification: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json
+terminalFinalization: .ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json
+terminalDecision: .ai/decisions/WI-886-verification-isolation-v0-2-95.close.json
 ---
 
 # WI-886 — 修复发布验收隔离并发布 v0.2.95

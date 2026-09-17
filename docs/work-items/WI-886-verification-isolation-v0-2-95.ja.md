@@ -4,10 +4,14 @@ workItemId: WI-886-verification-isolation-v0-2-95
 title: リリース受入れの隔離を修復し v0.2.95 を公開する
 description: 不変の v0.2.94 受入れ失敗後、明示的な検証ターゲット隔離を維持し、候補とダウンロード成果物の受入れを証明する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 predecessorWorkItemId: WI-883-release-v0-2-94-current-main
 lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+terminalArchive: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json
+terminalVerification: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json
+terminalFinalization: .ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json
+terminalDecision: .ai/decisions/WI-886-verification-isolation-v0-2-95.close.json
 ---
 
 # WI-886 — リリース受入れの隔離を修復し v0.2.95 を公開する

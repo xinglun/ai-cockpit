@@ -4,10 +4,14 @@ workItemId: WI-886-verification-isolation-v0-2-95
 title: Repair release acceptance isolation and publish v0.2.95
 description: Preserve explicit verification target isolation and prove candidate and downloaded-artifact acceptance after the immutable v0.2.94 acceptance failure.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 predecessorWorkItemId: WI-883-release-v0-2-94-current-main
 lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+terminalArchive: .ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json
+terminalVerification: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json
+terminalFinalization: .ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json
+terminalDecision: .ai/decisions/WI-886-verification-isolation-v0-2-95.close.json
 ---
 
 # WI-886 — Repair release acceptance isolation and publish v0.2.95
