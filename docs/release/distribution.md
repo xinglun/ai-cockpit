@@ -24,7 +24,7 @@ step. The complete audit handoff remains available with `--view full` (or MCP
 authorization, exit codes, and persisted evidence are unchanged. No user-study
 or risk-reduction benefit is claimed by this release note.
 
-The current release artifact naming is `ai-cockpit-v0.2.94-<target>.tar.gz` or
+The current release artifact naming is `ai-cockpit-v0.2.95-<target>.tar.gz` or
 the corresponding Windows archive. This becomes the installation baseline only
 after the public Release and post-release acceptance are complete.
 
