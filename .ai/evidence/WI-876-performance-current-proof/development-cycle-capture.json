@@ -1,0 +1,36 @@
+{
+  "environment": {
+    "machine": "aarch64-apple-darwin",
+    "toolchain": {
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+      "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)"
+    },
+    "runtimeVersion": "0.2.93",
+    "workItem": "WI-876-performance-current-proof"
+  },
+  "captures": [
+    {
+      "stage": "contract_to_reviewable",
+      "captureId": "WI-876:created-to-checkpoint",
+      "startedAt": "2026-09-17T06:11:08Z",
+      "endedAt": "2026-09-17T06:12:11Z",
+      "elapsedMs": 63000,
+      "valid": true,
+      "agentOperations": null,
+      "preflightRejects": null,
+      "notes": "Runtime created the Contract and reached checkpointed after preflight; operation and rejection counters were not persisted."
+    },
+    {
+      "stage": "verification_to_finish",
+      "captureId": "WI-876:not-yet-finished",
+      "valid": false,
+      "reason": "work-item verification and finish are not complete"
+    },
+    {
+      "stage": "post_merge_cleanup",
+      "captureId": "WI-876:not-yet-merged",
+      "valid": false,
+      "reason": "no reviewed merge or post-merge cleanup exists for this active Work Item"
+    }
+  ]
+}

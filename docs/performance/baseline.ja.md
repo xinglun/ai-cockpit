@@ -38,3 +38,9 @@ baseline であり release evidence ではありません。公開前に immutab
 今回の status 目標（<50 ms）と incremental observation 目標（<100 ms）は達成しました。
 初回の uncached scan は別に測定し、受入れ目標は incremental cache-hit path に適用します。
 raw command output は release candidate の acceptance record と一緒に保持してください。
+
+## 現在の paired capture（WI-876）
+
+現在の候補は同じ `aarch64-apple-darwin` machine、`rustc/cargo 1.98.1`、Runtime `0.2.93` で、外部 baseline binary と個別に build した candidate binary を paired 測定しました。小規模 clean、many-file clean（ORG-X）、大量 historical Work Item（ai-investigation-orchestrator）、single-file change、multi-file change、large-file change、evidence path change の七つの isolated fixture を使い、各 operation は 100 個の有効な warm sample を持ちます。raw sample、identity、counter、unavailable reason は `.ai/evidence/WI-876-performance-current-proof/paired-current-seven-scenarios.json` に保持します。
+
+5 ms の noise budget で比較した結果、改善は**まだ証明できません**。23 operation は noise 内、2 operation は改善、10 operation は暫定 noise budget を超えました。これは測定 evidence であり release performance pass ではありません。diagnostics on/off overhead は `diagnostics-overhead-org-x.json` に分離しています。開発 cycle cost は別報告で、現在取得できたのは Contract→checkpoint の 63,000 ms（1 sample）のみです。agent operation/preflight reject 数、verification→finish、merge 後 cleanup は明示的に unavailable です。

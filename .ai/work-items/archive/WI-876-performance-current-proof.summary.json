@@ -1,0 +1,103 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-876-performance-current-proof/development-cycle-capture.json",
+    ".ai/evidence/WI-876-performance-current-proof/development-cycle-report.json",
+    ".ai/evidence/WI-876-performance-current-proof/diagnostics-overhead-org-x.json",
+    ".ai/evidence/WI-876-performance-current-proof/paired-current-seven-scenarios.json",
+    ".ai/evidence/WI-876-performance-current-proof/paired-current-six-scenarios.json",
+    ".ai/work-items/archive/WI-876-performance-current-proof.contract.json",
+    ".ai/work-items/archive/WI-876-performance-current-proof.summary.json",
+    "docs/performance/baseline.ja.md",
+    "docs/performance/baseline.md",
+    "docs/performance/baseline.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-876-performance-current-proof.ja.md",
+    "docs/work-items/WI-876-performance-current-proof.md",
+    "docs/work-items/WI-876-performance-current-proof.zh-CN.md",
+    "tests/performance/README.ja.md",
+    "tests/performance/README.md",
+    "tests/performance/README.zh-CN.md",
+    "tests/performance/development_cycle_cost.py",
+    "tests/performance/development_cycle_cost_test.py",
+    "tests/performance/fixtures/p0-baseline.json",
+    "tests/performance/fixtures/p0-candidate-budget-fail.json",
+    "tests/performance/fixtures/p0-candidate-incomparable-environment.json",
+    "tests/performance/fixtures/p0-candidate-insufficient-percentile.json",
+    "tests/performance/fixtures/p0-candidate-pass.json",
+    "tests/performance/p0_regression_gate.sh",
+    "tests/performance/p0_regression_gate_test.sh",
+    "tests/performance/paired_performance_report.py",
+    "tests/performance/paired_performance_report_test.py",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/runtime_benchmark_scenarios.py"
+  ],
+  "checkpointAt": "2026-09-17T06:12:11Z",
+  "checkpointContractDigest": "sha256:7c6ebb7b62e4636db46a81306b9094d722307115482e8614895882da8da3accb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:da38a219639d4b2b53c21a7307769cd731f8ada021cfe3b60a92cde0ce5f6434",
+  "createdAt": "2026-09-17T06:11:08Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T07:07:58Z",
+  "preflightContractDigest": "sha256:7c6ebb7b62e4636db46a81306b9094d722307115482e8614895882da8da3accb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:da38a219639d4b2b53c21a7307769cd731f8ada021cfe3b60a92cde0ce5f6434",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T07:13:19Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-876-performance-current-proof"
+}

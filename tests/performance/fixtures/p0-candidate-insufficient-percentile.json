@@ -186,6 +186,11 @@
       "status": "not_measured"
     },
     {
+      "name": "invalid-evidence",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
       "name": "concurrent-validation-requests",
       "reason": "not selected for this invocation",
       "status": "not_measured"

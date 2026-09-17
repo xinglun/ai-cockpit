@@ -39,3 +39,24 @@ The status target (<50 ms) and incremental observation target (<100 ms) are met
 in this run. The first uncached scan is measured separately; the acceptance target
 applies to the incremental cache-hit path. The raw command output must be retained
 with the release candidate's acceptance records.
+
+## Current paired capture (WI-876)
+
+The current candidate was measured on the same aarch64-apple-darwin machine with
+`rustc 1.98.1`/`cargo 1.98.1`, Runtime `0.2.93`, an external baseline binary,
+and a separately built candidate binary. Seven isolated fixture shapes were paired:
+small clean, many-file clean (ORG-X), many historical Work Items
+(ai-investigation-orchestrator), single-file change, multi-file change,
+large-file change, and an evidence-path change. Each operation has 100 valid warm samples; the raw samples,
+identities, counters, and unavailable reasons are retained in
+`.ai/evidence/WI-876-performance-current-proof/paired-current-seven-scenarios.json`.
+
+The paired comparator used a 5 ms noise budget. The capture is **not a proven
+improvement**: 23 operation comparisons were within noise, 2 improved, and 10
+exceeded the provisional noise budget. This is measurement evidence, not a
+release-performance pass. Diagnostics on/off overhead is reported separately in
+`diagnostics-overhead-org-x.json`; internal counters remain unavailable where the
+Runtime does not expose them. Development-cycle cost is separate: the only
+currently observed stage is Contract→checkpoint at 63,000 ms (one sample); agent
+operation and preflight-rejection counts, verification→finish, and post-merge
+cleanup are explicitly unavailable for the active WI.

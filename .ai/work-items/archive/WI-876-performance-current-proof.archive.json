@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-17T07:13:34Z",
+  "files": {
+    "contractDigest": "sha256:42cc7530288a735b666ffd4179122c3ce7dcf21c6b5455013c8c38282068b85e",
+    "contractPath": ".ai/work-items/archive/WI-876-performance-current-proof.contract.json",
+    "eventsDigest": "sha256:580c44b77449576a6ddce49462cba9ed56819a5c253e68601f9729f57fd6ad7d",
+    "eventsPath": ".ai/work-items/archive/WI-876-performance-current-proof.events.jsonl",
+    "outcomeDigest": "sha256:bf0a7ea6521419631f6ea7fe828f6f6b7a06923fb9d1ee46f5075eed93c4ead7",
+    "outcomePath": ".ai/work-items/archive/WI-876-performance-current-proof.outcome.json",
+    "summaryDigest": "sha256:53738af2fe52c8a32f21ecf8ca95166ecc2bd68feb98d6d6750e227f07dce3f1",
+    "summaryPath": ".ai/work-items/archive/WI-876-performance-current-proof.summary.json",
+    "taskReportDigest": "sha256:a4a794e80d38d2ef0f02a0d566cfc361afd876d0d7aeda1ddade077fdcf19f07",
+    "taskReportMarkdownDigest": "sha256:46d00a9898691975094eac6da6d0ddfc55c8f704113bd8bb734b65f4d9590877",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-876-performance-current-proof.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-876-performance-current-proof.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-876-performance-current-proof"
+}

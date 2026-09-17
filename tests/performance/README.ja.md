@@ -25,6 +25,7 @@ evidence の完全性、比較可能な環境を結び付けます。budget は
 schema 2 の release-grade 収集と比較では、budget が使う各 percentile（`p50`、`p95`、`p99`）に少なくとも
 100 個の有効な warm sample が必要です。少数 sample は `runtime_benchmark_stats.summarize` で診断できますが、
 P0 gate を満たす証拠にはなりません。
+`paired_performance_report.py` は scenario ごとに raw warm sample を比較し、p50/p95 の差分と明示された noise budget を出力します。identity または budget が取得できない場合は `unknown` とし、欠測を zero や改善として扱いません。
 
 Verification scheduler は command ごとの resource weight と明示的な resource budget に対応します。
 weight が zero または budget 超過なら fail-closed になり、dependency order、protected node、
@@ -47,15 +48,17 @@ child process 数、peak memory は unavailable と記録し、zero にはしま
 した budget file と `p0_regression_gate.sh` を使用します。旧 schema 1 fixture では `regression_gate.sh` を使います。
 
 P0 の scenario matrix は、小規模/大量ファイルの clean repository、単一/複数/大規模ファイル変更、大量の
-historical Work Item、複数 concurrent validation request、常駐 MCP の repeat query を含みます。1 回の invocation
+historical Work Item、複数 concurrent validation request、常駐 MCP の repeat query、無効/古い evidence を含みます。1 回の invocation
 は指定された repository に束縛され、未選択の scenario は `not_measured` と記録し、結果を合成しません。
 取得した事実が形状を証明できる場合だけ measured とします。`small-clean` は clean かつ tracked file 100 件以下、
 `many-files-clean` は clean かつ 1,000 件以上、`single-file-change`/`multi-file-change` は変更 path が
 1 件/2 件以上、`large-file-change` は 1 MiB 以上の変更 file、`many-historical-wi` は archived Work Item
 100 件以上を要求します。Portable harness は concurrent request や常駐 MCP transport を実行しないため、これらは
-明示的に `not_measured` のままです。
+明示的に `not_measured` のままです。`invalid-evidence` は evidence path の変更を確認できた場合だけ measured とし、freshness の判断を capture に明示します。
 Work Item id を渡すと、同じ 100 warm sample batch で machine-readable Work Item status、
 Outcome、verification planning も別 operation として測定します。これらは独立した sample
 であり、実行や reuse の測定を置き換えません。Contract→reviewable、verification→finish、
 merge 後 cleanup の cycle cost は別 report とし、provider step が取得できない場合は理由を明示します。
 `development_cycle_cost.py` は lifecycle capture を別々に処理し、Contract→reviewable、verification→finish、merge 後 cleanup の raw sample、p50/p95、agent operation 数、preflight reject 数を分けて出力します。provider stage がない場合は unavailable とし、0 には置き換えません。
+`AI_COCKPIT_BENCHMARK_DIAGNOSTICS=on` と `AI_COCKPIT_BENCHMARK_CAPTURE_DIAGNOSIS=1` を設定すると、各測定 sample に read-only Runtime diagnosis を結び付けます。diagnosis は順次実行される別 CLI 境界であり、その時間も保持します。条件を揃えた on/off capture で overhead を測定します。Runtime が提供しない counter は明示的な unavailable reason を持ちます。
+各 fixture/scenario について schema 2 capture を作成し、paired report に渡してください。1 回の invocation が未選択 scenario を暗黙に代替することはありません。

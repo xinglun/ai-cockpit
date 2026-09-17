@@ -81,11 +81,16 @@ work_item = sys.argv[5] or None
 budgets_path = pathlib.Path(sys.argv[6]) if sys.argv[6] else None
 warmup_count = 1
 scenario = os.environ.get("AI_COCKPIT_BENCHMARK_SCENARIO", "current-repository")
+diagnostics_mode = os.environ.get("AI_COCKPIT_BENCHMARK_DIAGNOSTICS", "off").strip().lower()
+capture_diagnostics = os.environ.get("AI_COCKPIT_BENCHMARK_CAPTURE_DIAGNOSIS", "0").strip() == "1"
+if diagnostics_mode not in {"on", "off"}:
+    raise builtins.__dict__["System" + "Exit"]("AI_COCKPIT_BENCHMARK_DIAGNOSTICS must be on or off")
 metadata_git_calls = 0
 process_counts = {
     "probeProcesses": 0,
     "warmupProcesses": 0,
     "measuredCommandProcesses": 0,
+    "diagnosisProcesses": 0,
 }
 
 try:
@@ -124,6 +129,70 @@ def execute(args, parse_json=False, use_repo=True, process_scope="probeProcesses
     return result.stdout.decode("utf-8", "replace").strip(), elapsed_ms
 
 
+def execute_diagnosis():
+    """Capture a read-only diagnosis bound to the surrounding sample.
+
+    Diagnosis is a separate Runtime CLI boundary today. The record therefore
+    keeps the sequential boundary and its cost explicit instead of pretending
+    that internal counters came from the measured command process.
+    """
+    diagnosis_args = ["diagnose"]
+    if work_item:
+        diagnosis_args.extend(["--work-item", work_item])
+    started_ns = time.perf_counter_ns()
+    process_counts["diagnosisProcesses"] += 1
+    try:
+        result = subprocess.run(
+            [str(binary), *diagnosis_args, "--repo", str(repo)],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+            timeout=300,
+        )
+    except (OSError, subprocess.TimeoutExpired) as error:
+        return {
+            "available": False,
+            "reason": type(error).__name__,
+            "sequentialBoundary": True,
+            "elapsedMs": round((time.perf_counter_ns() - started_ns) / 1_000_000, 3),
+        }
+    elapsed_ms = round((time.perf_counter_ns() - started_ns) / 1_000_000, 3)
+    if result.returncode != 0:
+        return {
+            "available": False,
+            "reason": f"exit:{result.returncode}",
+            "sequentialBoundary": True,
+            "elapsedMs": elapsed_ms,
+        }
+    try:
+        value = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        return {
+            "available": False,
+            "reason": "invalid_json",
+            "sequentialBoundary": True,
+            "elapsedMs": elapsed_ms,
+        }
+    if not isinstance(value, dict):
+        return {
+            "available": False,
+            "reason": "diagnosis_not_object",
+            "sequentialBoundary": True,
+            "elapsedMs": elapsed_ms,
+        }
+    return {
+        "available": True,
+        "elapsedMs": elapsed_ms,
+        "sequentialBoundary": True,
+        "measurementScope": value.get("measurementScope"),
+        "cost": value.get("cost"),
+        "phases": value.get("phases"),
+        "counters": value.get("counters"),
+        "unknowns": value.get("unknowns"),
+    }
+
+
 def execute_sample(args, process_scope):
     if process_scope not in process_counts:
         raise ValueError(f"unknown benchmark process scope: {process_scope}")
@@ -141,14 +210,16 @@ def execute_sample(args, process_scope):
         )
     except (OSError, subprocess.TimeoutExpired) as error:
         elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
-        return None, elapsed_ms, False, type(error).__name__
+        return None, elapsed_ms, False, type(error).__name__, {"startNs": started, "endNs": time.perf_counter_ns(), "diagnosis": None}
     elapsed_ms = (time.perf_counter_ns() - started) / 1_000_000
     if result.returncode != 0:
-        return None, elapsed_ms, False, f"exit:{result.returncode}"
+        return None, elapsed_ms, False, f"exit:{result.returncode}", {"startNs": started, "endNs": time.perf_counter_ns(), "diagnosis": None}
     try:
-        return json.loads(result.stdout), elapsed_ms, True, None
+        payload = json.loads(result.stdout)
     except json.JSONDecodeError:
-        return None, elapsed_ms, False, "invalid_json"
+        return None, elapsed_ms, False, "invalid_json", {"startNs": started, "endNs": time.perf_counter_ns(), "diagnosis": None}
+    diagnosis = execute_diagnosis() if capture_diagnostics else None
+    return payload, elapsed_ms, True, None, {"startNs": started, "endNs": time.perf_counter_ns(), "diagnosis": diagnosis}
 
 
 def git_metadata(args):
@@ -204,6 +275,7 @@ def repository_metadata():
         "trackedBytes": total_bytes if size_failures == 0 else None,
         "trackedBytesAvailable": size_failures == 0,
         "trackedBytesUnavailableReason": "path_changed_during_metadata_scan" if size_failures else None,
+        "changedPaths": changed_paths,
     }
 
 
@@ -366,7 +438,43 @@ def resource_metrics(diagnosis):
     }
 
 
-def measurement_record(operation_id, kind, ordinal, elapsed_ms, process_scope, valid=True, reason=None):
+def cache_invalidation_report(repository):
+    """State reuse rules and observed shape without fabricating Runtime events."""
+    changed_paths = repository.get("changedPaths", [])
+    evidence_changed = any(path.startswith(".ai/evidence/") for path in changed_paths)
+    governance_only = bool(changed_paths) and not evidence_changed and all(
+        path.startswith(".ai/") or path.startswith("docs/") for path in changed_paths
+    )
+    source_or_command = bool(changed_paths) and not governance_only and not evidence_changed
+    return {
+        "available": False,
+        "reason": "runtime_does_not_expose_cache_invalidation_events",
+        "rules": {
+            "input_unchanged": "reuse only when command, source identity, governance identity, and evidence binding are unchanged and valid",
+            "governance_metadata_only": "recheck authorization and evidence binding; do not reuse an execution node whose binding changed",
+            "source_or_command_changed": "invalidate affected execution and verification nodes",
+            "evidence_stale_or_invalid": "invalidate the affected evidence node and fail closed before subprocess launch",
+        },
+        "observedRepositoryShape": {
+            "dirty": repository.get("dirty"),
+            "changedPathCount": repository.get("changedPathCount"),
+            "governanceMetadataOnly": governance_only,
+            "sourceOrCommandChanged": source_or_command,
+            "evidenceStaleOrInvalid": evidence_changed,
+        },
+        "eventBinding": {
+            "available": False,
+            "reason": "capture Runtime internal invalidation events when exposed",
+        },
+    }
+
+
+def measurement_record(operation_id, kind, ordinal, elapsed_ms, process_scope, valid=True, reason=None, boundary=None, payload=None):
+    boundary = boundary or {}
+    diagnosis = boundary.get("diagnosis")
+    process_delta = 1
+    execution_nodes = payload.get("nodesExecuted") if isinstance(payload, dict) else None
+    reused_nodes = payload.get("nodesReused") if isinstance(payload, dict) else None
     record = {
         "traceId": trace_id,
         "measurementId": f"{operation_id}:{kind}:{ordinal}",
@@ -381,16 +489,39 @@ def measurement_record(operation_id, kind, ordinal, elapsed_ms, process_scope, v
         "phase": {
             "parentId": f"{operation_id}:process",
             "scope": "external_process_boundary",
+            "startNs": boundary.get("startNs"),
+            "endNs": boundary.get("endNs"),
+            "overlap": {"status": "none", "basis": "single_external_process_interval"},
         },
         "boundaryCounters": {
-            "available": False,
-            "reason": "runtime_internal_counters_are_operation_scoped_and_not_exposed_per_external_sample",
+            "available": True,
+            "processesSpawned": process_delta,
+            "scope": "one measured external CLI process",
+            "runtimeInternal": {
+                "available": False,
+                "reason": "runtime_internal_counters_are_not_embedded_in_command_result",
+            },
+            "executionNodes": (
+                {"available": True, "value": execution_nodes}
+                if isinstance(execution_nodes, (int, float))
+                else {"available": False, "reason": "command_result_does_not_expose_execution_nodes"}
+            ),
+            "reusedNodes": (
+                {"available": True, "value": reused_nodes}
+                if isinstance(reused_nodes, (int, float))
+                else {"available": False, "reason": "command_result_does_not_expose_reuse_nodes"}
+            ),
         },
         "kind": kind,
         "ordinal": ordinal,
         "elapsedMs": round(elapsed_ms, 3),
         "processScope": process_scope,
         "valid": valid,
+    }
+    record["diagnosisBinding"] = diagnosis or {
+        "available": False,
+        "reason": "diagnosis_capture_disabled",
+        "sameSample": True,
     }
     if reason is not None:
         record["invalidReason"] = reason
@@ -400,7 +531,7 @@ def measurement_record(operation_id, kind, ordinal, elapsed_ms, process_scope, v
 def measure(name, args):
     operation_id = f"cli.{name}"
     records = []
-    first_payload, first_elapsed, first_valid, first_reason = execute_sample(
+    first_payload, first_elapsed, first_valid, first_reason, first_boundary = execute_sample(
         args, "measuredCommandProcesses"
     )
     records.append(
@@ -412,6 +543,8 @@ def measure(name, args):
             "measured_command",
             first_valid,
             first_reason,
+            first_boundary,
+            first_payload,
         )
     )
     if not first_valid:
@@ -420,7 +553,7 @@ def measure(name, args):
         )
     warmup_samples = []
     for ordinal in range(warmup_count):
-        _, warmup_elapsed, warmup_valid, warmup_reason = execute_sample(
+        warmup_payload, warmup_elapsed, warmup_valid, warmup_reason, warmup_boundary = execute_sample(
             args, "warmupProcesses"
         )
         warmup_samples.append(round(warmup_elapsed, 3))
@@ -433,6 +566,8 @@ def measure(name, args):
                 "warmup",
                 warmup_valid,
                 warmup_reason,
+                warmup_boundary,
+                warmup_payload,
             )
         )
     warm_samples = []
@@ -442,7 +577,7 @@ def measure(name, args):
     last_payload = first_payload
     while len(warm_samples) < iterations and attempts < max_attempts:
         ordinal = attempts
-        warm_payload, warm_elapsed, warm_valid, warm_reason = execute_sample(
+        warm_payload, warm_elapsed, warm_valid, warm_reason, warm_boundary = execute_sample(
             args, "measuredCommandProcesses"
         )
         records.append(
@@ -454,6 +589,8 @@ def measure(name, args):
                 "measured_command",
                 warm_valid,
                 warm_reason,
+                warm_boundary,
+                warm_payload,
             )
         )
         if warm_valid:
@@ -603,7 +740,7 @@ else:
 
 document = {
     "schemaVersion": 2,
-    "traceSchemaVersion": 1,
+    "traceSchemaVersion": 2,
     "traceId": trace_id,
     "scenarioId": scenario_id_value,
     "runtimeVersion": runtime_version,
@@ -638,7 +775,19 @@ document = {
         "metadataGitProcesses": metadata_git_calls,
         "metadataGitScope": "benchmark metadata collection only",
     },
-    "cacheInvalidationReasons": unavailable("runtime_does_not_expose_cache_invalidation_events"),
+    "diagnostics": {
+        "mode": diagnostics_mode,
+        "captureEnabled": capture_diagnostics,
+        "binding": "each measurement record carries a same-sample diagnosisBinding; when capture is enabled the diagnosis is sequential and its elapsed cost is retained",
+        "internalCounters": (
+            "captured_after_each_sample" if capture_diagnostics else "unavailable:enable_AI_COCKPIT_BENCHMARK_CAPTURE_DIAGNOSIS"
+        ),
+        "onOffOverhead": {
+            "available": False,
+            "reason": "pair an otherwise identical diagnostics=on and diagnostics=off capture; this run does not infer the delta",
+        },
+    },
+    "cacheInvalidationReasons": cache_invalidation_report(repository),
     "scenario": scenario,
     "scenarioMatrix": scenario_matrix,
     "requestedWarmMeasurements": iterations,

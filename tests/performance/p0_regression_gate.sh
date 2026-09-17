@@ -138,6 +138,7 @@ SCENARIO_NAMES = (
     "multi-file-change",
     "large-file-change",
     "many-historical-wi",
+    "invalid-evidence",
     "concurrent-validation-requests",
     "resident-mcp-repeat-query",
     "current-repository",
@@ -356,6 +357,41 @@ def validate_p0_record(value, label):
             failures.append(f"warmup_count_binding_mismatch:{label}:{name}")
     if not isinstance(value.get("budgets"), list) or not value["budgets"]:
         failures.append(f"budgets_missing:{label}")
+    trace_schema = value.get("traceSchemaVersion", 1)
+    if trace_schema >= 2:
+        diagnostics = value.get("diagnostics")
+        if not isinstance(diagnostics, dict):
+            failures.append(f"diagnostics_missing:{label}")
+        else:
+            if diagnostics.get("mode") not in ("on", "off"):
+                failures.append(f"diagnostics_mode_invalid:{label}")
+            if not isinstance(diagnostics.get("captureEnabled"), bool):
+                failures.append(f"diagnostics_capture_flag_missing:{label}")
+            overhead = diagnostics.get("onOffOverhead")
+            if not isinstance(overhead, dict) or not isinstance(overhead.get("available"), bool):
+                failures.append(f"diagnostics_overhead_missing:{label}")
+            elif not overhead["available"] and not isinstance(overhead.get("reason"), str):
+                failures.append(f"diagnostics_overhead_reason_missing:{label}")
+        for sample in value.get("samples", []):
+            records = sample.get("measurementRecords") if isinstance(sample, dict) else None
+            if not isinstance(records, list) or not records:
+                failures.append(f"measurement_records_missing:{label}:{sample.get('name') if isinstance(sample, dict) else 'unknown'}")
+                continue
+            for record in records:
+                if not isinstance(record, dict):
+                    failures.append(f"measurement_record_malformed:{label}")
+                    continue
+                phase = record.get("phase")
+                if not isinstance(phase, dict) or not isinstance(phase.get("startNs"), int) or not isinstance(phase.get("endNs"), int) or phase["endNs"] < phase["startNs"]:
+                    failures.append(f"measurement_phase_boundary_invalid:{label}")
+                counters = record.get("boundaryCounters")
+                if not isinstance(counters, dict) or counters.get("available") is not True:
+                    failures.append(f"measurement_boundary_counters_missing:{label}")
+                diagnosis = record.get("diagnosisBinding")
+                if not isinstance(diagnosis, dict):
+                    failures.append(f"measurement_diagnosis_binding_missing:{label}")
+                elif diagnosis.get("available") is False and not isinstance(diagnosis.get("reason"), str):
+                    failures.append(f"measurement_diagnosis_reason_missing:{label}")
     return failures
 
 
