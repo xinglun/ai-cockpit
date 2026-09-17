@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-17T20:37:09Z",
+  "evidence": {
+    "assurance": "self_declared",
+    "collectedAt": "2026-09-18T05:16:00Z",
+    "digest": "sha256:16210426f253eef56dd5760151eb992fedeb7a41f5ba9e4d15fd5eb130180d81",
+    "origin": "local://ai-cockpit-bench",
+    "provider": "runtime-benchmark",
+    "rawEvidenceRef": ".ai/evidence/external/WI-889-object-performance-capture.json",
+    "subject": "WI-889 paired object-repository capture",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "workItemId": "WI-889-object-performance-current"
+}

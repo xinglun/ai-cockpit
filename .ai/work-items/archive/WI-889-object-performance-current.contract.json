@@ -5,7 +5,8 @@
     "The measured object set includes goods-garden, sentinel, and ai-investigation-orchestrator through temporary isolated views; their main branches and existing dirty state are not modified, and every temporary resource is cleaned exactly.",
     "Runtime latency and development-cycle cost are separately reported; unavailable lifecycle stages remain unavailable rather than zero.",
     "The three-language Work Item projection and reference-parity rows remain synchronized before archive.",
-    "Focused performance tests and documentation gates pass; this Work Item does not publish a release."
+    "Focused performance tests and documentation gates pass; this Work Item does not publish a release.",
+    "The benchmark manifest is imported as existing delegated external evidence; its self-reported assurance is not elevated to provider verification."
   ],
   "authority": "user:authorized-to-complete-all-wi-tasks",
   "baseRevision": "592901b6d82e7ba8b87a83ed29a300c77fb1da93",
@@ -37,13 +38,17 @@
     ".ai/evidence/WI-889-object-performance-current/**",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    ".ai/evidence/external/**"
   ],
   "sources": [
     "BAML reference: https://github.com/boundaryml/baml",
-    "Object repositories: /Users/sei-rinn/dev/workspace_rust/goods-garden, /Users/sei-rinn/dev/workspace_rust/sentinel, /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator"
+    "Object repositories: /Users/sei-rinn/dev/workspace_rust/goods-garden, /Users/sei-rinn/dev/workspace_rust/sentinel, /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Local runtime benchmark capture manifest bound through the existing delegated evidence import."
   ],
   "state": "implementation_active",
-  "verification": [],
+  "verification": [
+    "Re-run preflight after importing the identity-bound external benchmark manifest."
+  ],
   "workItemId": "WI-889-object-performance-current"
 }

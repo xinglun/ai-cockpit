@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:fe3b05ca3c63550470fe5064a88f55103a5095309e66c5d1dc0df0dee107dcce",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "592901b6d82e7ba8b87a83ed29a300c77fb1da93",
+      "commandDigest": "sha256:e48fd5766717262d422212fe6cb69e8efc5b80e5015717d80bad435cb90ecf55",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:60220d5e10333db3fc1cad8cff4a7f9d17c753d964f9a7a030d0e667bea168a4",
+  "contractExecutionScopeDigest": "sha256:e19789ab1cbffafd8b00af98b743df00f1531ad4b55225a4826b4d02a3a88715",
+  "createdAt": "2026-09-17T20:37:17Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-889-object-performance-current/.ai/work-items/active/WI-889-object-performance-current.contract.json: verification requires a preflight result for the current Contract"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-889-object-performance-current"
+}

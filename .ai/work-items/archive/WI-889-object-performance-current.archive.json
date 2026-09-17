@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-17T20:41:45Z",
+  "files": {
+    "contractDigest": "sha256:e1202c6ac0f2bef8a134c386a474c5188bce65af34e4b38815daf0111ba3744d",
+    "contractPath": ".ai/work-items/archive/WI-889-object-performance-current.contract.json",
+    "eventsDigest": "sha256:de0c39c90f3d898e3693514147f17a94fe20867c2589febce642753eb1ae42ce",
+    "eventsPath": ".ai/work-items/archive/WI-889-object-performance-current.events.jsonl",
+    "outcomeDigest": "sha256:fec37f6b99fd2f15240773a59e946dc079fc04a6bb108deb434a2de3fbce8ff9",
+    "outcomePath": ".ai/work-items/archive/WI-889-object-performance-current.outcome.json",
+    "summaryDigest": "sha256:440ee888fce8939ab81ed84e774ae24dd2a7c77f739caf72d3ff6aa5caa4242c",
+    "summaryPath": ".ai/work-items/archive/WI-889-object-performance-current.summary.json",
+    "taskReportDigest": "sha256:560df58937f7a29fca2f640b585ca6a5f43f589d17782455c83225a20999eb5f",
+    "taskReportMarkdownDigest": "sha256:f10d17f914221d704b97541779e45f7960f05a7d15789586f0069160adafb181",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-889-object-performance-current.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-889-object-performance-current.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-889-object-performance-current"
+}
