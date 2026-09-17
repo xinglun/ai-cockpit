@@ -1,0 +1,45 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:908c9db6495b930edae88bfbe9698e6b5a9d0bfb05e96544c65f31f4a7101402",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:5b530d6930d4286e0e6971bab38f2ea4cedc7bd21d87a9fdfb36a531aef904be",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.contract.json"
+    },
+    "events": {
+      "digest": "sha256:7e8617ee2d0f36bc4cf9ce213d8f5f58c3a846ba3cecac393ce99d3b62127e96",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:255354f6f8a138f0c7215fde2f8e1679f0b1adcc26c1b5050b607fffe52d5d6c",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ddfc8e088f153516c4107f95ddb89f8c0eb375cf8ca9dd0a532e19ed24444e87",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:69eb047512e0fe6ad346a756f36f28c9b6e1ff91e1769f00c82e54ea8392d6b0",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:80259283831850a8b2724d80838a316373f39d4ed3c2075430e9aef417b7df3b",
+      "path": ".ai/work-items/archive/WI-883-release-v0-2-94-current-main.task-report.md"
+    }
+  },
+  "authoritySource": "user:release-after-all-work-items",
+  "contractDigest": "sha256:ff4383a0f979ecffffa7f576e99ba70fa158aa4ecfe62048832c009d00aa79ed",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "WI-883 的实现已合并到 main；其 v0.2.94 发布验收失败记录保持不变，不把失败验收改写为已验证或已发布。",
+  "recordedAt": "2026-09-17T19:02:05Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:930c4e5f0711e718ff7a66b94c0f93a4e20590b1418159f5c39e516fec1d53f9",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:adc6882471294d3d36ca44d0e113c6ecae8d3c8a6354764ce30f99d707df6d0f",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}
