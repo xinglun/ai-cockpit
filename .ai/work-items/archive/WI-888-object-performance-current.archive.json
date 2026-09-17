@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-17T19:30:23Z",
+  "files": {
+    "contractDigest": "sha256:eaecdab189b41bd321fd1b907f9a42db0ad575e9f45af40f9bb84754f9df244f",
+    "contractPath": ".ai/work-items/archive/WI-888-object-performance-current.contract.json",
+    "outcomeDigest": "sha256:484c9d31321e563582998c50a3d21c531c237ff6639ea82b1071d67b56ca24d2",
+    "outcomePath": ".ai/work-items/archive/WI-888-object-performance-current.outcome.json",
+    "summaryDigest": "sha256:4c70678b37e0c6547ce505af7fe49c76a3ff2f777f3a841ff4cf6a180ead8f5c",
+    "summaryPath": ".ai/work-items/archive/WI-888-object-performance-current.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-888-object-performance-current.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-888-object-performance-current"
+}

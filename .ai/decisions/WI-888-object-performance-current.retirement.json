@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:b2b7e3470e0a656ca257a3793a4f0998500f2543ed1670738f18ea5e57f63b0a",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:eaecdab189b41bd321fd1b907f9a42db0ad575e9f45af40f9bb84754f9df244f",
+      "path": ".ai/work-items/archive/WI-888-object-performance-current.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:484c9d31321e563582998c50a3d21c531c237ff6639ea82b1071d67b56ca24d2",
+      "path": ".ai/work-items/archive/WI-888-object-performance-current.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:4c70678b37e0c6547ce505af7fe49c76a3ff2f777f3a841ff4cf6a180ead8f5c",
+      "path": ".ai/work-items/archive/WI-888-object-performance-current.summary.json"
+    }
+  },
+  "authoritySource": "user:authorized-to-complete-all-wi-tasks",
+  "contractDigest": "sha256:3894997330bfc2339f8cad8787abcf94e77ff23c5c7c6a06c9cf9495979a8370",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The first Contract declared the measurement scope before including the mandatory three-language projection boundary. Preflight stopped before a checkpoint; this setup attempt is retired as integrated into the independently established WI-889 measurement Contract with the complete projection boundary.",
+  "recordedAt": "2026-09-17T19:30:23Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bedb45d133da7f9a190317638756a64622ab5d66207e2e006431128415e3ff71",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:33705b0df89f5c41254f8ffc6a384b89ee006e269fb90b7f48f9b4eefd09b587",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-888-object-performance-current"
+}
