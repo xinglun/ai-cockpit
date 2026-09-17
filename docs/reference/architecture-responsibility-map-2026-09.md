@@ -65,7 +65,7 @@ one crate, not a claim that all responsibilities are already pure.
 | Evidence storage and history | Reusable receipts, repository/profile/node binding, delegated evidence and validity | Capability-scoped nofollow read/write in `evidence_store.rs:36-39,225-280`; protocol evidence types at `protocol/lib.rs:927-960` | Receipt validation belongs to evidence/protocol; a receipt is evidence, not a governance decision |
 | Physical execution and scheduling | Verification graph/plan, `PhysicalExecution`, `ExecutionResult`, and Work Item evidence receipt | Process execution, bounded workers, resource budget, and in-process single flight in `cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` | Execution reports success/failure; repository governance separately binds applicability and authorization |
 | Status and Outcome projection | `OutcomeState`, `TaskOutcomeReport`, `WorkItemStatusSnapshot`, historical/freshness fields at `protocol/lib.rs:3236-3505` | Status projection reads config/profile, one Git snapshot, and records (`status_projection.rs:3-90`) | `status_projection` assembles machine status; `outcome_v2` assembles Outcome facts; no projection grants authority |
-| Human Outcome rendering | Validated `OutcomeRenderInput` and language | `render_human_outcome` at `outcome_render.rs:70-76` has no repository parameter and formats only its input | `render_human_outcome` is the display boundary; input assembly currently remains in the same module and is a follow-up concern |
+| Human Outcome rendering | Validated `OutcomeRenderInput` and language | `render_human_outcome` at `outcome_render.rs:70-76` has no repository parameter and formats only its input | `render_human_outcome` is the display boundary; production callers use the Runtime-bound assembly path, while `outcome_render_input_from_outcome` is limited to already-captured fixtures |
 | Persistence and recovery | Atomic JSON records, lifecycle lock, archive manifest, finalization and close decision | `atomic_write` and lifecycle lock at `repository/lib.rs:12033-12064,12071-12081`; finalization operations at `5246-7140`; recovery/readiness at `status_projection.rs:464-585` | The authoritative record and recovery validators must be explicit; projections are rebuildable views only |
 
 ## Current mixed responsibilities, duplication, and dependency direction
@@ -88,12 +88,12 @@ interfaces:
    `record_work_item_governance_controls` writes the Summary by design
    (`governance_controls.rs:1186-1250`). The write boundary is explicit but
    should not be mistaken for read-only validation.
-4. `render_human_outcome` is pure, but `outcome_render_input_from_outcome`
-   passes a root into `build_outcome_render_input`, which reads archive and
-   close-decision state (`outcome_render.rs:14-76`). The same module also reads
-   lifecycle Summary state and human decisions (`666-705,816-875`). P1-A is
-   therefore partly complete: rendering is pure, while projection assembly is
-   not yet filesystem-free.
+4. `render_human_outcome` is pure. Production lifecycle, CLI query, and MCP
+   callers use `outcome_render_input_with_runtime`, which captures and
+   validates one bounded observation before rendering. The compatibility helper
+   `outcome_render_input_from_outcome` still reads supplemental facts, so it is
+   reserved for tests and callers that explicitly hold a pre-captured Outcome;
+   it is not a lifecycle shortcut.
 5. The repository submodules use `super::*` and call shared root helpers such
    as `repository_id`, `snapshot_digest`, and `ObserverError`. The current
    dependency is one-way within the crate (root exports modules and modules
@@ -123,10 +123,24 @@ reason to extend snapshot validity across execution or persistence boundaries.
   (`repository/lib.rs:12041-12081`); `evidence_store` also detects pending or
   invalid index states instead of guessing (`evidence_store.rs:71-100`).
 - `OutcomeRenderInput` plus the shared CLI/MCP renderer is the right direction
-  for one assembled fact input and multiple displays, even though its current
-  assembly still needs to move outward (`outcome_render.rs:14-76`).
+  for one assembled fact input and multiple displays. Use
+  `outcome_render_input_with_runtime` for production assembly and keep the
+  renderer filesystem-free (`outcome_render.rs:14-76`).
 - Physical execution carries its own identity and result digests, and binds a
   separate Work Item receipt (`cockpit-verification/lib.rs:1261-1441`).
+
+## Contributor routing
+
+Start with `crates/cockpit-repository/src/execution_context.rs` and
+`observation_ledger.rs` for observation boundaries; use `lifecycle.rs` for
+state transitions and authorization preconditions; use
+`cockpit-verification/src/lib.rs` for planning, execution, reuse, and failure
+receipts; use `outcome_render.rs` for the pure human projection and its
+assembly tests. CLI and MCP adapters live in their own crates and must call the
+same repository operation. The focused regression suites are
+`crates/cockpit-repository/tests/outcome_report.rs`,
+`crates/cockpit-cli/tests/outcome_handoff.rs`, and
+`crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs`.
 
 ## Bounded candidate follow-ups
 

@@ -3030,23 +3030,64 @@ fn print_lifecycle_result(
     if archive_delivery {
         match prepare_archive_outcome_delivery(repo, work_item_id, runtime, output_language()) {
             Ok(mut delivery) => {
-                // The CLI has returned the structured value to its consumer;
-                // this is not a host-display or human-read confirmation.
-                delivery.delivery_state = "returned_to_consumer".into();
-                delivery.host_confirmation = "unknown".into();
-                if output.get("outcome").is_none()
-                    && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
-                    && let Some(outcome) = previous.get("outcome")
-                {
-                    // Keep the legacy lifecycle projection at its existing
-                    // top-level shape; the versioned delivery object carries
-                    // the assembled OutcomeV2 used for the human body.
-                    output["outcome"] = outcome.clone();
+                let mut host = cockpit_agent::ReturnOnlyOutcomeHost::default();
+                match cockpit_agent::deliver_outcome(&delivery, &mut host, None) {
+                    Ok(delivery_report) => {
+                        // The CLI has returned the structured value to its
+                        // consumer; this is not a host-display or human-read
+                        // confirmation.
+                        delivery.delivery_state = "returned_to_consumer".into();
+                        delivery.host_confirmation = "unknown".into();
+                        if output.get("outcome").is_none()
+                            && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
+                            && let Some(outcome) = previous.get("outcome")
+                        {
+                            // Keep the legacy lifecycle projection at its
+                            // existing top-level shape; the versioned
+                            // delivery object carries the assembled
+                            // OutcomeV2 used for the human body.
+                            output["outcome"] = outcome.clone();
+                        }
+                        if !json {
+                            handoff = Some(delivery.body.clone());
+                        }
+                        output["outcomeDelivery"] = serde_json::to_value(&delivery)?;
+                        output["deliveryReport"] = serde_json::to_value(delivery_report)?;
+                        output["returnedSegmentEvents"] = json!(host.returned_segment_count());
+                        output["hostDeliveryMode"] = json!("full_handoff_only");
+                        output["hostDisplayConfirmation"] = json!("unknown");
+                    }
+                    Err(error) => {
+                        // Archive already succeeded. Preserve that fact and
+                        // report a return-handoff failure separately; never
+                        // make a consumer re-archive merely because the
+                        // return-only adapter rejected the prepared body.
+                        if output.get("outcome").is_none()
+                            && let Ok(previous) = lifecycle_output(repo, work_item_id, receipt)
+                            && let Some(outcome) = previous.get("outcome")
+                        {
+                            output["outcome"] = outcome.clone();
+                        }
+                        output["outcomeDelivery"] = json!({
+                            "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
+                            "workItemId": work_item_id,
+                            "language": output_language(),
+                            "view": "full",
+                            "deliveryState": "preparation_failed",
+                            "hostConfirmation": "unknown",
+                            "body": null,
+                            "bodySummary": "Full Outcome delivery preparation failed.",
+                            "segments": [],
+                            "error": error.to_string(),
+                            "nextAction": "Keep the archive; inspect the preparation error and retry delivery without archiving again."
+                        });
+                        if !json {
+                            handoff = Some(format!(
+                                "Archive completed, but full Outcome delivery preparation failed: {error}"
+                            ));
+                        }
+                    }
                 }
-                if !json {
-                    handoff = Some(delivery.body.clone());
-                }
-                output["outcomeDelivery"] = serde_json::to_value(delivery)?;
             }
             Err(error) => {
                 // Archive already succeeded. Preserve the lifecycle Outcome

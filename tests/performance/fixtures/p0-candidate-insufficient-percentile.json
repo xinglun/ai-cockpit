@@ -1,24 +1,206 @@
 {
-  "schemaVersion": 2,
-  "runtimeVersion": "0.2.88",
-  "runtimeDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-  "repositoryId": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
   "binaryDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "budgets": [
+    {
+      "maxValueMs": 150,
+      "metric": "warm.p95Ms",
+      "name": "status"
+    }
+  ],
+  "cacheInvalidationReasons": {
+    "available": false,
+    "reason": "runtime_does_not_expose_cache_invalidation_events"
+  },
   "capturedAt": "2026-09-08T00:03:00Z",
-  "source": "explicit-external-binary",
-  "measurementModel": {"firstMeasurement": "first measured independent CLI process after identity probes; not true cold cache", "warmMeasurement": "independent CLI processes after one OS-cache warmup process", "warmupCount": 1, "residentMcp": {"status": "not_measured", "reason": "harness invokes the external CLI and has no resident MCP transport"}},
+  "environment": {
+    "comparisonKey": "darwin-arm64-apfs-p0-fixture",
+    "dataScale": {
+      "trackedBytes": 1000,
+      "trackedFileCount": 10
+    },
+    "filesystem": "apfs",
+    "machine": "arm64",
+    "os": "Darwin 25.0",
+    "repository": {
+      "branch": "main",
+      "changedPathCount": 0,
+      "dirty": false,
+      "head": "1111111111111111111111111111111111111111",
+      "historicalWorkItemCount": 0,
+      "largeChangedFile": false,
+      "trackedFileCount": 10
+    }
+  },
+  "measurementModel": {
+    "firstMeasurement": "first measured independent CLI process after identity probes; not true cold cache",
+    "residentMcp": {
+      "reason": "harness invokes the external CLI and has no resident MCP transport",
+      "status": "not_measured"
+    },
+    "warmMeasurement": "independent CLI processes after one OS-cache warmup process",
+    "warmupCount": 1
+  },
+  "phaseMetrics": {
+    "evidenceAndGovernance": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "fileReadHashParse": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "gitSnapshot": {
+      "available": false,
+      "reason": "runtime_does_not_expose_git_counters"
+    },
+    "outcomeProjectionSerialization": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "processStartupAndRuntimeIdentity": {
+      "available": false,
+      "reason": "runtime_does_not_expose_phase_timing"
+    },
+    "schedulingSubprocessCapture": {
+      "available": false,
+      "reason": "runtime_does_not_expose_internal_process_timing"
+    }
+  },
   "preMeasurementProbeCount": 3,
   "preMeasurementProbes": [
-    {"name": "runtime-version", "kind": "runtime_identity", "elapsedMs": 1},
-    {"name": "inspect", "kind": "runtime_identity", "elapsedMs": 2},
-    {"name": "status", "kind": "repository_identity", "elapsedMs": 3}
+    {
+      "elapsedMs": 1,
+      "kind": "runtime_identity",
+      "name": "runtime-version"
+    },
+    {
+      "elapsedMs": 2,
+      "kind": "runtime_identity",
+      "name": "inspect"
+    },
+    {
+      "elapsedMs": 3,
+      "kind": "repository_identity",
+      "name": "status"
+    }
   ],
-  "environment": {"comparisonKey": "darwin-arm64-apfs-p0-fixture", "os": "Darwin 25.0", "machine": "arm64", "filesystem": "apfs", "repository": {"head": "1111111111111111111111111111111111111111", "branch": "main", "dirty": false, "trackedFileCount": 10, "changedPathCount": 0, "largeChangedFile": false, "historicalWorkItemCount": 0}, "dataScale": {"trackedFileCount": 10, "trackedBytes": 1000}},
-  "phaseMetrics": {"processStartupAndRuntimeIdentity": {"available": false, "reason": "runtime_does_not_expose_phase_timing"}, "gitSnapshot": {"available": false, "reason": "runtime_does_not_expose_git_counters"}, "fileReadHashParse": {"available": false, "reason": "runtime_does_not_expose_io_counters"}, "evidenceAndGovernance": {"available": false, "reason": "runtime_does_not_expose_phase_timing"}, "schedulingSubprocessCapture": {"available": false, "reason": "runtime_does_not_expose_internal_process_timing"}, "outcomeProjectionSerialization": {"available": false, "reason": "runtime_does_not_expose_phase_timing"}},
-  "resourceMetrics": {"actualReadBytes": {"available": false, "reason": "runtime_does_not_expose_io_counters"}, "actualHashedBytes": {"available": false, "reason": "runtime_does_not_expose_io_counters"}, "gitCalls": {"available": false, "reason": "runtime_does_not_expose_git_counters"}, "runtimeChildProcesses": {"available": false, "reason": "runtime_does_not_expose_process_tree"}, "peakMemoryBytes": {"available": false, "reason": "platform_metric_unavailable"}, "processesSpawned": {"available": true, "value": 4, "scope": "direct external CLI invocations"}},
-  "cacheInvalidationReasons": {"available": false, "reason": "runtime_does_not_expose_cache_invalidation_events"},
-  "samples": [{"name": "status", "rawSamplesMs": [118, 1, 2, 3], "sampleCount": 4, "firstMeasurementMs": 118, "warmupCount": 1, "warmupSamplesMs": [0.5], "warmSamplesMs": [1, 2, 3], "warm": {"sampleCount": 3, "quantileMethod": "nearest-rank-on-sorted-samples", "p50Ms": null, "p95Ms": null, "p99Ms": null, "reliable": {"p50": false, "p95": false, "p99": false}, "unavailableReason": {"p50": "insufficient_samples:3<5", "p95": "insufficient_samples:3<20", "p99": "insufficient_samples:3<100"}}}],
+  "repositoryId": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "resourceMetrics": {
+    "actualHashedBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "actualReadBytes": {
+      "available": false,
+      "reason": "runtime_does_not_expose_io_counters"
+    },
+    "gitCalls": {
+      "available": false,
+      "reason": "runtime_does_not_expose_git_counters"
+    },
+    "peakMemoryBytes": {
+      "available": false,
+      "reason": "platform_metric_unavailable"
+    },
+    "processesSpawned": {
+      "available": true,
+      "scope": "direct external CLI invocations",
+      "value": 4
+    },
+    "runtimeChildProcesses": {
+      "available": false,
+      "reason": "runtime_does_not_expose_process_tree"
+    }
+  },
+  "runtimeDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "runtimeVersion": "0.2.88",
+  "samples": [
+    {
+      "firstMeasurementMs": 118,
+      "name": "status",
+      "rawSamplesMs": [
+        118,
+        1,
+        2,
+        3
+      ],
+      "sampleCount": 4,
+      "warm": {
+        "p50Ms": null,
+        "p95Ms": null,
+        "p99Ms": null,
+        "quantileMethod": "nearest-rank-on-sorted-samples",
+        "reliable": {
+          "p50": false,
+          "p95": false,
+          "p99": false
+        },
+        "sampleCount": 3,
+        "unavailableReason": {
+          "p50": "insufficient_samples:3<100",
+          "p95": "insufficient_samples:3<100",
+          "p99": "insufficient_samples:3<100"
+        }
+      },
+      "warmSamplesMs": [
+        1,
+        2,
+        3
+      ],
+      "warmupCount": 1,
+      "warmupSamplesMs": [
+        0.5
+      ]
+    }
+  ],
   "scenario": "small-clean",
-  "scenarioMatrix": [{"name": "small-clean", "status": "measured", "reason": "clean_repository_and_scale_match"}, {"name": "many-files-clean", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "single-file-change", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "multi-file-change", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "large-file-change", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "many-historical-wi", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "concurrent-validation-requests", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "resident-mcp-repeat-query", "status": "not_measured", "reason": "not selected for this invocation"}, {"name": "current-repository", "status": "not_measured", "reason": "not selected for this invocation"}],
-  "budgets": [{"name": "status", "metric": "warm.p95Ms", "maxValueMs": 25}]
+  "scenarioMatrix": [
+    {
+      "name": "small-clean",
+      "reason": "clean_repository_and_scale_match",
+      "status": "measured"
+    },
+    {
+      "name": "many-files-clean",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "single-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "multi-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "large-file-change",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "many-historical-wi",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "concurrent-validation-requests",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "resident-mcp-repeat-query",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    },
+    {
+      "name": "current-repository",
+      "reason": "not selected for this invocation",
+      "status": "not_measured"
+    }
+  ],
+  "schemaVersion": 2,
+  "source": "explicit-external-binary"
 }

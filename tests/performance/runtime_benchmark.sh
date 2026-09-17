@@ -207,6 +207,58 @@ def repository_metadata():
     }
 
 
+def toolchain_metadata():
+    commands = {
+        "rustcVersion": ["rustc", "--version"],
+        "rustcVerbose": ["rustc", "-vV"],
+        "cargoVersion": ["cargo", "--version"],
+    }
+    result = {}
+    for name, command in commands.items():
+        try:
+            process = subprocess.run(
+                command,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=30,
+                text=True,
+            )
+        except (OSError, subprocess.TimeoutExpired) as error:
+            result[name] = {"available": False, "reason": f"{type(error).__name__}"}
+            continue
+        if process.returncode != 0:
+            result[name] = {
+                "available": False,
+                "reason": f"exit:{process.returncode}",
+            }
+        else:
+            result[name] = {"available": True, "value": process.stdout.strip()}
+    rustup_toolchain = os.environ.get("RUSTUP_TOOLCHAIN")
+    if not rustup_toolchain:
+        try:
+            process = subprocess.run(
+                ["rustup", "show", "active-toolchain"],
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                check=False,
+                timeout=30,
+                text=True,
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            process = None
+        if process is not None and process.returncode == 0:
+            rustup_toolchain = process.stdout.splitlines()[0].split()[0] if process.stdout.strip() else None
+    result["rustupToolchain"] = (
+        {"available": True, "value": rustup_toolchain}
+        if rustup_toolchain
+        else {"available": False, "reason": "active_toolchain_unavailable"}
+    )
+    return result
+
+
 def unavailable(reason):
     return {"available": False, "reason": reason}
 
@@ -416,7 +468,7 @@ def measure(name, args):
         raise builtins.__dict__["System" + "Exit"](
             f"warm benchmark batch invalid: {name} ({len(warm_samples)}/{iterations} valid; invalid={invalid_warm_samples})"
         )
-    result = summarize(name, [first_elapsed, *warm_samples], warm_samples)
+    result = summarize(name, [first_elapsed, *warm_samples], warm_samples, release_grade=True)
     result["operationId"] = operation_id
     result["scenarioId"] = scenario_id_value
     result["measurementId"] = f"{operation_id}:batch"
@@ -469,6 +521,7 @@ probes = [
 ]
 repository = repository_metadata()
 filesystem = filesystem_metadata(repo)
+toolchain = toolchain_metadata()
 comparison_material = {
     "system": platform.system(),
     "release": platform.release(),
@@ -477,6 +530,7 @@ comparison_material = {
     "repositoryHead": repository["head"],
     "trackedFileCount": repository["trackedFileCount"],
     "trackedBytes": repository["trackedBytes"],
+    "toolchain": toolchain,
 }
 comparison_key = "sha256:" + hashlib.sha256(
     json.dumps(comparison_material, sort_keys=True, separators=(",", ":")).encode("utf-8")
@@ -509,7 +563,26 @@ for name, args in (("inspect", ["inspect"]), ("status", ["status"]), ("doctor", 
     samples.append(measured)
 diagnose_args = ["diagnose"]
 if work_item:
-    measured, _ = measure("work-item-status", ["work-item", "status", "--id", work_item])
+    measured, _ = measure(
+        "work-item-status", ["work-item", "status", "--id", work_item, "--json"]
+    )
+    samples.append(measured)
+    measured, _ = measure(
+        "work-item-outcome",
+        ["work-item", "outcome", "--id", work_item, "--json"],
+    )
+    samples.append(measured)
+    measured, _ = measure(
+        "verification-plan",
+        [
+            "verify",
+            "--work-item",
+            work_item,
+            "--plan-only",
+            "--stage",
+            "task",
+        ],
+    )
     samples.append(measured)
     diagnose_args.extend(["--work-item", work_item])
 diagnose_sample, runtime_diagnosis = measure("diagnose", diagnose_args)
@@ -553,6 +626,7 @@ document = {
         "os": {"system": platform.system(), "release": platform.release(), "platform": platform.platform()},
         "machine": {"name": platform.machine(), "processor": platform.processor(), "cpuCount": os.cpu_count()},
         "filesystem": filesystem,
+        "toolchain": toolchain,
         "repository": repository,
         "dataScale": {"trackedFileCount": repository["trackedFileCount"], "trackedBytes": repository["trackedBytes"]},
     },

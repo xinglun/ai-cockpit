@@ -32,12 +32,16 @@ People and tools use the CLI or the local MCP adapter. Repository-facing state i
 stored through Repository Protocol v1; the Rust governance core remains separate
 from application code. The normal path is:
 
-`inspect → attach → start → preflight → checkpoint → verify → finish → archive → close`
+`inspect → attach → start --prepare → implement → verify → finish → review/merge → cleanup → close`
 
-`start` records the human-owned Contract, `preflight` evaluates whether work
-may begin, and `checkpoint` is the serial gate before implementation proceeds.
-`verify` records fresh evidence; `finish` binds the result, `archive` preserves
-the immutable Work Item bundle, and `close` records the explicit human decision.
+`start --prepare` records the human-owned Contract and lets the Runtime carry
+the cheap preflight/checkpoint path. `verify` records fresh evidence and
+`finish` binds the result. A change is reviewable when scope, a real diff, and
+basic checks are present; it is mergeable only with required verification,
+authorization, and current evidence; it is closed only after merge and exact
+cleanup. A Draft PR is a review surface, not proof of verification or merge
+authorization. The detailed provider/resource lifecycle remains queryable in
+the [Agent workflow reference](docs/reference/agent-workflow.md).
 
 ## Start in 30 seconds
 

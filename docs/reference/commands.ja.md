@@ -121,7 +121,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
   lease は repository と Work Item に bind され、欠落・壊れた boundary、曖昧な path、stale state は fail closed
   になります。global な current Work Item は作りません。
 - `start` は `--id`、`--intent`、`--goal` が必須です。green governed flow には `--authority authorized` が必要です。
-- `start` または `work-item new` の前に Runtime は repository-scoped entry gate を評価します。`.ai` 以外の作業ツリー変更、detached HEAD、検出された remote default ref と現在の HEAD の不一致、または有効な close decision のない archived Work Item があれば fail closed になります。gate は archived bytes を書き換えません。`work-item recover` の successor は明示的な同じ recovery chain の継続であり、独立した次の Work Item ではありません。
+- `start` または `work-item new` の前に Runtime は repository-scoped entry gate を評価します。`.ai` 以外の作業ツリー変更、detached HEAD、検出された remote default ref と現在の HEAD の不一致、または有効な close decision のない archived Work Item があれば fail closed になります。gate は archived bytes を書き換えません。`work-item recover` の successor は明示的な同じ recovery chain の継続であり、独立した次の Work Item ではありません。その preflight は archived scope の関係も評価します。valid で明確に disjoint な歴史 scope は全体 blocker にせず、overlap は同じ repository に bind された recovery decision の場合だけ許可し、malformed、foreign、stale、symlink、digest mismatch の歴史は fail-closed のままです。
 - 同じ entry gate は、通常の Work Item が repository の primary worktree または既知の default branch を使うことも拒否します。feature branch の専用 linked worktree を使用してください。明確な remote default base のない linked worktree は ready とせず拒否します。linked worktree がない local calibration repository は、base が検出可能になるまで `status: unknown` のままです。
 - `work-item new --repo <path> --id <id> --mode <mode>` は `not_ready` skeleton を作ります。snapshot-derived facts だけを埋め、
   human field は空または `unknown` のままです。移行期の `start` も同じ writer を使います。repository-local の

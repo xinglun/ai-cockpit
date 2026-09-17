@@ -28,42 +28,33 @@ Generated human-owned Contract を review します。Actual source、scope、ou
 verification、authority、remote、default branch、base revision が必要です。Generated Summary、
 evidence、Outcome、archive、decision receipt は手で編集しません。
 
-## Implementation 前に実際の review resource を bind する
+## 通常の route：宣言、実装、検証、review、merge、cleanup
 
-Initial governance bytes を commit、専用 branch を push し、merge せず draft pull request を
-作ります。Actual provider/Git facts を読み、PR URL、branch、worktree、remote、base branch を
-発明しません。その facts だけを temporary `ResourceFinalizationContext` に入れます。
-
-```json
-{
-  "branch": "feature/example-change",
-  "worktree": "/absolute/path/to/worktree",
-  "baseBranch": "main",
-  "baseRemote": "origin",
-  "provider": "github",
-  "pullRequest": "https://github.com/owner/repository/pull/123"
-}
-```
-
-Preflight 前に reviewed context を bind します。
+通常の repository-only change では `start --prepare` を使います。Contract を記録し、安価な
+preflight を実行し、人間の判断が不要なら checkpoint まで作成します。詳細 protocol は Runtime が
+引き受けるため、生成された state を手で編集しません。
 
 ```bash
-ai-cockpit work-item finalize-plan --repo "$repo" --id "$id" --input /tmp/WI-001.finalize-context.json
-ai-cockpit preflight --repo "$repo" --contract .ai/work-items/active/WI-001-example-change.contract.json
+ai-cockpit start --prepare --repo "$repo" --id "$id" \
+  --intent "Bounded example change を行う。" --goal "Reviewed example を届ける。" \
+  --scope 'docs/**' --out-of-scope 'src/**' --risk normal --authority authorized \
+  --acceptance "Example と declared check が pass する。" --required-evidence verification
 ```
 
-Preflight が `not_ready` または `needs_human_confirmation` なら停止して review を人へ表示します。
-`verification_pending` は declared evidence の収集だけに進めます。一度だけ serial checkpoint を
-記録し、Contract scope だけを実装します。
+その後、宣言した変更を実装して project verification を実行します。
 
 ```bash
-ai-cockpit checkpoint --repo "$repo" --id "$id"
 ai-cockpit verify --repo "$repo" --work-item "$id" --command cargo --args test,--workspace --workers 1
 ai-cockpit finish --repo "$repo" --id "$id"
 ```
 
-Contract の project command を使い、Cargo は example に限ります。Final edit 後の verification
-は同じ Work Item/snapshot に対して fresh でなければなりません。
+Contract の project command を使い、Cargo は example に限ります。範囲、実変更、基本 check が揃えば
+**reviewable**、必要な verification・authorization・current evidence が揃えば**mergeable**、merge
+decision と正確な cleanup が完了して初めて**closed**です。Draft PR は review surface であり、検証や
+merge authorization ではありません。Provider-bound/release task は詳しい [Agent workflow reference](../reference/agent-workflow.ja.md) を参照します。
+
+Preflight が人間の判断を要求した場合だけ Runtime review を示してその判断を求めます。
+`verification_pending` は declared evidence の収集にだけ進め、残る unknown は Runtime が保持します。
 
 ## Visible Outcome を届けてから archive する
 

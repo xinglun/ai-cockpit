@@ -3520,6 +3520,28 @@ pub struct OutcomeReportBindings {
     pub repository_snapshot_digest: Option<Digest>,
 }
 
+/// Evidence-bound release facts used by a release Outcome.  This projection
+/// is intentionally optional: ordinary Work Items must not be made to claim
+/// publication, installation, upgrade, or cleanup.  Every populated field is
+/// supplied by an explicit release record and remains separate from lifecycle
+/// authorization.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeReleaseProjection {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub version: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub release_link: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub install_acceptance: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub upgrade_acceptance: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cleanup_status: Option<String>,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
+}
+
 /// The machine-readable report source for the human handoff.  It is additive
 /// on OutcomeV2 so archived pre-report records remain readable, while every
 /// newly generated OutcomeV2 contains this projection.
@@ -3533,6 +3555,8 @@ pub struct TaskOutcomeReport {
     pub human_status_color: DecisionState,
     pub bindings: OutcomeReportBindings,
     pub sections: OutcomeReportSections,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub release: Option<OutcomeReleaseProjection>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub failed_gate: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]

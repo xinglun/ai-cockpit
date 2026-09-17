@@ -1,0 +1,169 @@
+{
+  "acceptanceCriteria": [
+    "99 个有效 warm 样本不得通过发布级比较，100 个可比较；前检阻塞时验证子进程启动数为 0 且完整阻塞列表可见；有效输入复用不重启验证节点。",
+    "CLI/MCP/lifecycle/独立 Outcome、中文/日文/英文、summary/full 使用同一观察边界并表达一致事实及下一步；受控事实变化不产生混合成功结果。",
+    "默认 Outcome 回答完成、验证、剩余、人的决定；声明可追溯且收益未知不推断。",
+    "首次 WI 使用 start --prepare 与声明目标边界→实装→验证评审→合并→清理；区分可评审、可合并、已收尾。",
+    "Outcome 渲染不读取仓库、不执行 Git、不决定授权；CLI/MCP 不重复维护生命周期或恢复规则。",
+    "报告本机同工具链的 p50/p95、原始样本、环境身份、计数、失效原因、区间重叠及 Contract→可创建 PR 流程成本；无明确收益的复杂优化撤回。",
+    "Archive delivery never derives accepted or displayed state from host capability flags; each sent segment requires an actual host result or remains explicitly unknown.",
+    "Delivery resume uses an identity-bound progress record for the same Work Item, archive, language, and body; an unproven resume position, including zero-send completion, is rejected and cannot claim completion.",
+    "Supported host boundaries are documented honestly: automatic assistant-message delivery is claimed only where a production host callback exists; otherwise the full Outcome is a complete handoff with unknown display state and explicit forwarding action.",
+    "Issue #851 recovery successors still apply archived-scope checks: provably disjoint valid history is advisory, overlapping history requires the exact recovery decision, and malformed, foreign, stale, symlinked, or digest-mismatched history remains fail-closed with tri-language regression fixtures.",
+    "The repository declares the authorized stable Rust 1.98.1 toolchain and workspace rust-version consistently, with format, check, lint, and test verification performed under that toolchain.",
+    "The locked dependency graph is refreshed only through Cargo's resolver/update path, remains reproducible, and passes the affected and workspace verification commands without weakening evidence, authorization, or release controls.",
+    "Dependency and toolchain changes are reported separately from the Outcome delivery fix, and no release or publication is performed in this Work Item before final acceptance.",
+    "The lifecycle entry implementation covered by the Issue #851 recovery-scope regression remains within the amended Contract and is verified together with its repository-bound tests."
+  ],
+  "authority": "用户 2026-09-17 四方向收敛开发指示明确授权本轮代码、测试、测量、评审材料以及后续受控 PR/合并；明确禁止自动发布新版本。",
+  "baseRevision": "ef4625f9e88e9af030a7f448896061ea24ece770",
+  "createdAt": "2026-09-16T23:22:07Z",
+  "goal": "在不发布新版本且保留授权、证据真实性、不可变历史和供应链控制的边界内，完成四方向收敛代码、测试、测量、三语使用路径和验收材料。",
+  "intent": "恢复普通开发顺畅路径，提供清楚可信且观察一致的 Outcome，并以当前版本同环境可复现数据验证运行时性能与开发流程成本改进；North Star 为 Calibrated Human-Agent Trust。",
+  "mode": "code",
+  "outOfScope": [
+    "发布新版本、完整 cockpit-repository 拆分、外部用户验收、发布级 SBOM/attestation 作为普通任务前提、修改 Sentinel 源码或 CI。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "rust_toolchain_identity",
+    "locked_dependency_graph",
+    "workspace_verification_under_candidate_toolchain"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "inconsistent observation returns unknown or retry guidance and never a mixed successful Outcome",
+      "required": true,
+      "scenario": "outcome-observation-race",
+      "status": "unverified",
+      "verificationPlan": "Run the lifecycle CLI fixture while deleting, replacing, and adding evidence/finalization files between bounded reads; assert no mixed success."
+    },
+    {
+      "evidence": [],
+      "expected": "99 valid warm samples are rejected for release comparison and 100 enter comparison",
+      "required": true,
+      "scenario": "performance-sample-floor",
+      "status": "unverified",
+      "verificationPlan": "Run comparator fixture with exactly 99 and 100 valid warm samples and inspect exit state and blockers."
+    },
+    {
+      "evidence": [],
+      "expected": "all blockers are persisted and verification subprocess count is zero",
+      "required": true,
+      "scenario": "verification-precondition-rejection",
+      "status": "unverified",
+      "verificationPlan": "Run a fixture with unsatisfied preconditions and inspect persisted bounded failure record."
+    },
+    {
+      "evidence": [],
+      "expected": "valid identical input reuses the verification node; failed/timeout/cancel attempts do not overwrite prior success",
+      "required": true,
+      "scenario": "verification-reuse-and-failure-preservation",
+      "status": "unverified",
+      "verificationPlan": "Execute reuse, failure, timeout, and cancellation fixtures and compare receipts and subprocess counts."
+    },
+    {
+      "evidence": [],
+      "expected": "a repository fixture can follow prepared start through reviewable state without hand-editing governance state",
+      "required": true,
+      "scenario": "prepared-first-work-item",
+      "status": "unverified",
+      "verificationPlan": "Execute the documented start --prepare fixture and inspect Runtime status and lifecycle output."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI, MCP, lifecycle, summary, and full views in English, Simplified Chinese, and Japanese preserve the same facts and next action",
+      "required": true,
+      "scenario": "tri-language-outcome-parity",
+      "status": "unverified",
+      "verificationPlan": "Run the real parity fixture for all endpoint/view/language combinations and compare normalized structured facts."
+    },
+    {
+      "evidence": [],
+      "expected": "Contract-to-reviewable, verification-to-finish, and post-merge cleanup costs are reported separately with raw samples and counters",
+      "required": true,
+      "scenario": "development-cycle-cost",
+      "status": "unverified",
+      "verificationPlan": "Run the paired lifecycle cost harness on the same machine/toolchain and retain raw samples and environment identity."
+    },
+    {
+      "evidence": [],
+      "expected": "production handoff reports only per-message host acceptance/display evidence; capability declaration alone never produces display_confirmed",
+      "required": true,
+      "scenario": "archive-outcome-host-delivery",
+      "status": "unverified",
+      "verificationPlan": "Exercise the adapter contract with accepted, unconfirmed, interrupted, duplicate-risk, and zero-send progress records and inspect assistant-message events and delivery state."
+    },
+    {
+      "evidence": [],
+      "expected": "a repository-bound predecessor-bound recovery successor bypasses only provably disjoint valid historical scopes; untrusted or overlapping history remains blocked",
+      "required": true,
+      "scenario": "issue-851-recovery-scope",
+      "status": "unverified",
+      "verificationPlan": "Run deterministic lifecycle fixtures for disjoint glob scopes, authorized overlap, wrong successor, malformed/foreign/stale/symlink/digest-mismatched archives, and tri-language projections."
+    },
+    {
+      "evidence": [],
+      "expected": "the declared Rust 1.98.1 toolchain and refreshed locked dependency graph pass the declared workspace checks",
+      "required": true,
+      "scenario": "rust-1-98-1-workspace-verification",
+      "status": "unverified",
+      "verificationPlan": "Record rustc/cargo/rustup identity, inspect the Cargo.lock diff, and run format, clippy, check, and workspace tests under stable-aarch64-apple-darwin."
+    }
+  ],
+  "scope": [
+    "统一 Outcome 观察组装与生命周期/CLI/MCP 入口；完善验证规划、复用、失败记录和发布级性能测量；以 start --prepare 为默认普通任务路径更新三语指南及帮助；仅对本轮涉及模块做职责收敛。",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "tests/performance/**",
+    "tests/docs/**",
+    "README.md",
+    "docs/getting-started/**",
+    "docs/reference/outcome-report*",
+    "docs/reference/architecture-responsibility-map-2026-09*",
+    "docs/superpowers/plans/2026-09-17-ai-cockpit-four-direction-convergence.md",
+    ".ai/**",
+    "docs/README*",
+    "docs/reference/reference-parity*",
+    "docs/work-items/WI-865-four-direction-convergence*",
+    "crates/cockpit-agent/**",
+    "crates/cockpit-mcp/**",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "docs/reference/agent-first-start.md",
+    "docs/reference/commands*",
+    "rust-toolchain.toml",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-repository/src/lifecycle.rs"
+  ],
+  "sources": [
+    "user:2026-09-17-four-direction-convergence",
+    "github:issue-851:https://github.com/xinglun/ai-cockpit/issues/851",
+    "github:pr-852:review-feedback:archive-outcome-delivery-production-handoff",
+    "user:2026-09-17-archive-outcome-delivery-follow-up",
+    "User authorization in the current task to upgrade the project's Rust version and dependency packages.",
+    "User-provided toolchain observation: stable-aarch64-apple-darwin is rustc 1.98.1 (48a229cea 2026-09-01), replacing the repository pin at rustc 1.94.1.",
+    "Runtime scope audit identified lifecycle.rs as the existing Issue #851 recovery-entry implementation path that must be explicitly bound to this Work Item."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo fmt --all -- --check",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo clippy -p cockpit-agent -p cockpit-cli -p cockpit-mcp -p cockpit-repository --all-targets -- -D warnings",
+    "RUSTUP_TOOLCHAIN=stable-aarch64-apple-darwin cargo test --workspace --locked",
+    "cargo test -p cockpit-repository --test lifecycle_entry"
+  ],
+  "workItemId": "WI-865-four-direction-convergence"
+}

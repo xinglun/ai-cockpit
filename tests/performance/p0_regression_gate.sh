@@ -110,8 +110,8 @@ def legacy_gate(baseline, candidate):
 
 
 PERCENTILES = {
-    "warm.p50Ms": ("p50", 5, 0.50),
-    "warm.p95Ms": ("p95", 20, 0.95),
+    "warm.p50Ms": ("p50", 100, 0.50),
+    "warm.p95Ms": ("p95", 100, 0.95),
     "warm.p99Ms": ("p99", 100, 0.99),
 }
 PHASES = (
@@ -387,6 +387,12 @@ def p0_gate(baseline, candidate):
         if isinstance(baseline_repo, dict) and isinstance(candidate_repo, dict):
             if baseline_repo.get("head") != candidate_repo.get("head"):
                 failures.append("repository_snapshot_mismatch")
+        baseline_toolchain = baseline_environment.get("toolchain")
+        candidate_toolchain = candidate_environment.get("toolchain")
+        if (baseline_toolchain is None) != (candidate_toolchain is None):
+            failures.append("toolchain_identity_missing")
+        elif baseline_toolchain is not None and baseline_toolchain != candidate_toolchain:
+            failures.append("toolchain_mismatch")
     if baseline.get("budgets") != candidate.get("budgets"):
         failures.append("budget_contract_mismatch")
 

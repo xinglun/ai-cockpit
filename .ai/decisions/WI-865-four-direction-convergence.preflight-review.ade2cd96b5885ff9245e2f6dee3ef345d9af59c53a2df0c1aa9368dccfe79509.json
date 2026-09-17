@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:fa860be353398ddcabfd13779aa145ee7490e15bc77433c0d2cfff4eaf28c0f9",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "用户明确授权按 WI 流程完成全部任务，并允许在最终验收后发布新版本；本决定不声称尚未执行的验证通过。",
+  "recordedAt": "2026-09-17T00:00:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:668d786ba536c8a798399d01f0175fe37581a385243d32cbc95964f403c00b6b",
+  "schemaVersion": 1,
+  "workItemId": "WI-865-four-direction-convergence"
+}

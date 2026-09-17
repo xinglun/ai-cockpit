@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-17T03:22:36Z",
+  "files": {
+    "contractDigest": "sha256:bde13221f0501a562d3c8b9bd68da2fa7004feba5dbfd4964fbbb3eee8cc50c0",
+    "contractPath": ".ai/work-items/archive/WI-865-four-direction-convergence.contract.json",
+    "eventsDigest": "sha256:15e93ce26b3860d9eb927112de6dcd95d4c959f22cf5b576f7dd92c10884baa0",
+    "eventsPath": ".ai/work-items/archive/WI-865-four-direction-convergence.events.jsonl",
+    "outcomeDigest": "sha256:011a428c3f7654383f2e8adfbdc49f68b049ba67503fca204031c775b4e91db8",
+    "outcomePath": ".ai/work-items/archive/WI-865-four-direction-convergence.outcome.json",
+    "summaryDigest": "sha256:d8c07fe9e1c9ab34b17d53645f887666831a16689fa5538ec243df044ca9d327",
+    "summaryPath": ".ai/work-items/archive/WI-865-four-direction-convergence.summary.json",
+    "taskReportDigest": "sha256:5323c903c008880c012b6deaad5e8865537bef3af83e9334beb3915db43d85dd",
+    "taskReportMarkdownDigest": "sha256:800be1061ceaedb258ce83af4aa3fa61bb43511a625816cd27336241b961cd57",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-865-four-direction-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-865-four-direction-convergence.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-865-four-direction-convergence"
+}

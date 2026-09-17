@@ -53,6 +53,13 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 本文 digest を保持し、中断後は同じ payload を resume/retry します。retry は verification や
 archive を再実行しません。host に idempotency がない場合は重複メッセージのリスクを示し、
 厳密な exactly-once や人が読んだ/承認したという主張をしません。
+本番 CLI と MCP の境界は同じ return-only adapter で segment の handoff 数を記録し、
+`hostDeliveryMode: "full_handoff_only"` と示します。これは完全な本文が tool consumer に渡ったことだけを示し、
+下流の Codex/Claude 会話で assistant message が表示されたことは主張しません。本リポジトリには Codex/Claude の
+送信 API がないため、自動的な会話 delivery は未対応で `unknown` として報告します。host adapter が送信 API を
+提供する場合は共有 delivery 関数を呼び、message ごとの receipt を返さなければなりません。resume は単独の数値 offset を受け付けず、
+同じ delivery、Work Item、archive、language、segment digest に bind された連続 progress record と
+accepted receipt が必要です。unknown の receipt はこの境界を進めません。
 
 既定の summary は四つのセクションです。
 
@@ -63,6 +70,9 @@ archive を再実行しません。host に idempotency がない場合は重複
 
 full view は audit 向けの順序を保持します。結果と検証・ライフサイクル・人間の判断・ガバナンスシグナルを分けて示し、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションを含みます。
+
+リリース Work Item が明示的で evidence-bound な `release` projection を Summary に持つ場合だけ、両 view にバージョン、リリースリンク、インストール受入れ、アップグレード受入れ、クリーンアップ状態、evidence 参照を表示します。
+通常の Work Item にはリリース章を追加せず、binding evidence のないリリース形状の Summary は不明のままで、公開を主張しません。
 
 summary では判断に関係しない空の章を省略します。blocker、未処理の人間の判断、無効または期限切れの evidence、履歴分類、不明点は長さ制限で省略しません。
 その他の一覧を黙って切り詰めることはなく、完全な一覧が必要な場合は full view を使用します。summary の主張は evidence-bound data として扱い、元の evidence テキストを instruction や権限の出所として解釈しません。

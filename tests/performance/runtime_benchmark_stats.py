@@ -28,6 +28,8 @@ def summarize(
     name: str,
     raw_samples_ms: Iterable[float | int],
     valid_warm_samples_ms: Iterable[float | int] | None = None,
+    *,
+    release_grade: bool = False,
 ) -> dict:
     if not isinstance(name, str) or not name.strip():
         raise ValueError("benchmark sample name must be non-empty")
@@ -46,8 +48,13 @@ def summarize(
     values: dict[str, float | None] = {}
     reliable: dict[str, bool] = {}
     unavailable_reason: dict[str, str] = {}
+    minimums = (
+        {label: MIN_VALID_WARM_SAMPLES for label in percentiles}
+        if release_grade
+        else PERCENTILE_MINIMUMS
+    )
     for label, fraction in percentiles.items():
-        minimum = PERCENTILE_MINIMUMS[label]
+        minimum = minimums[label]
         is_reliable = len(valid_warm) >= minimum
         reliable[label] = is_reliable
         if is_reliable:

@@ -60,7 +60,7 @@ status_projection を公開している。これは crate 内の module 境界�
 | Evidence storage/history | reusable receipt、repository/profile/node binding、delegated evidence/validity | nofollow read/write：`evidence_store.rs:36-39,225-280`；protocol type：`protocol/lib.rs:927-960` | receipt validation は evidence/protocol。receipt は governance decision ではない |
 | Physical execution/scheduling | verification graph/plan、`PhysicalExecution`、`ExecutionResult`、Work Item receipt | process、worker、resource budget、single-flight：`cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` | execution は成功/失敗だけを返し、repository が適用性と authorization を別検証 |
 | Status/Outcome projection | `OutcomeState`、`TaskOutcomeReport`、`WorkItemStatusSnapshot`、history/freshness：`protocol/lib.rs:3236-3505` | config/profile、1つの Git snapshot、record：`status_projection.rs:3-90` | status_projection が machine status、outcome_v2 が Outcome を組み立てる。projection は権限を与えない |
-| Human Outcome rendering | 検証済み `OutcomeRenderInput` と language | `outcome_render.rs:70-76` の renderer は repository path を受けず input だけを format | render が表示境界。ただし input assembly は同じ module に残る |
+| Human Outcome rendering | 検証済み `OutcomeRenderInput` と language | `outcome_render.rs:70-76` の renderer は repository path を受けず input だけを format | `render_human_outcome` が表示境界。production caller は Runtime-bound assembly を使い、`outcome_render_input_from_outcome` は捕捉済み fixture に限定 |
 | Persistence/recovery | atomic JSON、lifecycle lock、archive manifest、finalization/close record | `repository/lib.rs:12033-12081`；finalization `5246-7140`；recovery `status_projection.rs:464-585` | authoritative record と recovery check を明示し、projection は再構成可能な view とする |
 
 ## 現在の混在・重複・依存方向
@@ -77,11 +77,11 @@ status_projection を公開している。これは crate 内の module 境界�
 3. `governance_controls` は主に validator だが、`record_work_item_governance_controls`
    は設計上 Summary を write する (`governance_controls.rs:1186-1250`)。read-only check
    と write boundary を混同してはならない。
-4. `render_human_outcome` は pure だが、`outcome_render_input_from_outcome` は root を
-   `build_outcome_render_input` に渡し、archive と close decision を読ませる
-   (`outcome_render.rs:14-76`)。同 module は lifecycle Summary と human decision も読む
-   (`666-705,816-875`)。従って P1-A は renderer pure 化までで、assembly の filesystem
-   分離は未完了である。
+4. `render_human_outcome` は pure である。production の lifecycle、CLI query、MCP caller は
+   `outcome_render_input_with_runtime` を使い、render 前に一度だけ bounded observation を
+   捕捉・検証する。互換 helper `outcome_render_input_from_outcome` は補足 facts を読むため、
+   test または pre-captured Outcome を明示的に保持する caller に限定し、lifecycle shortcut
+   には使わない。
 5. repository submodule は `super::*` で root の `ObserverError`、`repository_id`、
    `snapshot_digest` を使う。現在は crate 内の一方向依存であり、この P0 から新 crate や
    circular Cargo dependency を導入する理由はない。先に共有 helper の依存を狭めるべきである。
@@ -101,9 +101,21 @@ execution や persistence の境界を越えて snapshot の有効期間を広�
 - lifecycle lock、single-file atomic replacement、pending-index detection：
   `repository/lib.rs:12041-12081`、`evidence_store.rs:71-100`。
 - 共通 CLI/MCP renderer の `OutcomeRenderInput` は「一度 assembly、複数 display」の方向に
-  適しているが、現在の assembly は外へ移す余地がある：`outcome_render.rs:14-76`。
+  適している。production assembly は `outcome_render_input_with_runtime` を使い、renderer
+  は filesystem I/O を持たない：`outcome_render.rs:14-76`。
 - physical execution は独自 identity/result digest を持ち、Work Item receipt を別に bind する：
   `cockpit-verification/lib.rs:1261-1441`。
+
+## Contributor routing
+
+Observation boundary は `crates/cockpit-repository/src/execution_context.rs` と
+`observation_ledger.rs`、state transition と authorization precondition は `lifecycle.rs`、
+planning/execution/reuse/failure receipt は `cockpit-verification/src/lib.rs` を参照する。
+pure human projection と assembly test は `outcome_render.rs` にある。CLI/MCP adapter は各
+crate にあるが、同じ repository operation を呼び出す。焦点を絞った regression suite は
+`crates/cockpit-repository/tests/outcome_report.rs`、
+`crates/cockpit-cli/tests/outcome_handoff.rs`、
+`crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs` である。
 
 ## 後続 Work Item の限定された調査
 

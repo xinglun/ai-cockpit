@@ -3,7 +3,7 @@ use cockpit_protocol::{
     AgentInterfaceManifest, AgentProvider, OutcomeDelivery, OutcomeDeliverySegment,
     RepositoryConfig, validate_agent_interface_version, validate_protocol_version,
 };
-use serde::{Serialize, de::DeserializeOwned};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::fs::{self, File};
 use std::io::{self, Read, Write};
@@ -109,11 +109,160 @@ pub struct HostDeliveryCapabilities {
     pub idempotency: bool,
 }
 
+/// A result for one concrete host-send attempt. Capability discovery is not a
+/// result: an adapter must return the per-message acceptance/display facts it
+/// actually received, or leave them unknown.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OutcomeMessageReceipt {
+    pub delivery_id: cockpit_core::Digest,
+    pub part: u32,
+    pub segment_digest: cockpit_core::Digest,
+    pub accepted: Option<bool>,
+    pub displayed: Option<bool>,
+}
+
+impl OutcomeMessageReceipt {
+    pub fn for_segment(
+        segment: &OutcomeDeliverySegment,
+        accepted: Option<bool>,
+        displayed: Option<bool>,
+    ) -> Self {
+        Self {
+            delivery_id: segment.delivery_id.clone(),
+            part: segment.part,
+            segment_digest: segment.body_digest.clone(),
+            accepted,
+            displayed,
+        }
+    }
+}
+
+/// Append-only progress bound to one full Outcome delivery. Only receipts
+/// with an explicit `accepted=true` can advance the resume boundary; an
+/// unknown host result must be retried (and may duplicate without idempotency).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OutcomeDeliveryProgress {
+    pub schema_version: u32,
+    pub delivery_id: cockpit_core::Digest,
+    pub work_item_id: String,
+    pub archive_identity: cockpit_core::Digest,
+    pub language: String,
+    pub confirmed: Vec<OutcomeMessageReceipt>,
+}
+
+impl OutcomeDeliveryProgress {
+    pub fn new(delivery: &OutcomeDelivery) -> Self {
+        Self {
+            schema_version: 1,
+            delivery_id: delivery.delivery_id.clone(),
+            work_item_id: delivery.work_item_id.clone(),
+            archive_identity: delivery.archive_identity.clone(),
+            language: delivery.language.clone(),
+            confirmed: Vec::new(),
+        }
+    }
+
+    fn validate_for(&self, delivery: &OutcomeDelivery) -> Result<(), AgentError> {
+        if self.schema_version != 1
+            || self.delivery_id != delivery.delivery_id
+            || self.work_item_id != delivery.work_item_id
+            || self.archive_identity != delivery.archive_identity
+            || self.language != delivery.language
+        {
+            return Err(AgentError::State {
+                path: PathBuf::from("<outcome-delivery-progress>"),
+                message: "delivery progress identity is stale or mismatched".into(),
+            });
+        }
+        for (expected, receipt) in (1..).zip(&self.confirmed) {
+            let Some(segment) = delivery
+                .segments
+                .get(receipt.part.saturating_sub(1) as usize)
+            else {
+                return Err(AgentError::State {
+                    path: PathBuf::from("<outcome-delivery-progress>"),
+                    message: "delivery progress references an unknown segment".into(),
+                });
+            };
+            if receipt.part != expected
+                || receipt.delivery_id != delivery.delivery_id
+                || receipt.segment_digest != segment.body_digest
+                || receipt.accepted != Some(true)
+                || receipt.displayed == Some(false)
+            {
+                return Err(AgentError::State {
+                    path: PathBuf::from("<outcome-delivery-progress>"),
+                    message: "delivery progress is not a contiguous accepted receipt chain".into(),
+                });
+            }
+        }
+        Ok(())
+    }
+
+    fn record(
+        &mut self,
+        delivery: &OutcomeDelivery,
+        segment: &OutcomeDeliverySegment,
+        receipt: OutcomeMessageReceipt,
+    ) -> Result<(), AgentError> {
+        if receipt.accepted != Some(true) {
+            return Ok(());
+        }
+        if receipt.displayed == Some(false)
+            || receipt.delivery_id != delivery.delivery_id
+            || receipt.part != segment.part
+            || receipt.segment_digest != segment.body_digest
+        {
+            return Err(AgentError::State {
+                path: PathBuf::from("<outcome-delivery-progress>"),
+                message: "host receipt does not match the sent Outcome segment".into(),
+            });
+        }
+        self.confirmed.push(receipt);
+        self.validate_for(delivery)
+    }
+}
+
 /// Minimal host boundary used by supported adapters and the controllable
 /// end-to-end tests. Each segment is one independent assistant message.
 pub trait OutcomeMessageHost {
     fn capabilities(&self) -> HostDeliveryCapabilities;
-    fn send_message(&mut self, message: &OutcomeDeliverySegment) -> Result<(), AgentError>;
+    fn send_message(
+        &mut self,
+        message: &OutcomeDeliverySegment,
+    ) -> Result<OutcomeMessageReceipt, AgentError>;
+}
+
+/// Adapter used by CLI/MCP when they can return the complete handoff to a
+/// consumer but do not own a host API that can post assistant messages. Every
+/// segment is still passed through the same delivery validator; acceptance and
+/// display remain explicitly unknown instead of being inferred from this
+/// adapter's existence or capability flags.
+#[derive(Default)]
+pub struct ReturnOnlyOutcomeHost {
+    returned_segments: Vec<OutcomeDeliverySegment>,
+}
+
+impl ReturnOnlyOutcomeHost {
+    pub fn returned_segment_count(&self) -> usize {
+        self.returned_segments.len()
+    }
+}
+
+impl OutcomeMessageHost for ReturnOnlyOutcomeHost {
+    fn capabilities(&self) -> HostDeliveryCapabilities {
+        HostDeliveryCapabilities::default()
+    }
+
+    fn send_message(
+        &mut self,
+        message: &OutcomeDeliverySegment,
+    ) -> Result<OutcomeMessageReceipt, AgentError> {
+        self.returned_segments.push(message.clone());
+        Ok(OutcomeMessageReceipt::for_segment(message, None, None))
+    }
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]
@@ -127,6 +276,7 @@ pub struct OutcomeDeliveryReport {
     pub delivery_state: String,
     pub host_confirmation: String,
     pub duplicate_risk: bool,
+    pub progress: OutcomeDeliveryProgress,
     pub next_action: String,
 }
 
@@ -147,45 +297,60 @@ pub enum AgentError {
     #[error("repository discovery failed: {0}")]
     Git(String),
     #[error("Outcome delivery failed after {sent_parts} part(s): {message}")]
-    DeliveryFailed { sent_parts: usize, message: String },
+    DeliveryFailed {
+        sent_parts: usize,
+        progress: Box<OutcomeDeliveryProgress>,
+        message: String,
+    },
 }
 
-/// Validate and deliver the exact full Outcome payload. `resume_from` is a
-/// one-based segment boundary expressed as a zero-based count of already
-/// accepted parts; retrying with the same payload never reruns archive or
-/// verification. A host without idempotency may still duplicate earlier
-/// messages when a caller deliberately retries from zero, and the report
-/// states that risk.
+/// Validate and deliver the exact full Outcome payload. Resume is possible
+/// only from a contiguous, identity-bound accepted-receipt chain. A numeric
+/// offset is deliberately not accepted: it could skip every message without
+/// proving that a host received any of them.
 pub fn deliver_outcome<S: OutcomeMessageHost>(
     delivery: &OutcomeDelivery,
     host: &mut S,
-    resume_from: usize,
+    progress: Option<&OutcomeDeliveryProgress>,
 ) -> Result<OutcomeDeliveryReport, AgentError> {
     validate_outcome_delivery(delivery)?;
-    if resume_from > delivery.segments.len() {
-        return Err(AgentError::State {
-            path: PathBuf::from("<outcome-delivery>"),
-            message: format!(
-                "resume part {resume_from} exceeds total {}",
-                delivery.segments.len()
-            ),
-        });
-    }
+    let mut progress = progress
+        .cloned()
+        .unwrap_or_else(|| OutcomeDeliveryProgress::new(delivery));
+    progress.validate_for(delivery)?;
     let capabilities = host.capabilities();
-    let mut sent_parts = resume_from;
-    for segment in delivery.segments.iter().skip(resume_from) {
-        if let Err(error) = host.send_message(segment) {
+    let confirmed_parts = progress.confirmed.len();
+    let mut sent_parts = confirmed_parts;
+    for segment in delivery.segments.iter().skip(confirmed_parts) {
+        let receipt = match host.send_message(segment) {
+            Ok(receipt) => receipt,
+            Err(error) => {
+                return Err(AgentError::DeliveryFailed {
+                    sent_parts,
+                    progress: Box::new(progress),
+                    message: error.to_string(),
+                });
+            }
+        };
+        sent_parts += 1;
+        if let Err(error) = progress.record(delivery, segment, receipt) {
             return Err(AgentError::DeliveryFailed {
                 sent_parts,
+                progress: Box::new(progress),
                 message: error.to_string(),
             });
         }
-        sent_parts += 1;
     }
     let complete = sent_parts == delivery.segments.len();
-    let (delivery_state, host_confirmation) = if capabilities.display_confirmation && complete {
+    let accepted = progress.confirmed.len() == delivery.segments.len();
+    let displayed = accepted
+        && progress
+            .confirmed
+            .iter()
+            .all(|receipt| receipt.displayed == Some(true));
+    let (delivery_state, host_confirmation) = if displayed && complete {
         ("display_confirmed", "display_confirmed")
-    } else if capabilities.acceptance_confirmation && complete {
+    } else if accepted && complete {
         ("host_accepted", "accepted")
     } else {
         ("unknown", "unknown")
@@ -198,7 +363,8 @@ pub fn deliver_outcome<S: OutcomeMessageHost>(
         complete,
         delivery_state: delivery_state.into(),
         host_confirmation: host_confirmation.into(),
-        duplicate_risk: resume_from > 0 && !capabilities.idempotency,
+        progress,
+        duplicate_risk: confirmed_parts < sent_parts && !capabilities.idempotency && !accepted,
         next_action: if host_confirmation == "unknown" {
             "Host acceptance/display is unknown; do not claim that a user saw or approved the message.".into()
         } else {
@@ -1106,7 +1272,7 @@ fn managed_block(provider: &AgentProvider, repository_id: &str) -> String {
         first_start,
         ADAPTER_END_MARKER
     );
-    let added_guidance = "\n\nCanonical delivery order follows the Contract: latest remote default base → dedicated branch/worktree → implement → finish → declared hosted/candidate/release/public stages → archive → finalize → finalize-verify → close → synchronize and clean. If no later evidence is declared, finish may be followed directly by archive. Never attempt archive before the required evidence for its stage exists. Push, review, merge, and publication are required only when declared; never merge a feature branch into local main before PR review, delete its branch before merge, or let a provider auto-delete it to bypass finalization. If a remote step fails, preserve the retry checkout and identity until recovery is complete.\n\nA terminal green Outcome is the Rust equivalent of status=completed plus humanStatusColor=green: it requires state=Verified, decisionState=green, current Contract/Summary/evidence bindings, and direct human-visible delivery. Include issue count, blockers/stopping reason, resolved issues, risks, unknowns, verification, impact, human decision, and next action; every factual claim needs evidence, and unproven benefit is an inference.\n\nWhen a defect is found in the current Work Item, repair it there by amending and revalidating its Contract before opening another Work Item or Issue. A successor is allowed only for a genuinely different scope, authority, or base, an independent compatible change, an unsafe in-scope repair, immutable failed delivery, or explicit human direction.";
+    let added_guidance = "\n\nCanonical delivery order follows the Contract: latest remote default base → dedicated branch/worktree → implement → finish → declared hosted/candidate/release/public stages → archive → finalize → finalize-verify → close → synchronize and clean. If no later evidence is declared, finish may be followed directly by archive. Never attempt archive before the required evidence for its stage exists. Push, review, merge, and publication are required only when declared; never merge a feature branch into local main before PR review, delete its branch before merge, or let a provider auto-delete it to bypass finalization. If a remote step fails, preserve the retry checkout and identity until recovery is complete.\n\nA terminal green Outcome is the Rust equivalent of status=completed plus humanStatusColor=green: it requires state=Verified, decisionState=green, current Contract/Summary/evidence bindings, and direct human-visible delivery. Include issue count, blockers/stopping reason, resolved issues, risks, unknowns, verification, impact, human decision, and next action; every factual claim needs evidence, and unproven benefit is an inference.\n\n`work-item outcome` is a status query and may use its default summary; an archive or historical-archive handoff must use the complete full Outcome. Tool output is not the same event as a visible assistant message: CLI and MCP currently provide `full_handoff_only` with host acceptance/display `unknown`. Do not reply only `archived`, `see attachment`, or a newly summarized report; preserve the returned body, delivery identity, ordered segments, and any actual per-message receipts.\n\nWhen a defect is found in the current Work Item, repair it there by amending and revalidating its Contract before opening another Work Item or Issue. A successor is allowed only for a genuinely different scope, authority, or base, an independent compatible change, an unsafe in-scope repair, immutable failed delivery, or explicit human direction.";
     block = block.replace(
         "\n\nNever edit global Agent or MCP configuration, secrets, or credentials.",
         &format!("{added_guidance}\n\nNever edit global Agent or MCP configuration, secrets, or credentials."),

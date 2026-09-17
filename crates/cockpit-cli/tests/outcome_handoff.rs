@@ -256,6 +256,10 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
             assert!(body.contains("Problems found"));
             assert!(body.contains("Evidence"));
             assert!(!body.is_empty());
+            assert_eq!(json["hostDeliveryMode"], "full_handoff_only");
+            assert_eq!(json["deliveryReport"]["deliveryState"], "unknown");
+            assert_eq!(json["deliveryReport"]["hostConfirmation"], "unknown");
+            assert_eq!(json["hostDisplayConfirmation"], "unknown");
         }
         assert!(!String::from_utf8_lossy(&output.stderr).contains("Outcome:"));
     }

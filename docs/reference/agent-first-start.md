@@ -109,16 +109,23 @@ The boundaries are deliberately separate: Runtime-generated means the body was
 prepared; a CLI/MCP result means it was returned to the tool consumer; a host
 acceptance receipt means the host accepted the assistant message; and a host
 display confirmation is the only basis for saying it was displayed. The
-repository currently provides no general Codex or Claude display-confirmation
-API. When a host adapter lacks that API, return the complete body and forward
-each segment as an independent assistant message, report `unknown` for host
-acceptance/display, and never claim that a person read or approved it.
+repository currently provides no general Codex or Claude send or
+display-confirmation API. CLI and MCP therefore use a return-only adapter:
+they hand the complete body and ordered segment count to the tool consumer and
+report `full_handoff_only` plus `unknown` for host acceptance/display. They do
+not claim that a downstream conversation contains an assistant message. A
+future host adapter with a send API must use the shared delivery function,
+send each segment independently, and return actual per-message receipts; it
+must never claim that a person read or approved the message.
 
 If delivery is interrupted, retry the same `deliveryId`, archive identity,
 language, body digest, and ordered segments. Resume from the first unaccepted
-part when the host provides idempotency; otherwise state the duplicate-message
-risk. A retry never reruns verification or archive and never grants merge,
-release, or other authorization.
+part only from a contiguous progress record containing actual accepted receipts;
+a bare numeric offset, including an offset equal to the segment count, is not
+valid proof and must not skip all sends. When the host provides no acceptance
+receipt, keep the boundary unknown and state the duplicate-message risk.
+A retry never reruns verification or archive and never grants merge, release,
+or other authorization.
 
 ## CLI capability discovery
 

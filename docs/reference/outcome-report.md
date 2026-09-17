@@ -57,6 +57,17 @@ delivery id and body digest, and resume or retry that same payload after an
 interruption. A retry never re-runs verification or archive. Without host
 idempotency, a resumed delivery reports duplicate-message risk rather than
 claiming strict exactly-once delivery or that a person read or approved it.
+The production CLI and MCP boundaries use the same return-only adapter and
+record `hostDeliveryMode: "full_handoff_only"` plus a returned-segment count;
+this proves that the complete body was handed to the tool consumer, not that a
+downstream Codex or Claude conversation displayed an assistant message. No
+Codex or Claude send API is present in this repository, so automatic dialog
+delivery remains unsupported and is reported as `unknown`. A host adapter that
+does provide a send API must call the shared delivery function and return
+per-message receipts. Resume never accepts a bare numeric offset: it requires a
+contiguous progress record containing accepted receipts bound to the same
+delivery, Work Item, archive, language, and segment digests. An unknown receipt
+cannot advance that boundary.
 
 The default summary has four sections:
 
@@ -64,6 +75,13 @@ The default summary has four sections:
 2. Key changes: evidence-backed delivered changes
 3. Remaining uncertainty: blockers, risks, limitations, unknowns, and missing benefit declarations
 4. Human next step: the decision needed and why, or an explicit statement that no new decision is required
+
+When a release Work Item supplies an explicit, evidence-bound `release`
+projection, both views include its version, release link, install acceptance,
+upgrade acceptance, cleanup status, and evidence references. Ordinary Work
+Items do not receive a release section, and a release-shaped Summary without a
+bound evidence reference remains unknown rather than becoming a publication
+claim.
 
 The full view retains the audit-oriented order:
 
