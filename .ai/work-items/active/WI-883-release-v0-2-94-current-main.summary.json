@@ -1,0 +1,120 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.5ad10f65e1c85aeaf141eb6ef069ceb405c6854c0e0f8cf0d826d19c00bc1de9.json",
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.9abcdc1fe744729fcb9180f19a765d404512db7c293e3895ce48e4cc59e3cb08.json",
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.b7484428178e7f92a17b6eea740c531fe298b81803883db69d2a2142a6188026.json",
+    ".ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.ed852dbc4b7ce471a67b60502d0d57c76dd4aa2e808be66b19aae5be19fe2ea9.json",
+    ".ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json",
+    ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.ja.md",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.md",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-17T15:41:49Z",
+  "checkpointContractDigest": "sha256:678533f029a0c666039f63b91f41cbcbd48a98d4834c7c241d4e7501e5b58561",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:62ab6ee55f6ea009fda6b0ad593a8595f7e13a8b34547453be17cea06ac01f75",
+      "recorded": true,
+      "recordedAt": "2026-09-17T15:41:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:95e77baa3c69d0efbd75099be5a9e8407f059a060d79446645ad606063a1856e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-883-release-v0-2-94-current-main"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:678533f029a0c666039f63b91f41cbcbd48a98d4834c7c241d4e7501e5b58561",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:62ab6ee55f6ea009fda6b0ad593a8595f7e13a8b34547453be17cea06ac01f75",
+      "previousContractHash": "sha256:62ab6ee55f6ea009fda6b0ad593a8595f7e13a8b34547453be17cea06ac01f75",
+      "reason": "Include the three generated command reference projections whose embedded Runtime identity must track the release package version.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T15:53:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:46952055fcc3e304f14e50d139cc605f972f100839db108fa14566cc1bf0da39",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-883-release-v0-2-94-current-main"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:46952055fcc3e304f14e50d139cc605f972f100839db108fa14566cc1bf0da39",
+  "createdAt": "2026-09-17T15:35:32Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "Cargo.lock",
+      "docs/release/distribution.md",
+      "docs/reference/commands.md",
+      "docs/work-items/WI-883-release-v0-2-94-current-main.md"
+    ],
+    "reason": "The version, release, architecture, reference, generated command, and tri-language Work Item projections implement the authorized v0.2.94 release intent; candidate and public artifact evidence is explicitly deferred to the post-merge release stage.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T15:57:54Z",
+  "preflightContractDigest": "sha256:678533f029a0c666039f63b91f41cbcbd48a98d4834c7c241d4e7501e5b58561",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:46952055fcc3e304f14e50d139cc605f972f100839db108fa14566cc1bf0da39",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "expected": "Candidate and public downloaded v0.2.94 artifacts pass fresh install, v0.2.93 upgrade, manifest, checksum, and version consistency acceptance.",
+      "reason": "Candidate and public downloaded-artifact acceptance starts only after the reviewed PR is merged and the release workflow produces immutable v0.2.94 artifacts; no provider artifact exists at this pre-merge stage.",
+      "required": true,
+      "scenario": "candidate release and downloaded artifact acceptance",
+      "status": "not_applicable",
+      "verificationPlan": "Run the declared release acceptance scripts only after the reviewed merge and bind their structured receipts to the synchronized main source identity."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T16:01:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}

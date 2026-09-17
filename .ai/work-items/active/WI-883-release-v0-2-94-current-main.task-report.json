@@ -1,0 +1,305 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:46952055fcc3e304f14e50d139cc605f972f100839db108fa14566cc1bf0da39",
+    "workItemId": "WI-883-release-v0-2-94-current-main"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.5ad10f65e1c85aeaf141eb6ef069ceb405c6854c0e0f8cf0d826d19c00bc1de9.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.9abcdc1fe744729fcb9180f19a765d404512db7c293e3895ce48e4cc59e3cb08.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.b7484428178e7f92a17b6eea740c531fe298b81803883db69d2a2142a6188026.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.ed852dbc4b7ce471a67b60502d0d57c76dd4aa2e808be66b19aae5be19fe2ea9.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.lock"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: Cargo.toml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-comparison-metadata.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-883-release-v0-2-94-current-main.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
+        ],
+        "inference": false,
+        "text": "Advance AI Cockpit from v0.2.93 to v0.2.94 from current synchronized main and prove candidate plus public downloaded-artifact adoption."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}

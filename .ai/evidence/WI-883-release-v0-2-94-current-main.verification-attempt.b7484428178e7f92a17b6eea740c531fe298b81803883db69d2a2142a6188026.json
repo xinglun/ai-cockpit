@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:b7484428178e7f92a17b6eea740c531fe298b81803883db69d2a2142a6188026",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "dbe49d8a9e33ee8df83173d84798efabb9e0d68c",
+      "commandDigest": "sha256:99f57181e4e1f04b8e9f0bcf16928d1c8dcbc7a993f7f3783595ab83cd3d72d0",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:62ab6ee55f6ea009fda6b0ad593a8595f7e13a8b34547453be17cea06ac01f75",
+  "contractExecutionScopeDigest": "sha256:76b0eaa55fd341f89ad655b8ca933054c113093800f9ac179705268d04515533",
+  "createdAt": "2026-09-17T15:48:47Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-883-release-v0-2-94-current-main/.ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:69a43f77bdb57413fc49d80dbeb9d19335da59312a0ed6cc36f35b6cd59fa15e",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}

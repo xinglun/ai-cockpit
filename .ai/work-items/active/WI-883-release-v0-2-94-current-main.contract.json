@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "All workspace package versions, release documentation, manifests, checksums, and artifact naming identify v0.2.94 consistently while preserving v0.2.93 as N-1.",
+    "The reviewed synchronized main commit is the sole immutable source identity for the v0.2.94 tag and release workflow.",
+    "Candidate fresh installation and v0.2.93 to v0.2.94 upgrade pass in independent isolated environments with structured receipts.",
+    "Public v0.2.94 downloaded Release assets pass fresh install, v0.2.93 upgrade, manifest, checksum, and version consistency acceptance.",
+    "Failed release phases retain identity-bound evidence and recovery reuses only compatible successful phases without rerunning them.",
+    "Release workflow policy, source archive policy, tri-language documentation, and exact resource cleanup pass before close; unknown host or user-read status is not inferred."
+  ],
+  "authority": "authorized",
+  "baseRevision": "dbe49d8a9e33ee8df83173d84798efabb9e0d68c",
+  "createdAt": "2026-09-17T15:35:32Z",
+  "goal": "Advance AI Cockpit from v0.2.93 to v0.2.94 from current synchronized main and prove candidate plus public downloaded-artifact adoption.",
+  "intent": "Publish the completed AI Cockpit Outcome, HCI, four-direction convergence, Issue #851, interface discovery, and Rust toolchain/dependency work from the synchronized main revision.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Rust behavior changes unrelated to versioning or release acceptance",
+    "provider tag or Release mutation before all pre-publication gates pass",
+    "local source checkout or workspace binary as a substitute for public downloaded-artifact acceptance",
+    "lifecycle refactoring unrelated to release evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4ab5b4eed724a11ad973c2503640e4845ea2b90b84e6874ae8b4ae577fa095fb",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Candidate and public downloaded v0.2.94 artifacts pass fresh install, v0.2.93 upgrade, manifest, checksum, and version consistency acceptance.",
+      "required": true,
+      "scenario": "candidate release and downloaded artifact acceptance",
+      "status": "unverified",
+      "verificationPlan": "Run the declared release acceptance scripts only after the reviewed merge and bind their structured receipts to the synchronized main source identity."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/distribution.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.md",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.zh-CN.md",
+    "docs/work-items/WI-883-release-v0-2-94-current-main.ja.md",
+    "tests/release/version_consistency.sh",
+    "tests/release/version_consistency_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh",
+    "tests/release/adopter_acceptance_resume_test.sh",
+    "tests/release/source_archive_policy_test.sh",
+    ".github/workflows/release.yml",
+    ".ai/decisions/observer-snapshot.json",
+    "docs/reference/commands.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.zh-CN.md"
+  ],
+  "sources": [
+    "User authorization: publish only after Outcome, four-direction convergence, and Issue #851 are corresponding.",
+    "Current synchronized main: dbe49d8a9e33ee8df83173d84798efabb9e0d68c"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-883-release-v0-2-94-current-main"
+}
