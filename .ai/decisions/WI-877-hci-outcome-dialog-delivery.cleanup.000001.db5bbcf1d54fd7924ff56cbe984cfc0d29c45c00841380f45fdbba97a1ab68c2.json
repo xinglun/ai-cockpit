@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:5288d5eeea72558b6ddb124bc95431b9fb590e0352d872db37eb005277f44779",
+  "branchRef": "refs/heads/codex/wi-877-hci-outcome-dialog-delivery",
+  "contractDigest": "sha256:5060ca245184c017397bd0eb26b0a9b9ce3d184184a69215ad4c24b521e32753",
+  "headRevision": "a311804c1cbd0c40258aa125b9010615b2f69847",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T19:15:27Z",
+  "operationId": "sha256:916d12e8d916a200eb60fb2d6ac97edefc604724f97d46177c1c28d9e7ea994c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-877-hci-outcome-dialog-delivery",
+  "worktreeId": "sha256:26b3b67f8cf929324a7648c366ea75dd286744042f0c1798e8c2a8482bc00a95"
+}
