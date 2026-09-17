@@ -50,6 +50,7 @@ class PairedPerformanceReportTests(unittest.TestCase):
         self.assertEqual(comparison["validWarmSampleCount"], {"baseline": 100, "candidate": 100})
         self.assertEqual(len(comparison["rawWarmSamplesMs"]["baseline"]), 100)
         self.assertEqual(comparison["p50P95Ms"]["candidate"]["p50Ms"], 48.0)
+        self.assertEqual(comparison["p50P95Ms"]["candidate"]["p99Ms"], 97.0)
         self.assertEqual(comparison["decision"], "improved")
 
     def test_missing_noise_budget_is_unknown_not_improvement(self):

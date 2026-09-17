@@ -39,6 +39,18 @@ baseline であり release evidence ではありません。公開前に immutab
 初回の uncached scan は別に測定し、受入れ目標は incremental cache-hit path に適用します。
 raw command output は release candidate の acceptance record と一緒に保持してください。
 
+## 現行 object repository capture（WI-889）
+
+WI-889 は `0.2.93` baseline と同じ `aarch64-apple-darwin`、Rust/Cargo
+`1.98.1` 上で、現行 `0.2.95` の paired capture を取得した。goods-garden、
+sentinel、ai-investigation-orchestrator は一時 view だけから観測した。七つの
+scenario で 38 operation comparison を行い、各 operation は 100 個の valid
+warm sample を持つ。5 ms noise budget の p50/p95 判定はすべて `within_noise`
+で、p99 も tail diagnostic として保持する。これは比較可能な現行 evidence
+を確立するが、速度改善の証明ではない。提供された object repository はすべて
+harness の `<=100` tracked-file 閾値を超えたため small-clean は unavailable
+である。完全な raw capture と counter は WI-889 evidence archive に保持する。
+
 ## 現在の paired capture（WI-876）
 
 現在の候補は同じ `aarch64-apple-darwin` machine、`rustc/cargo 1.98.1`、Runtime `0.2.93` で、外部 baseline binary と個別に build した candidate binary を paired 測定しました。小規模 clean、many-file clean（ORG-X）、大量 historical Work Item（ai-investigation-orchestrator）、single-file change、multi-file change、large-file change、evidence path change の七つの isolated fixture を使い、各 operation は 100 個の有効な warm sample を持ちます。raw sample、identity、counter、unavailable reason は `.ai/evidence/WI-876-performance-current-proof/paired-current-seven-scenarios.json` に保持します。

@@ -23,7 +23,7 @@ Runtime 版本/摘要可以不同，但 repository identity、repository snapsho
 
 Schema 2 的发布级采集与比较对预算使用的每个分位数（`p50`、`p95`、`p99`）都要求至少 100 个有效 warm 样本。
 更小样本仍可通过 `runtime_benchmark_stats.summarize` 用于诊断，但不能满足 P0 gate。
-配对比较器 `paired_performance_report.py` 按场景比较原始 warm 样本，输出 p50/p95 差值和明确的噪声预算；身份或预算不可用时返回 `unknown`，不会把缺失测量当成零或收益。
+配对比较器 `paired_performance_report.py` 按场景比较原始 warm 样本，输出 p50/p95/p99 差值和明确的噪声预算；身份或预算不可用时返回 `unknown`，不会把缺失测量当成零或收益。
 
 Verification scheduler 还支持每个命令的 resource weight 和显式 resource budget。
 weight 为零或超过预算时 fail-closed；依赖顺序、受保护节点和 receipt reuse 语义不变。

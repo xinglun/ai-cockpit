@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "At least 100 valid warm samples are required for every release-grade percentile; a 99-sample input is rejected and unavailable metrics are explicit.",
+    "Baseline and candidate use the same machine, toolchain, build mode, and selected object-repository facts; raw samples, p50/p95/p99, identities, counters, and invalidation reasons are retained.",
+    "The measured object set includes goods-garden, sentinel, and ai-investigation-orchestrator through temporary isolated views; their main branches and existing dirty state are not modified, and every temporary resource is cleaned exactly.",
+    "Runtime latency and development-cycle cost are separately reported; unavailable lifecycle stages remain unavailable rather than zero.",
+    "The three-language Work Item projection and reference-parity rows remain synchronized before archive.",
+    "Focused performance tests and documentation gates pass; this Work Item does not publish a release.",
+    "The benchmark manifest is imported as existing delegated external evidence; its self-reported assurance is not elevated to provider verification."
+  ],
+  "authority": "user:authorized-to-complete-all-wi-tasks",
+  "baseRevision": "592901b6d82e7ba8b87a83ed29a300c77fb1da93",
+  "createdAt": "2026-09-17T19:23:54Z",
+  "goal": "Measure current v0.2.95 Runtime behavior against the public v0.2.93 baseline on representative object repositories, report valid warm samples and explicit unknowns, and keep release publication as a later step.",
+  "intent": "Use three clean temporary worktree views of selected object repositories to produce current paired Runtime performance evidence without modifying their main branches.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime production behavior changes",
+    "object repository main branches and working trees",
+    "Outcome/HCI/architecture changes",
+    "Issue #851 recovery behavior",
+    "release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c5cabf496458206ed3d3efff0daf5b2a152e0d79c613c4403b0bc98b39cc27f3",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**",
+    "docs/performance/**",
+    "docs/work-items/WI-889-object-performance-current.*",
+    ".ai/evidence/WI-889-object-performance-current/**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/evidence/external/**"
+  ],
+  "sources": [
+    "BAML reference: https://github.com/boundaryml/baml",
+    "Object repositories: /Users/sei-rinn/dev/workspace_rust/goods-garden, /Users/sei-rinn/dev/workspace_rust/sentinel, /Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Local runtime benchmark capture manifest bound through the existing delegated evidence import."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "Re-run preflight after importing the identity-bound external benchmark manifest."
+  ],
+  "workItemId": "WI-889-object-performance-current"
+}

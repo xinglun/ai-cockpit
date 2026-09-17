@@ -60,3 +60,17 @@ Runtime does not expose them. Development-cycle cost is separate: the only
 currently observed stage is Contract→checkpoint at 63,000 ms (one sample); agent
 operation and preflight-rejection counts, verification→finish, and post-merge
 cleanup are explicitly unavailable for the active WI.
+
+## Current object-repository capture (WI-889)
+
+WI-889 replaces that historical candidate with a current `0.2.95` paired
+capture on the same `aarch64-apple-darwin` host and Rust/Cargo `1.98.1` as the
+`0.2.93` baseline. Goods-garden, sentinel, and
+ai-investigation-orchestrator were observed only through temporary views. Seven
+scenarios produced 38 operation comparisons, each with 100 valid warm samples;
+all p50/p95 budget decisions were `within_noise` under a 5 ms noise budget.
+p99 is also retained as a tail diagnostic. This establishes comparable current
+evidence, not a proven speed improvement. The small-clean object scenario was
+unavailable because every supplied object exceeded the harness's `<=100`
+tracked-file threshold. Complete raw captures and counters are retained in the
+WI-889 evidence archive.

@@ -1,0 +1,14 @@
+{
+  "kind": "wi-889-object-performance-capture",
+  "workItemId": "WI-889-object-performance-current",
+  "source": "local benchmark harness",
+  "baselineRuntime": "0.2.93",
+  "candidateRuntime": "0.2.95",
+  "environment": "aarch64-apple-darwin; rustc/cargo 1.98.1",
+  "scenarios": 7,
+  "comparisons": 38,
+  "validWarmSamplesPerOperation": 100,
+  "pairedReport": ".ai/evidence/WI-889-object-performance-current/paired-current-seven-scenarios-with-diagnostics.json",
+  "rawCaptureArchive": ".ai/evidence/WI-889-object-performance-current/raw/runtime-captures.tar.gz",
+  "rawCaptureArchiveSha256": "f7a71bbb10ff62d0d68ceb37c74c39a0f57c533c79caa1f2136ac07613af2176"
+}

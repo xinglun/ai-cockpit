@@ -33,7 +33,7 @@ warm samples for every percentile used by a budget (`p50`, `p95`, and `p99`).
 Fewer samples remain available through `runtime_benchmark_stats.summarize` as a
 diagnostic-only result, but cannot satisfy the P0 gate. The paired comparator
 `paired_performance_report.py` compares raw warm samples per scenario, emits
-p50/p95 deltas and the configured noise budget, and reports `unknown` when a
+p50/p95/p99 deltas and the configured noise budget, and reports `unknown` when a
 budget or identity binding is unavailable; it never treats missing data as
 zero or as an improvement.
 

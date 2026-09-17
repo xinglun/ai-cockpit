@@ -132,6 +132,7 @@ def _percentiles(values: list[float]) -> dict[str, float]:
     return {
         "p50Ms": _nearest_rank(values, 0.50),
         "p95Ms": _nearest_rank(values, 0.95),
+        "p99Ms": _nearest_rank(values, 0.99),
     }
 
 
@@ -203,13 +204,18 @@ def build_report(
                 key: round(after_quantiles[key] - before_quantiles[key], 3)
                 for key in before_quantiles
             }
+            # Keep the established comparison gate on the stable p50/p95
+            # budget metrics. p99 is retained as a required tail diagnostic;
+            # with 100 samples it is observable, but a single tail outlier
+            # must not silently change the historical gate semantics.
+            decision_delta = {key: delta[key] for key in ("p50Ms", "p95Ms")}
             if noise_budget_ms is None:
                 decision = "unknown"
                 reason = "noise_budget_unavailable"
-            elif all(value <= -noise_budget_ms for value in delta.values()):
+            elif all(value <= -noise_budget_ms for value in decision_delta.values()):
                 decision = "improved"
                 reason = "both_percentiles_clear_noise_budget"
-            elif any(value > noise_budget_ms for value in delta.values()):
+            elif any(value > noise_budget_ms for value in decision_delta.values()):
                 decision = "regressed"
                 reason = "percentile_exceeds_noise_budget"
             else:
@@ -226,6 +232,7 @@ def build_report(
                     "rawWarmSamplesMs": {"baseline": before, "candidate": after},
                     "p50P95Ms": {"baseline": before_quantiles, "candidate": after_quantiles},
                     "deltaMs": delta,
+                    "decisionPercentiles": ["p50Ms", "p95Ms"],
                     "decision": decision,
                     "reason": reason,
                 }

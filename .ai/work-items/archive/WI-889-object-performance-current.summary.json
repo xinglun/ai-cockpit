@@ -1,0 +1,116 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-889-object-performance-current.verification-attempt.fe3b05ca3c63550470fe5064a88f55103a5095309e66c5d1dc0df0dee107dcce.json",
+    ".ai/evidence/external/WI-889-object-performance-capture.json",
+    ".ai/evidence/external/WI-889-object-performance-current.16210426f253eef56dd5760151eb992fedeb7a41f5ba9e4d15fd5eb130180d81.delegated.json",
+    ".ai/work-items/archive/WI-889-object-performance-current.contract.json",
+    ".ai/work-items/archive/WI-889-object-performance-current.events.jsonl",
+    ".ai/work-items/archive/WI-889-object-performance-current.outcome.json",
+    ".ai/work-items/archive/WI-889-object-performance-current.summary.json",
+    ".ai/work-items/archive/WI-889-object-performance-current.task-report.json",
+    ".ai/work-items/archive/WI-889-object-performance-current.task-report.md"
+  ],
+  "checkpointAt": "2026-09-17T19:26:48Z",
+  "checkpointContractDigest": "sha256:60220d5e10333db3fc1cad8cff4a7f9d17c753d964f9a7a030d0e667bea168a4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:bc934271cd386c56f0d7a218fe78cc682a2a6b5fc74419d72bcc14b52f28fb2f",
+      "recorded": true,
+      "recordedAt": "2026-09-17T19:26:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-889-object-performance-current"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:60220d5e10333db3fc1cad8cff4a7f9d17c753d964f9a7a030d0e667bea168a4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bc934271cd386c56f0d7a218fe78cc682a2a6b5fc74419d72bcc14b52f28fb2f",
+      "previousContractHash": "sha256:bc934271cd386c56f0d7a218fe78cc682a2a6b5fc74419d72bcc14b52f28fb2f",
+      "reason": "Bind the existing benchmark manifest through the Runtime external-evidence store required by this Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T20:36:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-889-object-performance-current"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+  "createdAt": "2026-09-17T19:23:54Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T20:41:31Z",
+  "preflightContractDigest": "sha256:60220d5e10333db3fc1cad8cff4a7f9d17c753d964f9a7a030d0e667bea168a4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:a5e88e699b0975ce8d44d957b332de666fa12378319ffe21dbcfa87cb43639dd",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T20:41:38Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-889-object-performance-current"
+}
