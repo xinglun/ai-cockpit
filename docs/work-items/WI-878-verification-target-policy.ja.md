@@ -4,9 +4,12 @@ workItemId: WI-878-verification-target-policy
 title: 検証 target cache policy
 description: dependency の再利用を保ちながら Cargo 検証 cache の増加を制御する。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-878-verification-target-policy
+terminalArchive: .ai/work-items/archive/WI-878-verification-target-policy.contract.json
+terminalVerification: .ai/evidence/WI-878-verification-target-policy.verification.json
+terminalDecision: .ai/decisions/WI-878-verification-target-policy.close.json
 ---
 
 [English](WI-878-verification-target-policy.md) · [简体中文](WI-878-verification-target-policy.zh-CN.md)

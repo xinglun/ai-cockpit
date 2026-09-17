@@ -4,9 +4,12 @@ workItemId: WI-878-verification-target-policy
 title: 验证 target 缓存策略
 description: 在保留依赖复用的同时控制 Cargo 验证缓存增长。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-878-verification-target-policy
+terminalArchive: .ai/work-items/archive/WI-878-verification-target-policy.contract.json
+terminalVerification: .ai/evidence/WI-878-verification-target-policy.verification.json
+terminalDecision: .ai/decisions/WI-878-verification-target-policy.close.json
 ---
 
 [English](WI-878-verification-target-policy.md) · [日本語](WI-878-verification-target-policy.ja.md)
