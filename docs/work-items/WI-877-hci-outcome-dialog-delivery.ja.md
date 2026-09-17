@@ -4,9 +4,12 @@ workItemId: WI-877-hci-outcome-dialog-delivery
 title: Conversation-facing archived Outcome delivery
 description: 完全で identity-bound な assistant-message event を archive Outcome の各 segment に公開し、host capability の境界を正直に保持する。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-877-hci-outcome-dialog-delivery
+terminalArchive: .ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json
+terminalVerification: .ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json
+terminalDecision: .ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json
 ---
 
 # WI-877 — Conversation-facing archived Outcome delivery
