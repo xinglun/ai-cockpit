@@ -152,6 +152,7 @@ fi
 grep -q -- 'schemaVersion:2' "$script"
 grep -Fq -- 'allowedPrefixes' "$script"
 grep -Fq -- '<CARGO_HOME>/**' "$script"
+grep -Fq -- 'CARGO_TARGET_DIR="$isolated_cargo/target"' "$script"
 if grep -Fq -- "--scope '**'" "$script"; then
   printf 'generic N-1 lifecycle fixtures must not use a repository-wide scope\n' >&2
   exit 1

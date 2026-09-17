@@ -661,6 +661,7 @@ capture_runtime() {
     XDG_CONFIG_HOME="$isolated_xdg" \
     TMPDIR="$isolated_tmp" \
     CARGO_HOME="$isolated_cargo" \
+    CARGO_TARGET_DIR="$isolated_cargo/target" \
     RUSTUP_HOME="$rustup_home" \
     RUSTUP_TOOLCHAIN="$rustup_toolchain" \
     PATH="$PATH" \

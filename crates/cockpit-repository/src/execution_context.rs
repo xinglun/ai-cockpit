@@ -904,23 +904,31 @@ pub(super) fn effective_verification_environment(
         return environment;
     }
 
+    let explicit_target_dir = environment
+        .iter()
+        .find(|(name, value)| name == "CARGO_TARGET_DIR" && !value.is_empty())
+        .map(|(_, value)| value.clone());
     environment.retain(|(name, _)| name != "CARGO_INCREMENTAL" && name != "CARGO_TARGET_DIR");
     environment.push((
         std::ffi::OsString::from("CARGO_INCREMENTAL"),
         std::ffi::OsString::from("0"),
     ));
-    let home = environment
-        .iter()
-        .find(|(name, _)| name == "HOME")
-        .map(|(_, value)| PathBuf::from(value))
-        .or_else(|| std::env::var_os("HOME").map(PathBuf::from))
-        .or_else(|| std::env::var_os("USERPROFILE").map(PathBuf::from));
-    if let Some(home) = home {
-        environment.push((
-            std::ffi::OsString::from("CARGO_TARGET_DIR"),
-            home.join(".cache/ai-cockpit-verify-target")
-                .into_os_string(),
-        ));
+    if let Some(target_dir) = explicit_target_dir {
+        environment.push((std::ffi::OsString::from("CARGO_TARGET_DIR"), target_dir));
+    } else {
+        let home = environment
+            .iter()
+            .find(|(name, _)| name == "HOME")
+            .map(|(_, value)| PathBuf::from(value))
+            .or_else(|| std::env::var_os("HOME").map(PathBuf::from))
+            .or_else(|| std::env::var_os("USERPROFILE").map(PathBuf::from));
+        if let Some(home) = home {
+            environment.push((
+                std::ffi::OsString::from("CARGO_TARGET_DIR"),
+                home.join(".cache/ai-cockpit-verify-target")
+                    .into_os_string(),
+            ));
+        }
     }
     environment
 }

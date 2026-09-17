@@ -1,0 +1,24 @@
+{
+  "actor": "human:user",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-17T17:44:44Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.2812d02d7d1405e2b74b5ce1610b0414af5ba1cfeda59ad24f63af915ebe7b9a.json"
+  ],
+  "policyRefs": [
+    "docs/reference/verification-execution-policy.md"
+  ],
+  "predecessorContractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "predecessorSummaryDigest": "sha256:0dcd82713d7633a55e112c47e08fe04b98324883c59b8b143e391eb15bf3cdeb",
+  "predecessorWorkItemId": "WI-886-verification-isolation-v0-2-95",
+  "reason": "Retry verification with the corrected v0.2.95 Runtime after immutable v0.2.94 evidence was classified contradictory; preserve all prior attempts.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the declared verification with Runtime v0.2.95 and preserve its new receipt; do not overwrite prior evidence.",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

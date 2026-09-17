@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:1393c91afa3b383ff0ebf177b5698f6a6a3b7513cb811052601bd0f2de1dc6bb",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "environment_identity_tests",
+        "--lib"
+      ],
+      "baseCommit": "c3e0dae6f9e23ff3c47a188abe022e11dde10990",
+      "commandDigest": "sha256:40434c6d9c9cad0da251b94bd3dbe884fedd8665dcb498886826f0412915a0bf",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d42fb7d7ff44d6faff8705a97a40c449083a14297e5883506cf75334390e55a9",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "contractExecutionScopeDigest": "sha256:67e8ce447caa43cd526f13fbe709faa30afb221e726bb13562a77160c8da2ff4",
+  "createdAt": "2026-09-17T17:38:01Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-886-verification-isolation-v0-2-95/.ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5210bdb3bc5dd9babc5919762ccb93102c3664b5e002ab2440bb156fccca3086",
+  "runtimeDigest": "sha256:d42fb7d7ff44d6faff8705a97a40c449083a14297e5883506cf75334390e55a9",
+  "runtimeVersion": "0.2.94",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

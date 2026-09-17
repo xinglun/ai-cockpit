@@ -5,7 +5,7 @@ description: 让 Cargo 验证缓存可复用且占用可控。
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-879-verification-target-policy
+lastVerifiedBy: WI-886-verification-isolation-v0-2-95
 ---
 
 # 验证执行缓存策略
@@ -13,8 +13,8 @@ lastVerifiedBy: WI-879-verification-target-policy
 Runtime 启动 Cargo 验证命令前，会先解析执行环境：
 
 - `CARGO_INCREMENTAL=0`，关闭对有界验证收益很低的增量产物；
-- `CARGO_TARGET_DIR` 使用 `$HOME/.cache/ai-cockpit-verify-target`（或平台等价的用户目录），
-  让不同 Work Item 复用已编译依赖，而不是每个 checkout 建立一套 `target`；
+- 如果调用者提供显式的 `CARGO_TARGET_DIR`，Runtime 会保留它（发布/适配器验收把目标目录放在隔离的 `CARGO_HOME` 下）；否则回退到
+  `$HOME/.cache/ai-cockpit-verify-target`（或平台等价的用户目录），让不同 Work Item 复用已编译依赖，而不是每个 checkout 建立一套 `target`；
 - 非 Cargo 命令保持其声明的环境不变。
 
 这项策略属于 Runtime 执行边界，不是 shell 约定。有效环境会进入验证观察身份，

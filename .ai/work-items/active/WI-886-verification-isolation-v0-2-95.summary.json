@@ -1,0 +1,135 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.5e26ade6fea259e63e483cb18229cbad561b4d7dc840f946ce38746f9591ac6d.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6ec47ad42971fb64540622a755200187bf6ade760950c706c76385092f1f111c.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.72a18ec0cc9285b3d1b8170e7987716247364a92b3d71b88119197d5cbb9d640.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.afbfd0839023a46045be2244256052390b3e62f0415f4a1dd12812647124c7ab.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.json",
+    ".ai/decisions/WI-886-verification-isolation-v0-2-95.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.1393c91afa3b383ff0ebf177b5698f6a6a3b7513cb811052601bd0f2de1dc6bb.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.2812d02d7d1405e2b74b5ce1610b0414af5ba1cfeda59ad24f63af915ebe7b9a.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.490bf20ae0ddc943f5122afe0bf66138196eb974e4a3bd45512c935d0210ffd2.json",
+    ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json",
+    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/cockpit-repository/src/execution_context.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/verification-execution-policy.ja.md",
+    "docs/reference/verification-execution-policy.md",
+    "docs/reference/verification-execution-policy.zh-CN.md",
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.ja.md",
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.md",
+    "docs/work-items/WI-886-verification-isolation-v0-2-95.zh-CN.md",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_acceptance_test.sh",
+    "tests/release/adopter_upgrade_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance_test.sh"
+  ],
+  "checkpointAt": "2026-09-17T17:28:07Z",
+  "checkpointContractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8c36937460eaf5f71dde0ab865231c8443ccaa414353a70be542a55265c7a8fe",
+      "recorded": true,
+      "recordedAt": "2026-09-17T17:28:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ba194e0681498e041e747be95142a64e4da302af442fd3ae8cd0491f33fe5cca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8c36937460eaf5f71dde0ab865231c8443ccaa414353a70be542a55265c7a8fe",
+      "previousContractHash": "sha256:8c36937460eaf5f71dde0ab865231c8443ccaa414353a70be542a55265c7a8fe",
+      "reason": "Bind the observed release isolation failure and the focused regression route to the Contract before fresh preflight.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T17:36:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5210bdb3bc5dd9babc5919762ccb93102c3664b5e002ab2440bb156fccca3086",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c41d1992fd9105be649269865512d2e3d6bb68651484703ebde99c20b34e96d0",
+  "createdAt": "2026-09-17T17:26:05Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the current bounded verification-isolation Contract after the pre-release scenario was explicitly classified as a post-merge release stage.",
+    "recordedAt": "2026-09-17T17:54:00Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c41d1992fd9105be649269865512d2e3d6bb68651484703ebde99c20b34e96d0",
+    "schemaVersion": 1,
+    "workItemId": "WI-886-verification-isolation-v0-2-95"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json",
+      "docs/reference/verification-execution-policy.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-17T17:53:20Z",
+  "preflightContractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c41d1992fd9105be649269865512d2e3d6bb68651484703ebde99c20b34e96d0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "candidate and downloaded release artifacts leave HOME and XDG unchanged and clean their isolated target and cargo roots",
+      "reason": "Candidate and downloaded-artifact acceptance is a post-merge release stage; the static harness and isolation policy are covered by the declared verification, while no public artifact exists before the reviewed merge.",
+      "required": true,
+      "scenario": "release adopter acceptance with isolated HOME, XDG_CONFIG_HOME, CARGO_HOME, and explicit CARGO_TARGET_DIR",
+      "status": "not_applicable",
+      "verificationPlan": "run staged adopter acceptance and upgrade acceptance on the candidate and downloaded immutable artifact, retain isolation receipts"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json",
+        "crates/cockpit-repository/src/execution_context.rs",
+        "crates/cockpit-repository/src/lib.rs"
+      ],
+      "expected": "Runtime uses the documented HOME cache fallback while keeping CARGO_INCREMENTAL=0",
+      "required": true,
+      "scenario": "default verification environment without caller-supplied CARGO_TARGET_DIR",
+      "status": "verified",
+      "verificationPlan": "run focused execution_context unit tests covering explicit and fallback target selection"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-17T17:53:47Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}
