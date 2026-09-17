@@ -23,6 +23,14 @@
     "verification_receipt",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-886-verification-isolation-v0-2-95",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/864",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-886-verification-isolation-v0-2-95"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

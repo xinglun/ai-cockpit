@@ -14,36 +14,11 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.5e26ade6fea259e63e483cb18229cbad561b4d7dc840f946ce38746f9591ac6d.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6ec47ad42971fb64540622a755200187bf6ade760950c706c76385092f1f111c.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.72a18ec0cc9285b3d1b8170e7987716247364a92b3d71b88119197d5cbb9d640.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.afbfd0839023a46045be2244256052390b3e62f0415f4a1dd12812647124c7ab.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.json
-- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.recovery.json
+- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.532823d144e915fabfdf5806db25df6717ae06272853cf97f3a9fdcd9e3c4d38.json
+- Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.recovery.16a97434cfb152bfa7680ba0c298e98ef08ba1008f5ecc7a3aea41557fbd770c.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.1393c91afa3b383ff0ebf177b5698f6a6a3b7513cb811052601bd0f2de1dc6bb.json
-- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.2812d02d7d1405e2b74b5ce1610b0414af5ba1cfeda59ad24f63af915ebe7b9a.json
-- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.490bf20ae0ddc943f5122afe0bf66138196eb974e4a3bd45512c935d0210ffd2.json
-- Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json
 - Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json
 - Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json
-- Changed path: Cargo.lock
-- Changed path: Cargo.toml
-- Changed path: crates/cockpit-repository/src/execution_context.rs
-- Changed path: crates/cockpit-repository/src/lib.rs
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
-- Changed path: docs/reference/verification-execution-policy.ja.md
-- Changed path: docs/reference/verification-execution-policy.md
-- Changed path: docs/reference/verification-execution-policy.zh-CN.md
-- Changed path: docs/work-items/WI-886-verification-isolation-v0-2-95.ja.md
-- Changed path: docs/work-items/WI-886-verification-isolation-v0-2-95.md
-- Changed path: docs/work-items/WI-886-verification-isolation-v0-2-95.zh-CN.md
-- Changed path: tests/release/adopter_acceptance.sh
-- Changed path: tests/release/adopter_acceptance_test.sh
-- Changed path: tests/release/adopter_upgrade_acceptance.sh
-- Changed path: tests/release/adopter_upgrade_acceptance_test.sh
 
 ## Findings
 

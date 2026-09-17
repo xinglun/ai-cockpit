@@ -1,0 +1,27 @@
+{
+  "actor": "human:user",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-17T18:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.outcome.json",
+    ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "predecessorEventsDigest": "sha256:f6354e650a1adfdd9466385ab4cd88c46704e5f62840cb42349497947ecc3a09",
+  "predecessorOutcomeDigest": "sha256:492996a366c16d7fc814dfac306779cea8a1806ea3d2212fbd9587af7496dcdc",
+  "predecessorSummaryDigest": "sha256:66eabdf2daedaad2ec787c8d57e19c79b0eaeff9b9ec90c44317271d71bb17de",
+  "predecessorWorkItemId": "WI-886-verification-isolation-v0-2-95",
+  "reason": "Recover the finish_ready projection because provider finalization context must be bound before the verification cycle; preserve the finished evidence and rerun only the bounded lifecycle cycle.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed GitHub PR finalization context, rerun the declared current-Runtime verification, and finish again before archive.",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}
