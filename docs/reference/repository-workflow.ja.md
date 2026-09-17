@@ -103,6 +103,14 @@ Recovery は append-only で identity-bound です。snapshot の変更、stale 
 
 新しい Runtime が作成する successor には、正確な predecessor Work Item、Contract digest、recovery path、repository binding が必要です。これらの Contract field が存在する前に作成された historical successor については、recovery receipt 自体が predecessor と successor を bind し、successor に検証済み archive、strict verification evidence、confirmed close decision が揃っている場合にだけ狭い互換経路を許可します。新しい append-only recovery receipt には `successorBindingMode: legacy_terminal_evidence` を記録します。欠落、foreign、stale、malformed、symlink、または不完全な evidence は `recovery_decision_invalid` のまま拒否され、transition を認可しません。この互換 projection は未完了 successor を green にせず、predecessor bytes も書き換えません。
 
+entry gate の recovery 例外は一つだけです。active successor の Contract が predecessor を
+明示していても、Runtime が repository-bound で唯一の recovery receipt を検証できた場合に
+限ります。その receipt は predecessor との関係を認可できます。別の manifest 検証済み
+historical scope は、決定的な filename suffix の証明で candidate scope と disjoint だと
+示せる場合だけ skip できます。通常の Work Item は scope relation が unknown なら従来通り
+fail closed です。missing、malformed、foreign、stale、symlink、digest mismatch の evidence
+はこの例外を取得できません。
+
 1 つの predecessor に選択済み successor lineage は 1 つだけです。有効な
 `successor` receipt が存在する状態で別の Work Item を指す `successor` decision
 を追加すると、Runtime は安定した境界

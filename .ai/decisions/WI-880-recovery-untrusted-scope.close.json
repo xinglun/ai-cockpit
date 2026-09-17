@@ -1,0 +1,239 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4ab5b4eed724a11ad973c2503640e4845ea2b90b84e6874ae8b4ae577fa095fb",
+      "workItemId": "WI-880-recovery-untrusted-scope"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.c872351b9a08894d829aabb02f7e1e01774ba5501c73882e8363680729a18f5b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.d487a87bd97432fa084d5b3724c93da4910a7c2c8ca97fe7b816fd68ac7dc5dd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-880-recovery-untrusted-scope.verification-attempt.dcecb999c4a20449e8cf26562bee17df1e0b3aa134c3a01c8022a91a652efb3b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-880-recovery-untrusted-scope.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/status_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/capabilities.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/repository-workflow.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-17-WI-880-recovery-untrusted-scope.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via user_request at 2026-09-17T15:06:27Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.contract.json"
+          ],
+          "inference": false,
+          "text": "Make a repository-bound, predecessor-bound recovery continuation able to complete preflight through close when unrelated archived scope evidence is untrusted, without weakening ordinary Work Item conflict checks or historical evidence integrity."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-880-recovery-untrusted-scope.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-880-recovery-untrusted-scope"
+  },
+  "finalReportDigest": "sha256:2fbc7ce38e5be3d841b0840fb1f597e81d349be96f397a279df6e12715df6c3e",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:32a9e39be23fa42077e23a189985a12d56bb7de2e4342adcd45f6be2c93ec42a",
+    "branch": "codex/wi-880-recovery-untrusted-scope",
+    "branchRef": "refs/heads/codex/wi-880-recovery-untrusted-scope",
+    "capturedAt": "2026-09-17T15:06:34Z",
+    "contractDigest": "sha256:081adadb361893be5ef92f616396521983364697e56d46d1f91592bc1cea6db6",
+    "headRevision": "02f1422132055259e779f446ab6755426c2f3d13",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-880-recovery-untrusted-scope",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-880-recovery-untrusted-scope",
+    "worktreeId": "sha256:be4f2ed1562ee99c0badd83b05d3b52f4e48421efc537a089ed703d1378d3c0c",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-880-recovery-untrusted-scope"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:505936276df3022459b4030dd5b1079ca9f2a26e51d9c6771dc524f25a25de52",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user_request",
+    "decidedAt": "2026-09-17T15:06:27Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-880-recovery-untrusted-scope.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User explicitly authorized completing the governed Work Item lifecycle; verification passed and no provider finalization is in scope.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-17T15:06:34Z",
+  "workItemId": "WI-880-recovery-untrusted-scope"
+}

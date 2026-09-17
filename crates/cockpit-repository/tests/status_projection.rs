@@ -63,6 +63,35 @@ fn runtime() -> RuntimeContext {
     }
 }
 
+fn write_unclosed_archive(root: &std::path::Path, id: &str, scope: &[&str]) {
+    let archive = root.join(".ai/work-items/archive");
+    fs::create_dir_all(&archive).expect("archive directory");
+    let contract_path = archive.join(format!("{id}.contract.json"));
+    let contract_bytes = serde_json::to_vec_pretty(&json!({
+        "schemaVersion": 2,
+        "protocolVersion": 1,
+        "repositoryId": repository_id(root).to_string(),
+        "workItemId": id,
+        "scope": scope,
+    }))
+    .expect("archive contract JSON");
+    fs::write(&contract_path, &contract_bytes).expect("archive contract");
+    let manifest = json!({
+        "schemaVersion": 1,
+        "workItemId": id,
+        "state": "archived",
+        "closeRequired": true,
+        "files": {
+            "contractDigest": Digest::sha256_bytes(&contract_bytes).to_string(),
+        },
+    });
+    fs::write(
+        archive.join(format!("{id}.archive.json")),
+        serde_json::to_vec_pretty(&manifest).expect("archive manifest JSON"),
+    )
+    .expect("archive marker");
+}
+
 fn git(directory: &std::path::Path, args: &[&str]) -> String {
     let output = Command::new("git")
         .args(args)
@@ -734,6 +763,14 @@ fn record_deleted_finalization(directory: &tempfile::TempDir, work_item_id: &str
 fn historical_recovery_fixture(
     complete_successor: bool,
 ) -> (tempfile::TempDir, String, String, Vec<u8>) {
+    historical_recovery_fixture_with_options(complete_successor, None, &["src/**"])
+}
+
+fn historical_recovery_fixture_with_options(
+    complete_successor: bool,
+    extra_unclosed_scope: Option<&[&str]>,
+    successor_scope: &[&str],
+) -> (tempfile::TempDir, String, String, Vec<u8>) {
     let directory = repository();
     let predecessor = "WI-STATUS-HISTORICAL-RECOVERY";
     let successor = "WI-STATUS-HISTORICAL-SUCCESSOR";
@@ -842,12 +879,18 @@ fn historical_recovery_fixture(
     });
     record_recovery_decision(directory.path(), predecessor, &recovery, &current_runtime)
         .expect("record successor recovery");
+    if let Some(scope) = extra_unclosed_scope {
+        write_unclosed_archive(directory.path(), "WI-STATUS-UNRELATED-UNKNOWN", scope);
+    }
     start_work_item_with_options(
         directory.path(),
         successor,
         "continue the recovered work",
         "complete an independently bound terminal successor",
-        &["src/**".into()],
+        &successor_scope
+            .iter()
+            .map(|scope| (*scope).into())
+            .collect::<Vec<_>>(),
         &WorkItemStartOptions {
             authority: "authorized".into(),
             acceptance_criteria: vec!["successor evidence is independently verified".into()],
@@ -1516,6 +1559,77 @@ fn only_the_explicitly_named_recovery_successor_may_overlap_archived_scope() {
             blocker == &format!("archived_work_item_scope_conflict:{predecessor}")
         })
     );
+}
+
+#[test]
+fn recovery_successor_can_skip_a_proven_disjoint_unknown_historical_scope() {
+    let (directory, _predecessor, successor, _) =
+        historical_recovery_fixture_with_options(false, Some(&["**/*.md"]), &["src/**/*.rs"]);
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let decision = preflight_work_item(directory.path(), &successor_contract)
+        .expect("a valid recovery edge should authorize the narrow disjointness exception");
+    assert_ne!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "{decision:#?}"
+    );
+    assert!(!decision.blockers.iter().any(|blocker| {
+        blocker == "archived_work_item_scope_untrusted:WI-STATUS-UNRELATED-UNKNOWN"
+    }));
+}
+
+#[test]
+fn ordinary_work_item_keeps_unknown_historical_scope_blocking() {
+    let directory = repository();
+    write_unclosed_archive(directory.path(), "WI-STATUS-UNKNOWN-HISTORY", &["**/*.md"]);
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-STATUS-ORDINARY-UNKNOWN",
+        "preserve ordinary scope gate",
+        "an unrelated ordinary Work Item must not use the recovery exception",
+        &["src/**/*.rs".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["unknown historical scope remains blocking".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect_err("ordinary Work Items must remain fail-closed for unknown scope relations");
+    assert!(
+        error
+            .to_string()
+            .contains("archived_work_item_scope_untrusted:WI-STATUS-UNKNOWN-HISTORY")
+    );
+}
+
+#[test]
+fn mismatched_recovery_edge_cannot_skip_unknown_historical_scope() {
+    let (directory, _predecessor, successor, _) =
+        historical_recovery_fixture_with_options(false, Some(&["**/*.md"]), &["src/**/*.rs"]);
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let mut contract: Value =
+        serde_json::from_slice(&fs::read(&successor_contract).expect("successor contract"))
+            .expect("successor contract JSON");
+    contract["predecessorWorkItemId"] = json!("WI-STATUS-MISMATCHED-PREDECESSOR");
+    fs::write(
+        &successor_contract,
+        serde_json::to_vec_pretty(&contract).expect("mismatched contract JSON"),
+    )
+    .expect("write mismatched recovery edge");
+    let decision = preflight_work_item(directory.path(), &successor_contract)
+        .expect("preflight should report the mismatch as a decision");
+    assert_eq!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "{decision:#?}"
+    );
+    assert!(decision.blockers.iter().any(|blocker| {
+        blocker == "archived_work_item_scope_untrusted:WI-STATUS-UNRELATED-UNKNOWN"
+    }));
 }
 
 #[test]

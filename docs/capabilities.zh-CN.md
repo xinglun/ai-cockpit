@@ -188,6 +188,11 @@ ai-cockpit work-item new --repo /path/to/repository \
 
 两个命令在创建普通的下一个 Work Item 前，都会执行 repository-scoped 入口门禁。Contract 之前已经存在的非 `.ai` 变更、detached HEAD、当前 HEAD 与本地发现的远端默认 revision 不一致，或任何没有有效 close decision 的 archived Work Item，都会 fail closed；门禁不会改写 archived records。由 identity-bound recovery decision 创建的 successor 是 predecessor 的续接，不是绕过门禁的独立 Work Item。
 
+只有该 continuation 可以使用窄化例外：recovery receipt 必须唯一并绑定本仓库，且确定性的
+文件名后缀证明某个历史 scope 与候选 scope 不相交，Runtime 才能接受原本 unknown 的历史关系。
+普通 Work Item 的 unknown scope 关系仍然阻塞；malformed、foreign、stale、symlink 或 digest
+不匹配的 evidence 永远不具备该资格。
+
 顶层 `status` 在 `readiness` 下输出相同的只读准备度投影。只有命名分支干净且 HEAD 与发现的默认 revision 一致、没有 active Work Item、也没有等待关闭的 archived Work Item 时，`readyOnBase` 才能为 `true`。远端元数据缺失或含糊时为 `state: unknown`，绝不输出 green；`blocked` 和 `unclosedArchivedWorkItems` 会指出准确的修复边界。
 
 骨架创建会按 repository 和 Work Item ID 使用 repository-local 的独占 reservation 串行化。
