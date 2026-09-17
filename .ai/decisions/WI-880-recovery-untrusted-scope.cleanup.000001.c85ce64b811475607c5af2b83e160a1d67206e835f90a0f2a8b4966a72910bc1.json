@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:505936276df3022459b4030dd5b1079ca9f2a26e51d9c6771dc524f25a25de52",
+  "branchRef": "refs/heads/codex/wi-880-recovery-untrusted-scope",
+  "contractDigest": "sha256:081adadb361893be5ef92f616396521983364697e56d46d1f91592bc1cea6db6",
+  "headRevision": "02f1422132055259e779f446ab6755426c2f3d13",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-17T15:16:29Z",
+  "operationId": "sha256:fec98b7868d689830e4df3afd2b9527eb06f36eff19c4d54da00f2768bcdeef3",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-880-recovery-untrusted-scope",
+  "worktreeId": "sha256:be4f2ed1562ee99c0badd83b05d3b52f4e48421efc537a089ed703d1378d3c0c"
+}
