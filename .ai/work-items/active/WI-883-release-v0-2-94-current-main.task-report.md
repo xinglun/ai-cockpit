@@ -14,17 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.80a2cd6e32b1a5c431d15514d684363dd24d54db302dc55d0f4e96593f563b0c.json
-- Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.json
+- Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.5bd18a5577a90029aaae8b5bc0d22009f5fcdfdaf59e847da232de50d92688b5.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.fef27a9a0dd55aedcbb532fa1b2ee91ca00e9d5f394f19ed1cf4b53d573264f5.json
-- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification.json
-- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json
-- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.events.jsonl
-- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.outcome.json
+- Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.136c43db8907dec7dab491457c2cd0cda17217e00ea996483acaa7d45b3b51fa.json
 - Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json
-- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.json
-- Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.md
 
 ## Findings
 

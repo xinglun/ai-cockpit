@@ -4,7 +4,7 @@
       ".ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:86fa5a94635650cd26f09aedb29e81486cc30c6fbf5750b465c552f21f53fa89",
+    "repositorySnapshotDigest": "sha256:d64b047f809b2ef0468dd34dec9c51f9678434e354f5e135610c12698a7ac74d",
     "workItemId": "WI-883-release-v0-2-94-current-main"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,14 +18,7 @@
           ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.80a2cd6e32b1a5c431d15514d684363dd24d54db302dc55d0f4e96593f563b0c.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.json"
+        "text": "Changed path: .ai/decisions/WI-883-release-v0-2-94-current-main.recovery.5bd18a5577a90029aaae8b5bc0d22009f5fcdfdaf59e847da232de50d92688b5.json"
       },
       {
         "evidenceRefs": [
@@ -39,35 +32,7 @@
           ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.fef27a9a0dd55aedcbb532fa1b2ee91ca00e9d5f394f19ed1cf4b53d573264f5.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.contract.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.events.jsonl"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.outcome.json"
+        "text": "Changed path: .ai/evidence/WI-883-release-v0-2-94-current-main.verification-attempt.136c43db8907dec7dab491457c2cd0cda17217e00ea996483acaa7d45b3b51fa.json"
       },
       {
         "evidenceRefs": [
@@ -75,20 +40,6 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-883-release-v0-2-94-current-main.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-883-release-v0-2-94-current-main.task-report.md"
       }
     ],
     "evidence": [
