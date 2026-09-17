@@ -4,11 +4,14 @@
     "未显式提供 CARGO_TARGET_DIR 时保留默认缓存策略且 CARGO_INCREMENTAL=0；有单测覆盖显式和默认两条路径",
     "候选版本和下载的不可变发布工件均通过生命周期、资源清理、隔离和升级验收；失败不重跑归档",
     "新版本发布后仅在精确标签、Release、manifest、checksums 和安装升级验收均有证据时完成 WI 关闭",
-    "三语 reference parity、comparison metadata 与 release distribution 文档准确绑定当前 0.2.95 Runtime 候选，不提前宣称公开 Release"
+    "三语 reference parity、comparison metadata 与 release distribution 文档准确绑定当前 0.2.95 Runtime 候选，不提前宣称公开 Release",
+    "候选版本升级后，三语 command generated interface facts、reference file comparison identity 与 release distribution 当前候选标识保持一致，且保留历史 v0.2.94 发布说明",
+    "三语 release distribution architecture 文档标识当前 v0.2.95 候选并保留 v0.2.94 历史基线，不提前宣称公开 Release",
+    "三语 versioning 文档的当前候选 package identity 为 0.2.95，并保留 v0.2.94 历史身份"
   ],
-  "createdAt": "2026-09-17T18:14:40Z",
+  "createdAt": "2026-09-17T18:35:21Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:4bf957016df4c43ddafba5e28ac0fe5355c971c23c67e03531ab4bee708071cd",
+  "evidenceDigest": "sha256:d472a3e36e7687c3cf1cc87c325d4b9fc85720a42eb24526717f02610e2d18ba",
   "evidenceRefs": [
     ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
   ],
@@ -34,7 +37,7 @@
         ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+      "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
       "workItemId": "WI-886-verification-isolation-v0-2-95"
     },
     "format": "ai-cockpit.task-outcome",
@@ -48,7 +51,7 @@
             ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6223dfb1935ea68cc0c4fac5920b0073112bdacdc12fa347c97f98f1a938211d.json"
+          "text": "Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.38c232d6d2c1b8246d7be938b51906ae17a69a788968083746e89fc14012a039.json"
         },
         {
           "evidenceRefs": [
@@ -62,14 +65,7 @@
             ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.3c3319461d6ff6e0658478e1e36291aaf95e34179ceea4ff99b04a767f959ba0.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.eacf8e5a6f15a347075807c8f050ce37ce7d32e75e0d93c02b78dccad019d527.json"
+          "text": "Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json"
         },
         {
           "evidenceRefs": [
@@ -77,6 +73,132 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
         }
       ],
       "evidence": [
@@ -151,8 +273,8 @@
     "status": "verified",
     "workItemId": "WI-886-verification-isolation-v0-2-95"
   },
-  "taskReportDigest": "sha256:e0063c8db59ea87db3f783d6a2015cc427042e83a2b04b298f12923f300a597a",
-  "taskReportMarkdownDigest": "sha256:2f72baf71b83b92ac5e566dd720836893308324ae1d9185eafc3f07224737ea6",
+  "taskReportDigest": "sha256:4af907e88554eff859615d8ed08e616aa9ad86ca7c5fcdf8c983399f89311d81",
+  "taskReportMarkdownDigest": "sha256:ad9b3832fdb924c684d4fae25f484da963efc67924992af1e14fd417e3591b10",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

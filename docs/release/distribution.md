@@ -28,9 +28,11 @@ The current release artifact naming is `ai-cockpit-v0.2.95-<target>.tar.gz` or
 the corresponding Windows archive. This becomes the installation baseline only
 after the public Release and post-release acceptance are complete.
 
-The public, identity-bound `v0.2.94` Release is the current installation baseline
-after publication; before the provider Release exists, use the preceding public
-`v0.2.93` archive. The `v0.2.84` tag is retained as immutable failed-publication
+The current installation baseline target is the `v0.2.95` candidate; it becomes
+public only after Release and post-release acceptance. Until then, the public,
+identity-bound `v0.2.94` Release remains the installed baseline; before its
+provider Release exists, use the preceding public `v0.2.93` archive. The
+`v0.2.84` tag is retained as immutable failed-publication
 history because source quality failed before a provider Release was created; it
 is never reused or treated as an installation baseline. The `v0.2.77` tag is retained as immutable failed-publication
 history with no provider Release and is never an installation baseline. The reserved `v0.2.51` tag is an immutable failed publication

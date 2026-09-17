@@ -4,7 +4,7 @@
       ".ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+    "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
     "workItemId": "WI-886-verification-isolation-v0-2-95"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,7 +18,7 @@
           ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.6223dfb1935ea68cc0c4fac5920b0073112bdacdc12fa347c97f98f1a938211d.json"
+        "text": "Changed path: .ai/decisions/WI-886-verification-isolation-v0-2-95.preflight-review.38c232d6d2c1b8246d7be938b51906ae17a69a788968083746e89fc14012a039.json"
       },
       {
         "evidenceRefs": [
@@ -32,14 +32,7 @@
           ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.3c3319461d6ff6e0658478e1e36291aaf95e34179ceea4ff99b04a767f959ba0.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-886-verification-isolation-v0-2-95.verification-attempt.eacf8e5a6f15a347075807c8f050ce37ce7d32e75e0d93c02b78dccad019d527.json"
+        "text": "Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.contract.json"
       },
       {
         "evidenceRefs": [
@@ -47,6 +40,132 @@
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/commands.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-886-verification-isolation-v0-2-95.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/release/distribution.zh-CN.md"
       }
     ],
     "evidence": [
