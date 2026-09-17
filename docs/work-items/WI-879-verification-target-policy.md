@@ -4,9 +4,12 @@ workItemId: WI-879-verification-target-policy
 title: Verification target cache policy replacement
 description: Carry the shared non-incremental Cargo verification target policy into a reviewed successor while repairing the archived WI-878 quality failure.
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-879-verification-target-policy
+terminalArchive: .ai/work-items/archive/WI-879-verification-target-policy.contract.json
+terminalVerification: .ai/evidence/WI-879-verification-target-policy.verification.json
+terminalDecision: .ai/decisions/WI-879-verification-target-policy.close.json
 ---
 
 [简体中文](WI-879-verification-target-policy.zh-CN.md) · [日本語](WI-879-verification-target-policy.ja.md)

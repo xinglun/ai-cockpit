@@ -4,9 +4,12 @@ workItemId: WI-879-verification-target-policy
 title: 検証ターゲットキャッシュ方針の置換修正
 description: 共有の非 incremental Cargo 検証ターゲット方針を新しいレビュー対象ブランチへ引き継ぎ、WI-878 アーカイブ後に見つかった quality gate 回帰を修正する。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-879-verification-target-policy
+terminalArchive: .ai/work-items/archive/WI-879-verification-target-policy.contract.json
+terminalVerification: .ai/evidence/WI-879-verification-target-policy.verification.json
+terminalDecision: .ai/decisions/WI-879-verification-target-policy.close.json
 ---
 
 [English](WI-879-verification-target-policy.md) · [简体中文](WI-879-verification-target-policy.zh-CN.md)
