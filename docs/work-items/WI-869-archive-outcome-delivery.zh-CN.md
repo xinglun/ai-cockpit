@@ -4,9 +4,12 @@ workItemId: WI-869-archive-outcome-delivery
 title: 归档后的完整 Outcome 对话交付
 description: 为每个受支持的 Work Item 归档返回并交付完整人类 Outcome，同时不夸大宿主能力。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-869-archive-outcome-delivery
+terminalArchive: .ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json
+terminalVerification: .ai/evidence/WI-869-archive-outcome-delivery.verification.json
+terminalDecision: .ai/decisions/WI-869-archive-outcome-delivery.close.json
 ---
 
 # WI-869 — 归档后的完整 Outcome 对话交付

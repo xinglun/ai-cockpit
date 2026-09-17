@@ -4,9 +4,12 @@ workItemId: WI-869-archive-outcome-delivery
 title: アーカイブ後の完全な Outcome の対話配信
 description: 対応する各 Work Item の archive が完全な human Outcome を返し、ホスト能力を過大に表現せず配信できるようにする。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-869-archive-outcome-delivery
+terminalArchive: .ai/work-items/archive/WI-869-archive-outcome-delivery.contract.json
+terminalVerification: .ai/evidence/WI-869-archive-outcome-delivery.verification.json
+terminalDecision: .ai/decisions/WI-869-archive-outcome-delivery.close.json
 ---
 
 # WI-869 — アーカイブ後の完全な Outcome の対話配信
