@@ -13,7 +13,7 @@ use std::path::{Path, PathBuf};
 use super::observation_ledger::{CandidateMatcher, ObservationLedger};
 use crate::{
     ObservationPhase, ObserverError, RepositoryExecutionContext,
-    close_decision_is_valid_for_status, repository_id,
+    close_decision_is_valid_for_status, read_json, repository_id,
 };
 
 const MAX_OUTCOME_ASSEMBLY_ATTEMPTS: usize = 2;
@@ -46,6 +46,10 @@ pub type FinalizationProjection = OutcomeFinalizationProjection;
 #[derive(Clone, Debug)]
 pub struct OutcomeRenderInput {
     pub outcome: OutcomeV2,
+    /// The legacy lifecycle projection, when present, read inside the same
+    /// guarded observation as `outcome`.  CLI/MCP may expose this additive
+    /// compatibility shape without performing an unguarded second read.
+    pub legacy_outcome: Option<Value>,
     pub human_decision: HumanDecisionProjection,
     pub archived_unclosed: bool,
     pub lifecycle_status: String,
@@ -88,6 +92,7 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
     let human_decision = load_human_decision(root, &outcome.work_item_id);
     let lifecycle_status = lifecycle_status(root, &outcome, historical, superseded);
     OutcomeRenderInput {
+        legacy_outcome: load_legacy_outcome_projection(root, &outcome.work_item_id),
         finalization: finalization_projection_from_outcome(root, &outcome),
         reason_keys: governance_reason_keys_from_outcome(&outcome),
         outcome,
@@ -96,6 +101,22 @@ fn build_outcome_render_input(root: &Path, outcome: OutcomeV2) -> OutcomeRenderI
         lifecycle_status,
         assembly: None,
     }
+}
+
+fn load_legacy_outcome_projection(root: &Path, work_item_id: &str) -> Option<Value> {
+    for directory in ["active", "archive"] {
+        let path = root
+            .join(".ai/work-items")
+            .join(directory)
+            .join(format!("{work_item_id}.outcome.json"));
+        let Ok(value) = read_json(&path) else {
+            continue;
+        };
+        if value.get("workItemId").and_then(Value::as_str) == Some(work_item_id) {
+            return Some(value);
+        }
+    }
+    None
 }
 
 fn assemble_outcome_render_input(
@@ -154,6 +175,7 @@ fn assemble_outcome_render_input_with_hook(
         outcome.governance_reasons = reason_keys.clone();
         outcome.finalization = Some(finalization.clone());
         let mut input = OutcomeRenderInput {
+            legacy_outcome: load_legacy_outcome_projection(context.root(), work_item_id),
             finalization,
             reason_keys,
             outcome,
@@ -1035,6 +1057,7 @@ pub fn prepare_archive_outcome_delivery(
         host_confirmation: "unknown".into(),
         next_action,
         outcome: Some(input.outcome.clone()),
+        legacy_outcome: input.legacy_outcome.clone(),
         error: None,
     })
 }
@@ -2755,6 +2778,7 @@ mod render_tests {
     ) -> OutcomeRenderInput {
         OutcomeRenderInput {
             outcome: base_outcome(),
+            legacy_outcome: None,
             human_decision,
             archived_unclosed,
             lifecycle_status: "implementation_active".into(),

@@ -52,6 +52,7 @@ fn delivery_named(work_item_id: &str) -> OutcomeDelivery {
         host_confirmation: "unknown".into(),
         next_action: "forward".into(),
         outcome: None,
+        legacy_outcome: None,
         error: None,
     }
 }

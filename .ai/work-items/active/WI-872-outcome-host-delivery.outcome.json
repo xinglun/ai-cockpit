@@ -1,0 +1,161 @@
+{
+  "acceptanceResults": [
+    "Archive delivery uses a single validated full Outcome body for normal and JSON output.",
+    "A supported host adapter invokes an actual message-send boundary and reports per-message receipts; capability flags alone never imply accepted or displayed.",
+    "Interrupted delivery resumes only from identity-bound contiguous accepted receipts and never reruns archive or verification.",
+    "Return-only hosts explicitly report full_handoff_only and unknown host acceptance/display.",
+    "Controlled end-to-end adapter tests inspect emitted assistant-message events, consecutive Work Items, long segmented bodies, interruption recovery, and zero-send completion rejection.",
+    "The capability boundary and the actual host adapter evidence are documented in the three supported presentation languages without claiming unavailable Codex or Claude APIs.",
+    "Legacy lifecycle fields remain available only as a compatibility projection captured inside the same guarded Outcome observation.",
+    "A timeout remains a bounded cancellation with no normal exit code even when the terminated shell reports code 0 under Rust 1.98.1.",
+    "The active Work Item is registered in all three reference-parity documents before archive with the required planned archive, verification, finalization, and close paths, so hosted governance can validate the prearchive documentation boundary."
+  ],
+  "decisionState": "green",
+  "evidenceDigest": "sha256:9a3f8ba2f35136ca99556181b56f47dfa812f7598b826ff9c49ac98f18140942",
+  "evidenceRefs": [
+    ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "After every archive, the same validated full Outcome can be delivered through a real host adapter or honestly remain an explicit return-only handoff; retries reuse identity-bound progress and never rerun archive or verification."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-872-outcome-host-delivery"
+  },
+  "taskReportDigest": "sha256:d4b4bb9c2401fbbceabf797477f4923648131132d0ce7312cfad05c2577300f6",
+  "taskReportMarkdownDigest": "sha256:8091dbf64cb5a4e09721056b0d6cf0efc4635ce37169fde28f0548be0c1de699",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-872-outcome-host-delivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-872-outcome-host-delivery"
+}

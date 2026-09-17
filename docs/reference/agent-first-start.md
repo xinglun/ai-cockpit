@@ -114,9 +114,15 @@ display-confirmation API. CLI and MCP therefore use a return-only adapter:
 they hand the complete body and ordered segment count to the tool consumer and
 report `full_handoff_only` plus `unknown` for host acceptance/display. They do
 not claim that a downstream conversation contains an assistant message. A
-future host adapter with a send API must use the shared delivery function,
-send each segment independently, and return actual per-message receipts; it
-must never claim that a person read or approved the message.
+host adapters that expose a send API can opt into the supported command route
+by setting `AI_COCKPIT_OUTCOME_HOST_PROGRAM` to an executable. For every segment,
+the Runtime writes one JSON `assistant_message` request to stdin; the executable
+must return one `OutcomeMessageReceipt` JSON object on stdout with actual
+`accepted` and `displayed` values. CLI and MCP use the same delivery
+function and report those receipts. This is an explicit host integration
+boundary, not a built-in Codex or Claude connector; without it they remain
+`full_handoff_only`. A receipt can prove host acceptance/display only, never
+that a person read or approved the message.
 
 If delivery is interrupted, retry the same `deliveryId`, archive identity,
 language, body digest, and ordered segments. Resume from the first unaccepted
@@ -126,6 +132,11 @@ valid proof and must not skip all sends. When the host provides no acceptance
 receipt, keep the boundary unknown and state the duplicate-message risk.
 A retry never reruns verification or archive and never grants merge, release,
 or other authorization.
+
+After an interrupted archive send, `work-item outcome --delivery` reuses the
+immutable archived body and `.ai/outcome-delivery/<work-item-id>.progress.json`.
+Only segments without an accepted receipt are sent; missing or invalid progress
+cannot skip the body.
 
 ## CLI capability discovery
 

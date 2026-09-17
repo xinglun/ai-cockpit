@@ -5,9 +5,12 @@ use cockpit_protocol::{
 };
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use sha2::{Digest as ShaDigest, Sha256};
+use std::ffi::OsString;
 use std::fs::{self, File};
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
+use std::process::{Command, Stdio};
+use std::time::{Duration, Instant};
 use tempfile::NamedTempFile;
 use thiserror::Error;
 
@@ -263,6 +266,340 @@ impl OutcomeMessageHost for ReturnOnlyOutcomeHost {
         self.returned_segments.push(message.clone());
         Ok(OutcomeMessageReceipt::for_segment(message, None, None))
     }
+}
+
+/// A real host boundary supplied by an installed Agent adapter. The adapter
+/// executable receives one JSON request on stdin and must return one
+/// `OutcomeMessageReceipt` JSON object on stdout. The receipt is the only
+/// source of acceptance/display truth; the existence of this command and its
+/// declared capabilities are never promoted to a delivery claim.
+pub struct CommandOutcomeMessageHost {
+    program: PathBuf,
+    args: Vec<OsString>,
+    capabilities: HostDeliveryCapabilities,
+    timeout: Duration,
+}
+
+impl CommandOutcomeMessageHost {
+    pub const ENV_PROGRAM: &'static str = "AI_COCKPIT_OUTCOME_HOST_PROGRAM";
+    const MAX_RECEIPT_BYTES: usize = 64 * 1024;
+    const MAX_ERROR_BYTES: usize = 4 * 1024;
+
+    pub fn new(program: impl Into<PathBuf>) -> Self {
+        Self {
+            program: program.into(),
+            args: Vec::new(),
+            capabilities: HostDeliveryCapabilities::default(),
+            timeout: Duration::from_secs(30),
+        }
+    }
+
+    pub fn with_args(mut self, args: impl IntoIterator<Item = OsString>) -> Self {
+        self.args = args.into_iter().collect();
+        self
+    }
+
+    pub fn with_capabilities(mut self, capabilities: HostDeliveryCapabilities) -> Self {
+        self.capabilities = capabilities;
+        self
+    }
+
+    pub fn with_timeout(mut self, timeout: Duration) -> Self {
+        self.timeout = timeout;
+        self
+    }
+
+    pub fn from_environment() -> Result<Option<Self>, AgentError> {
+        let Some(program) = std::env::var_os(Self::ENV_PROGRAM) else {
+            return Ok(None);
+        };
+        if program.is_empty() {
+            return Err(AgentError::State {
+                path: PathBuf::from(Self::ENV_PROGRAM),
+                message: "host program path is empty".into(),
+            });
+        }
+        Ok(Some(Self::new(program)))
+    }
+
+    fn bounded_text(bytes: &[u8], limit: usize) -> String {
+        String::from_utf8_lossy(&bytes[..bytes.len().min(limit)]).into_owned()
+    }
+
+    fn resolved_args(&self, message: &OutcomeDeliverySegment) -> Vec<OsString> {
+        let replacements = [
+            ("{deliveryId}", message.delivery_id.to_string()),
+            ("{workItemId}", message.work_item_id.clone()),
+            ("{archiveIdentity}", message.archive_identity.to_string()),
+            ("{language}", message.language.clone()),
+            ("{part}", message.part.to_string()),
+            ("{totalParts}", message.total_parts.to_string()),
+            ("{segmentDigest}", message.body_digest.to_string()),
+        ];
+        self.args
+            .iter()
+            .map(|arg| {
+                let mut value = arg.to_string_lossy().into_owned();
+                for (needle, replacement) in &replacements {
+                    value = value.replace(needle, replacement);
+                }
+                OsString::from(value)
+            })
+            .collect()
+    }
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct OutcomeHostMessage<'a> {
+    schema_version: u32,
+    event: &'static str,
+    segment: &'a OutcomeDeliverySegment,
+}
+
+impl OutcomeMessageHost for CommandOutcomeMessageHost {
+    fn capabilities(&self) -> HostDeliveryCapabilities {
+        self.capabilities
+    }
+
+    fn send_message(
+        &mut self,
+        message: &OutcomeDeliverySegment,
+    ) -> Result<OutcomeMessageReceipt, AgentError> {
+        let request = serde_json::to_vec(&OutcomeHostMessage {
+            schema_version: 1,
+            event: "assistant_message",
+            segment: message,
+        })
+        .map_err(|error| AgentError::State {
+            path: self.program.clone(),
+            message: format!("serialize host message: {error}"),
+        })?;
+        let mut child = Command::new(&self.program)
+            .args(self.resolved_args(message))
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .map_err(|source| AgentError::State {
+                path: self.program.clone(),
+                message: format!("spawn host adapter: {source}"),
+            })?;
+        child
+            .stdin
+            .take()
+            .ok_or_else(|| AgentError::State {
+                path: self.program.clone(),
+                message: "host adapter stdin was not available".into(),
+            })?
+            .write_all(&request)
+            .map_err(|source| AgentError::State {
+                path: self.program.clone(),
+                message: format!("write host adapter request: {source}"),
+            })?;
+        let deadline = Instant::now() + self.timeout;
+        loop {
+            match child.try_wait() {
+                Ok(Some(_)) => break,
+                Ok(None) if Instant::now() < deadline => {
+                    std::thread::sleep(Duration::from_millis(10));
+                }
+                Ok(None) => {
+                    let _ = child.kill();
+                    let _ = child.wait();
+                    return Err(AgentError::State {
+                        path: self.program.clone(),
+                        message: format!(
+                            "host adapter timed out after {} ms",
+                            self.timeout.as_millis()
+                        ),
+                    });
+                }
+                Err(source) => {
+                    return Err(AgentError::State {
+                        path: self.program.clone(),
+                        message: format!("wait for host adapter: {source}"),
+                    });
+                }
+            }
+        }
+        let output = child
+            .wait_with_output()
+            .map_err(|source| AgentError::State {
+                path: self.program.clone(),
+                message: format!("collect host adapter output: {source}"),
+            })?;
+        if !output.status.success() {
+            return Err(AgentError::State {
+                path: self.program.clone(),
+                message: format!(
+                    "host adapter exited with {}: {}",
+                    output.status,
+                    Self::bounded_text(&output.stderr, Self::MAX_ERROR_BYTES)
+                ),
+            });
+        }
+        if output.stdout.len() > Self::MAX_RECEIPT_BYTES {
+            return Err(AgentError::State {
+                path: self.program.clone(),
+                message: format!(
+                    "host adapter receipt exceeds {} bytes",
+                    Self::MAX_RECEIPT_BYTES
+                ),
+            });
+        }
+        serde_json::from_slice(&output.stdout).map_err(|error| AgentError::State {
+            path: self.program.clone(),
+            message: format!("invalid host adapter receipt: {error}"),
+        })
+    }
+}
+
+/// The configured delivery route. CLI and MCP select this once per delivery,
+/// so a configured command is a real send boundary while the default remains
+/// an explicit return-only handoff.
+pub enum ConfiguredOutcomeMessageHost {
+    ReturnOnly(ReturnOnlyOutcomeHost),
+    Command(CommandOutcomeMessageHost),
+}
+
+impl ConfiguredOutcomeMessageHost {
+    pub fn mode(&self) -> &'static str {
+        match self {
+            Self::ReturnOnly(_) => "full_handoff_only",
+            Self::Command(_) => "external_command",
+        }
+    }
+
+    pub fn is_return_only(&self) -> bool {
+        matches!(self, Self::ReturnOnly(_))
+    }
+
+    pub fn returned_segment_count(&self) -> Option<usize> {
+        match self {
+            Self::ReturnOnly(host) => Some(host.returned_segment_count()),
+            Self::Command(_) => None,
+        }
+    }
+}
+
+impl OutcomeMessageHost for ConfiguredOutcomeMessageHost {
+    fn capabilities(&self) -> HostDeliveryCapabilities {
+        match self {
+            Self::ReturnOnly(host) => host.capabilities(),
+            Self::Command(host) => host.capabilities(),
+        }
+    }
+
+    fn send_message(
+        &mut self,
+        message: &OutcomeDeliverySegment,
+    ) -> Result<OutcomeMessageReceipt, AgentError> {
+        match self {
+            Self::ReturnOnly(host) => host.send_message(message),
+            Self::Command(host) => host.send_message(message),
+        }
+    }
+}
+
+pub fn configured_outcome_host() -> Result<ConfiguredOutcomeMessageHost, AgentError> {
+    Ok(match CommandOutcomeMessageHost::from_environment()? {
+        Some(host) => ConfiguredOutcomeMessageHost::Command(host),
+        None => ConfiguredOutcomeMessageHost::ReturnOnly(ReturnOnlyOutcomeHost::default()),
+    })
+}
+
+/// Read a previous host progress record. This is delivery state, not a
+/// lifecycle or authorization record; the delivery validator still checks all
+/// identity and contiguous-receipt fields before using it.
+pub fn load_outcome_delivery_progress(
+    path: &Path,
+) -> Result<Option<OutcomeDeliveryProgress>, AgentError> {
+    let metadata = match fs::symlink_metadata(path) {
+        Ok(metadata) => metadata,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => return Ok(None),
+        Err(source) => {
+            return Err(AgentError::Read {
+                path: path.to_path_buf(),
+                source,
+            });
+        }
+    };
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(AgentError::State {
+            path: path.to_path_buf(),
+            message: "delivery progress must be a regular file".into(),
+        });
+    }
+    let bytes = fs::read(path).map_err(|source| AgentError::Read {
+        path: path.to_path_buf(),
+        source,
+    })?;
+    serde_json::from_slice(&bytes)
+        .map(Some)
+        .map_err(|error| AgentError::State {
+            path: path.to_path_buf(),
+            message: format!("invalid delivery progress: {error}"),
+        })
+}
+
+pub fn persist_outcome_delivery_progress(
+    path: &Path,
+    progress: &OutcomeDeliveryProgress,
+) -> Result<(), AgentError> {
+    let parent = path.parent().ok_or_else(|| AgentError::State {
+        path: path.to_path_buf(),
+        message: "delivery progress path has no parent".into(),
+    })?;
+    fs::create_dir_all(parent).map_err(|source| AgentError::Read {
+        path: parent.to_path_buf(),
+        source,
+    })?;
+    let mut temporary = NamedTempFile::new_in(parent).map_err(|source| AgentError::Read {
+        path: parent.to_path_buf(),
+        source,
+    })?;
+    serde_json::to_writer_pretty(&mut temporary, progress).map_err(|error| AgentError::State {
+        path: path.to_path_buf(),
+        message: format!("serialize delivery progress: {error}"),
+    })?;
+    temporary
+        .write_all(b"\n")
+        .and_then(|_| temporary.flush())
+        .map_err(|source| AgentError::Read {
+            path: path.to_path_buf(),
+            source,
+        })?;
+    temporary.persist(path).map_err(|error| AgentError::Read {
+        path: path.to_path_buf(),
+        source: error.error,
+    })?;
+    Ok(())
+}
+
+pub fn remove_outcome_delivery_progress(path: &Path) -> Result<(), AgentError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) => {
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return Err(AgentError::State {
+                    path: path.to_path_buf(),
+                    message: "delivery progress must be a regular file".into(),
+                });
+            }
+            fs::remove_file(path).map_err(|source| AgentError::Read {
+                path: path.to_path_buf(),
+                source,
+            })?;
+        }
+        Err(error) if error.kind() == io::ErrorKind::NotFound => {}
+        Err(source) => {
+            return Err(AgentError::Read {
+                path: path.to_path_buf(),
+                source,
+            });
+        }
+    }
+    Ok(())
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]

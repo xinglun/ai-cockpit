@@ -35,6 +35,55 @@ fn run_json(binary: &str, repo: &Path, args: &[&str]) -> serde_json::Value {
     serde_json::from_slice(&output.stdout).expect("machine-readable stdout JSON")
 }
 
+fn compile_host_fixture(directory: &Path) -> std::path::PathBuf {
+    let source = directory.join("outcome-host.rs");
+    let binary = directory.join(if cfg!(windows) {
+        "outcome-host.exe"
+    } else {
+        "outcome-host"
+    });
+    std::fs::write(
+        &source,
+        r#"
+use std::env;
+use std::fs::OpenOptions;
+use std::io::{Read, Write};
+fn value(input: &str, key: &str) -> String {
+    let needle = format!("\"{}\":\"", key);
+    let start = input.find(&needle).unwrap() + needle.len();
+    input[start..].split('"').next().unwrap().to_owned()
+}
+fn main() {
+    let mut input = String::new();
+    std::io::stdin().read_to_string(&mut input).unwrap();
+    let path = env::var("AI_COCKPIT_OUTCOME_HOST_EVENT_LOG").unwrap();
+    let mut log = OpenOptions::new().create(true).append(true).open(path).unwrap();
+    log.write_all(input.as_bytes()).unwrap();
+    log.write_all(b"\n").unwrap();
+    let delivery = value(&input, "deliveryId");
+    let digest = value(&input, "bodyDigest");
+    let part = input.split("\"part\":").nth(1).unwrap().split(',').next().unwrap();
+    if env::var("AI_COCKPIT_OUTCOME_HOST_FAIL_PART").ok().as_deref() == Some(part) {
+        std::process::exit(7);
+    }
+    println!("{{\"deliveryId\":\"{}\",\"part\":{},\"segmentDigest\":\"{}\",\"accepted\":true,\"displayed\":true}}", delivery, part, digest);
+}
+"#,
+    )
+    .expect("write host fixture");
+    assert!(
+        Command::new("rustc")
+            .args(["--edition", "2021"])
+            .arg(&source)
+            .arg("-o")
+            .arg(&binary)
+            .status()
+            .expect("compile host fixture")
+            .success()
+    );
+    binary
+}
+
 fn checkpointed(binary: &str, work_item_id: &str, verified: bool) -> tempfile::TempDir {
     let repo = repository();
     run_json(binary, repo.path(), &["attach"]);
@@ -323,6 +372,174 @@ fn archive_normal_output_has_the_same_full_body_as_structured_stdout() {
     assert!(body.contains("Problems found"));
     assert!(body.contains("Human decisions"));
     assert!(body.contains("Next action"));
+}
+
+#[test]
+fn archived_outcome_delivery_query_reuses_the_full_body_without_rearchiving() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-ARCHIVE-DELIVERY-QUERY";
+    let repo = checkpointed(binary, id, true);
+    let finish = run(binary, repo.path(), &["finish", "--id", id]);
+    assert!(finish.status.success());
+    let archive = run(binary, repo.path(), &["archive", "--id", id]);
+    assert!(archive.status.success());
+    let archive_json: serde_json::Value = serde_json::from_slice(&archive.stdout).expect("archive");
+    let archive_identity = archive_json["outcomeDelivery"]["archiveIdentity"]
+        .as_str()
+        .expect("archive identity")
+        .to_owned();
+
+    let delivery = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--delivery", "--json"],
+    );
+    assert!(
+        delivery.status.success(),
+        "stderr={}",
+        String::from_utf8_lossy(&delivery.stderr)
+    );
+    let delivery_json: serde_json::Value =
+        serde_json::from_slice(&delivery.stdout).expect("delivery JSON");
+    assert_eq!(delivery_json["view"], "full");
+    assert_eq!(delivery_json["deliveryState"], "returned_to_consumer");
+    assert_eq!(
+        delivery_json["body"],
+        archive_json["outcomeDelivery"]["body"]
+    );
+    assert_eq!(delivery_json["archiveIdentity"], archive_identity);
+    assert_eq!(delivery_json["hostDeliveryMode"], "full_handoff_only");
+    assert_eq!(delivery_json["hostDisplayConfirmation"], "unknown");
+
+    let human = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--delivery"],
+    );
+    assert!(human.status.success());
+    assert_eq!(
+        String::from_utf8(human.stdout).expect("human delivery"),
+        archive_json["outcomeDelivery"]["body"]
+            .as_str()
+            .expect("body")
+            .to_owned()
+            + "\n"
+    );
+    let after = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--delivery", "--json"],
+    );
+    let after_json: serde_json::Value = serde_json::from_slice(&after.stdout).expect("after JSON");
+    assert_eq!(after_json["archiveIdentity"], archive_identity);
+}
+
+#[test]
+fn archive_uses_configured_host_command_and_reports_actual_display_receipts() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-ARCHIVE-EXTERNAL-HOST";
+    let repo = checkpointed(binary, id, true);
+    let finish = run(binary, repo.path(), &["finish", "--id", id]);
+    assert!(finish.status.success());
+    let host_directory = tempfile::tempdir().expect("host tempdir");
+    let host = compile_host_fixture(host_directory.path());
+    let events = host_directory.path().join("assistant-events.jsonl");
+    let archive = Command::new(binary)
+        .args(["archive", "--id", id])
+        .arg("--repo")
+        .arg(repo.path())
+        .env("AI_COCKPIT_OUTCOME_HOST_PROGRAM", &host)
+        .env("AI_COCKPIT_OUTCOME_HOST_EVENT_LOG", &events)
+        .output()
+        .expect("archive with host command");
+    assert!(
+        archive.status.success(),
+        "stderr={}",
+        String::from_utf8_lossy(&archive.stderr)
+    );
+    let json: serde_json::Value = serde_json::from_slice(&archive.stdout).expect("archive JSON");
+    assert_eq!(json["hostDeliveryMode"], "external_command");
+    assert_eq!(json["hostDisplayConfirmation"], "display_confirmed");
+    assert_eq!(
+        json["outcomeDelivery"]["deliveryState"],
+        "display_confirmed"
+    );
+    assert_eq!(json["deliveryReport"]["deliveryState"], "display_confirmed");
+    assert_eq!(
+        String::from_utf8(archive.stderr)
+            .expect("handoff")
+            .trim_end(),
+        json["outcomeDelivery"]["body"].as_str().expect("body")
+    );
+    let event_log = std::fs::read_to_string(events).expect("assistant events");
+    assert!(event_log.contains("\"event\":\"assistant_message\""));
+    assert!(event_log.contains(id));
+}
+
+#[test]
+fn interrupted_host_delivery_is_retried_from_persisted_progress_without_rearchive() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-ARCHIVE-EXTERNAL-RETRY";
+    let repo = checkpointed(binary, id, true);
+    let finish = run(binary, repo.path(), &["finish", "--id", id]);
+    assert!(finish.status.success());
+    let host_directory = tempfile::tempdir().expect("host tempdir");
+    let host = compile_host_fixture(host_directory.path());
+    let events = host_directory.path().join("assistant-events.jsonl");
+    let first = Command::new(binary)
+        .args(["archive", "--id", id])
+        .arg("--repo")
+        .arg(repo.path())
+        .env("AI_COCKPIT_OUTCOME_HOST_PROGRAM", &host)
+        .env("AI_COCKPIT_OUTCOME_HOST_EVENT_LOG", &events)
+        .env("AI_COCKPIT_OUTCOME_HOST_FAIL_PART", "1")
+        .output()
+        .expect("interrupted archive");
+    assert!(first.status.success());
+    let first_json: serde_json::Value = serde_json::from_slice(&first.stdout).expect("first JSON");
+    assert_eq!(
+        first_json["outcomeDelivery"]["deliveryState"],
+        "delivery_failed"
+    );
+    assert_eq!(first_json["deliveryReport"]["sentParts"], 0);
+    let progress = repo
+        .path()
+        .join(format!(".ai/outcome-delivery/{id}.progress.json"));
+    assert!(progress.is_file());
+    assert_eq!(
+        std::fs::read_to_string(&events)
+            .unwrap_or_default()
+            .lines()
+            .count(),
+        1
+    );
+    let archive_identity = first_json["outcomeDelivery"]["archiveIdentity"].clone();
+
+    let retry = Command::new(binary)
+        .args(["work-item", "outcome", "--id", id, "--delivery", "--json"])
+        .arg("--repo")
+        .arg(repo.path())
+        .env("AI_COCKPIT_OUTCOME_HOST_PROGRAM", &host)
+        .env("AI_COCKPIT_OUTCOME_HOST_EVENT_LOG", &events)
+        .output()
+        .expect("retry delivery");
+    assert!(retry.status.success());
+    let retry_json: serde_json::Value = serde_json::from_slice(&retry.stdout).expect("retry JSON");
+    assert_eq!(
+        retry_json["deliveryState"],
+        "display_confirmed",
+        "retry={retry_json:#} stderr={}",
+        String::from_utf8_lossy(&retry.stderr)
+    );
+    assert_eq!(retry_json["archiveIdentity"], archive_identity);
+    assert_eq!(
+        std::fs::read_to_string(&events)
+            .expect("events")
+            .lines()
+            .count(),
+        2
+    );
+    assert!(!progress.exists());
 }
 
 #[test]

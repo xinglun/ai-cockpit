@@ -1,0 +1,180 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json",
+    ".ai/work-items/active/WI-872-outcome-host-delivery.contract.json",
+    ".ai/work-items/active/WI-872-outcome-host-delivery.summary.json"
+  ],
+  "checkpointAt": "2026-09-17T04:18:51Z",
+  "checkpointContractDigest": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:7bb7cc2eeec6b4d5ba622b20df25f238d571ea1182e6b49bffc8680e652f8658",
+      "recorded": true,
+      "recordedAt": "2026-09-17T04:18:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e7568abdcafcad01e62d1060fb9545af89d1f830561bb4da13e6969efaed3e2e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:dc4b6618b45e46a5b12c4f11f2af403b369678ff63bdf0dedc32cd479e6cdb43",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7bb7cc2eeec6b4d5ba622b20df25f238d571ea1182e6b49bffc8680e652f8658",
+      "previousContractHash": "sha256:7bb7cc2eeec6b4d5ba622b20df25f238d571ea1182e6b49bffc8680e652f8658",
+      "reason": "Keep legacy lifecycle machine fields inside the same guarded Outcome observation while closing the archive delivery compatibility regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T04:55:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cc2337db8923b1bbb5c9fb24268a383989d45e0bb86a6de6cdeb65c8d4bb0831",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:6f0a983502a37525ea5f69bb9ea3d4fc67de35e807cc6112ba7abe696c99d2b0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7bb7cc2eeec6b4d5ba622b20df25f238d571ea1182e6b49bffc8680e652f8658",
+      "previousContractHash": "sha256:dc4b6618b45e46a5b12c4f11f2af403b369678ff63bdf0dedc32cd479e6cdb43",
+      "reason": "Make timeout cancellation receipts fail closed under Rust 1.98.1 when a terminated shell reports exit code 0.",
+      "recorded": true,
+      "recordedAt": "2026-09-17T05:02:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b3487ae12a9159fed1597250c43dd56efa1254e51faaef1a8e48f558ef5756f7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7bb7cc2eeec6b4d5ba622b20df25f238d571ea1182e6b49bffc8680e652f8658",
+      "previousContractHash": "sha256:6f0a983502a37525ea5f69bb9ea3d4fc67de35e807cc6112ba7abe696c99d2b0",
+      "reason": "bind the hosted prearchive parity registration required by repository governance after the direct PR quality gate reported the missing finalization path",
+      "recorded": true,
+      "recordedAt": "2026-09-17T05:27:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-872-outcome-host-delivery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+  "createdAt": "2026-09-17T04:15:43Z",
+  "intentAlignment": {
+    "evidence": [
+      "user-authorized-WI-872-scope",
+      "current-contract-and-runtime-boundary"
+    ],
+    "state": "resolved"
+  },
+  "mode": "standard",
+  "preflightAt": "2026-09-17T05:33:04Z",
+  "preflightContractDigest": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs",
+        "crates/cockpit-agent/tests/outcome_host_command.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "required": true,
+      "scenario": "archive-outcome-host-delivery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "required": true,
+      "scenario": "archive-outcome-host-boundary",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-17T05:08:47Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:9a3f8ba2f35136ca99556181b56f47dfa812f7598b826ff9c49ac98f18140942",
+  "workItemId": "WI-872-outcome-host-delivery"
+}

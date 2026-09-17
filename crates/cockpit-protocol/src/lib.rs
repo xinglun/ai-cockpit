@@ -3587,6 +3587,11 @@ pub struct OutcomeDelivery {
     pub next_action: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub outcome: Option<OutcomeV2>,
+    /// Additive compatibility projection for lifecycle consumers.  It is
+    /// captured during the same guarded Outcome assembly as `outcome`; it is
+    /// not a second source of human-facing facts.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub legacy_outcome: Option<serde_json::Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub error: Option<String>,
 }

@@ -1,0 +1,79 @@
+{
+  "acceptanceCriteria": [
+    "Archive delivery uses a single validated full Outcome body for normal and JSON output.",
+    "A supported host adapter invokes an actual message-send boundary and reports per-message receipts; capability flags alone never imply accepted or displayed.",
+    "Interrupted delivery resumes only from identity-bound contiguous accepted receipts and never reruns archive or verification.",
+    "Return-only hosts explicitly report full_handoff_only and unknown host acceptance/display.",
+    "Controlled end-to-end adapter tests inspect emitted assistant-message events, consecutive Work Items, long segmented bodies, interruption recovery, and zero-send completion rejection.",
+    "The capability boundary and the actual host adapter evidence are documented in the three supported presentation languages without claiming unavailable Codex or Claude APIs.",
+    "Legacy lifecycle fields remain available only as a compatibility projection captured inside the same guarded Outcome observation.",
+    "A timeout remains a bounded cancellation with no normal exit code even when the terminated shell reports code 0 under Rust 1.98.1.",
+    "The active Work Item is registered in all three reference-parity documents before archive with the required planned archive, verification, finalization, and close paths, so hosted governance can validate the prearchive documentation boundary."
+  ],
+  "authority": "authorized",
+  "baseRevision": "359d149a0630b0f510ffb6b9752a089c4adb04f2",
+  "createdAt": "2026-09-17T04:15:43Z",
+  "goal": "After every archive, the same validated full Outcome can be delivered through a real host adapter or honestly remain an explicit return-only handoff; retries reuse identity-bound progress and never rerun archive or verification.",
+  "intent": "Make archived Work Item Outcomes reach a supported Agent message path without losing the complete body",
+  "mode": "standard",
+  "outOfScope": [
+    "release publication",
+    " four-direction performance measurement",
+    " lifecycle redesign outside Outcome delivery",
+    " provider credentials or global host configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23ffbf98cc6faa2334082236b47efa94a20d1192ff602960b62898ecc4363821",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "production handoff reports only per-message host acceptance/display evidence; capability declaration alone never produces display_confirmed",
+      "required": true,
+      "scenario": "archive-outcome-host-delivery",
+      "status": "unverified",
+      "verificationPlan": "Exercise the adapter contract with accepted, unconfirmed, interrupted, duplicate-risk, and zero-send progress records and inspect assistant-message events and delivery state."
+    },
+    {
+      "evidence": [],
+      "expected": "when no host send API is available, the returned full body is explicit full_handoff_only and no assistant display claim is made",
+      "required": true,
+      "scenario": "archive-outcome-host-boundary",
+      "status": "unverified",
+      "verificationPlan": "Run CLI and MCP archive delivery through the return-only adapter and compare the structured delivery state, body digest, and host confirmation fields."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-agent/**",
+    "crates/cockpit-cli/**",
+    "crates/cockpit-mcp/**",
+    "crates/cockpit-protocol/**",
+    "docs/reference/agent-first-start.*",
+    "docs/reference/commands.*",
+    "tests/**",
+    "docs/work-items/WI-872-outcome-host-delivery.*",
+    "docs/reference/reference-parity.*",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-verification/src/lib.rs"
+  ],
+  "sources": [
+    "user:Outcome archive dialog delivery requirement",
+    "github:issue-851:https://github.com/xinglun/ai-cockpit/issues/851",
+    "audit:main-359d149a-outcome-host-delivery-gap",
+    "audit:guarded-observation-legacy-lifecycle-projection",
+    "test:rust-1.98.1-timeout-tree-exit-status"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo test --locked -p cockpit-cli --test lifecycle work_item_lifecycle_is_atomic_and_archive_is_content_bound",
+    "cargo test --locked -p cockpit-verification --test execution timeout_terminates_the_process_tree_and_fails_closed"
+  ],
+  "workItemId": "WI-872-outcome-host-delivery"
+}
