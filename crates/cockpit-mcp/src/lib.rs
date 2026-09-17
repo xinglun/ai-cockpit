@@ -410,12 +410,12 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             if name == "work_item_outcome" {
                 optional_string(object, "language", name)?;
-                if let Some(delivery) = object.get("delivery") {
-                    if !delivery.is_boolean() {
-                        return Err(format!(
-                            "invalid arguments for {name}: delivery must be a boolean"
-                        ));
-                    }
+                if let Some(delivery) = object.get("delivery")
+                    && !delivery.is_boolean()
+                {
+                    return Err(format!(
+                        "invalid arguments for {name}: delivery must be a boolean"
+                    ));
                 }
                 if let Some(view) = object.get("view") {
                     let view = view.as_str().ok_or_else(|| {
