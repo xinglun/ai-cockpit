@@ -551,18 +551,39 @@ pub(super) fn build_repository_verification_command(
             policy,
         )
     };
+    // `Command::envs` overrides the inherited process environment. Build the
+    // complete child environment before applying the Cargo policy so an
+    // explicit caller-provided `CARGO_TARGET_DIR` survives pinned executable
+    // resolution. Previously the pinned path supplied only loader variables
+    // (for example `DYLD_LIBRARY_PATH` on macOS); the policy then saw no
+    // target directory and replaced the inherited value with its HOME-based
+    // fallback, leaking build output into isolated adopter HOME roots.
+    let environment = merge_execution_environment(
+        std::env::vars_os().collect(),
+        execution_identity.map_or_else(Vec::new, ResolvedExecutableIdentity::execution_environment),
+    );
     command
         .with_current_dir(root)
         .with_environment(effective_verification_environment(
             &request.program,
-            execution_identity
-                .map_or_else(Vec::new, ResolvedExecutableIdentity::execution_environment),
+            environment,
         ))
         .with_timeout_seconds(
             request
                 .timeout_seconds
                 .unwrap_or(cockpit_verification::DEFAULT_EXECUTION_SECONDS),
         )
+}
+
+pub(super) fn merge_execution_environment(
+    mut inherited: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+    overrides: Vec<(std::ffi::OsString, std::ffi::OsString)>,
+) -> Vec<(std::ffi::OsString, std::ffi::OsString)> {
+    for (name, value) in overrides {
+        inherited.retain(|(existing, _)| existing != &name);
+        inherited.push((name, value));
+    }
+    inherited
 }
 
 pub(super) fn resolve_executable(root: &Path, program: &str) -> Option<PathBuf> {

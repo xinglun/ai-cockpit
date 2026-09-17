@@ -16590,6 +16590,7 @@ fn collect_files(
 #[cfg(test)]
 mod environment_identity_tests {
     use super::{effective_verification_environment, execution_environment_digest_from_values};
+    use crate::execution_context::merge_execution_environment;
     use std::{ffi::OsString, path::Path};
 
     fn digest(values: &[(&str, &str)]) -> String {
@@ -16659,6 +16660,34 @@ mod environment_identity_tests {
             environment
                 .iter()
                 .any(|(name, value)| { name == "CARGO_INCREMENTAL" && value == "0" })
+        );
+    }
+
+    #[test]
+    fn pinned_cargo_execution_preserves_inherited_target_directory() {
+        let merged = merge_execution_environment(
+            vec![
+                (OsString::from("HOME"), OsString::from("/isolated/home")),
+                (
+                    OsString::from("CARGO_TARGET_DIR"),
+                    OsString::from("/isolated/cargo/target"),
+                ),
+            ],
+            vec![(
+                OsString::from("DYLD_LIBRARY_PATH"),
+                OsString::from("/staged/lib"),
+            )],
+        );
+        let environment = effective_verification_environment("cargo", merged);
+        let target = environment
+            .iter()
+            .find(|(name, _)| name == "CARGO_TARGET_DIR")
+            .map(|(_, value)| value.to_string_lossy());
+        assert_eq!(target.as_deref(), Some("/isolated/cargo/target"));
+        assert!(
+            environment
+                .iter()
+                .any(|(name, value)| { name == "DYLD_LIBRARY_PATH" && value == "/staged/lib" })
         );
     }
 
