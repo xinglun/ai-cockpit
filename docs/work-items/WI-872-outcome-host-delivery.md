@@ -7,9 +7,12 @@ audience:
   - adopter
   - contributor
   - maintainer
-status: in_progress
+status: implemented
 authority: canonical
 lastVerifiedBy: WI-872-outcome-host-delivery
+terminalArchive: .ai/work-items/archive/WI-872-outcome-host-delivery.contract.json
+terminalVerification: .ai/evidence/WI-872-outcome-host-delivery.verification.json
+terminalDecision: .ai/decisions/WI-872-outcome-host-delivery.close.json
 ---
 
 # WI-872 — Archived Outcome host delivery
