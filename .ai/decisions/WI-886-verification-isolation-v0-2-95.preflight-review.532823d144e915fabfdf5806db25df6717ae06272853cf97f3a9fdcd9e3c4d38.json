@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9623fbf6687bb05d822c1025a5e8b76841f206a3130ee7405b5a63294a443b55",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Confirm the reviewed GitHub PR finalization context and authorize the bounded re-verification cycle before archive.",
+  "recordedAt": "2026-09-17T18:05:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fcb146e6852b6c6cbea45de459a4fdcfc69f4e7466a845d1006cfb7da7cc5a1e",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

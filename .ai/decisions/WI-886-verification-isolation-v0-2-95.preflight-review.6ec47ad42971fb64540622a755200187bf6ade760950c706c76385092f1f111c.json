@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:b01568b44e1b8ca238a099adc09d4b6d20698baacadac354fd392dbc937880c4",
+  "reason": "Reconfirm the bounded release-isolation repair and v0.2.95 route after the version and lockfile update changed the repository observation.",
+  "recordedAt": "2026-09-17T17:40:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c41d1992fd9105be649269865512d2e3d6bb68651484703ebde99c20b34e96d0",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

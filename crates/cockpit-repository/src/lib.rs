@@ -16638,7 +16638,7 @@ mod environment_identity_tests {
     }
 
     #[test]
-    fn cargo_verification_uses_one_non_incremental_shared_target() {
+    fn cargo_verification_preserves_explicit_non_incremental_target() {
         let environment = effective_verification_environment(
             "cargo",
             vec![
@@ -16654,10 +16654,7 @@ mod environment_identity_tests {
             .iter()
             .find(|(name, _)| name == "CARGO_TARGET_DIR")
             .map(|(_, value)| value.to_string_lossy());
-        assert_eq!(
-            target.as_deref(),
-            Some("/Users/tester/.cache/ai-cockpit-verify-target")
-        );
+        assert_eq!(target.as_deref(), Some("/repo/target"));
         assert!(
             environment
                 .iter()
@@ -16679,5 +16676,26 @@ mod environment_identity_tests {
         );
         assert_eq!(environment[0].1, "/repo/target");
         assert_eq!(environment[1].1, "1");
+    }
+
+    #[test]
+    fn cargo_verification_defaults_to_home_target_when_not_declared() {
+        let environment = effective_verification_environment(
+            "cargo",
+            vec![(OsString::from("HOME"), OsString::from("/Users/tester"))],
+        );
+        let target = environment
+            .iter()
+            .find(|(name, _)| name == "CARGO_TARGET_DIR")
+            .map(|(_, value)| value.to_string_lossy());
+        assert_eq!(
+            target.as_deref(),
+            Some("/Users/tester/.cache/ai-cockpit-verify-target")
+        );
+        assert!(
+            environment
+                .iter()
+                .any(|(name, value)| { name == "CARGO_INCREMENTAL" && value == "0" })
+        );
     }
 }

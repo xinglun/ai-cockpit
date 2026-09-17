@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-883-release-v0-2-94-current-main
+lastVerifiedBy: WI-886-verification-isolation-v0-2-95
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.94`（binary digest
-`sha256:4b176c72179c58f6d7f40f919ebf0d9b096ff912a04b75ecadad61a66bb97650`）を使用します。
+review 済み `ai-cockpit v0.2.95`（binary digest
+`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -916,3 +916,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-877-hci-outcome-dialog-delivery — conversation-facing archived Outcome events | Implemented | [Work Item](../work-items/WI-877-hci-outcome-dialog-delivery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json`; verification `.ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json`; close `.ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json`. |
 | WI-879-verification-target-policy — アーカイブ済み検証ターゲット方針の quality regression の置換修正 | Implemented | [Work Item](../work-items/WI-879-verification-target-policy.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-879-verification-target-policy.contract.json`; verification `.ai/evidence/WI-879-verification-target-policy.verification.json`; close `.ai/decisions/WI-879-verification-target-policy.close.json`. |
 | WI-883-release-v0-2-94-current-main — current main の v0.2.94 リリース経路 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-883-release-v0-2-94-current-main.ja.md); 公開は Outcome、HCI、四方向、Issue #851、インターフェース発見、Rust/ツールチェーン、候補、マージ、ダウンロード成果物の検証後に限る。archive `.ai/work-items/archive/WI-883-release-v0-2-94-current-main.contract.json`; verification `.ai/evidence/WI-883-release-v0-2-94-current-main.verification.json`; finalization `.ai/decisions/WI-883-release-v0-2-94-current-main.finalize.json`; close `.ai/decisions/WI-883-release-v0-2-94-current-main.close.json`. |
+| WI-886-verification-isolation-v0-2-95 — リリース受入れ隔離の修復 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-886-verification-isolation-v0-2-95.ja.md); 不変の v0.2.94 失敗証拠を保持し、候補とダウンロード成果物の隔離/アップグレード受入れを v0.2.95 公開の条件とする。archive `.ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json`; verification `.ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json`; finalization `.ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json`; close `.ai/decisions/WI-886-verification-isolation-v0-2-95.close.json`. |

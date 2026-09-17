@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-883-release-v0-2-94-current-main
+lastVerifiedBy: WI-886-verification-isolation-v0-2-95
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.94` Runtime（二进制摘要
-`sha256:4b176c72179c58f6d7f40f919ebf0d9b096ff912a04b75ecadad61a66bb97650`）。
+`ai-cockpit v0.2.95` Runtime（二进制摘要
+`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -890,3 +890,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-877-hci-outcome-dialog-delivery——面向对话的归档 Outcome 事件 | 已实现 | [Work Item](../work-items/WI-877-hci-outcome-dialog-delivery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json`; verification `.ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json`; close `.ai/decisions/WI-877-hci-outcome-dialog-delivery.close.json`. |
 | WI-879-verification-target-policy——归档验证目标策略质量回归的替代修复 | 已实现 | [Work Item](../work-items/WI-879-verification-target-policy.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-879-verification-target-policy.contract.json`; verification `.ai/evidence/WI-879-verification-target-policy.verification.json`; close `.ai/decisions/WI-879-verification-target-policy.close.json`. |
 | WI-883-release-v0-2-94-current-main——当前 main 的 v0.2.94 发布路径 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-883-release-v0-2-94-current-main.zh-CN.md)；发布仍受已验证的 Outcome、HCI、四方向、Issue #851、接口发现、Rust/工具链、候选、合并和下载制品证据约束；archive `.ai/work-items/archive/WI-883-release-v0-2-94-current-main.contract.json`；verification `.ai/evidence/WI-883-release-v0-2-94-current-main.verification.json`；finalization `.ai/decisions/WI-883-release-v0-2-94-current-main.finalize.json`；close `.ai/decisions/WI-883-release-v0-2-94-current-main.close.json`。 |
+| WI-886-verification-isolation-v0-2-95——发布验收隔离修复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-886-verification-isolation-v0-2-95.zh-CN.md)；保留不可变的 v0.2.94 失败证据，并以候选和下载制品的隔离/升级验收作为 v0.2.95 发布门禁。archive `.ai/work-items/archive/WI-886-verification-isolation-v0-2-95.contract.json`；verification `.ai/evidence/WI-886-verification-isolation-v0-2-95.verification.json`；finalization `.ai/decisions/WI-886-verification-isolation-v0-2-95.finalize.json`；close `.ai/decisions/WI-886-verification-isolation-v0-2-95.close.json`。 |

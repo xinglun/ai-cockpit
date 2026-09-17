@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Reconfirm the bounded verification-isolation repair after recovery marked the immutable v0.2.94 evidence for a fresh v0.2.95 run.",
+  "recordedAt": "2026-09-17T17:45:30Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c41d1992fd9105be649269865512d2e3d6bb68651484703ebde99c20b34e96d0",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

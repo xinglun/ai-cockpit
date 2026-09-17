@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:0498ddfa188f0732e4ea8850ecb728204c68095e72ad48374c0190c576a18996",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "Explicitly authorize the bounded release-isolation repair and its declared candidate/downloaded-artifact acceptance route after the Contract amendment.",
+  "recordedAt": "2026-09-17T17:36:13Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5210bdb3bc5dd9babc5919762ccb93102c3664b5e002ab2440bb156fccca3086",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

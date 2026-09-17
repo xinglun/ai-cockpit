@@ -5,7 +5,7 @@ description: Keep Cargo verification caches bounded and reusable across Work Ite
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-879-verification-target-policy
+lastVerifiedBy: WI-886-verification-isolation-v0-2-95
 ---
 
 # Verification execution cache policy
@@ -15,7 +15,9 @@ execution environment before starting the child process:
 
 - `CARGO_INCREMENTAL=0` disables incremental artifacts that have little value
   for bounded verification runs.
-- `CARGO_TARGET_DIR` is set to `$HOME/.cache/ai-cockpit-verify-target` (or the
+- `CARGO_TARGET_DIR` is preserved when the caller supplies an explicit target
+  (release/adopter acceptance uses a target below its isolated `CARGO_HOME`).
+  Otherwise it falls back to `$HOME/.cache/ai-cockpit-verify-target` (or the
   platform profile directory equivalent) so repeated Work Items reuse compiled
   dependencies instead of creating one `target` tree per checkout.
 - Non-Cargo commands keep their declared environment unchanged.

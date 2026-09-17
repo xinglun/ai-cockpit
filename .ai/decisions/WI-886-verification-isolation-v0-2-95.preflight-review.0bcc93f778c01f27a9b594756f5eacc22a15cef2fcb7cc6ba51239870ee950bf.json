@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6523bcc75afac630e115c6c8bc00e8c660c3aef45dac6dcc8976a2a699a510ba",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "确认当前 WI-886 在定向 Runtime 验证通过后继续执行原授权范围内的门禁与 PR 路径。",
+  "recordedAt": "2026-09-17T18:35:00Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:566a2198fa436aba74d1f2215014bb0433bb55b9ea6be24af57ad719876abd5e",
+  "schemaVersion": 1,
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}

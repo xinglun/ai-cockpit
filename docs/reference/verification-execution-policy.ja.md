@@ -5,7 +5,7 @@ description: Cargo 検証の cache を再利用可能かつ制御可能に保つ
 audience: [adopter, contributor, maintainer]
 status: in_progress
 authority: explicit-user-authorization
-lastVerifiedBy: WI-879-verification-target-policy
+lastVerifiedBy: WI-886-verification-isolation-v0-2-95
 ---
 
 # Verification execution cache policy
@@ -13,7 +13,7 @@ lastVerifiedBy: WI-879-verification-target-policy
 Runtime は Cargo verification command の child process を起動する前に実行環境を解決します。
 
 - `CARGO_INCREMENTAL=0` を設定し、bounded verification で価値の低い incremental artifact を無効にします。
-- `CARGO_TARGET_DIR` を `$HOME/.cache/ai-cockpit-verify-target`（または platform の同等な user directory）に固定し、checkout ごとの `target` tree ではなく compile 済み dependency を再利用します。
+- 呼び出し元が明示的な `CARGO_TARGET_DIR` を指定した場合はそれを保持します（release/adopter acceptance は isolated `CARGO_HOME` 配下を指定します）。未指定の場合は `$HOME/.cache/ai-cockpit-verify-target`（または platform の同等な user directory）へフォールバックし、checkout ごとの `target` tree ではなく compile 済み dependency を再利用します。
 - Cargo 以外の command は宣言された environment を変更しません。
 
 この policy は shell の慣習ではなく Runtime execution boundary です。effective environment は verification observation identity に含まれるため、policy または toolchain の変更が無関係な receipt を暗黙に再利用することはありません。planning は child process 起動前に完了します。

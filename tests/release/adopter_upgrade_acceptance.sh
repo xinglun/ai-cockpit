@@ -792,7 +792,7 @@ run() {
   local stem stderr result
   stem="$(printf '%s' "$name" | sed 's/\.json$//')"; stderr="$run_root/$stem.stderr"
   set +e
-  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null "$binary" "$@" > "$output/$name" 2> "$stderr"
+  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" CARGO_TARGET_DIR="$isolated_cargo/target" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null "$binary" "$@" > "$output/$name" 2> "$stderr"
   result=$?; set -e
   [[ "$result" -eq 0 ]] || { cp "$stderr" "$output/$stem.stderr" 2>/dev/null || true; failure_reason="$name failed"; record "$name" failed "exit $result"; return "$result"; }
   pass "$name"
@@ -802,7 +802,7 @@ expected_fail() {
   local stem stderr result
   stem="$(printf '%s' "$name" | sed 's/\.json$//')"; stderr="$run_root/$stem.stderr"
   set +e
-  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C "$binary" "$@" > "$output/$name" 2> "$stderr"
+  env -i HOME="$isolated_home" XDG_CONFIG_HOME="$isolated_xdg" TMPDIR="$isolated_tmp" CARGO_HOME="$isolated_cargo" CARGO_TARGET_DIR="$isolated_cargo/target" RUSTUP_HOME="$rustup_home" RUSTUP_TOOLCHAIN="$rustup_toolchain" PATH="$PATH" LANG=C LC_ALL=C "$binary" "$@" > "$output/$name" 2> "$stderr"
   result=$?; set -e
   [[ "$result" -ne 0 ]] || die "$name unexpectedly succeeded"
   cp "$stderr" "$output/$stem.stderr" 2>/dev/null || true

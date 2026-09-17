@@ -127,6 +127,7 @@ fi
 grep -q -- 'schemaVersion:2' "$script"
 grep -Fq -- 'allowedPrefixes' "$script"
 grep -Fq -- '<CARGO_HOME>/**' "$script"
+grep -Fq -- 'CARGO_TARGET_DIR="$isolated_cargo/target"' "$script"
 preflight_line=$(grep -n -- 'lifecycle-preflight.json preflight' "$script" | head -1 | cut -d: -f1)
 checkpoint_line=$(grep -n -- 'lifecycle-checkpoint.json checkpoint' "$script" | head -1 | cut -d: -f1)
 plan_line=$(grep -n -- 'lifecycle-finalize-plan.json work-item finalize-plan' "$script" | head -1 | cut -d: -f1)

@@ -1,0 +1,130 @@
+{
+  "attemptId": "sha256:7808dce39d4985a8dde073451d69939e16d8722248c4d12c489ad1c70c8eedd0",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository"
+      ],
+      "baseCommit": "c3e0dae6f9e23ff3c47a188abe022e11dde10990",
+      "commandDigest": "sha256:b5547d263d4b95b278d55521f51c4e9a5007dbe499afd9a245a75594441fed84",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:a3f82f0996024c6c7c5c0eadcb9c66ed89acf6d14989cb1cd49a481e64445881",
+  "contractExecutionScopeDigest": "sha256:01ac70c255d850bcdf6a34d82d3bc48134967f034489d439edd7122297b5b6db",
+  "createdAt": "2026-09-17T18:13:45Z",
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "unknown",
+      "elapsedMs": 0,
+      "executionElapsedMs": 0,
+      "maxConcurrentProcesses": 0,
+      "nodesExecuted": 0,
+      "nodesPlanned": 1,
+      "nodesReused": 1,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 0,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+      "runtimeVersion": "0.2.95",
+      "schemaVersion": 1,
+      "unknowns": [
+        "cost_observation_invalid"
+      ]
+    },
+    "elapsedMs": 0,
+    "executionElapsedMs": 0,
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 0,
+    "nodesExecuted": 0,
+    "nodesPlanned": 1,
+    "nodesReused": 1,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "c3e0dae6f9e23ff3c47a188abe022e11dde10990",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [],
+      "executionElapsedMs": 0,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [
+        "project-command-0"
+      ],
+      "savedExecutions": 1,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 0,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "reuse",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:9eaa7d3748892c5632504218a58f284fe085f15daee3100c2bccd39dd10c1ab5",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "fresh_exact_binding",
+        "receiptId": null,
+        "reused": true,
+        "satisfiedBy": "reused_receipt",
+        "state": "fresh",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+    "runtimeVersion": "0.2.95",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-886-verification-isolation-v0-2-95"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:61d04b30c1cc48e64a2c17030d45521d36543e863fca64dfc804531e4a9e4596",
+  "runtimeDigest": "sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-886-verification-isolation-v0-2-95"
+}
