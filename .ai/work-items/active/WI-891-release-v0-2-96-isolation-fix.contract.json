@@ -32,6 +32,16 @@
     "external_evidence"
   ],
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Pinned verification preserves an explicitly inherited CARGO_TARGET_DIR and leaves isolated HOME and XDG_CONFIG_HOME unchanged.",
+      "required": true,
+      "scenario": "explicit verification target directory remains isolated",
+      "status": "unverified",
+      "verificationPlan": "Run the focused environment identity tests, the repository verification receipt, and the release acceptance harness against the immutable candidate."
+    }
+  ],
   "scope": [
     "crates/cockpit-repository/src/execution_context.rs",
     "crates/cockpit-repository/src/lib.rs",

@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:df61ddd43bb0d7a2a3bc7cf05e52c3d42f72bbae3c818df990a6432599fd4f1d",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "20cc3e4731de3d2780a3ebbe54045e2abc4c408b",
+      "commandDigest": "sha256:684b09130fbd3bfbe2de595cff02b819cedd0f4c92a161edf0aa78e54eead50e",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+  "contractExecutionScopeDigest": "sha256:30a20e6cc0d12d6d3e86483aa5d6c407a2adcecc6d8660ef7e940120ca654a45",
+  "createdAt": "2026-09-17T23:01:36Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-891-release-v0-2-96-isolation-fix/.ai/work-items/active/WI-891-release-v0-2-96-isolation-fix.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9c38ad57177c16c1eb551db9817f5997521f0e0bd1ce491256b65e07b2315add",
+  "runtimeDigest": "sha256:05ff2b5bafff8bb385697415fcbcc3c25445cff4c62c7f212d8c7c606aea2e47",
+  "runtimeVersion": "0.2.95",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}
