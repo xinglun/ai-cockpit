@@ -1,0 +1,162 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:874ff2f9c285221b783d9e7c4bc499ab41ef36544cdf50cfb4a2e11697455629",
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-872-outcome-host-delivery.verification-attempt.cbb6c0a832656da69282bff6045d5175e36db1a2cf99cd7c7dcf70117cb94aab.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-872-outcome-host-delivery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via user-message:authorized-to-complete-all-wi-tasks at 2026-09-17T05:43:32Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "After every archive, the same validated full Outcome can be delivered through a real host adapter or honestly remain an explicit return-only handoff; retries reuse identity-bound progress and never rerun archive or verification."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-872-outcome-host-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-872-outcome-host-delivery"
+  },
+  "finalReportDigest": "sha256:8772128add514e69f2523051908ff9d104bbd0a61bdd494b16230600686f6258",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:28325affeb99bf009ade985333e3d280ac0b13af21dc44fbefe81cfa24420df8",
+    "branch": "codex/wi-872-outcome-host-delivery",
+    "branchRef": "refs/heads/codex/wi-872-outcome-host-delivery",
+    "capturedAt": "2026-09-17T05:44:18Z",
+    "contractDigest": "sha256:28bf3ba73d4873fef72c9fa665e0187825c5638851cb27f0ee733703f0d89cb8",
+    "headRevision": "cd8bf15e47463265333a68c8a290b001c9933a20",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-872-outcome-host-delivery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-872-outcome-host-delivery",
+    "worktreeId": "sha256:95e2f472078fe3b1ba3d38f475a2ef290cdf56d1f0069947645ee062fb816f02",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-872-outcome-host-delivery"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:5993915f72a3e77a28a913559419fec3924fb2bfc57bbf842e0bea2df8793ae2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "user-message:authorized-to-complete-all-wi-tasks",
+    "decidedAt": "2026-09-17T05:43:32Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-872-outcome-host-delivery.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User authorized completion of all WI-scoped tasks and required release only after all Work Items and Issue #851 are complete; approve terminal closure after verified implementation and hosted PR merge.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-17T05:44:18Z",
+  "workItemId": "WI-872-outcome-host-delivery"
+}
