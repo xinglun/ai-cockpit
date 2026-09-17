@@ -2,7 +2,10 @@ use std::fs;
 use std::path::Path;
 use std::process::Command;
 
-use cockpit_agent::{CommandOutcomeMessageHost, deliver_outcome};
+use cockpit_agent::{
+    CommandOutcomeMessageHost, OutcomeAssistantMessageEvent, assistant_message_events,
+    deliver_outcome,
+};
 use cockpit_core::Digest;
 use cockpit_protocol::{OutcomeDelivery, OutcomeDeliverySegment};
 
@@ -102,6 +105,14 @@ fn command_host_emits_and_confirms_real_assistant_message_events() {
 
     let events = fs::read_to_string(event_log).expect("assistant event log");
     assert_eq!(events.lines().count(), 4);
+    let first_event: OutcomeAssistantMessageEvent =
+        serde_json::from_str(events.lines().next().expect("first event"))
+            .expect("assistant event contract");
+    assert_eq!(
+        first_event,
+        assistant_message_events(&first)[0],
+        "the external host receives the same event that the conversation handoff exposes"
+    );
     assert!(events.contains("WI-COMMAND-FIRST"));
     assert!(events.contains("WI-COMMAND-SECOND"));
     assert!(events.contains("assistant_message"));

@@ -1,0 +1,285 @@
+{
+  "acceptanceResults": [
+    "Every normal and supported historical archive returns the complete full Outcome body in structured output; --json remains valid JSON and does not omit it.",
+    "The conversation-facing handoff is emitted from the same validated delivery payload, preserves WI identity, language, ordered segments, and body digest, and never substitutes archived, see attachment, or an agent-generated summary.",
+    "Host acceptance and display are derived only from per-message receipts; capability declarations alone cannot produce displayed or accepted status; zero sends cannot be reported complete.",
+    "Interrupted delivery resumes only from an identity-bound contiguous accepted receipt chain, with no new verification or archive execution; two consecutive Work Items remain separate.",
+    "When no supported host send API is configured, output explicitly states full_handoff_only and unknown display, and documentation identifies this as a capability limit rather than automatic dialog delivery.",
+    "CLI, MCP, and English/Simplified Chinese/Japanese presentation preserve the same facts and next action; focused tests inspect actual assistant-message event payloads at the controllable adapter boundary."
+  ],
+  "createdAt": "2026-09-17T07:49:50Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:de878df620fcbc2c181b5f42f196f6e41fed62bed19bdb96b4293e4cf0f9bf17",
+  "evidenceRefs": [
+    ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8565cedf01461497249300240477ca55e77114eacb58dbee4708ae46a9d4a526",
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-877-hci-outcome-dialog-delivery.verification-attempt.f170fb91581d77c4b6798b77b44c0f8ee8574865122a01ec2929cb48e019a7e7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/tests/install.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/tests/outcome_delivery.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-agent/tests/outcome_host_command.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/agent-first-start.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/outcome-report.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-877-hci-outcome-dialog-delivery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-877-hci-outcome-dialog-delivery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-877-hci-outcome-dialog-delivery.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the remaining HCI gap from the four-direction convergence review by making archive and supported historical-archive output reliably consumable as a complete conversation handoff, with explicit host limits and no duplicate verification or archive execution on retry."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-877-hci-outcome-dialog-delivery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-877-hci-outcome-dialog-delivery"
+  },
+  "taskReportDigest": "sha256:754809781222e9f662ccbd42abab4b9e32ae8f00e6f8995550e3ad9fa4766e70",
+  "taskReportMarkdownDigest": "sha256:bccb1b1b1b02c2160c2c3e181293d60eeaa325ff1f49395de7d6046bb882ddfc",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-877-hci-outcome-dialog-delivery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-877-hci-outcome-dialog-delivery"
+}

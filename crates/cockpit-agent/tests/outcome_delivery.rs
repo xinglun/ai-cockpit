@@ -1,6 +1,6 @@
 use cockpit_agent::{
     AgentError, HostDeliveryCapabilities, OutcomeDeliveryProgress, OutcomeMessageHost,
-    OutcomeMessageReceipt, deliver_outcome, ensure_same_outcome_delivery,
+    OutcomeMessageReceipt, assistant_message_events, deliver_outcome, ensure_same_outcome_delivery,
 };
 use cockpit_core::Digest;
 use cockpit_protocol::{OutcomeDelivery, OutcomeDeliverySegment};
@@ -256,4 +256,16 @@ fn return_only_adapter_reports_segments_without_host_confirmation() {
     assert_eq!(report.delivery_state, "unknown");
     assert_eq!(report.host_confirmation, "unknown");
     assert_eq!(host.returned_segment_count(), payload.segments.len());
+}
+
+#[test]
+fn assistant_message_events_preserve_each_segment_without_reconstruction() {
+    let payload = delivery();
+    let events = assistant_message_events(&payload);
+    assert_eq!(events.len(), payload.segments.len());
+    for (event, segment) in events.iter().zip(&payload.segments) {
+        assert_eq!(event.schema_version, 1);
+        assert_eq!(event.event, "assistant_message");
+        assert_eq!(&event.segment, segment);
+    }
 }

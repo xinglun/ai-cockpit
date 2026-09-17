@@ -894,6 +894,18 @@ fn mcp_archive_outcome_delivery_returns_the_complete_body_from_one_observation()
     assert_eq!(structured["outcomeDelivery"]["body"], handoff);
     assert_eq!(structured["hostDeliveryMode"], "full_handoff_only");
     assert_eq!(structured["returnedSegmentEvents"], 1);
+    let assistant_events = structured["assistantMessageEvents"]
+        .as_array()
+        .expect("conversation-facing assistant events");
+    let segments = structured["outcomeDelivery"]["segments"]
+        .as_array()
+        .expect("delivery segments");
+    assert_eq!(assistant_events.len(), segments.len());
+    for (event, segment) in assistant_events.iter().zip(segments) {
+        assert_eq!(event["schemaVersion"], 1);
+        assert_eq!(event["event"], "assistant_message");
+        assert_eq!(event["segment"], *segment);
+    }
     assert_eq!(structured["deliveryReport"]["deliveryState"], "unknown");
     assert_eq!(structured["deliveryReport"]["hostConfirmation"], "unknown");
     assert!(handoff.contains("What was completed"));
