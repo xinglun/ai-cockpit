@@ -150,6 +150,17 @@ def configure(root, disposition="integrated", invalid=False):
 configure(valid_root)
 configure(replaced_root, disposition="replaced")
 configure(invalid_root, invalid=True)
+# Retirement is explicitly not verification.  A valid retired/replaced
+# predecessor must therefore remain valid even when its current evidence and
+# Work Item projection were never produced.
+for root in (valid_root, replaced_root):
+    evidence = root / ".ai/evidence/WI-900-release-v9-9-9.verification.json"
+    if evidence.exists():
+        evidence.unlink()
+    for suffix in ("", ".zh-CN", ".ja"):
+        document = root / f"docs/work-items/WI-900-release-v9-9-9{suffix}.md"
+        if document.exists():
+            document.unlink()
 PY
 python3 "$gate" --repo "$tmp/retired-valid" --report "$tmp/retired-valid-report.json" >/dev/null
 python3 - "$tmp/retired-valid-report.json" <<'PY'

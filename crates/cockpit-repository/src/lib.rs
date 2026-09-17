@@ -87,10 +87,11 @@ use lifecycle::{
     work_item_artifact_path,
 };
 pub use outcome_render::{
-    FinalizationProjection, HumanDecisionProjection, OutcomeAssemblyMetadata, OutcomeRenderInput,
+    FinalizationProjection, HumanDecisionProjection, OUTCOME_DELIVERY_MAX_SEGMENT_CHARS,
+    OUTCOME_DELIVERY_SCHEMA_VERSION, OutcomeAssemblyMetadata, OutcomeRenderInput,
     OutcomeRenderView, outcome_render_input, outcome_render_input_from_outcome,
-    outcome_render_input_with_runtime, render_full_human_outcome, render_human_outcome,
-    render_human_outcome_with_view,
+    outcome_render_input_with_runtime, prepare_archive_outcome_delivery, render_full_human_outcome,
+    render_human_outcome, render_human_outcome_with_view,
 };
 pub use project_governance::*;
 use status_projection::{

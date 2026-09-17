@@ -31,8 +31,22 @@ capabilityClaims:
 渲染这份相同的已校验报告。其显式 `--json` 模式为机器调用者抑制 stderr 报告。
 `finish` 被阻止时，会先渲染已持久化的红色或黄色 Outcome，再返回原有 nonzero 错误；
 额外 handoff 绝不会放宽门禁。CLI 无法强制宿主应用打开或展开对话 UI；宿主必须展示
-stderr，人工也可以用 `ai-cockpit work-item outcome --repo <repository> --id <work-item>`
+返回的正文或 stderr，人工也可以用 `ai-cockpit work-item outcome --repo <repository> --id <work-item>`
 确定性重放持久交接。
+
+## 归档交付边界
+
+`archive` 和受支持的历史归档入口始终准备完整的人类 Outcome。普通输出在 stderr
+写入正文，并在 stdout 的版本化 `outcomeDelivery` 中返回相同正文。`--json` 保持
+stdout 为合法 JSON，并抑制单独的 stderr handoff；它不会删除 `outcomeDelivery`
+中的正文、摘要哈希或有序分段。MCP `work_item_outcome` 使用 `delivery: true` 时也
+强制完整视图，并在 `humanHandoff` 与 `content[0].text` 中返回正文。
+
+正文已准备、工具已返回、宿主已接受和宿主已展示是不同事实。当前 CLI/MCP 边界没有
+通用的 Codex 或 Claude 展示确认接口，因此除非宿主明确提供确认，宿主确认状态为
+`unknown`。适配层必须按分段发送独立 assistant 消息，保留 delivery id 与正文摘要哈希，
+中断后只续投或重试同一正文。补投不会重新执行验证或归档；宿主不支持幂等时必须报告
+重复消息风险，不能声称严格只投一次，也不能声称人已阅读或批准。
 
 默认摘要包含四个部分：
 
@@ -50,8 +64,8 @@ stderr，人工也可以用 `ai-cockpit work-item outcome --repo <repository> --
 ## 发布说明：面向阅读的 Outcome 摘要
 
 当前展示版本将默认的人工 `work-item outcome` 视图从完整审计报告改为上述四段式摘要，减少普通任务阅读空栏目，同时保留验证、生命周期、决定、阻断项、不确定性和证据引用。
-完整报告通过 `--view full` 保留；MCP `work_item_outcome` 接受 `view: "summary"`（默认）或 `view: "full"`。
-机器 JSON 的既有字段、验证规则、退出码、授权语义和持久化证据保持兼容；新增的原因和 finalization 字段是可选的，旧记录可以缺少。顶层 `finish`、`archive`、`close` 为保留生命周期错误和审计上下文，继续在 stderr 输出完整 handoff；`--json` 仍会抑制该人工通道。
+完整报告通过 `--view full` 保留；MCP `work_item_outcome` 接受 `view: "summary"`（默认）或 `view: "full"`，归档交付使用 `delivery: true`。
+机器 JSON 的既有字段、验证规则、退出码、授权语义和持久化证据保持兼容；新增的原因和 finalization 字段是可选的，旧记录可以缺少。顶层 `finish`、`archive`、`close` 为保留生命周期错误和审计上下文，继续在 stderr 输出完整 handoff；`--json` 仍会抑制该单独人工通道，但归档 JSON 保留完整的 `outcomeDelivery` 正文。
 
 状态标记是决策信号，不是发布授权：
 
@@ -139,6 +153,7 @@ Agent 需要向人展示结果时，必须使用明确 `workItemId` 调用 repos
 `structuredContent.outcome` 仍是稳定的 OutcomeV2 对象；`humanHandoff` 只是 presentation projection，
 不能授权 merge、release 或人工决定。`work_item_get` 仍是面向机器的记录查询。可选 `language` 用于选择
 `en`、`zh` 或 `ja` 的 Runtime 标签；Contract 原文保持不变。
+归档的 WI 应传 `delivery: true`，不得再由 Agent 压缩已生成的完整正文。
 
 ## Task Outcome 报告与事件
 

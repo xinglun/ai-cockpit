@@ -1,7 +1,7 @@
 use cockpit_git::GitRepository;
 use cockpit_protocol::{
-    AgentInterfaceManifest, AgentProvider, RepositoryConfig, validate_agent_interface_version,
-    validate_protocol_version,
+    AgentInterfaceManifest, AgentProvider, OutcomeDelivery, OutcomeDeliverySegment,
+    RepositoryConfig, validate_agent_interface_version, validate_protocol_version,
 };
 use serde::{Serialize, de::DeserializeOwned};
 use sha2::{Digest as ShaDigest, Sha256};
@@ -100,6 +100,36 @@ pub enum AgentExitCode {
     IncompatibleProtocol = 4,
 }
 
+/// Host capabilities are explicit so an adapter cannot turn its own
+/// `delivered=true` field into proof of acceptance or display.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct HostDeliveryCapabilities {
+    pub acceptance_confirmation: bool,
+    pub display_confirmation: bool,
+    pub idempotency: bool,
+}
+
+/// Minimal host boundary used by supported adapters and the controllable
+/// end-to-end tests. Each segment is one independent assistant message.
+pub trait OutcomeMessageHost {
+    fn capabilities(&self) -> HostDeliveryCapabilities;
+    fn send_message(&mut self, message: &OutcomeDeliverySegment) -> Result<(), AgentError>;
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct OutcomeDeliveryReport {
+    pub delivery_id: String,
+    pub work_item_id: String,
+    pub sent_parts: usize,
+    pub total_parts: usize,
+    pub complete: bool,
+    pub delivery_state: String,
+    pub host_confirmation: String,
+    pub duplicate_risk: bool,
+    pub next_action: String,
+}
+
 impl AgentExitCode {
     pub const fn code(self) -> i32 {
         self as i32
@@ -116,6 +146,135 @@ pub enum AgentError {
     State { path: PathBuf, message: String },
     #[error("repository discovery failed: {0}")]
     Git(String),
+    #[error("Outcome delivery failed after {sent_parts} part(s): {message}")]
+    DeliveryFailed { sent_parts: usize, message: String },
+}
+
+/// Validate and deliver the exact full Outcome payload. `resume_from` is a
+/// one-based segment boundary expressed as a zero-based count of already
+/// accepted parts; retrying with the same payload never reruns archive or
+/// verification. A host without idempotency may still duplicate earlier
+/// messages when a caller deliberately retries from zero, and the report
+/// states that risk.
+pub fn deliver_outcome<S: OutcomeMessageHost>(
+    delivery: &OutcomeDelivery,
+    host: &mut S,
+    resume_from: usize,
+) -> Result<OutcomeDeliveryReport, AgentError> {
+    validate_outcome_delivery(delivery)?;
+    if resume_from > delivery.segments.len() {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: format!(
+                "resume part {resume_from} exceeds total {}",
+                delivery.segments.len()
+            ),
+        });
+    }
+    let capabilities = host.capabilities();
+    let mut sent_parts = resume_from;
+    for segment in delivery.segments.iter().skip(resume_from) {
+        if let Err(error) = host.send_message(segment) {
+            return Err(AgentError::DeliveryFailed {
+                sent_parts,
+                message: error.to_string(),
+            });
+        }
+        sent_parts += 1;
+    }
+    let complete = sent_parts == delivery.segments.len();
+    let (delivery_state, host_confirmation) = if capabilities.display_confirmation && complete {
+        ("display_confirmed", "display_confirmed")
+    } else if capabilities.acceptance_confirmation && complete {
+        ("host_accepted", "accepted")
+    } else {
+        ("unknown", "unknown")
+    };
+    Ok(OutcomeDeliveryReport {
+        delivery_id: delivery.delivery_id.to_string(),
+        work_item_id: delivery.work_item_id.clone(),
+        sent_parts,
+        total_parts: delivery.segments.len(),
+        complete,
+        delivery_state: delivery_state.into(),
+        host_confirmation: host_confirmation.into(),
+        duplicate_risk: resume_from > 0 && !capabilities.idempotency,
+        next_action: if host_confirmation == "unknown" {
+            "Host acceptance/display is unknown; do not claim that a user saw or approved the message.".into()
+        } else {
+            "The host accepted the assistant message segments; this does not prove that a person read or approved them.".into()
+        },
+    })
+}
+
+/// Reject stale or mismatched delivery payloads before a retry. This compares
+/// only the identity fields; the full segment/body integrity is checked by
+/// `deliver_outcome`.
+pub fn ensure_same_outcome_delivery(
+    expected: &OutcomeDelivery,
+    candidate: &OutcomeDelivery,
+) -> Result<(), AgentError> {
+    if expected.delivery_id != candidate.delivery_id
+        || expected.work_item_id != candidate.work_item_id
+        || expected.archive_identity != candidate.archive_identity
+        || expected.language != candidate.language
+        || expected.body_digest != candidate.body_digest
+    {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message:
+                "delivery identity is stale or mismatched; do not deliver it as the current result"
+                    .into(),
+        });
+    }
+    Ok(())
+}
+
+fn validate_outcome_delivery(delivery: &OutcomeDelivery) -> Result<(), AgentError> {
+    if delivery.schema_version != 1 || delivery.view != "full" {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: "unsupported or non-full Outcome delivery payload".into(),
+        });
+    }
+    if cockpit_core::Digest::sha256_bytes(delivery.body.as_bytes()) != delivery.body_digest {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: "Outcome delivery body digest does not match".into(),
+        });
+    }
+    if delivery.segments.is_empty() {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: "Outcome delivery has no message segments".into(),
+        });
+    }
+    let total = delivery.segments.len() as u32;
+    let mut reassembled = String::new();
+    for (index, segment) in delivery.segments.iter().enumerate() {
+        if segment.schema_version != 1
+            || segment.delivery_id != delivery.delivery_id
+            || segment.work_item_id != delivery.work_item_id
+            || segment.archive_identity != delivery.archive_identity
+            || segment.language != delivery.language
+            || segment.part != index as u32 + 1
+            || segment.total_parts != total
+            || cockpit_core::Digest::sha256_bytes(segment.body.as_bytes()) != segment.body_digest
+        {
+            return Err(AgentError::State {
+                path: PathBuf::from("<outcome-delivery>"),
+                message: "Outcome delivery segment identity or digest is invalid".into(),
+            });
+        }
+        reassembled.push_str(&segment.body);
+    }
+    if reassembled != delivery.body {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: "Outcome delivery segments do not reassemble to the full body".into(),
+        });
+    }
+    Ok(())
 }
 
 pub fn canonical_manifest_path(root: &Path) -> PathBuf {

@@ -34,9 +34,25 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 機械専用 caller のため stderr report を抑止します。`finish` が block された場合、
 永続化済みの赤または黄の Outcome を表示してから元の nonzero error を返します。
 追加の handoff が gate を弱めることはありません。CLI は host application に会話 UI
-の表示・展開を強制できません。host は stderr を提示し、人は
+の表示・展開を強制できません。host は返された本文または stderr を提示し、人は
 `ai-cockpit work-item outcome --repo <repository> --id <work-item>` で durable handoff
 を決定的に再生できます。
+
+## archive の delivery 境界
+
+`archive` と対応する historical-archive 経路は常に完全な human Outcome を準備します。
+通常出力は本文を stderr に出し、stdout の versioned `outcomeDelivery` に同じ本文を返します。
+`--json` は stdout を合法な JSON のままにし、別 channel の stderr handoff を抑制しますが、
+`outcomeDelivery` の本文、digest、順序付き segment は削除しません。MCP の
+`work_item_outcome` は `delivery: true` で同じ完全 view を返し、本文を
+`humanHandoff` と `content[0].text` の両方に含めます。
+
+本文の準備、tool への返却、host の受理、host での表示は別々の事実です。現在の CLI/MCP 境界には
+汎用的な Codex/Claude の表示確認 API がないため、host が明示的に確認しない限り確認状態は
+`unknown` です。adapter は各 segment を独立した assistant message として送り、delivery id と
+本文 digest を保持し、中断後は同じ payload を resume/retry します。retry は verification や
+archive を再実行しません。host に idempotency がない場合は重複メッセージのリスクを示し、
+厳密な exactly-once や人が読んだ/承認したという主張をしません。
 
 既定の summary は四つのセクションです。
 
@@ -54,8 +70,8 @@ summary では判断に関係しない空の章を省略します。blocker、�
 ## Release note: reader-first Outcome summary
 
 今回の presentation release では、人間向け `work-item outcome` の既定 view を完全な audit report から上記の四つの summary へ変更しました。通常のタスクで空の章を読む負担を減らしつつ、検証、ライフサイクル、判断、blocker、不確実性、evidence 参照を残します。
-完全な report は `--view full` で表示でき、MCP `work_item_outcome` は `view: "summary"`（既定）または `view: "full"` を受け付けます。
-既存の machine JSON fields、検証ルール、exit code、権限 semantics、永続化された evidence は互換性を保ちます。reason と finalization の fields は optional で、古い record にはなくても構いません。top-level の `finish`、`archive`、`close` は lifecycle error と audit context のため stderr に完全な handoff を表示し続け、`--json` は従来どおり人間向け channel を抑止します。
+完全な report は `--view full` で表示でき、MCP `work_item_outcome` は `view: "summary"`（既定）または `view: "full"` を受け付けます。archive delivery は `delivery: true` を使用します。
+既存の machine JSON fields、検証ルール、exit code、権限 semantics、永続化された evidence は互換性を保ちます。reason と finalization の fields は optional で、古い record にはなくても構いません。top-level の `finish`、`archive`、`close` は lifecycle error と audit context のため stderr に完全な handoff を表示し続け、`--json` は従来どおり別の人間向け channel を抑止しますが、archive JSON には完全な `outcomeDelivery` 本文が残ります。
 
 状態マーカーは判断のシグナルであり、リリース承認ではありません。
 
@@ -153,7 +169,8 @@ Agent が人間に結果を示す場合、明示的な `workItemId` を指定し
 ではありません。`structuredContent.outcome` は安定した OutcomeV2 object のままです。
 `humanHandoff` は presentation projection であり、merge、release、human decision を認可しません。
 `work_item_get` は machine record lookup です。任意の `language` で `en`、`zh`、`ja` の Runtime label を
-選択できますが、Contract source text は変更されません。
+選択できますが、Contract source text は変更されません。archive 済み WI では `delivery: true` を指定し、
+生成済みの完全な本文を Agent が再要約してはいけません。
 
 ## Task Outcome report と event
 

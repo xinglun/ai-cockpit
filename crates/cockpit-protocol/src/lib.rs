@@ -3539,6 +3539,51 @@ pub struct TaskOutcomeReport {
     pub recovery_condition: Option<String>,
 }
 
+/// Versioned, full-view human Outcome prepared at an archive boundary.
+///
+/// This is a transport object, not a lifecycle receipt and not proof that a
+/// host displayed a message.  `delivery_state` describes the last boundary
+/// that the Runtime or adapter can actually observe; callers must not promote
+/// it to a read or approval claim.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeDelivery {
+    pub schema_version: u32,
+    pub delivery_id: Digest,
+    pub work_item_id: String,
+    pub archive_identity: Digest,
+    pub language: String,
+    pub view: String,
+    pub body: String,
+    pub body_digest: Digest,
+    pub body_summary: String,
+    pub segments: Vec<OutcomeDeliverySegment>,
+    pub delivery_state: String,
+    pub host_confirmation: String,
+    pub next_action: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub outcome: Option<OutcomeV2>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
+}
+
+/// One independently deliverable assistant message segment.  The full body
+/// remains present in `OutcomeDelivery`, so consumers can reassemble and
+/// verify the exact text without asking an Agent to summarize it again.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeDeliverySegment {
+    pub schema_version: u32,
+    pub delivery_id: Digest,
+    pub work_item_id: String,
+    pub archive_identity: Digest,
+    pub language: String,
+    pub part: u32,
+    pub total_parts: u32,
+    pub body: String,
+    pub body_digest: Digest,
+}
+
 /// One append-only Task Outcome event.  Events are evidence inputs to the
 /// report projection; they never grant authority or replace lifecycle receipts.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]

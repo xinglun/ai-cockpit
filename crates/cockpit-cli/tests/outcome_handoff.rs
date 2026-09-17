@@ -149,6 +149,26 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         let archive_json: serde_json::Value =
             serde_json::from_slice(&archive.stdout).expect("archive stdout JSON");
         assert_eq!(archive_json["workItemId"], id);
+        assert_eq!(archive_json["outcomeDelivery"]["view"], "full");
+        assert_eq!(
+            archive_json["outcomeDelivery"]["language"],
+            match language {
+                "en" => "en",
+                "zh-CN" => "zh",
+                "ja" => "ja",
+                _ => unreachable!(),
+            }
+        );
+        let archive_body = archive_json["outcomeDelivery"]["body"]
+            .as_str()
+            .expect("archive full body");
+        assert!(!archive_body.is_empty());
+        assert_eq!(
+            String::from_utf8(archive.stderr.clone())
+                .expect("archive handoff UTF-8")
+                .trim_end(),
+            archive_body
+        );
         // Once the Work Item is archived, a bound provider context still
         // requires a valid provider-side finalization receipt.  The Runtime
         // therefore exposes a visible yellow handoff here; close becomes
@@ -224,6 +244,19 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
         let json: serde_json::Value =
             serde_json::from_slice(&output.stdout).expect("lifecycle stdout JSON");
         assert_eq!(json["workItemId"], id);
+        if command == "archive" {
+            assert_eq!(json["outcomeDelivery"]["view"], "full");
+            assert_eq!(
+                json["outcomeDelivery"]["deliveryState"],
+                "returned_to_consumer"
+            );
+            assert_eq!(json["outcomeDelivery"]["workItemId"], id);
+            let body = json["outcomeDelivery"]["body"].as_str().expect("full body");
+            assert!(body.contains("Task Result"));
+            assert!(body.contains("Problems found"));
+            assert!(body.contains("Evidence"));
+            assert!(!body.is_empty());
+        }
         assert!(!String::from_utf8_lossy(&output.stderr).contains("Outcome:"));
     }
 
@@ -263,6 +296,29 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
         serde_json::from_slice(&close.stdout).expect("close stdout JSON");
     assert_eq!(close_json["workItemId"], id);
     assert!(!String::from_utf8_lossy(&close.stderr).contains("Outcome:"));
+}
+
+#[test]
+fn archive_normal_output_has_the_same_full_body_as_structured_stdout() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-HANDOFF-ARCHIVE-FULL";
+    let repo = checkpointed(binary, id, true);
+    let finish = run(binary, repo.path(), &["finish", "--id", id]);
+    assert!(finish.status.success());
+    let archive = run(binary, repo.path(), &["archive", "--id", id]);
+    assert!(
+        archive.status.success(),
+        "{}",
+        String::from_utf8_lossy(&archive.stderr)
+    );
+    let json: serde_json::Value = serde_json::from_slice(&archive.stdout).expect("archive JSON");
+    let body = json["outcomeDelivery"]["body"].as_str().expect("full body");
+    let stderr = String::from_utf8(archive.stderr).expect("human UTF-8");
+    assert_eq!(stderr, format!("{body}\n"));
+    assert!(body.contains("What was completed"));
+    assert!(body.contains("Problems found"));
+    assert!(body.contains("Human decisions"));
+    assert!(body.contains("Next action"));
 }
 
 #[test]

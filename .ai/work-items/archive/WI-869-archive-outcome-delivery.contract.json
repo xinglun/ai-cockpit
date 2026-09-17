@@ -1,0 +1,96 @@
+{
+  "acceptanceCriteria": [
+    "普通 archive 和 archive-historical 都返回同一份版本化完整 Outcome 交付数据；正文包含 WI/目标、行为变化、验证范围、问题与停止/解决、风险/未知/未完成、影响与推断、人工决定、生命周期/清理/下一步和证据",
+    "--json stdout 始终为合法 JSON 且包含完整交付；忽略 stderr 仍可完成传递；人类输出与结构化正文同源",
+    "连续归档不同 WI 身份独立；三语事实和下一步一致；长正文分段有序且无静默截断",
+    "可控宿主端到端检查实际 assistant 消息；中断仅补投同一正文且验证新增执行数和归档新增执行数均为 0；按宿主能力如实表达 accepted/display unknown，不能伪称已展示",
+    "内容过期或身份不匹配不作为当前结果交付；查询可默认 summary，但归档交付固定 full；Agent 指令明确工具输出不等于对话交付",
+    "A valid Runtime retirement or replacement record remains historical and does not require fabricated verification evidence or current Work Item documents."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ef4625f9e88e9af030a7f448896061ea24ece770",
+  "createdAt": "2026-09-17T00:22:48Z",
+  "goal": "普通与历史归档都返回版本化完整人类 Outcome；CLI --json/MCP/Agent 传递不丢正文；可控适配层支持独立分段、补投、去重和能力边界的真实测试；失败只补投且不重跑验证或归档。",
+  "intent": "修复每个 Work Item 归档后完整 Outcome 未可靠进入用户对话的问题，恢复归档成功到可见交付的可信链路。",
+  "mode": "code",
+  "outOfScope": [
+    "重构整个生命周期或拆分整个 cockpit-repository",
+    "新增人工确认收到门禁",
+    "因消息投递失败重新执行验证或归档或创建 successor",
+    "发布新版本、发布级供应链和外部宿主展示确认"
+  ],
+  "predecessorContractDigest": "sha256:4326576129f82d87a4d7a756f05c25bf1498565579cf9a56de6b46a291ac7003",
+  "predecessorWorkItemId": "WI-868-archive-outcome-delivery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-868-archive-outcome-delivery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6985cfa9413ba56bf969a5bf5acc62714bcfc68634c823d1a02c85ba9ba5119c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests",
+        "crates/cockpit-mcp/tests",
+        "crates/cockpit-agent/tests"
+      ],
+      "expected": "archive and archive-historical return one identity-bound full delivery payload; a controllable host records independent assistant messages, and retry reuses the same body without a verification or archive execution.",
+      "required": true,
+      "scenario": "archive full Outcome return and host delivery retry",
+      "status": "unverified",
+      "verificationPlan": "Run focused protocol, repository, CLI, MCP, and Agent adapter tests for JSON/stdout, stderr omission, multilingual full views, segmentation, stale identity, host capability boundaries, interruption, retry, and deduplication."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-mcp/tests",
+    "crates/cockpit-agent/tests",
+    "docs/reference",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/operations",
+    "docs/features",
+    "docs/architecture",
+    "docs/work-items/WI-869-archive-outcome-delivery.md",
+    "docs/work-items/WI-869-archive-outcome-delivery.zh-CN.md",
+    "docs/work-items/WI-869-archive-outcome-delivery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "crates/cockpit-agent/tests/**",
+    "docs/reference/**",
+    "docs/operations/**",
+    "docs/features/**",
+    "docs/architecture/**",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/WI-868-archive-outcome-delivery.*",
+    ".ai/work-items/active/WI-869-archive-outcome-delivery.*",
+    ".ai/work-items/archive/WI-868-archive-outcome-delivery.*",
+    ".ai/evidence/WI-869-archive-outcome-delivery.*"
+  ],
+  "sources": [
+    "user-request:2026-09-17:archive-outcome-dialog-delivery",
+    "governance-retirement-integrity:preserve-unverified-history"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "workItemId": "WI-869-archive-outcome-delivery"
+}

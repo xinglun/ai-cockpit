@@ -1611,6 +1611,17 @@ def main() -> int:
 
         base = repo / ".ai/work-items" / location
         required_suffixes = ("contract", "summary") if location == "active" else RECORD_SUFFIXES
+        retirement_candidate = retirement_receipt(repo, work_item) if location == "archive" else None
+        retirement_present = retirement_candidate is not None
+        retirement_valid = (
+            retirement_candidate is not None
+            and valid_retirement_receipt(
+                repo,
+                work_item,
+                retirement_candidate[0],
+                retirement_candidate[1],
+            )
+        )
         for suffix in required_suffixes:
             relative = f".ai/work-items/{location}/{work_item}.{suffix}.json"
             if not (base / f"{work_item}.{suffix}.json").is_file():
@@ -1652,7 +1663,7 @@ def main() -> int:
                     f".ai/work-items/{location}/{work_item}.contract.json",
                 )
             )
-        if parity_projection:
+        if parity_projection and not retirement_valid:
             for document_suffix, _language in WORK_ITEM_DOCUMENTS:
                 issue = _work_item_document_issue(repo, work_item, document_suffix)
                 if issue is not None:
@@ -1716,17 +1727,6 @@ def main() -> int:
                         f".ai/work-items/archive/{work_item}.archive.json",
                     )
                 )
-            retirement_candidate = retirement_receipt(repo, work_item)
-            retirement_present = retirement_candidate is not None
-            retirement_valid = (
-                retirement_candidate is not None
-                and valid_retirement_receipt(
-                    repo,
-                    work_item,
-                    retirement_candidate[0],
-                    retirement_candidate[1],
-                )
-            )
             if retirement_present and not retirement_valid:
                 findings.append(
                     finding(
@@ -1781,9 +1781,9 @@ def main() -> int:
                     )
             evidence = f".ai/evidence/{work_item}.verification.json"
             evidence_path = repo / evidence
-            if not evidence_path.is_file() or evidence_path.is_symlink():
+            if not retirement_valid and (not evidence_path.is_file() or evidence_path.is_symlink()):
                 findings.append(finding(work_item, "missing_evidence", evidence))
-            else:
+            elif not retirement_valid:
                 try:
                     evidence_value = load_json(evidence_path)
                 except ValueError:
