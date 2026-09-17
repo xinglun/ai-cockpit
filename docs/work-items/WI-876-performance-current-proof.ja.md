@@ -4,9 +4,12 @@ workItemId: WI-876-performance-current-proof
 title: 現行版 performance proof
 description: 四方向 convergence の受入れに向けた Runtime と開発サイクルの paired measurement。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-876-performance-current-proof
+terminalArchive: .ai/work-items/archive/WI-876-performance-current-proof.contract.json
+terminalVerification: .ai/evidence/WI-876-performance-current-proof.verification.json
+terminalDecision: .ai/decisions/WI-876-performance-current-proof.close.json
 ---
 
 # WI-876 — 現行版 performance proof

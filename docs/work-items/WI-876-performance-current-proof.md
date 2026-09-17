@@ -4,9 +4,12 @@ workItemId: WI-876-performance-current-proof
 title: Current-version performance proof
 description: Paired Runtime and development-cycle measurements for the four-direction convergence acceptance.
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-876-performance-current-proof
+terminalArchive: .ai/work-items/archive/WI-876-performance-current-proof.contract.json
+terminalVerification: .ai/evidence/WI-876-performance-current-proof.verification.json
+terminalDecision: .ai/decisions/WI-876-performance-current-proof.close.json
 ---
 
 # WI-876 — Current-version performance proof

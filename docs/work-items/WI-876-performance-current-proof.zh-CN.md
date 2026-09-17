@@ -4,9 +4,12 @@ workItemId: WI-876-performance-current-proof
 title: 当前版本性能证明
 description: 为四方向收敛验收建立配对的 Runtime 与开发周期测量。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-876-performance-current-proof
+terminalArchive: .ai/work-items/archive/WI-876-performance-current-proof.contract.json
+terminalVerification: .ai/evidence/WI-876-performance-current-proof.verification.json
+terminalDecision: .ai/decisions/WI-876-performance-current-proof.close.json
 ---
 
 # WI-876——当前版本性能证明
