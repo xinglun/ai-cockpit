@@ -53,6 +53,8 @@ lastVerifiedBy: WI-889-object-performance-current
 `verification-plan` 增加 p50 5.134 ms、p95 5.255 ms；对 `status` 增加 p50
 0 ms、p95 1.183 ms；对 `work-item-outcome` 增加 p50 0.674 ms、p95 1.689 ms。
 
-Runtime 延迟与开发周期成本分开报告。Contract→可创建 PR、验证→finish 和
-合并后清理只有在生命周期时间戳存在时才会声明；未取得的阶段在开发周期
-报告中保持明确的不可用状态。
+Runtime 延迟与开发周期成本分开报告。Contract→可创建 PR 已测得
+4,744,000 ms（Contract 创建 `2026-09-17T19:23:54Z` 至 PR #865 创建
+`2026-09-17T20:42:58Z`）。该阶段没有持久化 agent 操作数，因此该维度保持
+不可用；记录的前置拒绝数为 0。验证→finish 和合并后清理仍须等生命周期时间戳
+出现后再报告，并在开发周期报告中明确标记不可用。

@@ -61,6 +61,10 @@ repository, diagnostics-on versus diagnostics-off added 5.134 ms p50 and
 and 0.674 ms p50 and 1.689 ms p95 to `work-item-outcome`.
 
 Runtime latency and development-cycle cost are intentionally separate. The
-Contract→reviewable-PR, verification→finish, and post-merge-cleanup stages are
-not claimed until their lifecycle timestamps exist; unavailable stages remain
-explicitly unavailable in the development-cycle report.
+The first Contract→reviewable-PR interval is now measured as 4,744,000 ms
+(Contract creation `2026-09-17T19:23:54Z` to PR #865 creation
+`2026-09-17T20:42:58Z`). The Runtime did not persist an agent-operation count
+for this interval, so that dimension remains unavailable; the captured
+preflight-rejection count is 0. Verification→finish and post-merge-cleanup
+remain explicitly unavailable until their lifecycle timestamps exist in the
+development-cycle report.

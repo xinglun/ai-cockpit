@@ -59,6 +59,10 @@ diagnostics-on は off に対して `verification-plan` で p50 5.134 ms、p95 5
 `status` で p50 0 ms、p95 1.183 ms、`work-item-outcome` で p50 0.674 ms、p95
 1.689 ms 増加した。
 
-Runtime latency と development-cycle cost は分離して報告する。Contract→reviewable
-PR、verification→finish、post-merge cleanup は lifecycle timestamp が得られるまで
-主張せず、未取得の stage は development-cycle report で明示的に unavailable とする。
+Runtime latency と development-cycle cost は分離して報告する。最初の
+Contract→reviewable-PR は 4,744,000 ms（Contract 作成
+`2026-09-17T19:23:54Z` から PR #865 作成 `2026-09-17T20:42:58Z`）と測定した。
+この区間の agent operation 数は Runtime に永続化されていないため unavailable
+で、記録された preflight rejection 数は 0 である。verification→finish と
+post-merge cleanup は lifecycle timestamp が得られるまで unavailable とし、
+development-cycle report に明示する。

@@ -1,0 +1,118 @@
+{
+  "environment": {
+    "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "host": "aarch64-apple-darwin",
+    "runtimeVersion": "0.2.95",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "source": "Runtime Contract and GitHub PR timestamps",
+    "workItemId": "WI-889-object-performance-current"
+  },
+  "kind": "development-cycle-cost",
+  "measurementBoundary": {
+    "contractToReviewable": "from Contract creation to the first state where a Draft PR may be created",
+    "overlap": "not inferred; each stage is reported from its own capture",
+    "postMergeCleanup": "from reviewed merge observation to exact resource cleanup",
+    "verificationToFinish": "from verification start to a successful finish boundary"
+  },
+  "schemaVersion": 1,
+  "stages": [
+    {
+      "agentOperations": [
+        null
+      ],
+      "agentOperationsBinding": {
+        "available": false,
+        "reason": "agent operation count not persisted for one or more captures"
+      },
+      "available": true,
+      "p50Ms": 4744000.0,
+      "p95Ms": 4744000.0,
+      "preflightRejects": [
+        0
+      ],
+      "preflightRejectsBinding": {
+        "available": true,
+        "values": [
+          0
+        ]
+      },
+      "rawSampleCount": 1,
+      "rawSamplesMs": [
+        4744000.0
+      ],
+      "sourceRecords": [
+        {
+          "agentOperations": null,
+          "boundary": "Contract creation to PR #865 creation; Draft-PR eligibility was reached at the PR creation event.",
+          "elapsedMs": 4744000,
+          "endedAt": "2026-09-17T20:42:58Z",
+          "preflightRejects": 0,
+          "stage": "contract_to_reviewable",
+          "startedAt": "2026-09-17T19:23:54Z",
+          "valid": true
+        }
+      ],
+      "stage": "contract_to_reviewable"
+    },
+    {
+      "agentOperations": [
+        null
+      ],
+      "agentOperationsBinding": {
+        "available": false,
+        "reason": "agent operation count not persisted for one or more captures"
+      },
+      "available": false,
+      "p50Ms": null,
+      "p95Ms": null,
+      "preflightRejects": [
+        null
+      ],
+      "preflightRejectsBinding": {
+        "available": false,
+        "reason": "preflight rejection count not persisted for one or more captures"
+      },
+      "rawSampleCount": 0,
+      "rawSamplesMs": [],
+      "reason": "no_valid_stage_samples",
+      "sourceRecords": [
+        {
+          "reason": "stage timestamp pair not persisted as a separate lifecycle capture",
+          "stage": "verification_to_finish",
+          "valid": false
+        }
+      ],
+      "stage": "verification_to_finish"
+    },
+    {
+      "agentOperations": [
+        null
+      ],
+      "agentOperationsBinding": {
+        "available": false,
+        "reason": "agent operation count not persisted for one or more captures"
+      },
+      "available": false,
+      "p50Ms": null,
+      "p95Ms": null,
+      "preflightRejects": [
+        null
+      ],
+      "preflightRejectsBinding": {
+        "available": false,
+        "reason": "preflight rejection count not persisted for one or more captures"
+      },
+      "rawSampleCount": 0,
+      "rawSamplesMs": [],
+      "reason": "no_valid_stage_samples",
+      "sourceRecords": [
+        {
+          "reason": "merge and cleanup have not occurred for PR #865",
+          "stage": "post_merge_cleanup",
+          "valid": false
+        }
+      ],
+      "stage": "post_merge_cleanup"
+    }
+  ]
+}
