@@ -22,6 +22,10 @@ evidence の完全性、比較可能な環境を結び付けます。budget は
 `warm.p50Ms`、`warm.p95Ms`、`warm.p99Ms` のいずれかを明示し、不十分な percentile は gate failure とし、
 `elapsedMs` や別 percentile への fallback は行いません。
 
+schema 2 の release-grade 収集と比較では、budget が使う各 percentile（`p50`、`p95`、`p99`）に少なくとも
+100 個の有効な warm sample が必要です。少数 sample は `runtime_benchmark_stats.summarize` で診断できますが、
+P0 gate を満たす証拠にはなりません。
+
 Verification scheduler は command ごとの resource weight と明示的な resource budget に対応します。
 weight が zero または budget 超過なら fail-closed になり、dependency order、protected node、
 receipt reuse の意味は変わりません。Repository context と Runtime session は request-scoped であり、
@@ -50,3 +54,8 @@ historical Work Item、複数 concurrent validation request、常駐 MCP の rep
 1 件/2 件以上、`large-file-change` は 1 MiB 以上の変更 file、`many-historical-wi` は archived Work Item
 100 件以上を要求します。Portable harness は concurrent request や常駐 MCP transport を実行しないため、これらは
 明示的に `not_measured` のままです。
+Work Item id を渡すと、同じ 100 warm sample batch で machine-readable Work Item status、
+Outcome、verification planning も別 operation として測定します。これらは独立した sample
+であり、実行や reuse の測定を置き換えません。Contract→reviewable、verification→finish、
+merge 後 cleanup の cycle cost は別 report とし、provider step が取得できない場合は理由を明示します。
+`development_cycle_cost.py` は lifecycle capture を別々に処理し、Contract→reviewable、verification→finish、merge 後 cleanup の raw sample、p50/p95、agent operation 数、preflight reject 数を分けて出力します。provider stage がない場合は unavailable とし、0 には置き換えません。

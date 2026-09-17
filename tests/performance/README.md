@@ -28,6 +28,11 @@ name an explicit metric (`warm.p50Ms`, `warm.p95Ms`, or `warm.p99Ms`); an
 unreliable percentile is a gate failure and cannot fall back to `elapsedMs` or
 another percentile.
 
+Schema-2 release-grade collection and comparison require at least 100 valid
+warm samples for every percentile used by a budget (`p50`, `p95`, and `p99`).
+Fewer samples remain available through `runtime_benchmark_stats.summarize` as a
+diagnostic-only result, but cannot satisfy the P0 gate.
+
 Verification scheduling also supports per-command resource weights and an
 explicit resource budget. A command whose weight is zero or exceeds the budget
 fails closed, while dependency order, protected nodes, and receipt reuse keep
@@ -55,6 +60,16 @@ The portable `runtime_benchmark.sh <binary> <repo> <output.json> [iterations]
 wall-clock process latency. It preserves the acquisition order, records the
 first measured process separately from independent CLI processes after a
 bounded OS-cache warmup, and explicitly marks resident MCP as not measured.
+When a Work Item id is supplied, the same 100-warm batch additionally measures
+machine-readable Work Item status, Outcome, and verification planning; these
+are separate operation samples and are never substituted for execution or
+reuse measurements. Contract-to-reviewable, verification-to-finish, and
+post-merge cleanup cycle costs remain a separate report with unavailable
+provider steps stated explicitly.
+`development_cycle_cost.py` consumes those separate lifecycle captures and
+reports raw samples, p50/p95, agent-operation counts, and preflight rejects for
+Contract-to-reviewable, verification-to-finish, and post-merge cleanup. Missing
+provider stages are unavailable, never zero.
 Each record retains raw samples, warmup count, sample count, quantile method,
 Runtime/repository identity, repository state, data scale, scenario-matrix
 status, phase boundaries, cache-invalidation reasons, and resource metrics.

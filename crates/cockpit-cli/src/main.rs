@@ -3018,22 +3018,15 @@ fn print_lifecycle_result(
     let handoff = if json {
         None
     } else {
-        let input = output
-            .get("outcome")
-            .cloned()
-            .and_then(|value| serde_json::from_value::<cockpit_protocol::OutcomeV2>(value).ok())
-            .map(|outcome| cockpit_repository::outcome_render_input_from_outcome(repo, outcome))
-            .map_or_else(
-                || {
-                    cockpit_repository::outcome_render_input_with_runtime(
-                        repo,
-                        work_item_id,
-                        runtime,
-                    )
-                },
-                Ok,
-            )
-            .context("read lifecycle Outcome handoff")?;
+        // Lifecycle commands must render from the same bounded observation
+        // assembly as the standalone CLI and MCP Outcome routes.  The
+        // persisted Outcome is still returned in machine JSON, but it is not
+        // used as a shortcut for re-reading decision/finalization facts after
+        // the lifecycle receipt was written; doing so could mix observations
+        // from different repository states.
+        let input =
+            cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
+                .context("read lifecycle Outcome handoff")?;
         Some(cockpit_repository::render_human_outcome(
             &input,
             output_language(),

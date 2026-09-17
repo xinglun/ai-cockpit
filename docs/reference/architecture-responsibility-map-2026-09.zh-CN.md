@@ -58,7 +58,7 @@ crate 内的模块边界，不代表所有职责已经纯化。
 | 证据存储与历史 | reusable receipt、repository/profile/node 绑定、delegated evidence 与 validity | nofollow 读写：`evidence_store.rs:36-39,225-280`；protocol 证据类型：`927-960` | receipt 校验属于 evidence/protocol；证据不是治理决策 |
 | 物理执行与调度 | verification graph/plan、`PhysicalExecution`、`ExecutionResult`、Work Item receipt | `cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` 负责进程、worker、资源预算和 single-flight | 执行只报告成功/失败；repository 另行校验证据适用性和授权 |
 | Status/Outcome 投影 | `OutcomeState`、`TaskOutcomeReport`、`WorkItemStatusSnapshot`、历史/新鲜度字段：`protocol/lib.rs:3236-3505` | status 读取 config/profile、一次 Git snapshot 和记录：`status_projection.rs:3-90` | status_projection 组装机器状态；outcome_v2 组装 Outcome；投影不能授予权限 |
-| 人类 Outcome 渲染 | 已校验的 `OutcomeRenderInput` 和语言 | `outcome_render.rs:70-76` 的 `render_human_outcome` 不接收仓库目录，仅格式化输入 | 渲染是展示边界；输入组装仍在同模块，属于后续收紧事项 |
+| 人类 Outcome 渲染 | 已校验的 `OutcomeRenderInput` 和语言 | `outcome_render.rs:70-76` 的 `render_human_outcome` 不接收仓库目录，仅格式化输入 | `render_human_outcome` 是展示边界；生产调用者使用 Runtime 绑定的组装路径，`outcome_render_input_from_outcome` 仅供已有捕获事实的 fixture 使用 |
 | 持久化与恢复 | atomic JSON、生命周期锁、archive manifest、finalization/close 记录 | `repository/lib.rs:12033-12081`；finalization `5246-7140`；readiness/recovery `status_projection.rs:464-585` | 明确权威记录和恢复校验；投影只是可重建视图 |
 
 ## 当前重复与职责混合
@@ -74,10 +74,10 @@ crate 内的模块边界，不代表所有职责已经纯化。
 3. `governance_controls` 主要负责校验，但 `record_work_item_governance_controls`
    会按设计写入 Summary (`governance_controls.rs:1186-1250`)。必须把这个写入边界
    与只读校验区分开。
-4. `render_human_outcome` 是纯函数，但 `outcome_render_input_from_outcome` 将 root
-   传给 `build_outcome_render_input`，后者读取 archive 和 close decision
-   (`outcome_render.rs:14-76`)；同模块还读取 lifecycle Summary 和 human decision
-   (`666-705,816-875`)。因此 P1-A 已完成渲染纯化，但还没有完成投影组装的文件系统隔离。
+4. `render_human_outcome` 是纯函数。生产 lifecycle、CLI 查询和 MCP 调用者使用
+   `outcome_render_input_with_runtime`，在渲染前捕获并校验一次有界观察。兼容 helper
+   `outcome_render_input_from_outcome` 仍会读取补充事实，因此仅供测试或明确持有已捕获
+   Outcome 的调用者使用，不再作为 lifecycle 快捷路径。
 5. repository 子模块通过 `super::*` 使用 root 的 `ObserverError`、`repository_id`、
    `snapshot_digest`。当前是 crate 内单向依赖，没有理由因为本图新增 crate 或循环 Cargo
    依赖；后续应先收窄共享 helper 依赖。
@@ -95,10 +95,21 @@ status 路径已经为完整 status projection 复用一次 Git snapshot，并�
 - capability-scoped nofollow receipt store 已与治理逻辑分离：`evidence_store.rs:36-39,225-280`。
 - 生命周期锁、单文件 atomic replacement 和 pending-index 检测已经存在：
   `repository/lib.rs:12041-12081`、`evidence_store.rs:71-100`。
-- 共享 CLI/MCP 的 `OutcomeRenderInput`/renderer 是“一次组装、多个展示”的正确方向，
-  但当前组装还应外移：`outcome_render.rs:14-76`。
+- 共享 CLI/MCP 的 `OutcomeRenderInput`/renderer 是“一次组装、多个展示”的正确方向。
+  生产组装使用 `outcome_render_input_with_runtime`，renderer 保持无文件系统 I/O：
+  `outcome_render.rs:14-76`。
 - 物理执行拥有独立 identity/result digest，并单独绑定 Work Item receipt：
   `cockpit-verification/lib.rs:1261-1441`。
+
+## 贡献者定位
+
+先看 `crates/cockpit-repository/src/execution_context.rs` 与
+`observation_ledger.rs` 的观察边界；生命周期转换和授权前置条件在 `lifecycle.rs`；
+验证规划、执行、复用和失败 receipt 在 `cockpit-verification/src/lib.rs`；纯人类投影及
+组装测试在 `outcome_render.rs`。CLI 与 MCP 各在自己的 crate，但必须调用同一 repository
+操作。定向回归套件是 `crates/cockpit-repository/tests/outcome_report.rs`、
+`crates/cockpit-cli/tests/outcome_handoff.rs` 和
+`crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs`。
 
 ## 后续 Work Item 的有界调查
 

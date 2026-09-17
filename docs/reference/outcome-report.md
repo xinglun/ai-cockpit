@@ -45,6 +45,13 @@ The default summary has four sections:
 3. Remaining uncertainty: blockers, risks, limitations, unknowns, and missing benefit declarations
 4. Human next step: the decision needed and why, or an explicit statement that no new decision is required
 
+When a release Work Item supplies an explicit, evidence-bound `release`
+projection, both views include its version, release link, install acceptance,
+upgrade acceptance, cleanup status, and evidence references. Ordinary Work
+Items do not receive a release section, and a release-shaped Summary without a
+bound evidence reference remains unknown rather than becoming a publication
+claim.
+
 The full view retains the audit-oriented order:
 
 1. Task Result plus separate Verification, Lifecycle, Human decision, and Governance signal status

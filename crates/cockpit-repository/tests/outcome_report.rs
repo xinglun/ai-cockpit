@@ -1,7 +1,7 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
-    HumanBenefitReport, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections, OutcomeState,
-    OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
+    HumanBenefitReport, OutcomeClaim, OutcomeReleaseProjection, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, ResourceFinalizationContext, TaskOutcomeReport,
 };
 use cockpit_repository::{
     OutcomeRenderView, WorkItemStartOptions, archive_work_item, checkpoint_work_item,
@@ -66,6 +66,7 @@ fn ready(directory: &tempfile::TempDir, id: &str) {
     .expect("verify");
 }
 
+#[derive(Clone)]
 struct RenderFixture {
     state: OutcomeState,
     decision_state: DecisionState,
@@ -116,6 +117,7 @@ fn render_fixture_view_language(
             repository_snapshot_digest: None,
         },
         sections,
+        release: None,
         failed_gate: None,
         recovery_condition: None,
     };
@@ -365,6 +367,35 @@ fn default_summary_is_four_part_and_full_view_retains_audit_sections() {
 }
 
 #[test]
+fn summary_does_not_present_changed_paths_as_delivered_behavior() {
+    let directory = repository();
+    let mut sections = OutcomeReportSections::default();
+    sections.delivered_changes.push(OutcomeClaim {
+        text: "Changed path: crates/example/src/lib.rs".into(),
+        evidence_refs: vec![".ai/evidence/WI-OUTCOME-PATHS.verification.json".into()],
+        inference: false,
+    });
+    let fixture = RenderFixture {
+        state: OutcomeState::Verified,
+        decision_state: DecisionState::Green,
+        historical_status: None,
+        sections,
+        unknowns: vec![],
+        evidence_refs: vec![".ai/evidence/WI-OUTCOME-PATHS.verification.json".into()],
+    };
+    let summary = render_fixture_view(
+        &directory,
+        "WI-OUTCOME-PATHS",
+        fixture.clone(),
+        OutcomeRenderView::Summary,
+    );
+    assert!(!summary.contains("Changed path:"), "summary={summary}");
+
+    let full = render_fixture(&directory, "WI-OUTCOME-PATHS-FULL", fixture);
+    assert!(full.contains("Changed path:"), "full={full}");
+}
+
+#[test]
 fn summary_keeps_missing_benefit_and_localizes_reader_sections() {
     let directory = repository();
     for (language, sections) in [
@@ -395,6 +426,100 @@ fn summary_keeps_missing_benefit_and_localizes_reader_sections() {
             text.contains("用户可见收益尚未声明")
                 || text.contains("ユーザー向けの効果はまだ宣言されていません")
         );
+    }
+}
+
+#[test]
+fn release_projection_is_visible_in_summary_and_full_views_without_inference() {
+    let directory = repository();
+    let evidence = ".ai/evidence/WI-OUTCOME-RELEASE.acceptance.json".to_owned();
+    let release = OutcomeReleaseProjection {
+        version: Some("v0.2.94".into()),
+        release_link: Some("https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.94".into()),
+        install_acceptance: Some("passed".into()),
+        upgrade_acceptance: Some("passed".into()),
+        cleanup_status: Some("passed".into()),
+        evidence_refs: vec![evidence.clone()],
+    };
+    for (language, expected) in [
+        ("en", "Release result"),
+        ("zh", "发布结果"),
+        ("ja", "リリース結果"),
+    ] {
+        let fixture = RenderFixture {
+            state: OutcomeState::Verified,
+            decision_state: DecisionState::Green,
+            historical_status: None,
+            sections: OutcomeReportSections::default(),
+            unknowns: vec![],
+            evidence_refs: vec![evidence.clone()],
+        };
+        let text = render_fixture_view_language(
+            &directory,
+            &format!("WI-OUTCOME-RELEASE-{language}"),
+            fixture.clone(),
+            OutcomeRenderView::Summary,
+            language,
+        );
+        assert!(!text.contains(expected));
+
+        // The release projection is part of the structured report, not a
+        // renderer-side repository lookup. Build the same fixture with it
+        // attached and verify both reader views expose identical facts.
+        let report = TaskOutcomeReport {
+            format: "ai-cockpit.task-outcome".into(),
+            schema_version: 1,
+            work_item_id: format!("WI-OUTCOME-RELEASE-{language}"),
+            status: OutcomeState::Verified,
+            human_status_color: DecisionState::Green,
+            bindings: OutcomeReportBindings {
+                repository_id: cockpit_repository::repository_id(directory.path()).to_string(),
+                work_item_id: format!("WI-OUTCOME-RELEASE-{language}"),
+                evidence_refs: vec![evidence.clone()],
+                repository_snapshot_digest: None,
+            },
+            sections: fixture.sections,
+            release: Some(release.clone()),
+            failed_gate: None,
+            recovery_condition: None,
+        };
+        let outcome = OutcomeV2 {
+            schema_version: 2,
+            repository_id: cockpit_repository::repository_id(directory.path()).to_string(),
+            work_item_id: format!("WI-OUTCOME-RELEASE-{language}"),
+            state: OutcomeState::Verified,
+            decision_state: Some(DecisionState::Green),
+            summary: "fixture summary".into(),
+            acceptance_results: vec![],
+            unknowns: vec![],
+            evidence_refs: vec![evidence.clone()],
+            human_benefit_report: HumanBenefitReport {
+                state: OutcomeState::Unknown,
+                user_visible_changes: vec![],
+                affected_users: vec![],
+                unknowns: vec![],
+                evidence_refs: vec![evidence.clone()],
+            },
+            task_outcome_report: Some(report),
+            failed_gate: None,
+            recovery_condition: None,
+            recovery_decision: None,
+            historical_status: None,
+            governance_reasons: vec![],
+            finalization: None,
+        };
+        let input = outcome_render_input_from_outcome(directory.path(), outcome);
+        let summary = render_human_outcome_with_view(&input, language, OutcomeRenderView::Summary);
+        let full = render_human_outcome_with_view(&input, language, OutcomeRenderView::Full);
+        assert!(summary.contains(expected), "summary={summary}");
+        assert!(full.contains(expected), "full={full}");
+        for value in ["v0.2.94", "passed", evidence.as_str()] {
+            assert!(
+                summary.contains(value),
+                "summary missing {value}: {summary}"
+            );
+            assert!(full.contains(value), "full missing {value}: {full}");
+        }
     }
 }
 
@@ -607,6 +732,64 @@ fn report_is_typed_evidence_bound_and_serializable() {
     );
     let encoded = serde_json::to_value(&outcome).expect("encode outcome");
     assert!(encoded.get("taskOutcomeReport").is_some());
+}
+
+#[test]
+fn outcome_reads_only_explicit_evidence_bound_release_projection() {
+    let directory = repository();
+    let id = "WI-136-RELEASE-PROJECTION";
+    ready(&directory, id);
+    let evidence_ref = format!(".ai/evidence/{id}.release.json");
+    fs::write(
+        directory.path().join(&evidence_ref),
+        b"{\"releasePublished\":true}",
+    )
+    .expect("release evidence");
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary read"))
+            .expect("summary json");
+    summary["release"] = serde_json::json!({
+        "version": "v0.2.94",
+        "releaseLink": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.94",
+        "installAcceptance": "passed",
+        "upgradeAcceptance": "passed",
+        "cleanupStatus": "passed",
+        "evidenceRefs": [evidence_ref],
+    });
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary encode"),
+    )
+    .expect("summary write");
+
+    let outcome = outcome_v2(directory.path(), id).expect("outcome");
+    let release = outcome
+        .task_outcome_report
+        .as_ref()
+        .and_then(|report| report.release.as_ref())
+        .expect("release projection");
+    assert_eq!(release.version.as_deref(), Some("v0.2.94"));
+    assert_eq!(release.install_acceptance.as_deref(), Some("passed"));
+    assert_eq!(release.cleanup_status.as_deref(), Some("passed"));
+
+    // A release-shaped object without a bound evidence reference is not
+    // exposed as a claim, even when it contains plausible prose.
+    summary["release"]["evidenceRefs"] = serde_json::json!([]);
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary encode"),
+    )
+    .expect("summary rewrite");
+    let outcome = outcome_v2(directory.path(), id).expect("outcome without evidence");
+    assert!(
+        outcome
+            .task_outcome_report
+            .and_then(|report| report.release)
+            .is_none()
+    );
 }
 
 #[test]

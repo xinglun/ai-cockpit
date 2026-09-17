@@ -110,8 +110,8 @@ def legacy_gate(baseline, candidate):
 
 
 PERCENTILES = {
-    "warm.p50Ms": ("p50", 5, 0.50),
-    "warm.p95Ms": ("p95", 20, 0.95),
+    "warm.p50Ms": ("p50", 100, 0.50),
+    "warm.p95Ms": ("p95", 100, 0.95),
     "warm.p99Ms": ("p99", 100, 0.99),
 }
 PHASES = (

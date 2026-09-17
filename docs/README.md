@@ -45,7 +45,7 @@ source while pointing only to this Runtime's current documentation:
 | --- | --- | --- |
 | Understand the project | [Design philosophy](philosophy.md) → [Architecture](architecture.md) | Explain the evidence flow and product boundary. |
 | Decide whether to adopt | [Capabilities](capabilities.md) → [Installation](release/distribution.md) | Choose an installation path and know what it does not change. |
-| Start a governed task | [First Work Item](getting-started/first-work-item.md) → [Work Item rules](work-items/README.md) | Bind review resources, preflight, verify, deliver Outcome, finalize resources, and close a bounded Work Item. |
+| Start a governed task | [First Work Item](getting-started/first-work-item.md) → [Work Item rules](work-items/README.md) | Declare the goal and boundary, use `start --prepare`, implement, verify, review/merge, and clean up; detailed resource steps remain in the Runtime reference. |
 | Create a governance skeleton | [Capabilities](capabilities.md#create-a-work-item-skeleton) → [Command reference](reference/commands.md) | Create `not_ready` scaffolding and see which human inputs remain. |
 | Configure an MCP client | [Capabilities](capabilities.md#use-mcp) → [MCP distribution](release/distribution.md#mcp-and-repository-attachment) | Start the server with an explicit repository binding and read its result envelope. |
 | Review or recover from a result | [Capabilities](capabilities.md#stop-and-recovery) → [Adversarial validation](security/adversarial-validation.md) | Read decisions, preserve evidence, and repair a stopped flow. |

@@ -416,7 +416,7 @@ def measure(name, args):
         raise builtins.__dict__["System" + "Exit"](
             f"warm benchmark batch invalid: {name} ({len(warm_samples)}/{iterations} valid; invalid={invalid_warm_samples})"
         )
-    result = summarize(name, [first_elapsed, *warm_samples], warm_samples)
+    result = summarize(name, [first_elapsed, *warm_samples], warm_samples, release_grade=True)
     result["operationId"] = operation_id
     result["scenarioId"] = scenario_id_value
     result["measurementId"] = f"{operation_id}:batch"
@@ -509,7 +509,26 @@ for name, args in (("inspect", ["inspect"]), ("status", ["status"]), ("doctor", 
     samples.append(measured)
 diagnose_args = ["diagnose"]
 if work_item:
-    measured, _ = measure("work-item-status", ["work-item", "status", "--id", work_item])
+    measured, _ = measure(
+        "work-item-status", ["work-item", "status", "--id", work_item, "--json"]
+    )
+    samples.append(measured)
+    measured, _ = measure(
+        "work-item-outcome",
+        ["work-item", "outcome", "--id", work_item, "--json"],
+    )
+    samples.append(measured)
+    measured, _ = measure(
+        "verification-plan",
+        [
+            "verify",
+            "--work-item",
+            work_item,
+            "--plan-only",
+            "--stage",
+            "task",
+        ],
+    )
     samples.append(measured)
     diagnose_args.extend(["--work-item", work_item])
 diagnose_sample, runtime_diagnosis = measure("diagnose", diagnose_args)

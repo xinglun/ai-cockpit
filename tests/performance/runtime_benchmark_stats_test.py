@@ -53,6 +53,21 @@ class RuntimeBenchmarkStatsTest(unittest.TestCase):
         self.assertEqual(summary["warm"]["minimumValidSampleCount"], 100)
         self.assertEqual(summary["warm"]["p99Ms"], 99.0)
 
+    def test_release_grade_requires_100_valid_warm_samples_for_every_percentile(self):
+        almost = summarize("status", [120] + list(range(1, 100)), release_grade=True)
+        self.assertEqual(almost["warm"]["validSampleCount"], 99)
+        self.assertIsNone(almost["warm"]["p50Ms"])
+        self.assertIsNone(almost["warm"]["p95Ms"])
+        self.assertIsNone(almost["warm"]["p99Ms"])
+        self.assertEqual(almost["warm"]["unavailableReason"]["p50"], "insufficient_samples:99<100")
+        self.assertEqual(almost["warm"]["unavailableReason"]["p95"], "insufficient_samples:99<100")
+
+        enough = summarize("status", [120] + list(range(1, 101)), release_grade=True)
+        self.assertTrue(all(enough["warm"]["reliable"].values()))
+        self.assertEqual(enough["warm"]["p50Ms"], 50.0)
+        self.assertEqual(enough["warm"]["p95Ms"], 95.0)
+        self.assertEqual(enough["warm"]["p99Ms"], 99.0)
+
     def test_percentiles_use_only_valid_warm_samples(self):
         summary = summarize("status", [120] + list(range(1, 101)) + [999], list(range(1, 101)))
 

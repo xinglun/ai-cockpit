@@ -29,44 +29,38 @@ scope, out-of-scope boundary, acceptance, verification, authority, remote,
 default branch, and base revision. Never edit generated Summary, evidence,
 Outcome, archive, or decision receipts by hand.
 
-## Bind the real review resources before implementation
+## The normal path: declare, build, verify, review, merge, clean up
 
-Commit the initial governance bytes, push the dedicated branch, and open a
-draft pull request without merging it. Read the actual provider and Git facts;
-do not invent a PR URL, branch, worktree, remote, or base branch. Put only those
-facts in a temporary `ResourceFinalizationContext` file:
-
-```json
-{
-  "branch": "feature/example-change",
-  "worktree": "/absolute/path/to/worktree",
-  "baseBranch": "main",
-  "baseRemote": "origin",
-  "provider": "github",
-  "pullRequest": "https://github.com/owner/repository/pull/123"
-}
-```
-
-Bind the reviewed context before preflight:
+For an ordinary repository-only change, `start --prepare` records the Contract,
+runs the cheap preflight, and creates the checkpoint when no human decision is
+needed. The Runtime carries the detailed protocol; do not hand-edit its state.
 
 ```bash
-ai-cockpit work-item finalize-plan --repo "$repo" --id "$id" --input /tmp/WI-001.finalize-context.json
-ai-cockpit preflight --repo "$repo" --contract .ai/work-items/active/WI-001-example-change.contract.json
+ai-cockpit start --prepare --repo "$repo" --id "$id" \
+  --intent "Make the bounded example change." \
+  --goal "Deliver the reviewed example." --scope 'docs/**' --out-of-scope 'src/**' \
+  --risk normal --authority authorized \
+  --acceptance "The example and declared checks pass." --required-evidence verification
 ```
 
-If Preflight returns `not_ready` or `needs_human_confirmation`, stop and show
-the review to the person. `verification_pending` may advance only to collect the
-declared evidence. Record the single serial checkpoint, then implement only the
-Contract scope:
+Then implement the declared change and run the project verification:
 
 ```bash
-ai-cockpit checkpoint --repo "$repo" --id "$id"
 ai-cockpit verify --repo "$repo" --work-item "$id" --command cargo --args test,--workspace --workers 1
 ai-cockpit finish --repo "$repo" --id "$id"
 ```
 
-Use the Contract's project command; the Cargo command is only an example. After
-the final edit, verification must be fresh for the same Work Item and snapshot.
+Use the Contract's project command; Cargo is only an example. A Work Item is
+**reviewable** when scope, a real change, and basic checks are present. It is
+**mergeable** only when required verification, authorization, and current
+evidence pass. It is **closed** only after the corresponding merge decision and
+exact cleanup. A Draft PR is a review surface; it is not verification or merge
+authorization. Provider-bound or release work follows the expanded [Agent
+workflow reference](../reference/agent-workflow.md).
+
+If preflight requires a human decision, show the Runtime review and ask only for
+that decision. If it is `verification_pending`, collect the declared evidence;
+the Runtime will preserve the remaining unknowns.
 
 ## Deliver the visible Outcome, then archive
 

@@ -2,8 +2,8 @@ use cockpit_core::{DecisionState, Digest};
 use cockpit_protocol::{
     FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
     FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
-    HumanDecision, OutcomeClaim, OutcomeFinalizationProjection, OutcomeState, OutcomeV2,
-    RuntimeContext, TaskOutcomeReport,
+    HumanDecision, OutcomeClaim, OutcomeFinalizationProjection, OutcomeReleaseProjection,
+    OutcomeState, OutcomeV2, RuntimeContext, TaskOutcomeReport,
 };
 use serde_json::Value;
 use std::fs;
@@ -1070,11 +1070,25 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         not_recorded,
     ));
 
-    let key_change_items = task_report
+    // A reader-first summary must describe delivered behavior, not turn the
+    // Runtime's changed-path inventory into a claim that a behavior shipped.
+    // Explicit, evidence-bound claims remain visible; path inventory is kept
+    // for the full audit view below.
+    let mut key_change_items = task_report
         .map(|report| {
-            summary_claims_with_evidence(&report.sections.delivered_changes, language, "change")
+            let delivered = report
+                .sections
+                .delivered_changes
+                .iter()
+                .filter(|claim| !claim.text.starts_with("Changed path:"))
+                .cloned()
+                .collect::<Vec<_>>();
+            summary_claims_with_evidence(&delivered, language, "change")
         })
         .unwrap_or_default();
+    if let Some(release) = task_report.and_then(|report| report.release.as_ref()) {
+        key_change_items.push(localized_release_projection(release, language));
+    }
     let key_change_items = if key_change_items.is_empty() {
         vec![not_recorded.to_string()]
     } else {
@@ -1911,6 +1925,9 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
     let mut completed_items = vec![localized_summary.to_string()];
     if let Some(report) = task_report {
         completed_items.extend(claim_texts(&report.sections.delivered_changes));
+        if let Some(release) = report.release.as_ref() {
+            completed_items.push(localized_release_projection(release, language));
+        }
     }
     if completed_items.len() == 1 && !acceptance_results.is_empty() {
         completed_items.push(contract_language.to_string());
@@ -2082,6 +2099,57 @@ fn format_claim(claim: &OutcomeClaim, language: &str, kind: &str) -> String {
     } else {
         text
     }
+}
+
+fn localized_release_projection(projection: &OutcomeReleaseProjection, language: &str) -> String {
+    let mut fields = Vec::new();
+    let labels = match language {
+        "zh" => ("版本", "发布链接", "安装验收", "升级验收", "清理状态"),
+        "ja" => (
+            "バージョン",
+            "リリースリンク",
+            "インストール受入れ",
+            "アップグレード受入れ",
+            "クリーンアップ状態",
+        ),
+        _ => (
+            "Version",
+            "Release link",
+            "Install acceptance",
+            "Upgrade acceptance",
+            "Cleanup status",
+        ),
+    };
+    if let Some(value) = projection.version.as_deref() {
+        fields.push(format!("{}: {value}", labels.0));
+    }
+    if let Some(value) = projection.release_link.as_deref() {
+        fields.push(format!("{}: {value}", labels.1));
+    }
+    if let Some(value) = projection.install_acceptance.as_deref() {
+        fields.push(format!("{}: {value}", labels.2));
+    }
+    if let Some(value) = projection.upgrade_acceptance.as_deref() {
+        fields.push(format!("{}: {value}", labels.3));
+    }
+    if let Some(value) = projection.cleanup_status.as_deref() {
+        fields.push(format!("{}: {value}", labels.4));
+    }
+    let evidence = projection.evidence_refs.join(", ");
+    if !evidence.is_empty() {
+        let evidence_label = match language {
+            "zh" => "证据",
+            "ja" => "Evidence",
+            _ => "Evidence",
+        };
+        fields.push(format!("{evidence_label}: {evidence}"));
+    }
+    let heading = match language {
+        "zh" => "发布结果",
+        "ja" => "リリース結果",
+        _ => "Release result",
+    };
+    format!("{heading}: {}", fields.join("; "))
 }
 
 fn calibrated_risk_claims(claims: &[OutcomeClaim], language: &str) -> Vec<String> {

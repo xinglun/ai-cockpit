@@ -68,15 +68,14 @@ for forbidden in (
     if forbidden in public_text:
         failures.append(f"getting-started route contains reference-only marker: {forbidden}")
 
-lifecycle_commands = (
-    "ai-cockpit start --repo",
-    "ai-cockpit work-item finalize-plan --repo",
-    "ai-cockpit preflight --repo",
-    "ai-cockpit checkpoint --repo",
+core_lifecycle_commands = (
+    "ai-cockpit start --prepare --repo",
     "ai-cockpit verify --repo",
     "ai-cockpit finish --repo",
     "ai-cockpit work-item outcome --repo",
     "ai-cockpit archive --repo",
+)
+resource_lifecycle_commands = (
     "ai-cockpit work-item finalize --repo",
     "ai-cockpit work-item finalize-verify --repo",
     "ai-cockpit close --repo",
@@ -86,12 +85,18 @@ for suffix in suffixes:
     if not path.is_file():
         continue
     text = path.read_text(encoding="utf-8")
-    offsets = [text.find(command) for command in lifecycle_commands]
-    if any(offset < 0 for offset in offsets):
-        missing = [command for command, offset in zip(lifecycle_commands, offsets) if offset < 0]
+    core_offsets = [text.find(command) for command in core_lifecycle_commands]
+    if any(offset < 0 for offset in core_offsets):
+        missing = [command for command, offset in zip(core_lifecycle_commands, core_offsets) if offset < 0]
         failures.append(f"{path.relative_to(root)}: lifecycle omits {', '.join(missing)}")
-    elif offsets != sorted(offsets):
+    elif core_offsets != sorted(core_offsets):
         failures.append(f"{path.relative_to(root)}: lifecycle commands are out of order")
+    resource_offsets = [text.find(command) for command in resource_lifecycle_commands]
+    if any(offset < 0 for offset in resource_offsets):
+        missing = [command for command, offset in zip(resource_lifecycle_commands, resource_offsets) if offset < 0]
+        failures.append(f"{path.relative_to(root)}: resource lifecycle omits {', '.join(missing)}")
+    elif resource_offsets != sorted(resource_offsets):
+        failures.append(f"{path.relative_to(root)}: resource lifecycle commands are out of order")
     for marker in ("Outcome: 🟢", "--actor", "--authority-source", "--evidence-ref", "--policy-ref", "--decided-at", "--resume-condition"):
         if marker not in text:
             failures.append(f"{path.relative_to(root)}: missing structured handoff marker {marker}")

@@ -27,42 +27,32 @@ ai-cockpit start --repo "$repo" --id "$id" --intent "完成有边界的示例变
 verification、authority、remote、default branch 与 base revision。绝不手改生成的 Summary、
 evidence、Outcome、archive 或 decision receipt。
 
-## 实现前绑定真实审查资源
+## 普通路径：声明、实现、验证、评审、合并、清理
 
-提交初始治理 bytes、推送专用 branch，并创建 draft pull request，但不要 merge。读取真实
-provider 与 Git facts；不得发明 PR URL、branch、worktree、remote 或 base branch。把这些事实
-写入临时 `ResourceFinalizationContext`：
-
-```json
-{
-  "branch": "feature/example-change",
-  "worktree": "/absolute/path/to/worktree",
-  "baseBranch": "main",
-  "baseRemote": "origin",
-  "provider": "github",
-  "pullRequest": "https://github.com/owner/repository/pull/123"
-}
-```
-
-Preflight 前绑定经过审查的 context：
+普通 repository-only 变更使用 `start --prepare`：它记录 Contract，运行廉价前检，并在不需要
+人类决定时创建 checkpoint。详细协议由 Runtime 承接，不要手改治理状态。
 
 ```bash
-ai-cockpit work-item finalize-plan --repo "$repo" --id "$id" --input /tmp/WI-001.finalize-context.json
-ai-cockpit preflight --repo "$repo" --contract .ai/work-items/active/WI-001-example-change.contract.json
+ai-cockpit start --prepare --repo "$repo" --id "$id" \
+  --intent "完成有边界的示例变更。" --goal "交付经过评审的示例。" \
+  --scope 'docs/**' --out-of-scope 'src/**' --risk normal --authority authorized \
+  --acceptance "示例与声明的检查通过。" --required-evidence verification
 ```
 
-Preflight 若返回 `not_ready` 或 `needs_human_confirmation`，必须停止并把 review 展示给人。
-`verification_pending` 只能为了收集声明的证据而继续。记录唯一 serial checkpoint，随后只实现
-Contract scope：
+随后实现声明的变更并运行工程验证：
 
 ```bash
-ai-cockpit checkpoint --repo "$repo" --id "$id"
 ai-cockpit verify --repo "$repo" --work-item "$id" --command cargo --args test,--workspace --workers 1
 ai-cockpit finish --repo "$repo" --id "$id"
 ```
 
-应运行 Contract 的工程命令；Cargo 只是一例。最后一次编辑后，verification 必须对同一 Work
-Item 与 snapshot 保持 fresh。
+使用 Contract 的工程命令；Cargo 只是一例。范围明确、有真实改动且基础检查完成时为**可进入评审**；
+所需验证、授权和当前证据满足时才是**可合并**；相应合并决定与准确资源清理完成后才是**已收尾**。
+Draft PR 只是评审界面，不等于验证或合并授权。Provider-bound 或发布任务请参阅展开的
+[Agent workflow 参考](../reference/agent-workflow.zh-CN.md)。
+
+Preflight 若需要人类决定，展示 Runtime review，只请求该具体决定；`verification_pending` 只能继续
+收集声明证据，剩余 unknown 由 Runtime 保留。
 
 ## 展示可见 Outcome，再 archive
 

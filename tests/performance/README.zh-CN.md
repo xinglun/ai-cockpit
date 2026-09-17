@@ -21,6 +21,9 @@ Runtime 版本/摘要可以不同，但 repository identity、repository snapsho
 预算必须明确指定 `warm.p50Ms`、`warm.p95Ms` 或 `warm.p99Ms`；不可靠分位数直接导致 gate 失败，不能回退到
 `elapsedMs` 或其他分位数。
 
+Schema 2 的发布级采集与比较对预算使用的每个分位数（`p50`、`p95`、`p99`）都要求至少 100 个有效 warm 样本。
+更小样本仍可通过 `runtime_benchmark_stats.summarize` 用于诊断，但不能满足 P0 gate。
+
 Verification scheduler 还支持每个命令的 resource weight 和显式 resource budget。
 weight 为零或超过预算时 fail-closed；依赖顺序、受保护节点和 receipt reuse 语义不变。
 Repository context 和 Runtime session 都是 request-scoped，不创建进程级 current repository。
@@ -45,3 +48,7 @@ P0 场景矩阵包含小型/大量文件的干净仓库、单文件/多文件/�
 要求恰好一个/至少两个变更路径，`large-file-change` 要求存在至少 1 MiB 的变更文件，
 `many-historical-wi` 要求至少 100 个归档 Work Item。便携脚本不执行并发请求或常驻 MCP 传输，因此这两个
 场景继续明确记录为 `not_measured`。
+提供 Work Item id 时，同一批 100 个 warm 样本还会单独测量机器可读的 Work Item status、
+Outcome 和验证规划；这些是独立操作样本，不能替代实际执行或复用测量。
+Contract→可评审、验证→finish 和合并后清理的周期成本仍单独报告，provider 步骤不可用时明确写出原因。
+`development_cycle_cost.py` 消费独立的生命周期采集，分别报告 Contract→可评审、验证→finish 和合并后清理的原始样本、p50/p95、agent 操作次数与前置拒绝次数；provider 阶段缺失时返回 unavailable，不写零。

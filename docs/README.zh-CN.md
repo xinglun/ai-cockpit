@@ -43,7 +43,7 @@ capabilityClaims:
 | --- | --- | --- |
 | 理解项目 | [设计思想](philosophy.zh-CN.md) → [架构](architecture.zh-CN.md) | 解释证据流和产品边界。 |
 | 判断是否采用 | [功能与边界](capabilities.zh-CN.md) → [安装](release/distribution.zh-CN.md) | 选择安装方式，并知道安装不会改变什么。 |
-| 开始受治理的工作 | [首个 Work Item](getting-started/first-work-item.zh-CN.md) → [Work Item 规则](work-items/README.zh-CN.md) | 绑定审查资源、preflight、verify、展示 Outcome、完成资源收尾并 close 有界 Work Item。 |
+| 开始受治理的工作 | [首个 Work Item](getting-started/first-work-item.zh-CN.md) → [Work Item 规则](work-items/README.zh-CN.md) | 声明目标与边界，使用 `start --prepare`，实现、验证、评审/合并并清理；详细资源步骤由 Runtime 参考承接。 |
 | 创建治理骨架 | [功能与边界](capabilities.zh-CN.md#创建-work-item-骨架) → [命令参考](reference/commands.zh-CN.md) | 创建 `not_ready` 脚手架并查看仍需人类输入的字段。 |
 | 配置 MCP client | [功能与边界](capabilities.zh-CN.md#使用-mcp) → [MCP 分发](release/distribution.zh-CN.md#mcp-与-repository-attach) | 用显式 repository 绑定启动服务并读取结果。 |
 | 审查或恢复结果 | [功能与边界](capabilities.zh-CN.md#停止与恢复) → [对抗性验证](security/adversarial-validation.zh-CN.md) | 阅读决定、保留证据并修复停止原因。 |

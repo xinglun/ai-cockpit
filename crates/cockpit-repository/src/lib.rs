@@ -18,9 +18,9 @@ use cockpit_protocol::{
     EvidenceRetentionPolicy, EvidenceValidity, FactOrigin, FinalizationErrorCode, GovernanceCost,
     GovernancePolicy, GovernancePolicyDocument, HistoricalFinalizationKind,
     HistoricalFinalizationRecoveryReceipt, HumanBenefitReport, HumanDecision,
-    ImplementationApproach, OutcomeClaim, OutcomeReportBindings, OutcomeReportSections,
-    OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION, ParallelSlotLease,
-    PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
+    ImplementationApproach, OutcomeClaim, OutcomeReleaseProjection, OutcomeReportBindings,
+    OutcomeReportSections, OutcomeState, OutcomeV2, PARALLEL_SLOT_LEASE_SCHEMA_VERSION,
+    ParallelSlotLease, PerformanceCounters, PerformanceDiagnosis, PerformancePhase, PolicyLayer,
     ProjectGovernanceProjection, QualityCommand, RecoveryDecisionReceipt, RepositoryConfig,
     ResourceFinalizationContext, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext, SchemaMigrationStep,
@@ -12416,6 +12416,63 @@ fn report_claim(text: impl Into<String>, evidence_refs: &[String]) -> OutcomeCla
     }
 }
 
+/// Read an explicitly supplied release projection from Summary.  Release
+/// truth is not inferred from changed paths or Work Item wording: at least one
+/// repository-local evidence file or immutable external evidence reference is
+/// required before the projection is exposed.
+fn release_projection_from_summary(
+    root: &Path,
+    summary: Option<&serde_json::Value>,
+) -> Option<OutcomeReleaseProjection> {
+    let summary = summary?;
+    let value = summary
+        .get("release")
+        .or_else(|| summary.get("releaseProjection"))
+        .or_else(|| summary.get("releaseEvidence"))?;
+    let object = value.as_object()?;
+    let text = |key: &str| {
+        object
+            .get(key)
+            .and_then(serde_json::Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .map(str::to_owned)
+    };
+    let evidence_refs = object
+        .get("evidenceRefs")
+        .and_then(serde_json::Value::as_array)
+        .into_iter()
+        .flatten()
+        .filter_map(serde_json::Value::as_str)
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    let evidence_bound = evidence_refs.iter().any(|reference| {
+        (reference.starts_with(".ai/") && root.join(reference).is_file())
+            || reference.starts_with("https://")
+    });
+    let projection = OutcomeReleaseProjection {
+        version: text("version").or_else(|| text("releaseVersion")),
+        release_link: text("releaseLink").or_else(|| text("releaseUrl")),
+        install_acceptance: text("installAcceptance"),
+        upgrade_acceptance: text("upgradeAcceptance"),
+        cleanup_status: text("cleanupStatus"),
+        evidence_refs,
+    };
+    if !evidence_bound
+        || (projection.version.is_none()
+            && projection.release_link.is_none()
+            && projection.install_acceptance.is_none()
+            && projection.upgrade_acceptance.is_none()
+            && projection.cleanup_status.is_none())
+    {
+        None
+    } else {
+        Some(projection)
+    }
+}
+
 fn repository_relative_path(root: &Path, path: &Path) -> String {
     path.strip_prefix(root)
         .unwrap_or(path)
@@ -12903,6 +12960,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             })
     };
 
+    let release = release_projection_from_summary(root, summary);
     TaskOutcomeReport {
         format: "ai-cockpit.task-outcome".into(),
         schema_version: 1,
@@ -12916,6 +12974,7 @@ fn task_outcome_report(input: TaskOutcomeReportInput<'_>) -> TaskOutcomeReport {
             repository_snapshot_digest: snapshot_digest,
         },
         sections,
+        release,
         failed_gate,
         recovery_condition,
     }

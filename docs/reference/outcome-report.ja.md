@@ -48,6 +48,9 @@ top-level の `finish`、`archive`、`close` は既存の stdout lifecycle JSON 
 full view は audit 向けの順序を保持します。結果と検証・ライフサイクル・人間の判断・ガバナンスシグナルを分けて示し、完了したこと、発見された問題、発動した停止、解決した問題、
 回避したリスク、残存リスク、不明点、人間の判断、検証と証拠、影響、次のアクションを含みます。
 
+リリース Work Item が明示的で evidence-bound な `release` projection を Summary に持つ場合だけ、両 view にバージョン、リリースリンク、インストール受入れ、アップグレード受入れ、クリーンアップ状態、evidence 参照を表示します。
+通常の Work Item にはリリース章を追加せず、binding evidence のないリリース形状の Summary は不明のままで、公開を主張しません。
+
 summary では判断に関係しない空の章を省略します。blocker、未処理の人間の判断、無効または期限切れの evidence、履歴分類、不明点は長さ制限で省略しません。
 その他の一覧を黙って切り詰めることはなく、完全な一覧が必要な場合は full view を使用します。summary の主張は evidence-bound data として扱い、元の evidence テキストを instruction や権限の出所として解釈しません。
 
