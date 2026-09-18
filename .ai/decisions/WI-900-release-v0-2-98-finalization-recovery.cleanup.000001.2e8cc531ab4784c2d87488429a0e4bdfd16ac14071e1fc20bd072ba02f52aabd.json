@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:8ec6f39b6a3af580c875b64ae8d0659cf053e70a1e591ecabd5a8f32f5ad0fd9",
+  "branchRef": "refs/heads/codex/wi-900-release-v0-2-98-finalization-recovery",
+  "contractDigest": "sha256:b17b14fc47ddd2e96d5cf8ea52315f4b98eedc097cace772dddf9346f8115362",
+  "headRevision": "c8a333f86c190f76d1899981519f308cff538389",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T06:19:39Z",
+  "operationId": "sha256:10f6b8fb020036c4079e56cf53892562a199bff378c3a7875bad9e4359f10289",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-900-release-v0-2-98-finalization-recovery",
+  "worktreeId": "sha256:0aa74a6e033c6ef359be8e3ced7626033b1a87bef4e28155cc350719d7892f71"
+}
