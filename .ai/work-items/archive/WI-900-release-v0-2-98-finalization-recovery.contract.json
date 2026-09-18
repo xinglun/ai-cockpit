@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "WI-899 archive, release evidence, and immutable finalization bytes remain unchanged.",
+    "The successor records one bounded verification and a confirmed close without rerunning release validation.",
+    "promote_closed_work_item.py --check-all passes for the repository."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1486c575da3cf698aef5bdaaded4b4da01eadf1f",
+  "createdAt": "2026-09-18T06:08:24Z",
+  "goal": "Repair only the bounded closure projection, preserve WI-899 release and evidence bytes, and leave the repository with truthful closed-work-item promotion.",
+  "intent": "Complete the explicitly linked post-release closure recovery for WI-899 after its immutable finalization receipt could not satisfy the documentation promotion gate.",
+  "mode": "implementation",
+  "outOfScope": [
+    "product source and tests",
+    "v0.2.98 release",
+    " tag",
+    " provider assets",
+    " or adopter acceptance",
+    "ORG-X",
+    " sentinel",
+    " goods-garden",
+    " and ai-investigation-orchestrator"
+  ],
+  "predecessorContractDigest": "sha256:bd9ab1f016ab8a147dd386d5a58110f499ff520fcc3154f29739578996848c04",
+  "predecessorWorkItemId": "WI-899-release-v0-2-98",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-899-release-v0-2-98.recovery.8447cd8ff122185bac1e1e7314ba022d699e38aba24b5681e285cb0315d17ab2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:32de02abd75e0013513da42ce3b175bb8febb8cc44e772347e727f6f41c1c792",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/WI-899-release-v0-2-98.recovery*",
+    ".ai/work-items/archive/WI-899-release-v0-2-98/**",
+    ".ai/work-items/active/WI-900-release-v0-2-98-finalization-recovery/**",
+    ".ai/work-items/archive/WI-900-release-v0-2-98-finalization-recovery/**",
+    ".ai/evidence/WI-900-release-v0-2-98-finalization-recovery.verification.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-900-release-v0-2-98-finalization-recovery"
+}
