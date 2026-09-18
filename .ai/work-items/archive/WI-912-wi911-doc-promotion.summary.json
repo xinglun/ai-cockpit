@@ -1,0 +1,55 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-912-wi911-doc-promotion.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-912-wi911-doc-promotion.verification-attempt.0ce1ea0aad131c675d1a1bfce6a53c46198dd2db73a9ce76ea159be1ff75ed30.json",
+    ".ai/evidence/WI-912-wi911-doc-promotion.verification-attempt.37cfad4b6677832f14cc1cd7fc205b884ec8f623837bb284b5f0b482604f458c.json",
+    ".ai/evidence/WI-912-wi911-doc-promotion.verification-attempt.bbbbdafb2f208709dcf73bc27ee364306f77b33d90c13ca31a5d89790fce729e.json",
+    ".ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-912-wi911-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-911-release-v0-2-99.ja.md",
+    "docs/work-items/WI-911-release-v0-2-99.md",
+    "docs/work-items/WI-911-release-v0-2-99.zh-CN.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.ja.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T16:54:38Z",
+  "checkpointContractDigest": "sha256:d88e1e40b2118c435567238026e3f47ee7d30fb749fe56e364401c0f15f4002c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c8a74cbf024c7f299768390962760bc869b93c62b1717b25e8180121a4c0334b",
+  "createdAt": "2026-09-18T16:50:21Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:d88e1e40b2118c435567238026e3f47ee7d30fb749fe56e364401c0f15f4002c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "用户已授权自动确认；接受当前文档投影修复范围，保留既有发布、对象仓库和未证明收益边界。",
+    "recordedAt": "2026-09-19T09:00:00Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:c8a74cbf024c7f299768390962760bc869b93c62b1717b25e8180121a4c0334b",
+    "schemaVersion": 1,
+    "workItemId": "WI-912-wi911-doc-promotion"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T17:17:45Z",
+  "preflightContractDigest": "sha256:d88e1e40b2118c435567238026e3f47ee7d30fb749fe56e364401c0f15f4002c",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:c8a74cbf024c7f299768390962760bc869b93c62b1717b25e8180121a4c0334b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T17:17:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-912-wi911-doc-promotion"
+}

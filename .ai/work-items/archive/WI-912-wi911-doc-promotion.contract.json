@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "WI-911 is terminally represented as implemented in English, Simplified Chinese, and Japanese with existing archive, verification, and close references preserved.",
+    "Documentation acceptance, Work Item status consistency, parity status, and repository gate manifest checks pass.",
+    "No release is created and no object repository is modified."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "40e918c226d3f7b1e12b87f9f9989253c4e4bd9e",
+  "createdAt": "2026-09-18T16:50:21Z",
+  "goal": "仅完成 WI-911 的文档终态投影，不改源码、不重发版本、不修改对象仓库。",
+  "intent": "修复 WI-911 关闭后的三语 Work Item 文档与 reference parity 投影，使发布收尾记录可被当前文档门禁准确发现和追溯。",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/**",
+    "crates/**",
+    "tests/**",
+    ".github/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "/Users/sei-rinn/dev/workspace_rust/ORG-X",
+    "/Users/sei-rinn/dev/workspace_rust/sentinel",
+    "/Users/sei-rinn/dev/workspace_rust/goods-garden",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "new release or release asset changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-911-release-v0-2-99.md",
+    "docs/work-items/WI-911-release-v0-2-99.zh-CN.md",
+    "docs/work-items/WI-911-release-v0-2-99.ja.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-912-wi911-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json",
+    ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json",
+    ".ai/evidence/WI-911-release-v0-2-99.verification.json",
+    ".ai/decisions/WI-911-release-v0-2-99.close.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "python3 tests/docs/promote_closed_work_item.py --repo $PWD --work-item WI-911-release-v0-2-99",
+    "python3 tests/docs/work_item_status_consistency.py --repo $PWD",
+    "bash tests/docs/parity_status_check.sh $PWD /tmp/wi912-parity.json",
+    "bash tests/docs/documentation_acceptance.sh --repo $PWD",
+    "python3 tests/ci/repository_gate_manifest_test.py"
+  ],
+  "workItemId": "WI-912-wi911-doc-promotion"
+}

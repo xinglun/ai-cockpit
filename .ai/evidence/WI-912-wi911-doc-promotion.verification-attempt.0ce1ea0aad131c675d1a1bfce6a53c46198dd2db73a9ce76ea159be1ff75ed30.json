@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:0ce1ea0aad131c675d1a1bfce6a53c46198dd2db73a9ce76ea159be1ff75ed30",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--",
+        "--test-threads=1"
+      ],
+      "baseCommit": "40e918c226d3f7b1e12b87f9f9989253c4e4bd9e",
+      "commandDigest": "sha256:1a3765abfc1f96efe2dbd2d16882e0733b1fb5508f5b773e695ac70765424a8a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:d88e1e40b2118c435567238026e3f47ee7d30fb749fe56e364401c0f15f4002c",
+  "contractExecutionScopeDigest": "sha256:1c670fb3dc2056d5b4383f718cc32f276a00fd05f6debc4a2d2eb50d5b403e50",
+  "createdAt": "2026-09-18T17:12:03Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-912/.ai/work-items/active/WI-912-wi911-doc-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c8a74cbf024c7f299768390962760bc869b93c62b1717b25e8180121a4c0334b",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-912-wi911-doc-promotion"
+}
