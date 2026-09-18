@@ -6,14 +6,16 @@
     "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.98 到 v0.2.99 升级以及精确临时目录清理；对象仓库不发生写入。",
     "Outcome 以当前中文对话语言完整交付，明确完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。"
   ],
-  "decisionState": "red",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:be6bf6e1b313ea89a692062a851b899bfb0925e37daafb15516039880672ca9f",
   "evidenceRefs": [
     ".ai/evidence/WI-911-release-v0-2-99.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -21,11 +23,10 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -35,10 +36,8 @@
       "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
       "workItemId": "WI-911-release-v0-2-99"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -48,7 +47,7 @@
             ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.495cc60fa38a68260d2e6c2bf0f1698580c097ae5ad32077c58c3b890b74f063.json"
+          "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json"
         },
         {
           "evidenceRefs": [
@@ -62,14 +61,7 @@
             ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-911-release-v0-2-99.verification-attempt.53984ac04967f2a29631bcd611fd2e154738b8d211e05dd355aa45b6377d3c2a.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-911-release-v0-2-99.verification-attempt.b8fd0dc1e9bb22e3035afec5ea3dcdd9898848daa3eb442ac31320e9e05c19c7.json"
+          "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.contract.json"
         },
         {
           "evidenceRefs": [
@@ -95,15 +87,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -114,7 +98,7 @@
             ".ai/evidence/WI-911-release-v0-2-99.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -124,10 +108,18 @@
             ".ai/evidence/WI-911-release-v0-2-99.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -148,16 +140,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-911-release-v0-2-99"
   },
+  "taskReportDigest": "sha256:0a6bbfc0223d6288418542ec4f8f72f04242aa8a29bda492c94d8170d6a7292e",
+  "taskReportMarkdownDigest": "sha256:716daf8040b5e007d30c91fc0eef7468bffc4d29eee96b4b09ed89cfb71f2c77",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-911-release-v0-2-99.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-911-release-v0-2-99"
 }

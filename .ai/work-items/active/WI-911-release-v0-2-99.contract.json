@@ -69,7 +69,21 @@
     }
   ],
   "scope": [
-    "更新 workspace package 版本与当前三语发布/版本文档；执行现有 release.yml 的受治理发布路径；采集并绑定 tag、Release、manifest、checksums、SBOM、archives、attestation、安装、升级、版本一致性与清理 receipt；归档并关闭本 WI。"
+    "更新 workspace package 版本与当前三语发布/版本文档；执行现有 release.yml 的受治理发布路径；采集并绑定 tag、Release、manifest、checksums、SBOM、archives、attestation、安装、升级、版本一致性与清理 receipt；归档并关闭本 WI。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "workspace package version metadata",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/reference-parity*.md",
+    "docs/reference/reference-file-comparison*.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/commands*.md",
+    ".github/workflows/release.yml",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "docs/work-items/WI-911-release-v0-2-99.**"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/851",
