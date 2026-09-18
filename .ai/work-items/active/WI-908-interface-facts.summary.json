@@ -1,7 +1,10 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-908-interface-facts.summary.json"
+  ],
   "checkpointAt": "2026-09-18T12:15:09Z",
-  "checkpointContractDigest": "sha256:7b65bf5e35569f9f39c6882f69163a565b8361819dea4f8255005e676752a2c5",
+  "checkpointContractDigest": "sha256:cede92efc848c44531ee2843b5c7f41d69752e5afd0357604952224e83f4b710",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -39,22 +42,24 @@
       "workItemId": "WI-908-interface-facts"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+  "checkpointRepositorySnapshotDigest": "sha256:a73cc4bd46cf5bb42eadb59ec9d949c2a757577aa631235d45f8f0b12a289398",
   "createdAt": "2026-09-18T12:15:08Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-18T12:26:26Z",
+  "preflightAt": "2026-09-18T12:29:13Z",
   "preflightContractDigest": "sha256:cede92efc848c44531ee2843b5c7f41d69752e5afd0357604952224e83f4b710",
-  "preflightDecisionDigest": "sha256:31e2c2ba4027adf5e11f23f6ea2d4af01d0c20853664916b5461a2097b571b46",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:a73cc4bd46cf5bb42eadb59ec9d949c2a757577aa631235d45f8f0b12a289398",
-  "preflightState": "red",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "checkpointed",
   "updatedAt": "2026-09-18T12:15:09Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:cede92efc848c44531ee2843b5c7f41d69752e5afd0357604952224e83f4b710",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-18T12:26:10Z"
-  },
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fb541a11082d49677c0633fd9dfb8bada42f796d38ecb018226c480f14c18972",
   "workItemId": "WI-908-interface-facts"
 }
