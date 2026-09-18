@@ -1,0 +1,25 @@
+WI-911 object-repository boundary observation
+Observed after v0.2.99 publication and before WI-911 finalization actions.
+No repository-bound command in this Work Item targeted these repositories for a write, commit, push, merge, or checkout.
+
+/Users/sei-rinn/dev/workspace_rust/ORG-X
+branch: main...origin/main
+HEAD: 27b06157da577599e91bbdeaafecceab4f6ee521
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/sentinel
+branch: develop...origin/develop
+HEAD: cb4475efd66d36349870e3592edc3f5e7888735a
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/goods-garden
+branch: main...origin/main
+HEAD: 67d82de6f1435e3fccaf5659e536f58e46d29e6a
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator
+branch: main...origin/main
+HEAD: ec6c14ec3438f80b8ae1fad5f2973059ce579fcc
+working tree: clean
+
+This is a read-only boundary observation; it does not claim changes made by other actors before this observation.

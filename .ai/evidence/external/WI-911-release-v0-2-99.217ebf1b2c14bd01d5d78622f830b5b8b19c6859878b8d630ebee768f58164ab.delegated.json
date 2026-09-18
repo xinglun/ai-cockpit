@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-18T16:36:41Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-18T16:29:16Z",
+    "digest": "sha256:217ebf1b2c14bd01d5d78622f830b5b8b19c6859878b8d630ebee768f58164ab",
+    "origin": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.99",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-911-release-manifest.json",
+    "subject": "v0.2.99 public release manifest",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-18T16:37:24Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-18T16:30:00Z",
+    "digest": "sha256:6500d9d50a8daba8331c12cc8fec6698fa02184d3e634c96de111511128a8707",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35366807121",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-911-version-consistency.json",
+    "subject": "v0.2.99 post-release version consistency",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

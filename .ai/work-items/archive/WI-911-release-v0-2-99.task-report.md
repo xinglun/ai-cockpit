@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-911-release-v0-2-99.contract.json
-- Changed path: .ai/work-items/active/WI-911-release-v0-2-99.summary.json
+- Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.contract.json
+- Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.summary.json
 
 ## Findings
 

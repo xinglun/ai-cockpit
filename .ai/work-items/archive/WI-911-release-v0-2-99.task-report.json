@@ -15,31 +15,31 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
       }
     ],
     "evidence": [
@@ -69,7 +69,7 @@
           ".ai/evidence/WI-911-release-v0-2-99.verification.json"
         ],
         "inference": false,
-        "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
       }
     ],
     "recurrencePrevention": [],
@@ -95,7 +95,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
         ],
         "inference": false,
         "text": "从最新已审查 main 创建 v0.2.99 候选，完成不可变标签、稳定 provider Release、完整发布产物与供应链证据、下载产物安装/升级验收、发布后清理和最终中文 Outcome；不修改对象仓库。"
@@ -104,7 +104,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+          ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

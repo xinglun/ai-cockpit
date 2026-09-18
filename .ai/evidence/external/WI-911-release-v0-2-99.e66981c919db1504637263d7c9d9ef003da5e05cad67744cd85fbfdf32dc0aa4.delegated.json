@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-18T16:36:41Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-18T16:29:16Z",
+    "digest": "sha256:e66981c919db1504637263d7c9d9ef003da5e05cad67744cd85fbfdf32dc0aa4",
+    "origin": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.99",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-911-SHA256SUMS",
+    "subject": "v0.2.99 public release checksums",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

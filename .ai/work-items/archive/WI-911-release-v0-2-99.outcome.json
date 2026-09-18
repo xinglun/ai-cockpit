@@ -6,6 +6,7 @@
     "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.98 到 v0.2.99 升级以及精确临时目录清理；对象仓库不发生写入。",
     "Outcome 以当前中文对话语言完整交付，明确完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。"
   ],
+  "createdAt": "2026-09-18T16:43:08Z",
   "decisionState": "green",
   "evidenceDigest": "sha256:be6bf6e1b313ea89a692062a851b899bfb0925e37daafb15516039880672ca9f",
   "evidenceRefs": [
@@ -25,8 +26,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -44,31 +45,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
         }
       ],
       "evidence": [
@@ -98,7 +99,7 @@
             ".ai/evidence/WI-911-release-v0-2-99.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -124,7 +125,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
           ],
           "inference": false,
           "text": "从最新已审查 main 创建 v0.2.99 候选，完成不可变标签、稳定 provider Release、完整发布产物与供应链证据、下载产物安装/升级验收、发布后清理和最终中文 Outcome；不修改对象仓库。"
@@ -133,7 +134,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+            ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -143,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-911-release-v0-2-99"
   },
-  "taskReportDigest": "sha256:0a6bbfc0223d6288418542ec4f8f72f04242aa8a29bda492c94d8170d6a7292e",
-  "taskReportMarkdownDigest": "sha256:716daf8040b5e007d30c91fc0eef7468bffc4d29eee96b4b09ed89cfb71f2c77",
+  "taskReportDigest": "sha256:aecdcba4449afa1f88ec4764e38277d01449ef92489624a96ef89e731a3b8d9d",
+  "taskReportMarkdownDigest": "sha256:8753843576e0213589326f3dbdc7ef96e02f554c95468551a7fb6200ea4d6955",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
