@@ -1,0 +1,21 @@
+WI-899 object-repository boundary final observation (2026-09-18, after release operations)
+
+The four object repositories were not edited, committed, merged, or used as release worktrees. The final read-only observations match the pre-release baseline.
+
+/Users/sei-rinn/dev/workspace_rust/ORG-X
+HEAD 27b06157da577599e91bbdeaafecceab4f6ee521
+status ## main...origin/main
+
+/Users/sei-rinn/dev/workspace_rust/sentinel
+HEAD 1e5d16caca1c6671903b972f871731697b6cdafe
+status ## develop...origin/develop
+pre-existing worktree changes unchanged from baseline (governance records, .ai/locks/, and .worktrees/)
+
+/Users/sei-rinn/dev/workspace_rust/goods-garden
+HEAD 67d82de6f1435e3fccaf5659e536f58e46d29e6a
+status ## main...origin/main
+
+/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator
+HEAD 8125e7c5cd45cac76931b7802deaf4d402deb329
+status ## main...origin/main
+pre-existing worktree changes unchanged from baseline (.ai/locks/)

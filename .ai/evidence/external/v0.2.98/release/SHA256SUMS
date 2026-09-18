@@ -1,0 +1,12 @@
+15f601e51a085e8b73498af6ffd940b4739f9d4e69393de070ad8533592ae993  ai-cockpit-v0.2.98-aarch64-apple-darwin.spdx.json
+2b7aa307b674aedaf769b7bb16ee5e5c0db65e6601476b41581d6d5619f4fa50  ai-cockpit-v0.2.98-aarch64-apple-darwin.tar.gz
+392f3d458fdcfe2cb786ccfb17a0c08220d6047db6296205687560e3325cd2e0  ai-cockpit-v0.2.98-aarch64-unknown-linux-gnu.spdx.json
+6a398abeeaa2f2f407d7a09643b7512f8c8fb47ef5be67abc88ea1cdd42c457d  ai-cockpit-v0.2.98-aarch64-unknown-linux-gnu.tar.gz
+5b60603da31b441423433a4d69dd0b22c62f86bb8f3332ffed932feb8a4c9684  ai-cockpit-v0.2.98-x86_64-apple-darwin.spdx.json
+8f15070021b70811e58fbe579bfbb0e751d3f661801ba56ff9d953ad40933486  ai-cockpit-v0.2.98-x86_64-apple-darwin.tar.gz
+b63341fdc077badccbdde836d41ea5a4df015bee22deb2e7e280642ab74c2cc1  ai-cockpit-v0.2.98-x86_64-pc-windows-msvc.spdx.json
+bb5aed20495a99807370607c9253c1b9ecf567ca7ea294abe3a508b1d58da3ff  ai-cockpit-v0.2.98-x86_64-pc-windows-msvc.zip
+3913501449218c6c85bb2148b158abd29a25a4d1866b85a926b715c90e775513  ai-cockpit-v0.2.98-x86_64-unknown-linux-gnu.spdx.json
+9ddf1b6ee615deb97588e5b4ee8406c3cf3f5cea63582a70f2728f46cb6354a8  ai-cockpit-v0.2.98-x86_64-unknown-linux-gnu.tar.gz
+b1dfecc05c1f2fe7b9ba9b31e5d6573551e0d3e1df781dd3006a7275aa104bc5  ai-cockpit.rb
+1060efa1973810cac4e52bf62bfb1808443fc16c3f6305bd01e2cec252377796  release-manifest.json

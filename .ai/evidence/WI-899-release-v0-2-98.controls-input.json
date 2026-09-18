@@ -1,0 +1,141 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "workspace identity and immutable tag",
+      "required": true,
+      "status": "verified",
+      "expected": "Cargo metadata, lockfile, current docs, generated manifest, and annotated v0.2.98 tag identify the same version and source commit",
+      "verificationPlan": "Hosted release version-consistency and immutable release-close receipts bind v0.2.98 to d2c873022d3a80195a1e9ab5804f1b7a0d6c3e04",
+      "evidence": [
+        ".ai/evidence/external/v0.2.98/release/version-consistency.json",
+        ".ai/evidence/external/v0.2.98/release/release-manifest.json",
+        ".ai/evidence/external/v0.2.98/release/SHA256SUMS",
+        ".ai/evidence/external/v0.2.98/release/release-close.json"
+      ]
+    },
+    {
+      "scenario": "published assets and manifest",
+      "required": true,
+      "status": "verified",
+      "expected": "Provider Release is stable and its manifest, checksums, SBOM, archives, and handoff bind to v0.2.98",
+      "verificationPlan": "Release workflow 35309533374 passed source quality, platform builds, manifest/checksum/SBOM verification, attestation, publication, and handoff",
+      "evidence": [
+        ".ai/evidence/external/v0.2.98/release/release-close.json",
+        ".ai/evidence/external/v0.2.98/release/release-manifest.json",
+        ".ai/evidence/external/v0.2.98/release/SHA256SUMS",
+        ".ai/evidence/external/v0.2.98/release/homebrew-handoff.json",
+        ".ai/evidence/external/v0.2.98/release/provider-release-state.json"
+      ]
+    },
+    {
+      "scenario": "downloaded fresh install and N-1 upgrade",
+      "required": true,
+      "status": "verified",
+      "expected": "Downloaded v0.2.98 installs in isolated roots and upgrades the public v0.2.97 baseline with exact cleanup",
+      "verificationPlan": "Hosted adopter acceptance and public-artifact N-1 upgrade acceptance both passed and uploaded isolation and cleanup receipts",
+      "evidence": [
+        ".ai/evidence/external/v0.2.98/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.98/adopter/isolation.json",
+        ".ai/evidence/external/v0.2.98/upgrade/acceptance.json",
+        ".ai/evidence/external/v0.2.98/upgrade/isolation.json",
+        ".ai/evidence/external/v0.2.98/upgrade/migration-state.json"
+      ]
+    },
+    {
+      "scenario": "object repository boundary",
+      "required": true,
+      "status": "verified",
+      "expected": "ORG-X, sentinel, goods-garden, and ai-investigation-orchestrator have no changes",
+      "verificationPlan": "Read-only HEAD/status observations after publication match the pre-release baseline; no object repository command performed a write",
+      "evidence": [
+        ".ai/evidence/external/v0.2.98/pre-release/object-repository-baseline.txt",
+        ".ai/evidence/external/v0.2.98/post-release/object-repository-final.txt"
+      ]
+    },
+    {
+      "scenario": "multilingual release projections",
+      "required": true,
+      "status": "verified",
+      "expected": "English, Simplified Chinese, and Japanese current release/reference projections remain parity-clean",
+      "verificationPlan": "Hosted public version-consistency passed against the current tri-language release projections",
+      "evidence": [
+        ".ai/evidence/external/v0.2.98/release/version-consistency.json",
+        "docs/release/distribution.md",
+        "docs/release/distribution.zh-CN.md",
+        "docs/release/distribution.ja.md"
+      ]
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "immutable v0.2.98 release close",
+          "path": ".ai/evidence/external/v0.2.98/release/release-close.json",
+          "type": "release",
+          "verification": "GitHub Actions run 35309533374 release_close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public downloaded install",
+          "path": ".ai/evidence/external/v0.2.98/adopter/acceptance.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35309533374 adopter_acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public v0.2.97 to v0.2.98 upgrade",
+          "path": ".ai/evidence/external/v0.2.98/upgrade/acceptance.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35309533374 adopter_upgrade_acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "four object repository boundary",
+          "path": ".ai/evidence/external/v0.2.98/post-release/object-repository-final.txt",
+          "type": "observation",
+          "verification": "read-only git HEAD/status comparison with pre-release baseline"
+        }
+      ]
+    }
+  ],
+  "evidenceClasses": {
+    "schemaVersion": 1,
+    "contractDigest": "7d5283bbc35bee467dddf778f2253f22c3539ba8fa0781317620628e42409349",
+    "items": [
+      {
+        "class": "external_evidence",
+        "evidence": [
+          {
+            "type": "release",
+            "path": ".ai/evidence/external/WI-899-release-v0-2-98.4079e16b4afa80c384fcbcd5d88648f17571763d6567dc53d775be5ac6fbd81c.delegated.json",
+            "locator": "workflow:35309533374/release-close",
+            "verification": "provider_verified",
+            "digest": "sha256:32f42b8277d9fb8791bce505b48269b9a244e4132aebfcf12b242b5e6f3c48bc"
+          }
+        ]
+      }
+    ]
+  },
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "The release evidence proves publication, installation, upgrade, and cleanup. No separate user-benefit measurement was declared for this release Work Item.",
+    "evidence": [
+      ".ai/work-items/active/WI-899-release-v0-2-98.contract.json",
+      ".ai/evidence/external/v0.2.98/release/release-close.json"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "assurance": "provider_verified",
+  "collectedAt": "2026-09-18T05:28:08Z",
+  "digest": "sha256:4079e16b4afa80c384fcbcd5d88648f17571763d6567dc53d775be5ac6fbd81c",
+  "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35309533374",
+  "provider": "github",
+  "rawEvidenceRef": ".ai/evidence/external/v0.2.98-release-close.json",
+  "subject": "workflow:35309533374/release-close",
+  "validity": "valid"
+}

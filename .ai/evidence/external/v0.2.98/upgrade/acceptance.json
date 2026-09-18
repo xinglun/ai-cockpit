@@ -1,0 +1,192 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-18T05:27:15Z",
+  "finishedAt": "2026-09-18T05:27:32Z",
+  "releasePublished": true,
+  "stagedCandidate": false,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "fromTag": "v0.2.97",
+  "toTag": "v0.2.98",
+  "target": "x86_64-unknown-linux-gnu",
+  "rustToolchain": "1.98.1-x86_64-unknown-linux-gnu",
+  "fromRuntimeVersion": "0.2.97",
+  "toRuntimeVersion": "0.2.98",
+  "fromRuntimeDigest": "sha256:fb77a6d752f8bb426176cee1c22ea1bb7ceda083a95f1213b65c63136211f95a",
+  "toRuntimeDigest": "sha256:b8cba33488383004bfd59a9f38afda05b24b151dbde193b56d8bcba1edbc1a67",
+  "repositoryId": "sha256:c49d21c2ac8be40d1965c4c977c8d69e4b39fb98f2a01449f9bb266486c5b042",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "closeDecision": {
+    "validated": true,
+    "workItemId": "n-minus-one-post-migration",
+    "repositoryId": "sha256:c49d21c2ac8be40d1965c4c977c8d69e4b39fb98f2a01449f9bb266486c5b042",
+    "artifactPath": "work-items/n-minus-one-post-migration.close.json",
+    "digest": "sha256:f58d65fe1b0ada34c296355d17adee97d5104105b67e3a1cc20dcd6d0fb045c6"
+  },
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "from-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "to-release-pin",
+      "state": "passed"
+    },
+    {
+      "name": "publish-handoff",
+      "state": "passed"
+    },
+    {
+      "name": "public-release-pins",
+      "state": "passed"
+    },
+    {
+      "name": "from-attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-profile.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "from-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-protocol-directories",
+      "state": "passed"
+    },
+    {
+      "name": "old-schema-assertion",
+      "state": "passed",
+      "reason": "old Runtime repository schema 2"
+    },
+    {
+      "name": "old-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-verify-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "old-preflight-after-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "old-lifecycle-closed",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-captured",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility.json",
+      "state": "passed"
+    },
+    {
+      "name": "historical-evidence-preserved",
+      "state": "passed"
+    },
+    {
+      "name": "new-compatibility-after.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "new-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "continued-operation",
+      "state": "passed"
+    },
+    {
+      "name": "isolation",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}

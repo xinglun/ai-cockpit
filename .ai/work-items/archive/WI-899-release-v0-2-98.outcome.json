@@ -1,0 +1,230 @@
+{
+  "acceptanceResults": [
+    "Workspace package versions, Cargo.lock, current release documentation, and generated archives identify v0.2.98 consistently.",
+    "The immutable v0.2.98 tag is annotated and bound to the reviewed release commit; no existing semantic tag is moved or deleted.",
+    "A stable provider Release is bound to the immutable v0.2.98 tag, manifest, checksums, SBOM, archives, workflow handoff, and source identity.",
+    "Downloaded v0.2.98 assets pass checksum, isolated fresh-install, and v0.2.97 upgrade acceptance with exact temporary-root cleanup.",
+    "English, Simplified Chinese, and Japanese release and reference projections remain synchronized.",
+    "Object repositories remain untouched.",
+    "The final release Outcome reports publication, installed and upgraded acceptance, cleanup, unresolved boundaries, and next action without claiming automatic host chat display or unproven performance improvement."
+  ],
+  "createdAt": "2026-09-18T05:49:40Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d263882365721fefd77b303c50bcd92656fce0fcfd94eebeabea4315d4a9e757",
+  "evidenceRefs": [
+    ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:32de02abd75e0013513da42ce3b175bb8febb8cc44e772347e727f6f41c1c792",
+      "workItemId": "WI-899-release-v0-2-98"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-899-release-v0-2-98.controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/adopter/acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/adopter/isolation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/post-release/object-repository-final.txt"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/SHA256SUMS"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/homebrew-handoff.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/provider-release-state.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/release-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/release-manifest.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/release/version-consistency.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/upgrade/acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/upgrade/isolation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/v0.2.98/upgrade/migration-state.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-899-release-v0-2-98.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-899-release-v0-2-98.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.contract.json"
+          ],
+          "inference": false,
+          "text": "Update the reviewed main line to v0.2.98 and complete the governed immutable tag, provider Release, downloaded artifact acceptance, post-release adopter and upgrade acceptance, and exact cleanup without touching object repositories."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-899-release-v0-2-98.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-899-release-v0-2-98"
+  },
+  "taskReportDigest": "sha256:d9925d08143d8362dbda82c25f308f9cc9c670a83c8a9952b477b5d0e92940ab",
+  "taskReportMarkdownDigest": "sha256:38c974dad405e0ba0b7f152d807f22a67c4823afc858080e4410555a6327471e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-899-release-v0-2-98.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-899-release-v0-2-98"
+}
