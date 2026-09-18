@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T11:09:14Z",
+  "files": {
+    "contractDigest": "sha256:6dab88eaba19778d2ceb31e8e784ad717e7053ac6d313abdaf9a25a6fc439002",
+    "contractPath": ".ai/work-items/archive/WI-906-interface-ssot.contract.json",
+    "eventsDigest": "sha256:6b808880b91420aa9a66e52cc6763ea76885e8057ee122982fc3c9469d446863",
+    "eventsPath": ".ai/work-items/archive/WI-906-interface-ssot.events.jsonl",
+    "outcomeDigest": "sha256:9221db0fceb68f4fda06a7844ae499ef1547304e875594352c60213588798016",
+    "outcomePath": ".ai/work-items/archive/WI-906-interface-ssot.outcome.json",
+    "summaryDigest": "sha256:6f4e3382977ebf4f4010b2dd9932c68911808a41bf79a7eed88bb1a524c12bf1",
+    "summaryPath": ".ai/work-items/archive/WI-906-interface-ssot.summary.json",
+    "taskReportDigest": "sha256:f6e989a588692a8d173f83ceef1d2971001bccbd3509edded4760c7c1168fa3a",
+    "taskReportMarkdownDigest": "sha256:9159ea2a3d0af6720f74a5dd13a62ebee4221d5cbb108abc2de22fe4bf3f0b3b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-906-interface-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-906-interface-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-906-interface-ssot"
+}

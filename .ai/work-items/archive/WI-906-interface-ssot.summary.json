@@ -1,0 +1,175 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-906-interface-ssot.verification-attempt.6a6462d66cf43a88d7bad257ea4d6f68d1886cd4c24a5f423a72468f110beb42.json",
+    ".ai/work-items/archive/WI-906-interface-ssot.contract.json",
+    ".ai/work-items/archive/WI-906-interface-ssot.summary.json",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-18T10:50:23Z",
+  "checkpointContractDigest": "sha256:ec7b93836a1672289a3617b2772f98a7d673c91609ed91a8d96566cd7c7238fe",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:50:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:49fb9889bd8ae365ab21cc2727783da92ce5af820ad3a3cde3a393722c41ae14",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-906-interface-ssot"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:868d5c1b028b5578afdd895b2b5c02a772a4bfa062cc80c5a87ac7fcd42142db",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "previousContractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "reason": "Include Runtime-generated verification attempt and observer snapshot records produced while collecting the Contract evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T11:00:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-906-interface-ssot"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:79d1da1b5a8d0aeae175f12d2e9659ea77c3dcc1c26702d65082a231db1304e7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "previousContractHash": "sha256:868d5c1b028b5578afdd895b2b5c02a772a4bfa062cc80c5a87ac7fcd42142db",
+      "reason": "Bind all Runtime-generated lifecycle, evidence, archive, and decision paths for this Work Item so preflight can distinguish governed records from out-of-scope edits.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T11:01:04Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-906-interface-ssot"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b883e1eee8c24c60ace489c626e05dec2153bdf24482c86b999aaa5e128863ee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "previousContractHash": "sha256:79d1da1b5a8d0aeae175f12d2e9659ea77c3dcc1c26702d65082a231db1304e7",
+      "reason": "Make the exact affected adapter test and failed verification-attempt paths explicit after the precondition rejection.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T11:01:50Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-906-interface-ssot"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ec7b93836a1672289a3617b2772f98a7d673c91609ed91a8d96566cd7c7238fe",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:714e80d539e790250cdd51bff37b4b95127073db65427ddd153bd535acc88360",
+      "previousContractHash": "sha256:b883e1eee8c24c60ace489c626e05dec2153bdf24482c86b999aaa5e128863ee",
+      "reason": "Include the protocol crate re-export touched by the SSOT implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T11:02:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-906-interface-ssot"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+  "createdAt": "2026-09-18T10:49:53Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T11:08:23Z",
+  "preflightContractDigest": "sha256:ec7b93836a1672289a3617b2772f98a7d673c91609ed91a8d96566cd7c7238fe",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T11:08:49Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-906-interface-ssot"
+}

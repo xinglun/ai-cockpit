@@ -2,6 +2,7 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
     WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
     render_interface_description_markdown, work_item_outcome_interface_description,
+    work_item_outcome_interface_specs,
 };
 
 fn surface<'a>(
@@ -72,6 +73,55 @@ fn outcome_description_has_stable_shared_facts() {
             .collect::<Vec<_>>(),
         WORK_ITEM_OUTCOME_LANGUAGE_VALUES
     );
+}
+
+#[test]
+fn description_is_materialized_from_protocol_owned_parameter_tables() {
+    let description = work_item_outcome_interface_description();
+    for surface_name in ["cli", "mcp"] {
+        let specs = work_item_outcome_interface_specs(surface_name).expect("known surface");
+        let projected = surface(&description, surface_name);
+        assert_eq!(
+            projected.parameters.len(),
+            specs.len(),
+            "surface={surface_name}"
+        );
+        for (parameter, spec) in projected.parameters.iter().zip(specs) {
+            assert_eq!(parameter.name, spec.name, "surface={surface_name}");
+            assert_eq!(
+                parameter.wire_type, spec.wire_type,
+                "surface={surface_name}"
+            );
+            assert_eq!(parameter.required, spec.required, "surface={surface_name}");
+            assert_eq!(
+                parameter.default.as_deref(),
+                spec.default,
+                "surface={surface_name}"
+            );
+            assert_eq!(
+                parameter
+                    .enum_values
+                    .iter()
+                    .map(String::as_str)
+                    .collect::<Vec<_>>(),
+                spec.enum_values,
+                "surface={surface_name}"
+            );
+            assert_eq!(
+                parameter
+                    .aliases
+                    .iter()
+                    .map(String::as_str)
+                    .collect::<Vec<_>>(),
+                spec.aliases,
+                "surface={surface_name}"
+            );
+            assert_eq!(
+                parameter.description, spec.description,
+                "surface={surface_name}"
+            );
+        }
+    }
 }
 
 #[test]

@@ -56,6 +56,34 @@ fn one_of_aliases(names: &[&str]) -> Value {
     )
 }
 
+/// Project the protocol-owned outcome parameter facts into MCP JSON Schema.
+/// Keeping this projection here (rather than repeating defaults and enums in
+/// the adapter) lets capability discovery and the MCP tool list change
+/// together when the protocol definition changes.
+fn outcome_parameter_schema(name: &str) -> Value {
+    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
+        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
+    let wire_type = match spec.wire_type {
+        "enum" => "string",
+        other => other,
+    };
+    let mut schema = json!({
+        "type": wire_type,
+        "description": spec.description,
+    });
+    if !spec.enum_values.is_empty() {
+        schema["enum"] = json!(spec.enum_values);
+    }
+    if let Some(default) = spec.default {
+        schema["default"] = if spec.wire_type == "boolean" {
+            json!(default == "true")
+        } else {
+            json!(default)
+        };
+    }
+    schema
+}
+
 fn mcp_tool_schema(name: &str) -> Value {
     let id_properties = json!({
         "workItemId": string_property("Canonical Work Item identifier."),
@@ -111,24 +139,15 @@ fn mcp_tool_schema(name: &str) -> Value {
         ),
         "work_item_outcome" => {
             let mut properties = id_properties;
-            properties["language"] = string_property(
-                "Presentation language: en, zh, or ja (regional forms are accepted).",
+            properties["workItemId"]["description"] = json!(
+                cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
+                    .expect("workItemId outcome spec")
+                    .description
             );
-            properties["view"] = json!({
-                "type": "string",
-                "enum": cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES,
-                "default": cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW,
-                "description": "Human handoff projection; summary is the reader-first default and full retains the complete audit report."
-            });
-            properties["delivery"] = json!({
-                "type": "boolean",
-                "default": cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
-                "description": "For an archived Work Item, return the versioned full Outcome delivery payload and ordered assistantMessageEvents. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
-            });
-            properties["deliveryProgress"] = json!({
-                "type": "object",
-                "description": "Optional identity-bound accepted-segment progress from a previous interrupted delivery. It is ignored for return-only handoff and never authorizes a new archive."
-            });
+            properties["language"] = outcome_parameter_schema("language");
+            properties["view"] = outcome_parameter_schema("view");
+            properties["delivery"] = outcome_parameter_schema("delivery");
+            properties["deliveryProgress"] = outcome_parameter_schema("deliveryProgress");
             let mut schema = object_schema(properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
