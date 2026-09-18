@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-904 — Work-item outcome インターフェース記述の単一事実源"
 description: "プロトコル所有の記述から CLI、MCP、参照資料のインターフェース事実を生成する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-904-interface-description-ssot
 lastVerifiedBy: WI-904-interface-description-ssot
+terminalArchive: .ai/work-items/archive/WI-904-interface-description-ssot.contract.json
+terminalVerification: .ai/evidence/WI-904-interface-description-ssot.verification.json
+terminalDecision: .ai/decisions/WI-904-interface-description-ssot.close.json
 ---
 
 [English](WI-904-interface-description-ssot.md) · [简体中文](WI-904-interface-description-ssot.zh-CN.md)

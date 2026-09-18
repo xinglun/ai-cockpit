@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-904 — Work-item outcome 接口描述单一事实源"
 description: "从协议侧单一描述生成 CLI、MCP 和参考资料中的接口事实。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-904-interface-description-ssot
 lastVerifiedBy: WI-904-interface-description-ssot
+terminalArchive: .ai/work-items/archive/WI-904-interface-description-ssot.contract.json
+terminalVerification: .ai/evidence/WI-904-interface-description-ssot.verification.json
+terminalDecision: .ai/decisions/WI-904-interface-description-ssot.close.json
 ---
 
 [English](WI-904-interface-description-ssot.md) · [日本語](WI-904-interface-description-ssot.ja.md)
