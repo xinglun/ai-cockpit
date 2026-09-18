@@ -2,9 +2,9 @@
 author: AI Cockpit maintainers
 workItemId: WI-890-release-v0-2-95
 title: 四方向収束後の governed v0.2.95 release
-description: Outcome、HCI、四方向収束、Issue #851、interface discovery、Rust/toolchain、現行 performance evidence の検証後だけ v0.2.95 を公開する。
+description: recovered/replaced された v0.2.95 公開経路を保持し、不変の失敗候補を公開済みとは主張しない。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-890-release-v0-2-95
 ---
@@ -16,6 +16,10 @@ lastVerifiedBy: WI-890-release-v0-2-95
 経路である。review 済み candidate の merge、immutable tag と Release の作成、
 download した成果物の release acceptance harness 合格が揃って初めて release
 完了とする。
+
+これは recovered/replaced された過去の公開経路である。不変の候補履歴は保持
+するが、v0.2.95 は公開されていない。残りの公開 evidence は WI-892 が引き継ぎ、
+この記録を provider Release や download 済み成果物の成功証明として扱わない。
 
 ## Acceptance boundary
 

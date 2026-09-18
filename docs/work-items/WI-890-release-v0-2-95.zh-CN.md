@@ -2,9 +2,9 @@
 author: AI Cockpit maintainers
 workItemId: WI-890-release-v0-2-95
 title: 四方向收敛后的受治理 v0.2.95 发布
-description: 仅在 Outcome、HCI、四方向收敛、Issue #851、接口发现、Rust/工具链和当前性能证据完成验证后发布 v0.2.95。
+description: 保留已恢复/替换的 v0.2.95 发布路径，不宣称不可变失败候选已发布。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-890-release-v0-2-95
 ---
@@ -15,6 +15,10 @@ lastVerifiedBy: WI-890-release-v0-2-95
 接口发现试点以及 Rust/工具链升级完成后的最后发布路径。只有评审后的候选
 版本合并、不可变 tag 和 Release 存在，并且下载的制品通过发布验收 harness，
 发布才算完成。
+
+这是一个已恢复/替换的历史发布路径。不可变候选历史已保留，但 v0.2.95
+并未发布；剩余发布证据由 WI-892 承接。本记录不是 provider Release 或下载
+制品验收成功的证明。
 
 ## 验收边界
 

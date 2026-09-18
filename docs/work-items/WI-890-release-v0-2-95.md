@@ -2,9 +2,9 @@
 author: AI Cockpit maintainers
 workItemId: WI-890-release-v0-2-95
 title: Governed v0.2.95 release after four-direction convergence
-description: Publish v0.2.95 only after the Outcome, HCI, four-direction, Issue #851, interface-discovery, Rust/toolchain, and current performance evidence are verified.
+description: Preserve the recovered/replaced v0.2.95 release route without claiming that the immutable failed candidate was published.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: recovered
 authority: explicit-user-authorization
 lastVerifiedBy: WI-890-release-v0-2-95
 ---
@@ -17,6 +17,11 @@ inspired interface-discovery trial, and the Rust/toolchain update have been
 completed. Publication is not complete until the reviewed candidate is merged,
 the provider Release and immutable tag exist, and a downloaded artifact passes
 the release acceptance harness.
+
+This historical route is recovered/replaced. Its immutable candidate history is
+preserved, but v0.2.95 was not published; the remaining publication evidence
+continues under WI-892. This record is not provider Release or downloaded-artifact
+success evidence.
 
 ## Acceptance boundary
 

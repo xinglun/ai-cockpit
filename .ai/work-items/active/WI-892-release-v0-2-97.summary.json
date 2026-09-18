@@ -2,10 +2,16 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/work-items/active/WI-892-release-v0-2-97.contract.json",
-    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json"
+    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-890-release-v0-2-95.ja.md",
+    "docs/work-items/WI-890-release-v0-2-95.md",
+    "docs/work-items/WI-890-release-v0-2-95.zh-CN.md"
   ],
   "checkpointAt": "2026-09-18T00:33:41Z",
-  "checkpointContractDigest": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
+  "checkpointContractDigest": "sha256:2d4b4e8dcfd163f86f63cb84f9bde863c54eaa90bf36756e65f7c6cd0d754d47",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -101,19 +107,39 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:2d4b4e8dcfd163f86f63cb84f9bde863c54eaa90bf36756e65f7c6cd0d754d47",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "previousContractHash": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
+      "reason": "Correct the retired WI-890 documentation projection discovered by the documentation acceptance gate; preserve the failed v0.2.95 route without claiming publication.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T01:51:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-892-release-v0-2-97"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+  "checkpointRepositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
   "createdAt": "2026-09-18T00:28:33Z",
   "intentAlignment": {
     "reason": "Release identity correction is in scope; publication and downloaded adopter evidence are pending.",
     "state": "unknown"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-18T01:46:52Z",
-  "preflightContractDigest": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
+  "preflightAt": "2026-09-18T01:56:32Z",
+  "preflightContractDigest": "sha256:2d4b4e8dcfd163f86f63cb84f9bde863c54eaa90bf36756e65f7c6cd0d754d47",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+  "preflightRepositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -154,6 +180,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:f67529b9749278224058cf7e36a52c9ff34ccf8f368452c82b03dd065ae58c16",
+  "verificationRecoveryReconciled": "sha256:80f623a5b88be4a30ef5bd39ac37b1aed2ab814d68d96aed7c126229d263de37",
   "workItemId": "WI-892-release-v0-2-97"
 }
