@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "范围 amendment 后的 preflight 已重新计算；确认当前精确路径范围、验证证据和 hosted review 继续有效，授权同一 WI 继续 PR 检查与 v0.2.99 发布，不替代测试、安装验收或发布成功证据。",
+  "recordedAt": "2026-09-19T00:40:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

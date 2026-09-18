@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:4c8025fc170adbd7a584a2185efcb8d7feaebe525042789511a38570a3e5d8a3",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "用户已明确授权：所有需要确认的发布动作均可执行；确认仅授权在当前 WI 范围内收集并验证 v0.2.99 公开 Release 证据，不替代任何测试、安装验收或发布成功证据。",
+  "recordedAt": "2026-09-18T15:10:41Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8cf2996d804f6341a835ad8b55942573667ce703c9d163318f45ce6fd82bd94a",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

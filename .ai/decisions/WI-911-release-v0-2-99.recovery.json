@@ -1,0 +1,29 @@
+{
+  "actor": "human:owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T00:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-911-release-v0-2-99.outcome.json",
+    ".ai/evidence/WI-911-release-v0-2-99.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/879",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35363688803"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+  "predecessorEventsDigest": "sha256:2f892a538b73413e730b305c946d6916976af945adb7c873522701e08ce677fa",
+  "predecessorOutcomeDigest": "sha256:0c96ed8067af149171ce98bd12bb2a3260754b4ed79b5508c8131842194eae0e",
+  "predecessorSummaryDigest": "sha256:d27aec94876bafa0d62f9d76834061a79120b255791e868e927bb66fabdc7f5d",
+  "predecessorWorkItemId": "WI-911-release-v0-2-99",
+  "reason": "PR #879 的 hosted route 因当前 WI 中提前记录的失败 finish transition marker 被拒绝；保留失败 Outcome 和证据，按 Runtime recovery path 重建同一 WI 的合法 hosted 检查路径，不创建 successor，不重新执行已经完成的本地 Runtime 验证。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "消费本次 retry 后重新生成当前快照绑定的 hosted route evidence；通过后继续 PR review、merge、immutable tag 和 release workflow。",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "WI-911-release-v0-2-99"
+}

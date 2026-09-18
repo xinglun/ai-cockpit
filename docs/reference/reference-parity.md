@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-899-release-v0-2-98
+lastVerifiedBy: WI-911-release-v0-2-99
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.98` with binary digest
-`sha256:cdbe03cb72651abd57d3b8ee107239a778f8c658186480e5a31cc6628ee22299`.
+and the reviewed Runtime `ai-cockpit v0.2.99` with binary digest
+`sha256:daaeb87aa00f6808a73864c06bcd1b889c8131283f32dcebd360eb6d27a50f00`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1059,5 +1059,6 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-895-release-docs-promotion — WI-892 documentation promotion | Implemented | [Work Item](../work-items/WI-895-release-docs-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-895-release-docs-promotion.contract.json`; verification `.ai/evidence/WI-895-release-docs-promotion.verification.json`; close `.ai/decisions/WI-895-release-docs-promotion.close.json`. |
 | WI-898-hci-terminology — HCI terminology correction for the four-direction acceptance report | Implemented | [Work Item](../work-items/WI-898-hci-terminology.md); terminal lifecycle: archive `.ai/work-items/archive/WI-898-hci-terminology.contract.json`; verification `.ai/evidence/WI-898-hci-terminology.verification.json`; close `.ai/decisions/WI-898-hci-terminology.close.json`. |
 | WI-899-release-v0-2-98 — final release after Outcome, HCI, four-direction, and Issue #851 convergence | Implemented · Recovered | [Work Item](../work-items/WI-899-release-v0-2-98.md); publication remains gated on immutable tag, provider Release, downloaded artifact acceptance, and exact cleanup evidence; archive `.ai/work-items/archive/WI-899-release-v0-2-98.contract.json`; verification `.ai/evidence/WI-899-release-v0-2-98.verification.json`; finalization `.ai/decisions/WI-899-release-v0-2-98.finalize.json`; close `.ai/decisions/WI-899-release-v0-2-98.close.json`; recovery `.ai/decisions/WI-899-release-v0-2-98.recovery.8447cd8ff122185bac1e1e7314ba022d699e38aba24b5681e285cb0315d17ab2.json`. |
+| WI-911-release-v0-2-99 — final release after Outcome language, HCI, four-direction, and Issue #851 convergence | In progress → Implemented after verified close | [Work Item](../work-items/WI-911-release-v0-2-99.md); publication remains gated on immutable tag, provider Release, downloaded artifact acceptance, and exact cleanup evidence; archive `.ai/work-items/archive/WI-911-release-v0-2-99.contract.json`; verification `.ai/evidence/WI-911-release-v0-2-99.verification.json`; finalization `.ai/decisions/WI-911-release-v0-2-99.finalize.json`; close `.ai/decisions/WI-911-release-v0-2-99.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

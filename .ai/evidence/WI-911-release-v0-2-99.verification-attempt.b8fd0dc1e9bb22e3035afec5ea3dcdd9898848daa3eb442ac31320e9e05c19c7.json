@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:b8fd0dc1e9bb22e3035afec5ea3dcdd9898848daa3eb442ac31320e9e05c19c7",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "5997000144750c151d9adc047c27adccf070bd2d",
+      "commandDigest": "sha256:135a8169839e232edbf897ecfac84cf4f66b3cc07da87c9567b9c5dcdfae0590",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+  "contractExecutionScopeDigest": "sha256:b28aaa43a2fca8995d5fe6cbb22bfe1cbc455c1979c1503c7ac39737ed1048da",
+  "createdAt": "2026-09-18T15:28:29Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-911/.ai/work-items/active/WI-911-release-v0-2-99.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-911-release-v0-2-99"
+}

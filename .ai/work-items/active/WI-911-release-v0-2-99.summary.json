@@ -1,0 +1,169 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-911-release-v0-2-99.contract.json",
+    ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+  ],
+  "checkpointAt": "2026-09-18T15:13:10Z",
+  "checkpointContractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:13:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-911-release-v0-2-99"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+      "previousContractHash": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+      "reason": "修正 release Contract 的精确路径范围，使 hosted quality gate 能按实际候选文件判断 scope；不改变对象仓库边界或发布目标。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:49:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-911-release-v0-2-99"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+  "createdAt": "2026-09-18T15:08:45Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "范围 amendment 后的 preflight 已重新计算；确认当前精确路径范围、验证证据和 hosted review 继续有效，授权同一 WI 继续 PR 检查与 v0.2.99 发布，不替代测试、安装验收或发布成功证据。",
+    "recordedAt": "2026-09-19T00:40:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+    "schemaVersion": 1,
+    "workItemId": "WI-911-release-v0-2-99"
+  },
+  "intentAlignment": {
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T15:54:21Z",
+  "preflightContractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo metadata, lockfile, current docs, generated manifest, and annotated v0.2.99 tag identify the same version and source commit",
+      "required": true,
+      "scenario": "workspace identity and immutable tag",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency before publication and compare the peeled remote tag with the reviewed release source commit"
+    },
+    {
+      "evidence": [],
+      "expected": "Provider Release is stable and its manifest, checksums, SBOM, archives, attestation, and handoff bind to v0.2.99",
+      "required": true,
+      "scenario": "published assets and manifest",
+      "status": "unverified",
+      "verificationPlan": "Consume the release workflow handoff and validate provider Release assets independently"
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.99 installs in isolated roots and upgrades the public v0.2.98 baseline with exact cleanup",
+      "required": true,
+      "scenario": "downloaded fresh install and N-1 upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the hosted adopter and upgrade acceptance receipts, then validate cleanup bindings"
+    },
+    {
+      "evidence": [],
+      "expected": "ORG-X, sentinel, goods-garden, and ai-investigation-orchestrator have no changes",
+      "required": true,
+      "scenario": "object repository boundary",
+      "status": "unverified",
+      "verificationPlan": "Inspect their HEAD and status before and after release operations"
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese current release/reference projections remain parity-clean",
+      "required": true,
+      "scenario": "multilingual release projections",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and parity status checks before and after publication"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-18T16:01:25.807553+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:be6bf6e1b313ea89a692062a851b899bfb0925e37daafb15516039880672ca9f",
+  "workItemId": "WI-911-release-v0-2-99"
+}

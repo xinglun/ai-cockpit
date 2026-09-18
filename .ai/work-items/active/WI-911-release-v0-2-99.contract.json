@@ -1,0 +1,104 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace package versions、Cargo.lock 和当前三语发布/版本文档一致为 0.2.99，历史版本保持不变。",
+    "v0.2.99 使用未占用的不可变 annotated tag，并绑定本次审查过的 main 源提交。",
+    "provider Release 为稳定公开状态，manifest、checksums、SBOM、archives、attestation 和 source identity 互相绑定。",
+    "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.98 到 v0.2.99 升级以及精确临时目录清理；对象仓库不发生写入。",
+    "Outcome 以当前中文对话语言完整交付，明确完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "5997000144750c151d9adc047c27adccf070bd2d",
+  "createdAt": "2026-09-18T15:08:45Z",
+  "goal": "从最新已审查 main 创建 v0.2.99 候选，完成不可变标签、稳定 provider Release、完整发布产物与供应链证据、下载产物安装/升级验收、发布后清理和最终中文 Outcome；不修改对象仓库。",
+  "intent": "完成 Outcome 语言修复、四方向收敛和 Issue #851 对应后的最终 v0.2.99 发布",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改对象仓库主分支或合并对象仓库；不重跑已完成的功能 WI；不宣称性能提速；不宣称宿主已展示或用户已阅读 Outcome；不新增生命周期协议或发布系统。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8cf2996d804f6341a835ad8b55942573667ce703c9d163318f45ce6fd82bd94a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence",
+    "delegated:github"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo metadata, lockfile, current docs, generated manifest, and annotated v0.2.99 tag identify the same version and source commit",
+      "required": true,
+      "scenario": "workspace identity and immutable tag",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency before publication and compare the peeled remote tag with the reviewed release source commit"
+    },
+    {
+      "evidence": [],
+      "expected": "Provider Release is stable and its manifest, checksums, SBOM, archives, attestation, and handoff bind to v0.2.99",
+      "required": true,
+      "scenario": "published assets and manifest",
+      "status": "unverified",
+      "verificationPlan": "Consume the release workflow handoff and validate provider Release assets independently"
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.99 installs in isolated roots and upgrades the public v0.2.98 baseline with exact cleanup",
+      "required": true,
+      "scenario": "downloaded fresh install and N-1 upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the hosted adopter and upgrade acceptance receipts, then validate cleanup bindings"
+    },
+    {
+      "evidence": [],
+      "expected": "ORG-X, sentinel, goods-garden, and ai-investigation-orchestrator have no changes",
+      "required": true,
+      "scenario": "object repository boundary",
+      "status": "unverified",
+      "verificationPlan": "Inspect their HEAD and status before and after release operations"
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese current release/reference projections remain parity-clean",
+      "required": true,
+      "scenario": "multilingual release projections",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and parity status checks before and after publication"
+    }
+  ],
+  "scope": [
+    "更新 workspace package 版本与当前三语发布/版本文档；执行现有 release.yml 的受治理发布路径；采集并绑定 tag、Release、manifest、checksums、SBOM、archives、attestation、安装、升级、版本一致性与清理 receipt；归档并关闭本 WI。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "workspace package version metadata",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/reference-parity*.md",
+    "docs/reference/reference-file-comparison*.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/commands*.md",
+    ".github/workflows/release.yml",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "docs/work-items/WI-911-release-v0-2-99.**"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    "https://github.com/xinglun/ai-cockpit/pull/878",
+    "https://github.com/xinglun/ai-cockpit/pull/874"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "tests/release/version_consistency.sh --repo $PWD",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh $PWD /tmp/wi911-parity.json",
+    "python3 tests/ci/governance_integrity_gate.py --repo $PWD --report target/wi911-governance.json",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=$HOME/.cache/ai-cockpit-verify-target cargo test --locked --workspace",
+    "gh workflow run release.yml --repo xinglun/ai-cockpit --ref v0.2.99 -f from_tag=v0.2.98 -f to_tag=v0.2.99 -f publish_existing_tag=true -f work_item_id=WI-911-release-v0-2-99 -f source_work_item_id=WI-911-release-v0-2-99"
+  ],
+  "workItemId": "WI-911-release-v0-2-99"
+}
