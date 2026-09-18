@@ -1,0 +1,76 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-917-interface-language-ssot.verification-attempt.8945b0c996f5bfe35fe9f121f845f0632626ae62d588440074305d4565b0bd74.json",
+    ".ai/work-items/archive/WI-917-interface-language-ssot.contract.json",
+    ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-18T21:23:24Z",
+  "checkpointContractDigest": "sha256:dede32cad46cf38e1dc4ffaf7fab0d5ef54b6399eb3c5507f0b54703d25a70a5",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6df11e02086ab343ba902b7d66e2f79d6f7fac17cd39322fa0b6b0e3baf21545",
+  "createdAt": "2026-09-18T21:23:12Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T21:29:44Z",
+  "preflightContractDigest": "sha256:dede32cad46cf38e1dc4ffaf7fab0d5ef54b6399eb3c5507f0b54703d25a70a5",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:6df11e02086ab343ba902b7d66e2f79d6f7fac17cd39322fa0b6b0e3baf21545",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T21:30:11Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-917-interface-language-ssot"
+}

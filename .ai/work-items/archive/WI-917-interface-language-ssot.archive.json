@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T21:30:29Z",
+  "files": {
+    "contractDigest": "sha256:82a00dd516ce98eed3b92ff9d485104fbecf0d1b90dffd94905fde8788284d83",
+    "contractPath": ".ai/work-items/archive/WI-917-interface-language-ssot.contract.json",
+    "eventsDigest": "sha256:80f0422651b7e9229673e889dfb8872566f574ada6fa381185879b6bc43e284f",
+    "eventsPath": ".ai/work-items/archive/WI-917-interface-language-ssot.events.jsonl",
+    "outcomeDigest": "sha256:9c9f8e7a2884482f275a70e1ceb021d0bf63580026f48d1909133c14ff44f3a5",
+    "outcomePath": ".ai/work-items/archive/WI-917-interface-language-ssot.outcome.json",
+    "summaryDigest": "sha256:712bb541febdf96e48f7e66f720419db74680e75b9ebb55b8b9d6198c62f4a4a",
+    "summaryPath": ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json",
+    "taskReportDigest": "sha256:f84bf16b84f32566b05aef7533534184fe4395c50021ef018a546115379a49f6",
+    "taskReportMarkdownDigest": "sha256:5559fc3bec7567f773fcea949ee418e267ab0b0686d443e055773e993962565a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-917-interface-language-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-917-interface-language-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-917-interface-language-ssot"
+}

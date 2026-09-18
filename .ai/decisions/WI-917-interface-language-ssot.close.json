@@ -1,0 +1,178 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6df11e02086ab343ba902b7d66e2f79d6f7fac17cd39322fa0b6b0e3baf21545",
+      "workItemId": "WI-917-interface-language-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-917-interface-language-ssot.verification-attempt.8945b0c996f5bfe35fe9f121f845f0632626ae62d588440074305d4565b0bd74.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-917-interface-language-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via conversation-authorization: user authorized future confirmations at 2026-09-18T21:31:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the Outcome and capability_show language enum consume one protocol-owned source, with deterministic CLI/MCP/reference parity and no lifecycle or delivery changes."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-917-interface-language-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-917-interface-language-ssot"
+  },
+  "finalReportDigest": "sha256:4597cc687d99399ae8f27d143ebbf2b527071f9eea31b529502a1862610d1f14",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:185286054acaefe3ce1e535d3d7a26118b2ea9ecc3091b0a9cbcd26f2cdc71d0",
+    "branch": "codex/wi-917-interface-language-ssot",
+    "branchRef": "refs/heads/codex/wi-917-interface-language-ssot",
+    "capturedAt": "2026-09-18T21:31:04Z",
+    "contractDigest": "sha256:dede32cad46cf38e1dc4ffaf7fab0d5ef54b6399eb3c5507f0b54703d25a70a5",
+    "headRevision": "09dc7713c19b971f11f606981209dd2e220a41e0",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-917-interface-language-ssot",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:8aaa50f489b03e8da178f42e9e3bcf6ab4e6ef9ca18e3bb7a2abd195874a7a33",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-917-interface-language-ssot/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:e52d8ffb1d40b6bfcc32c34e2eb0b9001de2e5155d4a75f8412197109ca0b344",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "conversation-authorization: user authorized future confirmations",
+    "decidedAt": "2026-09-18T21:31:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-917-interface-language-ssot.verification.json"
+    ],
+    "policyRefs": [
+      "repository-policy"
+    ],
+    "reason": "Accepted the current verification evidence for this bounded SSOT correction; user-visible benefit remains unknown.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-18T21:31:04Z",
+  "workItemId": "WI-917-interface-language-ssot"
+}
