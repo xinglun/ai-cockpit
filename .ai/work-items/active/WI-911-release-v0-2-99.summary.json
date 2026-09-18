@@ -50,9 +50,9 @@
     "contractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
-    "reason": "用户已明确授权：范围 amendment 仅补充当前 release 候选实际文件路径与 hosted quality gate 的精确绑定；继续授权在当前 WI 范围内完成验证、评审和 v0.2.99 发布，不替代任何测试、安装验收或发布成功证据。",
-    "recordedAt": "2026-09-19T00:30:00Z",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "范围 amendment 后的 preflight 已重新计算；确认当前精确路径范围、验证证据和 hosted review 继续有效，授权同一 WI 继续 PR 检查与 v0.2.99 发布，不替代测试、安装验收或发布成功证据。",
+    "recordedAt": "2026-09-19T00:40:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
@@ -113,7 +113,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-18T15:50:08.191098+00:00",
+  "updatedAt": "2026-09-18T16:01:25.807553+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
