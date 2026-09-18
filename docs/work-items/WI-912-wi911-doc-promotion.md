@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-912 — WI-911 documentation projection repair"
 description: "Promote the closed WI-911 release projection without rewriting immutable evidence."
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-912-wi911-doc-promotion
 lastVerifiedBy: WI-912-wi911-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-912-wi911-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-912-wi911-doc-promotion.close.json
 ---
 
 [简体中文](WI-912-wi911-doc-promotion.zh-CN.md) · [日本語](WI-912-wi911-doc-promotion.ja.md)

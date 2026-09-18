@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-912 — WI-911 文档投影修复"
 description: "在不改写不可变证据的前提下，提升已关闭 WI-911 的发布文档投影。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-912-wi911-doc-promotion
 lastVerifiedBy: WI-912-wi911-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-912-wi911-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-912-wi911-doc-promotion.close.json
 ---
 
 [English](WI-912-wi911-doc-promotion.md) · [日本語](WI-912-wi911-doc-promotion.ja.md)
