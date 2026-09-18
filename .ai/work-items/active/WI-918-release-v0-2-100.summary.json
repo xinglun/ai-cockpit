@@ -106,7 +106,6 @@
     "schemaVersion": 1,
     "workItemId": "WI-918-release-v0-2-100"
   },
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "docs/work-items/WI-918-release-v0-2-100.md"
@@ -114,14 +113,16 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-18T22:16:46Z",
   "preflightContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
   "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+  "recoveryRetryDecisionDigest": "sha256:2a471b99627095ce9e626b232421dccceb23ea922ebc0074e0c31ab45fc2ac6c",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-918-release-v0-2-100.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {

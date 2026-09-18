@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T22:24:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-918-release-v0-2-100.outcome.json",
+    ".ai/evidence/WI-918-release-v0-2-100.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/885"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+  "predecessorEventsDigest": "sha256:122ceaed35dd43f05d557102f3a9cac39d4a0644653a262d6c8da7ef965029c8",
+  "predecessorOutcomeDigest": "sha256:064f0c558a8494e7750385b39e8caa2bece7383e7a18480464f2c080245db505",
+  "predecessorSummaryDigest": "sha256:0582e8f315fda59f622a2d8b5b858e04cecf2a3e26270de9ec0d0bbb3cffd267",
+  "predecessorWorkItemId": "WI-918-release-v0-2-100",
+  "reason": "Retry the same release Work Item after the finish governance gate correctly stopped on planned post-merge release scenarios; preserve the blocked Outcome and re-establish the legal checkpointed route without rerunning or creating a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed PR resource context, rerun preflight and verification against the current snapshot, then continue with hosted review and publication gates.",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-918-release-v0-2-100"
+}
