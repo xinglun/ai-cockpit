@@ -24,19 +24,20 @@
     "schemaVersion": 1,
     "workItemId": "WI-911-release-v0-2-99"
   },
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "state": "unknown"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
   "preflightAt": "2026-09-18T15:36:25Z",
   "preflightContractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
   "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryContractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+  "recoveryRetryDecisionDigest": "sha256:225ea764a6ffbf39b31c2452b1bf971acee775d1ea0c53284d7e79d9c206666d",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-911-release-v0-2-99.recovery.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
