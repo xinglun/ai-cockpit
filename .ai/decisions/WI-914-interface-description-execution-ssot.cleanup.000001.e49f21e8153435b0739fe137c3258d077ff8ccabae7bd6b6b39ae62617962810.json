@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:514413eddd17905b9684fd9e866528fd16f8d8d6e96d733b744d633daee1d04d",
+  "branchRef": "refs/heads/codex/wi-914-interface-description-execution-ssot",
+  "contractDigest": "sha256:cc508d646b5532f220188e9b6eda72239d6e0ccca7e2cf4eb44114aac5a22740",
+  "headRevision": "e8bdcf6ea803fa6db378a2dc4fea0913571ca864",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T19:24:31Z",
+  "operationId": "sha256:85eb9db98c611ab10caf5c2c9532aa49d30b474083b2ae8e4e17167552c2110c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-914-interface-description-execution-ssot",
+  "worktreeId": "sha256:40dd2dffa563fac7b535e5fc4450dbf8f02572d6f59c7b299e2ac4a54df7f402"
+}
