@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import pathlib
 import sys
+import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent
@@ -8,6 +9,7 @@ sys.path.insert(0, str(ROOT))
 
 from runtime_benchmark_stats import PERCENTILE_MINIMUMS, QUANTILE_METHOD, summarize  # noqa: E402
 from runtime_benchmark_scenarios import scenario_matrix_entry  # noqa: E402
+from runtime_benchmark_support import historical_work_item_count  # noqa: E402
 
 
 class RuntimeBenchmarkStatsTest(unittest.TestCase):
@@ -149,6 +151,18 @@ class RuntimeBenchmarkStatsTest(unittest.TestCase):
 
         self.assertEqual(entry["status"], "not_measured")
         self.assertEqual(entry["reason"], "harness_does_not_measure_concurrency")
+
+    def test_historical_work_item_count_includes_nested_archive_projections(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            archive = root / ".ai" / "work-items" / "archive"
+            (archive / "2026" / "batch").mkdir(parents=True)
+            (archive / "root.contract.json").write_text("{}", encoding="utf-8")
+            (archive / "2026" / "one.contract.json").write_text("{}", encoding="utf-8")
+            (archive / "2026" / "batch" / "two.contract.json").write_text("{}", encoding="utf-8")
+            (archive / "2026" / "not-a-contract.json").write_text("{}", encoding="utf-8")
+
+            self.assertEqual(historical_work_item_count(root), 3)
 
 
 if __name__ == "__main__":

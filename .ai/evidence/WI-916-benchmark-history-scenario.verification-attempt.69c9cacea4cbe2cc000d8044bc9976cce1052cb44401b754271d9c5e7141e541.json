@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:69c9cacea4cbe2cc000d8044bc9976cce1052cb44401b754271d9c5e7141e541",
+  "commands": [
+    {
+      "args": [
+        "tests/performance/runtime_benchmark_stats_test.py"
+      ],
+      "baseCommit": "4d9ed792d13411042d1a3e8dc2e50713bcba4d93",
+      "commandDigest": "sha256:8f3d6bf78a8c13c857f49b24f7199add6b3f02f2ee5ccb20711f1d28bfb8b3e8",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6f2ebb5d70a628f0244e8798319ea526e956bec520a5ddcacce1bb9e36b515d0",
+  "contractExecutionScopeDigest": "sha256:0a938599e8e56be26ab3ba9d1f1492b4166500acfd859906e3b3e6a5bfc0ee66",
+  "createdAt": "2026-09-18T20:45:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-915-benchmark-history/ai-cockpit/.ai/work-items/active/WI-916-benchmark-history-scenario.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:68ee59207e8af9f774dfd2ecaee965038c169847c8073cdba4177e09012ab0e0",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-916-benchmark-history-scenario"
+}

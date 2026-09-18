@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T20:47:23Z",
+  "files": {
+    "contractDigest": "sha256:1a370e5472121e710300c2fc51e4f148cbdacf94dcbdc0e4382623e355411784",
+    "contractPath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.contract.json",
+    "eventsDigest": "sha256:872e8c2f6df2feb2116c147379ce6effe618aa5077d2ff4817a9080438ac06e8",
+    "eventsPath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.events.jsonl",
+    "outcomeDigest": "sha256:5a1991550726f5499e33240dfb8b9f744040c9e8f468584e45d7d9a3113854c8",
+    "outcomePath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.outcome.json",
+    "summaryDigest": "sha256:434e854384ec73046a11a4073f6be2990d5ccbf34196aa3ccdeef0634b3f6014",
+    "summaryPath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json",
+    "taskReportDigest": "sha256:1afb94b7a75161cb2455d7da04af409abc459c170a119ea928c42b7c492beea8",
+    "taskReportMarkdownDigest": "sha256:0819ea8256e0dec08da845eb1c7966c17b63461fa9ed0c44dec498a27f20a9aa",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-916-benchmark-history-scenario.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-916-benchmark-history-scenario"
+}
