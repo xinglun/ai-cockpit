@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:eee6f78999069101b784dfcc4f156b1231ad6d4cbe3fb977b74e8476732c6f5b",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "e4173ef2dc9da59a05da34bd9998a28e95accdce",
+      "commandDigest": "sha256:aaf719994c4723e965e06564ba046191f96197e03925895aecad1f5bd56e3d9a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 1200
+    }
+  ],
+  "contractDigest": "sha256:750da99f7bdbe840e75cf06d58721348415aec0a36c66995a9a4ebb928ed78aa",
+  "contractExecutionScopeDigest": "sha256:115e30fdd620bda000c86f5fd81e267b14205ab9ddcb50a9dab3eb78d141b5b4",
+  "createdAt": "2026-09-18T04:41:06Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-899-release-v0-2-98: verification command cargo has timeout 1200s outside the finite range 1..=900s"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b3caaad22cc9be8589fe1e932e8300272b59840ed33d5951a9d3b024af60f386",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-899-release-v0-2-98"
+}

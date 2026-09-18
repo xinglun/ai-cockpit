@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-892-release-v0-2-97
+lastVerifiedBy: WI-899-release-v0-2-98
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.97`（binary digest
-`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`）を使用します。
+review 済み `ai-cockpit v0.2.98`（binary digest
+`sha256:cdbe03cb72651abd57d3b8ee107239a778f8c658186480e5a31cc6628ee22299`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -923,3 +923,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-892-release-v0-2-97 — 不変の v0.2.96 候補拒否後の v0.2.97 リリース | Implemented | [Work Item](../work-items/WI-892-release-v0-2-97.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-892-release-v0-2-97.contract.json`; verification `.ai/evidence/WI-892-release-v0-2-97.verification.json`; finalization `.ai/decisions/WI-892-release-v0-2-97.finalize.json`; close `.ai/decisions/WI-892-release-v0-2-97.close.json`. |
 | WI-895-release-docs-promotion — WI-892 documentation promotion | Implemented | [Work Item](../work-items/WI-895-release-docs-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-895-release-docs-promotion.contract.json`; verification `.ai/evidence/WI-895-release-docs-promotion.verification.json`; close `.ai/decisions/WI-895-release-docs-promotion.close.json`. |
 | WI-898-hci-terminology — 四方向 acceptance report の HCI 用語修正 | Implemented | [Work Item](../work-items/WI-898-hci-terminology.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-898-hci-terminology.contract.json`; verification `.ai/evidence/WI-898-hci-terminology.verification.json`; close `.ai/decisions/WI-898-hci-terminology.close.json`. |
+| WI-899-release-v0-2-98 — Outcome、HCI、四方向、Issue #851 完了後の最終リリース | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-899-release-v0-2-98.ja.md); 公開は immutable tag、provider Release、download artifact acceptance、正確な cleanup evidence に拘束される。archive `.ai/work-items/archive/WI-899-release-v0-2-98.contract.json`; verification `.ai/evidence/WI-899-release-v0-2-98.verification.json`; finalization `.ai/decisions/WI-899-release-v0-2-98.finalize.json`; close `.ai/decisions/WI-899-release-v0-2-98.close.json`. |
