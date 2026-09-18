@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:664395b8a606f748a18cea442bf05aef6502104057580464c3caff7650ad67b6",
+  "branchRef": "refs/heads/codex/wi-910-outcome-conversation-language",
+  "contractDigest": "sha256:682710ed77c37f7aa7a376119754e43e686313161216bbac3e93b1a3353aa90d",
+  "headRevision": "0aa9636c329621956ae872597db5e1bcab8bd1a3",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T14:45:46Z",
+  "operationId": "sha256:f699d47eb261df07dfbad1521938dcb2390970ae30260afdb27e87354fd81f1c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-910-outcome-conversation-language",
+  "worktreeId": "sha256:231a2abe7dd54d95aa649ed7f6de87ec7ed66eae2f2383d45e77e41866287a05"
+}
