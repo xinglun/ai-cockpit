@@ -17,8 +17,31 @@ pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
 pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
 pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "ja"];
 
+pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
+pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
+pub const CAPABILITY_SHOW_FORMAT_MARKDOWN: &str = "markdown";
+pub const CAPABILITY_SHOW_FORMAT_VALUES: &[&str] =
+    &[CAPABILITY_SHOW_FORMAT_JSON, CAPABILITY_SHOW_FORMAT_MARKDOWN];
+pub const CAPABILITY_SHOW_DEFAULT_FORMAT: &str = CAPABILITY_SHOW_FORMAT_JSON;
+pub const CAPABILITY_SHOW_DEFAULT_LANGUAGE: &str = "en";
+pub const CAPABILITY_SHOW_LANGUAGE_VALUES: &[&str] = &["en", "zh", "zh-CN", "ja"];
+pub const CAPABILITY_SHOW_SURFACE_DESCRIPTION: &str =
+    "Optional read-only interface description surface.";
+pub const CAPABILITY_SHOW_FORMAT_DESCRIPTION: &str =
+    "Description encoding; JSON is language-neutral.";
+pub const CAPABILITY_SHOW_LANGUAGE_DESCRIPTION: &str =
+    "Markdown labels only; structured facts remain unchanged.";
+
 pub fn work_item_outcome_view_is_valid(value: &str) -> bool {
     WORK_ITEM_OUTCOME_VIEW_VALUES.contains(&value)
+}
+
+pub fn capability_show_format_is_valid(value: &str) -> bool {
+    CAPABILITY_SHOW_FORMAT_VALUES.contains(&value)
+}
+
+pub fn capability_show_language_is_valid(value: &str) -> bool {
+    CAPABILITY_SHOW_LANGUAGE_VALUES.contains(&value)
 }
 
 const fn bool_default_text(value: bool) -> &'static str {
@@ -159,6 +182,36 @@ static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
     },
 ];
 
+static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
+    InterfaceParameterSpec {
+        name: "surface",
+        wire_type: "enum",
+        required: false,
+        default: None,
+        enum_values: &[CAPABILITY_SHOW_SURFACE],
+        aliases: &[],
+        description: CAPABILITY_SHOW_SURFACE_DESCRIPTION,
+    },
+    InterfaceParameterSpec {
+        name: "format",
+        wire_type: "enum",
+        required: false,
+        default: Some(CAPABILITY_SHOW_DEFAULT_FORMAT),
+        enum_values: CAPABILITY_SHOW_FORMAT_VALUES,
+        aliases: &[],
+        description: CAPABILITY_SHOW_FORMAT_DESCRIPTION,
+    },
+    InterfaceParameterSpec {
+        name: "language",
+        wire_type: "enum",
+        required: false,
+        default: Some(CAPABILITY_SHOW_DEFAULT_LANGUAGE),
+        enum_values: CAPABILITY_SHOW_LANGUAGE_VALUES,
+        aliases: &[],
+        description: CAPABILITY_SHOW_LANGUAGE_DESCRIPTION,
+    },
+];
+
 /// Return the protocol-owned parameter table for a discoverable surface.
 pub fn work_item_outcome_interface_specs(
     surface: &str,
@@ -176,6 +229,19 @@ pub fn work_item_outcome_parameter_spec(
     name: &str,
 ) -> Option<&'static InterfaceParameterSpec> {
     work_item_outcome_interface_specs(surface)?
+        .iter()
+        .find(|spec| spec.name == name)
+}
+
+/// Return the protocol-owned parameter facts for the read-only capability
+/// discovery surface. Adapters must project this table instead of repeating
+/// property names, defaults, enums, or descriptions.
+pub fn capability_show_interface_specs() -> &'static [InterfaceParameterSpec] {
+    CAPABILITY_SHOW_PARAMETERS
+}
+
+pub fn capability_show_parameter_spec(name: &str) -> Option<&'static InterfaceParameterSpec> {
+    CAPABILITY_SHOW_PARAMETERS
         .iter()
         .find(|spec| spec.name == name)
 }

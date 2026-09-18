@@ -56,13 +56,11 @@ fn one_of_aliases(names: &[&str]) -> Value {
     )
 }
 
-/// Project the protocol-owned outcome parameter facts into MCP JSON Schema.
+/// Project one protocol-owned parameter fact into MCP JSON Schema.
 /// Keeping this projection here (rather than repeating defaults and enums in
 /// the adapter) lets capability discovery and the MCP tool list change
 /// together when the protocol definition changes.
-fn outcome_parameter_schema(name: &str) -> Value {
-    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
-        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
+fn parameter_schema(spec: &cockpit_protocol::InterfaceParameterSpec) -> Value {
     let wire_type = match spec.wire_type {
         "enum" => "string",
         other => other,
@@ -84,6 +82,36 @@ fn outcome_parameter_schema(name: &str) -> Value {
     schema
 }
 
+fn outcome_parameter_schema(name: &str) -> Value {
+    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
+        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
+    parameter_schema(spec)
+}
+
+fn capability_parameter_properties(specs: &[cockpit_protocol::InterfaceParameterSpec]) -> Value {
+    let properties = specs
+        .iter()
+        .map(|spec| (spec.name.to_owned(), parameter_schema(spec)))
+        .collect::<serde_json::Map<_, _>>();
+    Value::Object(properties)
+}
+
+fn capability_parameter_names(
+    specs: &[cockpit_protocol::InterfaceParameterSpec],
+) -> Vec<&'static str> {
+    specs.iter().map(|spec| spec.name).collect()
+}
+
+fn capability_parameter_required(
+    specs: &[cockpit_protocol::InterfaceParameterSpec],
+) -> Vec<&'static str> {
+    specs
+        .iter()
+        .filter(|spec| spec.required)
+        .map(|spec| spec.name)
+        .collect()
+}
+
 fn mcp_tool_schema(name: &str) -> Value {
     let id_properties = json!({
         "workItemId": string_property("Canonical Work Item identifier."),
@@ -91,28 +119,13 @@ fn mcp_tool_schema(name: &str) -> Value {
     });
     match name {
         "status" | "work_item_list" | "repository_observe" => object_schema(json!({}), &[]),
-        "capability_show" => object_schema(
-            json!({
-                "surface": {
-                    "type": "string",
-                    "enum": [cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE],
-                    "description": "Optional read-only interface description surface.",
-                },
-                "format": {
-                    "type": "string",
-                    "enum": ["json", "markdown"],
-                    "default": "json",
-                    "description": "Description encoding; JSON is language-neutral.",
-                },
-                "language": {
-                    "type": "string",
-                    "enum": ["en", "zh", "zh-CN", "ja"],
-                    "default": "en",
-                    "description": "Markdown labels only; structured facts remain unchanged.",
-                },
-            }),
-            &[],
-        ),
+        "capability_show" => {
+            let specs = cockpit_protocol::capability_show_interface_specs();
+            object_schema(
+                capability_parameter_properties(specs),
+                &capability_parameter_required(specs),
+            )
+        }
         "work_item_get" => {
             let mut schema = object_schema(id_properties, &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
@@ -409,49 +422,61 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         .ok_or_else(|| format!("invalid arguments for {name}: expected a JSON object"))?;
 
     let allowed = match name {
-        "status" | "work_item_list" | "repository_observe" => &[][..],
-        "capability_show" => &["surface", "format", "language"][..],
-        "work_item_get" | "work_item_validate" => &["workItemId", "id"][..],
-        "work_item_start" => &[
-            "workItemId",
-            "intent",
-            "goal",
-            "scope",
-            "outOfScope",
-            "risk",
-            "authority",
-            "acceptanceCriteria",
-            "requiredEvidenceClasses",
-            "sources",
-        ][..],
-        "work_item_outcome" => &[
-            "workItemId",
-            "id",
-            "language",
-            "view",
-            "delivery",
-            "deliveryProgress",
-        ][..],
-        "work_item_status" => &["workItemId", "id", "all"][..],
-        "blockers" | "safe_actions" | "preflight" => &["contract"][..],
-        "knowledge_query" => &["topic", "component", "state", "workItemId"][..],
-        "evidence_get" => &["path", "evidencePath", "id"][..],
-        "delegated_evidence_list" => &["workItemId"][..],
-        "work_item_controls" => &["workItemId", "id", "controls", "input"][..],
-        "work_item_recover" => &["workItemId", "id", "receipt", "input"][..],
-        "work_item_recover_selected_lineage" => &["workItemId", "id", "receipt", "input"][..],
-        "verify" => &[
-            "workItemId",
-            "command",
-            "args",
-            "timeoutSeconds",
-            "planOnly",
-        ][..],
-        "work_item_parallel" => &["action", "workItemId", "id", "leaseId"][..],
+        "status" | "work_item_list" | "repository_observe" => Some(&[][..]),
+        "capability_show" => None,
+        "work_item_get" | "work_item_validate" => Some(&["workItemId", "id"][..]),
+        "work_item_start" => Some(
+            &[
+                "workItemId",
+                "intent",
+                "goal",
+                "scope",
+                "outOfScope",
+                "risk",
+                "authority",
+                "acceptanceCriteria",
+                "requiredEvidenceClasses",
+                "sources",
+            ][..],
+        ),
+        "work_item_outcome" => Some(
+            &[
+                "workItemId",
+                "id",
+                "language",
+                "view",
+                "delivery",
+                "deliveryProgress",
+            ][..],
+        ),
+        "work_item_status" => Some(&["workItemId", "id", "all"][..]),
+        "blockers" | "safe_actions" | "preflight" => Some(&["contract"][..]),
+        "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
+        "evidence_get" => Some(&["path", "evidencePath", "id"][..]),
+        "delegated_evidence_list" => Some(&["workItemId"][..]),
+        "work_item_controls" => Some(&["workItemId", "id", "controls", "input"][..]),
+        "work_item_recover" => Some(&["workItemId", "id", "receipt", "input"][..]),
+        "work_item_recover_selected_lineage" => Some(&["workItemId", "id", "receipt", "input"][..]),
+        "verify" => Some(
+            &[
+                "workItemId",
+                "command",
+                "args",
+                "timeoutSeconds",
+                "planOnly",
+            ][..],
+        ),
+        "work_item_parallel" => Some(&["action", "workItemId", "id", "leaseId"][..]),
         _ => return Err(format!("unknown tool: {name}")),
     };
     for key in object.keys() {
-        if !allowed.contains(&key.as_str()) {
+        let is_allowed = allowed
+            .map(|fields| fields.contains(&key.as_str()))
+            .unwrap_or_else(|| {
+                capability_parameter_names(cockpit_protocol::capability_show_interface_specs())
+                    .contains(&key.as_str())
+            });
+        if !is_allowed {
             return Err(format!("invalid arguments for {name}: unknown field {key}"));
         }
     }
@@ -637,7 +662,9 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 let surface = surface.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: surface must be a string".to_owned()
                 })?;
-                if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
+                let spec = cockpit_protocol::capability_show_parameter_spec("surface")
+                    .expect("capability_show surface spec");
+                if !spec.enum_values.contains(&surface) {
                     return Err(format!(
                         "invalid arguments for capability_show: unsupported surface {surface}"
                     ));
@@ -647,22 +674,22 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 let format = format.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: format must be a string".to_owned()
                 })?;
-                if !matches!(format, "json" | "markdown") {
-                    return Err(
-                        "invalid arguments for capability_show: format must be json or markdown"
-                            .into(),
-                    );
+                if !cockpit_protocol::capability_show_format_is_valid(format) {
+                    return Err(format!(
+                        "invalid arguments for capability_show: format must be one of {}",
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_VALUES.join(", ")
+                    ));
                 }
             }
             if let Some(language) = object.get("language") {
                 let language = language.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: language must be a string".to_owned()
                 })?;
-                if !matches!(language, "en" | "zh" | "ja" | "zh-CN") {
-                    return Err(
-                        "invalid arguments for capability_show: language must be en, zh, zh-CN, or ja"
-                            .into(),
-                    );
+                if !cockpit_protocol::capability_show_language_is_valid(language) {
+                    return Err(format!(
+                        "invalid arguments for capability_show: language must be one of {}",
+                        cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES.join(", ")
+                    ));
                 }
             }
         }
@@ -854,22 +881,24 @@ pub fn handle_request_for_repo(
                 match arguments
                     .get("format")
                     .and_then(Value::as_str)
-                    .unwrap_or("json")
+                    .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_FORMAT)
                 {
-                    "json" => serde_json::to_value(description).map_err(|error| error.to_string()),
-                    "markdown" => Ok(json!({
-                        "surface": cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE,
-                        "format": "markdown",
+                    cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
+                        serde_json::to_value(description).map_err(|error| error.to_string())
+                    }
+                    cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => Ok(json!({
+                        "surface": cockpit_protocol::CAPABILITY_SHOW_SURFACE,
+                        "format": cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN,
                         "language": arguments
                             .get("language")
                             .and_then(Value::as_str)
-                            .unwrap_or("en"),
+                            .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE),
                         "body": cockpit_protocol::render_interface_description_markdown(
                             &description,
                             arguments
                                 .get("language")
                                 .and_then(Value::as_str)
-                                .unwrap_or("en"),
+                                .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE),
                         ),
                     })),
                     _ => unreachable!("capability_show format is validated before dispatch"),
@@ -1888,4 +1917,32 @@ pub fn serve_with_repo<R: BufRead, W: Write>(
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        capability_parameter_names, capability_parameter_properties, capability_parameter_required,
+    };
+    use cockpit_protocol::InterfaceParameterSpec;
+
+    #[test]
+    fn capability_projection_helpers_include_every_protocol_parameter() {
+        let extra = InterfaceParameterSpec {
+            name: "future",
+            wire_type: "enum",
+            required: true,
+            default: Some("next"),
+            enum_values: &["next"],
+            aliases: &[],
+            description: "Future protocol-owned capability parameter.",
+        };
+        let mut specs = cockpit_protocol::capability_show_interface_specs().to_vec();
+        specs.push(extra);
+
+        let properties = capability_parameter_properties(&specs);
+        assert!(properties.get("future").is_some());
+        assert!(capability_parameter_names(&specs).contains(&"future"));
+        assert!(capability_parameter_required(&specs).contains(&"future"));
+    }
 }

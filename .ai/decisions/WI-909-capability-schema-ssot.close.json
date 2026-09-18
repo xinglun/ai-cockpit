@@ -1,0 +1,204 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1a265f00f827d5306ce1c0d6006b62eb3eae622050367d01a278d44f8ffbea86",
+      "workItemId": "WI-909-capability-schema-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-909-capability-schema-ssot.verification-attempt.12234a5ba7a603769c00c7d49aabac7953213f6167d6c5301eb1696b746724d5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-909-capability-schema-ssot.verification-attempt.8d4bd413545ca7249d9f4f4cf63b8559aec9ca26c2606026dcfcf982b49dc975.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-909-capability-schema-ssot.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-909-capability-schema-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via explicit-user-authorization at 2026-09-18T13:28:12Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "MCP capability_show schema properties and argument-key validation are projected from one protocol-owned parameter table, with parity tests proving future parameter additions cannot silently drift."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-909-capability-schema-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-909-capability-schema-ssot"
+  },
+  "finalReportDigest": "sha256:b7e8763d3500e512cae3dd98a001b5d991119d5e5ff96770165025830552df72",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:99fa49b02d7823d2f6dfc2f1e328c36da92fdd32e993bbbd96c038938c580e6a",
+    "branch": "codex/wi-909-capability-schema-ssot",
+    "branchRef": "refs/heads/codex/wi-909-capability-schema-ssot",
+    "capturedAt": "2026-09-18T13:29:20Z",
+    "contractDigest": "sha256:4753b69f81bd45604e71d745269963073258e52a8249ae4aa2b34a69d8a9f52e",
+    "headRevision": "3a423a47cf6a6cd6b0004fcaa1cb6dadbe70ba4e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-909-capability-schema-ssot",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit2",
+    "worktreeId": "sha256:13ecb6d90db2b3a5aa8202b52d5bc769b24bcbe1ff065fb661873b656e920f13",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-909-capability-schema-ssot/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:51e9bfc5c014cf02b4853dff9e492b39cfcf4be709e4379fb8defe88c7da2533",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T13:28:12Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-909-capability-schema-ssot.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User confirmed execution and delegated lifecycle confirmation; accepted current verification evidence while keeping user-visible benefit unknown.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T13:29:20Z",
+  "workItemId": "WI-909-capability-schema-ssot"
+}

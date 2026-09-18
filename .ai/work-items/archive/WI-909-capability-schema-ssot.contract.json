@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Every protocol capability_show parameter appears in the MCP input schema with matching type, enum, default, and description.",
+    "The MCP capability_show unknown-field allow-list is derived from the same protocol parameter table; no second hand-maintained parameter-name list remains.",
+    "Existing valid capability_show requests and fail-closed unknown-field behavior remain unchanged.",
+    "Focused tests prove schema/validation parity and deterministic behavior without repository observation or verification subprocesses.",
+    "No lifecycle, Outcome delivery, authorization, performance, or release behavior changes are introduced."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "b5c4d865fb232c23237e9dc225b562053a41851a",
+  "createdAt": "2026-09-18T13:04:00Z",
+  "goal": "MCP capability_show schema properties and argument-key validation are projected from one protocol-owned parameter table, with parity tests proving future parameter additions cannot silently drift.",
+  "intent": "Complete the BAML-style interface discovery boundary by removing the remaining hand-maintained MCP capability_show schema and allowed-field lists; protocol-owned parameter facts must remain the only interface fact source.",
+  "mode": "code",
+  "outOfScope": [
+    "Lifecycle state transitions",
+    " Outcome rendering or host delivery",
+    " authorization rules",
+    " CLI behavior beyond existing capability discovery facts",
+    " object repositories",
+    " Issue #851 state",
+    " release publication",
+    " and user-global Agent or MCP configuration."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/**",
+    "crates/cockpit-mcp/**"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-908-interface-facts.summary.json",
+    "https://github.com/xinglun/ai-cockpit/pull/876"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-909-capability-schema-ssot"
+}
