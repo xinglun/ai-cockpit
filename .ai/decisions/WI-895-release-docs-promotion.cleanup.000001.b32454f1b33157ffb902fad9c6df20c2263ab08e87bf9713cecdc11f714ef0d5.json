@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:d9d290a2a71d7b2e7b83e7f44e3641ce078718f35194198d66858640f06d3997",
+  "branchRef": "refs/heads/codex/wi-893-release-docs-promotion",
+  "contractDigest": "sha256:419f2375461b06685c218405f15ad145bdc8e2815a10881b23dec0425461db78",
+  "headRevision": "69047e55c40435e4dc614542bddcf64a04e7c566",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T03:13:35Z",
+  "operationId": "sha256:67347455d128227196378f8ece604db5bb07e0c9cccd392ee4d53496067655af",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-895-release-docs-promotion",
+  "worktreeId": "sha256:1cbf818a333389be32e27092cf535fa9f082cd9d066b14c2cc969a1516dfb6fc"
+}
