@@ -1,0 +1,198 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-918-release-v0-2-100.preflight-review.3ca0b66875e8e115f7f368d4bf4d6ab05fd2fee57af3f667066ff93ade5434a7.json",
+    ".ai/decisions/WI-918-release-v0-2-100.preflight-review.658dc0514b4ad1da143bf56c3a82ebb4985282aa47bb993dec9706a01e274bf7.json",
+    ".ai/decisions/WI-918-release-v0-2-100.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-918-release-v0-2-100.verification-attempt.4c17cd43233123069eca31aac98609b79628f801142fa990498f51b53ca2a359.json",
+    ".ai/work-items/active/WI-918-release-v0-2-100.contract.json",
+    ".ai/work-items/active/WI-918-release-v0-2-100.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-918-release-v0-2-100.ja.md",
+    "docs/work-items/WI-918-release-v0-2-100.md",
+    "docs/work-items/WI-918-release-v0-2-100.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T22:01:17Z",
+  "checkpointContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:01:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ded80394d1c43b0cc5963f12232565558d69aa37eb85f040a083bc2043e6987d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4ebb2ffcfd144b31ad0cdbe13d6628bcb79dd184bdfe44f6196973ae0d1f810b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "previousContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "reason": "版本升级同步了当前架构版本与发布分发三语投影；前检要求将这些已修改路径纳入本 WI 的显式范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:08:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "previousContractHash": "sha256:4ebb2ffcfd144b31ad0cdbe13d6628bcb79dd184bdfe44f6196973ae0d1f810b",
+      "reason": "高风险发布 Contract 补充两个可执行场景：供应链产物完整性，以及下载产物安装/升级与对象仓库不变；先记录计划，后续以实际 receipt 验证。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:10:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-918-release-v0-2-100"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+  "createdAt": "2026-09-18T21:56:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+    "reason": "用户已授权所有需要确认的动作；确认仅授权当前 WI 范围内的 v0.2.100 发布证据收集和验收，不替代测试、安装验收或发布成功证据。",
+    "recordedAt": "2026-09-18T22:10:20Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+    "schemaVersion": 1,
+    "workItemId": "WI-918-release-v0-2-100"
+  },
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-918-release-v0-2-100.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-18T22:16:46Z",
+  "preflightContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "v0.2.100 tag, provider Release assets, manifest, checksums, SBOM, archives, attestation, and source identity bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "Run the release workflow from synchronized main, then inspect the immutable tag, Release assets, manifest, checksums, SBOM, archives, attestation, and source identity."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded x86_64 v0.2.100 artifact passes checksum, isolated fresh install, v0.2.99 to v0.2.100 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the published immutable Release asset with isolated TMPDIR and CARGO_HOME, run fresh-install and upgrade acceptance, inspect cleanup, and compare object-repository HEAD/status before and after."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-18T22:17:12Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:14d36691a544cb80bd278b5b57c14adc2e6a370efb0ab2ffcfceb550268afcf2",
+  "workItemId": "WI-918-release-v0-2-100"
+}

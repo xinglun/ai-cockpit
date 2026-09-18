@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:ea0afe517d5806c1c674b034d5b214a1f5bb5337a41f8d6b5e0a9a96a55f6d78",
+  "reason": "用户已授权所有需要确认的动作；确认仅授权当前 WI 范围内的 v0.2.100 发布证据收集和验收，不替代测试、安装验收或发布成功证据。",
+  "recordedAt": "2026-09-18T22:05:00Z",
+  "recordedBy": "human:owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ded80394d1c43b0cc5963f12232565558d69aa37eb85f040a083bc2043e6987d",
+  "schemaVersion": 1,
+  "workItemId": "WI-918-release-v0-2-100"
+}

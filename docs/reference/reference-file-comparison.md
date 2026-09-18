@@ -31,7 +31,7 @@ check is executable and fails closed when any translated page drifts.
   `a9224aed77b5c317b53c4551a9eec306d91ee330` in
   `tests/conformance/reference-source.lock`.
 - Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `47a47a1d4025d92afcefdfb669f7922d0e70974b`.
-- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.99` candidate binary, SHA256 `sha256:daaeb87aa00f6808a73864c06bcd1b889c8131283f32dcebd360eb6d27a50f00`.
+- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.100` candidate binary, SHA256 `sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -272,8 +272,8 @@ final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.99 with binary digest
-`sha256:daaeb87aa00f6808a73864c06bcd1b889c8131283f32dcebd360eb6d27a50f00`.
+The reviewed Runtime is v0.2.100 with binary digest
+`sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350`.
 
 | Metric | Count |
 | --- | ---: |

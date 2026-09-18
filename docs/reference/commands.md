@@ -92,7 +92,7 @@ shape, not permission or lifecycle readiness.
 ### Interface facts: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `0.2.99`
+- Runtime: `0.2.100`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`
