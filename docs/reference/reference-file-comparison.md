@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+lastVerifiedBy: WI-892-release-v0-2-97
 capabilityClaims:
   - reference_parity
 ---
@@ -31,7 +31,7 @@ check is executable and fails closed when any translated page drifts.
   `a9224aed77b5c317b53c4551a9eec306d91ee330` in
   `tests/conformance/reference-source.lock`.
 - Rust comparison baseline: [`xinglun/ai-cockpit`](https://github.com/xinglun/ai-cockpit) `origin/main` at `47a47a1d4025d92afcefdfb669f7922d0e70974b`.
-- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.95` candidate binary, SHA256 `sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`.
+- Runtime used for the comparison work: the reviewed `ai-cockpit v0.2.97` candidate binary, SHA256 `sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`.
 
 The inventory ledger is now explicitly rebaselined to the local checkout. The
 previous `e5acb677da6621004d96f0ef353c58fe8d3acfbf` ledger remains recoverable
@@ -272,8 +272,8 @@ final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.95 with binary digest
-`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`.
+The reviewed Runtime is v0.2.97 with binary digest
+`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`.
 
 | Metric | Count |
 | --- | ---: |

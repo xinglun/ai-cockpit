@@ -1,0 +1,102 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package and lock metadata identify version 0.2.97 and all generated archives use the same version.",
+    "The immutable v0.2.96 tag remains unchanged and is recorded as a failed candidate; no existing tag is moved or deleted.",
+    "A reviewed v0.2.97 provider Release is bound to its immutable tag, manifest, checksums, SBOM, archives, and workflow handoff.",
+    "Downloaded v0.2.97 assets pass checksum, fresh-install, and v0.2.93 upgrade acceptance in isolated HOME, XDG_CONFIG_HOME, CARGO_HOME, and target roots with exact cleanup.",
+    "English, Simplified Chinese, and Japanese release/reference projections remain synchronized.",
+    "The object repositories remain untouched.",
+    "Current release, architecture, versioning, and operations documentation names v0.2.97 consistently while retaining historical v0.2.95 and v0.2.96 failure references.",
+    "The generated work-item-outcome interface regions in all three command reference pages match the protocol projection for Runtime 0.2.97.",
+    "Reference comparison metadata and all six current projection pages identify the same reviewed 0.2.97 Runtime identity and candidate binary digest."
+  ],
+  "authority": "user:release-after-all-work-items",
+  "baseRevision": "fa8ab352a8128145ff4116760744dc384125bf13",
+  "createdAt": "2026-09-18T00:28:33Z",
+  "goal": "Update the workspace to version 0.2.97, preserve the failed immutable v0.2.96 candidate as history, and complete the reviewed provider Release plus downloaded fresh-install and upgrade acceptance without touching object repositories.",
+  "intent": "Publish the corrected release candidate after the immutable v0.2.96 tag exposed a version-identity mismatch.",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ORG-X",
+    "/Users/sei-rinn/dev/workspace_rust/sentinel",
+    "/Users/sei-rinn/dev/workspace_rust/goods-garden",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "moving or deleting immutable v0.2.96",
+    "new Outcome/HCI or performance redesign"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:dd69614138aaac8f72fb3b134023486f6d8a73c9c541e5a9b7bfff20f2aeb4bc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-892-release-v0-2-97",
+    "provider": "github",
+    "pullRequest": "pending:WI-892-release-v0-2-97",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-892-release-v0-2-97"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo metadata, lock package versions, generated archive names, manifest, and immutable tag all identify v0.2.97.",
+      "required": true,
+      "scenario": "workspace version matches immutable release tag",
+      "status": "unverified",
+      "verificationPlan": "Run cargo metadata and the release aggregate/version-consistency checks before publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.96 tag still peels to fa8ab352 and has no successful provider Release; no tag is moved or deleted.",
+      "required": true,
+      "scenario": "failed v0.2.96 candidate remains immutable",
+      "status": "unverified",
+      "verificationPlan": "Record remote tag and provider Release identity before and after v0.2.97 publication."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.97 assets pass checksum, fresh-install, v0.2.93 upgrade, and exact temporary-root cleanup.",
+      "required": true,
+      "scenario": "downloaded v0.2.97 adopter acceptance is isolated",
+      "status": "unverified",
+      "verificationPlan": "Consume the immutable publication handoff and run the hosted adopter acceptance jobs."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/work-items/WI-892-release-v0-2-97.**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    ".ai/evidence/**",
+    ".github/workflows/release.yml",
+    "docs/architecture/release-distribution.**",
+    "docs/architecture/versioning.**",
+    "docs/operations/README.**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
+  ],
+  "sources": [
+    "Merged PR #867 at fa8ab352 (runtime isolation fix)",
+    "Failed release run 35289800955: aggregate rejected v0.2.96 because workspace version remained 0.2.95"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=$HOME/.cache/ai-cockpit-verify-target cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-892-release-v0-2-97"
+}

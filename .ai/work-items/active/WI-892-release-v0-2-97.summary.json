@@ -1,0 +1,127 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-892-release-v0-2-97.verification-attempt.e64f3fe1c7f4c6917e9c548ef42d4b3bcf5a1318fd39abd14509156709ceaafb.json",
+    ".ai/work-items/active/WI-892-release-v0-2-97.contract.json",
+    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T00:33:41Z",
+  "checkpointContractDigest": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "recorded": true,
+      "recordedAt": "2026-09-18T00:33:41Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5209c1fafde77dea6d63a8ac188337772c9abd84e41db91f575b43349bb28e1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:ac17a74ba70829a24713cfec9c937bf93a51436cdf81b596b7060f07807f0f03",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "previousContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "reason": "Refresh generated command reference regions to the new workspace Runtime version; this is required to keep protocol projection and checked-in reference facts identical.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T00:49:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a290cf403c8b023d2e4cecafebbab9f5eb7f8461a5cf30c570afea19b55cf727",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "previousContractHash": "sha256:ac17a74ba70829a24713cfec9c937bf93a51436cdf81b596b7060f07807f0f03",
+      "reason": "Hosted quality identified the current reference-comparison metadata projection as an in-scope release identity that must be updated with the workspace version.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T01:11:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:cd5ef1f037755365882f973491afbfc7f28f2a6e8ef4c9212f805674c83c3aca",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-892-release-v0-2-97"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+  "createdAt": "2026-09-18T00:28:33Z",
+  "intentAlignment": {
+    "reason": "Release identity correction is in scope; publication and downloaded adopter evidence are pending.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T01:16:05Z",
+  "preflightContractDigest": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo metadata, lock package versions, generated archive names, manifest, and immutable tag all identify v0.2.97.",
+      "note": "Pending release aggregate evidence.",
+      "required": true,
+      "scenario": "workspace version matches immutable release tag",
+      "status": "unverified",
+      "verificationPlan": "Run cargo metadata and the release aggregate/version-consistency checks before publication."
+    },
+    {
+      "evidence": [],
+      "expected": "The v0.2.96 tag remains unchanged and is recorded as a failed candidate with no successful provider Release.",
+      "note": "Pending remote tag and provider Release identity evidence.",
+      "required": true,
+      "scenario": "failed v0.2.96 candidate remains immutable",
+      "status": "unverified",
+      "verificationPlan": "Record remote tag and provider Release identity before and after v0.2.97 publication."
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.97 assets pass checksum, fresh-install, v0.2.93 upgrade, and exact temporary-root cleanup.",
+      "note": "Pending immutable publication and hosted adopter acceptance.",
+      "required": true,
+      "scenario": "downloaded v0.2.97 adopter acceptance is isolated",
+      "status": "unverified",
+      "verificationPlan": "Consume the immutable publication handoff and run the hosted adopter acceptance jobs."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-18T00:45:55.237305+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:05e2a5af5b27bb9c14ae9347ad4b1de70df81372438f65a9dc3d5be52866efb6",
+  "workItemId": "WI-892-release-v0-2-97"
+}

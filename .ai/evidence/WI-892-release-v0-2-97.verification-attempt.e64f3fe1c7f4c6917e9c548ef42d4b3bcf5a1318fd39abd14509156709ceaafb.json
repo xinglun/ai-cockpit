@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:e64f3fe1c7f4c6917e9c548ef42d4b3bcf5a1318fd39abd14509156709ceaafb",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "fa8ab352a8128145ff4116760744dc384125bf13",
+      "commandDigest": "sha256:99315282a2a4e3595e5a1eeaceeb419210dd8917e1128ff0fa785c5e4bf62130",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+  "contractExecutionScopeDigest": "sha256:8737828c341281e6853aa08e52bffdb6f8dc306bd9ea4a946cce5b3e298ea7a5",
+  "createdAt": "2026-09-18T01:12:04Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-892-release-v0-2-97/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-892-release-v0-2-97"
+}
