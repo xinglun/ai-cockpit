@@ -69,9 +69,9 @@
     "contractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
     "reason": "用户已授权所有需要确认的动作；确认仅授权当前 WI 范围内的 v0.2.100 发布证据收集和验收，不替代测试、安装验收或发布成功证据。",
-    "recordedAt": "2026-09-18T22:31:00Z",
+    "recordedAt": "2026-09-18T22:42:00Z",
     "recordedBy": "human:owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
@@ -85,11 +85,11 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-18T22:34:39Z",
+  "preflightAt": "2026-09-18T22:40:40Z",
   "preflightContractDigest": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
@@ -111,7 +111,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-18T22:30:21.824486+00:00",
+  "updatedAt": "2026-09-18T22:40:39.774191+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
