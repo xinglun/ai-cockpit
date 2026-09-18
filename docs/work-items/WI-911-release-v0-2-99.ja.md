@@ -4,9 +4,12 @@ workItemId: WI-911-release-v0-2-99
 title: Outcome 言語、HCI、四方向、Issue #851 完了後の最終 v0.2.99 リリース
 description: 前提となるすべての Work Item と Issue が完了した後に、レビュー済み main を公開する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-911-release-v0-2-99
+terminalArchive: .ai/work-items/archive/WI-911-release-v0-2-99.contract.json
+terminalVerification: .ai/evidence/WI-911-release-v0-2-99.verification.json
+terminalDecision: .ai/decisions/WI-911-release-v0-2-99.close.json
 ---
 
 [English](WI-911-release-v0-2-99.md) · [简体中文](WI-911-release-v0-2-99.zh-CN.md)
