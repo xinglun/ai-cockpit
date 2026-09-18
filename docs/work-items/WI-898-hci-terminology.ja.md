@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-898 — HCI terminology correction"
 description: "四方向 acceptance report の human-computer interaction 用語を修正する。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-898-hci-terminology
 lastVerifiedBy: WI-898-hci-terminology
+terminalArchive: .ai/work-items/archive/WI-898-hci-terminology.contract.json
+terminalVerification: .ai/evidence/WI-898-hci-terminology.verification.json
+terminalDecision: .ai/decisions/WI-898-hci-terminology.close.json
 ---
 
 [English](WI-898-hci-terminology.md) · [简体中文](WI-898-hci-terminology.zh-CN.md)

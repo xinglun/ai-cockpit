@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-898——HCI 术语修正"
 description: "修正四方向验收报告中的人机交互术语。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-898-hci-terminology
 lastVerifiedBy: WI-898-hci-terminology
+terminalArchive: .ai/work-items/archive/WI-898-hci-terminology.contract.json
+terminalVerification: .ai/evidence/WI-898-hci-terminology.verification.json
+terminalDecision: .ai/decisions/WI-898-hci-terminology.close.json
 ---
 
 [English](WI-898-hci-terminology.md) · [日本語](WI-898-hci-terminology.ja.md)
