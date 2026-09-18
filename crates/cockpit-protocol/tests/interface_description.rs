@@ -1,4 +1,6 @@
 use cockpit_protocol::{
+    WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
     render_interface_description_markdown, work_item_outcome_interface_description,
 };
 
@@ -35,18 +37,51 @@ fn outcome_description_has_stable_shared_facts() {
     let view = parameter(cli, "view");
     assert_eq!(view.wire_type, "enum");
     assert!(!view.required);
-    assert_eq!(view.default.as_deref(), Some("summary"));
-    assert_eq!(view.enum_values, ["summary", "full"]);
+    assert_eq!(
+        view.default.as_deref(),
+        Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW)
+    );
+    assert_eq!(
+        view.enum_values
+            .iter()
+            .map(String::as_str)
+            .collect::<Vec<_>>(),
+        WORK_ITEM_OUTCOME_VIEW_VALUES
+    );
 
     let delivery = parameter(cli, "delivery");
     assert_eq!(delivery.wire_type, "boolean");
-    assert_eq!(delivery.default.as_deref(), Some("false"));
+    assert_eq!(
+        delivery.default.as_deref(),
+        Some(if WORK_ITEM_OUTCOME_DEFAULT_DELIVERY {
+            "true"
+        } else {
+            "false"
+        })
+    );
 
     let mcp = surface(&description, "mcp");
     let identity = parameter(mcp, "workItemId");
     assert!(identity.required);
     assert_eq!(identity.aliases, ["id"]);
-    assert_eq!(parameter(mcp, "language").enum_values, ["en", "zh", "ja"]);
+    assert_eq!(
+        parameter(mcp, "language")
+            .enum_values
+            .iter()
+            .map(String::as_str)
+            .collect::<Vec<_>>(),
+        WORK_ITEM_OUTCOME_LANGUAGE_VALUES
+    );
+}
+
+#[test]
+fn shared_view_definition_rejects_unknown_values() {
+    for value in WORK_ITEM_OUTCOME_VIEW_VALUES {
+        assert!(cockpit_protocol::work_item_outcome_view_is_valid(value));
+    }
+    assert!(!cockpit_protocol::work_item_outcome_view_is_valid(
+        "compact"
+    ));
 }
 
 #[test]

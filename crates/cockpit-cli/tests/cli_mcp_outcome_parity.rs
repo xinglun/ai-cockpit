@@ -32,6 +32,37 @@ fn run_json(binary: &str, repo: &Path, args: &[&str]) -> serde_json::Value {
     serde_json::from_slice(&output.stdout).expect("machine-readable stdout JSON")
 }
 
+#[test]
+fn cli_outcome_view_uses_protocol_values_for_parsing() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let repo = repository();
+    let accepted = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(repo.path())
+        .args(["--id", "WI-CLI-VIEW-PARSER", "--view", "full"])
+        .output()
+        .expect("run accepted view");
+    let accepted_stderr = String::from_utf8_lossy(&accepted.stderr);
+    assert!(
+        !accepted_stderr.contains("invalid value") && !accepted_stderr.contains("invalid view"),
+        "full must be accepted by the CLI parser: {accepted_stderr}"
+    );
+
+    let rejected = Command::new(binary)
+        .args(["work-item", "outcome", "--repo"])
+        .arg(repo.path())
+        .args(["--id", "WI-CLI-VIEW-PARSER", "--view", "compact"])
+        .output()
+        .expect("run rejected view");
+    let rejected_stderr = String::from_utf8_lossy(&rejected.stderr);
+    assert!(
+        rejected_stderr.contains("invalid value")
+            && rejected_stderr.contains("summary")
+            && rejected_stderr.contains("full"),
+        "unknown view must fail with protocol-owned values: {rejected_stderr}"
+    );
+}
+
 /// Reconstruct the exact `RuntimeContext` that the `binary` under test would
 /// compute for itself (see `crates/cockpit-cli/src/runtime_identity.rs`), so
 /// an MCP call made in-process against the same repository is bound to the

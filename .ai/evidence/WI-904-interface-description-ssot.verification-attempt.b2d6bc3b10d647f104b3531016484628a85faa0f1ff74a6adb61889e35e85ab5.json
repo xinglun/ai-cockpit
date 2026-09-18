@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:b2d6bc3b10d647f104b3531016484628a85faa0f1ff74a6adb61889e35e85ab5",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "30d8a0d14f64e347ee6841a32d4361efbfeaf412",
+      "commandDigest": "sha256:56d490983a6228c094e929731c0b3a9cd2102c2b715bf2c8520ea5148195f0f2",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:33c634f2699f9052d8ecd1f88954bf52e98b1e474b3e4fe496594f84338798a0",
+  "contractExecutionScopeDigest": "sha256:a258bfebc6e5d47acea2e467c3a31ccbf4687d07167b34e0865415ea42ae93fe",
+  "createdAt": "2026-09-18T09:14:25Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-904-interface-ssot/.ai/work-items/active/WI-904-interface-description-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2dd1671e402c4ffd38b7a8e007d3d60089c846c56a326ca1e89e3d983dbb0a4e",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-904-interface-description-ssot"
+}

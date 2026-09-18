@@ -8,6 +8,18 @@ use serde::{Deserialize, Serialize};
 
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
+pub const WORK_ITEM_OUTCOME_VIEW_SUMMARY: &str = "summary";
+pub const WORK_ITEM_OUTCOME_VIEW_FULL: &str = "full";
+pub const WORK_ITEM_OUTCOME_VIEW_VALUES: &[&str] =
+    &[WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_FULL];
+pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
+pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
+pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
+pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "ja"];
+
+pub fn work_item_outcome_view_is_valid(value: &str) -> bool {
+    WORK_ITEM_OUTCOME_VIEW_VALUES.contains(&value)
+}
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
@@ -87,7 +99,11 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "delivery",
                         "boolean",
                         false,
-                        Some("false"),
+                        Some(if WORK_ITEM_OUTCOME_DEFAULT_DELIVERY {
+                            "true"
+                        } else {
+                            "false"
+                        }),
                         &[],
                         &[],
                         "Request the immutable full archive delivery payload.",
@@ -96,7 +112,11 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "json",
                         "boolean",
                         false,
-                        Some("false"),
+                        Some(if WORK_ITEM_OUTCOME_DEFAULT_JSON {
+                            "true"
+                        } else {
+                            "false"
+                        }),
                         &[],
                         &[],
                         "Emit machine-readable JSON instead of the human handoff.",
@@ -105,8 +125,8 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "view",
                         "enum",
                         false,
-                        Some("summary"),
-                        &["summary", "full"],
+                        Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
+                        WORK_ITEM_OUTCOME_VIEW_VALUES,
                         &[],
                         "Select the reader-first summary or complete human view.",
                     ),
@@ -130,7 +150,7 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "enum",
                         false,
                         None,
-                        &["en", "zh", "ja"],
+                        WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
                         &[],
                         "Presentation language; localization does not change facts.",
                     ),
@@ -138,8 +158,8 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "view",
                         "enum",
                         false,
-                        Some("summary"),
-                        &["summary", "full"],
+                        Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
+                        WORK_ITEM_OUTCOME_VIEW_VALUES,
                         &[],
                         "Select the reader-first summary or complete human view.",
                     ),
@@ -147,7 +167,11 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
                         "delivery",
                         "boolean",
                         false,
-                        Some("false"),
+                        Some(if WORK_ITEM_OUTCOME_DEFAULT_DELIVERY {
+                            "true"
+                        } else {
+                            "false"
+                        }),
                         &[],
                         &[],
                         "Request the immutable full archive delivery payload.",

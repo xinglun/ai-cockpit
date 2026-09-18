@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T09:20:22Z",
+  "files": {
+    "approachDigest": "sha256:7b537aecd65028080d4908c612b5fb06640b1e573c2fa17ba3b56614e18fb2d2",
+    "approachPath": ".ai/work-items/archive/WI-904-interface-description-ssot.approach.json",
+    "contractDigest": "sha256:67968b32477d68b3a2fccba782aa5c6eb8cfff4dea518bd8d1433ec0bcc46e52",
+    "contractPath": ".ai/work-items/archive/WI-904-interface-description-ssot.contract.json",
+    "eventsDigest": "sha256:99546928e874568403dff49c65f0b41383523197e1742bf171f2b9c9e085d0da",
+    "eventsPath": ".ai/work-items/archive/WI-904-interface-description-ssot.events.jsonl",
+    "outcomeDigest": "sha256:90f4b577ce19b62d6cc5f99eaac91fa2b9e50c382f6edbca65a1db92a71e09de",
+    "outcomePath": ".ai/work-items/archive/WI-904-interface-description-ssot.outcome.json",
+    "summaryDigest": "sha256:132ea7085977e151e3245f6e7c6eb8ef12eff2c6ccac0f822acf17fb261f3323",
+    "summaryPath": ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json",
+    "taskReportDigest": "sha256:68c23108a73ab34db2cdec83db61782b867c4950aebf5af38496170543e67407",
+    "taskReportMarkdownDigest": "sha256:1afc1c35190a60bca4bebba85d109dc29ac925a70ea99e2acac690867fb8c05f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-904-interface-description-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-904-interface-description-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-904-interface-description-ssot"
+}

@@ -8,8 +8,11 @@ pub mod interface_description;
 
 pub use interface_description::{
     INTERFACE_DESCRIPTION_SCHEMA_VERSION, InterfaceDescription, InterfaceParameter,
-    InterfaceSurface, WORK_ITEM_OUTCOME_SURFACE, render_interface_description_markdown,
-    work_item_outcome_interface_description,
+    InterfaceSurface, WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_JSON,
+    WORK_ITEM_OUTCOME_DEFAULT_VIEW, WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_SURFACE,
+    WORK_ITEM_OUTCOME_VIEW_FULL, WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_VALUES,
+    render_interface_description_markdown, work_item_outcome_interface_description,
+    work_item_outcome_view_is_valid,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;

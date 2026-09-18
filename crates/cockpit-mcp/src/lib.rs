@@ -116,13 +116,13 @@ fn mcp_tool_schema(name: &str) -> Value {
             );
             properties["view"] = json!({
                 "type": "string",
-                "enum": ["summary", "full"],
-                "default": "summary",
+                "enum": cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES,
+                "default": cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW,
                 "description": "Human handoff projection; summary is the reader-first default and full retains the complete audit report."
             });
             properties["delivery"] = json!({
                 "type": "boolean",
-                "default": false,
+                "default": cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
                 "description": "For an archived Work Item, return the versioned full Outcome delivery payload and ordered assistantMessageEvents. This proves tool return only; host acceptance or display remains unknown unless the host provides it."
             });
             properties["deliveryProgress"] = json!({
@@ -405,7 +405,14 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             "requiredEvidenceClasses",
             "sources",
         ][..],
-        "work_item_outcome" => &["workItemId", "id", "language", "view", "delivery"][..],
+        "work_item_outcome" => &[
+            "workItemId",
+            "id",
+            "language",
+            "view",
+            "delivery",
+            "deliveryProgress",
+        ][..],
         "work_item_status" => &["workItemId", "id", "all"][..],
         "blockers" | "safe_actions" | "preflight" => &["contract"][..],
         "knowledge_query" => &["topic", "component", "state", "workItemId"][..],
@@ -446,11 +453,19 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                     let view = view.as_str().ok_or_else(|| {
                         format!("invalid arguments for {name}: view must be a string")
                     })?;
-                    if !matches!(view, "summary" | "full") {
+                    if !cockpit_protocol::work_item_outcome_view_is_valid(view) {
                         return Err(format!(
-                            "invalid arguments for {name}: view must be summary or full"
+                            "invalid arguments for {name}: view must be one of {}",
+                            cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.join(", ")
                         ));
                     }
+                }
+                if let Some(progress) = object.get("deliveryProgress")
+                    && !progress.is_object()
+                {
+                    return Err(format!(
+                        "invalid arguments for {name}: deliveryProgress must be an object"
+                    ));
                 }
             }
         }
@@ -1538,15 +1553,26 @@ fn work_item_outcome(
     let delivery_requested = arguments
         .get("delivery")
         .and_then(Value::as_bool)
-        .unwrap_or(false);
+        .unwrap_or(cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY);
     let view = arguments
         .get("view")
         .and_then(Value::as_str)
-        .map(|view| match view {
-            "full" => cockpit_repository::OutcomeRenderView::Full,
-            _ => cockpit_repository::OutcomeRenderView::Summary,
+        .map(|view| {
+            if view == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL {
+                cockpit_repository::OutcomeRenderView::Full
+            } else {
+                cockpit_repository::OutcomeRenderView::Summary
+            }
         })
-        .unwrap_or(cockpit_repository::OutcomeRenderView::Summary);
+        .unwrap_or_else(|| {
+            if cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
+                == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL
+            {
+                cockpit_repository::OutcomeRenderView::Full
+            } else {
+                cockpit_repository::OutcomeRenderView::Summary
+            }
+        });
     if delivery_requested {
         let mut delivery =
             cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)

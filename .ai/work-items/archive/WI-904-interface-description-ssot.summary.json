@@ -1,0 +1,88 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-904-interface-description-ssot.verification-attempt.b2d6bc3b10d647f104b3531016484628a85faa0f1ff74a6adb61889e35e85ab5.json",
+    ".ai/work-items/archive/WI-904-interface-description-ssot.approach.json",
+    ".ai/work-items/archive/WI-904-interface-description-ssot.contract.json",
+    ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-904-interface-description-ssot.ja.md",
+    "docs/work-items/WI-904-interface-description-ssot.md",
+    "docs/work-items/WI-904-interface-description-ssot.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T09:01:07Z",
+  "checkpointContractDigest": "sha256:64b5e7f8aee4c357614d760a0d8d9437f1f7fb2a494ede2d1b05e5f3f0287c12",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:33c634f2699f9052d8ecd1f88954bf52e98b1e474b3e4fe496594f84338798a0",
+      "recorded": true,
+      "recordedAt": "2026-09-18T09:01:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:80f2b694c8c71a7b6200c313bf5f94c0410efb8f4f6edfa0ecf2e8c235877b17",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-904-interface-description-ssot"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:64b5e7f8aee4c357614d760a0d8d9437f1f7fb2a494ede2d1b05e5f3f0287c12",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:33c634f2699f9052d8ecd1f88954bf52e98b1e474b3e4fe496594f84338798a0",
+      "previousContractHash": "sha256:33c634f2699f9052d8ecd1f88954bf52e98b1e474b3e4fe496594f84338798a0",
+      "reason": "The implementation re-exports the protocol-owned facts through cockpit-protocol; include that source file and record the executable documentation gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T09:15:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2dd1671e402c4ffd38b7a8e007d3d60089c846c56a326ca1e89e3d983dbb0a4e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-904-interface-description-ssot"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2dd1671e402c4ffd38b7a8e007d3d60089c846c56a326ca1e89e3d983dbb0a4e",
+  "createdAt": "2026-09-18T08:55:55Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/interface_description.rs",
+      "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "crates/cockpit-mcp/tests/rpc.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-18T09:19:30Z",
+  "preflightContractDigest": "sha256:64b5e7f8aee4c357614d760a0d8d9437f1f7fb2a494ede2d1b05e5f3f0287c12",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:2dd1671e402c4ffd38b7a8e007d3d60089c846c56a326ca1e89e3d983dbb0a4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T09:20:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-904-interface-description-ssot"
+}

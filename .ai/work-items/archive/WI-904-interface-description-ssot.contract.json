@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Changing a protocol-owned work-item-outcome fact changes CLI capability output, MCP schema/validation, and generated reference facts together without hand-editing multiple facts.",
+    "CLI parsing and MCP validation continue to accept the same supported values and reject unknown values.",
+    "Generated English, Simplified Chinese, and Japanese interface regions remain deterministic and preserve manual explanatory text.",
+    "Description-only discovery performs no repository observation, verification, or child validation process.",
+    "The tri-language Work Item projection and reference-parity rows are present before terminal archive and preserve the same contract/evidence identity.",
+    "The protocol re-export surface exposes the same interface facts used by both adapters and generated references."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "30d8a0d14f64e347ee6841a32d4361efbfeaf412",
+  "createdAt": "2026-09-18T08:55:55Z",
+  "goal": "The work-item-outcome interface description, CLI parser, MCP schema/validator, and generated reference regions share one maintained fact source with deterministic parity tests.",
+  "intent": "Remove duplicated work-item-outcome interface facts by deriving CLI and MCP discovery from one protocol-owned definition while preserving current parsing, validation, and transport behavior.",
+  "mode": "code",
+  "outOfScope": [
+    "Outcome host APIs",
+    " real Codex/Claude conversation display",
+    " performance implementation",
+    " release publication",
+    " Issue #851 closure",
+    " and object repositories."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:783bf88dcfe44ceb4d83d13bbee14edcfccd8a4d547d24add6c4bb42981969c5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-904-interface-description-ssot.md",
+    "docs/work-items/WI-904-interface-description-ssot.zh-CN.md",
+    "docs/work-items/WI-904-interface-description-ssot.ja.md",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "sources": [
+    "https://github.com/boundaryml/baml",
+    "docs/superpowers/plans/2026-09-17-WI-881-interface-discovery.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "python3 tests/docs/documentation_acceptance.sh",
+    "python3 tests/docs/work_item_status_consistency.py",
+    "bash tests/docs/documentation_acceptance.sh"
+  ],
+  "workItemId": "WI-904-interface-description-ssot"
+}
