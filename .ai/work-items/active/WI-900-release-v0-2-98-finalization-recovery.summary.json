@@ -1,0 +1,17 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-899-release-v0-2-98.recovery.8447cd8ff122185bac1e1e7314ba022d699e38aba24b5681e285cb0315d17ab2.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-18T06:08:24Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:bd9ab1f016ab8a147dd386d5a58110f499ff520fcc3154f29739578996848c04",
+  "predecessorWorkItemId": "WI-899-release-v0-2-98",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-899-release-v0-2-98.recovery.8447cd8ff122185bac1e1e7314ba022d699e38aba24b5681e285cb0315d17ab2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-18T06:08:24Z",
+  "workItemId": "WI-900-release-v0-2-98-finalization-recovery"
+}

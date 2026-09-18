@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T06:18:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-899-release-v0-2-98.archive.json",
+    ".ai/evidence/WI-899-release-v0-2-98.verification.json",
+    ".ai/decisions/WI-899-release-v0-2-98.finalize.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:bd9ab1f016ab8a147dd386d5a58110f499ff520fcc3154f29739578996848c04",
+  "predecessorEventsDigest": "sha256:9a7b586e4b9f53906ad8b651222b728c5474ed6b19c8ef9815d5ae83940b09a6",
+  "predecessorOutcomeDigest": "sha256:26cbdba6d65ad7c727c7eb405fee787a61a965c24a3145f9378330d155ed4376",
+  "predecessorSummaryDigest": "sha256:d32076567765504d1c06df8a90a20242bfdc99cd1eca9912c882930ddd0a8b16",
+  "predecessorWorkItemId": "WI-899-release-v0-2-98",
+  "reason": "The first WI-899 finalization receipt was recorded after exact cleanup and is immutable; its before-state cannot satisfy the repository promotion gate. Preserve the published release and every WI-899 byte, and repair only the bounded post-release closure projection in a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor's bounded verification, archive, and confirmed close without rerunning release, changing product source, or touching object repositories.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-900-release-v0-2-98-finalization-recovery",
+  "workItemId": "WI-899-release-v0-2-98"
+}
