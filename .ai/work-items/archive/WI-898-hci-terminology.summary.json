@@ -1,0 +1,54 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-898-hci-terminology.preflight-review.567a39a8afc2a375abb0bc7b9402b7ed2169e2b9848d4d3c7c858b9e880004fe.json",
+    ".ai/decisions/WI-898-hci-terminology.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-898-hci-terminology.verification-attempt.8964eab1c0e16a45f988fd7aa811591b2fa35acae2549f406918c882b003b15c.json",
+    ".ai/work-items/archive/WI-898-hci-terminology.contract.json",
+    ".ai/work-items/archive/WI-898-hci-terminology.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-865-four-direction-convergence.ja.md",
+    "docs/work-items/WI-865-four-direction-convergence.md",
+    "docs/work-items/WI-865-four-direction-convergence.zh-CN.md",
+    "docs/work-items/WI-898-hci-terminology.ja.md",
+    "docs/work-items/WI-898-hci-terminology.md",
+    "docs/work-items/WI-898-hci-terminology.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T03:44:46Z",
+  "checkpointContractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+  "createdAt": "2026-09-18T03:39:38Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Confirm the bounded HCI terminology documentation review after the corrected tri-language scope and parity projections were declared.",
+    "recordedAt": "2026-09-18T03:46:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+    "schemaVersion": 1,
+    "workItemId": "WI-898-hci-terminology"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T03:49:14Z",
+  "preflightContractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T03:49:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-898-hci-terminology"
+}

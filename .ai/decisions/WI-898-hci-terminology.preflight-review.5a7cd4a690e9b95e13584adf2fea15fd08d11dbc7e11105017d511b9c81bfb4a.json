@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "reason": "Confirm the bounded HCI terminology documentation review after the corrected tri-language scope and parity projections were declared.",
+  "recordedAt": "2026-09-18T03:46:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+  "schemaVersion": 1,
+  "workItemId": "WI-898-hci-terminology"
+}

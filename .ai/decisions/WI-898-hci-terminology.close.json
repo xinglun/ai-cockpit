@@ -1,0 +1,243 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-898-hci-terminology.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+      "workItemId": "WI-898-hci-terminology"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-898-hci-terminology.preflight-review.567a39a8afc2a375abb0bc7b9402b7ed2169e2b9848d4d3c7c858b9e880004fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-898-hci-terminology.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-898-hci-terminology.verification-attempt.8964eab1c0e16a45f988fd7aa811591b2fa35acae2549f406918c882b003b15c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-898-hci-terminology.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-898-hci-terminology.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-865-four-direction-convergence.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-865-four-direction-convergence.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-865-four-direction-convergence.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-898-hci-terminology.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-898-hci-terminology.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-898-hci-terminology.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-898-hci-terminology.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-898-hci-terminology.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-898-hci-terminology.verification.json",
+            "docs/work-items/WI-865-four-direction-convergence.md"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-18T03:53:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-898-hci-terminology.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-898-hci-terminology.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-898-hci-terminology.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the published three-language acceptance report use HCI consistently without changing immutable lifecycle, performance, Outcome, or release facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-898-hci-terminology.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-898-hci-terminology"
+  },
+  "finalReportDigest": "sha256:51e3bbce06dfc24d162384ca95ba452c91faeded4b0c803e4dac5da608c48b4f",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:b34874ef5953ff4cd5112ea2683efe195e669470f1ab54911b354c1781728715",
+    "branch": "codex/wi-898-hci-terminology",
+    "branchRef": "refs/heads/codex/wi-898-hci-terminology",
+    "capturedAt": "2026-09-18T03:51:32Z",
+    "contractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+    "headRevision": "4ff13fa9236e62e0e28c16844ea75aff35b5774e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+    "runtimeVersion": "0.2.93",
+    "schemaVersion": 1,
+    "workItemId": "WI-898-hci-terminology",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/codex-wi-898-hci-terminology",
+    "worktreeId": "sha256:9aaabb91c6813bfea28d9ef0e36824fa8137f76f817567eef5f6179b821462f3",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-898-hci-terminology"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:0acd3c1653dfb2eee2a9e90424df75a89bf8efeb4870999de4249324fa0b8ef3",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T03:53:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-898-hci-terminology.verification.json",
+      "docs/work-items/WI-865-four-direction-convergence.md"
+    ],
+    "policyRefs": [
+      "docs/reference/reference-parity.md"
+    ],
+    "reason": "Confirm the HCI terminology correction after the current Runtime verification passed and the tri-language documentation/parity gates passed; no runtime, Outcome, performance, or release facts were changed.",
+    "resumeCondition": "No further action unless a future documentation review finds another terminology or parity inconsistency."
+  },
+  "timestamp": "2026-09-18T03:51:32Z",
+  "workItemId": "WI-898-hci-terminology"
+}
