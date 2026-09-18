@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:8945b0c996f5bfe35fe9f121f845f0632626ae62d588440074305d4565b0bd74",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "3db2ac25b7986ff97c7865f8ed4fad930ce09d82",
+      "commandDigest": "sha256:d3725680e939b7bfea0eea7c6b5f7abdcb91034eb4db0cd9063add7b566a0592",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:dede32cad46cf38e1dc4ffaf7fab0d5ef54b6399eb3c5507f0b54703d25a70a5",
+  "contractExecutionScopeDigest": "sha256:d22bf8279024eb81828646a81a491d306457930b5896a8e8439f72c89966596c",
+  "createdAt": "2026-09-18T21:24:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-917-interface-language-ssot/ai-cockpit/.ai/work-items/active/WI-917-interface-language-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6df11e02086ab343ba902b7d66e2f79d6f7fac17cd39322fa0b6b0e3baf21545",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-917-interface-language-ssot"
+}

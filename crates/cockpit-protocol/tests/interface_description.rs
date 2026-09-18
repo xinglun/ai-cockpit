@@ -1,8 +1,9 @@
 use cockpit_protocol::{
-    WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
-    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
-    normalize_work_item_outcome_language, render_interface_description_markdown,
-    work_item_outcome_interface_description, work_item_outcome_interface_specs,
+    CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
+    WORK_ITEM_OUTCOME_DEFAULT_VIEW, WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+    WORK_ITEM_OUTCOME_VIEW_VALUES, normalize_work_item_outcome_language,
+    render_interface_description_markdown, work_item_outcome_interface_description,
+    work_item_outcome_interface_specs,
 };
 
 fn surface<'a>(
@@ -29,6 +30,10 @@ fn parameter<'a>(
 
 #[test]
 fn outcome_description_has_stable_shared_facts() {
+    assert_eq!(
+        CAPABILITY_SHOW_LANGUAGE_VALUES,
+        WORK_ITEM_OUTCOME_LANGUAGE_VALUES
+    );
     let description = work_item_outcome_interface_description();
     assert_eq!(description.name, "work-item-outcome");
     assert_eq!(description.schema_version, 1);
