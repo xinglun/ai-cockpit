@@ -4,7 +4,7 @@ workItemId: WI-899-release-v0-2-98
 title: Outcome、HCI、四方向与 Issue #851 收敛后的最终 v0.2.98 发布
 description: 仅在所有前置 Work Item 和 Issue 完成后发布已评审的主线。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-899-release-v0-2-98
 ---

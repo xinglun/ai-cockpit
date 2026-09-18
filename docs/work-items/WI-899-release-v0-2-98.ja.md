@@ -4,7 +4,7 @@ workItemId: WI-899-release-v0-2-98
 title: Outcome、HCI、四方向、Issue #851 完了後の最終 v0.2.98 リリース
 description: 前提となるすべての Work Item と Issue が完了した後に、レビュー済み main を公開する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-899-release-v0-2-98
 ---

@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "All three WI-899 language pages use status: implemented and preserve existing evidence links.",
+    "All three WI-899 parity rows use terminal Implemented/已实现 vocabulary and preserve evidence references.",
+    "The four affected documentation and manifest checks pass without editing immutable .ai bytes or creating a release."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "fc51bd2723d468d82d3cade843a2a7cca14c8873",
+  "createdAt": "2026-09-18T07:24:28Z",
+  "goal": "Promote the three WI-899 language pages and parity rows to the terminal implemented state without changing immutable release evidence.",
+  "intent": "Repair the closed WI-899 documentation projection that keeps the release status conditional and fails the current documentation gates.",
+  "mode": "code",
+  "outOfScope": [
+    ".ai/**",
+    "crates/**",
+    "tests/**",
+    ".github/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "/Users/sei-rinn/dev/workspace_rust/ORG-X",
+    "/Users/sei-rinn/dev/workspace_rust/sentinel",
+    "/Users/sei-rinn/dev/workspace_rust/goods-garden",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "new release or release asset changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:32de02abd75e0013513da42ce3b175bb8febb8cc44e772347e727f6f41c1c792",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-899-release-v0-2-98.md",
+    "docs/work-items/WI-899-release-v0-2-98.zh-CN.md",
+    "docs/work-items/WI-899-release-v0-2-98.ja.md",
+    "docs/work-items/WI-903-wi899-doc-promotion.md",
+    "docs/work-items/WI-903-wi899-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-903-wi899-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/superpowers/plans/2026-09-18-wi899-doc-projection.md"
+  ],
+  "sources": [
+    "CI run 35314415848 diagnostic artifacts for WI-899 conditional projection",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/ci/repository_gate_manifest_test.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "bash tests/docs/parity_status_check.sh . /tmp/wi903-parity.json",
+    "bash tests/docs/documentation_acceptance.sh --repo .",
+    "python3 tests/ci/repository_gate_manifest_test.py"
+  ],
+  "workItemId": "WI-903-wi899-doc-promotion"
+}

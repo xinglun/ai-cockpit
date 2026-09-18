@@ -1,0 +1,171 @@
+{
+  "attemptId": "sha256:cc3f53105aac861149fc0e9c2992317abea38e0e76a793669ec6f56a744a4600",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency.py",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "fc51bd2723d468d82d3cade843a2a7cca14c8873",
+      "commandDigest": "sha256:5b602e4a8bcc1cc01595e124babcd1c06facadaa06882c1cd26f5a65399c5272",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fa5c2f92007aa76650ba5097603242391a6fe9b9d2f64c179ebce5381b5010fa",
+  "contractExecutionScopeDigest": "sha256:8aa75205b19bed79e3e82be1e38a947d5cba6c39602f87f6dbe9b8caa5e99c4c",
+  "createdAt": "2026-09-18T07:34:17Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:5b602e4a8bcc1cc01595e124babcd1c06facadaa06882c1cd26f5a65399c5272",
+      "deadlineMs": 1789717154921,
+      "elapsedMs": 1948,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 2187,
+      "executionElapsedMs": 1948,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "runtimeVersion": "0.2.98",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 2187,
+    "executionElapsedMs": 1948,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:5b602e4a8bcc1cc01595e124babcd1c06facadaa06882c1cd26f5a65399c5272",
+        "deadlineMs": 1789717154921,
+        "elapsedMs": 1948,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "776f726b206974656d2073746174757320636f6e73697374656e6379207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 25,
+    "filesRead": 25,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/reference/reference-parity.ja.md",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/superpowers/plans/2026-09-18-wi899-doc-projection.md",
+        "docs/work-items/WI-899-release-v0-2-98.ja.md",
+        "docs/work-items/WI-899-release-v0-2-98.md",
+        "docs/work-items/WI-899-release-v0-2-98.zh-CN.md",
+        "docs/work-items/WI-903-wi899-doc-promotion.ja.md",
+        "docs/work-items/WI-903-wi899-doc-promotion.md",
+        "docs/work-items/WI-903-wi899-doc-promotion.zh-CN.md"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "fc51bd2723d468d82d3cade843a2a7cca14c8873",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 1948,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:477f25870666ba1b35c3410f024bf00a6a125d4ee8a48a87877e680d6fbf3130",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-903-wi899-doc-promotion"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:81279d7dccc7d4e20a31bfa377cb03046f1767329aac6e0b87cd8d07fa075c0b",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-903-wi899-doc-promotion"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:477f25870666ba1b35c3410f024bf00a6a125d4ee8a48a87877e680d6fbf3130",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "WI-903-wi899-doc-promotion"
+}

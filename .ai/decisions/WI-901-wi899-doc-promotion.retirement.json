@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:58d2e620fec315170ff1edddaebab83c3c8e820111f3e853b3a5840901ab2f57",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:6c46657c7d75386c640de77ce57658e60005d4438f7efc0739df6dd3768ccbde",
+      "path": ".ai/work-items/archive/WI-901-wi899-doc-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:736b545a2521b529920291d5d1142fc6b3509c0e12bf727d6fc9a5c49bf690ee",
+      "path": ".ai/work-items/archive/WI-901-wi899-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:4d25a7f594e5b3c4ae405744e74e4ce91e11faaf4aa9a4cc7387599977418343",
+      "path": ".ai/work-items/archive/WI-901-wi899-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:8287883b3b3bd845fdd4c24a9db78f0d0ad155d3477c76c73f4d30f0494a2747",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "WI-901 was an uncheckpointed documentation-promotion setup whose preflight correctly stopped because the required self-projection was absent. It produced no scoped repository changes and is retired before creating the correctly prepared continuation.",
+  "recordedAt": "2026-09-18T07:23:59Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:32de02abd75e0013513da42ce3b175bb8febb8cc44e772347e727f6f41c1c792",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:23c62814b17e24bbbed5914c4b86d8fe81762014521ac046a9063bd5fe7132e6",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-901-wi899-doc-promotion"
+}

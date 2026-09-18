@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:8c4d8189940a45d18b2edc026d51527e44186feca7b1d37fb0c6abd75aeb0369",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency.py",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "fc51bd2723d468d82d3cade843a2a7cca14c8873",
+      "commandDigest": "sha256:5b602e4a8bcc1cc01595e124babcd1c06facadaa06882c1cd26f5a65399c5272",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fa5c2f92007aa76650ba5097603242391a6fe9b9d2f64c179ebce5381b5010fa",
+  "contractExecutionScopeDigest": "sha256:8aa75205b19bed79e3e82be1e38a947d5cba6c39602f87f6dbe9b8caa5e99c4c",
+  "createdAt": "2026-09-18T07:33:59Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-901-wi899-doc-promotion/.ai/work-items/active/WI-903-wi899-doc-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:477f25870666ba1b35c3410f024bf00a6a125d4ee8a48a87877e680d6fbf3130",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-wi899-doc-promotion"
+}

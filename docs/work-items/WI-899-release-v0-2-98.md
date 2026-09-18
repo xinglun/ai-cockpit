@@ -4,7 +4,7 @@ workItemId: WI-899-release-v0-2-98
 title: Final release v0.2.98 after Outcome, HCI, four-direction, and Issue #851 closure
 description: Publish the reviewed main line only after all prerequisite Work Items and issues are complete.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-899-release-v0-2-98
 ---
