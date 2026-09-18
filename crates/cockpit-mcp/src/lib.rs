@@ -82,23 +82,64 @@ fn parameter_schema(spec: &cockpit_protocol::InterfaceParameterSpec) -> Value {
     schema
 }
 
-fn outcome_parameter_schema(name: &str) -> Value {
-    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
-        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
-    parameter_schema(spec)
-}
-
-fn outcome_identity_properties() -> serde_json::Map<String, Value> {
-    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
-        .expect("workItemId outcome spec");
+fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
+    let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
+        .expect("work-item outcome MCP specs");
     let mut properties = serde_json::Map::new();
-    properties.insert(spec.name.to_owned(), parameter_schema(spec));
-    for alias in spec.aliases {
-        let mut alias_schema = parameter_schema(spec);
-        alias_schema["description"] = json!(format!("Deprecated alias for {}.", spec.name));
-        properties.insert((*alias).to_owned(), alias_schema);
+    for spec in specs {
+        properties.insert(spec.name.to_owned(), parameter_schema(spec));
+        for alias in spec.aliases {
+            let mut alias_schema = parameter_schema(spec);
+            alias_schema["description"] = json!(format!("Deprecated alias for {}.", spec.name));
+            properties.insert((*alias).to_owned(), alias_schema);
+        }
     }
     properties
+}
+
+fn outcome_parameter_names() -> Vec<&'static str> {
+    let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
+        .expect("work-item outcome MCP specs");
+    specs
+        .iter()
+        .flat_map(|spec| std::iter::once(spec.name).chain(spec.aliases.iter().copied()))
+        .collect()
+}
+
+fn validate_interface_parameter(
+    spec: &cockpit_protocol::InterfaceParameterSpec,
+    value: &Value,
+    tool: &str,
+) -> Result<(), String> {
+    let type_matches = match spec.wire_type {
+        "boolean" => value.is_boolean(),
+        "string" | "enum" => value.is_string(),
+        "object" => value.is_object(),
+        "array" => value.is_array(),
+        _ => true,
+    };
+    if !type_matches {
+        let article = if matches!(spec.wire_type, "object" | "array") {
+            "an"
+        } else {
+            "a"
+        };
+        return Err(format!(
+            "invalid arguments for {tool}: {} must be {article} {}",
+            spec.name, spec.wire_type
+        ));
+    }
+    if !spec.enum_values.is_empty() {
+        let value = value.as_str().unwrap_or_default();
+        if !spec.enum_values.contains(&value) {
+            return Err(format!(
+                "invalid arguments for {tool}: {} must be one of {}",
+                spec.name,
+                spec.enum_values.join(", ")
+            ));
+        }
+    }
+    Ok(())
 }
 
 fn capability_parameter_properties(specs: &[cockpit_protocol::InterfaceParameterSpec]) -> Value {
@@ -164,16 +205,14 @@ fn mcp_tool_schema(name: &str) -> Value {
             &["workItemId", "intent", "goal", "scope"],
         ),
         "work_item_outcome" => {
-            let mut properties = outcome_identity_properties();
-            properties.insert("language".into(), outcome_parameter_schema("language"));
-            properties.insert("view".into(), outcome_parameter_schema("view"));
-            properties.insert("delivery".into(), outcome_parameter_schema("delivery"));
-            properties.insert(
-                "deliveryProgress".into(),
-                outcome_parameter_schema("deliveryProgress"),
-            );
+            let properties = outcome_parameter_properties();
+            let identity = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
+                .expect("workItemId outcome spec");
             let mut schema = object_schema(Value::Object(properties), &[]);
-            schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
+            let mut identities = Vec::with_capacity(identity.aliases.len() + 1);
+            identities.push(identity.name);
+            identities.extend(identity.aliases.iter().copied());
+            schema["oneOf"] = one_of_aliases(&identities);
             schema
         }
         "work_item_status" => {
@@ -450,16 +489,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "sources",
             ][..],
         ),
-        "work_item_outcome" => Some(
-            &[
-                "workItemId",
-                "id",
-                "language",
-                "view",
-                "delivery",
-                "deliveryProgress",
-            ][..],
-        ),
+        // The protocol-owned MCP spec is the source for this field set.
+        "work_item_outcome" => None,
         "work_item_status" => Some(&["workItemId", "id", "all"][..]),
         "blockers" | "safe_actions" | "preflight" => Some(&["contract"][..]),
         "knowledge_query" => Some(&["topic", "component", "state", "workItemId"][..]),
@@ -484,8 +515,12 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         let is_allowed = allowed
             .map(|fields| fields.contains(&key.as_str()))
             .unwrap_or_else(|| {
-                capability_parameter_names(cockpit_protocol::capability_show_interface_specs())
-                    .contains(&key.as_str())
+                if name == "work_item_outcome" {
+                    outcome_parameter_names().contains(&key.as_str())
+                } else {
+                    capability_parameter_names(cockpit_protocol::capability_show_interface_specs())
+                        .contains(&key.as_str())
+                }
             });
         if !is_allowed {
             return Err(format!("invalid arguments for {name}: unknown field {key}"));
@@ -496,31 +531,15 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
         "work_item_get" | "work_item_outcome" | "work_item_validate" => {
             require_exactly_one_string(object, &["workItemId", "id"], name)?;
             if name == "work_item_outcome" {
-                optional_string(object, "language", name)?;
-                if let Some(delivery) = object.get("delivery")
-                    && !delivery.is_boolean()
-                {
-                    return Err(format!(
-                        "invalid arguments for {name}: delivery must be a boolean"
-                    ));
-                }
-                if let Some(view) = object.get("view") {
-                    let view = view.as_str().ok_or_else(|| {
-                        format!("invalid arguments for {name}: view must be a string")
-                    })?;
-                    if !cockpit_protocol::work_item_outcome_view_is_valid(view) {
-                        return Err(format!(
-                            "invalid arguments for {name}: view must be one of {}",
-                            cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.join(", ")
-                        ));
+                let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
+                    .expect("work-item outcome MCP specs");
+                for spec in specs {
+                    if spec.name == "workItemId" {
+                        continue;
                     }
-                }
-                if let Some(progress) = object.get("deliveryProgress")
-                    && !progress.is_object()
-                {
-                    return Err(format!(
-                        "invalid arguments for {name}: deliveryProgress must be an object"
-                    ));
+                    if let Some(value) = object.get(spec.name) {
+                        validate_interface_parameter(spec, value, name)?;
+                    }
                 }
             }
         }

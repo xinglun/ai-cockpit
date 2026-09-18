@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:1a9ce109f434d98a1c06b60514a5eef81c493988ca55e25ca7059f6d33742c60",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "f9ea6cbe32d118c2200fec1e00787ebb98b389d3",
+      "commandDigest": "sha256:6fc80d3e3844ed7d7c9494ced45d2f0a75968d3180b8fba683a87339db046d2a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:cc508d646b5532f220188e9b6eda72239d6e0ccca7e2cf4eb44114aac5a22740",
+  "contractExecutionScopeDigest": "sha256:196488e78192d113c7ea3bbdf26c843e0666994873f74979b242ab7327090093",
+  "createdAt": "2026-09-18T19:02:29Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-914-interface-description-execution-ssot/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5af13b8ff1f384b65818738fe19240f515c19196c4dfb68fbec1ca0519448f44",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-914-interface-description-execution-ssot"
+}

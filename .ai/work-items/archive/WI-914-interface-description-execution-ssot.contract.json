@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "work-item outcome 的参数名称、类型、必填性、默认值、枚举和描述由单一协议事实源提供",
+    "CLI parser、MCP schema、MCP validator 和 capability description 对同一参数事实一致",
+    "生成描述确定性，重复生成无差异，不读取仓库历史、不启动验证子进程",
+    "Outcome、授权、生命周期和发布行为不改变"
+  ],
+  "authority": "human:repository-owner; explicit-user-authorization",
+  "baseRevision": "f9ea6cbe32d118c2200fec1e00787ebb98b389d3",
+  "createdAt": "2026-09-18T18:54:59Z",
+  "goal": "同一接口事实仅在协议定义处维护；CLI、MCP 和生成参考描述从该定义投影，行为与权限保持不变。",
+  "intent": "消除 work-item outcome 接口描述、CLI 解析和 MCP schema/校验之间剩余的手工事实重复，降低发现接口的维护与错误机会。",
+  "mode": "code",
+  "outOfScope": [
+    "宿主真实聊天窗口发送 API",
+    "性能算法优化和发布",
+    "对象仓库"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:777792b1a72399b1f79a9729d1307b5fec6fc91ebc684407143f26e65c485ea6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol",
+    "crates/cockpit-cli",
+    "crates/cockpit-mcp",
+    "docs/reference",
+    "docs/superpowers/plans",
+    ".ai/**",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs"
+  ],
+  "sources": [
+    "user:continue-four-direction-convergence",
+    "issue:851 (already closed; verify state)"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-914-interface-description-execution-ssot"
+}
