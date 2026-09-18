@@ -1,8 +1,8 @@
 use cockpit_protocol::{
     WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
     WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
-    render_interface_description_markdown, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs,
+    normalize_work_item_outcome_language, render_interface_description_markdown,
+    work_item_outcome_interface_description, work_item_outcome_interface_specs,
 };
 
 fn surface<'a>(
@@ -73,6 +73,9 @@ fn outcome_description_has_stable_shared_facts() {
             .collect::<Vec<_>>(),
         WORK_ITEM_OUTCOME_LANGUAGE_VALUES
     );
+    assert_eq!(normalize_work_item_outcome_language("zh-CN"), "zh");
+    assert_eq!(normalize_work_item_outcome_language("ja-JP"), "ja");
+    assert_eq!(normalize_work_item_outcome_language("en-US"), "en");
 }
 
 #[test]

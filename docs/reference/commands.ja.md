@@ -54,7 +54,9 @@ legacy reconciliation として append できます。この transition は clos
 decision を作る command は stdout の JSON を維持します。`finish`、`archive`、`close`
 は既定で localize された人間向け handoff を stderr にも表示し、各 `--json` はその
 handoff だけを抑止します。`work-item outcome` は既定で stdout に人間向け handoff を
-表示し、機械処理には `--json` を指定します。failed/unknown は pass ではありません。
+表示します。adapter は現在の会話言語に合わせて `--language en|zh|zh-CN|ja` を渡し、
+未指定時は locale fallback を使います。機械処理には `--json` を指定します。
+failed/unknown は pass ではありません。
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
@@ -79,7 +81,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | Tool | 引数 | 典型的な call |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`。`capability_show` は read-only interface description 用に `surface`、`format`、`language` も任意で受け付けます。 | repository の事実または capability registry を読む。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は任意の `language`（`en`、`zh`、`ja`）を受け付ける。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | `workItemId`（または legacy `id`）をちょうど 1 つ。`work_item_outcome` は現在の会話言語 `language`（`en`、`zh`、`zh-CN`、`ja`）を任意で受け付ける。 | `{"workItemId":"WI-123"}` |
 | `work_item_status` | `{"all":true}`、または Work Item id をちょうど 1 つ。 | `{"all":true}` |
 | `preflight` | repository 相対の `contract` が必須。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | repository 相対の `contract` は任意。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -223,13 +225,14 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 
 #### `mcp` · トランスポート: `json-rpc`
 
 | パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |

@@ -1392,10 +1392,7 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
 }
 
 fn normalized_language(language: &str) -> &str {
-    match language {
-        "zh" | "ja" => language,
-        _ => "en",
-    }
+    cockpit_protocol::normalize_work_item_outcome_language(language)
 }
 
 fn push_unique(items: &mut Vec<String>, item: String) {

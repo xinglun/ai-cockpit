@@ -18,8 +18,9 @@ pub use interface_description::{
     WORK_ITEM_OUTCOME_VIEW_FULL, WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_VALUES,
     capability_show_format_is_valid, capability_show_interface_specs,
     capability_show_language_is_valid, capability_show_parameter_spec,
-    render_interface_description_markdown, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs, work_item_outcome_parameter_spec,
+    normalize_work_item_outcome_language, render_interface_description_markdown,
+    work_item_outcome_interface_description, work_item_outcome_interface_specs,
+    work_item_outcome_language_is_valid, work_item_outcome_parameter_spec,
     work_item_outcome_view_is_valid,
 };
 

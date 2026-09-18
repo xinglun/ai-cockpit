@@ -57,8 +57,10 @@ All repository commands accept an explicit `--repo <path>`. Commands that
 produce records or decisions keep JSON on stdout. `finish`, `archive`, and
 `close` additionally emit the localized human handoff on stderr by default;
 their `--json` option suppresses only that handoff. `work-item outcome` emits
-the localized human handoff on stdout by default; add `--json` for the stable
-machine-readable `OutcomeV2`. A failed or unknown decision is not a pass.
+the localized human handoff on stdout by default. Adapters should pass
+`--language en|zh|zh-CN|ja` for the active conversation language; omitted
+language uses the locale fallback. Add `--json` for the stable machine-readable
+`OutcomeV2`. A failed or unknown decision is not a pass.
 
 | Group | Commands | Boundary |
 | --- | --- | --- |
@@ -101,13 +103,14 @@ shape, not permission or lifecycle readiness.
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 
 #### `mcp` · Transport: `json-rpc`
 
 | Parameters | Type | Required | Default | Enum | Aliases |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
@@ -142,7 +145,7 @@ before any repository operation runs.
 | Tool | Arguments | Typical call |
 | --- | --- | --- |
 | `status`, `work_item_list`, `repository_observe`, `capability_show` | `{}`; `capability_show` also accepts optional `surface`, `format`, and `language` for a read-only interface description. | Read repository facts or the capability registry. |
-| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts `language` (`en`, `zh`, `ja`). | `{"workItemId":"WI-123"}` |
+| `work_item_get`, `work_item_outcome`, `work_item_validate` | Exactly one `workItemId` (or legacy `id`); `work_item_outcome` optionally accepts the active conversation `language` (`en`, `zh`, `zh-CN`, `ja`). | `{"workItemId":"WI-123"}` |
 | `work_item_start` | Required `workItemId`, human-supplied `intent` and `goal`, and non-empty `scope`; optional `outOfScope`, `risk`, `authority`, `acceptanceCriteria`, `requiredEvidenceClasses`, and `sources`. It persists preflight and creates exactly one before-edit checkpoint only when no blocker or human-confirmation boundary is present. | `{"workItemId":"WI-123","intent":"reduce repeated setup","goal":"prepare before implementation","scope":["src/**"],"authority":"authorized","sources":["issue:123"]}` |
 | `work_item_status` | `{"all":true}` or exactly one Work Item id. | `{"all":true}` |
 | `preflight` | Required repository-relative `contract`. | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |

@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-910-outcome-conversation-language.verification-attempt.4a10419bf525882e21d6bd6c1af2e876eaaaeae6e8e52c55e8deac18564e5e31.json",
+    ".ai/evidence/WI-910-outcome-conversation-language.verification.json",
+    ".ai/work-items/archive/WI-910-outcome-conversation-language.contract.json",
+    ".ai/work-items/archive/WI-910-outcome-conversation-language.events.jsonl",
+    ".ai/work-items/archive/WI-910-outcome-conversation-language.outcome.json",
+    ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T13:59:13Z",
+  "checkpointContractDigest": "sha256:682710ed77c37f7aa7a376119754e43e686313161216bbac3e93b1a3353aa90d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:5fba492ae766feb72147f8da3b046e658848a7dbb38cfe7c735804eea6ffca9a",
+  "createdAt": "2026-09-18T13:59:12Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T14:28:00Z",
+  "preflightContractDigest": "sha256:682710ed77c37f7aa7a376119754e43e686313161216bbac3e93b1a3353aa90d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:5fba492ae766feb72147f8da3b046e658848a7dbb38cfe7c735804eea6ffca9a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T14:28:09Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-910-outcome-conversation-language"
+}

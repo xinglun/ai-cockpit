@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T14:28:37Z",
+  "files": {
+    "contractDigest": "sha256:188e7c0009dcc70155b9d94b72b6a151e78dd5926c19d3f33e271f64d41e9948",
+    "contractPath": ".ai/work-items/archive/WI-910-outcome-conversation-language.contract.json",
+    "eventsDigest": "sha256:412edb18f993642634f82d7a5d8b1f2c39138096f560282c95d093fda166707a",
+    "eventsPath": ".ai/work-items/archive/WI-910-outcome-conversation-language.events.jsonl",
+    "outcomeDigest": "sha256:7a090352a8606ab37f97aa91c8b300e0b77ca79bcd0d1473d810475ca888ef44",
+    "outcomePath": ".ai/work-items/archive/WI-910-outcome-conversation-language.outcome.json",
+    "summaryDigest": "sha256:f7c452717ccdb360834f866a0db085018fb3b2d58770b738e0a33dda649b4f8b",
+    "summaryPath": ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json",
+    "taskReportDigest": "sha256:8332c1f2059a8a255ce28d4efaa4586872439ce177654a4415973bfc98a9282a",
+    "taskReportMarkdownDigest": "sha256:e6d9ffcef4f398c3ec1c2d028cdbe0c1f9ec47c1ed339a80a6a564650f3178bd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-910-outcome-conversation-language.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-910-outcome-conversation-language.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-910-outcome-conversation-language"
+}
