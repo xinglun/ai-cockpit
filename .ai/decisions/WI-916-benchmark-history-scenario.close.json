@@ -1,0 +1,185 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:68ee59207e8af9f774dfd2ecaee965038c169847c8073cdba4177e09012ab0e0",
+      "workItemId": "WI-916-benchmark-history-scenario"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-916-benchmark-history-scenario.verification-attempt.69c9cacea4cbe2cc000d8044bc9976cce1052cb44401b754271d9c5e7141e541.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-916-benchmark-history-scenario.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark_stats_test.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/performance/runtime_benchmark_support.py"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-19T06:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.contract.json"
+          ],
+          "inference": false,
+          "text": "多历史 Work Item 场景使用递归归档事实，保持 100 个有效 warm 样本门槛和确定性场景分类。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-916-benchmark-history-scenario.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-916-benchmark-history-scenario"
+  },
+  "finalReportDigest": "sha256:c73ed4a9198e0575edc219fd7698a3a23c4a2db6b648837637c3ca18e51428ed",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:d7d680afdc55a51fe5b020e31c508263ee3a2e406ba3138f59b30e557f74137c",
+    "branch": "codex/wi-916-benchmark-history-scenario",
+    "branchRef": "refs/heads/codex/wi-916-benchmark-history-scenario",
+    "capturedAt": "2026-09-18T20:48:05Z",
+    "contractDigest": "sha256:096325bc4196f1e717a4aad0a1b473b6f305911be118f7a3af7738990d87258f",
+    "headRevision": "1508e09eec1860414b95187e1a498a0d667fa049",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-916-benchmark-history-scenario",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:be19a9dc507edf400ac382eb8625a87a0815c4ce2bd8179a0c7e0c149a936555",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-915-benchmark-history/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:66596572c57052b3e3f4919846976d0767fb70879a9acb7d0d1a271b79c7cc43",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T06:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-916-benchmark-history-scenario.verification.json"
+    ],
+    "policyRefs": [
+      "repository-policy"
+    ],
+    "reason": "接受当前验证证据；用户收益保持未知。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-18T20:48:05Z",
+  "workItemId": "WI-916-benchmark-history-scenario"
+}
