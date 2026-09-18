@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:fe3039a3751b2ba2d1db1d98843d5a42e8ce537398b3f5646f9b12d6f07bb6e6",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:03cb75cfc9d061f2f33c0c7b09111fda154dfb04fc4cb30c4a9083f19a984884",
+      "path": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:1e1e0140cb27bd2e2e1d3ad10b86f32f87196d5ca286d7beef122bcce285b958",
+      "path": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:bc5d20ed1705c67cf919f79597730ecd641a1d45cc5f088c171abf549cc5203e",
+      "path": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.summary.json"
+    }
+  },
+  "authoritySource": "user:release-after-all-work-items",
+  "contractDigest": "sha256:b806596ede930d5135f853375af08aacd545dc12685658ea27b522b3bacc7ead",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The runtime isolation fix was integrated by reviewed PR #867 at fa8ab352. The v0.2.96 publication candidate failed because the source workspace still identified v0.2.95; that immutable failed candidate is preserved as evidence and the separate v0.2.97 release correction is tracked independently.",
+  "recordedAt": "2026-09-18T01:29:36Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:28a95b4b6cf6fbce97953b44d776b1389f4160c328e97f10dbe2b7e65296d6ed",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:bb3822d2a1e8939cb471e6f03f6dff7a943f4a8a6ee590ff232c6dc823f5f85b",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}

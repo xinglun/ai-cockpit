@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-18T01:29:36Z",
+  "files": {
+    "contractDigest": "sha256:03cb75cfc9d061f2f33c0c7b09111fda154dfb04fc4cb30c4a9083f19a984884",
+    "contractPath": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json",
+    "outcomeDigest": "sha256:1e1e0140cb27bd2e2e1d3ad10b86f32f87196d5ca286d7beef122bcce285b958",
+    "outcomePath": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.outcome.json",
+    "summaryDigest": "sha256:bc5d20ed1705c67cf919f79597730ecd641a1d45cc5f088c171abf549cc5203e",
+    "summaryPath": ".ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-891-release-v0-2-96-isolation-fix.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+}

@@ -1,0 +1,46 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:fb69f05b27f3dfc56846aa99f0e7a495ff33d941a0f03678c631925828bab326",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:375a0d3617b506fded585ff31770824a3653e7220e560f10934ea40f7d47d76b",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.contract.json"
+    },
+    "events": {
+      "digest": "sha256:67e1003b9dbc376f68d6910d5b75ec01a7f6d381c1410cb08c696043c0933f8f",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:61ff2c2ab6c5443b893073537466daf9508ed933256355bf6306ba15160a4b18",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:b78d8aad7b076cfb9f0823adf81ee9a561a91768087d0edd88249600c785e7a5",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:826e3ce0bc40d44f17a8a91db20e4aff0a56a3183c11987020fcc49f07c36f11",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:72c3087c60e6a490dff537204030c0d49235f5551a68828c90bc888992dfeea3",
+      "path": ".ai/work-items/archive/WI-890-release-v0-2-95.task-report.md"
+    }
+  },
+  "authoritySource": "user:release-after-all-work-items",
+  "contractDigest": "sha256:0b72cc7fb5a4793ab1933151a90d31a0fe2269239f4d0ded11e5b357e09e7e3b",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Retire the v0.2.95 release preparation as a preserved predecessor. Its reviewed PR #866 was superseded by the explicitly linked WI-891 isolation-fix route; this retirement does not assert that v0.2.95 was published or independently verified.",
+  "recordedAt": "2026-09-18T01:29:29Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:28a95b4b6cf6fbce97953b44d776b1389f4160c328e97f10dbe2b7e65296d6ed",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-891-release-v0-2-96-isolation-fix",
+  "summaryDigest": "sha256:2ce97fb59ee20bf02197b9e8456ac4c542c5323da43c13de93c990686b0ed4d2",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-890-release-v0-2-95"
+}
