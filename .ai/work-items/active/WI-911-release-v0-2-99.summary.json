@@ -1,0 +1,32 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-18T15:13:10Z",
+  "checkpointContractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8cf2996d804f6341a835ad8b55942573667ce703c9d163318f45ce6fd82bd94a",
+  "createdAt": "2026-09-18T15:08:45Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+    "reason": "用户已明确授权：所有需要确认的发布动作均可执行；确认仅授权在当前 WI 范围内收集并验证 v0.2.99 公开 Release 证据，不替代任何测试、安装验收或发布成功证据。",
+    "recordedAt": "2026-09-18T15:12:30Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:8cf2996d804f6341a835ad8b55942573667ce703c9d163318f45ce6fd82bd94a",
+    "schemaVersion": 1,
+    "workItemId": "WI-911-release-v0-2-99"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T15:13:05Z",
+  "preflightContractDigest": "sha256:64880fcab47f4b3c7860f78c0f9ca9a3ac76c0a21267b1de40021b47453dfe45",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:8cf2996d804f6341a835ad8b55942573667ce703c9d163318f45ce6fd82bd94a",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-18T15:13:10Z",
+  "workItemId": "WI-911-release-v0-2-99"
+}
