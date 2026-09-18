@@ -1,0 +1,199 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-906-interface-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3a6c0f81bb8a0589ef654ced5774bdb05ed863fd185d86c817cb9c04338d775",
+      "workItemId": "WI-906-interface-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-906-interface-ssot.verification-attempt.6a6462d66cf43a88d7bad257ea4d6f68d1886cd4c24a5f423a72468f110beb42.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-906-interface-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-906-interface-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-906-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-906-interface-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-906-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-18T11:24:19Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-906-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-906-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-906-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "A change to the pilot interface facts updates the CLI parser expectations, MCP schema, machine description, and generated EN/zh-CN/JA reference region from one deterministic source without changing lifecycle or Outcome delivery behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-906-interface-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-906-interface-ssot"
+  },
+  "finalReportDigest": "sha256:494de14c6e75cedb8985c239e8147f17623c8735ef259be0eb46e223494b80aa",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:78496c1e03015f5102486f06830f06f6430dd31895739ec3647513119c4bd7eb",
+    "branch": "codex/wi-906-interface-ssot",
+    "branchRef": "refs/heads/codex/wi-906-interface-ssot",
+    "capturedAt": "2026-09-18T11:24:27Z",
+    "contractDigest": "sha256:ec7b93836a1672289a3617b2772f98a7d673c91609ed91a8d96566cd7c7238fe",
+    "headRevision": "0f12758337f5f9c3e64a6a4d11cdea4a1e07a56e",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-906-interface-ssot",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/wi-906-interface-ssot",
+    "worktreeId": "sha256:1e6eea86fda387ad720bc11937391f54a390fe9f3fb0852aa8e4b5de5f661d20",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/wi-906-interface-ssot"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:64451b9a3405b2b6530e7bc08fb41c80f2071a4b46b2e1087aa7c808256f1807",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T11:24:19Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-906-interface-ssot.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "User explicitly confirmed closure while accepting current verification evidence; user-visible benefit remains unknown.",
+    "resumeCondition": "none; terminal interface SSOT pilot; user-visible benefit remains unknown"
+  },
+  "timestamp": "2026-09-18T11:24:27Z",
+  "workItemId": "WI-906-interface-ssot"
+}

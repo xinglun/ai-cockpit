@@ -214,6 +214,62 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
 }
 
 #[test]
+fn mcp_outcome_schema_projects_protocol_owned_parameter_facts() {
+    let runtime = test_runtime_context();
+    let tools = handle_request(
+        &serde_json::json!({"jsonrpc":"2.0","id":3,"method":"tools/list","params":{}}),
+        &runtime,
+    );
+    let outcome = tools["result"]["tools"]
+        .as_array()
+        .expect("tools")
+        .iter()
+        .find(|tool| tool["name"] == "work_item_outcome")
+        .expect("outcome tool");
+    let properties = &outcome["inputSchema"]["properties"];
+    for spec in cockpit_protocol::work_item_outcome_interface_specs("mcp")
+        .expect("MCP outcome interface specs")
+    {
+        let property = &properties[spec.name];
+        let expected_type = if spec.wire_type == "enum" {
+            "string"
+        } else {
+            spec.wire_type
+        };
+        assert_eq!(property["type"], expected_type, "{} type", spec.name);
+        assert_eq!(
+            property["description"], spec.description,
+            "{} description",
+            spec.name
+        );
+        if spec.enum_values.is_empty() {
+            assert!(property.get("enum").is_none(), "{} enum", spec.name);
+        } else {
+            assert_eq!(
+                property["enum"],
+                serde_json::json!(spec.enum_values),
+                "{} enum",
+                spec.name
+            );
+        }
+        if let Some(default) = spec.default {
+            let expected_default = if spec.wire_type == "boolean" {
+                serde_json::json!(default == "true")
+            } else {
+                serde_json::json!(default)
+            };
+            assert_eq!(
+                property["default"], expected_default,
+                "{} default",
+                spec.name
+            );
+        } else {
+            assert!(property.get("default").is_none(), "{} default", spec.name);
+        }
+    }
+}
+
+#[test]
 fn mcp_outcome_accepts_identity_bound_delivery_progress_field() {
     let directory = TestTempDir::new("cockpit-mcp-delivery-progress");
     let response = handle_request_for_repo(

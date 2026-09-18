@@ -1,0 +1,61 @@
+{
+  "acceptanceCriteria": [
+    "The protocol-owned pilot definition is the only source for shared work-item outcome parameter defaults and enum values consumed by CLI, MCP, and the interface description.",
+    "A focused parity test detects drift between the actual CLI/MCP parser schemas and the generated description; changing one pilot fact requires no second hand-maintained fact table.",
+    "The JSON and Markdown capability descriptions are deterministic, and the checked-in EN/zh-CN/JA generated regions match the same projection.",
+    "Capability discovery remains read-only and starts no verification, scan, or Work Item-history subprocess.",
+    "Lifecycle, authorization, Outcome delivery, language facts, and existing command behavior remain unchanged."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "06a5e23e69894fc4d4cc74c95a83eb1072fe66ac",
+  "createdAt": "2026-09-18T10:49:53Z",
+  "goal": "A change to the pilot interface facts updates the CLI parser expectations, MCP schema, machine description, and generated EN/zh-CN/JA reference region from one deterministic source without changing lifecycle or Outcome delivery behavior.",
+  "intent": "Complete the BAML-inspired work-item outcome interface discovery pilot by removing repeated interface facts from transport adapters and keeping CLI, MCP, and generated reference output derived from one protocol-owned definition.",
+  "mode": "code",
+  "outOfScope": [
+    "Lifecycle",
+    " authorization",
+    " verification execution",
+    " Outcome rendering or host delivery semantics",
+    "User-global Agent or MCP configuration",
+    "Release publication or version changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:49fb9889bd8ae365ab21cc2727783da92ce5af820ad3a3cde3a393722c41ae14",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/evidence/WI-906-interface-ssot.*",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-906-interface-ssot.*",
+    ".ai/work-items/archive/WI-906-interface-ssot.*",
+    ".ai/decisions/WI-906-interface-ssot.*",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    ".ai/evidence/WI-906-interface-ssot.verification-attempt.6a6462d66cf43a88d7bad257ea4d6f68d1886cd4c24a5f423a72468f110beb42.json",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "sources": [
+    "User objective: BAML interface discovery pilot and single source of truth",
+    "Current main 06a5e23e69894fc4d4cc74c95a83eb1072fe66ac"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-906-interface-ssot"
+}

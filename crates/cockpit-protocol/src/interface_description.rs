@@ -21,6 +21,10 @@ pub fn work_item_outcome_view_is_valid(value: &str) -> bool {
     WORK_ITEM_OUTCOME_VIEW_VALUES.contains(&value)
 }
 
+const fn bool_default_text(value: bool) -> &'static str {
+    if value { "true" } else { "false" }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct InterfaceDescription {
@@ -51,143 +55,167 @@ pub struct InterfaceParameter {
     pub description: String,
 }
 
-fn parameter(
+/// The protocol-owned facts for one discoverable parameter.
+///
+/// Adapters consume this table rather than copying defaults, enums, or
+/// descriptions into a second schema.  The table is deliberately transport
+/// aware only at the surface level; it does not encode authorization or
+/// lifecycle behavior.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct InterfaceParameterSpec {
+    pub name: &'static str,
+    pub wire_type: &'static str,
+    pub required: bool,
+    pub default: Option<&'static str>,
+    pub enum_values: &'static [&'static str],
+    pub aliases: &'static [&'static str],
+    pub description: &'static str,
+}
+
+static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
+    InterfaceParameterSpec {
+        name: "id",
+        wire_type: "string",
+        required: true,
+        default: None,
+        enum_values: &[],
+        aliases: &[],
+        description: "Canonical Work Item identifier.",
+    },
+    InterfaceParameterSpec {
+        name: "delivery",
+        wire_type: "boolean",
+        required: false,
+        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
+        enum_values: &[],
+        aliases: &[],
+        description: "Request the immutable full archive delivery payload.",
+    },
+    InterfaceParameterSpec {
+        name: "json",
+        wire_type: "boolean",
+        required: false,
+        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
+        enum_values: &[],
+        aliases: &[],
+        description: "Emit machine-readable JSON instead of the human handoff.",
+    },
+    InterfaceParameterSpec {
+        name: "view",
+        wire_type: "enum",
+        required: false,
+        default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
+        enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
+        aliases: &[],
+        description: "Select the reader-first summary or complete human view.",
+    },
+];
+
+static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
+    InterfaceParameterSpec {
+        name: "workItemId",
+        wire_type: "string",
+        required: true,
+        default: None,
+        enum_values: &[],
+        aliases: &["id"],
+        description: "Canonical Work Item identifier; `id` is a deprecated alias.",
+    },
+    InterfaceParameterSpec {
+        name: "language",
+        wire_type: "enum",
+        required: false,
+        default: None,
+        enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+        aliases: &[],
+        description: "Presentation language; localization does not change facts.",
+    },
+    InterfaceParameterSpec {
+        name: "view",
+        wire_type: "enum",
+        required: false,
+        default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
+        enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
+        aliases: &[],
+        description: "Select the reader-first summary or complete human view.",
+    },
+    InterfaceParameterSpec {
+        name: "delivery",
+        wire_type: "boolean",
+        required: false,
+        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
+        enum_values: &[],
+        aliases: &[],
+        description: "Request the immutable full archive delivery payload.",
+    },
+    InterfaceParameterSpec {
+        name: "deliveryProgress",
+        wire_type: "object",
+        required: false,
+        default: None,
+        enum_values: &[],
+        aliases: &[],
+        description: "Identity-bound accepted-segment progress for an interrupted delivery.",
+    },
+];
+
+/// Return the protocol-owned parameter table for a discoverable surface.
+pub fn work_item_outcome_interface_specs(
+    surface: &str,
+) -> Option<&'static [InterfaceParameterSpec]> {
+    match surface {
+        "cli" => Some(CLI_WORK_ITEM_OUTCOME_PARAMETERS),
+        "mcp" => Some(MCP_WORK_ITEM_OUTCOME_PARAMETERS),
+        _ => None,
+    }
+}
+
+/// Return one protocol-owned parameter fact for adapter schema generation.
+pub fn work_item_outcome_parameter_spec(
+    surface: &str,
     name: &str,
-    wire_type: &str,
-    required: bool,
-    default: Option<&str>,
-    enum_values: &[&str],
-    aliases: &[&str],
-    description: &str,
-) -> InterfaceParameter {
+) -> Option<&'static InterfaceParameterSpec> {
+    work_item_outcome_interface_specs(surface)?
+        .iter()
+        .find(|spec| spec.name == name)
+}
+
+fn materialize_parameter(spec: &InterfaceParameterSpec) -> InterfaceParameter {
     InterfaceParameter {
-        name: name.into(),
-        wire_type: wire_type.into(),
-        required,
-        default: default.map(str::to_owned),
-        enum_values: enum_values.iter().map(|value| (*value).into()).collect(),
-        aliases: aliases.iter().map(|value| (*value).into()).collect(),
-        description: description.into(),
+        name: spec.name.into(),
+        wire_type: spec.wire_type.into(),
+        required: spec.required,
+        default: spec.default.map(str::to_owned),
+        enum_values: spec
+            .enum_values
+            .iter()
+            .map(|value| (*value).into())
+            .collect(),
+        aliases: spec.aliases.iter().map(|value| (*value).into()).collect(),
+        description: spec.description.into(),
     }
 }
 
 /// Return the one protocol-owned description for the trial interface.
 ///
-/// The CLI and MCP surfaces intentionally expose their transport-specific
-/// names, while shared facts such as `view`, `delivery`, and their defaults
-/// are constructed from the same literals here.
+/// The CLI and MCP surfaces intentionally expose transport-specific names;
+/// all parameter facts come from the protocol-owned tables above.
 pub fn work_item_outcome_interface_description() -> InterfaceDescription {
     InterfaceDescription {
         schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
         name: WORK_ITEM_OUTCOME_SURFACE.into(),
         runtime_version: env!("CARGO_PKG_VERSION").into(),
-        surfaces: vec![
-            InterfaceSurface {
-                name: "cli".into(),
-                transport: "argv".into(),
-                parameters: vec![
-                    parameter(
-                        "id",
-                        "string",
-                        true,
-                        None,
-                        &[],
-                        &[],
-                        "Canonical Work Item identifier.",
-                    ),
-                    parameter(
-                        "delivery",
-                        "boolean",
-                        false,
-                        Some(if WORK_ITEM_OUTCOME_DEFAULT_DELIVERY {
-                            "true"
-                        } else {
-                            "false"
-                        }),
-                        &[],
-                        &[],
-                        "Request the immutable full archive delivery payload.",
-                    ),
-                    parameter(
-                        "json",
-                        "boolean",
-                        false,
-                        Some(if WORK_ITEM_OUTCOME_DEFAULT_JSON {
-                            "true"
-                        } else {
-                            "false"
-                        }),
-                        &[],
-                        &[],
-                        "Emit machine-readable JSON instead of the human handoff.",
-                    ),
-                    parameter(
-                        "view",
-                        "enum",
-                        false,
-                        Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
-                        WORK_ITEM_OUTCOME_VIEW_VALUES,
-                        &[],
-                        "Select the reader-first summary or complete human view.",
-                    ),
-                ],
-            },
-            InterfaceSurface {
-                name: "mcp".into(),
-                transport: "json-rpc".into(),
-                parameters: vec![
-                    parameter(
-                        "workItemId",
-                        "string",
-                        true,
-                        None,
-                        &[],
-                        &["id"],
-                        "Canonical Work Item identifier; `id` is a deprecated alias.",
-                    ),
-                    parameter(
-                        "language",
-                        "enum",
-                        false,
-                        None,
-                        WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-                        &[],
-                        "Presentation language; localization does not change facts.",
-                    ),
-                    parameter(
-                        "view",
-                        "enum",
-                        false,
-                        Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
-                        WORK_ITEM_OUTCOME_VIEW_VALUES,
-                        &[],
-                        "Select the reader-first summary or complete human view.",
-                    ),
-                    parameter(
-                        "delivery",
-                        "boolean",
-                        false,
-                        Some(if WORK_ITEM_OUTCOME_DEFAULT_DELIVERY {
-                            "true"
-                        } else {
-                            "false"
-                        }),
-                        &[],
-                        &[],
-                        "Request the immutable full archive delivery payload.",
-                    ),
-                    parameter(
-                        "deliveryProgress",
-                        "object",
-                        false,
-                        None,
-                        &[],
-                        &[],
-                        "Identity-bound accepted-segment progress for an interrupted delivery.",
-                    ),
-                ],
-            },
-        ],
+        surfaces: [
+            ("cli", "argv", CLI_WORK_ITEM_OUTCOME_PARAMETERS),
+            ("mcp", "json-rpc", MCP_WORK_ITEM_OUTCOME_PARAMETERS),
+        ]
+        .into_iter()
+        .map(|(name, transport, specs)| InterfaceSurface {
+            name: name.into(),
+            transport: transport.into(),
+            parameters: specs.iter().map(materialize_parameter).collect(),
+        })
+        .collect(),
     }
 }
 
