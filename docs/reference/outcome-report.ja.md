@@ -175,8 +175,9 @@ projection/serialization の Runtime 内部主経路を段階別に報告し、�
 した bytes と Git 呼び出し数を示します。未対応の process 数はゼロではなく unavailable
 として示し、benchmark tool 自身の overhead は Runtime 測定と分離します。
 
-CLI の直接出力は `AI_COCKPIT_LANGUAGE`、次にプロセス locale を使用します。Agent
-の会話では利用者の言語で同じ handoff を表示します。JSON のフィールド名と enum
+CLI adapter は現在の会話言語を `--language en|zh|ja` で明示的に渡します。直接呼び出し
+だけは `AI_COCKPIT_LANGUAGE`、次に process locale へフォールバックします。Agent
+は Contract 原文の言語や host locale から推測してはいけません。JSON のフィールド名と enum
 値は言語に依存せず安定しています。
 
 ## MCP の human handoff
@@ -185,8 +186,9 @@ Agent が人間に結果を示す場合、明示的な `workItemId` を指定し
 `work_item_outcome` を呼び出します。text content は CLI と同じ localized handoff であり、raw JSON dump
 ではありません。`structuredContent.outcome` は安定した OutcomeV2 object のままです。
 `humanHandoff` は presentation projection であり、merge、release、human decision を認可しません。
-`work_item_get` は machine record lookup です。任意の `language` で `en`、`zh`、`ja` の Runtime label を
-選択できますが、Contract source text は変更されません。archive 済み WI では `delivery: true` を指定し、
+`work_item_get` は machine record lookup です。adapter は現在の会話の `language` に `en`、`zh`、`ja` を指定し、
+Runtime label はその選択に従います。欠落時の locale fallback は直接呼び出し専用で、会話言語の証明ではありません。
+Contract source text は変更されません。archive 済み WI では `delivery: true` を指定し、
 生成済みの完全な本文を Agent が再要約してはいけません。
 
 ## Task Outcome report と event

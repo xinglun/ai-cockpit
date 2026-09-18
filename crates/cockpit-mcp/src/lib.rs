@@ -88,6 +88,19 @@ fn outcome_parameter_schema(name: &str) -> Value {
     parameter_schema(spec)
 }
 
+fn outcome_identity_properties() -> serde_json::Map<String, Value> {
+    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
+        .expect("workItemId outcome spec");
+    let mut properties = serde_json::Map::new();
+    properties.insert(spec.name.to_owned(), parameter_schema(spec));
+    for alias in spec.aliases {
+        let mut alias_schema = parameter_schema(spec);
+        alias_schema["description"] = json!(format!("Deprecated alias for {}.", spec.name));
+        properties.insert((*alias).to_owned(), alias_schema);
+    }
+    properties
+}
+
 fn capability_parameter_properties(specs: &[cockpit_protocol::InterfaceParameterSpec]) -> Value {
     let properties = specs
         .iter()
@@ -151,17 +164,15 @@ fn mcp_tool_schema(name: &str) -> Value {
             &["workItemId", "intent", "goal", "scope"],
         ),
         "work_item_outcome" => {
-            let mut properties = id_properties;
-            properties["workItemId"]["description"] = json!(
-                cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
-                    .expect("workItemId outcome spec")
-                    .description
+            let mut properties = outcome_identity_properties();
+            properties.insert("language".into(), outcome_parameter_schema("language"));
+            properties.insert("view".into(), outcome_parameter_schema("view"));
+            properties.insert("delivery".into(), outcome_parameter_schema("delivery"));
+            properties.insert(
+                "deliveryProgress".into(),
+                outcome_parameter_schema("deliveryProgress"),
             );
-            properties["language"] = outcome_parameter_schema("language");
-            properties["view"] = outcome_parameter_schema("view");
-            properties["delivery"] = outcome_parameter_schema("delivery");
-            properties["deliveryProgress"] = outcome_parameter_schema("deliveryProgress");
-            let mut schema = object_schema(properties, &[]);
+            let mut schema = object_schema(Value::Object(properties), &[]);
             schema["oneOf"] = one_of_aliases(&["workItemId", "id"]);
             schema
         }
@@ -1795,6 +1806,16 @@ fn requested_language(arguments: &Value) -> &'static str {
         .map(str::to_ascii_lowercase)
         .or_else(|| {
             std::env::var("AI_COCKPIT_LANGUAGE")
+                .ok()
+                .map(|value| value.to_ascii_lowercase())
+        })
+        .or_else(|| {
+            std::env::var("LC_ALL")
+                .ok()
+                .map(|value| value.to_ascii_lowercase())
+        })
+        .or_else(|| {
+            std::env::var("LANGUAGE")
                 .ok()
                 .map(|value| value.to_ascii_lowercase())
         })

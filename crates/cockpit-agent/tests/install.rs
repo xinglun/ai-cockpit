@@ -82,6 +82,9 @@ fn install_creates_only_owned_managed_section() {
     assert!(content.contains("archive and close only after all required"));
     assert!(content.contains("assistantMessageEvents"));
     assert!(content.contains("emit each `segment.body` verbatim"));
+    assert!(content.contains("active conversation language"));
+    assert!(content.contains("--language <en|zh|ja>"));
+    assert!(content.contains("MCP `language`"));
     assert!(content.contains("--surface work-item-outcome"));
     assert!(content.contains("evidence exists"));
     assert!(content.contains("Installation of an adapter changes only its owned managed section"));

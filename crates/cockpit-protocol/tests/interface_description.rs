@@ -128,6 +128,29 @@ fn description_is_materialized_from_protocol_owned_parameter_tables() {
 }
 
 #[test]
+fn cli_and_mcp_share_common_outcome_parameter_facts() {
+    let description = work_item_outcome_interface_description();
+    let cli = surface(&description, "cli");
+    let mcp = surface(&description, "mcp");
+    for name in ["delivery", "view", "language"] {
+        let cli_parameter = parameter(cli, name);
+        let mcp_parameter = parameter(mcp, name);
+        assert_eq!(cli_parameter.wire_type, mcp_parameter.wire_type, "{name}");
+        assert_eq!(cli_parameter.required, mcp_parameter.required, "{name}");
+        assert_eq!(cli_parameter.default, mcp_parameter.default, "{name}");
+        assert_eq!(
+            cli_parameter.enum_values, mcp_parameter.enum_values,
+            "{name}"
+        );
+        assert_eq!(cli_parameter.aliases, mcp_parameter.aliases, "{name}");
+        assert_eq!(
+            cli_parameter.description, mcp_parameter.description,
+            "{name}"
+        );
+    }
+}
+
+#[test]
 fn shared_view_definition_rejects_unknown_values() {
     for value in WORK_ITEM_OUTCOME_VIEW_VALUES {
         assert!(cockpit_protocol::work_item_outcome_view_is_valid(value));

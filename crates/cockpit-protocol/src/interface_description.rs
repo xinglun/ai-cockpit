@@ -15,6 +15,14 @@ pub const WORK_ITEM_OUTCOME_VIEW_VALUES: &[&str] =
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
 pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
 pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
+pub const WORK_ITEM_OUTCOME_ID_DESCRIPTION: &str = "Canonical Work Item identifier.";
+pub const WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION: &str =
+    "Request the immutable full archive delivery payload.";
+pub const WORK_ITEM_OUTCOME_JSON_DESCRIPTION: &str =
+    "Emit machine-readable JSON instead of the human handoff.";
+pub const WORK_ITEM_OUTCOME_VIEW_DESCRIPTION: &str =
+    "Select the reader-first summary or complete human view.";
+pub const WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION: &str = "Active conversation language for the human Outcome; adapters should pass it explicitly, with locale fallback only when omitted.";
 /// Conversation languages accepted by the human Outcome projections.
 /// `zh-CN` is kept as a locale-compatible spelling and normalizes to the
 /// canonical Simplified Chinese renderer.
@@ -113,6 +121,36 @@ pub struct InterfaceParameterSpec {
     pub description: &'static str,
 }
 
+const OUTCOME_DELIVERY_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+    name: "delivery",
+    wire_type: "boolean",
+    required: false,
+    default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
+    enum_values: &[],
+    aliases: &[],
+    description: WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
+};
+
+const OUTCOME_VIEW_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+    name: "view",
+    wire_type: "enum",
+    required: false,
+    default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
+    enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
+    aliases: &[],
+    description: WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
+};
+
+const OUTCOME_LANGUAGE_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+    name: "language",
+    wire_type: "enum",
+    required: false,
+    default: None,
+    enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+    aliases: &[],
+    description: WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
+};
+
 static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
     InterfaceParameterSpec {
         name: "id",
@@ -121,17 +159,9 @@ static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         default: None,
         enum_values: &[],
         aliases: &[],
-        description: "Canonical Work Item identifier.",
+        description: WORK_ITEM_OUTCOME_ID_DESCRIPTION,
     },
-    InterfaceParameterSpec {
-        name: "delivery",
-        wire_type: "boolean",
-        required: false,
-        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
-        enum_values: &[],
-        aliases: &[],
-        description: "Request the immutable full archive delivery payload.",
-    },
+    OUTCOME_DELIVERY_PARAMETER,
     InterfaceParameterSpec {
         name: "json",
         wire_type: "boolean",
@@ -139,26 +169,10 @@ static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
         enum_values: &[],
         aliases: &[],
-        description: "Emit machine-readable JSON instead of the human handoff.",
+        description: WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
     },
-    InterfaceParameterSpec {
-        name: "view",
-        wire_type: "enum",
-        required: false,
-        default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
-        enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
-        aliases: &[],
-        description: "Select the reader-first summary or complete human view.",
-    },
-    InterfaceParameterSpec {
-        name: "language",
-        wire_type: "enum",
-        required: false,
-        default: None,
-        enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-        aliases: &[],
-        description: "Conversation language for the human Outcome; locale fallback is used when omitted.",
-    },
+    OUTCOME_VIEW_PARAMETER,
+    OUTCOME_LANGUAGE_PARAMETER,
 ];
 
 static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
@@ -171,33 +185,9 @@ static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         aliases: &["id"],
         description: "Canonical Work Item identifier; `id` is a deprecated alias.",
     },
-    InterfaceParameterSpec {
-        name: "language",
-        wire_type: "enum",
-        required: false,
-        default: None,
-        enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-        aliases: &[],
-        description: "Presentation language; localization does not change facts.",
-    },
-    InterfaceParameterSpec {
-        name: "view",
-        wire_type: "enum",
-        required: false,
-        default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
-        enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
-        aliases: &[],
-        description: "Select the reader-first summary or complete human view.",
-    },
-    InterfaceParameterSpec {
-        name: "delivery",
-        wire_type: "boolean",
-        required: false,
-        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
-        enum_values: &[],
-        aliases: &[],
-        description: "Request the immutable full archive delivery payload.",
-    },
+    OUTCOME_LANGUAGE_PARAMETER,
+    OUTCOME_VIEW_PARAMETER,
+    OUTCOME_DELIVERY_PARAMETER,
     InterfaceParameterSpec {
         name: "deliveryProgress",
         wire_type: "object",
