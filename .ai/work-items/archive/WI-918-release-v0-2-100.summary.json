@@ -1,0 +1,425 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "version-consistency.json",
+          "path": ".ai/evidence/external/WI-918-version-consistency.json",
+          "type": "verification",
+          "verification": "GitHub Actions run 35403815197 post-release version consistency"
+        },
+        {
+          "locator": "release-manifest.json",
+          "path": ".ai/evidence/external/WI-918-release-manifest.json",
+          "type": "release",
+          "verification": "public v0.2.100 manifest"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "release-close.json",
+          "path": ".ai/evidence/external/WI-918-release-close.json",
+          "type": "release",
+          "verification": "tag v0.2.100 and source commit 2fc0455536e1ce15f16a53795a60fa95eeaf0cbf"
+        },
+        {
+          "locator": "attestation verification",
+          "path": ".ai/evidence/external/WI-918-attestation.json",
+          "type": "attestation",
+          "verification": "verified source identity and workflow"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public Release assets",
+          "path": ".ai/evidence/external/WI-918-release-manifest.json",
+          "type": "release",
+          "verification": "public Release assets and manifest"
+        },
+        {
+          "locator": "SHA256SUMS",
+          "path": ".ai/evidence/external/WI-918-SHA256SUMS",
+          "type": "release",
+          "verification": "public checksums"
+        },
+        {
+          "locator": "x86_64 Linux SBOM",
+          "path": ".ai/evidence/external/WI-918-x86_64-unknown-linux-gnu.spdx.json",
+          "type": "release",
+          "verification": "public SBOM"
+        },
+        {
+          "locator": "attestation verification",
+          "path": ".ai/evidence/external/WI-918-attestation.json",
+          "type": "attestation",
+          "verification": "verified attestation"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "acceptance.json",
+          "path": ".ai/evidence/external/WI-918-adopter-acceptance.json",
+          "type": "test",
+          "verification": "fresh install and cleanup passed"
+        },
+        {
+          "locator": "acceptance.json",
+          "path": ".ai/evidence/external/WI-918-adopter-upgrade.json",
+          "type": "test",
+          "verification": "v0.2.99 to v0.2.100 upgrade and cleanup passed"
+        },
+        {
+          "locator": "baseline and after observations",
+          "path": ".ai/evidence/external/WI-918-object-repository-boundary.txt",
+          "type": "observation",
+          "verification": "object repositories unchanged"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "human Outcome binding",
+          "path": ".ai/work-items/active/WI-918-release-v0-2-100.outcome.json",
+          "type": "outcome",
+          "verification": "current Chinese conversation outcome binding"
+        },
+        {
+          "locator": "Chinese handoff guidance",
+          "path": "docs/reference/outcome-report.zh-CN.md",
+          "type": "documentation",
+          "verification": "Chinese outcome handoff guidance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "version-consistency.json",
+          "path": ".ai/evidence/external/WI-918-version-consistency.json",
+          "type": "verification",
+          "verification": "current architecture/release identity consistency"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A7",
+      "evidence": [
+        {
+          "locator": "resourceContext",
+          "path": ".ai/work-items/active/WI-918-release-v0-2-100.contract.json",
+          "type": "governance",
+          "verification": "finalize-plan resource binding for PR, branch, worktree and provider"
+        },
+        {
+          "locator": "release-close.json",
+          "path": ".ai/evidence/external/WI-918-release-close.json",
+          "type": "release",
+          "verification": "release close passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-918-release-v0-2-100.preflight-review.6423818174756efb6fde8ea42cc2ee65e15b0bf9e868472974a2778e4b390095.json",
+    ".ai/decisions/WI-918-release-v0-2-100.preflight-review.f9de05ee32a260e8f00153ff36d83fcaff033b097818cb50c13f17274047a82a.json",
+    ".ai/decisions/WI-918-release-v0-2-100.recovery.5adad0f50c7bf20e53aa1bb6f8e288b5a08067482a3fd9fcb7c3221d4c5435bb.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-918-release-v0-2-100.verification-attempt.4587ba24d31f2b9c1738caa000cd215a9af35c56807bac76bf1b254545185e4e.json",
+    ".ai/evidence/WI-918-release-v0-2-100.verification.json",
+    ".ai/evidence/external/WI-918-SHA256SUMS",
+    ".ai/evidence/external/WI-918-adopter-acceptance.json",
+    ".ai/evidence/external/WI-918-adopter-upgrade.json",
+    ".ai/evidence/external/WI-918-provider-release-state.json",
+    ".ai/evidence/external/WI-918-publish-handoff.json",
+    ".ai/evidence/external/WI-918-release-close.json",
+    ".ai/evidence/external/WI-918-release-manifest.json",
+    ".ai/evidence/external/WI-918-version-consistency.json",
+    ".ai/evidence/external/WI-918-x86_64-unknown-linux-gnu.spdx.json",
+    ".ai/work-items/archive/WI-918-release-v0-2-100.contract.json",
+    ".ai/work-items/archive/WI-918-release-v0-2-100.outcome.json",
+    ".ai/work-items/archive/WI-918-release-v0-2-100.summary.json",
+    ".ai/work-items/archive/WI-918-release-v0-2-100.task-report.json",
+    ".ai/work-items/archive/WI-918-release-v0-2-100.task-report.md"
+  ],
+  "checkpointAt": "2026-09-18T22:01:17Z",
+  "checkpointContractDigest": "sha256:3b8f023bfd4f2c3cf08187adaf75c419db530b8c535dbdf3856ba2a112b5d17c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:01:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ded80394d1c43b0cc5963f12232565558d69aa37eb85f040a083bc2043e6987d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4ebb2ffcfd144b31ad0cdbe13d6628bcb79dd184bdfe44f6196973ae0d1f810b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "previousContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "reason": "版本升级同步了当前架构版本与发布分发三语投影；前检要求将这些已修改路径纳入本 WI 的显式范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:08:28Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "previousContractHash": "sha256:4ebb2ffcfd144b31ad0cdbe13d6628bcb79dd184bdfe44f6196973ae0d1f810b",
+      "reason": "高风险发布 Contract 补充两个可执行场景：供应链产物完整性，以及下载产物安装/升级与对象仓库不变；先记录计划，后续以实际 receipt 验证。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:10:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:87c05832dbc5d2ddec58e6d3a7a731ec0c028c10d0adc9c6eac57f3b8ed4f93d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bf448760cb51aed8e38b7a1aeb214409147f896decffb039386fa35582920ed",
+      "previousContractHash": "sha256:e8e4db4f562a4e673bcc30bf7c331fd80ff56ea7fa1118c10bc5ed5ee26a3581",
+      "reason": "PR #885 已成为实际 provider 资源；为补齐发布 Work Item 的资源绑定与精确清理验收，追加一条仅描述该绑定的 Contract 标准。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:49:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-918-release-v0-2-100"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
+  "createdAt": "2026-09-18T21:56:02Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:3b8f023bfd4f2c3cf08187adaf75c419db530b8c535dbdf3856ba2a112b5d17c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "用户已授权所有需要确认的动作；确认仅授权当前 WI 范围内的 v0.2.100 发布证据收集和验收，不替代测试、安装验收或发布成功证据。",
+    "recordedAt": "2026-09-18T23:02:00Z",
+    "recordedBy": "human:owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
+    "schemaVersion": 1,
+    "workItemId": "WI-918-release-v0-2-100"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:3b8f023bfd4f2c3cf08187adaf75c419db530b8c535dbdf3856ba2a112b5d17c",
+    "items": [
+      {
+        "class": "external_evidence",
+        "evidence": [
+          {
+            "digest": "sha256:c275fe674b8e7159c4e3dce96854d493936af1ae711a15bea6c61e7c3fadd17b",
+            "locator": "release-close state passed",
+            "path": ".ai/evidence/external/WI-918-release-close.json",
+            "type": "release",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:c9f5f39b606ef21946973cf3723aad95933ff2d42e88bf4d5b936a73c294662c",
+            "locator": "public release manifest",
+            "path": ".ai/evidence/external/WI-918-release-manifest.json",
+            "type": "release",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:11b2e2c5f139d23a93ebb73337175fdb2a7fe141f07a463b2c3589792f4c1e85",
+            "locator": "public checksum list",
+            "path": ".ai/evidence/external/WI-918-SHA256SUMS",
+            "type": "release",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:6569302849ebf5be3e0106b173fc26990798c7f4ba71226483accdf9c5c46081",
+            "locator": "public x86_64 Linux SBOM",
+            "path": ".ai/evidence/external/WI-918-x86_64-unknown-linux-gnu.spdx.json",
+            "type": "release",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:f6e3341acedde67ac02283a385e54547973750a323668cac35a8da29567771bb",
+            "locator": "fresh install cleanup",
+            "path": ".ai/evidence/external/WI-918-adopter-acceptance.json",
+            "type": "test",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:a64ec10329f81e93c28d62d886ffda1396fe48acaf113beffd13df06adfdadf1",
+            "locator": "v0.2.99 to v0.2.100 upgrade cleanup",
+            "path": ".ai/evidence/external/WI-918-adopter-upgrade.json",
+            "type": "test",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:41690d8b70f9f27a6b47500ad2066c91352335b87f47e9bb6fe3fabb198815b1",
+            "locator": "four object repository before/after states",
+            "path": ".ai/evidence/external/WI-918-object-repository-boundary.txt",
+            "type": "observation",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "delegated:github",
+        "evidence": [
+          {
+            "digest": "sha256:54dc49223dc3f59a99c63bd36dfc5ac09a9e0f70a02e0c9d7d75e3e52ce7855f",
+            "locator": "GitHub publish handoff",
+            "path": ".ai/evidence/external/WI-918-publish-handoff.json",
+            "type": "provider",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:585a8218417c68cf933c6111652467809c388a38c251d0788f7c30b72af4f52c",
+            "locator": "Sigstore attestation",
+            "path": ".ai/evidence/external/WI-918-attestation.json",
+            "type": "attestation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-918-release-v0-2-100.contract.json",
+      ".ai/evidence/external/WI-918-release-close.json"
+    ],
+    "reason": "发布、安装和升级证据已通过；用户可见收益按已接受的性能证据保持未知且不宣称提速；宿主 display confirmation 仍为 unknown/full_handoff_only；本次对话语言为中文，Outcome 使用 zh。",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-18T23:30:07Z",
+  "preflightContractDigest": "sha256:3b8f023bfd4f2c3cf08187adaf75c419db530b8c535dbdf3856ba2a112b5d17c",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:3f537a753f55acc815aa35a889b7c3a1c38f5f1e8b8b962c3742f5bc47c76fe8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-918-release-manifest.json",
+        ".ai/evidence/external/WI-918-SHA256SUMS",
+        ".ai/evidence/external/WI-918-x86_64-unknown-linux-gnu.spdx.json",
+        ".ai/evidence/external/WI-918-attestation.json",
+        ".ai/evidence/external/WI-918-publish-handoff.json",
+        ".ai/evidence/external/WI-918-release-close.json"
+      ],
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".ai/evidence/external/WI-918-adopter-acceptance.json",
+        ".ai/evidence/external/WI-918-adopter-upgrade.json",
+        ".ai/evidence/external/WI-918-object-repository-boundary.txt",
+        ".ai/evidence/external/WI-918-release-close.json"
+      ],
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T23:31:27.612211+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-918-release-v0-2-100"
+}

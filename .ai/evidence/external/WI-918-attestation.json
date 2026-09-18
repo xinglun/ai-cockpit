@@ -1,0 +1,13 @@
+{
+  "verification": "gh attestation verify downloaded x86_64 Linux release asset --repo xinglun/ai-cockpit --format json",
+  "runId": 35403815197,
+  "sourceRepository": "https://github.com/xinglun/ai-cockpit",
+  "sourceCommit": "2fc0455536e1ce15f16a53795a60fa95eeaf0cbf",
+  "workflow": ".github/workflows/release.yml@refs/heads/main",
+  "workflowTrigger": "workflow_dispatch",
+  "verifiedSubject": "ai-cockpit-v0.2.100-x86_64-unknown-linux-gnu.tar.gz",
+  "verifiedSubjectSha256": "44dc3191073deb56f83fabdbba94bf2ecde71d5bd78db60549b09c6cf488aa5f",
+  "verifiedIdentity": "https://github.com/xinglun/ai-cockpit/",
+  "verifiedTimestampSource": "https://rekor.sigstore.dev",
+  "result": "verified"
+}
