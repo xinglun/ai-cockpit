@@ -173,11 +173,12 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
         ),
     ] {
         let repo = checkpointed(binary, id, true);
+        let fallback_language = if language == "en" { "ja" } else { "en" };
         let finish = Command::new(binary)
             .args(["finish", "--repo"])
             .arg(repo.path())
-            .args(["--id", id])
-            .env("AI_COCKPIT_LANGUAGE", language)
+            .args(["--id", id, "--language", language])
+            .env("AI_COCKPIT_LANGUAGE", fallback_language)
             .output()
             .expect("finish");
         assert!(finish.status.success());
@@ -191,7 +192,8 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
             .args(["archive", "--repo"])
             .arg(repo.path())
             .args(["--id", id])
-            .env("AI_COCKPIT_LANGUAGE", language)
+            .args(["--language", language])
+            .env("AI_COCKPIT_LANGUAGE", fallback_language)
             .output()
             .expect("archive");
         assert!(archive.status.success());
@@ -257,8 +259,10 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
                 "2026-08-24T00:00:00Z",
                 "--resume-condition",
                 "none",
+                "--language",
+                language,
             ])
-            .env("AI_COCKPIT_LANGUAGE", language)
+            .env("AI_COCKPIT_LANGUAGE", fallback_language)
             .output()
             .expect("close");
         assert!(

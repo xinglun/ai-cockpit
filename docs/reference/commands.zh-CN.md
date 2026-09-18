@@ -47,7 +47,8 @@ deleted transition，作为有限的历史 reconciliation。该 transition 必�
 所有 repository 命令都接受显式 `--repo <path>`。产生记录或 decision 的命令在 stdout
 保持 JSON。`finish`、`archive`、`close` 默认还会在 stderr 输出本地化的面向人交接；
 其 `--json` 只抑制该 handoff。`work-item outcome` 默认在 stdout 输出本地化的面向人
-交接结果，需要稳定机器接口时使用 `--json`。失败或 unknown 不能算 pass。
+交接结果；适配器应为当前对话语言传入 `--language en|zh|zh-CN|ja`，未传入时使用
+locale fallback。需要稳定机器接口时使用 `--json`。失败或 unknown 不能算 pass。
 
 | 分组 | 命令 | 边界 |
 | --- | --- | --- |
@@ -74,7 +75,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | 工具 | 参数 | 常用调用 |
 | --- | --- | --- |
 | `status`、`work_item_list`、`repository_observe`、`capability_show` | `{}`；`capability_show` 还可选 `surface`、`format` 和 `language` 获取只读接口描述。 | 读取仓库事实或能力注册表。 |
-| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选 `language`（`en`、`zh`、`ja`）。 | `{"workItemId":"WI-123"}` |
+| `work_item_get`、`work_item_outcome`、`work_item_validate` | 必须提供且只能提供一个 `workItemId`（或旧别名 `id`）；`work_item_outcome` 可选当前对话语言 `language`（`en`、`zh`、`zh-CN`、`ja`）。 | `{"workItemId":"WI-123"}` |
 | `work_item_status` | `{"all":true}`，或只提供一个 Work Item id。 | `{"all":true}` |
 | `preflight` | 必填、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
 | `blockers`、`safe_actions` | 可选、相对仓库的 `contract` 路径。 | `{"contract":".ai/work-items/active/WI-123.contract.json"}` |
@@ -202,13 +203,14 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `json` | `boolean` | `no` | `false` | `—` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 
 #### `mcp` · 传输: `json-rpc`
 
 | 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |

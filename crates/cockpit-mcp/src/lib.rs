@@ -1804,13 +1804,7 @@ fn requested_language(arguments: &Value) -> &'static str {
                 .map(|value| value.to_ascii_lowercase())
         })
         .unwrap_or_default();
-    if requested.starts_with("zh") {
-        "zh"
-    } else if requested.starts_with("ja") {
-        "ja"
-    } else {
-        "en"
-    }
+    cockpit_protocol::normalize_work_item_outcome_language(&requested)
 }
 
 fn evidence_get(repo: &Path, arguments: &Value) -> Result<Value, String> {

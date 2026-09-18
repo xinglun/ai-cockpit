@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "A conversation language supplied by the adapter is used for the full Outcome body, archive delivery segments, and assistant message events.",
+    "CLI and MCP expose the same bounded language values and deterministic fallback; explicit conversation language wins over process locale.",
+    "English, Simplified Chinese, and Japanese regression tests prove required human sections remain localized while Contract acceptance text remains unchanged.",
+    "Delivery identity binds the selected language and retries do not regenerate a different-language body.",
+    "Language-only presentation changes do not start verification, archive, or host delivery processes beyond the requested operation."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "d795bd6f31fab536c5034ea0cb63f5063483dbef",
+  "createdAt": "2026-09-18T13:59:12Z",
+  "goal": "Archive delivery and human Outcome rendering use the conversation language for English, Simplified Chinese, and Japanese without translating Contract facts.",
+  "intent": "Make archived Outcome language follow the active conversation language through one explicit, deterministic interface.",
+  "mode": "implementation",
+  "outOfScope": [
+    "host-specific native chat APIs and display confirmation",
+    "performance optimization and object repositories",
+    "release publication",
+    "lifecycle authorization and verification semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1a265f00f827d5306ce1c0d6006b62eb3eae622050367d01a278d44f8ffbea86",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/tests/**",
+    "crates/cockpit-protocol/tests/**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sources": [
+    "User requirement: Outcome language follows the conversation language.",
+    "Existing MCP language parameter and CLI AI_COCKPIT_LANGUAGE fallback."
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-910-outcome-conversation-language"
+}

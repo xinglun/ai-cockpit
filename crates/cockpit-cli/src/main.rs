@@ -170,6 +170,15 @@ enum CommandKind {
         /// Emit machine-only output without the human Outcome handoff on stderr.
         #[arg(long)]
         json: bool,
+        /// Conversation language for the human Outcome; when omitted the
+        /// adapter locale/environment is used.
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
+            )
+        )]
+        language: Option<String>,
     },
     Archive {
         #[arg(long)]
@@ -180,6 +189,14 @@ enum CommandKind {
         /// the separate human handoff on stderr is suppressed.
         #[arg(long)]
         json: bool,
+        /// Conversation language for the archived human Outcome delivery.
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
+            )
+        )]
+        language: Option<String>,
     },
     /// Archive complete schema-v2 evidence produced by an older Runtime.
     /// This explicit compatibility route does not rerun source verification;
@@ -193,6 +210,14 @@ enum CommandKind {
         /// the separate human handoff is suppressed.
         #[arg(long)]
         json: bool,
+        /// Conversation language for the archived human Outcome delivery.
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
+            )
+        )]
+        language: Option<String>,
     },
     Close {
         #[arg(long)]
@@ -218,6 +243,14 @@ enum CommandKind {
         /// Emit machine-only output without the human Outcome handoff on stderr.
         #[arg(long)]
         json: bool,
+        /// Conversation language for the human Outcome.
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
+            )
+        )]
+        language: Option<String>,
     },
     Verify {
         #[arg(long)]
@@ -565,6 +598,16 @@ enum WorkItemCommand {
             default_value = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
         )]
         view: String,
+        /// Conversation language for the human Outcome. Adapters should pass
+        /// the active dialog language explicitly; otherwise locale fallback
+        /// is used.
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
+            )
+        )]
+        language: Option<String>,
     },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
@@ -1080,23 +1123,19 @@ fn format_gate_plan_error(error: GatePlanError) -> String {
     }
 }
 
-/// Select the language used by the human handoff. The agent-facing dialog is
-/// localized by the conversation layer; the CLI falls back to the user's
-/// locale so the same report is useful when invoked directly.
-fn output_language() -> &'static str {
-    let value = std::env::var("AI_COCKPIT_LANGUAGE")
-        .or_else(|_| std::env::var("LC_ALL"))
-        .or_else(|_| std::env::var("LANGUAGE"))
-        .or_else(|_| std::env::var("LANG"))
+/// Select the language used by the human handoff. Adapters should pass the
+/// active conversation language explicitly. The environment fallback keeps
+/// direct CLI use useful while preserving one deterministic protocol mapping.
+fn output_language(explicit: Option<&str>) -> &'static str {
+    let value = explicit
+        .map(str::to_owned)
+        .or_else(|| std::env::var("AI_COCKPIT_LANGUAGE").ok())
+        .or_else(|| std::env::var("LC_ALL").ok())
+        .or_else(|| std::env::var("LANGUAGE").ok())
+        .or_else(|| std::env::var("LANG").ok())
         .unwrap_or_default()
         .to_ascii_lowercase();
-    if value.starts_with("zh") {
-        "zh"
-    } else if value.starts_with("ja") {
-        "ja"
-    } else {
-        "en"
-    }
+    cockpit_protocol::normalize_work_item_outcome_language(&value)
 }
 
 fn record_ordinary_cleanup_command(
@@ -1325,30 +1364,74 @@ fn run() -> Result<()> {
             let receipt = checkpoint_work_item(&repo, &id).context("checkpoint work item")?;
             println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
-        CommandKind::Finish { repo, id, json } => {
+        CommandKind::Finish {
+            repo,
+            id,
+            json,
+            language,
+        } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = match finish_work_item_with_runtime(&repo, &id, &runtime_context) {
                 Ok(receipt) => receipt,
                 Err(error) => {
                     if !json {
-                        emit_blocked_lifecycle_handoff(&repo, &id, &runtime_context);
+                        emit_blocked_lifecycle_handoff(
+                            &repo,
+                            &id,
+                            &runtime_context,
+                            language.as_deref(),
+                        );
                     }
                     return Err(error).context("finish work item");
                 }
             };
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, false)?;
+            print_lifecycle_result(
+                &repo,
+                &id,
+                &receipt,
+                &runtime_context,
+                json,
+                false,
+                language.as_deref(),
+            )?;
         }
-        CommandKind::Archive { repo, id, json } => {
+        CommandKind::Archive {
+            repo,
+            id,
+            json,
+            language,
+        } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive work item")?;
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, true)?;
+            print_lifecycle_result(
+                &repo,
+                &id,
+                &receipt,
+                &runtime_context,
+                json,
+                true,
+                language.as_deref(),
+            )?;
         }
-        CommandKind::ArchiveHistorical { repo, id, json } => {
+        CommandKind::ArchiveHistorical {
+            repo,
+            id,
+            json,
+            language,
+        } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = archive_historical_work_item_with_runtime(&repo, &id, &runtime_context)
                 .context("archive historical Work Item")?;
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, true)?;
+            print_lifecycle_result(
+                &repo,
+                &id,
+                &receipt,
+                &runtime_context,
+                json,
+                true,
+                language.as_deref(),
+            )?;
         }
         CommandKind::Close {
             repo,
@@ -1362,6 +1445,7 @@ fn run() -> Result<()> {
             decided_at,
             resume_condition,
             json,
+            language,
         } => {
             require_compatible(&repo, &runtime_context)?;
             let receipt = if actor.is_some()
@@ -1408,7 +1492,15 @@ fn run() -> Result<()> {
                 )
                 .context("close work item")?
             };
-            print_lifecycle_result(&repo, &id, &receipt, &runtime_context, json, false)?;
+            print_lifecycle_result(
+                &repo,
+                &id,
+                &receipt,
+                &runtime_context,
+                json,
+                false,
+                language.as_deref(),
+            )?;
         }
         CommandKind::Verify {
             repo,
@@ -2268,6 +2360,7 @@ fn run() -> Result<()> {
                 delivery,
                 json,
                 view,
+                language,
             } => {
                 require_compatible(&repo, &runtime_context)?;
                 if delivery {
@@ -2275,7 +2368,7 @@ fn run() -> Result<()> {
                         &repo,
                         &id,
                         &runtime_context,
-                        output_language(),
+                        output_language(language.as_deref()),
                     )
                     .context("prepare archived Outcome delivery")?;
                     let result = deliver_prepared_outcome(&repo, &id, prepared)?;
@@ -2310,7 +2403,7 @@ fn run() -> Result<()> {
                             "{}",
                             cockpit_repository::render_human_outcome_with_view(
                                 &input,
-                                output_language(),
+                                output_language(language.as_deref()),
                                 outcome_repository_view(&view),
                             )
                         );
@@ -2417,7 +2510,7 @@ fn run() -> Result<()> {
                 if json {
                     println!("{}", serde_json::to_string_pretty(&snapshot)?);
                 } else {
-                    let language = output_language();
+                    let language = output_language(None);
                     let (label, phase, governance, activity, unknowns, next) = match language {
                         "zh" => ("状态", "生命周期", "治理", "活动健康", "未知项", "下一步"),
                         "ja" => (
@@ -3202,6 +3295,7 @@ fn print_lifecycle_result(
     runtime: &cockpit_protocol::RuntimeContext,
     json: bool,
     archive_delivery: bool,
+    requested_language: Option<&str>,
 ) -> Result<()> {
     // Archive delivery is assembled from the same validated observation that
     // produces the human body. Avoid reading a persisted Outcome first and
@@ -3209,7 +3303,12 @@ fn print_lifecycle_result(
     let mut output = serde_json::to_value(receipt)?;
     let mut handoff = None;
     if archive_delivery {
-        match prepare_archive_outcome_delivery(repo, work_item_id, runtime, output_language()) {
+        match prepare_archive_outcome_delivery(
+            repo,
+            work_item_id,
+            runtime,
+            output_language(requested_language),
+        ) {
             Ok(delivery) => {
                 let result = deliver_prepared_outcome(repo, work_item_id, delivery)?;
                 if output.get("outcome").is_none() {
@@ -3243,7 +3342,7 @@ fn print_lifecycle_result(
                 output["outcomeDelivery"] = json!({
                     "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
                     "workItemId": work_item_id,
-                    "language": output_language(),
+                    "language": output_language(requested_language),
                     "view": "full",
                     "deliveryState": "preparation_failed",
                     "hostConfirmation": "unknown",
@@ -3271,7 +3370,7 @@ fn print_lifecycle_result(
             .unwrap_or(serde_json::to_value(&input.outcome)?);
         handoff = Some(cockpit_repository::render_full_human_outcome(
             &input,
-            output_language(),
+            output_language(requested_language),
         ));
     } else {
         let input =
@@ -3293,13 +3392,14 @@ fn emit_blocked_lifecycle_handoff(
     repo: &std::path::Path,
     work_item_id: &str,
     runtime: &cockpit_protocol::RuntimeContext,
+    requested_language: Option<&str>,
 ) {
     if let Ok(input) =
         cockpit_repository::outcome_render_input_with_runtime(repo, work_item_id, runtime)
     {
         eprintln!(
             "{}",
-            cockpit_repository::render_human_outcome(&input, output_language())
+            cockpit_repository::render_human_outcome(&input, output_language(requested_language),)
         );
     }
 }
@@ -3513,6 +3613,31 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn outcome_parser_accepts_the_active_conversation_language() {
+        let cli = Cli::try_parse_from([
+            "ai-cockpit",
+            "work-item",
+            "outcome",
+            "--repo",
+            "/tmp/outcome-language-repository",
+            "--id",
+            "WI-LANGUAGE",
+            "--language",
+            "zh-CN",
+        ])
+        .expect("parse outcome language");
+
+        let CommandKind::WorkItem {
+            command: WorkItemCommand::Outcome { language, view, .. },
+        } = cli.command
+        else {
+            panic!("expected work-item outcome command");
+        };
+        assert_eq!(language.as_deref(), Some("zh-CN"));
+        assert_eq!(view, cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW);
     }
 
     #[test]

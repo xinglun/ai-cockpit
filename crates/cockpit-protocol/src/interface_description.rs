@@ -15,7 +15,25 @@ pub const WORK_ITEM_OUTCOME_VIEW_VALUES: &[&str] =
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
 pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
 pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
-pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "ja"];
+/// Conversation languages accepted by the human Outcome projections.
+/// `zh-CN` is kept as a locale-compatible spelling and normalizes to the
+/// canonical Simplified Chinese renderer.
+pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "zh-CN", "ja"];
+
+pub fn normalize_work_item_outcome_language(value: &str) -> &'static str {
+    let normalized = value.trim().to_ascii_lowercase();
+    if normalized.starts_with("zh") {
+        "zh"
+    } else if normalized.starts_with("ja") {
+        "ja"
+    } else {
+        "en"
+    }
+}
+
+pub fn work_item_outcome_language_is_valid(value: &str) -> bool {
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES.contains(&value)
+}
 
 pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
 pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
@@ -131,6 +149,15 @@ static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
         aliases: &[],
         description: "Select the reader-first summary or complete human view.",
+    },
+    InterfaceParameterSpec {
+        name: "language",
+        wire_type: "enum",
+        required: false,
+        default: None,
+        enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+        aliases: &[],
+        description: "Conversation language for the human Outcome; locale fallback is used when omitted.",
     },
 ];
 
@@ -342,6 +369,7 @@ pub fn render_interface_description_markdown(
     description: &InterfaceDescription,
     language: &str,
 ) -> String {
+    let language = normalize_work_item_outcome_language(language);
     let (title, transport_label, parameters_label, type_label) = localized_labels(language);
     let required_label = localized_required(language);
     let default_label = localized_default(language);
