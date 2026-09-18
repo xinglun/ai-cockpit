@@ -9,6 +9,26 @@ from pathlib import Path
 from typing import Callable, Sequence
 
 
+def historical_work_item_count(repo: Path) -> int:
+    """Count regular archived Contract records at every archive depth.
+
+    Repository projections may partition archived Work Items by year or other
+    bounded subdirectories.  A one-level glob silently under-counts those
+    records and can misclassify a many-history benchmark as unavailable.
+    Symlinked records are excluded so the benchmark cannot count a foreign
+    path as repository history.
+    """
+
+    archive = repo / ".ai" / "work-items" / "archive"
+    if not archive.is_dir() or archive.is_symlink():
+        return 0
+    return sum(
+        1
+        for path in archive.rglob("*.contract.json")
+        if path.is_file() and not path.is_symlink()
+    )
+
+
 def filesystem_metadata(
     repo: Path,
     *,

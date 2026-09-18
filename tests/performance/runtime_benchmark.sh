@@ -70,7 +70,7 @@ from runtime_benchmark_scenarios import (
     scenario_matrix_entry,
     unselected_scenario_entry,
 )
-from runtime_benchmark_support import filesystem_metadata
+from runtime_benchmark_support import filesystem_metadata, historical_work_item_count
 
 
 binary = pathlib.Path(sys.argv[1])
@@ -263,14 +263,14 @@ def repository_metadata():
         and (repo / pathlib.Path(path)).stat().st_size >= 1024 * 1024
         for path in changed_paths
     )
-    historical_work_item_count = len(list((repo / ".ai" / "work-items" / "archive").glob("*.contract.json")))
+    historical_count = historical_work_item_count(repo)
     return {
         "head": head_bytes.decode("ascii", "replace").strip() if head_bytes else None,
         "branch": branch_bytes.decode("utf-8", "replace").strip() if branch_bytes else None,
         "dirty": bool(status_bytes),
         "changedPathCount": len(changed_paths),
         "largeChangedFile": large_changed_file,
-        "historicalWorkItemCount": historical_work_item_count,
+        "historicalWorkItemCount": historical_count,
         "trackedFileCount": len(tracked_paths),
         "trackedBytes": total_bytes if size_failures == 0 else None,
         "trackedBytesAvailable": size_failures == 0,

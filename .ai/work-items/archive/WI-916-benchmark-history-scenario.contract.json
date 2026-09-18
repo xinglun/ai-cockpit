@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "嵌套 .ai/work-items/archive 下的 contract 记录被正确计数，Sentinel 多历史场景不再被错误标为不可测。",
+    "场景分类仍 fail-closed；没有达到阈值的仓库仍返回不可测原因。",
+    "采集器不修改对象仓库主分支，100 个有效 warm 样本门槛保持不变。",
+    "Repeated scenario classification is deterministic and preserves the release-grade minimum of 100 valid warm samples.",
+    "Runtime-generated Contract, Summary, observer, and verification evidence remain within the governed Work Item state and are not hand-edited."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "4d9ed792d13411042d1a3e8dc2e50713bcba4d93",
+  "createdAt": "2026-09-18T20:41:59Z",
+  "goal": "多历史 Work Item 场景使用递归归档事实，保持 100 个有效 warm 样本门槛和确定性场景分类。",
+  "intent": "修复性能采集器对嵌套归档 Work Item 的历史规模识别，确保对象仓库场景可被如实测量。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime 生命周期、Outcome 宿主投递、对象仓库主分支、发布和性能算法优化"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5af13b8ff1f384b65818738fe19240f515c19196c4dfb68fbec1ca0519448f44",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance",
+    ".ai/**",
+    "tests/performance/**",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/**",
+    ".ai/work-items/active/**"
+  ],
+  "sources": [
+    "user:continue-four-direction-convergence",
+    "tests/performance/runtime_benchmark_scenarios.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/performance/runtime_benchmark_stats_test.py",
+    "python3 -m pytest -q tests/performance/runtime_benchmark_scenarios_test.py",
+    "AI_COCKPIT_BENCHMARK_SCENARIO=many-historical-wi tests/performance/runtime_benchmark.sh <runtime> <repository> <output.json> 100"
+  ],
+  "workItemId": "WI-916-benchmark-history-scenario"
+}
