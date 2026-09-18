@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:e52d8ffb1d40b6bfcc32c34e2eb0b9001de2e5155d4a75f8412197109ca0b344",
+  "branchRef": "refs/heads/codex/wi-917-interface-language-ssot",
+  "contractDigest": "sha256:dede32cad46cf38e1dc4ffaf7fab0d5ef54b6399eb3c5507f0b54703d25a70a5",
+  "headRevision": "09dc7713c19b971f11f606981209dd2e220a41e0",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T21:40:43Z",
+  "operationId": "sha256:556e153815b346697f008620d2212eca71e5d829750e39e4e4090ca91c336afb",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-917-interface-language-ssot",
+  "worktreeId": "sha256:8aaa50f489b03e8da178f42e9e3bcf6ab4e6ef9ca18e3bb7a2abd195874a7a33"
+}
