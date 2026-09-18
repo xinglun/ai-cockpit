@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T03:50:34Z",
+  "files": {
+    "contractDigest": "sha256:ed82b00a02412ed0b0fe4d9a7941716ec63e6e96d3a73f9c2aa1962cdbcbaddf",
+    "contractPath": ".ai/work-items/archive/WI-898-hci-terminology.contract.json",
+    "eventsDigest": "sha256:c1e2bc7cabf0169397db3c326090a6118072ff2cf0fc1ffa6085d6e71e325024",
+    "eventsPath": ".ai/work-items/archive/WI-898-hci-terminology.events.jsonl",
+    "outcomeDigest": "sha256:e7798c4a1fb9d3ae57f5c2256c01fcfef5c3272e71f2e5445a01a635e7f94ef7",
+    "outcomePath": ".ai/work-items/archive/WI-898-hci-terminology.outcome.json",
+    "summaryDigest": "sha256:0fcb2306a65497dc3943aa413c07826c7102abce85f269de94d6a28e39e7208d",
+    "summaryPath": ".ai/work-items/archive/WI-898-hci-terminology.summary.json",
+    "taskReportDigest": "sha256:9bad0febf8757437a708048b2d7924bce8376e3aeefe57af5d908beca4814312",
+    "taskReportMarkdownDigest": "sha256:026683aa80e73c26e7f8a7084543fdc31f48e2d503681b4a7a866c437ef2d60a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-898-hci-terminology.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-898-hci-terminology.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-898-hci-terminology"
+}

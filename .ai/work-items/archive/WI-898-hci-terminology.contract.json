@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "The English, Simplified Chinese, and Japanese WI-865 projections use HCI rather than CHI for human-computer interaction and retain the existing facts.",
+    "The three prearchive parity rows and successor projection are registered before verification, and all documentation, status, and governance checks pass."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "052405339fe51ffb94adfde05f345e4a1e208137",
+  "createdAt": "2026-09-18T03:39:38Z",
+  "goal": "Make the published three-language acceptance report use HCI consistently without changing immutable lifecycle, performance, Outcome, or release facts.",
+  "intent": "Correct the four-direction convergence report terminology from CHI to HCI (human-computer interaction) in all language projections.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime behavior",
+    "Outcome delivery",
+    "performance measurements",
+    "release metadata",
+    "immutable .ai records"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1475d08ac27b91c9d1bbcc37ef80e9711ab509d3387b729dc82561f3e6829cdb",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-865-four-direction-convergence.md",
+    "docs/work-items/WI-865-four-direction-convergence.zh-CN.md",
+    "docs/work-items/WI-865-four-direction-convergence.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-898-hci-terminology.md",
+    "docs/work-items/WI-898-hci-terminology.zh-CN.md",
+    "docs/work-items/WI-898-hci-terminology.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-865-four-direction-convergence.md",
+    "user-request:HCI terminology correction"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-898-hci-terminology"
+}

@@ -2,7 +2,7 @@
 author: AI Cockpit maintainers
 workItemId: WI-865-four-direction-convergence
 title: "四方向收敛验收"
-description: "性能、Outcome、CHI 与架构收敛的证据化验收报告。"
+description: "性能、Outcome、HCI 与架构收敛的证据化验收报告。"
 audience:
   - adopter
   - contributor
@@ -25,7 +25,7 @@ terminalDecision: .ai/decisions/WI-865-four-direction-convergence.close.json
 
 - **性能（P）：** 发布级统计和 P0 比较器拒绝 99 个有效 warm 样本、接受 100 个，保留原始样本，并把不可取得的计数写成原因。采集器覆盖 Runtime inspect/status/Outcome/验证规划和 diagnose；配对 JSON 在采集后链接。
 - **Outcome（O）：** lifecycle、CLI、MCP、summary 和 full 都消费 Runtime 绑定的观察组装。发布事实是可选的，必须有明确绑定证据；changed paths 仅保留在审计细节。
-- **CHI（C）：** 三语首次 Work Item 路径以 `start --prepare` 开始，区分可评审、可合并、已收尾，并把 provider/release 细节放入详细工作流参考。
+- **HCI（C）：** 三语首次 Work Item 路径以 `start --prepare` 开始，区分可评审、可合并、已收尾，并把 provider/release 细节放入详细工作流参考。
 - **架构（A）：** 观察、生命周期、验证、投影和适配器所有权写入职责图，并由 Outcome/lifecycle 定向测试保护。
 
 ## 当前状态
@@ -36,7 +36,7 @@ terminalDecision: .ai/decisions/WI-865-four-direction-convergence.close.json
 |---|---|---|---|
 | Runtime 与周期成本 | 等待配对采集 | `.ai/evidence/WI-865-four-direction-convergence/` | 待验收 |
 | Outcome 一致性 | lifecycle 与投影测试 | `.ai/evidence/WI-865-four-direction-convergence.verification.json` | 待验收 |
-| CHI/默认路径 | 三语语义和文档门禁 | `tests/docs/getting_started_semantic.sh` | 待验收 |
+| HCI/默认路径 | 三语语义和文档门禁 | `tests/docs/getting_started_semantic.sh` | 待验收 |
 | 架构 | 职责图与纯 renderer 测试 | `docs/reference/architecture-responsibility-map-2026-09.md` | 待验收 |
 
 ## 剩余风险

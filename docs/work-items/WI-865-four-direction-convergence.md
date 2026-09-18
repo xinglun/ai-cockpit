@@ -2,7 +2,7 @@
 author: AI Cockpit maintainers
 workItemId: WI-865-four-direction-convergence
 title: "Four-direction convergence acceptance"
-description: "Evidence-led acceptance report for performance, Outcome, CHI, and architecture convergence."
+description: "Evidence-led acceptance report for performance, Outcome, HCI, and architecture convergence."
 audience:
   - adopter
   - contributor
@@ -33,7 +33,7 @@ separate, explicitly authorized Work Item after reviewed merge.
 - **Outcome (O):** lifecycle, CLI, MCP, summary, and full rendering consume the
   Runtime-bound observation assembly. Release facts are optional and require an
   explicit evidence-bound projection; changed paths remain audit detail.
-- **CHI (C):** the tri-language first-work-item route starts with
+- **HCI (C):** the tri-language first-work-item route starts with
   `start --prepare`, distinguishes reviewable, mergeable, and closed, and keeps
   provider/release detail in the detailed workflow reference.
 - **Architecture (A):** observation, lifecycle, verification, projection, and
@@ -50,7 +50,7 @@ as unknown; no benefit or authorization is inferred from a green check alone.
 |---|---|---|---|
 | Runtime and cycle cost | pending paired capture | `.ai/evidence/WI-865-four-direction-convergence/` | pending |
 | Outcome consistency | lifecycle and projection tests | `.ai/evidence/WI-865-four-direction-convergence.verification.json` | pending |
-| CHI/default path | tri-language semantic and documentation gates | `tests/docs/getting_started_semantic.sh` | pending |
+| HCI/default path | tri-language semantic and documentation gates | `tests/docs/getting_started_semantic.sh` | pending |
 | Architecture | responsibility map plus pure-renderer tests | `docs/reference/architecture-responsibility-map-2026-09.md` | pending |
 
 ## Remaining risks

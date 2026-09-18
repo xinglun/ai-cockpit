@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:8964eab1c0e16a45f988fd7aa811591b2fa35acae2549f406918c882b003b15c",
+  "commands": [
+    {
+      "args": [
+        "-c",
+        "bash tests/docs/documentation_acceptance.sh\nbash tests/docs/parity_status_check.sh \"$PWD\" /tmp/wi898-parity.json\npython3 tests/docs/promote_closed_work_item.py --repo \"$PWD\" --check-all"
+      ],
+      "baseCommit": "052405339fe51ffb94adfde05f345e4a1e208137",
+      "commandDigest": "sha256:05e339376706ae2e22239a9dc7195941f48b2fe80fb258a029f3c151da0312f6",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+  "contractExecutionScopeDigest": "sha256:f310674997815f0150eac68de22aa6b7818f645e04e597e2cb9e70067bb1bc7f",
+  "createdAt": "2026-09-18T03:47:31Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-898-hci-terminology/.ai/work-items/active/WI-898-hci-terminology.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6742f6ff47bc090a75d3303566bb5c4f0a8179d333b8b4018886849a29a6c671",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-898-hci-terminology"
+}
