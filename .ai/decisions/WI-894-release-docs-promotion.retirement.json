@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:9d9b68e811c1847e0e3b7819eb462f8b2b30a9714579c570be26b2b1ec2516e5",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:f873609f69ebc2a7ff5b67a21c28d32b414d1eb230d276c5599a9369bfe8aa67",
+      "path": ".ai/work-items/archive/WI-894-release-docs-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:9652ec57640394f588f1b8d8d0d02dab85e62a02beab78687b5793ae549d0430",
+      "path": ".ai/work-items/archive/WI-894-release-docs-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:9419e1f5d81f9b653d1ed605935d3039a7d33c76a84364f4bd5b7adc22fb9ad8",
+      "path": ".ai/work-items/archive/WI-894-release-docs-promotion.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:2a514be1f7218e55a825f1563009ea10e0bb09199bb56a40eb6f55a8bbb312cc",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "Retire the unused WI-894 scaffold created while correcting the WI-893 Contract; no implementation or verification claim is made, and the corrected successor will be created through the Runtime recovery path.",
+  "recordedAt": "2026-09-18T02:46:02Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:e983aee4bcb3fab207cd8f2d94e870dd7cc79281bf7961d0d45a0e9b62e89091",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-894-release-docs-promotion"
+}

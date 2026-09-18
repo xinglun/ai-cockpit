@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-892 tri-language projection files show terminal Implemented status and exact archive, verification, finalization, and close paths",
+    "The documentation acceptance and closed-Work-Item promotion checks pass without changing release or governance evidence"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "7ecad9033a1066cf9ed2515b2f85b8d17db52eeb",
+  "createdAt": "2026-09-18T02:37:23Z",
+  "goal": "Mark the closed WI-892 English, Chinese, and Japanese Work Item pages and parity rows as Implemented with terminal archive, verification, finalization, and close evidence",
+  "intent": "Promote the closed WI-892 release documentation projection",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime code",
+    " release assets",
+    " lifecycle rules",
+    " object repositories",
+    " and prior Work Item evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-892-release-v0-2-97.* and docs/reference/reference-parity.*"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-892-release-v0-2-97.contract.json",
+    ".ai/evidence/WI-892-release-v0-2-97.verification.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-893-release-docs-promotion"
+}

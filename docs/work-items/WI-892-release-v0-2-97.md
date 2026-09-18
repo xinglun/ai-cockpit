@@ -4,9 +4,13 @@ workItemId: WI-892-release-v0-2-97
 title: Release v0.2.97 after immutable v0.2.96 candidate rejection
 description: Correct the workspace version identity and publish the repaired release candidate.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-892-release-v0-2-97
+terminalArchive: .ai/work-items/archive/WI-892-release-v0-2-97.contract.json
+terminalVerification: .ai/evidence/WI-892-release-v0-2-97.verification.json
+terminalFinalization: .ai/decisions/WI-892-release-v0-2-97.finalize.json
+terminalDecision: .ai/decisions/WI-892-release-v0-2-97.close.json
 ---
 
 # WI-892 — Release v0.2.97 after immutable v0.2.96 candidate rejection

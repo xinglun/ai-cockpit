@@ -1,0 +1,21 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "7ecad9033a1066cf9ed2515b2f85b8d17db52eeb",
+  "createdAt": "2026-09-18T02:44:48Z",
+  "goal": "",
+  "intent": "",
+  "mode": "documentation",
+  "outOfScope": [],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [],
+  "workItemId": "WI-894-release-docs-promotion"
+}

@@ -1,0 +1,19 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-893-release-docs-promotion.contract.json",
+    ".ai/work-items/active/WI-893-release-docs-promotion.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-18T02:37:23Z",
+  "mode": "documentation",
+  "preflightAt": "2026-09-18T02:41:26Z",
+  "preflightContractDigest": "sha256:06a6c0acda8797078a90fc9a01cd4d3a69528420bf5d40443a45eb32321fbc54",
+  "preflightDecisionDigest": "sha256:30196b6f4ee7e0bcedfc2be945c555af0941c4e34eb756773d2a13275ca1fdb7",
+  "preflightRepositorySnapshotDigest": "sha256:f2c60bd7dd8cd6fe6a60a0847eef8fd6878b89fd77a568e7863bcdb81a24f86b",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-18T02:37:25Z",
+  "workItemId": "WI-893-release-docs-promotion"
+}

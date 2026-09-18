@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-892 projection files show terminal Implemented status and exact archive, verification, finalization, and close paths",
+    "WI-895 has terminal tri-language documentation and parity rows, and all documentation acceptance and promotion checks pass without changing release or governance evidence",
+    "The corrected successor preserves WI-893 immutable retirement and recovery linkage"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "7ecad9033a1066cf9ed2515b2f85b8d17db52eeb",
+  "createdAt": "2026-09-18T02:47:16Z",
+  "goal": "Publish terminal English, Simplified Chinese, and Japanese documentation for WI-892 and register this promotion Work Item's own terminal projection",
+  "intent": "Promote the closed WI-892 release documentation projection without changing release or governance facts",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime code",
+    "release assets",
+    "lifecycle rules",
+    "object repositories",
+    "prior Work Item evidence"
+  ],
+  "predecessorContractDigest": "sha256:06a6c0acda8797078a90fc9a01cd4d3a69528420bf5d40443a45eb32321fbc54",
+  "predecessorWorkItemId": "WI-893-release-docs-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-893-release-docs-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-892-release-v0-2-97.md",
+    "docs/work-items/WI-892-release-v0-2-97.zh-CN.md",
+    "docs/work-items/WI-892-release-v0-2-97.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-895-release-docs-promotion.md",
+    "docs/work-items/WI-895-release-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-895-release-docs-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-895-release-docs-promotion"
+}
