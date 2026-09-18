@@ -212,7 +212,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 ### インターフェース事実: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `0.2.95`
+- Runtime: `0.2.97`
 - パラメータ名、型、必須性、既定値、列挙値は構造化された事実であり、この説明は権限を与えません。
 
 #### `cli` · トランスポート: `argv`
