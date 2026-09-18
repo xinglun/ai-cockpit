@@ -107,7 +107,7 @@ shape, not permission or lifecycle readiness.
 | Parameters | Type | Required | Default | Enum | Aliases |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |

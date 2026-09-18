@@ -56,13 +56,10 @@ fn one_of_aliases(names: &[&str]) -> Value {
     )
 }
 
-/// Project the protocol-owned outcome parameter facts into MCP JSON Schema.
-/// Keeping this projection here (rather than repeating defaults and enums in
-/// the adapter) lets capability discovery and the MCP tool list change
-/// together when the protocol definition changes.
-fn outcome_parameter_schema(name: &str) -> Value {
-    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
-        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
+/// Project a protocol-owned parameter fact into MCP JSON Schema.  Both the
+/// Outcome tool and `capability_show` use this one adapter projection, so
+/// defaults, enums, and descriptions cannot drift between their schemas.
+fn parameter_schema(spec: &cockpit_protocol::InterfaceParameterSpec) -> Value {
     let wire_type = match spec.wire_type {
         "enum" => "string",
         other => other,
@@ -84,32 +81,30 @@ fn outcome_parameter_schema(name: &str) -> Value {
     schema
 }
 
+fn outcome_parameter_schema(name: &str) -> Value {
+    let spec = cockpit_protocol::work_item_outcome_parameter_spec("mcp", name)
+        .unwrap_or_else(|| panic!("unknown work-item outcome MCP parameter {name}"));
+    parameter_schema(spec)
+}
+
+fn capability_parameter_schema(name: &str) -> Value {
+    let spec = cockpit_protocol::capability_show_parameter_spec(name)
+        .unwrap_or_else(|| panic!("unknown capability_show MCP parameter {name}"));
+    parameter_schema(spec)
+}
+
 fn mcp_tool_schema(name: &str) -> Value {
     let id_properties = json!({
-        "workItemId": string_property("Canonical Work Item identifier."),
-        "id": string_property("Deprecated alias for workItemId."),
+        "workItemId": string_property(cockpit_protocol::WORK_ITEM_IDENTIFIER_DESCRIPTION),
+        "id": string_property(cockpit_protocol::WORK_ITEM_IDENTIFIER_ALIAS_DESCRIPTION),
     });
     match name {
         "status" | "work_item_list" | "repository_observe" => object_schema(json!({}), &[]),
         "capability_show" => object_schema(
             json!({
-                "surface": {
-                    "type": "string",
-                    "enum": [cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE],
-                    "description": "Optional read-only interface description surface.",
-                },
-                "format": {
-                    "type": "string",
-                    "enum": ["json", "markdown"],
-                    "default": "json",
-                    "description": "Description encoding; JSON is language-neutral.",
-                },
-                "language": {
-                    "type": "string",
-                    "enum": ["en", "zh", "zh-CN", "ja"],
-                    "default": "en",
-                    "description": "Markdown labels only; structured facts remain unchanged.",
-                },
+                "surface": capability_parameter_schema("surface"),
+                "format": capability_parameter_schema("format"),
+                "language": capability_parameter_schema("language"),
             }),
             &[],
         ),
@@ -120,7 +115,7 @@ fn mcp_tool_schema(name: &str) -> Value {
         }
         "work_item_start" => object_schema(
             json!({
-                "workItemId": string_property("Canonical Work Item identifier."),
+                "workItemId": string_property(cockpit_protocol::WORK_ITEM_IDENTIFIER_DESCRIPTION),
                 "intent": string_property("Human-supplied reason for the Work Item; do not infer missing intent."),
                 "goal": string_property("Human-supplied bounded outcome."),
                 "scope": {
@@ -296,8 +291,8 @@ fn parallel_tool_schema() -> Value {
             "default": "inspect",
             "description": "Slot action.",
         },
-        "workItemId": string_property("Canonical Work Item identifier."),
-        "id": string_property("Deprecated alias for workItemId."),
+        "workItemId": string_property(cockpit_protocol::WORK_ITEM_IDENTIFIER_DESCRIPTION),
+        "id": string_property(cockpit_protocol::WORK_ITEM_IDENTIFIER_ALIAS_DESCRIPTION),
         "leaseId": string_property("Lease identifier required by release."),
     });
     let item_id = json!({
@@ -637,7 +632,11 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 let surface = surface.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: surface must be a string".to_owned()
                 })?;
-                if surface != cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE {
+                if !cockpit_protocol::capability_show_parameter_spec("surface")
+                    .expect("capability_show surface spec")
+                    .enum_values
+                    .contains(&surface)
+                {
                     return Err(format!(
                         "invalid arguments for capability_show: unsupported surface {surface}"
                     ));
@@ -647,22 +646,22 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 let format = format.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: format must be a string".to_owned()
                 })?;
-                if !matches!(format, "json" | "markdown") {
-                    return Err(
-                        "invalid arguments for capability_show: format must be json or markdown"
-                            .into(),
-                    );
+                if !cockpit_protocol::capability_show_format_is_valid(format) {
+                    return Err(format!(
+                        "invalid arguments for capability_show: format must be one of {}",
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_VALUES.join(", ")
+                    ));
                 }
             }
             if let Some(language) = object.get("language") {
                 let language = language.as_str().ok_or_else(|| {
                     "invalid arguments for capability_show: language must be a string".to_owned()
                 })?;
-                if !matches!(language, "en" | "zh" | "ja" | "zh-CN") {
-                    return Err(
-                        "invalid arguments for capability_show: language must be en, zh, zh-CN, or ja"
-                            .into(),
-                    );
+                if !cockpit_protocol::capability_show_language_is_valid(language) {
+                    return Err(format!(
+                        "invalid arguments for capability_show: language must be one of {}",
+                        cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES.join(", ")
+                    ));
                 }
             }
         }
@@ -854,22 +853,24 @@ pub fn handle_request_for_repo(
                 match arguments
                     .get("format")
                     .and_then(Value::as_str)
-                    .unwrap_or("json")
+                    .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_FORMAT)
                 {
-                    "json" => serde_json::to_value(description).map_err(|error| error.to_string()),
-                    "markdown" => Ok(json!({
+                    cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
+                        serde_json::to_value(description).map_err(|error| error.to_string())
+                    }
+                    cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => Ok(json!({
                         "surface": cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE,
-                        "format": "markdown",
+                        "format": cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN,
                         "language": arguments
                             .get("language")
                             .and_then(Value::as_str)
-                            .unwrap_or("en"),
+                            .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE),
                         "body": cockpit_protocol::render_interface_description_markdown(
                             &description,
                             arguments
                                 .get("language")
                                 .and_then(Value::as_str)
-                                .unwrap_or("en"),
+                                .unwrap_or(cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE),
                         ),
                     })),
                     _ => unreachable!("capability_show format is validated before dispatch"),
@@ -1775,13 +1776,7 @@ fn requested_language(arguments: &Value) -> &'static str {
                 .map(|value| value.to_ascii_lowercase())
         })
         .unwrap_or_default();
-    if requested.starts_with("zh") {
-        "zh"
-    } else if requested.starts_with("ja") {
-        "ja"
-    } else {
-        "en"
-    }
+    cockpit_protocol::normalize_work_item_outcome_language(&requested)
 }
 
 fn evidence_get(repo: &Path, arguments: &Value) -> Result<Value, String> {

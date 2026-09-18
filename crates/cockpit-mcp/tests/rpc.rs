@@ -157,6 +157,10 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "string"
     );
     assert_eq!(
+        outcome["inputSchema"]["properties"]["language"]["enum"],
+        serde_json::json!(cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES)
+    );
+    assert_eq!(
         outcome["inputSchema"]["properties"]["view"]["enum"],
         serde_json::json!(["summary", "full"])
     );
@@ -198,6 +202,29 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         verify["inputSchema"]["properties"]["timeoutSeconds"]["maximum"],
         900
     );
+    let capability = listed
+        .iter()
+        .find(|tool| tool["name"] == "capability_show")
+        .expect("capability_show tool");
+    let capability_specs = cockpit_protocol::capability_show_interface_specs();
+    for spec in capability_specs {
+        let schema = &capability["inputSchema"]["properties"][spec.name];
+        assert_eq!(schema["type"], "string", "parameter={}", spec.name);
+        assert_eq!(
+            schema["enum"],
+            serde_json::json!(spec.enum_values),
+            "parameter={}",
+            spec.name
+        );
+        if let Some(default) = spec.default {
+            assert_eq!(schema["default"], default, "parameter={}", spec.name);
+        }
+        assert_eq!(
+            schema["description"], spec.description,
+            "parameter={}",
+            spec.name
+        );
+    }
     assert_eq!(
         verify["inputSchema"]["properties"]["command"]["type"],
         "string"

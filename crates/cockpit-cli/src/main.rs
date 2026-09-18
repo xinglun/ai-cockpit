@@ -759,18 +759,30 @@ enum CapabilityCommand {
         #[arg(long)]
         surface: Option<String>,
         /// Description encoding; the existing no-surface registry remains JSON.
-        #[arg(long, value_enum, default_value = "json")]
-        format: CapabilityFormat,
+        #[arg(
+            long,
+            value_parser = parse_capability_format,
+            default_value = cockpit_protocol::CAPABILITY_SHOW_DEFAULT_FORMAT
+        )]
+        format: String,
         /// Language for Markdown labels; structured JSON is language-neutral.
-        #[arg(long, default_value = "en")]
+        #[arg(
+            long,
+            default_value = cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE
+        )]
         language: String,
     },
 }
 
-#[derive(Clone, Debug, clap::ValueEnum)]
-enum CapabilityFormat {
-    Json,
-    Markdown,
+fn parse_capability_format(value: &str) -> Result<String, String> {
+    if cockpit_protocol::capability_show_format_is_valid(value) {
+        Ok(value.to_owned())
+    } else {
+        Err(format!(
+            "format must be one of {}",
+            cockpit_protocol::CAPABILITY_SHOW_FORMAT_VALUES.join(", ")
+        ))
+    }
 }
 
 #[derive(Debug, Subcommand)]
@@ -2613,12 +2625,18 @@ fn run() -> Result<()> {
                             cockpit_protocol::WORK_ITEM_OUTCOME_SURFACE
                         );
                     }
+                    if !cockpit_protocol::capability_show_language_is_valid(&language) {
+                        anyhow::bail!(
+                            "language must be one of {}",
+                            cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES.join(", ")
+                        );
+                    }
                     let description = cockpit_protocol::work_item_outcome_interface_description();
-                    match format {
-                        CapabilityFormat::Json => {
+                    match format.as_str() {
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
                             println!("{}", serde_json::to_string_pretty(&description)?);
                         }
-                        CapabilityFormat::Markdown => {
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => {
                             print!(
                                 "{}",
                                 cockpit_protocol::render_interface_description_markdown(
@@ -2627,6 +2645,7 @@ fn run() -> Result<()> {
                                 )
                             );
                         }
+                        _ => unreachable!("capability format is validated by clap"),
                     }
                 } else {
                     require_compatible(&repo, &runtime_context)?;
@@ -3390,8 +3409,8 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{
-        CapabilityCommand, CapabilityFormat, Cli, CommandKind, WorkItemCommand,
-        concurrent_phase_elapsed, record_ordinary_cleanup_command,
+        CapabilityCommand, Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
+        record_ordinary_cleanup_command,
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
@@ -3452,7 +3471,7 @@ mod tests {
                 CapabilityCommand::Show {
                     repo,
                     surface,
-                    format: CapabilityFormat::Markdown,
+                    format,
                     language,
                 },
         } = cli.command
@@ -3464,6 +3483,7 @@ mod tests {
             std::path::PathBuf::from("/tmp/interface-description-repository")
         );
         assert_eq!(surface.as_deref(), Some("work-item-outcome"));
+        assert_eq!(format, "markdown");
         assert_eq!(language, "zh-CN");
     }
 

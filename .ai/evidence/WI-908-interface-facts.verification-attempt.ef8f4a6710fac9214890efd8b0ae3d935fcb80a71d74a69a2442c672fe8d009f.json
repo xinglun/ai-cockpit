@@ -1,0 +1,48 @@
+{
+  "attemptId": "sha256:ef8f4a6710fac9214890efd8b0ae3d935fcb80a71d74a69a2442c672fe8d009f",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "-p",
+        "cockpit-mcp",
+        "-p",
+        "cockpit-cli"
+      ],
+      "baseCommit": "b5c4d865fb232c23237e9dc225b562053a41851a",
+      "commandDigest": "sha256:8bfe80ad1abc69959ae7ab98d5cb4effdc608117f07c29ccb2e09069c3ef7b13",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7b65bf5e35569f9f39c6882f69163a565b8361819dea4f8255005e676752a2c5",
+  "contractExecutionScopeDigest": "sha256:80a8958bf9c91a913690e705fb466b3f7204f2dea6334a95bd21cf0628fd682c",
+  "createdAt": "2026-09-18T12:24:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-908-interface-facts/ai-cockpit/.ai/work-items/active/WI-908-interface-facts.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a73cc4bd46cf5bb42eadb59ec9d949c2a757577aa631235d45f8f0b12a289398",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-908-interface-facts"
+}

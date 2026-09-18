@@ -15,7 +15,51 @@ pub const WORK_ITEM_OUTCOME_VIEW_VALUES: &[&str] =
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
 pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
 pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
-pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "ja"];
+/// Advertised language values for human-facing interface descriptions and
+/// Outcome handoffs. `zh-CN` remains an explicit compatibility alias; the
+/// renderer normalizes it to the canonical `zh` presentation language.
+pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "zh-CN", "ja"];
+
+pub const WORK_ITEM_IDENTIFIER_DESCRIPTION: &str = "Canonical Work Item identifier.";
+pub const WORK_ITEM_IDENTIFIER_ALIAS_DESCRIPTION: &str = "Deprecated alias for workItemId.";
+
+pub const CAPABILITY_SHOW_SURFACE: &str = WORK_ITEM_OUTCOME_SURFACE;
+pub const CAPABILITY_SHOW_FORMAT_JSON: &str = "json";
+pub const CAPABILITY_SHOW_FORMAT_MARKDOWN: &str = "markdown";
+pub const CAPABILITY_SHOW_FORMAT_VALUES: &[&str] =
+    &[CAPABILITY_SHOW_FORMAT_JSON, CAPABILITY_SHOW_FORMAT_MARKDOWN];
+pub const CAPABILITY_SHOW_DEFAULT_FORMAT: &str = CAPABILITY_SHOW_FORMAT_JSON;
+pub const CAPABILITY_SHOW_DEFAULT_LANGUAGE: &str = "en";
+pub const CAPABILITY_SHOW_LANGUAGE_VALUES: &[&str] = WORK_ITEM_OUTCOME_LANGUAGE_VALUES;
+pub const CAPABILITY_SHOW_SURFACE_DESCRIPTION: &str =
+    "Optional read-only interface description surface.";
+pub const CAPABILITY_SHOW_FORMAT_DESCRIPTION: &str =
+    "Description encoding; JSON is language-neutral.";
+pub const CAPABILITY_SHOW_LANGUAGE_DESCRIPTION: &str =
+    "Markdown labels only; structured facts remain unchanged.";
+
+pub fn normalize_work_item_outcome_language(value: &str) -> &'static str {
+    let normalized = value.trim().to_ascii_lowercase();
+    if normalized.starts_with("zh") {
+        "zh"
+    } else if normalized.starts_with("ja") {
+        "ja"
+    } else {
+        "en"
+    }
+}
+
+pub fn work_item_outcome_language_is_valid(value: &str) -> bool {
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES.contains(&value)
+}
+
+pub fn capability_show_format_is_valid(value: &str) -> bool {
+    CAPABILITY_SHOW_FORMAT_VALUES.contains(&value)
+}
+
+pub fn capability_show_language_is_valid(value: &str) -> bool {
+    CAPABILITY_SHOW_LANGUAGE_VALUES.contains(&value)
+}
 
 pub fn work_item_outcome_view_is_valid(value: &str) -> bool {
     WORK_ITEM_OUTCOME_VIEW_VALUES.contains(&value)
@@ -80,7 +124,7 @@ static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         default: None,
         enum_values: &[],
         aliases: &[],
-        description: "Canonical Work Item identifier.",
+        description: WORK_ITEM_IDENTIFIER_DESCRIPTION,
     },
     InterfaceParameterSpec {
         name: "delivery",
@@ -119,7 +163,7 @@ static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         default: None,
         enum_values: &[],
         aliases: &["id"],
-        description: "Canonical Work Item identifier; `id` is a deprecated alias.",
+        description: WORK_ITEM_IDENTIFIER_DESCRIPTION,
     },
     InterfaceParameterSpec {
         name: "language",
@@ -128,7 +172,7 @@ static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
         default: None,
         enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
         aliases: &[],
-        description: "Presentation language; localization does not change facts.",
+        description: "Presentation language; advertised values are en, zh, zh-CN, and ja; localization does not change facts.",
     },
     InterfaceParameterSpec {
         name: "view",
@@ -159,6 +203,36 @@ static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
     },
 ];
 
+static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
+    InterfaceParameterSpec {
+        name: "surface",
+        wire_type: "enum",
+        required: false,
+        default: None,
+        enum_values: &[CAPABILITY_SHOW_SURFACE],
+        aliases: &[],
+        description: CAPABILITY_SHOW_SURFACE_DESCRIPTION,
+    },
+    InterfaceParameterSpec {
+        name: "format",
+        wire_type: "enum",
+        required: false,
+        default: Some(CAPABILITY_SHOW_DEFAULT_FORMAT),
+        enum_values: CAPABILITY_SHOW_FORMAT_VALUES,
+        aliases: &[],
+        description: CAPABILITY_SHOW_FORMAT_DESCRIPTION,
+    },
+    InterfaceParameterSpec {
+        name: "language",
+        wire_type: "enum",
+        required: false,
+        default: Some(CAPABILITY_SHOW_DEFAULT_LANGUAGE),
+        enum_values: CAPABILITY_SHOW_LANGUAGE_VALUES,
+        aliases: &[],
+        description: CAPABILITY_SHOW_LANGUAGE_DESCRIPTION,
+    },
+];
+
 /// Return the protocol-owned parameter table for a discoverable surface.
 pub fn work_item_outcome_interface_specs(
     surface: &str,
@@ -176,6 +250,16 @@ pub fn work_item_outcome_parameter_spec(
     name: &str,
 ) -> Option<&'static InterfaceParameterSpec> {
     work_item_outcome_interface_specs(surface)?
+        .iter()
+        .find(|spec| spec.name == name)
+}
+
+pub fn capability_show_interface_specs() -> &'static [InterfaceParameterSpec] {
+    CAPABILITY_SHOW_PARAMETERS
+}
+
+pub fn capability_show_parameter_spec(name: &str) -> Option<&'static InterfaceParameterSpec> {
+    CAPABILITY_SHOW_PARAMETERS
         .iter()
         .find(|spec| spec.name == name)
 }
@@ -221,7 +305,7 @@ pub fn work_item_outcome_interface_description() -> InterfaceDescription {
 
 fn localized_labels(language: &str) -> (&'static str, &'static str, &'static str, &'static str) {
     match language {
-        "zh" | "zh-CN" => ("接口事实", "传输", "参数", "类型"),
+        "zh" => ("接口事实", "传输", "参数", "类型"),
         "ja" => ("インターフェース事実", "トランスポート", "パラメータ", "型"),
         _ => ("Interface facts", "Transport", "Parameters", "Type"),
     }
@@ -229,7 +313,7 @@ fn localized_labels(language: &str) -> (&'static str, &'static str, &'static str
 
 fn localized_required(language: &str) -> &'static str {
     match language {
-        "zh" | "zh-CN" => "必填",
+        "zh" => "必填",
         "ja" => "必須",
         _ => "Required",
     }
@@ -237,7 +321,7 @@ fn localized_required(language: &str) -> &'static str {
 
 fn localized_default(language: &str) -> &'static str {
     match language {
-        "zh" | "zh-CN" => "默认",
+        "zh" => "默认",
         "ja" => "既定値",
         _ => "Default",
     }
@@ -245,7 +329,7 @@ fn localized_default(language: &str) -> &'static str {
 
 fn localized_enum(language: &str) -> &'static str {
     match language {
-        "zh" | "zh-CN" => "枚举",
+        "zh" => "枚举",
         "ja" => "列挙",
         _ => "Enum",
     }
@@ -253,7 +337,7 @@ fn localized_enum(language: &str) -> &'static str {
 
 fn localized_aliases(language: &str) -> &'static str {
     match language {
-        "zh" | "zh-CN" => "别名",
+        "zh" => "别名",
         "ja" => "別名",
         _ => "Aliases",
     }
@@ -276,6 +360,7 @@ pub fn render_interface_description_markdown(
     description: &InterfaceDescription,
     language: &str,
 ) -> String {
+    let language = normalize_work_item_outcome_language(language);
     let (title, transport_label, parameters_label, type_label) = localized_labels(language);
     let required_label = localized_required(language);
     let default_label = localized_default(language);

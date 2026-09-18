@@ -1,6 +1,9 @@
 use cockpit_protocol::{
+    CAPABILITY_SHOW_DEFAULT_FORMAT, CAPABILITY_SHOW_LANGUAGE_VALUES,
     WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
     WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
+    capability_show_format_is_valid, capability_show_interface_specs,
+    capability_show_language_is_valid, normalize_work_item_outcome_language,
     render_interface_description_markdown, work_item_outcome_interface_description,
     work_item_outcome_interface_specs,
 };
@@ -132,6 +135,30 @@ fn shared_view_definition_rejects_unknown_values() {
     assert!(!cockpit_protocol::work_item_outcome_view_is_valid(
         "compact"
     ));
+}
+
+#[test]
+fn capability_schema_facts_have_one_protocol_owner() {
+    let specs = capability_show_interface_specs();
+    let format = specs
+        .iter()
+        .find(|spec| spec.name == "format")
+        .expect("format");
+    assert_eq!(format.default, Some(CAPABILITY_SHOW_DEFAULT_FORMAT));
+    assert_eq!(format.enum_values, ["json", "markdown"]);
+    assert!(capability_show_format_is_valid("json"));
+    assert!(capability_show_format_is_valid("markdown"));
+    assert!(!capability_show_format_is_valid("yaml"));
+
+    assert_eq!(
+        CAPABILITY_SHOW_LANGUAGE_VALUES,
+        WORK_ITEM_OUTCOME_LANGUAGE_VALUES
+    );
+    for language in CAPABILITY_SHOW_LANGUAGE_VALUES {
+        assert!(capability_show_language_is_valid(language));
+    }
+    assert!(!capability_show_language_is_valid("fr"));
+    assert_eq!(normalize_work_item_outcome_language("zh-CN"), "zh");
 }
 
 #[test]

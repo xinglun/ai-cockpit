@@ -229,7 +229,7 @@ Agent は次の順序で capability を発見します。repository-bound の st
 | パラメータ | 型 | 必須 | 既定値 | 列挙 | 別名 |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |

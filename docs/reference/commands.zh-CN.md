@@ -208,7 +208,7 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 | 参数 | 类型 | 必填 | 默认 | 枚举 | 别名 |
 | --- | --- | --- | --- | --- | --- |
 | `workItemId` | `string` | `yes` | `—` | `—` | `id` |
-| `language` | `enum` | `no` | `—` | `en | zh | ja` | `—` |
+| `language` | `enum` | `no` | `—` | `en | zh | zh-CN | ja` | `—` |
 | `view` | `enum` | `no` | `summary` | `summary | full` | `—` |
 | `delivery` | `boolean` | `no` | `false` | `—` | `—` |
 | `deliveryProgress` | `object` | `no` | `—` | `—` | `—` |
