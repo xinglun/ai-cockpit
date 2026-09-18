@@ -545,14 +545,26 @@ enum WorkItemCommand {
         /// Deliver the immutable archived full Outcome through the configured
         /// host adapter. Without a host command this is an explicit
         /// full-handoff-only result and never a display claim.
-        #[arg(long)]
+        #[arg(
+            long,
+            default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY
+        )]
         delivery: bool,
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
-        #[arg(long)]
+        #[arg(
+            long,
+            default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_JSON
+        )]
         json: bool,
         /// Select the human handoff projection. The default is the reader-first summary.
-        #[arg(long, value_enum, default_value = "summary")]
-        view: OutcomeViewArg,
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.iter().copied()
+            ),
+            default_value = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
+        )]
+        view: String,
     },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
@@ -791,18 +803,11 @@ enum MigrateCommand {
     },
 }
 
-#[derive(Clone, Debug, clap::ValueEnum)]
-enum OutcomeViewArg {
-    Summary,
-    Full,
-}
-
-impl OutcomeViewArg {
-    fn repository_view(&self) -> cockpit_repository::OutcomeRenderView {
-        match self {
-            Self::Summary => cockpit_repository::OutcomeRenderView::Summary,
-            Self::Full => cockpit_repository::OutcomeRenderView::Full,
-        }
+fn outcome_repository_view(value: &str) -> cockpit_repository::OutcomeRenderView {
+    if value == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL {
+        cockpit_repository::OutcomeRenderView::Full
+    } else {
+        cockpit_repository::OutcomeRenderView::Summary
     }
 }
 
@@ -2306,7 +2311,7 @@ fn run() -> Result<()> {
                             cockpit_repository::render_human_outcome_with_view(
                                 &input,
                                 output_language(),
-                                view.repository_view(),
+                                outcome_repository_view(&view),
                             )
                         );
                     }

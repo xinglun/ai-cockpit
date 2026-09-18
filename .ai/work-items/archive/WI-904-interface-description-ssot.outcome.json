@@ -1,0 +1,257 @@
+{
+  "acceptanceResults": [
+    "Changing a protocol-owned work-item-outcome fact changes CLI capability output, MCP schema/validation, and generated reference facts together without hand-editing multiple facts.",
+    "CLI parsing and MCP validation continue to accept the same supported values and reject unknown values.",
+    "Generated English, Simplified Chinese, and Japanese interface regions remain deterministic and preserve manual explanatory text.",
+    "Description-only discovery performs no repository observation, verification, or child validation process.",
+    "The tri-language Work Item projection and reference-parity rows are present before terminal archive and preserve the same contract/evidence identity.",
+    "The protocol re-export surface exposes the same interface facts used by both adapters and generated references."
+  ],
+  "createdAt": "2026-09-18T09:20:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e22081d9e1bca7dc70111b44fc9acbdb944b98f4f101989f26b4b58414997c0a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2dd1671e402c4ffd38b7a8e007d3d60089c846c56a326ca1e89e3d983dbb0a4e",
+      "workItemId": "WI-904-interface-description-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-904-interface-description-ssot.verification-attempt.b2d6bc3b10d647f104b3531016484628a85faa0f1ff74a6adb61889e35e85ab5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-904-interface-description-ssot.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-904-interface-description-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-904-interface-description-ssot.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-904-interface-description-ssot.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-904-interface-description-ssot.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-904-interface-description-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "The work-item-outcome interface description, CLI parser, MCP schema/validator, and generated reference regions share one maintained fact source with deterministic parity tests."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-904-interface-description-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-904-interface-description-ssot"
+  },
+  "taskReportDigest": "sha256:68c23108a73ab34db2cdec83db61782b867c4950aebf5af38496170543e67407",
+  "taskReportMarkdownDigest": "sha256:1afc1c35190a60bca4bebba85d109dc29ac925a70ea99e2acac690867fb8c05f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-904-interface-description-ssot.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-904-interface-description-ssot"
+}

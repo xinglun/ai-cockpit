@@ -161,8 +161,20 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         serde_json::json!(["summary", "full"])
     );
     assert_eq!(
+        outcome["inputSchema"]["properties"]["view"]["default"],
+        cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
+    );
+    assert_eq!(
         outcome["inputSchema"]["properties"]["delivery"]["type"],
         "boolean"
+    );
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["delivery"]["default"],
+        cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY
+    );
+    assert_eq!(
+        outcome["inputSchema"]["properties"]["deliveryProgress"]["type"],
+        "object"
     );
     assert!(outcome["inputSchema"]["oneOf"].is_array());
     let verify = listed
@@ -199,6 +211,30 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "array"
     );
     assert!(start["inputSchema"]["required"].as_array().is_some());
+}
+
+#[test]
+fn mcp_outcome_accepts_identity_bound_delivery_progress_field() {
+    let directory = TestTempDir::new("cockpit-mcp-delivery-progress");
+    let response = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0","id":7,"method":"tools/call",
+            "params":{"name":"work_item_outcome","arguments":{
+                "workItemId":"WI-MCP-DELIVERY-PROGRESS",
+                "delivery":true,
+                "deliveryProgress":{}
+            }}
+        }),
+        directory.path(),
+        &test_runtime_context(),
+    );
+    let message = response["result"]["content"][0]["text"]
+        .as_str()
+        .unwrap_or_default();
+    assert!(
+        !message.contains("unknown field deliveryProgress"),
+        "deliveryProgress was rejected before the outcome service: {response:#}"
+    );
 }
 
 #[test]
