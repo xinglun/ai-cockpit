@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T02:47:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-893-release-docs-promotion.contract.json",
+    ".ai/work-items/active/WI-893-release-docs-promotion.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:06a6c0acda8797078a90fc9a01cd4d3a69528420bf5d40443a45eb32321fbc54",
+  "predecessorSummaryDigest": "sha256:144e56eed250f411abeb75074dfd05d18ed88c847c8d624fddf039a806030581",
+  "predecessorWorkItemId": "WI-893-release-docs-promotion",
+  "reason": "Continue the same documentation-only promotion with a corrected successor Contract after WI-893 was blocked by an invalid wildcard scope and missing self-projection registration.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use WI-895 with an exact documentation scope, complete its own terminal projection, and rerun the promotion and documentation gates.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-895-release-docs-promotion",
+  "workItemId": "WI-893-release-docs-promotion"
+}

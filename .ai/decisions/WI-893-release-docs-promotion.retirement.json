@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:3ef9ff27cf29766c4b566f3cbc740b896d365cf688808195cc374c63d99b8b3e",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:54dc9f5684285ab80a627efeac85b895086001c9656f204ae9167c18ee1ef780",
+      "path": ".ai/work-items/archive/WI-893-release-docs-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:a38faf8b50814745a4a690202eca69462ab4addd4ef0c8d35266eda63a30e67a",
+      "path": ".ai/work-items/archive/WI-893-release-docs-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:3e289f004580ce7ecb626518888641035e5bbaabe5908c4628b3a9c100b3b27d",
+      "path": ".ai/work-items/archive/WI-893-release-docs-promotion.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:06a6c0acda8797078a90fc9a01cd4d3a69528420bf5d40443a45eb32321fbc54",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Replace WI-893 because its initial Contract used an invalid wildcard scope and omitted the required self-projection pages; preserve its immutable active Contract/Summary and continue the same documentation-only objective with a corrected successor Contract.",
+  "recordedAt": "2026-09-18T02:47:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-895-release-docs-promotion",
+  "summaryDigest": "sha256:144e56eed250f411abeb75074dfd05d18ed88c847c8d624fddf039a806030581",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-893-release-docs-promotion"
+}

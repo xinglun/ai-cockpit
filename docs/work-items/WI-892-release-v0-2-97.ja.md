@@ -4,9 +4,13 @@ workItemId: WI-892-release-v0-2-97
 title: 不変の v0.2.96 候補拒否後の v0.2.97 リリース
 description: ワークスペースのバージョン識別子を修正し、修復済み候補を公開する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-892-release-v0-2-97
+terminalArchive: .ai/work-items/archive/WI-892-release-v0-2-97.contract.json
+terminalVerification: .ai/evidence/WI-892-release-v0-2-97.verification.json
+terminalFinalization: .ai/decisions/WI-892-release-v0-2-97.finalize.json
+terminalDecision: .ai/decisions/WI-892-release-v0-2-97.close.json
 ---
 
 # WI-892 — 不変の v0.2.96 候補拒否後の v0.2.97 リリース

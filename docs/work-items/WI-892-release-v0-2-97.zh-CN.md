@@ -4,9 +4,13 @@ workItemId: WI-892-release-v0-2-97
 title: v0.2.96 不可变候选拒绝后的 v0.2.97 发布
 description: 修正工作区版本身份并发布修复后的候选版本。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: user:release-after-all-work-items
 lastVerifiedBy: WI-892-release-v0-2-97
+terminalArchive: .ai/work-items/archive/WI-892-release-v0-2-97.contract.json
+terminalVerification: .ai/evidence/WI-892-release-v0-2-97.verification.json
+terminalFinalization: .ai/decisions/WI-892-release-v0-2-97.finalize.json
+terminalDecision: .ai/decisions/WI-892-release-v0-2-97.close.json
 ---
 
 # WI-892 — v0.2.96 不可变候选拒绝后的 v0.2.97 发布
