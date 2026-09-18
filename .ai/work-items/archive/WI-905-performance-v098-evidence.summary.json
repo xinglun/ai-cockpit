@@ -1,0 +1,116 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-905-performance-v098-evidence.verification-attempt.33654cfa47a82bf7afe1cfba70d02a87141547cc3fd5bc6e0b586d574c54556a.json",
+    ".ai/evidence/WI-905-performance-v098-evidence/raw/README.md",
+    ".ai/evidence/WI-905-performance-v098-evidence/raw/SHA256SUMS",
+    ".ai/evidence/WI-905-performance-v098-evidence/raw/v0.2.98-current-captures.tar.gz",
+    ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json",
+    ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json",
+    "docs/performance/baseline.ja.md",
+    "docs/performance/baseline.md",
+    "docs/performance/baseline.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-18T10:26:55Z",
+  "checkpointContractDigest": "sha256:f19cf9748ef522db28b148ec43527cdf40dd8305df3af76c35f59fc6b6c66419",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:e719bc945f4abad817beef2e826146bb05529150b27547abb7b631c989e03652",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:26:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:49fb9889bd8ae365ab21cc2727783da92ce5af820ad3a3cde3a393722c41ae14",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-905-performance-v098-evidence"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f19cf9748ef522db28b148ec43527cdf40dd8305df3af76c35f59fc6b6c66419",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:e719bc945f4abad817beef2e826146bb05529150b27547abb7b631c989e03652",
+      "previousContractHash": "sha256:e719bc945f4abad817beef2e826146bb05529150b27547abb7b631c989e03652",
+      "reason": "The implementation added the exact canonical documentation paths and compact evidence bundle; amend the Contract before revalidating the current snapshot.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:32:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-905-performance-v098-evidence"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+  "createdAt": "2026-09-18T10:26:53Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T10:38:52Z",
+  "preflightContractDigest": "sha256:f19cf9748ef522db28b148ec43527cdf40dd8305df3af76c35f59fc6b6c66419",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T10:39:07Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-905-performance-v098-evidence"
+}

@@ -40,7 +40,7 @@ in this run. The first uncached scan is measured separately; the acceptance targ
 applies to the incremental cache-hit path. The raw command output must be retained
 with the release candidate's acceptance records.
 
-## Current paired capture (WI-876)
+## Historical paired capture (WI-876)
 
 The current candidate was measured on the same aarch64-apple-darwin machine with
 `rustc 1.98.1`/`cargo 1.98.1`, Runtime `0.2.93`, an external baseline binary,
@@ -61,7 +61,7 @@ currently observed stage is Contract→checkpoint at 63,000 ms (one sample); age
 operation and preflight-rejection counts, verification→finish, and post-merge
 cleanup are explicitly unavailable for the active WI.
 
-## Current object-repository capture (WI-889)
+## Historical object-repository capture (WI-889)
 
 WI-889 replaces that historical candidate with a current `0.2.95` paired
 capture on the same `aarch64-apple-darwin` host and Rust/Cargo `1.98.1` as the
@@ -74,3 +74,28 @@ evidence, not a proven speed improvement. The small-clean object scenario was
 unavailable because every supplied object exceeded the harness's `<=100`
 tracked-file threshold. Complete raw captures and counters are retained in the
 WI-889 evidence archive.
+
+## Current v0.2.98 supplemental capture (WI-905)
+
+WI-905 refreshes the public-version identity without rewriting the historical
+WI-876 or WI-889 evidence. It pairs the public `v0.2.93` and `v0.2.98`
+binaries on the same `aarch64-apple-darwin` host with Rust/Cargo `1.98.1` and
+100 valid warm samples per compared operation. The selected clean object views
+were goods-garden (396 tracked files) and ORG-X (1,240 tracked files); neither
+main branch was changed or merged. The compact raw bundle, checksums and exact
+environment identities are in
+`.ai/evidence/WI-905-performance-v098-evidence/raw/`.
+
+The first ten-operation batch used the existing 5 ms noise budget and reported
+three provisional regression flags. A separate 100-sample observe repeat did
+not reproduce the observe flag (goods-garden: -2.397 ms p50 / +2.148 ms p95;
+ORG-X: -0.240 ms p50 / +1.314 ms p95), while the inspect tail was not repeated
+and remains unresolved. Internal `git_snapshot` p95 improved from 30.687 to
+24.813 ms on goods-garden and from 34.796 to 31.576 ms on ORG-X, but the
+end-to-end CLI result is not a proven speed improvement. The candidate
+`work-item-outcome --delivery --json` path measured p50 241.329 ms, p95
+264.831 ms and p99 371.828 ms over 100 valid warm samples. Diagnostics-on
+overhead is reported separately, and Runtime cache-invalidation events remain
+explicitly unavailable. Development-cycle stages other than the captured
+Contract-to-reviewable-PR sample remain unavailable; they are not treated as
+zero.

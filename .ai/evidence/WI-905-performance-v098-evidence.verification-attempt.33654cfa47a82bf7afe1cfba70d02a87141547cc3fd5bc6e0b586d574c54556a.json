@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:33654cfa47a82bf7afe1cfba70d02a87141547cc3fd5bc6e0b586d574c54556a",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "06a5e23e69894fc4d4cc74c95a83eb1072fe66ac",
+      "commandDigest": "sha256:8248e60935fd3c3dc3d4c3cfa3e92838dd4d226fded72a4db8e0beea0dd7f08e",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e719bc945f4abad817beef2e826146bb05529150b27547abb7b631c989e03652",
+  "contractExecutionScopeDigest": "sha256:19280ce6000dda0b4364fec948300fa5e2ce75276215f4cca2d6b9f8d4992c55",
+  "createdAt": "2026-09-18T10:31:59Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-905/.ai/work-items/active/WI-905-performance-v098-evidence.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-905-performance-v098-evidence"
+}

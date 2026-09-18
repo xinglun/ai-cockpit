@@ -1,0 +1,201 @@
+{
+  "acceptanceResults": [
+    "All persisted captures contain at least 100 valid warm samples for every compared operation.",
+    "Baseline and candidate bind the same machine, Rust/Cargo toolchain, build mode, scenario identity, and repository identity.",
+    "The report retains raw samples, p50/p95/p99, process/counter data, diagnostics overhead, and explicit unavailable reasons without replacing unknown values with zero.",
+    "The canonical English, Simplified Chinese, and Japanese baseline docs state the current v0.2.98 result and preserve the historical v0.2.95 context.",
+    "The conclusion distinguishes internal phase improvement from end-to-end CLI improvement and reports unknown development-cycle stages explicitly.",
+    "The persisted capture bundle is a single deterministic archive with a checksum and no platform metadata entries."
+  ],
+  "createdAt": "2026-09-18T10:39:07Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2933b3219f1d6bce4615a9523a5bf41c9b20f742f1043bd76e7d916d023dc42c",
+  "evidenceRefs": [
+    ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+      "workItemId": "WI-905-performance-v098-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence.verification-attempt.33654cfa47a82bf7afe1cfba70d02a87141547cc3fd5bc6e0b586d574c54556a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/README.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/SHA256SUMS"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/v0.2.98-current-captures.tar.gz"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "Make current-version performance evidence reproducible and honest for the four-direction acceptance: 100 valid warm samples, same environment identity, raw samples and counters retained compactly, and no claim of speedup unless the paired comparison proves it."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-905-performance-v098-evidence"
+  },
+  "taskReportDigest": "sha256:174d8dbe870713ab3ca714be38e63887cbbd347b9d775a76c2bcd3de8bb89de0",
+  "taskReportMarkdownDigest": "sha256:65b0342913a5e3568c3ab1320805e44b510b3a6f08b4f836e00e71af52cf72b9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-905-performance-v098-evidence.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-905-performance-v098-evidence"
+}

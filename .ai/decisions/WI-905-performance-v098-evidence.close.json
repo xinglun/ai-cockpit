@@ -1,0 +1,206 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7f0544db279f657a0434afd88b1593d098e209650883ded9c59f41f9eca0f405",
+      "workItemId": "WI-905-performance-v098-evidence"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence.verification-attempt.33654cfa47a82bf7afe1cfba70d02a87141547cc3fd5bc6e0b586d574c54556a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/README.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/SHA256SUMS"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-905-performance-v098-evidence/raw/v0.2.98-current-captures.tar.gz"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/performance/baseline.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-18T12:55:01Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "Make current-version performance evidence reproducible and honest for the four-direction acceptance: 100 valid warm samples, same environment identity, raw samples and counters retained compactly, and no claim of speedup unless the paired comparison proves it."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-905-performance-v098-evidence"
+  },
+  "finalReportDigest": "sha256:81875004d27b1f73b1eeb082f46da07b516ee257882e1f026abaf5b98b73aa9a",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:5108971dcd03a95767e455e7ae76030016d6bf6e58e3a2dda6e7916464f10052",
+    "branch": "codex/wi-905-performance-v098",
+    "branchRef": "refs/heads/codex/wi-905-performance-v098",
+    "capturedAt": "2026-09-18T12:55:20Z",
+    "contractDigest": "sha256:f19cf9748ef522db28b148ec43527cdf40dd8305df3af76c35f59fc6b6c66419",
+    "headRevision": "e3b8d66eb628a84dfd01174ff8216e30eb612c37",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-905-performance-v098-evidence",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit-wi-905",
+    "worktreeId": "sha256:8328067a5d245a239ca7f8496399863f6cd5da517745a476d1141acd86ae3360",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-905"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:b1b361311a3d35ab3e369d1fa81cd2609faffce29bf9dbb76a6fd0dc21ca5301",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T12:55:01Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-905-performance-v098-evidence.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "User explicitly authorized closure while accepting the current performance evidence; 100 valid warm samples are accepted, the comparison remains within noise, and no speedup is claimed.",
+    "resumeCondition": "none; terminal performance evidence record; do not claim speedup from within-noise results"
+  },
+  "timestamp": "2026-09-18T12:55:20Z",
+  "workItemId": "WI-905-performance-v098-evidence"
+}
