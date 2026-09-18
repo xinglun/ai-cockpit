@@ -1,0 +1,26 @@
+{
+  "bindingDigest": "sha256:51e9bfc5c014cf02b4853dff9e492b39cfcf4be709e4379fb8defe88c7da2533",
+  "branchRef": "refs/heads/codex/wi-909-capability-schema-ssot",
+  "contractDigest": "sha256:4753b69f81bd45604e71d745269963073258e52a8249ae4aa2b34a69d8a9f52e",
+  "headRevision": "3a423a47cf6a6cd6b0004fcaa1cb6dadbe70ba4e",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "identity_conflict"
+  },
+  "observedAt": "2026-09-18T13:39:56Z",
+  "operationId": "sha256:165f6107f58604013f5523cb8101ff16d2061d57048cc25f7838ca2d884f8705",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict",
+      "worktree_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-909-capability-schema-ssot",
+  "worktreeId": "sha256:13ecb6d90db2b3a5aa8202b52d5bc769b24bcbe1ff065fb661873b656e920f13"
+}
