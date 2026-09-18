@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-895 — WI-892 documentation promotion"
 description: "Register the terminal tri-language documentation projection for the v0.2.97 release Work Item."
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-895-release-docs-promotion
 lastVerifiedBy: WI-895-release-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-895-release-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-895-release-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-895-release-docs-promotion.close.json
 ---
 
 [简体中文](WI-895-release-docs-promotion.zh-CN.md) · [日本語](WI-895-release-docs-promotion.ja.md)

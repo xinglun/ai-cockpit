@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-895——WI-892 文档 promotion"
 description: "登记 v0.2.97 发布 Work Item 的终态三语文档投影。"
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-895-release-docs-promotion
 lastVerifiedBy: WI-895-release-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-895-release-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-895-release-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-895-release-docs-promotion.close.json
 ---
 
 [English](WI-895-release-docs-promotion.md) · [日本語](WI-895-release-docs-promotion.ja.md)
