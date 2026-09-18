@@ -1,0 +1,150 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-908-interface-facts.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a73cc4bd46cf5bb42eadb59ec9d949c2a757577aa631235d45f8f0b12a289398",
+      "workItemId": "WI-908-interface-facts"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-908-interface-facts.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-908-interface-facts.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-908-interface-facts.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-908-interface-facts.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-908-interface-facts.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-908-interface-facts.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-18T12:54:44Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-908-interface-facts.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-908-interface-facts.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-908-interface-facts.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-908-interface-facts.contract.json"
+          ],
+          "inference": false,
+          "text": "One deterministic protocol-owned description supplies discoverable format and language facts and shared identity descriptions to MCP capability schemas, protocol descriptions, and generated EN/zh-CN/JA references; changing a fact requires no second hand-maintained adapter table."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-908-interface-facts.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-908-interface-facts"
+  },
+  "finalReportDigest": "sha256:bc3fa2467c6be6e125d3d9cfaf6c94cdac29c374546f4732326fd6b9c5c4ea72",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:c83916d8a5efec4da49725aa4e6a5d43177a5dea711be6b723cd5372057ae2b1",
+    "branch": "codex/wi-908-interface-facts",
+    "branchRef": "refs/heads/codex/wi-908-interface-facts",
+    "capturedAt": "2026-09-18T12:54:56Z",
+    "contractDigest": "sha256:cede92efc848c44531ee2843b5c7f41d69752e5afd0357604952224e83f4b710",
+    "headRevision": "9f337cea0a0f39bb40ea3b625c3190bdc8ee4067",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-908-interface-facts",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit1",
+    "worktreeId": "sha256:3643042994271e424e4d83f2412063a5aab841e72d83609572d4f6880e15cc3c",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-908-interface-facts/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:f645d4943eea7fa11271fa759ec7d1efab1b89a20477419aa8c78e72fa0556a7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T12:54:44Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-908-interface-facts.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "User explicitly authorized closure while accepting current verification evidence; user-visible benefit remains unknown.",
+    "resumeCondition": "none; terminal interface facts pilot; user-visible benefit remains unknown"
+  },
+  "timestamp": "2026-09-18T12:54:56Z",
+  "workItemId": "WI-908-interface-facts"
+}
