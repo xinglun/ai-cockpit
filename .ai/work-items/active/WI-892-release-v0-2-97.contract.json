@@ -8,7 +8,9 @@
     "The object repositories remain untouched.",
     "Current release, architecture, versioning, and operations documentation names v0.2.97 consistently while retaining historical v0.2.95 and v0.2.96 failure references.",
     "The generated work-item-outcome interface regions in all three command reference pages match the protocol projection for Runtime 0.2.97.",
-    "Reference comparison metadata and all six current projection pages identify the same reviewed 0.2.97 Runtime identity and candidate binary digest."
+    "Reference comparison metadata and all six current projection pages identify the same reviewed 0.2.97 Runtime identity and candidate binary digest.",
+    "The merged provider context is bound to PR #868 at https://github.com/xinglun/ai-cockpit/pull/868 before archive and finalization; the exact branch and worktree remain the cleanup identities.",
+    "After publication, the release workflow run, public Release assets, downloaded-artifact acceptance, and exact branch/worktree cleanup are recorded as identity-bound evidence before close."
   ],
   "authority": "user:release-after-all-work-items",
   "baseRevision": "fa8ab352a8128145ff4116760744dc384125bf13",
@@ -38,7 +40,7 @@
     "baseRemote": "origin",
     "branch": "codex/wi-892-release-v0-2-97",
     "provider": "github",
-    "pullRequest": "pending:WI-892-release-v0-2-97",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/868",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-892-release-v0-2-97"
   },
   "risk": "high",
@@ -91,7 +93,8 @@
   ],
   "sources": [
     "Merged PR #867 at fa8ab352 (runtime isolation fix)",
-    "Failed release run 35289800955: aggregate rejected v0.2.96 because workspace version remained 0.2.95"
+    "Failed release run 35289800955: aggregate rejected v0.2.96 because workspace version remained 0.2.95",
+    "https://github.com/xinglun/ai-cockpit/pull/868"
   ],
   "state": "implementation_active",
   "verification": [

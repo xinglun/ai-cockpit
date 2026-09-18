@@ -1,19 +1,11 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-892-release-v0-2-97.verification-attempt.e64f3fe1c7f4c6917e9c548ef42d4b3bcf5a1318fd39abd14509156709ceaafb.json",
     ".ai/work-items/active/WI-892-release-v0-2-97.contract.json",
-    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json",
-    "docs/reference/reference-comparison-metadata.json",
-    "docs/reference/reference-file-comparison.ja.md",
-    "docs/reference/reference-file-comparison.md",
-    "docs/reference/reference-file-comparison.zh-CN.md",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md"
+    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json"
   ],
   "checkpointAt": "2026-09-18T00:33:41Z",
-  "checkpointContractDigest": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+  "checkpointContractDigest": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -69,6 +61,46 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:e5757e895f9ad4b539305e766d477ec296861998fb6c6c5d51868b4ffc488548",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "previousContractHash": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+      "reason": "Bind the merged PR #868 provider identity and the required publication/adopter evidence before finalization; no new product scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T01:41:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f3dbe0b5e09a293e7e64bf6faa6bc05b97772a78f684ccf9b5464979659fb514",
+      "previousContractHash": "sha256:e5757e895f9ad4b539305e766d477ec296861998fb6c6c5d51868b4ffc488548",
+      "reason": "Revalidate the authored Contract after replacing the provisional PR marker with the merged PR #868 URL before finalization.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T01:43:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-892-release-v0-2-97"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
@@ -78,8 +110,8 @@
     "state": "unknown"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-18T01:16:05Z",
-  "preflightContractDigest": "sha256:e47dbb8449a18b3cbd9c3a91dd2a1fa462cfa3892a6b3995f836fc15de4f632f",
+  "preflightAt": "2026-09-18T01:46:52Z",
+  "preflightContractDigest": "sha256:68fd8e85877db05ed2ebb7b9838be120c4cd1a957e4aa596b93f4937eba72dc7",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:f3ca6fe6b8e03cb280d8343e5ece6a7e7c9ac25dc3c96bf460c7a76817e9dd1e",
   "preflightState": "green",
@@ -122,6 +154,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:05e2a5af5b27bb9c14ae9347ad4b1de70df81372438f65a9dc3d5be52866efb6",
+  "verificationRecoveryReconciled": "sha256:f67529b9749278224058cf7e36a52c9ff34ccf8f368452c82b03dd065ae58c16",
   "workItemId": "WI-892-release-v0-2-97"
 }
