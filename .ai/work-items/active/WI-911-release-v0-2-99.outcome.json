@@ -1,0 +1,163 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace package versions、Cargo.lock 和当前三语发布/版本文档一致为 0.2.99，历史版本保持不变。",
+    "v0.2.99 使用未占用的不可变 annotated tag，并绑定本次审查过的 main 源提交。",
+    "provider Release 为稳定公开状态，manifest、checksums、SBOM、archives、attestation 和 source identity 互相绑定。",
+    "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.98 到 v0.2.99 升级以及精确临时目录清理；对象仓库不发生写入。",
+    "Outcome 以当前中文对话语言完整交付，明确完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+      "workItemId": "WI-911-release-v0-2-99"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.495cc60fa38a68260d2e6c2bf0f1698580c097ae5ad32077c58c3b890b74f063.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-911-release-v0-2-99.verification-attempt.53984ac04967f2a29631bcd611fd2e154738b8d211e05dd355aa45b6377d3c2a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-911-release-v0-2-99.verification-attempt.b8fd0dc1e9bb22e3035afec5ea3dcdd9898848daa3eb442ac31320e9e05c19c7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-911-release-v0-2-99.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新已审查 main 创建 v0.2.99 候选，完成不可变标签、稳定 provider Release、完整发布产物与供应链证据、下载产物安装/升级验收、发布后清理和最终中文 Outcome；不修改对象仓库。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-911-release-v0-2-99.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-911-release-v0-2-99"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-911-release-v0-2-99.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-911-release-v0-2-99"
+}
