@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+lastVerifiedBy: WI-892-release-v0-2-97
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.95` with binary digest
-`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`.
+and the reviewed Runtime `ai-cockpit v0.2.97` with binary digest
+`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1055,4 +1055,4 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-889-object-performance-current — current object-repository performance evidence | Implemented | [Work Item](../work-items/WI-889-object-performance-current.md); terminal lifecycle: archive `.ai/work-items/archive/WI-889-object-performance-current.contract.json`; verification `.ai/evidence/WI-889-object-performance-current.verification.json`; close `.ai/decisions/WI-889-object-performance-current.close.json`. |
 | WI-890-release-v0-2-95 — governed v0.2.95 release after four-direction convergence | In progress → Implemented after verified close | [Work Item](../work-items/WI-890-release-v0-2-95.md); publication remains gated on reviewed merge, hosted checks, immutable Release assets, downloaded-artifact acceptance, and exact cleanup evidence; archive `.ai/work-items/archive/WI-890-release-v0-2-95.contract.json`; verification `.ai/evidence/WI-890-release-v0-2-95.verification.json`; finalization `.ai/decisions/WI-890-release-v0-2-95.finalize.json`; close `.ai/decisions/WI-890-release-v0-2-95.close.json`. |
 | WI-891-release-v0-2-96-isolation-fix — v0.2.96 release verification isolation fix | In progress → Implemented after verified close | [Work Item](../work-items/WI-891-release-v0-2-96-isolation-fix.md); successor of the immutable failed v0.2.95 candidate; publication remains gated on reviewed merge, isolated candidate acceptance, downloaded-artifact acceptance, and exact cleanup evidence; archive `.ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json`; verification `.ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification.json`; finalization `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.finalize.json`; close `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.close.json`. |
-| WI-892-release-v0-2-97 — v0.2.97 release after immutable v0.2.96 candidate rejection | In progress | [Work Item](../work-items/WI-892-release-v0-2-97.md); corrects the workspace version identity while preserving the failed immutable v0.2.96 tag; publication, downloaded-artifact acceptance, and exact cleanup remain required. |
+| WI-892-release-v0-2-97 — v0.2.97 release after immutable v0.2.96 candidate rejection | In progress → Implemented after verified close | [Work Item](../work-items/WI-892-release-v0-2-97.md); corrects the workspace version identity while preserving the failed immutable v0.2.96 tag; publication, downloaded-artifact acceptance, and exact cleanup remain required; planned archive `.ai/work-items/archive/WI-892-release-v0-2-97.contract.json`; verification `.ai/evidence/WI-892-release-v0-2-97.verification.json`; finalization `.ai/decisions/WI-892-release-v0-2-97.finalize.json`; close `.ai/decisions/WI-892-release-v0-2-97.close.json`. |

@@ -7,7 +7,8 @@
     "English, Simplified Chinese, and Japanese release/reference projections remain synchronized.",
     "The object repositories remain untouched.",
     "Current release, architecture, versioning, and operations documentation names v0.2.97 consistently while retaining historical v0.2.95 and v0.2.96 failure references.",
-    "The generated work-item-outcome interface regions in all three command reference pages match the protocol projection for Runtime 0.2.97."
+    "The generated work-item-outcome interface regions in all three command reference pages match the protocol projection for Runtime 0.2.97.",
+    "Reference comparison metadata and all six current projection pages identify the same reviewed 0.2.97 Runtime identity and candidate binary digest."
   ],
   "authority": "user:release-after-all-work-items",
   "baseRevision": "fa8ab352a8128145ff4116760744dc384125bf13",
@@ -82,7 +83,11 @@
     "docs/operations/README.**",
     "docs/reference/commands.md",
     "docs/reference/commands.zh-CN.md",
-    "docs/reference/commands.ja.md"
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
   ],
   "sources": [
     "Merged PR #867 at fa8ab352 (runtime isolation fix)",

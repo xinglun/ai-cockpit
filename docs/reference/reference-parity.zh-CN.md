@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+lastVerifiedBy: WI-892-release-v0-2-97
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.95` Runtime（二进制摘要
-`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`）。
+`ai-cockpit v0.2.97` Runtime（二进制摘要
+`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -894,4 +894,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-889-object-performance-current——当前对象仓库性能证据 | 已实现 | [Work Item](../work-items/WI-889-object-performance-current.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-889-object-performance-current.contract.json`; verification `.ai/evidence/WI-889-object-performance-current.verification.json`; close `.ai/decisions/WI-889-object-performance-current.close.json`. |
 | WI-890-release-v0-2-95——四方向收敛后的受治理 v0.2.95 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-890-release-v0-2-95.zh-CN.md)；发布仍受评审合并、hosted checks、不可变 Release 制品、下载制品验收和精确清理证据约束；archive `.ai/work-items/archive/WI-890-release-v0-2-95.contract.json`；verification `.ai/evidence/WI-890-release-v0-2-95.verification.json`；finalization `.ai/decisions/WI-890-release-v0-2-95.finalize.json`；close `.ai/decisions/WI-890-release-v0-2-95.close.json`。 |
 | WI-891-release-v0-2-96-isolation-fix——v0.2.96 发布验证隔离修复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-891-release-v0-2-96-isolation-fix.zh-CN.md)；承接不可变失败的 v0.2.95 候选；发布仍受评审合并、候选隔离验收、下载制品验收和精确清理证据约束；archive `.ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json`；verification `.ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification.json`；finalization `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.finalize.json`；close `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.close.json`。 |
-| WI-892-release-v0-2-97——v0.2.96 不可变候选拒绝后的 v0.2.97 发布 | 进行中 | [Work Item](../work-items/WI-892-release-v0-2-97.zh-CN.md)；修正工作区版本身份并保留失败的不可变 v0.2.96 标签；发布、下载制品验收和精确清理仍是必需项。 |
+| WI-892-release-v0-2-97——v0.2.96 不可变候选拒绝后的 v0.2.97 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-892-release-v0-2-97.zh-CN.md)；修正工作区版本身份并保留失败的不可变 v0.2.96 标签；发布、下载制品验收和精确清理仍是必需项；计划 archive `.ai/work-items/archive/WI-892-release-v0-2-97.contract.json`；verification `.ai/evidence/WI-892-release-v0-2-97.verification.json`；finalization `.ai/decisions/WI-892-release-v0-2-97.finalize.json`；close `.ai/decisions/WI-892-release-v0-2-97.close.json`。 |

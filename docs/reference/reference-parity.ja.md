@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-886-verification-isolation-v0-2-95
+lastVerifiedBy: WI-892-release-v0-2-97
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.95`（binary digest
-`sha256:b0093967b939533e871e6f5359a6c01268dcd864a09b8e030001484b4785228b`）を使用します。
+review 済み `ai-cockpit v0.2.97`（binary digest
+`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -920,4 +920,4 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-889-object-performance-current — 現行 object repository の performance evidence | Implemented | [Work Item](../work-items/WI-889-object-performance-current.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-889-object-performance-current.contract.json`; verification `.ai/evidence/WI-889-object-performance-current.verification.json`; close `.ai/decisions/WI-889-object-performance-current.close.json`. |
 | WI-890-release-v0-2-95 — 四方向収束後の governed v0.2.95 release | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-890-release-v0-2-95.ja.md); 公開は review 済み merge、hosted checks、immutable Release asset、download 済み成果物の acceptance、正確な cleanup evidence の後に限る。archive `.ai/work-items/archive/WI-890-release-v0-2-95.contract.json`; verification `.ai/evidence/WI-890-release-v0-2-95.verification.json`; finalization `.ai/decisions/WI-890-release-v0-2-95.finalize.json`; close `.ai/decisions/WI-890-release-v0-2-95.close.json`. |
 | WI-891-release-v0-2-96-isolation-fix — v0.2.96 リリース検証分離の修正 | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-891-release-v0-2-96-isolation-fix.ja.md); 不変の失敗 v0.2.95 候補からの successor。公開はレビュー済み merge、候補分離受入れ、ダウンロード成果物の受入れ、正確な cleanup evidence の後に限る。archive `.ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json`; verification `.ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification.json`; finalization `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.finalize.json`; close `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.close.json`. |
-| WI-892-release-v0-2-97 — 不変の v0.2.96 候補拒否後の v0.2.97 リリース | In progress | [Work Item](../work-items/WI-892-release-v0-2-97.ja.md); ワークスペースの version identity を修正し、失敗した不変 v0.2.96 tag を保持する。公開、ダウンロード成果物の acceptance、正確な cleanup が必要。 |
+| WI-892-release-v0-2-97 — 不変の v0.2.96 候補拒否後の v0.2.97 リリース | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-892-release-v0-2-97.ja.md); ワークスペースの version identity を修正し、失敗した不変 v0.2.96 tag を保持する。公開、ダウンロード成果物の acceptance、正確な cleanup が必要。planned archive `.ai/work-items/archive/WI-892-release-v0-2-97.contract.json`; verification `.ai/evidence/WI-892-release-v0-2-97.verification.json`; finalization `.ai/decisions/WI-892-release-v0-2-97.finalize.json`; close `.ai/decisions/WI-892-release-v0-2-97.close.json`. |
