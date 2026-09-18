@@ -33,6 +33,14 @@
     "verification_receipt",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-899-release-v0-2-98",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/871",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-899-release-v0-2-98"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
