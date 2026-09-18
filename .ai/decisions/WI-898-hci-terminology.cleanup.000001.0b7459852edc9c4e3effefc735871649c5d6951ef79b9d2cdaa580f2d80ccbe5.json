@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:0acd3c1653dfb2eee2a9e90424df75a89bf8efeb4870999de4249324fa0b8ef3",
+  "branchRef": "refs/heads/codex/wi-898-hci-terminology",
+  "contractDigest": "sha256:e78bd4cbf542d5b4029c66063f05c7d4d364a1232e3c423ead38b5c9806bc616",
+  "headRevision": "4ff13fa9236e62e0e28c16844ea75aff35b5774e",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T04:03:09Z",
+  "operationId": "sha256:798e3c1f33fe309c0e3be3fddf6c5dbd17e7ab13b92cda325557a09f31bea2fe",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-898-hci-terminology",
+  "worktreeId": "sha256:9aaabb91c6813bfea28d9ef0e36824fa8137f76f817567eef5f6179b821462f3"
+}
