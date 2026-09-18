@@ -1,0 +1,255 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5fba492ae766feb72147f8da3b046e658848a7dbb38cfe7c735804eea6ffca9a",
+      "workItemId": "WI-910-outcome-conversation-language"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-910-outcome-conversation-language.verification-attempt.4a10419bf525882e21d6bd6c1af2e876eaaaeae6e8e52c55e8deac18564e5e31.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-910-outcome-conversation-language.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-910-outcome-conversation-language.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-910-outcome-conversation-language.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-910-outcome-conversation-language.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:owner via explicit-user-authorization at 2026-09-18T14:36:28Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.contract.json"
+          ],
+          "inference": false,
+          "text": "Archive delivery and human Outcome rendering use the conversation language for English, Simplified Chinese, and Japanese without translating Contract facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-910-outcome-conversation-language.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-910-outcome-conversation-language"
+  },
+  "finalReportDigest": "sha256:fd626b850723df759d11548b50a5c02ce0373519a59bfd4b12ea44472dd5120a",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:8fe3c12a6f00f9be3747097b9a02131530a55abe47836a86d7a7f09c9cca4185",
+    "branch": "codex/wi-910-outcome-conversation-language",
+    "branchRef": "refs/heads/codex/wi-910-outcome-conversation-language",
+    "capturedAt": "2026-09-18T14:36:42Z",
+    "contractDigest": "sha256:682710ed77c37f7aa7a376119754e43e686313161216bbac3e93b1a3353aa90d",
+    "headRevision": "0aa9636c329621956ae872597db5e1bcab8bd1a3",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-910-outcome-conversation-language",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit-wi-910",
+    "worktreeId": "sha256:231a2abe7dd54d95aa649ed7f6de87ec7ed66eae2f2383d45e77e41866287a05",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-910"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:664395b8a606f748a18cea442bf05aef6502104057580464c3caff7650ad67b6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T14:36:28Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-910-outcome-conversation-language.verification.json"
+    ],
+    "policyRefs": [
+      "WI-910-outcome-conversation-language"
+    ],
+    "reason": "接受当前验证证据；Outcome 按当前对话语言输出，用户可见收益保持未知。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T14:36:42Z",
+  "workItemId": "WI-910-outcome-conversation-language"
+}
