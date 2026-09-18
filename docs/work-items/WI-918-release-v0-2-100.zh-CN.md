@@ -4,9 +4,13 @@ workItemId: WI-918-release-v0-2-100
 title: Outcome 语言、HCI、四方向与 Issue #851 收敛后的最终 v0.2.100 发布
 description: 仅在所有前置 Work Item 和 Issue 完成后发布已评审的主线。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-918-release-v0-2-100
+terminalArchive: .ai/work-items/archive/WI-918-release-v0-2-100.contract.json
+terminalVerification: .ai/evidence/WI-918-release-v0-2-100.verification.json
+terminalFinalization: .ai/decisions/WI-918-release-v0-2-100.finalize.json
+terminalDecision: .ai/decisions/WI-918-release-v0-2-100.close.json
 ---
 
 [English](WI-918-release-v0-2-100.md) · [日本語](WI-918-release-v0-2-100.ja.md)
