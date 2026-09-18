@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "repository": "xinglun/ai-cockpit",
+  "candidateTag": "v0.2.96",
+  "annotatedTagObject": "85311a515257b5cee4f9687693b0eede14645641",
+  "peeledCommit": "fa8ab352a8128145ff4116760744dc384125bf13",
+  "remote": "origin",
+  "providerRelease": {
+    "state": "not_found",
+    "httpStatus": 404,
+    "checkedWith": "gh api repos/xinglun/ai-cockpit/releases/tags/v0.2.96"
+  },
+  "observedAt": "2026-09-18T02:23:35Z"
+}

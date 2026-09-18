@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "87811c700af3193c3936dde8f807a95d6721b5e2",
+    "name": "codex/wi-892-release-v0-2-97",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "fa8ab352a8128145ff4116760744dc384125bf13",
+  "contractDigest": "sha256:2d4be4dceea1d81aa147e48ad4b35faf8e8f450d08455a1315ba97f61ffd3e3f",
+  "operationId": "github-pr-868-merge-cleanup-20260918",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "fa8ab352a8128145ff4116760744dc384125bf13",
+    "headRevision": "87811c700af3193c3936dde8f807a95d6721b5e2",
+    "mergeCommit": "95dc044c729fe82daaba698f43fb66bddf75cf18",
+    "number": 868,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/868"
+  },
+  "reason": "PR #868 merged with hosted release checks and v0.2.97 public adopter acceptance passed; the exact provider branch and dedicated worktree were deleted and removed after cleanup verification.",
+  "receiptId": "github-pr-868-finalization-20260918",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-892-release-v0-2-97",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/868",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-892-release-v0-2-97"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-18T02:34:31Z",
+  "workItemId": "WI-892-release-v0-2-97",
+  "worktree": {
+    "branch": "codex/wi-892-release-v0-2-97",
+    "headRevision": "87811c700af3193c3936dde8f807a95d6721b5e2",
+    "path": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-892-release-v0-2-97",
+    "worktreeId": "WI-892-release-v0-2-97"
+  }
+}

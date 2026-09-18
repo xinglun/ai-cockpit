@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-18T02:32:53Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-18T02:19:22Z",
+    "digest": "sha256:0fd3a1550b71602fa43f1dfc6b818d01656ca50d60d285391ca4e37e0bb7bca5",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35297530022",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/v0.2.97-release-close.json",
+    "subject": "workflow:35297530022/release-close",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "workItemId": "WI-892-release-v0-2-97"
+}

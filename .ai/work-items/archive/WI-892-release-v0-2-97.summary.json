@@ -1,14 +1,16 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-892-release-v0-2-97.contract.json",
-    ".ai/work-items/active/WI-892-release-v0-2-97.summary.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-890-release-v0-2-95.ja.md",
-    "docs/work-items/WI-890-release-v0-2-95.md",
-    "docs/work-items/WI-890-release-v0-2-95.zh-CN.md"
+    ".ai/evidence/external/v0.2.97/adopter/acceptance.json",
+    ".ai/evidence/external/v0.2.97/adopter/isolation.json",
+    ".ai/evidence/external/v0.2.97/release/SHA256SUMS",
+    ".ai/evidence/external/v0.2.97/release/previous-candidate.json",
+    ".ai/evidence/external/v0.2.97/release/release-close.json",
+    ".ai/evidence/external/v0.2.97/release/release-manifest.json",
+    ".ai/evidence/external/v0.2.97/release/version-consistency.json",
+    ".ai/evidence/external/v0.2.97/upgrade/acceptance.json",
+    ".ai/evidence/external/v0.2.97/upgrade/isolation.json",
+    ".ai/work-items/archive/WI-892-release-v0-2-97.summary.json"
   ],
   "checkpointAt": "2026-09-18T00:33:41Z",
   "checkpointContractDigest": "sha256:2d4b4e8dcfd163f86f63cb84f9bde863c54eaa90bf36756e65f7c6cd0d754d47",
@@ -132,11 +134,11 @@
   "checkpointRepositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
   "createdAt": "2026-09-18T00:28:33Z",
   "intentAlignment": {
-    "reason": "Release identity correction is in scope; publication and downloaded adopter evidence are pending.",
+    "reason": "The release evidence proves identity, publication, installation, upgrade, and cleanup; no separate user-benefit measurement was declared.",
     "state": "unknown"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-18T01:56:32Z",
+  "preflightAt": "2026-09-18T02:28:53Z",
   "preflightContractDigest": "sha256:2d4b4e8dcfd163f86f63cb84f9bde863c54eaa90bf36756e65f7c6cd0d754d47",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:536409659dd8438b7023418327a8bdf087cab4b8f40f9a2fd8c52ee2b8c7b00b",
@@ -145,41 +147,49 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
-      "expected": "Cargo metadata, lock package versions, generated archive names, manifest, and immutable tag all identify v0.2.97.",
-      "note": "Pending release aggregate evidence.",
+      "evidence": [
+        "Cargo.toml",
+        "Cargo.lock",
+        ".ai/evidence/external/v0.2.97/release/release-manifest.json",
+        ".ai/evidence/external/v0.2.97/release/SHA256SUMS",
+        ".ai/evidence/external/v0.2.97/release/version-consistency.json"
+      ],
+      "reason": "The public manifest binds v0.2.97 to commit 67b6f55e and the hosted post-release version-consistency receipt passed.",
       "required": true,
       "scenario": "workspace version matches immutable release tag",
-      "status": "unverified",
-      "verificationPlan": "Run cargo metadata and the release aggregate/version-consistency checks before publication."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "The v0.2.96 tag remains unchanged and is recorded as a failed candidate with no successful provider Release.",
-      "note": "Pending remote tag and provider Release identity evidence.",
+      "evidence": [
+        ".ai/evidence/external/v0.2.97/release/previous-candidate.json",
+        ".ai/evidence/external/v0.2.97/release/release-close.json"
+      ],
+      "reason": "The remote v0.2.96 tag still peels to fa8ab352 and has no provider Release; the v0.2.97 close receipt records the new provider release without moving or deleting the failed tag.",
       "required": true,
       "scenario": "failed v0.2.96 candidate remains immutable",
-      "status": "unverified",
-      "verificationPlan": "Record remote tag and provider Release identity before and after v0.2.97 publication."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Downloaded v0.2.97 assets pass checksum, fresh-install, v0.2.93 upgrade, and exact temporary-root cleanup.",
-      "note": "Pending immutable publication and hosted adopter acceptance.",
+      "evidence": [
+        ".ai/evidence/external/v0.2.97/adopter/acceptance.json",
+        ".ai/evidence/external/v0.2.97/adopter/isolation.json",
+        ".ai/evidence/external/v0.2.97/upgrade/acceptance.json",
+        ".ai/evidence/external/v0.2.97/upgrade/isolation.json",
+        ".ai/evidence/external/v0.2.97/release/release-close.json"
+      ],
+      "reason": "Hosted public fresh-install and v0.2.93 upgrade acceptance both passed with isolated roots and cleanupState=passed.",
       "required": true,
       "scenario": "downloaded v0.2.97 adopter acceptance is isolated",
-      "status": "unverified",
-      "verificationPlan": "Consume the immutable publication handoff and run the hosted adopter acceptance jobs."
+      "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-18T00:45:55.237305+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T02:29:06Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:80f623a5b88be4a30ef5bd39ac37b1aed2ab814d68d96aed7c126229d263de37",
   "workItemId": "WI-892-release-v0-2-97"
 }
