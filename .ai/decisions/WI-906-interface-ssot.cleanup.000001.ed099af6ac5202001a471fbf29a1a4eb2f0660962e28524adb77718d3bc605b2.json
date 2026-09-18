@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:64451b9a3405b2b6530e7bc08fb41c80f2071a4b46b2e1087aa7c808256f1807",
+  "branchRef": "refs/heads/codex/wi-906-interface-ssot",
+  "contractDigest": "sha256:ec7b93836a1672289a3617b2772f98a7d673c91609ed91a8d96566cd7c7238fe",
+  "headRevision": "0f12758337f5f9c3e64a6a4d11cdea4a1e07a56e",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T11:33:12Z",
+  "operationId": "sha256:b6c25b55dd1c22f2a18f984bf42863577e91b7dd5e667d2d58568d05288f811b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-906-interface-ssot",
+  "worktreeId": "sha256:1e6eea86fda387ad720bc11937391f54a390fe9f3fb0852aa8e4b5de5f661d20"
+}
