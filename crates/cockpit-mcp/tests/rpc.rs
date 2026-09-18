@@ -178,6 +178,26 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "object"
     );
     assert!(outcome["inputSchema"]["oneOf"].is_array());
+    let outcome_specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
+        .expect("protocol-owned outcome specs");
+    for spec in outcome_specs {
+        let property = &outcome["inputSchema"]["properties"][spec.name];
+        assert_eq!(property["description"], spec.description, "{}", spec.name);
+        if !spec.enum_values.is_empty() {
+            assert_eq!(
+                property["enum"],
+                serde_json::json!(spec.enum_values),
+                "{} enum projection",
+                spec.name
+            );
+        }
+        for alias in spec.aliases {
+            assert!(
+                outcome["inputSchema"]["properties"][*alias].is_object(),
+                "alias {alias} must be projected from the same spec"
+            );
+        }
+    }
     let verify = listed
         .iter()
         .find(|tool| tool["name"] == "verify")
@@ -212,6 +232,53 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "array"
     );
     assert!(start["inputSchema"]["required"].as_array().is_some());
+}
+
+#[test]
+fn outcome_validator_uses_the_protocol_enum_and_type_facts() {
+    let directory = TestTempDir::new("cockpit-mcp-outcome-ssot-validation");
+    let runtime = test_runtime_context();
+    let invalid_language = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id": 90,
+            "method":"tools/call",
+            "params": {
+                "name":"work_item_outcome",
+                "arguments": {"workItemId":"WI-SSOT", "language":"ko"}
+            }
+        }),
+        directory.path(),
+        &runtime,
+    );
+    assert_eq!(invalid_language["result"]["isError"], true);
+    assert!(
+        invalid_language["result"]["content"][0]["text"]
+            .as_str()
+            .expect("validation error")
+            .contains("language must be one of")
+    );
+
+    let invalid_progress = handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id": 91,
+            "method":"tools/call",
+            "params": {
+                "name":"work_item_outcome",
+                "arguments": {"workItemId":"WI-SSOT", "deliveryProgress": []}
+            }
+        }),
+        directory.path(),
+        &runtime,
+    );
+    assert_eq!(invalid_progress["result"]["isError"], true);
+    assert!(
+        invalid_progress["result"]["content"][0]["text"]
+            .as_str()
+            .expect("validation error")
+            .contains("deliveryProgress must be an object")
+    );
 }
 
 #[test]

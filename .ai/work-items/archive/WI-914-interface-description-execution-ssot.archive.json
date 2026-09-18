@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T19:14:38Z",
+  "files": {
+    "contractDigest": "sha256:b0ee3e88e8d817f499589810a1d3603cb3805d14a03cbb30bb418a3ee421fdf5",
+    "contractPath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.contract.json",
+    "eventsDigest": "sha256:bbcffb663cb2dbb76337eb8701758fc6eae97fed3fe25e92a8c1024759f023da",
+    "eventsPath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.events.jsonl",
+    "outcomeDigest": "sha256:559734b7c3982639187539e35e33d89e29a4a0ba7a2637c69bc31a50f5b7436a",
+    "outcomePath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.outcome.json",
+    "summaryDigest": "sha256:3368e3c30853ee4b784aaa04128d4b1f3cb43fa3628a4be12a8bee76b4d027dd",
+    "summaryPath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.summary.json",
+    "taskReportDigest": "sha256:7465c52916429079fd8fceeef9ee03cdb1f07d6609a6be6f7454bc48260b2e8c",
+    "taskReportMarkdownDigest": "sha256:42a0ef89826d5d95fb1146d37ddd7f2ee6b86f4307b84e3de9438aeb6d8aeef5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-914-interface-description-execution-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-914-interface-description-execution-ssot"
+}

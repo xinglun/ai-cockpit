@@ -1,0 +1,90 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-914-interface-description-execution-ssot.verification-attempt.1a9ce109f434d98a1c06b60514a5eef81c493988ca55e25ca7059f6d33742c60.json",
+    ".ai/evidence/WI-914-interface-description-execution-ssot.verification-attempt.1ce05dcab9bd386abe61a44a6342a338942f2825b36ae19202a963056cc784c0.json",
+    ".ai/evidence/WI-914-interface-description-execution-ssot.verification-attempt.d6f942812a800b7820d15b78879837a2cc47ff14d75322c1c49bae93af62b9e2.json",
+    ".ai/work-items/archive/WI-914-interface-description-execution-ssot.contract.json",
+    ".ai/work-items/archive/WI-914-interface-description-execution-ssot.summary.json",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs"
+  ],
+  "checkpointAt": "2026-09-18T18:55:01Z",
+  "checkpointContractDigest": "sha256:cc508d646b5532f220188e9b6eda72239d6e0ccca7e2cf4eb44114aac5a22740",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:36f52e12cff89b303aec38f8316ca694ae3abaca0e34c1783955beae601780d1",
+      "recorded": true,
+      "recordedAt": "2026-09-18T18:55:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:777792b1a72399b1f79a9729d1307b5fec6fc91ebc684407143f26e65c485ea6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-914-interface-description-execution-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f37508375cebfd107842ec1aaf441b55bbf799a2e6646a34e5c12e511f870bb8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:36f52e12cff89b303aec38f8316ca694ae3abaca0e34c1783955beae601780d1",
+      "previousContractHash": "sha256:36f52e12cff89b303aec38f8316ca694ae3abaca0e34c1783955beae601780d1",
+      "reason": "Runtime-generated governance evidence is part of the repository protocol boundary; include .ai/** so preflight and verification bind the complete Work Item record.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T19:01:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:fadf51d48ceb1105e2f4c234ea950b0a4ec4708777f5ddb47cd583af40d8cefb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-914-interface-description-execution-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:cc508d646b5532f220188e9b6eda72239d6e0ccca7e2cf4eb44114aac5a22740",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:36f52e12cff89b303aec38f8316ca694ae3abaca0e34c1783955beae601780d1",
+      "previousContractHash": "sha256:f37508375cebfd107842ec1aaf441b55bbf799a2e6646a34e5c12e511f870bb8",
+      "reason": "Bind the exact production and test paths touched by the current SSOT repair while retaining the repository protocol evidence boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-18T19:02:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:12d8dc5cd2f92359bc0e366f4641f93f15409208a3c1afea3865fdb30bfcbf4f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-914-interface-description-execution-ssot"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:5af13b8ff1f384b65818738fe19240f515c19196c4dfb68fbec1ca0519448f44",
+  "createdAt": "2026-09-18T18:54:59Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T19:13:52Z",
+  "preflightContractDigest": "sha256:cc508d646b5532f220188e9b6eda72239d6e0ccca7e2cf4eb44114aac5a22740",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:5af13b8ff1f384b65818738fe19240f515c19196c4dfb68fbec1ca0519448f44",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T19:14:27Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-914-interface-description-execution-ssot"
+}
