@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:a5046d750a2f653c312b8e4453a703c8c8085884c3b1bcc7eba691862dc5ce96",
+  "branchRef": "refs/heads/codex/wi-904-interface-ssot",
+  "contractDigest": "sha256:64b5e7f8aee4c357614d760a0d8d9437f1f7fb2a494ede2d1b05e5f3f0287c12",
+  "headRevision": "3c9cc817639a387cee828a50049aa77a820a7752",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T09:49:39Z",
+  "operationId": "sha256:623a2945de02c1460bf13fd331ebb948f455333e9443cec921ee0556cfefb26f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-904-interface-description-ssot",
+  "worktreeId": "sha256:17e00c1cf6c7ccc0a266a31a4fbf63bf48955d76e92445733fa870d29e99f6e1"
+}
