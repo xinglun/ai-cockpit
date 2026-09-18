@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace package versions、Cargo.lock 和当前三语发布/版本文档一致为 0.2.100，历史版本保持不变。",
+    "v0.2.100 使用未占用的不可变 annotated tag，并绑定本次审查过的 main 源提交。",
+    "provider Release 为稳定公开状态，manifest、checksums、SBOM、archives、attestation 和 source identity 互相绑定。",
+    "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.99 到 v0.2.100 升级以及精确临时目录清理；对象仓库不发生写入。",
+    "当前中文 Outcome 完整说明完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。",
+    "当前架构版本与发布分发三语说明中的 current package/release identity 与 Cargo workspace 版本一致，历史版本叙述保持为历史事实。"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "208a554e563b0c5288c3a6ae873506b8901a2e3a",
+  "createdAt": "2026-09-18T21:56:02Z",
+  "goal": "从最新 main 创建 v0.2.100 候选，完成不可变标签、稳定 provider Release、供应链证据、下载产物安装/升级验收、发布后清理，并在当前中文对话中完整交付 Outcome；已授权后续确认动作，收益和宿主展示边界保持未知。",
+  "intent": "完成 Outcome 语言修复、四方向收敛及 Issue #851 对应后的最终 v0.2.100 发布",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改对象仓库主分支或合并对象仓库；不重跑已完成的功能 WI；不宣称性能提速；不宣称宿主已展示或用户已阅读 Outcome；不新增生命周期协议或发布系统。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6df11e02086ab343ba902b7d66e2f79d6f7fac17cd39322fa0b6b0e3baf21545",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence",
+    "delegated:github"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "v0.2.100 tag, provider Release assets, manifest, checksums, SBOM, archives, attestation, and source identity bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "Run the release workflow from synchronized main, then inspect the immutable tag, Release assets, manifest, checksums, SBOM, archives, attestation, and source identity."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded x86_64 v0.2.100 artifact passes checksum, isolated fresh install, v0.2.99 to v0.2.100 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the published immutable Release asset with isolated TMPDIR and CARGO_HOME, run fresh-install and upgrade acceptance, inspect cleanup, and compare object-repository HEAD/status before and after."
+    }
+  ],
+  "scope": [
+    "更新 workspace package 版本与当前三语发布/版本文档；执行现有 release.yml 受治理发布路径；采集并绑定 tag、Release、manifest、checksums、SBOM、archives、attestation、安装、升级、版本一致性与清理 receipt；归档并关闭本 WI。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/reference/**",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "docs/work-items/WI-918-release-v0-2-100.**",
+    "docs/architecture/versioning.**",
+    "docs/architecture/release-distribution.**"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    "https://github.com/xinglun/ai-cockpit/pull/884"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-918-release-v0-2-100"
+}

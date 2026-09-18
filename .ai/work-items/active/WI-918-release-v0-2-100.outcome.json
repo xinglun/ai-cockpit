@@ -1,0 +1,346 @@
+{
+  "acceptanceResults": [
+    "Cargo workspace package versions、Cargo.lock 和当前三语发布/版本文档一致为 0.2.100，历史版本保持不变。",
+    "v0.2.100 使用未占用的不可变 annotated tag，并绑定本次审查过的 main 源提交。",
+    "provider Release 为稳定公开状态，manifest、checksums、SBOM、archives、attestation 和 source identity 互相绑定。",
+    "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.99 到 v0.2.100 升级以及精确临时目录清理；对象仓库不发生写入。",
+    "当前中文 Outcome 完整说明完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。",
+    "当前架构版本与发布分发三语说明中的 current package/release identity 与 Cargo workspace 版本一致，历史版本叙述保持为历史事实。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:3c27886aa014220ef866ed324a83b40e9d6e8121acbf54f03224f38ad3d9ad91",
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-918-release-v0-2-100.preflight-review.3ca0b66875e8e115f7f368d4bf4d6ab05fd2fee57af3f667066ff93ade5434a7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-918-release-v0-2-100.preflight-review.658dc0514b4ad1da143bf56c3a82ebb4985282aa47bb993dec9706a01e274bf7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-918-release-v0-2-100.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-918-release-v0-2-100.verification-attempt.4c17cd43233123069eca31aac98609b79628f801142fa990498f51b53ca2a359.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-918-release-v0-2-100.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Cargo.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-comparison-metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-918-release-v0-2-100.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-918-release-v0-2-100.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-918-release-v0-2-100.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-918-release-v0-2-100.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新 main 创建 v0.2.100 候选，完成不可变标签、稳定 provider Release、供应链证据、下载产物安装/升级验收、发布后清理，并在当前中文对话中完整交付 Outcome；已授权后续确认动作，收益和宿主展示边界保持未知。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-918-release-v0-2-100.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-918-release-v0-2-100"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-918-release-v0-2-100.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-918-release-v0-2-100"
+}
