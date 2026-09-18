@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T10:39:14Z",
+  "files": {
+    "contractDigest": "sha256:df30d5bd11d26d2a503ba0f3cf37dcf4993476ba294ad1fd60bf99ac0011e761",
+    "contractPath": ".ai/work-items/archive/WI-905-performance-v098-evidence.contract.json",
+    "eventsDigest": "sha256:8ed415a5bfa1a8ccf746b27bab76df257cb917f7d2574fcc3f185364ec115f87",
+    "eventsPath": ".ai/work-items/archive/WI-905-performance-v098-evidence.events.jsonl",
+    "outcomeDigest": "sha256:7c0dcc4c2690529960937bd11416cdcceba670d9a0fc3ca61c4a704571f171ac",
+    "outcomePath": ".ai/work-items/archive/WI-905-performance-v098-evidence.outcome.json",
+    "summaryDigest": "sha256:311ca5bd22a56664b0b8c7937305f6f5e7614602145829357607dfbc79b34e15",
+    "summaryPath": ".ai/work-items/archive/WI-905-performance-v098-evidence.summary.json",
+    "taskReportDigest": "sha256:174d8dbe870713ab3ca714be38e63887cbbd347b9d775a76c2bcd3de8bb89de0",
+    "taskReportMarkdownDigest": "sha256:65b0342913a5e3568c3ab1320805e44b510b3a6f08b4f836e00e71af52cf72b9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-905-performance-v098-evidence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-905-performance-v098-evidence.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-905-performance-v098-evidence"
+}

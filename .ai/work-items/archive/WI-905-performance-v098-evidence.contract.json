@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "All persisted captures contain at least 100 valid warm samples for every compared operation.",
+    "Baseline and candidate bind the same machine, Rust/Cargo toolchain, build mode, scenario identity, and repository identity.",
+    "The report retains raw samples, p50/p95/p99, process/counter data, diagnostics overhead, and explicit unavailable reasons without replacing unknown values with zero.",
+    "The canonical English, Simplified Chinese, and Japanese baseline docs state the current v0.2.98 result and preserve the historical v0.2.95 context.",
+    "The conclusion distinguishes internal phase improvement from end-to-end CLI improvement and reports unknown development-cycle stages explicitly.",
+    "The persisted capture bundle is a single deterministic archive with a checksum and no platform metadata entries."
+  ],
+  "authority": "human:owner",
+  "baseRevision": "06a5e23e69894fc4d4cc74c95a83eb1072fe66ac",
+  "createdAt": "2026-09-18T10:26:53Z",
+  "goal": "Make current-version performance evidence reproducible and honest for the four-direction acceptance: 100 valid warm samples, same environment identity, raw samples and counters retained compactly, and no claim of speedup unless the paired comparison proves it.",
+  "intent": "Refresh the canonical performance baseline with current v0.2.98 paired evidence while preserving historical captures and explicitly separating runtime latency from development-cycle cost.",
+  "mode": "code",
+  "outOfScope": [
+    "No runtime behavior changes",
+    " no object-repository main changes or merges",
+    " no release publication",
+    " no new host delivery API",
+    " no synthetic small-repository substitution",
+    " and no claim that within-noise results are an improvement."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:49fb9889bd8ae365ab21cc2727783da92ce5af820ad3a3cde3a393722c41ae14",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "Update the existing performance baseline and this Work Item evidence with the already collected v0.2.98 versus v0.2.93 captures for selected object repositories",
+    " Outcome query measurements",
+    " internal phase diagnosis",
+    " and diagnostic overhead; preserve v0.2.95 history as historical evidence.",
+    "docs/performance/baseline.md",
+    "docs/performance/baseline.zh-CN.md",
+    "docs/performance/baseline.ja.md",
+    ".ai/evidence/WI-905-performance-v098-evidence/"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.98",
+    "tests/performance/runtime_benchmark.sh",
+    "tests/performance/paired_performance_report.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-905-performance-v098-evidence"
+}
