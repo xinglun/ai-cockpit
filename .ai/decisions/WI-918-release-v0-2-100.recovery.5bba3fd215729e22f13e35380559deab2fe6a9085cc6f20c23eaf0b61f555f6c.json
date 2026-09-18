@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T08:29:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/external/WI-918-release-close.json",
+    ".ai/evidence/external/WI-918-adopter-acceptance.json",
+    ".ai/evidence/external/WI-918-adopter-upgrade.json",
+    ".ai/evidence/external/WI-918-attestation.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:3b8f023bfd4f2c3cf08187adaf75c419db530b8c535dbdf3856ba2a112b5d17c",
+  "predecessorEventsDigest": "sha256:dc90b88c7f6029f2d66f646a912f55dac528e5115b479e8835a08df54b74dd31",
+  "predecessorOutcomeDigest": "sha256:0ff054037b78bdb964f8f7c1dfd25a2a61595783029c98dbbd437bf3d43ea76e",
+  "predecessorSummaryDigest": "sha256:a3b8be97ef3ab53e169e8b558bb8326a7894b3d37fe55ac9a5037e599deaab2a",
+  "predecessorWorkItemId": "WI-918-release-v0-2-100",
+  "reason": "发布后外部证据文件已绑定到当前 WI；前一次 finish-ready 投影保留了旧 preflight snapshot 绑定。恢复同一 WI 到 checkpointed，刷新当前观察和 preflight 决定后归档，不创建 successor，不重复发布、验证或归档动作。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "刷新当前仓库观察和 preflight 决定，复用或确认现有验证证据，随后完成中文 archive、provider cleanup、finalize-verify 和 close。",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-918-release-v0-2-100"
+}

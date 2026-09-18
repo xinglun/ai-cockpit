@@ -5,7 +5,8 @@
     "provider Release 为稳定公开状态，manifest、checksums、SBOM、archives、attestation 和 source identity 互相绑定。",
     "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.99 到 v0.2.100 升级以及精确临时目录清理；对象仓库不发生写入。",
     "当前中文 Outcome 完整说明完成内容、验证范围、剩余未知和下一步；性能收益保持未知，宿主展示确认保持未知。",
-    "当前架构版本与发布分发三语说明中的 current package/release identity 与 Cargo workspace 版本一致，历史版本叙述保持为历史事实。"
+    "当前架构版本与发布分发三语说明中的 current package/release identity 与 Cargo workspace 版本一致，历史版本叙述保持为历史事实。",
+    "实际 provider、PR、分支、worktree 资源上下文在归档前以 WI-918 的 finalize-plan receipt 绑定，并在合并后按该绑定执行精确清理。"
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "208a554e563b0c5288c3a6ae873506b8901a2e3a",
@@ -26,6 +27,14 @@
     "external_evidence",
     "delegated:github"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-918-release-v0-2-100",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/885",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-918-release-v0-2-100/ai-cockpit"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {

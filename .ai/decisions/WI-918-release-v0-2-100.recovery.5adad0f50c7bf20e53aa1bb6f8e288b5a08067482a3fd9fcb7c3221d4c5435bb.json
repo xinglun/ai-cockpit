@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T22:52:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-918-release-v0-2-100.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/885"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:87c05832dbc5d2ddec58e6d3a7a731ec0c028c10d0adc9c6eac57f3b8ed4f93d",
+  "predecessorEventsDigest": "sha256:122ceaed35dd43f05d557102f3a9cac39d4a0644653a262d6c8da7ef965029c8",
+  "predecessorOutcomeDigest": "sha256:f6102f76a38cbf2e99ca4665d64faa04d872b4edd6199e2146da4f3acb83a665",
+  "predecessorSummaryDigest": "sha256:bb1ecfc13de7fb6ca71c82823c8cf4d16a9f7d18b51b3bb311bdc22d6b86d52f",
+  "predecessorWorkItemId": "WI-918-release-v0-2-100",
+  "reason": "Retry the same release Work Item to bind the actual merged PR resource context before the release verification cycle; preserve current evidence and do not create a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #885 and the dedicated worktree, rerun preflight and verification for the amended Contract, then continue publication and finalization.",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-918-release-v0-2-100"
+}

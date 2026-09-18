@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-18T23:33:01Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-18T23:18:26Z",
+    "digest": "sha256:54dc49223dc3f59a99c63bd36dfc5ac09a9e0f70a02e0c9d7d75e3e52ce7855f",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35403815197",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-918-publish-handoff.json",
+    "subject": "v0.2.100 publish handoff",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-918-release-v0-2-100"
+}

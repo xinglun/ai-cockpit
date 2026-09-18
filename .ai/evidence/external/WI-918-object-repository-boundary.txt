@@ -1,0 +1,29 @@
+WI-918 object-repository boundary observation
+The four object repositories were inspected read-only before release operations and after release workflow completion. No repository-bound command in this Work Item targeted them for a write, commit, push, merge, or checkout.
+
+Baseline before release:
+/Users/sei-rinn/dev/workspace_rust/ORG-X
+branch: main...origin/main
+HEAD: 27b06157da577599e91bbdeaafecceab4f6ee521
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/sentinel
+branch: develop...origin/develop
+HEAD: 46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/goods-garden
+branch: main...origin/main
+HEAD: 67d82de6f1435e3fccaf5659e536f58e46d29e6a
+working tree: clean
+
+/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator
+branch: main...origin/main
+HEAD: ec6c14ec3438f80b8ae1fad5f2973059ce579fcc
+working tree: clean
+
+After release workflow:
+ORG-X: unchanged, clean, HEAD 27b06157da577599e91bbdeaafecceab4f6ee521
+sentinel: unchanged, clean, HEAD 46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385
+goods-garden: unchanged, clean, HEAD 67d82de6f1435e3fccaf5659e536f58e46d29e6a
+ai-investigation-orchestrator: unchanged, clean, HEAD ec6c14ec3438f80b8ae1fad5f2973059ce579fcc
