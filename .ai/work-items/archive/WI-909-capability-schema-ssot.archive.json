@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T13:27:40Z",
+  "files": {
+    "contractDigest": "sha256:f1b0eadac589db328d66c28641b8eb790c7d2e4ae11218f4527f7aa74fea8bfb",
+    "contractPath": ".ai/work-items/archive/WI-909-capability-schema-ssot.contract.json",
+    "eventsDigest": "sha256:5e1ae27e52dc5362fe91e0f540a3b9a05e911e2ba5bc352c04be74f5db34802b",
+    "eventsPath": ".ai/work-items/archive/WI-909-capability-schema-ssot.events.jsonl",
+    "outcomeDigest": "sha256:9af6512f390255ccb6ecd0ab01697f65a1f9c8259cf44ce04d32476580c5327f",
+    "outcomePath": ".ai/work-items/archive/WI-909-capability-schema-ssot.outcome.json",
+    "summaryDigest": "sha256:931c71cc0d9e71af1e7fd17007d5df631a0d03606ca6aeb4ae0f76b29dee7538",
+    "summaryPath": ".ai/work-items/archive/WI-909-capability-schema-ssot.summary.json",
+    "taskReportDigest": "sha256:e427da12afe4b41820f8baeeb75f04ff9d7c09bfde4ff430d7271029b3721974",
+    "taskReportMarkdownDigest": "sha256:4af1a43c7f912ad52f6be4db34122d8c4cd5c6e110253de06807a8352895ab7b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-909-capability-schema-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-909-capability-schema-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-909-capability-schema-ssot"
+}

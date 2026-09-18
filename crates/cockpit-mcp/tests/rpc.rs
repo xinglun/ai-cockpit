@@ -1,5 +1,6 @@
 use cockpit_mcp::{handle_request, handle_request_for_repo};
 use std::{
+    collections::BTreeSet,
     fs,
     process::Command,
     sync::atomic::{AtomicU64, Ordering},
@@ -211,6 +212,51 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         "array"
     );
     assert!(start["inputSchema"]["required"].as_array().is_some());
+}
+
+#[test]
+fn capability_show_schema_projects_the_exact_protocol_parameter_set() {
+    let runtime = test_runtime_context();
+    let tools = handle_request(
+        &serde_json::json!({"jsonrpc":"2.0","id":4,"method":"tools/list","params":{}}),
+        &runtime,
+    );
+    let capability = tools["result"]["tools"]
+        .as_array()
+        .expect("tools")
+        .iter()
+        .find(|tool| tool["name"] == "capability_show")
+        .expect("capability_show tool");
+    let properties = capability["inputSchema"]["properties"]
+        .as_object()
+        .expect("capability_show properties");
+    let actual = properties.keys().cloned().collect::<BTreeSet<_>>();
+    let expected = cockpit_protocol::capability_show_interface_specs()
+        .iter()
+        .map(|spec| spec.name.to_owned())
+        .collect::<BTreeSet<_>>();
+    assert_eq!(actual, expected);
+
+    for spec in cockpit_protocol::capability_show_interface_specs() {
+        let schema = &properties[spec.name];
+        assert_eq!(schema["type"], "string", "parameter={}", spec.name);
+        assert_eq!(
+            schema["enum"],
+            serde_json::json!(spec.enum_values),
+            "parameter={}",
+            spec.name
+        );
+        if let Some(default) = spec.default {
+            assert_eq!(schema["default"], default, "parameter={}", spec.name);
+        } else {
+            assert!(schema.get("default").is_none(), "parameter={}", spec.name);
+        }
+        assert_eq!(
+            schema["description"], spec.description,
+            "parameter={}",
+            spec.name
+        );
+    }
 }
 
 #[test]

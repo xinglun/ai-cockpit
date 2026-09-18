@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:12234a5ba7a603769c00c7d49aabac7953213f6167d6c5301eb1696b746724d5",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "b5c4d865fb232c23237e9dc225b562053a41851a",
+      "commandDigest": "sha256:3f47e9703cf5972418582ce93f9e1226c11cdb08f6af78d648b4c284fc855b74",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:4753b69f81bd45604e71d745269963073258e52a8249ae4aa2b34a69d8a9f52e",
+  "contractExecutionScopeDigest": "sha256:c17807cbdcd7dadf888a1bfbf0a58dcbcb43e2e94f47f9e27743db2af9d52984",
+  "createdAt": "2026-09-18T13:14:58Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-909-capability-schema-ssot/ai-cockpit/.ai/work-items/active/WI-909-capability-schema-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:42f6b6f6f13c8b0bb2709b24703a0f1835badbfa36d5cdb61d2355fa8e92984a",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-909-capability-schema-ssot"
+}
