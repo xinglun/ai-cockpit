@@ -1,0 +1,164 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:da8b2def0119fee3f50761b5fa34c0ecaca29a4927fc5659b5645bd5647a54c5",
+      "workItemId": "WI-911-release-v0-2-99"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-911-release-v0-2-99.preflight-review.4a009312dbf0db93e9f9735c3d00df1449400ea980e5a464d34c3badea7b17e1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-911-release-v0-2-99.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:owner via explicit-user-authorization at 2026-09-19T00:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新已审查 main 创建 v0.2.99 候选，完成不可变标签、稳定 provider Release、完整发布产物与供应链证据、下载产物安装/升级验收、发布后清理和最终中文 Outcome；不修改对象仓库。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-911-release-v0-2-99"
+  },
+  "finalReportDigest": "sha256:1125876759f441f26ede98880affdef25f5de4a4b2cb20bb43f930c02b898b7c",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:9952030cf59bd93be8b81291dba7e42516fd02418ec476d86c0a05b8ffa5780f",
+    "branch": "codex/wi-911-release-v0-2-99",
+    "branchRef": "refs/heads/codex/wi-911-release-v0-2-99",
+    "capturedAt": "2026-09-18T16:46:56Z",
+    "contractDigest": "sha256:89ea51e0048d8637e075e73653ef25719f0091082c6dbbdb494bd5fce7aea7f8",
+    "headRevision": "219b14afdcd938e30d21e9d47da7f0173d383d81",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "WI-911-release-v0-2-99",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit-wi-911",
+    "worktreeId": "sha256:7aa5c8fe4609ca25063600a27da54ebf647052a33c2247f1580bd965830c304e",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit-wi-911"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:1892463bee8b1cef6a73bd0cda8cf8593898569f90d3affa0fd65fc79b2d61c5",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T00:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-911-release-v0-2-99.verification.json"
+    ],
+    "policyRefs": [
+      ".ai/work-items/archive/WI-911-release-v0-2-99.contract.json"
+    ],
+    "reason": "用户已授权在全部验证完成后记录 close 决定；接受 v0.2.99 发布、安装升级和清理证据；性能收益及宿主展示确认保持未知。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-18T16:46:56Z",
+  "workItemId": "WI-911-release-v0-2-99"
+}
