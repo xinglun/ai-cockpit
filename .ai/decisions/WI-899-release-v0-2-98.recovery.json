@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-18T04:51:36Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-899-release-v0-2-98.outcome.json",
+    ".ai/evidence/WI-899-release-v0-2-98.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/871"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:750da99f7bdbe840e75cf06d58721348415aec0a36c66995a9a4ebb928ed78aa",
+  "predecessorEventsDigest": "sha256:4ee4bc67552b8ca4bd7ace3c1fae16e85f4bd1b4eb0d32a852f2a8dc3d23b3da",
+  "predecessorOutcomeDigest": "sha256:4453b6e32969ab566546a6f88c0bb96a664f5896726998140afe622eab9b0722",
+  "predecessorSummaryDigest": "sha256:945704389578ee956daaa718fea4f67121c9a724945a522ccfac7d0f8c647e12",
+  "predecessorWorkItemId": "WI-899-release-v0-2-98",
+  "reason": "Retry the same release Work Item after the reviewed candidate commit changed the repository snapshot and the initial resource finalization plan was attempted after verification; preserve the failed finish Outcome and re-establish the legal checkpointed route before binding PR context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the reviewed PR resource context before fresh verification, rerun preflight and verification against the current snapshot, then continue only with hosted review and publication gates.",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "workItemId": "WI-899-release-v0-2-98"
+}

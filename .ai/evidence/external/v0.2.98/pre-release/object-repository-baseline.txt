@@ -1,0 +1,19 @@
+WI-899 object-repository boundary baseline (2026-09-18, before release operations)
+
+/Users/sei-rinn/dev/workspace_rust/ORG-X
+HEAD 27b06157da577599e91bbdeaafecceab4f6ee521
+status ## main...origin/main
+
+/Users/sei-rinn/dev/workspace_rust/sentinel
+HEAD 1e5d16caca1c6671903b972f871731697b6cdafe
+status ## develop...origin/develop
+pre-existing worktree changes: .ai/decisions/observer-snapshot.json; .ai/decisions/daily-radar-snapshot-report-date-conflict.selected-successor-lineage-recovery.json; .ai/decisions/freshness-gate-holiday-fix-finalization-recovery.retirement.json; .ai/decisions/freshness-gate-holiday-fix.recovery.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-recovery.close.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-recovery.recovery.d853a205b3c131fe330cdde52eed4450611ffeea39bb46246ddffd59efe8dfd5.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.close.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.finalize.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.close.json; .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.recovery.d271af53e349630a7b2a6520c3d5ecbfb3aacf918bb99843bf97f73fe3e9e477.json; .ai/decisions/signal-context-geopolitical-lexical-integrity.recovery.cd2c26901bd749afb07ad943ec3a398cca24645194d20fd7f8aacda7c8acc1cb.json; .ai/evidence/freshness-gate-holiday-fix-finalization-recovery.verification-attempt.3007de3be83d1d2e66b6b7fc0897828bc920a84a04018ee6c90de5c432fe88cc.json; .ai/evidence/freshness-gate-holiday-fix-finalization-recovery.verification-attempt.58fb794f8aa42843a23f0fee9c73c6043e45d77ccb6b6d80757646d8bedb696a.json; .ai/evidence/freshness-gate-holiday-fix-finalization-recovery.verification-attempt.90b48d8a3f005e78b2c1de4f9720182b0b8d3d912a6d65113e5c3fa17b0bf2a7.json; .ai/evidence/freshness-gate-holiday-fix-finalization-recovery.verification-attempt.a58991e862e3327116f5bc53f969fdb8d23cbe75409cc157f6dbbda31277ec98.json; .ai/locks/; .ai/work-items/archive/freshness-gate-holiday-fix-finalization-recovery.approach.json; .ai/work-items/archive/freshness-gate-holiday-fix-finalization-recovery.archive.json; .ai/work-items/archive/freshness-gate-holiday-fix-finalization-recovery.contract.json; .ai/work-items/archive/freshness-gate-holiday-fix-finalization-recovery.outcome.json; .ai/work-items/archive/freshness-gate-holiday-fix-finalization-recovery.summary.json; .worktrees/
+
+/Users/sei-rinn/dev/workspace_rust/goods-garden
+HEAD 67d82de6f1435e3fccaf5659e536f58e46d29e6a
+status ## main...origin/main
+
+/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator
+HEAD 8125e7c5cd45cac76931b7802deaf4d402deb329
+status ## main...origin/main
+pre-existing worktree changes: .ai/locks/

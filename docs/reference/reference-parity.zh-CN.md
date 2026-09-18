@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-892-release-v0-2-97
+lastVerifiedBy: WI-899-release-v0-2-98
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.97` Runtime（二进制摘要
-`sha256:ca4dcfc1eb1b520e1ef9194063006ee460a71a60cb02c8f356be58a1f298f135`）。
+`ai-cockpit v0.2.98` Runtime（二进制摘要
+`sha256:cdbe03cb72651abd57d3b8ee107239a778f8c658186480e5a31cc6628ee22299`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -897,3 +897,4 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-892-release-v0-2-97——v0.2.96 不可变候选拒绝后的 v0.2.97 发布 | 已实现 | [Work Item](../work-items/WI-892-release-v0-2-97.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-892-release-v0-2-97.contract.json`; verification `.ai/evidence/WI-892-release-v0-2-97.verification.json`; finalization `.ai/decisions/WI-892-release-v0-2-97.finalize.json`; close `.ai/decisions/WI-892-release-v0-2-97.close.json`. |
 | WI-895-release-docs-promotion——WI-892 文档 promotion | 已实现 | [Work Item](../work-items/WI-895-release-docs-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-895-release-docs-promotion.contract.json`; verification `.ai/evidence/WI-895-release-docs-promotion.verification.json`; close `.ai/decisions/WI-895-release-docs-promotion.close.json`. |
 | WI-898-hci-terminology——四方向验收报告的 HCI 术语修正 | 已实现 | [Work Item](../work-items/WI-898-hci-terminology.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-898-hci-terminology.contract.json`; verification `.ai/evidence/WI-898-hci-terminology.verification.json`; close `.ai/decisions/WI-898-hci-terminology.close.json`. |
+| WI-899-release-v0-2-98——Outcome、HCI、四方向与 Issue #851 收敛后的最终发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-899-release-v0-2-98.zh-CN.md); 发布仍以不可变标签、Provider Release、下载制品验收和精确清理证据为前提；archive `.ai/work-items/archive/WI-899-release-v0-2-98.contract.json`; verification `.ai/evidence/WI-899-release-v0-2-98.verification.json`; finalization `.ai/decisions/WI-899-release-v0-2-98.finalize.json`; close `.ai/decisions/WI-899-release-v0-2-98.close.json`. |

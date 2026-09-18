@@ -1,0 +1,119 @@
+{
+  "acceptanceCriteria": [
+    "Workspace package versions, Cargo.lock, current release documentation, and generated archives identify v0.2.98 consistently.",
+    "The immutable v0.2.98 tag is annotated and bound to the reviewed release commit; no existing semantic tag is moved or deleted.",
+    "A stable provider Release is bound to the immutable v0.2.98 tag, manifest, checksums, SBOM, archives, workflow handoff, and source identity.",
+    "Downloaded v0.2.98 assets pass checksum, isolated fresh-install, and v0.2.97 upgrade acceptance with exact temporary-root cleanup.",
+    "English, Simplified Chinese, and Japanese release and reference projections remain synchronized.",
+    "Object repositories remain untouched.",
+    "The final release Outcome reports publication, installed and upgraded acceptance, cleanup, unresolved boundaries, and next action without claiming automatic host chat display or unproven performance improvement."
+  ],
+  "authority": "user:release-after-all-work-items",
+  "baseRevision": "e4173ef2dc9da59a05da34bd9998a28e95accdce",
+  "createdAt": "2026-09-18T04:19:29Z",
+  "goal": "Update the reviewed main line to v0.2.98 and complete the governed immutable tag, provider Release, downloaded artifact acceptance, post-release adopter and upgrade acceptance, and exact cleanup without touching object repositories.",
+  "intent": "Publish the final release only after Outcome delivery, HCI four-direction convergence, Issue #851, and all prerequisite Work Items are complete.",
+  "mode": "implementation",
+  "outOfScope": [
+    "/Users/sei-rinn/dev/workspace_rust/ORG-X",
+    "/Users/sei-rinn/dev/workspace_rust/sentinel",
+    "/Users/sei-rinn/dev/workspace_rust/goods-garden",
+    "/Users/sei-rinn/dev/workspace_rust/ai-investigation-orchestrator",
+    "Outcome",
+    " HCI",
+    " performance",
+    " and lifecycle redesign beyond release binding"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9bf09085f62492ee761729e0d8641f82a86e06d84b24078bca25e38206dbcd75",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-899-release-v0-2-98",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/871",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.worktrees/codex-wi-899-release-v0-2-98"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Cargo metadata, lockfile, current docs, generated manifest, and annotated v0.2.98 tag identify the same version and source commit",
+      "required": true,
+      "scenario": "workspace identity and immutable tag",
+      "status": "unverified",
+      "verificationPlan": "Run version consistency before publication and compare the peeled remote tag with the reviewed release source commit"
+    },
+    {
+      "evidence": [],
+      "expected": "Provider Release is stable and its manifest, checksums, SBOM, archives, and handoff bind to v0.2.98",
+      "required": true,
+      "scenario": "published assets and manifest",
+      "status": "unverified",
+      "verificationPlan": "Consume the release workflow handoff and validate provider Release assets independently"
+    },
+    {
+      "evidence": [],
+      "expected": "Downloaded v0.2.98 installs in isolated roots and upgrades the public v0.2.97 baseline with exact cleanup",
+      "required": true,
+      "scenario": "downloaded fresh install and N-1 upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the hosted adopter and upgrade acceptance receipts, then validate cleanup bindings"
+    },
+    {
+      "evidence": [],
+      "expected": "ORG-X, sentinel, goods-garden, and ai-investigation-orchestrator have no changes",
+      "required": true,
+      "scenario": "object repository boundary",
+      "status": "unverified",
+      "verificationPlan": "Inspect their HEAD and status before and after release operations"
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese current release/reference projections remain parity-clean",
+      "required": true,
+      "scenario": "multilingual release projections",
+      "status": "unverified",
+      "verificationPlan": "Run documentation acceptance and parity status checks before and after publication"
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "workspace package version metadata",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/operations/**",
+    "docs/reference/reference-parity*.md",
+    "docs/reference/reference-file-comparison*.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/commands*.md",
+    ".github/workflows/release.yml",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "docs/work-items/WI-899-release-v0-2-98.**"
+  ],
+  "sources": [
+    "main e4173ef2dc9da59a05da34bd9998a28e95accdce with hosted quality run 35305497231 passed",
+    "public v0.2.97 Release and immutable tags v0.2.96/v0.2.97 are preserved historical identities"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "tests/release/version_consistency.sh --repo $PWD",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh $PWD /tmp/wi899-parity.json",
+    "python3 tests/ci/governance_integrity_gate.py --repo $PWD --report target/wi899-governance.json",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=$HOME/.cache/ai-cockpit-verify-target cargo test --locked --workspace",
+    "gh workflow run release.yml --repo xinglun/ai-cockpit --ref main -f from_tag=v0.2.97 -f to_tag=v0.2.98 -f publish_existing_tag=true -f work_item_id=WI-899-release-v0-2-98 -f source_work_item_id=WI-899-release-v0-2-98"
+  ],
+  "workItemId": "WI-899-release-v0-2-98"
+}
