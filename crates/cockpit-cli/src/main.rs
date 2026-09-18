@@ -573,25 +573,31 @@ enum WorkItemCommand {
     Outcome {
         #[arg(long)]
         repo: PathBuf,
-        #[arg(long)]
+        #[arg(
+            long,
+            help = cockpit_protocol::WORK_ITEM_OUTCOME_ID_DESCRIPTION
+        )]
         id: String,
         /// Deliver the immutable archived full Outcome through the configured
         /// host adapter. Without a host command this is an explicit
         /// full-handoff-only result and never a display claim.
         #[arg(
             long,
+            help = cockpit_protocol::WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
             default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY
         )]
         delivery: bool,
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
         #[arg(
             long,
+            help = cockpit_protocol::WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
             default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_JSON
         )]
         json: bool,
         /// Select the human handoff projection. The default is the reader-first summary.
         #[arg(
             long,
+            help = cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
             value_parser = clap::builder::PossibleValuesParser::new(
                 cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.iter().copied()
             ),
@@ -603,6 +609,7 @@ enum WorkItemCommand {
         /// is used.
         #[arg(
             long,
+            help = cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
             value_parser = clap::builder::PossibleValuesParser::new(
                 cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
             )

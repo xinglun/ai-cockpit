@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "repository-owner:xinglun",
+  "decidedAt": "2026-09-19T03:31:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-913-interface-ssot-execution.verification.json",
+    ".ai/work-items/active/WI-913-interface-ssot-execution.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:7b978a6901a2a560231c4f5bdc75e5c9c2db879baa3978eb89af5fcf97365d7c",
+  "predecessorEventsDigest": "sha256:7a60408d76d9d945eb0e0606cae3d014d41f09122b04fc86bb169a17ad86cc04",
+  "predecessorOutcomeDigest": "sha256:eaff9d1c4878957ff00dcd1fb26f7ab0f09807c329210e524fcb9df9e011db7a",
+  "predecessorSummaryDigest": "sha256:ac7e95d321edb6100169b0073099d2adb67cf27568f485bd690eddf08c0e8a96",
+  "predecessorWorkItemId": "WI-913-interface-ssot-execution",
+  "reason": "Retry the current Work Item after a source-built Runtime rejected the installed Runtime verification receipt; the installed Runtime has now refreshed and reused the valid current verification evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Rerun preflight with the installed Runtime, then retry finish using the active conversation language fallback.",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "WI-913-interface-ssot-execution"
+}

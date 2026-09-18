@@ -273,6 +273,18 @@ fn mcp_outcome_schema_projects_protocol_owned_parameter_facts() {
         .find(|tool| tool["name"] == "work_item_outcome")
         .expect("outcome tool");
     let properties = &outcome["inputSchema"]["properties"];
+    let identity = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
+        .expect("MCP outcome identity spec");
+    assert_eq!(
+        properties[identity.name]["description"],
+        identity.description
+    );
+    for alias in identity.aliases {
+        assert_eq!(
+            properties[*alias]["description"],
+            format!("Deprecated alias for {}.", identity.name)
+        );
+    }
     for spec in cockpit_protocol::work_item_outcome_interface_specs("mcp")
         .expect("MCP outcome interface specs")
     {

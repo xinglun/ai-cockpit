@@ -1,6 +1,8 @@
 use sha2::{Digest as ShaDigest, Sha256};
 use std::{collections::BTreeSet, fs, path::Path, process::Command};
 
+use cockpit_protocol::work_item_outcome_interface_specs;
+
 mod common;
 
 fn repository() -> tempfile::TempDir {
@@ -14,6 +16,29 @@ fn repository() -> tempfile::TempDir {
             .success()
     );
     directory
+}
+
+#[test]
+fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let output = Command::new(binary)
+        .args(["work-item", "outcome", "--help"])
+        .output()
+        .expect("run outcome help");
+    assert!(output.status.success(), "outcome help failed");
+    let help = String::from_utf8_lossy(&output.stdout);
+    for name in ["delivery", "json", "view", "language"] {
+        let spec = work_item_outcome_interface_specs("cli")
+            .expect("CLI outcome surface")
+            .iter()
+            .find(|spec| spec.name == name)
+            .unwrap_or_else(|| panic!("missing protocol-owned spec: {name}"));
+        assert!(
+            help.contains(spec.description),
+            "CLI help for --{name} must be projected from the protocol description: {}",
+            spec.description
+        );
+    }
 }
 
 fn run_json(binary: &str, repo: &Path, args: &[&str]) -> serde_json::Value {

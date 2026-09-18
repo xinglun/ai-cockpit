@@ -232,9 +232,11 @@ also reports actual scoped read/hash bytes and Git calls. Unsupported child
 process counts are marked unavailable rather than zero, and benchmark-tool
 overhead is kept separate from these Runtime measurements.
 
-The CLI uses `AI_COCKPIT_LANGUAGE`, then the process locale, for direct human
-output. Agent conversations should render the same handoff in the language of
-the user. JSON field names and enum values remain stable across languages.
+The CLI adapter must pass the active conversation language with
+`--language en|zh|ja`; direct CLI calls fall back to `AI_COCKPIT_LANGUAGE`, then
+the process locale. Agent conversations must not derive this from the Contract
+source language or guess from a host locale. JSON field names and enum values
+remain stable across languages.
 
 ## MCP human handoff
 
@@ -244,8 +246,10 @@ text content is the same localized handoff rendered by the CLI, not a raw JSON
 dump. `structuredContent.outcome` remains the stable OutcomeV2 object;
 `humanHandoff` is only a presentation projection and cannot authorize a merge,
 release, or decision. `work_item_get` remains a machine record lookup. The
-optional `language` selects `en`, `zh`, or `ja` for Runtime-generated labels;
-Contract source text remains unchanged. For an archived WI, pass
+adapter must set `language` to the active conversation's `en`, `zh`, or `ja`;
+Runtime-generated labels follow that choice. A missing language is only a
+direct-call fallback, not evidence of the conversation language. Contract
+source text remains unchanged. For an archived WI, pass
 `delivery: true`; this is the full, independent delivery payload and must not be
 replaced by a later Agent summary.
 

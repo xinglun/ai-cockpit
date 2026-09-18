@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "Protocol-owned parameter facts are the only source for names, types, requiredness, defaults, enums, aliases, and descriptions in the trial surface.",
+    "CLI help and MCP schema projections are tested against the same protocol facts; a changed fact changes both projections without a second hand-maintained value.",
+    "Generated reference regions remain deterministic in English, Simplified Chinese, and Japanese, and human prose outside the region is preserved.",
+    "Description discovery remains read-only and starts zero verification or repository-history scans.",
+    "The implementation plan records the bounded files, interfaces, red-green tests, and verification sequence without expanding lifecycle or release scope.",
+    "Agent-managed guidance requires adapters to pass the active conversation language explicitly to CLI --language or MCP language; direct CLI locale fallback remains only a fallback.",
+    "The localized Outcome contract is tested through the installed adapter guidance without changing Contract source text, JSON field names, or governance facts."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "7f3f8cb33a98e8d9289fe38494987b376183b7e1",
+  "createdAt": "2026-09-18T17:53:51Z",
+  "goal": "同一接口事实只从协议拥有的定义投影到 CLI 帮助、MCP schema 和三语参考，变更一个定义后无需分别修改各适配层。",
+  "intent": "消除 work-item outcome 接口事实在 CLI、MCP 和协议描述之间的手工重复维护，保留现有权限、生命周期和 Outcome 语义。",
+  "mode": "code",
+  "outOfScope": [
+    "Outcome delivery and host messaging behavior",
+    "Runtime lifecycle",
+    " authorization",
+    " verification",
+    " receipt rules",
+    " and release publication",
+    "Sentinel or any object repository"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35858c452bd05b01d1ac28d1c9bf958d1fe888458cb9a2767371a33ca3e658c4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-cli/tests",
+    "crates/cockpit-mcp/tests",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/superpowers/plans/2026-09-19-WI-913-interface-ssot-execution.md",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/install.rs",
+    "docs/reference/outcome-report.md",
+    "docs/reference/outcome-report.zh-CN.md",
+    "docs/reference/outcome-report.ja.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+  ],
+  "sources": [
+    "docs/superpowers/specs/2026-09-17-interface-discovery-design.md",
+    "docs/work-items/WI-904-interface-description-ssot.md",
+    "user continuation objective: residual interface SSOT gap",
+    "superpowers:writing-plans skill"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo test --locked -p cockpit-agent --test install install_creates_only_owned_managed_section -- --exact --nocapture",
+    "cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity -- --test-threads=1",
+    "cargo test --locked -p cockpit-mcp --test rpc mcp_work_item_outcome_returns_explicit_human_handoff_with_cli_parity -- --exact --nocapture",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=$HOME/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=$HOME/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-agent -p cockpit-cli -p cockpit-mcp -p cockpit-protocol -p cockpit-core -p cockpit-evidence -p cockpit-git -p cockpit-isolation -p cockpit-knowledge -p cockpit-release -p cockpit-verification"
+  ],
+  "workItemId": "WI-913-interface-ssot-execution"
+}
