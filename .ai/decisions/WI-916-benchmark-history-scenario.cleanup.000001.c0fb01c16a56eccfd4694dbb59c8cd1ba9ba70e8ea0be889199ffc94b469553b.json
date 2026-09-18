@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:66596572c57052b3e3f4919846976d0767fb70879a9acb7d0d1a271b79c7cc43",
+  "branchRef": "refs/heads/codex/wi-916-benchmark-history-scenario",
+  "contractDigest": "sha256:096325bc4196f1e717a4aad0a1b473b6f305911be118f7a3af7738990d87258f",
+  "headRevision": "1508e09eec1860414b95187e1a498a0d667fa049",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T20:57:57Z",
+  "operationId": "sha256:266859863847c5abbe4b480be69ac59e4080351bf2ff1bfd8e9913c03dde73a1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-916-benchmark-history-scenario",
+  "worktreeId": "sha256:be19a9dc507edf400ac382eb8625a87a0815c4ce2bd8179a0c7e0c149a936555"
+}
