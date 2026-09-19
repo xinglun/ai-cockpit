@@ -1,0 +1,73 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-933-interface-description-ssot-correction.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-933-interface-description-ssot-correction.summary.json"
+  ],
+  "checkpointAt": "2026-09-19T09:26:19Z",
+  "checkpointContractDigest": "sha256:3769b1bae64742bd9b53568d723c73c43391d6c692b30b0c455c1c9471cade15",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
+  "createdAt": "2026-09-19T09:26:18Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-19T10:51:51Z",
+  "preflightContractDigest": "sha256:3769b1bae64742bd9b53568d723c73c43391d6c692b30b0c455c1c9471cade15",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T10:52:25Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-933-interface-description-ssot-correction"
+}
