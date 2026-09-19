@@ -50,6 +50,46 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:5d63192e2bfe83bc4136dfc7f3df086751fbb2ff5a5fc1f57ac668967ee80293",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+      "reason": "Include the verification precondition coordinator path touched by the in-scope bound-retry fix.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:44:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c5743f9c3a76c03395c57a8485667f7fa56e18c1db6b6d0fce0fe20603d24889",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:5d63192e2bfe83bc4136dfc7f3df086751fbb2ff5a5fc1f57ac668967ee80293",
+      "reason": "Add the in-scope recovery-lineage defect and its fail-closed acceptance coverage discovered by the deterministic PR gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:45:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c5743f9c3a76c03395c57a8485667f7fa56e18c1db6b6d0fce0fe20603d24889",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
@@ -67,7 +107,7 @@
   "preflightRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
   "preflightState": "not_run",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+  "recoveryRetryContractDigest": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
   "recoveryRetryDecisionDigest": "sha256:3705526467b7d7b64a3e06728bd9ec80c6eea88ea8d5d93b342d6a2f90d41420",
   "recoveryRetryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.json",
   "recoveryRetryPending": true,
@@ -160,9 +200,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+    "contractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-19T13:31:31Z"
+    "recordedAt": "2026-09-19T13:45:36Z"
   },
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

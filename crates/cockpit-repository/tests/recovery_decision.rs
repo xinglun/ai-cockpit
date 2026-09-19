@@ -434,6 +434,98 @@ fn record_valid_supersede(directory: &tempfile::TempDir, runtime: &RuntimeContex
 }
 
 #[test]
+fn existing_active_successor_binds_an_explicit_same_base_candidate() {
+    let directory = repository();
+    let runtime = current_runtime();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SUCCESSOR",
+        "continue the recovery",
+        "preserve the predecessor binding",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["binding remains identity-bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate same-base successor");
+
+    let mut decision = receipt(&directory, "bind the existing active successor");
+    decision["successorBindingMode"] = json!("existing_active_successor");
+    decision["runtimeVersion"] = json!(runtime.runtime_version);
+    decision["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &decision, &runtime)
+        .expect("bind explicit existing active successor");
+
+    let contract: Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-SUCCESSOR.contract.json"),
+        )
+        .unwrap(),
+    )
+    .unwrap();
+    assert_eq!(contract["predecessorWorkItemId"], json!("WI-BLOCKED"));
+    assert!(
+        contract["recoveryDecisionPath"]
+            .as_str()
+            .is_some_and(|path| path.ends_with("WI-BLOCKED.recovery.json"))
+    );
+}
+
+#[test]
+fn existing_active_successor_rejects_a_different_base() {
+    let directory = repository();
+    let runtime = current_runtime();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SUCCESSOR",
+        "continue the recovery",
+        "preserve the predecessor binding",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["binding remains identity-bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate successor");
+    let successor_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-SUCCESSOR.contract.json");
+    let mut successor: Value = serde_json::from_slice(&fs::read(&successor_path).unwrap()).unwrap();
+    successor["baseRevision"] = json!("foreign-base");
+    fs::write(
+        &successor_path,
+        serde_json::to_vec_pretty(&successor).unwrap(),
+    )
+    .unwrap();
+
+    let mut decision = receipt(&directory, "reject a different-base successor");
+    decision["successorBindingMode"] = json!("existing_active_successor");
+    decision["runtimeVersion"] = json!(runtime.runtime_version);
+    decision["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    let error = record_recovery_decision(directory.path(), "WI-BLOCKED", &decision, &runtime)
+        .expect_err("different-base successor must fail closed");
+    assert!(
+        error
+            .to_string()
+            .contains("existing_successor_identity_mismatch"),
+        "unexpected error: {error}"
+    );
+    assert!(
+        !directory
+            .path()
+            .join(".ai/decisions/WI-BLOCKED.recovery.json")
+            .exists(),
+        "rejected candidate must not append a recovery receipt"
+    );
+}
+
+#[test]
 fn outcome_rejects_a_foreign_current_recovery_with_a_stable_unknown() {
     let directory = repository();
     write_forged_supersede(&directory, |forged| {
