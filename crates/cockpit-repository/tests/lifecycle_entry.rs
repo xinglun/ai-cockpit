@@ -1166,6 +1166,153 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
 }
 
 #[test]
+fn typed_verification_survives_its_governance_projection_at_preflight_and_finish() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFICATION-GOVERNANCE-SNAPSHOT";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "keep typed verification current across Runtime governance writes",
+        "a receipt recorded by Runtime stays current when no source path changed",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "governance-projection".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("typed verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+
+    assert_eq!(
+        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+            .expect("post-verification preflight")
+            .state,
+        DecisionState::Green
+    );
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("governance projection must not stale verification evidence");
+}
+
+#[test]
+fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFICATION-SOURCE-MUTATION";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "reject stale typed verification after source mutation",
+        "source changes remain part of the verification identity",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "source-mutation".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("typed verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("source mutation");
+    let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("stale evidence is a yellow preflight result");
+    assert_eq!(preflight.state, DecisionState::Yellow);
+    assert!(
+        preflight
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_stale")
+    );
+    let error = finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect_err("source mutation must block finish");
+    assert!(error.to_string().contains("current repository snapshot"));
+}
+
+#[test]
 fn verification_preconditions_accept_complete_repository_bound_custom_evidence() {
     let directory = repository();
     let work_item_id = "WI-CUSTOM-EVIDENCE-PRECONDITION";

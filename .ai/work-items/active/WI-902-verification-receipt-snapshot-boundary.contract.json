@@ -1,0 +1,112 @@
+{
+  "acceptanceCriteria": [
+    "A successful current-Runtime typed verification remains complete at the immediately following preflight, gate, and finish evidence boundary when no source files changed.",
+    "Runtime governance-only writes do not create a false source snapshot mismatch, while real source changes still make evidence stale and fail closed.",
+    "First typed verification semantics, red preflight zero-process behavior, tamper checks, foreign-runtime checks, malformed receipt checks, and symlink checks remain unchanged.",
+    "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
+    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+  "createdAt": "2026-09-19T11:17:45Z",
+  "goal": "在无源码变更时让当前 Runtime typed verification receipt 可被后续 preflight、gate 与 finish 正确复用；真实源码变更和身份完整性失败仍严格 fail-closed。",
+  "intent": "修复验证成功后 Runtime 自身治理投影导致 typed verification receipt 被误判为 stale 或 contradictory 的生命周期边界缺陷。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Sentinel production code and Signal Context behavior",
+    "Decision",
+    " Gate",
+    " Execution",
+    " or Position Sizing behavior",
+    "manual editing or deletion of existing evidence",
+    "force",
+    " snapshot overwrite",
+    " bypass",
+    " or weakened identity validation",
+    "public release or release assets"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-902-verification-snapshot",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/904",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-902-verification-snapshot/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A successful typed verification remains complete after only Runtime governance writes.",
+      "required": true,
+      "scenario": "verify-to-preflight-governance-projection",
+      "status": "unverified",
+      "verificationPlan": "Run a repository-bound fixture through verify then preflight and gate without source changes."
+    },
+    {
+      "evidence": [],
+      "expected": "Finish can evaluate the same current typed receipt after governance-only projection writes.",
+      "required": true,
+      "scenario": "verify-to-finish-governance-projection",
+      "status": "unverified",
+      "verificationPlan": "Run the fixture through verify then finish and assert no false stale or contradictory evidence state."
+    },
+    {
+      "evidence": [],
+      "expected": "A real source mutation after verification remains stale and fail-closed.",
+      "required": true,
+      "scenario": "real-source-mutation-remains-stale",
+      "status": "unverified",
+      "verificationPlan": "Mutate a non-governance source file after verification and assert stale evidence with no bypass."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP project the same normalized snapshot and identity decision.",
+      "required": true,
+      "scenario": "cli-mcp-shared-identity-boundary",
+      "status": "unverified",
+      "verificationPlan": "Exercise focused CLI and MCP regression tests against the shared repository service."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-repository/tests/**",
+    "crates/cockpit-cli/src/**",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/src/**",
+    "crates/cockpit-mcp/tests/**",
+    "docs/reference/**",
+    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.md",
+    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.zh-CN.md",
+    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.*",
+    ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.*",
+    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*",
+    ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.*"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/902",
+    "https://github.com/xinglun/ai-cockpit/issues/893",
+    "https://github.com/xinglun/ai-cockpit/pull/895"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "cargo fmt --all -- --check"
+  ],
+  "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+}

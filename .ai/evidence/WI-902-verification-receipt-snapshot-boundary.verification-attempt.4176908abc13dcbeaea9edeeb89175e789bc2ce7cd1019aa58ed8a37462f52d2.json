@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:4176908abc13dcbeaea9edeeb89175e789bc2ce7cd1019aa58ed8a37462f52d2",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:e27084dedaab2b2898b3697fc703286c7778900a33fbb370b62a53c03cca826e",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:dd473a649ca1495fe6656f5353be4f1a2b8f7599fd97282d6ca1019acbd54d3e",
+  "contractExecutionScopeDigest": "sha256:ddb2f1a0d4daad301f6fe4a0bbeca0a482f43b270b28cf336772dd76e78bbc2d",
+  "createdAt": "2026-09-19T12:04:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-902-verification-snapshot/ai-cockpit/.ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f47c315dc665b1db8a8e6554508985dda10cfddf6feef2be0c46465fac4cc276",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+}
