@@ -105,7 +105,8 @@
     "cargo test --locked --workspace",
     "bash tests/docs/parity_status_check.sh",
     "bash tests/docs/documentation_acceptance.sh",
-    "python3 tests/ci/repository_gate_manifest_test.py"
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "cargo fmt --all -- --check"
   ],
   "workItemId": "WI-902-verification-receipt-snapshot-boundary"
 }

@@ -1169,8 +1169,11 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
 fn typed_verification_survives_its_governance_projection_at_preflight_and_finish() {
     let directory = repository();
     let work_item_id = "WI-VERIFICATION-GOVERNANCE-SNAPSHOT";
-    fs::write(directory.path().join("src.rs"), "pub fn value() -> u8 { 1 }\n")
-        .expect("source");
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
     commit_fixture_baseline(directory.path());
     start_work_item_with_options(
         directory.path(),
@@ -1235,8 +1238,11 @@ fn typed_verification_survives_its_governance_projection_at_preflight_and_finish
 fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish() {
     let directory = repository();
     let work_item_id = "WI-VERIFICATION-SOURCE-MUTATION";
-    fs::write(directory.path().join("src.rs"), "pub fn value() -> u8 { 1 }\n")
-        .expect("source");
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
     commit_fixture_baseline(directory.path());
     start_work_item_with_options(
         directory.path(),
@@ -1287,12 +1293,20 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
     )
     .expect("record verification");
 
-    fs::write(directory.path().join("src.rs"), "pub fn value() -> u8 { 2 }\n")
-        .expect("source mutation");
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("source mutation");
     let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
         .expect("stale evidence is a yellow preflight result");
     assert_eq!(preflight.state, DecisionState::Yellow);
-    assert!(preflight.unknowns.iter().any(|unknown| unknown == "evidence_stale"));
+    assert!(
+        preflight
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_stale")
+    );
     let error = finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect_err("source mutation must block finish");
     assert!(error.to_string().contains("current repository snapshot"));

@@ -4,7 +4,7 @@
       ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:622c2c45305e36e761e0447f097dbe79ef7711d9715f88514f6b4dca19c1f2d8",
+    "repositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
     "workItemId": "WI-902-verification-receipt-snapshot-boundary"
   },
   "format": "ai-cockpit.task-outcome",
@@ -25,20 +25,6 @@
           ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4b270a75757ec65e3ab7f41c6474db586224bd740a0215d6ddc5909b7f8b605e.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.7ed85e6d4a8b50260d9d4572e3b366475c0227dab3a048c141a94f18946100ad.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-        ],
-        "inference": false,
         "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
       },
       {
@@ -53,21 +39,7 @@
           ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.ja.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.md"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
       }
     ],
     "evidence": [

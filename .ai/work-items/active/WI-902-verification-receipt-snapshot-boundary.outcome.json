@@ -6,9 +6,9 @@
     "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
     "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
   ],
-  "createdAt": "2026-09-19T12:28:02Z",
+  "createdAt": "2026-09-19T12:41:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:163c78bae52abfd986f5b05d31a51d2f3a4938e20c780cb084b7e75cb422b104",
+  "evidenceDigest": "sha256:2ef7e173a848b752716cd120bba7d01ac83c0d0b323b73921aac3965322980e7",
   "evidenceRefs": [
     ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
   ],
@@ -34,7 +34,7 @@
         ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:622c2c45305e36e761e0447f097dbe79ef7711d9715f88514f6b4dca19c1f2d8",
+      "repositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
       "workItemId": "WI-902-verification-receipt-snapshot-boundary"
     },
     "format": "ai-cockpit.task-outcome",
@@ -55,20 +55,6 @@
             ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4b270a75757ec65e3ab7f41c6474db586224bd740a0215d6ddc5909b7f8b605e.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.7ed85e6d4a8b50260d9d4572e3b366475c0227dab3a048c141a94f18946100ad.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
         },
         {
@@ -83,21 +69,7 @@
             ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         }
       ],
       "evidence": [
@@ -172,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-902-verification-receipt-snapshot-boundary"
   },
-  "taskReportDigest": "sha256:4111c565c194ae8bf973e2bd121c8c5756271f552d2d6ea6ff5d0138d3642a40",
-  "taskReportMarkdownDigest": "sha256:3565c66b3e29ba27bc0fe8cba4aea684db04a7abb3fb222dd1598695a43dde1a",
+  "taskReportDigest": "sha256:0db9df4e85147eadd07def0bf9864b1e1bf4dd983bcc40872919c4a1a73f2873",
+  "taskReportMarkdownDigest": "sha256:352b7557db4f9b4cfc24b6d9a460e66a870aec25f659ba19f06b6d24e27cca73",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

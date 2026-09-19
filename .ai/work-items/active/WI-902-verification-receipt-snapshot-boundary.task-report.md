@@ -15,13 +15,9 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4b270a75757ec65e3ab7f41c6474db586224bd740a0215d6ddc5909b7f8b605e.json
-- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.7ed85e6d4a8b50260d9d4572e3b366475c0227dab3a048c141a94f18946100ad.json
 - Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json
 - Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json
-- Changed path: docs/reference/reference-parity.ja.md
-- Changed path: docs/reference/reference-parity.md
-- Changed path: docs/reference/reference-parity.zh-CN.md
+- Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs
 
 ## Findings
 
