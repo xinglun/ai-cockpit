@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-19T09:11:50Z",
+  "files": {
+    "contractDigest": "sha256:ce1b20482118c87ec27e0272406c2a253f0b1887d74dab7c9bbfe37ef3ee49a4",
+    "contractPath": ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json",
+    "eventsDigest": "sha256:b11534501110178d08142b90e8d6a3f945f2e35b69dd93bedcaff4e155fdd0eb",
+    "eventsPath": ".ai/work-items/archive/WI-930-wi929-doc-promotion.events.jsonl",
+    "outcomeDigest": "sha256:0ab5f1e2acb4b9fc4ce3f763e372f52971723a0482b3c0b63e194d84575161f8",
+    "outcomePath": ".ai/work-items/archive/WI-930-wi929-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:ece4068d41047e00a8f288135ce0f420bc26a00f099d04ce50905388971eac32",
+    "summaryPath": ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-930-wi929-doc-promotion.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-931-wi930-doc-promotion-resource-bound",
+  "workItemId": "WI-930-wi929-doc-promotion"
+}

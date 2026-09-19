@@ -4,9 +4,13 @@ workItemId: WI-929-outcome-hci-public-handoff
 title: 归档 Work Item 的完整 Outcome 对话交接
 description: 让 CLI 和 MCP 消费者始终取得完整、按对话语言选择的人类 Outcome 与有序 assistant 消息事件，同时不把未确认的宿主展示说成已完成。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-929-outcome-hci-public-handoff
+terminalArchive: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json
+terminalVerification: .ai/evidence/WI-929-outcome-hci-public-handoff.verification.json
+terminalFinalization: .ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json
+terminalDecision: .ai/decisions/WI-929-outcome-hci-public-handoff.close.json
 ---
 
 # WI-929 — 归档 Work Item 的完整 Outcome 对话交接

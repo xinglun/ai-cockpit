@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "The six WI-929 projections and three WI-931 projections expose terminal status and exact immutable evidence paths after reviewed merge and close.",
+    "Provider resource context is bound before verification; finalize-verify, documentation acceptance, parity, and promotion checks pass.",
+    "WI-929's six terminal documentation projections and WI-931's three language pages point to the archived Contract, verification, finalization, and close evidence.",
+    "The documentation, parity, promotion, and diff checks pass without changing Runtime behavior, source, tests, release assets, or object repositories.",
+    "The provider finalization context is bound before verification and the reviewed PR is the only delivery path."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "053c45823d892b1784b496c51fff82e3104815f5",
+  "createdAt": "2026-09-19T09:11:44Z",
+  "goal": "Carry the same six WI-929 documentation projections and the successor documentation pages from latest main through a reviewed PR, with resource context bound before verification and no Runtime behavior changes.",
+  "intent": "Promote the verified WI-929 Outcome documentation through a provider-bound successor with finalization context declared before verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " tests",
+    " Runtime behavior",
+    " release assets",
+    " object repositories",
+    " and WI-930 immutable retirement/archive records"
+  ],
+  "predecessorContractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+  "predecessorWorkItemId": "WI-930-wi929-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-930-wi929-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "documentation_projection"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
+    "docs/work-items/WI-931-wi930-doc-promotion-resource-bound.md",
+    "docs/work-items/WI-931-wi930-doc-promotion-resource-bound.zh-CN.md",
+    "docs/work-items/WI-931-wi930-doc-promotion-resource-bound.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    ".ai/decisions/WI-930-wi929-doc-promotion.recovery.json",
+    ".ai/decisions/WI-930-wi929-doc-promotion.retirement.json",
+    ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "python3 tests/docs/promote_closed_work_item.py --repo /Users/sei-rinn/.codex/worktrees/wi-931-recovery/ai-cockpit --work-item WI-929-outcome-hci-public-handoff",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-931-wi930-doc-promotion-resource-bound"
+}

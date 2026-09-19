@@ -1,0 +1,38 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:867c0f4e6eda6bc1ce2841c6ab5df0b5664e3b4a2999b21881bb960780b51fc1",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:ce1b20482118c87ec27e0272406c2a253f0b1887d74dab7c9bbfe37ef3ee49a4",
+      "path": ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
+    },
+    "events": {
+      "digest": "sha256:b11534501110178d08142b90e8d6a3f945f2e35b69dd93bedcaff4e155fdd0eb",
+      "path": ".ai/work-items/archive/WI-930-wi929-doc-promotion.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:0ab5f1e2acb4b9fc4ce3f763e372f52971723a0482b3c0b63e194d84575161f8",
+      "path": ".ai/work-items/archive/WI-930-wi929-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:ece4068d41047e00a8f288135ce0f420bc26a00f099d04ce50905388971eac32",
+      "path": ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-930 verification was completed before the provider PR and worktree resource context was bound. Runtime correctly rejects a late finalize-plan; preserve WI-930 as not verified for provider finalization and replace it with a successor that binds the resource context before verification.",
+  "recordedAt": "2026-09-19T09:11:50Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-931-wi930-doc-promotion-resource-bound",
+  "summaryDigest": "sha256:c510000550c67126917ce7b894e946651d76e11c117cf847be4430c3e62860b7",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-930-wi929-doc-promotion"
+}

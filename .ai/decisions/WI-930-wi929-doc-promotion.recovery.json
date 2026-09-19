@@ -1,0 +1,25 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T09:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+  "predecessorEventsDigest": "sha256:b11534501110178d08142b90e8d6a3f945f2e35b69dd93bedcaff4e155fdd0eb",
+  "predecessorOutcomeDigest": "sha256:679dd5bef0ce5252bd10fa4383dda38bdfbb5eb4326762b418790fef33bb561b",
+  "predecessorSummaryDigest": "sha256:c510000550c67126917ce7b894e946651d76e11c117cf847be4430c3e62860b7",
+  "predecessorWorkItemId": "WI-930-wi929-doc-promotion",
+  "reason": "WI-930 completed verification before its provider PR and worktree resource context was bound. Continue through a successor that records the provider context before verification, without repeating the predecessor's verification or changing its immutable bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor contract is explicitly bound to WI-930 and its provider finalization context is planned before verification.",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-931-wi930-doc-promotion-resource-bound",
+  "workItemId": "WI-930-wi929-doc-promotion"
+}
