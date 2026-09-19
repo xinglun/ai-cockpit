@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-930 — WI-929 終端ドキュメント昇格"
 description: "WI-929 の merge、検証、cleanup、close 後に三言語の文書投影を昇格する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-930-wi929-doc-promotion
 lastVerifiedBy: WI-930-wi929-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-930-wi929-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-930-wi929-doc-promotion.close.json
 ---
 
 [English](WI-930-wi929-doc-promotion.md) · [简体中文](WI-930-wi929-doc-promotion.zh-CN.md)
