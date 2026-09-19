@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:ebd3ea17993bf1a7f05fd75468e34fc891bac54b4814f7667a0da59690362785",
+  "branchRef": "refs/heads/codex/wi-923-interface-facts-binding",
+  "contractDigest": "sha256:da90efcd60f8ed06f94511c40973f69f79efe1805c2be4a9306a8b85dc8c9f77",
+  "headRevision": "d74a36f443a6389ecc3c0afaa67123ff63bb93f5",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-19T03:15:45Z",
+  "operationId": "sha256:51d2dc3f2d2bb6812f482c4056e8bf5166f33293282f0cd2be65784bc81934d2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-923-interface-facts-binding",
+  "worktreeId": "sha256:c29b42195cd1b647a5d16b304daa7e643590b3abd0e9581105a1cc2a6518b02a"
+}
