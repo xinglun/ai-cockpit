@@ -14,19 +14,8 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-936-interface-ssot.contract.json
-- Changed path: .ai/work-items/active/WI-936-interface-ssot.summary.json
-- Changed path: Cargo.lock
-- Changed path: crates/cockpit-cli/src/main.rs
-- Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs
-- Changed path: crates/cockpit-mcp/src/lib.rs
-- Changed path: crates/cockpit-mcp/tests/rpc.rs
-- Changed path: crates/cockpit-protocol/Cargo.toml
-- Changed path: crates/cockpit-protocol/src/interface_description.rs
-- Changed path: crates/cockpit-protocol/src/lib.rs
-- Changed path: crates/cockpit-protocol/tests/interface_description.rs
+- Changed path: .ai/work-items/archive/WI-936-interface-ssot.summary.json
 
 ## Findings
 

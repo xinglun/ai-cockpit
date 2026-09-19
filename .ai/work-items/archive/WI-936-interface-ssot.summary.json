@@ -1,21 +1,10 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-936-interface-ssot.contract.json",
-    ".ai/work-items/active/WI-936-interface-ssot.summary.json",
-    "Cargo.lock",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
-    "crates/cockpit-mcp/src/lib.rs",
-    "crates/cockpit-mcp/tests/rpc.rs",
-    "crates/cockpit-protocol/Cargo.toml",
-    "crates/cockpit-protocol/src/interface_description.rs",
-    "crates/cockpit-protocol/src/lib.rs",
-    "crates/cockpit-protocol/tests/interface_description.rs"
+    ".ai/work-items/archive/WI-936-interface-ssot.summary.json"
   ],
   "checkpointAt": "2026-09-19T16:55:13Z",
-  "checkpointContractDigest": "sha256:734a9a990526e9785157d8981a13573594c083b1b07202ca7a12068c06406ddc",
+  "checkpointContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -93,21 +82,21 @@
       "workItemId": "WI-936-interface-ssot"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:8964dc0ad48c04580a7b9f94aec32df07d78a5a5f6039d7aae9a8bfbd8da204b",
+  "checkpointRepositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
   "createdAt": "2026-09-19T16:54:51Z",
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
-  "preflightAt": "2026-09-19T17:24:03Z",
+  "preflightAt": "2026-09-19T17:29:44Z",
   "preflightContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
-  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-19T17:20:02Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T17:30:09Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -158,10 +147,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-19T17:22:52Z"
-  },
   "workItemId": "WI-936-interface-ssot"
 }
