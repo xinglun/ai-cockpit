@@ -1,22 +1,129 @@
 {
   "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4176908abc13dcbeaea9edeeb89175e789bc2ce7cd1019aa58ed8a37462f52d2.json",
+    ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.6e54a5901fef17c0667482578a6fbff160138a4c1ff5d2d32bf2b65b27c92efb.json",
     ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json",
     ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
   ],
   "checkpointAt": "2026-09-19T12:00:16Z",
-  "checkpointContractDigest": "sha256:44987c156be8e1500a4851a830803778214cca835ddb167f2d2a3be74cc402d9",
+  "checkpointContractDigest": "sha256:dd473a649ca1495fe6656f5353be4f1a2b8f7599fd97282d6ca1019acbd54d3e",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:4a2c4999dd993a229c7d25bfaa2b4351bb42e36fd660075a7f8e62dd29f4c12d",
+  "checkpointRepositorySnapshotDigest": "sha256:f47c315dc665b1db8a8e6554508985dda10cfddf6feef2be0c46465fac4cc276",
   "createdAt": "2026-09-19T11:17:45Z",
+  "intentAlignment": {
+    "evidence": [
+      "https://github.com/xinglun/ai-cockpit/issues/902",
+      "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    ],
+    "state": "resolved"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-19T12:00:02Z",
-  "preflightContractDigest": "sha256:44987c156be8e1500a4851a830803778214cca835ddb167f2d2a3be74cc402d9",
-  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
-  "preflightRepositorySnapshotDigest": "sha256:4a2c4999dd993a229c7d25bfaa2b4351bb42e36fd660075a7f8e62dd29f4c12d",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-19T12:13:20Z",
+  "preflightContractDigest": "sha256:dd473a649ca1495fe6656f5353be4f1a2b8f7599fd97282d6ca1019acbd54d3e",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:f47c315dc665b1db8a8e6554508985dda10cfddf6feef2be0c46465fac4cc276",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-19T12:00:16Z",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+      ],
+      "expected": "A successful typed verification remains complete after only Runtime governance writes.",
+      "required": true,
+      "scenario": "verify-to-preflight-governance-projection",
+      "status": "verified",
+      "verificationPlan": "Run a repository-bound fixture through verify then preflight and gate without source changes."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+      ],
+      "expected": "Finish can evaluate the same current typed receipt after governance-only projection writes.",
+      "required": true,
+      "scenario": "verify-to-finish-governance-projection",
+      "status": "verified",
+      "verificationPlan": "Run the fixture through verify then finish and assert no false stale or contradictory evidence state."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+      ],
+      "expected": "A real source mutation after verification remains stale and fail-closed.",
+      "required": true,
+      "scenario": "real-source-mutation-remains-stale",
+      "status": "verified",
+      "verificationPlan": "Mutate a non-governance source file after verification and assert stale evidence with no bypass."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/lifecycle.rs",
+        "crates/cockpit-mcp/tests/rpc.rs",
+        ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+      ],
+      "expected": "CLI and MCP project the same normalized snapshot and identity decision.",
+      "required": true,
+      "scenario": "cli-mcp-shared-identity-boundary",
+      "status": "verified",
+      "verificationPlan": "Exercise focused CLI and MCP regression tests against the shared repository service."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T12:13:20Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-902-verification-receipt-snapshot-boundary"
 }
