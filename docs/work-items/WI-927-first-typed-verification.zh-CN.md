@@ -4,9 +4,12 @@ workItemId: WI-927-first-typed-verification
 title: 首次 typed required verification 执行边界
 description: 允许首次声明的 required verification 创建正式 receipt，同时不放宽终态生命周期门禁。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-927-first-typed-verification
+terminalArchive: .ai/work-items/archive/WI-927-first-typed-verification.contract.json
+terminalVerification: .ai/evidence/WI-927-first-typed-verification.verification.json
+terminalDecision: .ai/decisions/WI-927-first-typed-verification.close.json
 ---
 
 # WI-927 — 首次 typed verification 执行边界

@@ -4,9 +4,12 @@ workItemId: WI-927-first-typed-verification
 title: First typed required verification execution boundary
 description: Allow the first declared required verification to create its formal receipt without weakening terminal lifecycle gates.
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-927-first-typed-verification
+terminalArchive: .ai/work-items/archive/WI-927-first-typed-verification.contract.json
+terminalVerification: .ai/evidence/WI-927-first-typed-verification.verification.json
+terminalDecision: .ai/decisions/WI-927-first-typed-verification.close.json
 ---
 
 # WI-927 — First typed verification execution boundary

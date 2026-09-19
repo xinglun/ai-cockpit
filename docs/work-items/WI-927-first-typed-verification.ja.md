@@ -4,9 +4,12 @@ workItemId: WI-927-first-typed-verification
 title: 初回 typed required verification の実行境界
 description: 終端 lifecycle gate を緩めずに、初回の宣言済み required verification が正式な receipt を作れるようにする。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-927-first-typed-verification
+terminalArchive: .ai/work-items/archive/WI-927-first-typed-verification.contract.json
+terminalVerification: .ai/evidence/WI-927-first-typed-verification.verification.json
+terminalDecision: .ai/decisions/WI-927-first-typed-verification.close.json
 ---
 
 # WI-927 — 初回 typed verification の実行境界
