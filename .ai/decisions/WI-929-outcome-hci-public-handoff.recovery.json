@@ -1,0 +1,25 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T08:02:10Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.957777fe48ee0da12014e0a5324b4ec59bf95bcfbeb7a2b872e4917c02d38695.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md:verification-runtime-identity",
+    ".ai/README.md:verification-evidence"
+  ],
+  "predecessorContractDigest": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+  "predecessorSummaryDigest": "sha256:25fafff59909fb8a9fda0ee192df8e042dbb4216280c1d07cfda371a7e7c1a51",
+  "predecessorWorkItemId": "WI-929-outcome-hci-public-handoff",
+  "reason": "The shared verification target rebuilt the same Runtime version after the prior receipt, changing only the Runtime executable identity. Preserve the successful verification evidence and retry once under the current Runtime identity; do not broaden scope or rerun archive.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Fresh current-Runtime preflight and verification receipt bind the same Contract and source snapshot; no archive or lifecycle rerun is required.",
+  "runtimeDigest": "sha256:8413fd2f7e6f50318fdb701c14e1d10b2c6a0267b401c1fcb792ddd19d0606ec",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

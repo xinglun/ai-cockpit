@@ -214,6 +214,7 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
             .as_str()
             .expect("archive full body");
         assert!(!archive_body.is_empty());
+        assert_eq!(archive_json["humanHandoff"], archive_body);
         assert_eq!(
             String::from_utf8(archive.stderr.clone())
                 .expect("archive handoff UTF-8")
@@ -309,6 +310,7 @@ fn explicit_json_mode_suppresses_handoff_and_keeps_machine_stdout() {
             assert!(body.contains("Problems found"));
             assert!(body.contains("Evidence"));
             assert!(!body.is_empty());
+            assert_eq!(json["humanHandoff"], body);
             assert_eq!(json["hostDeliveryMode"], "full_handoff_only");
             assert_eq!(json["deliveryReport"]["deliveryState"], "unknown");
             assert_eq!(json["deliveryReport"]["hostConfirmation"], "unknown");

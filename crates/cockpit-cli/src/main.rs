@@ -3326,9 +3326,13 @@ fn print_lifecycle_result(
                     }
                 }
                 if !json {
-                    handoff = Some(result.handoff);
+                    handoff = Some(result.handoff.clone());
                 }
                 output["outcomeDelivery"] = serde_json::to_value(&result.delivery)?;
+                // Keep the complete human handoff in the machine response as
+                // well. stdout-only adapters must not reconstruct or lose the
+                // body that is emitted on stderr for human invocations.
+                output["humanHandoff"] = json!(result.handoff);
                 output["assistantMessageEvents"] = serde_json::to_value(
                     cockpit_agent::assistant_message_events(&result.delivery),
                 )?;
@@ -3360,10 +3364,12 @@ fn print_lifecycle_result(
                     "nextAction": "Keep the archive; inspect the preparation error and retry delivery without archiving again."
                 });
                 output["assistantMessageEvents"] = json!([]);
+                let failure_handoff = format!(
+                    "Archive completed, but full Outcome delivery preparation failed: {error}"
+                );
+                output["humanHandoff"] = json!(failure_handoff);
                 if !json {
-                    handoff = Some(format!(
-                        "Archive completed, but full Outcome delivery preparation failed: {error}"
-                    ));
+                    handoff = Some(failure_handoff);
                 }
             }
         }
