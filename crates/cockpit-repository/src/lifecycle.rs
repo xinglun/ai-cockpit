@@ -2882,7 +2882,9 @@ pub(super) fn validate_recovery_successor_binding(
     if let Some(mode) = receipt.successor_binding_mode.as_deref()
         && !matches!(
             mode,
-            "legacy_terminal_evidence" | "contract_amendment_revalidation"
+            "legacy_terminal_evidence"
+                | "contract_amendment_revalidation"
+                | "existing_active_successor"
         )
     {
         return Err(recovery_decision_error(
@@ -2902,7 +2904,10 @@ pub(super) fn validate_recovery_successor_binding(
         && successor_contract.recovery_decision_path.is_some();
     if strictly_bound {
         if receipt.successor_binding_mode.is_some()
-            && receipt.successor_binding_mode.as_deref() != Some("contract_amendment_revalidation")
+            && !matches!(
+                receipt.successor_binding_mode.as_deref(),
+                Some("contract_amendment_revalidation" | "existing_active_successor")
+            )
         {
             return Err(recovery_decision_error(
                 successor_contract_path,
@@ -2934,6 +2939,94 @@ pub(super) fn validate_recovery_successor_binding(
         "successor_binding_mismatch",
         "successor Contract does not bind the predecessor repository, identity, and Contract digest",
     ))
+}
+
+struct ExistingActiveSuccessorBinding {
+    contract_path: PathBuf,
+    contract: serde_json::Value,
+    summary_path: PathBuf,
+    summary: serde_json::Value,
+}
+
+fn existing_active_successor_binding(
+    root: &Path,
+    predecessor: &Contract,
+    receipt: &RecoveryDecisionReceipt,
+) -> Result<Option<ExistingActiveSuccessorBinding>, ObserverError> {
+    if receipt.successor_binding_mode.as_deref() != Some("existing_active_successor") {
+        return Ok(None);
+    }
+    if receipt.decision != "successor" {
+        return Err(recovery_decision_error(
+            root.join(".ai/decisions"),
+            "successor_binding_mode_invalid",
+            "existing_active_successor is only valid for a successor decision",
+        ));
+    }
+    let successor_id = receipt
+        .successor_work_item_id
+        .as_deref()
+        .expect("successor identity was validated before binding");
+    let active = root.join(".ai/work-items/active");
+    let contract_path = active.join(format!("{successor_id}.contract.json"));
+    let summary_path = active.join(format!("{successor_id}.summary.json"));
+    if !is_regular_non_symlink(&contract_path)? || !is_regular_non_symlink(&summary_path)? {
+        return Err(recovery_decision_error(
+            active,
+            "existing_successor_missing",
+            "existing_active_successor requires active Contract and Summary projections",
+        ));
+    }
+    let successor = read_contract(&contract_path).map_err(|error| {
+        recovery_decision_error(&contract_path, "existing_successor_invalid", error)
+    })?;
+    if successor.work_item_id != successor_id
+        || successor.repository_id != predecessor.repository_id
+        || successor.base_revision != predecessor.base_revision
+    {
+        return Err(recovery_decision_error(
+            contract_path,
+            "existing_successor_identity_mismatch",
+            "existing active successor must bind the predecessor repository and base revision",
+        ));
+    }
+    if successor.predecessor_work_item_id.is_some()
+        || successor.predecessor_contract_digest.is_some()
+        || successor.recovery_decision_path.is_some()
+    {
+        return Err(recovery_decision_error(
+            contract_path,
+            "existing_successor_already_bound",
+            "existing active successor already has a recovery lineage",
+        ));
+    }
+    let contract = read_json(&contract_path)?;
+    let summary = read_json(&summary_path)?;
+    if summary["workItemId"] != serde_json::json!(successor_id)
+        || summary["predecessorWorkItemId"].is_string()
+        || summary["predecessorContractDigest"].is_string()
+        || summary["recoveryDecisionPath"].is_string()
+    {
+        return Err(recovery_decision_error(
+            summary_path,
+            "existing_successor_projection_mismatch",
+            "existing active successor Summary is not an unbound projection",
+        ));
+    }
+    let state = summary["state"].as_str().unwrap_or_default();
+    if !matches!(state, "implementation_active" | "checkpointed") {
+        return Err(recovery_decision_error(
+            summary_path,
+            "existing_successor_state_invalid",
+            "existing active successor must be implementation_active or checkpointed",
+        ));
+    }
+    Ok(Some(ExistingActiveSuccessorBinding {
+        contract_path,
+        contract,
+        summary_path,
+        summary,
+    }))
 }
 
 /// Validate the narrow compatibility boundary for a successor Contract
@@ -4117,6 +4210,7 @@ pub fn record_recovery_decision(
         None,
     )?;
     let mut legacy_successor_binding = false;
+    let mut existing_active_successor = None;
     if matches!(typed.decision.as_str(), "successor" | "supersede") {
         let Some(successor_id) = typed.successor_work_item_id.as_deref() else {
             return Err(ObserverError::State {
@@ -4150,7 +4244,12 @@ pub fn record_recovery_decision(
                 "predecessor already has a different successor; supersede or continue that lineage instead of creating a competing Work Item",
             ));
         }
+        if typed.decision == "successor" {
+            existing_active_successor =
+                existing_active_successor_binding(&root, &contract, &typed)?;
+        }
         if typed.decision == "successor"
+            && existing_active_successor.is_none()
             && work_item_artifact_path_optional(&root, successor_id, "contract.json")?.is_some()
         {
             return Err(ObserverError::State {
@@ -4247,12 +4346,38 @@ pub fn record_recovery_decision(
             .successor_work_item_id
             .as_deref()
             .expect("validated successor decision");
-        let mode = contract.mode.as_deref().unwrap_or("implementation");
-        scaffold_work_item_for_recovery(&root, successor_id, mode)?;
-        let successor_contract_path = root
-            .join(".ai/work-items/active")
-            .join(format!("{successor_id}.contract.json"));
-        let mut successor_contract = read_json(&successor_contract_path)?;
+        let (
+            successor_contract_path,
+            mut successor_contract,
+            successor_summary_path,
+            mut successor_summary,
+            backups,
+        ) = if let Some(binding) = existing_active_successor {
+            let backups = Some((binding.contract.clone(), binding.summary.clone()));
+            (
+                binding.contract_path,
+                binding.contract,
+                binding.summary_path,
+                binding.summary,
+                backups,
+            )
+        } else {
+            let mode = contract.mode.as_deref().unwrap_or("implementation");
+            scaffold_work_item_for_recovery(&root, successor_id, mode)?;
+            let successor_contract_path = root
+                .join(".ai/work-items/active")
+                .join(format!("{successor_id}.contract.json"));
+            let successor_summary_path = root
+                .join(".ai/work-items/active")
+                .join(format!("{successor_id}.summary.json"));
+            (
+                successor_contract_path.clone(),
+                read_json(&successor_contract_path)?,
+                successor_summary_path.clone(),
+                read_json(&successor_summary_path)?,
+                None,
+            )
+        };
         successor_contract["predecessorWorkItemId"] = serde_json::json!(work_item_id);
         successor_contract["predecessorContractDigest"] = serde_json::json!(
             typed
@@ -4263,11 +4388,10 @@ pub fn record_recovery_decision(
         );
         successor_contract["recoveryDecisionPath"] =
             serde_json::json!(repository_relative_path(&root, &path));
-        atomic_json(&successor_contract_path, &successor_contract)?;
-        let successor_summary_path = root
-            .join(".ai/work-items/active")
-            .join(format!("{successor_id}.summary.json"));
-        let mut successor_summary = read_json(&successor_summary_path)?;
+        if let Err(error) = atomic_json(&successor_contract_path, &successor_contract) {
+            let _ = fs::remove_file(&path);
+            return Err(error);
+        }
         successor_summary["predecessorWorkItemId"] = serde_json::json!(work_item_id);
         successor_summary["predecessorContractDigest"] = serde_json::json!(
             typed
@@ -4278,7 +4402,14 @@ pub fn record_recovery_decision(
         );
         successor_summary["recoveryDecisionPath"] =
             serde_json::json!(repository_relative_path(&root, &path));
-        atomic_json(&successor_summary_path, &successor_summary)?;
+        if let Err(error) = atomic_json(&successor_summary_path, &successor_summary) {
+            if let Some((original_contract, original_summary)) = backups {
+                let _ = atomic_json(&successor_contract_path, &original_contract);
+                let _ = atomic_json(&successor_summary_path, &original_summary);
+            }
+            let _ = fs::remove_file(&path);
+            return Err(error);
+        }
     }
     Ok(value)
 }

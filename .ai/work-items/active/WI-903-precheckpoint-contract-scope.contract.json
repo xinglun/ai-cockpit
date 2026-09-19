@@ -3,7 +3,8 @@
     "Before checkpoint a Work Item may append declared scope only through Runtime and receives an append-only declaration receipt.",
     "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
     "Unsupported Contract fields and identity or authority changes remain rejected.",
-    "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution."
+    "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
+    "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -59,6 +60,13 @@
       "scenario": "bound-retry-stale-preflight",
       "status": "unverified",
       "verificationPlan": "Exercise require_verification_preconditions with a Runtime-bound retry receipt and a changed repository snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "The Runtime records one identity-bound decision and binds both successor projections; mismatched or already-bound candidates fail closed.",
+      "required": true,
+      "scenario": "An archived predecessor needs to bind a currently active recovery Work Item that was created on the same base before the predecessor route was selected.",
+      "status": "unverified"
     }
   ],
   "scope": [
@@ -73,13 +81,15 @@
     ".ai/work-items/active/WI-903-precheckpoint-contract-scope.*",
     ".ai/evidence/WI-903-precheckpoint-contract-scope.*",
     ".ai/decisions/WI-903-precheckpoint-contract-scope.*",
-    ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.*"
+    ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.*",
+    "crates/cockpit-repository/src/lib.rs"
   ],
   "sources": [],
   "state": "implementation_active",
   "verification": [
     "cargo test --locked --workspace",
-    "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift"
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor"
   ],
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }
