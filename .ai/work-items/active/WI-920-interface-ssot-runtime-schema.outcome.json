@@ -1,0 +1,192 @@
+{
+  "acceptanceResults": [
+    "Changing one declared outcome parameter fact changes both runtime parsing/schema behavior and interface description output without a second manual fact table.",
+    "CLI and MCP capability descriptions, generated reference regions, and actual accepted defaults/enums/requiredness remain parity-checked and deterministic.",
+    "Two description generations are byte-identical and description generation performs no repository scan, validation, or verification subprocess.",
+    "No lifecycle, authorization, Outcome delivery, or host-confirmation semantics change."
+  ],
+  "createdAt": "2026-09-19T00:38:45Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:59e7093ed137dec4031fc8fdbe122cd9810bd742a506da98ed82f7ba994919e4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+      "workItemId": "WI-920-interface-ssot-runtime-schema"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.1370a671a70b525ec7b43dff0213f2ccf90704ef3b88e9df984c09fd099074b5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.79c47a2c11ac22eb0ce4923466e4d6d3c08eea5be0976cee95846a6157a8de9f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the BAML-style interface description for work-item outcome derive defaults, enums, requiredness, aliases, and parameter descriptions from the actual adapter definitions, with deterministic parity evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-920-interface-ssot-runtime-schema"
+  },
+  "taskReportDigest": "sha256:9f587b6b134b09db87f6d845f01791263dbab0f977b364c6f1d1b4dcd5099790",
+  "taskReportMarkdownDigest": "sha256:29db101fd9106ea8454cd25e6a2c6f245ebd86b3439da138afa1a1a7e8e5dd97",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}

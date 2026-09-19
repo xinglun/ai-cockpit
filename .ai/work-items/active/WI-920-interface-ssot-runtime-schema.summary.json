@@ -1,0 +1,189 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "surface_specs_reference_one_canonical_parameter_definition",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "mcp_outcome_schema_projects_protocol_owned_parameter_facts",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "checked_in_reference_regions_match_the_protocol_projection",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "outcome_description_and_markdown_are_deterministic",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "mcp_outcome_schema_projects_protocol_owned_parameter_facts",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.1370a671a70b525ec7b43dff0213f2ccf90704ef3b88e9df984c09fd099074b5.json",
+    ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.79c47a2c11ac22eb0ce4923466e4d6d3c08eea5be0976cee95846a6157a8de9f.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-19T00:21:01Z",
+  "checkpointContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:fee66adb92095c37c895a789d44ab89a4b5382cc987caa010d0c3db10c778194",
+      "recorded": true,
+      "recordedAt": "2026-09-19T00:21:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:35211a69c87c05b17038d109498c3324423bcf39fd612ce1341c037f4daf348e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-920-interface-ssot-runtime-schema"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fee66adb92095c37c895a789d44ab89a4b5382cc987caa010d0c3db10c778194",
+      "previousContractHash": "sha256:fee66adb92095c37c895a789d44ab89a4b5382cc987caa010d0c3db10c778194",
+      "reason": "The implementation re-exports the new protocol-owned canonical definition API from crates/cockpit-protocol/src/lib.rs; add that already-authorized file to the immutable Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T00:31:39Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-920-interface-ssot-runtime-schema"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+  "createdAt": "2026-09-19T00:20:29Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/interface_description.rs",
+      "crates/cockpit-cli/src/main.rs",
+      "crates/cockpit-mcp/src/lib.rs",
+      "crates/cockpit-protocol/tests/interface_description.rs"
+    ],
+    "reason": "The requested change directly addresses the remaining BAML-style single-source-of-truth gap for the work-item outcome interface; release, host delivery, performance, and Issue #851 state are explicitly out of scope.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-19T00:37:50Z",
+  "preflightContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        {
+          "locator": "surface_specs_reference_one_canonical_parameter_definition",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        },
+        {
+          "locator": "outcome_description_facts_match_clap_arguments",
+          "path": "crates/cockpit-cli/src/main.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ],
+      "scenario": "CLI definition and description share one parameter source",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        {
+          "locator": "mcp_outcome_schema_projects_protocol_owned_parameter_facts and outcome_validator_uses_the_protocol_enum_and_type_facts",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ],
+      "scenario": "MCP schema and description share one parameter source",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        {
+          "locator": "outcome_description_and_markdown_are_deterministic",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ],
+      "scenario": "Deterministic read-only discovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        {
+          "locator": "checked_in_reference_regions_match_the_protocol_projection",
+          "path": "crates/cockpit-protocol/tests/interface_description.rs",
+          "type": "test",
+          "verification": "cargo test --locked --workspace"
+        }
+      ],
+      "scenario": "Human documentation projection",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T00:38:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}

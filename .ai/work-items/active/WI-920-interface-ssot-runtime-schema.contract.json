@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "Changing one declared outcome parameter fact changes both runtime parsing/schema behavior and interface description output without a second manual fact table.",
+    "CLI and MCP capability descriptions, generated reference regions, and actual accepted defaults/enums/requiredness remain parity-checked and deterministic.",
+    "Two description generations are byte-identical and description generation performs no repository scan, validation, or verification subprocess.",
+    "No lifecycle, authorization, Outcome delivery, or host-confirmation semantics change."
+  ],
+  "authority": "human:xinglun explicit-user-authorization",
+  "baseRevision": "94b93b7194143a66ca07af7e80a794848097da1a",
+  "createdAt": "2026-09-19T00:20:29Z",
+  "goal": "Make the BAML-style interface description for work-item outcome derive defaults, enums, requiredness, aliases, and parameter descriptions from the actual adapter definitions, with deterministic parity evidence.",
+  "intent": "Eliminate duplicated interface facts for the work-item outcome discovery surface so actual CLI/MCP definitions and generated descriptions share one authoritative source.",
+  "mode": "code",
+  "outOfScope": [
+    "Outcome lifecycle and host delivery behavior",
+    "performance optimization or benchmark claims",
+    "Issue or release state changes",
+    "global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:35211a69c87c05b17038d109498c3324423bcf39fd612ce1341c037f4daf348e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs tests",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}

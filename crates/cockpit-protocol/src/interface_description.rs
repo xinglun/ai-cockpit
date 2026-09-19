@@ -112,6 +112,10 @@ pub struct InterfaceParameter {
 /// lifecycle behavior.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct InterfaceParameterSpec {
+    /// Stable logical parameter identity. Surface bindings may expose a
+    /// transport-specific name or alias, but all wire facts come from this
+    /// canonical definition.
+    pub canonical_name: &'static str,
     pub name: &'static str,
     pub wire_type: &'static str,
     pub required: bool,
@@ -121,86 +125,104 @@ pub struct InterfaceParameterSpec {
     pub description: &'static str,
 }
 
-const OUTCOME_DELIVERY_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+/// Canonical facts for the work-item outcome discovery surface.
+///
+/// Adapters must only bind transport names, requiredness, and aliases below;
+/// defaults, enums, wire types, and descriptions are defined once here.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct OutcomeParameterDefinition {
+    pub name: &'static str,
+    pub wire_type: &'static str,
+    pub default: Option<&'static str>,
+    pub enum_values: &'static [&'static str],
+    pub description: &'static str,
+}
+
+const OUTCOME_WORK_ITEM_ID: OutcomeParameterDefinition = OutcomeParameterDefinition {
+    name: "workItemId",
+    wire_type: "string",
+    default: None,
+    enum_values: &[],
+    description: WORK_ITEM_OUTCOME_ID_DESCRIPTION,
+};
+
+const OUTCOME_DELIVERY: OutcomeParameterDefinition = OutcomeParameterDefinition {
     name: "delivery",
     wire_type: "boolean",
-    required: false,
     default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
     enum_values: &[],
-    aliases: &[],
     description: WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
 };
 
-const OUTCOME_VIEW_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+const OUTCOME_JSON: OutcomeParameterDefinition = OutcomeParameterDefinition {
+    name: "json",
+    wire_type: "boolean",
+    default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
+    enum_values: &[],
+    description: WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
+};
+
+const OUTCOME_VIEW: OutcomeParameterDefinition = OutcomeParameterDefinition {
     name: "view",
     wire_type: "enum",
-    required: false,
     default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
     enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
-    aliases: &[],
     description: WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
 };
 
-const OUTCOME_LANGUAGE_PARAMETER: InterfaceParameterSpec = InterfaceParameterSpec {
+const OUTCOME_LANGUAGE: OutcomeParameterDefinition = OutcomeParameterDefinition {
     name: "language",
     wire_type: "enum",
-    required: false,
     default: None,
     enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-    aliases: &[],
     description: WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
 };
 
+const OUTCOME_DELIVERY_PROGRESS: OutcomeParameterDefinition = OutcomeParameterDefinition {
+    name: "deliveryProgress",
+    wire_type: "object",
+    default: None,
+    enum_values: &[],
+    description: "Identity-bound accepted-segment progress for an interrupted delivery.",
+};
+
+const fn bind_outcome_parameter(
+    definition: &'static OutcomeParameterDefinition,
+    name: &'static str,
+    required: bool,
+    aliases: &'static [&'static str],
+) -> InterfaceParameterSpec {
+    InterfaceParameterSpec {
+        canonical_name: definition.name,
+        name,
+        wire_type: definition.wire_type,
+        required,
+        default: definition.default,
+        enum_values: definition.enum_values,
+        aliases,
+        description: definition.description,
+    }
+}
+
 static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    InterfaceParameterSpec {
-        name: "id",
-        wire_type: "string",
-        required: true,
-        default: None,
-        enum_values: &[],
-        aliases: &[],
-        description: WORK_ITEM_OUTCOME_ID_DESCRIPTION,
-    },
-    OUTCOME_DELIVERY_PARAMETER,
-    InterfaceParameterSpec {
-        name: "json",
-        wire_type: "boolean",
-        required: false,
-        default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
-        enum_values: &[],
-        aliases: &[],
-        description: WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
-    },
-    OUTCOME_VIEW_PARAMETER,
-    OUTCOME_LANGUAGE_PARAMETER,
+    bind_outcome_parameter(&OUTCOME_WORK_ITEM_ID, "id", true, &[]),
+    bind_outcome_parameter(&OUTCOME_DELIVERY, "delivery", false, &[]),
+    bind_outcome_parameter(&OUTCOME_JSON, "json", false, &[]),
+    bind_outcome_parameter(&OUTCOME_VIEW, "view", false, &[]),
+    bind_outcome_parameter(&OUTCOME_LANGUAGE, "language", false, &[]),
 ];
 
 static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    InterfaceParameterSpec {
-        name: "workItemId",
-        wire_type: "string",
-        required: true,
-        default: None,
-        enum_values: &[],
-        aliases: &["id"],
-        description: "Canonical Work Item identifier; `id` is a deprecated alias.",
-    },
-    OUTCOME_LANGUAGE_PARAMETER,
-    OUTCOME_VIEW_PARAMETER,
-    OUTCOME_DELIVERY_PARAMETER,
-    InterfaceParameterSpec {
-        name: "deliveryProgress",
-        wire_type: "object",
-        required: false,
-        default: None,
-        enum_values: &[],
-        aliases: &[],
-        description: "Identity-bound accepted-segment progress for an interrupted delivery.",
-    },
+    bind_outcome_parameter(&OUTCOME_WORK_ITEM_ID, "workItemId", true, &["id"]),
+    bind_outcome_parameter(&OUTCOME_LANGUAGE, "language", false, &[]),
+    bind_outcome_parameter(&OUTCOME_VIEW, "view", false, &[]),
+    bind_outcome_parameter(&OUTCOME_DELIVERY, "delivery", false, &[]),
+    bind_outcome_parameter(&OUTCOME_DELIVERY_PROGRESS, "deliveryProgress", false, &[]),
 ];
 
 static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
     InterfaceParameterSpec {
+        canonical_name: "surface",
         name: "surface",
         wire_type: "enum",
         required: false,
@@ -210,6 +232,7 @@ static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
         description: CAPABILITY_SHOW_SURFACE_DESCRIPTION,
     },
     InterfaceParameterSpec {
+        canonical_name: "format",
         name: "format",
         wire_type: "enum",
         required: false,
@@ -219,6 +242,7 @@ static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
         description: CAPABILITY_SHOW_FORMAT_DESCRIPTION,
     },
     InterfaceParameterSpec {
+        canonical_name: "language",
         name: "language",
         wire_type: "enum",
         required: false,
@@ -238,6 +262,22 @@ pub fn work_item_outcome_interface_specs(
         "mcp" => Some(MCP_WORK_ITEM_OUTCOME_PARAMETERS),
         _ => None,
     }
+}
+
+/// Return the canonical definition behind one outcome parameter binding.
+pub fn work_item_outcome_parameter_definition(
+    name: &str,
+) -> Option<&'static OutcomeParameterDefinition> {
+    [
+        &OUTCOME_WORK_ITEM_ID,
+        &OUTCOME_DELIVERY,
+        &OUTCOME_JSON,
+        &OUTCOME_VIEW,
+        &OUTCOME_LANGUAGE,
+        &OUTCOME_DELIVERY_PROGRESS,
+    ]
+    .into_iter()
+    .find(|definition| definition.name == name)
 }
 
 /// Return one protocol-owned parameter fact for adapter schema generation.

@@ -13,7 +13,7 @@ pub use interface_description::{
     CAPABILITY_SHOW_LANGUAGE_DESCRIPTION, CAPABILITY_SHOW_LANGUAGE_VALUES, CAPABILITY_SHOW_SURFACE,
     CAPABILITY_SHOW_SURFACE_DESCRIPTION, INTERFACE_DESCRIPTION_SCHEMA_VERSION,
     InterfaceDescription, InterfaceParameter, InterfaceParameterSpec, InterfaceSurface,
-    WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_JSON,
+    OutcomeParameterDefinition, WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_JSON,
     WORK_ITEM_OUTCOME_DEFAULT_VIEW, WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
     WORK_ITEM_OUTCOME_ID_DESCRIPTION, WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
     WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION, WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
@@ -23,7 +23,8 @@ pub use interface_description::{
     capability_show_parameter_spec, normalize_work_item_outcome_language,
     render_interface_description_markdown, work_item_outcome_interface_description,
     work_item_outcome_interface_specs, work_item_outcome_language_is_valid,
-    work_item_outcome_parameter_spec, work_item_outcome_view_is_valid,
+    work_item_outcome_parameter_definition, work_item_outcome_parameter_spec,
+    work_item_outcome_view_is_valid,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;
