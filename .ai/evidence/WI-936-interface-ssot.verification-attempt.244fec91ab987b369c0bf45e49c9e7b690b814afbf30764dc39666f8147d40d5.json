@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:244fec91ab987b369c0bf45e49c9e7b690b814afbf30764dc39666f8147d40d5",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "0577f327249388dc1cb69084aea0e039b5e4d014",
+      "commandDigest": "sha256:666b9005a8e79368189ca84952e02e8b11a1f125601167bf28bacb50ca734f3b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:734a9a990526e9785157d8981a13573594c083b1b07202ca7a12068c06406ddc",
+  "contractExecutionScopeDigest": "sha256:e647796445e5868cd605c97f5989e606ba39aae398eae7cd11d75e8b31a3286f",
+  "createdAt": "2026-09-19T17:21:09Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-936-interface-ssot/ai-cockpit/.ai/work-items/active/WI-936-interface-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:717649789246b2c7647c003bbc05e97f5404cceba96e188c0ae1b2061904638e",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-936-interface-ssot"
+}

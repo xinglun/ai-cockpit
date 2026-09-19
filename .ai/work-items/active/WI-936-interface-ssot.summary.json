@@ -71,6 +71,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-936-interface-ssot"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:99dc9b7307949006e23aa4b4a6d482929d9d5d5d61e603eddbc456ab82ce4499",
+      "previousContractHash": "sha256:734a9a990526e9785157d8981a13573594c083b1b07202ca7a12068c06406ddc",
+      "reason": "Archive exposed an impossible normal path: a commit after verification stales the receipt, yet finish_ready rejected the required fresh preflight and verification. Repair the existing finish-ready retry path with a regression.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T17:22:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:717649789246b2c7647c003bbc05e97f5404cceba96e188c0ae1b2061904638e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-936-interface-ssot"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:8964dc0ad48c04580a7b9f94aec32df07d78a5a5f6039d7aae9a8bfbd8da204b",
@@ -78,15 +98,15 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
-  "preflightAt": "2026-09-19T17:19:16Z",
-  "preflightContractDigest": "sha256:734a9a990526e9785157d8981a13573594c083b1b07202ca7a12068c06406ddc",
-  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:8964dc0ad48c04580a7b9f94aec32df07d78a5a5f6039d7aae9a8bfbd8da204b",
-  "preflightState": "green",
+  "preflightAt": "2026-09-19T17:24:03Z",
+  "preflightContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "preflightRepositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
+  "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-19T17:20:02Z",
   "verification": [
     {
@@ -138,5 +158,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-19T17:22:52Z"
+  },
   "workItemId": "WI-936-interface-ssot"
 }
