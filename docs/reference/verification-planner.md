@@ -35,6 +35,14 @@ The planner only defines verification requirements. It does not create human
 authority, provider assurance, dependency completeness, execution reuse, or
 performance exemptions.
 
+For an active Work Item with one checkpoint, a current non-red preflight, and
+matching Contract and repository snapshot identities, the Runtime may execute
+declared required checks once when their typed Summary entries are still
+missing. This is the first-verification execution boundary, not passed
+evidence: `finish`, `archive`, and `close` continue to require the formal
+identity-bound receipt. Failed, duplicate, stale, foreign, or malformed
+entries remain blocked before any project process is spawned.
+
 Historical generated approach artifacts for WI-139C and WI-139F remain byte
 preserved and are now bound to their archive manifests; no active artifact
 orphan is treated as current project state.

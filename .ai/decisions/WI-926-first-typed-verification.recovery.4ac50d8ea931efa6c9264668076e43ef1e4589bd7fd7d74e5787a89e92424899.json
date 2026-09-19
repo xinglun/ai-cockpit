@@ -1,0 +1,27 @@
+{
+  "actor": "codex",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T06:10:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "Issue #893",
+    ".ai/work-items/archive/WI-926-first-typed-verification.archive.json",
+    ".ai/work-items/archive/WI-926-first-typed-verification.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md Work Item change discipline"
+  ],
+  "predecessorContractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "predecessorOutcomeDigest": "sha256:c6de622d34a78f62e73ebc15cd7f259a38d3958ea5659ec6428f48fc711a97c4",
+  "predecessorSummaryDigest": "sha256:a5b85271a9965092b72d445edb5b2314b56cb80df12a7697d648be3aa4afc94e",
+  "predecessorWorkItemId": "WI-926-first-typed-verification",
+  "reason": "Bind the preserved predecessor Outcome after the Runtime generated its retirement projection; supersede the stale recovery candidate without changing predecessor bytes or rerunning verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-927 with authority=authorized and path-scoped Contract, then rerun the required preflight and verification gates.",
+  "runtimeDigest": "sha256:5c4853020490cee658bdce115d7caedefb1f22505663a603ef04ec1bec220637",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-927-first-typed-verification",
+  "workItemId": "WI-926-first-typed-verification"
+}

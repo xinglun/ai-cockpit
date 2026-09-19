@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "checkpointed 且当前 preflight 为 green/yellow、Contract 与 snapshot digest 匹配的 active Work Item，在尚无 typed verification entries 时可启动已声明 required checks。",
+    "首次 verify 成功后为每个 required typed check 生成唯一 result=passed 的正式 Runtime-bound entry，finish 仍可继续。",
+    "缺少 checkpoint、preflight red、Contract/snapshot 不匹配、未声明 command、foreign/stale/malformed evidence 在 spawn 前继续阻断，processesSpawned=0。",
+    "已有 passed entries 的重复 verify、failed verification、recovery retry、CLI/MCP 语义与中英日文档不回退。"
+  ],
+  "authority": "explicit-user-authorization: continue and repair all remaining in-scope issues before final report",
+  "baseRevision": "4c1aaa37d76a3340cd5159528da17e0d6db8eb6b",
+  "createdAt": "2026-09-19T05:34:32Z",
+  "goal": "为 Issue #893 提供 Runtime-only、append-only、identity-bound 的首次验证路径；验证成功后由正式 receipt 写入 typed verification entries，finish/archive/close 仍严格要求当前完整 passed evidence。",
+  "intent": "修复 Runtime 首次 typed required verification 的前置循环，使有效 checkpointed Work Item 在 Summary 尚无 typed passed entries 时可以执行已声明检查，同时保持终态门禁和 fail-closed 证据边界。",
+  "mode": "code",
+  "outOfScope": [
+    "不放宽 finish/archive/close 终态门禁；不允许手工编辑 Summary；不改变 timeout policy、交易逻辑、授权模型或 Issue #827/#828 范围。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:81363354d0aabe82f9e8f947f736860a8dbdd134c557852578073ccbc2045ff6",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅修改 Runtime 验证前置判定、正式 verification receipt/Summary typed entry 写入、CLI/MCP 共享语义、相关回归测试与中英日说明；不得修改 Sentinel 业务逻辑。"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/893",
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-926-first-typed-verification"
+}

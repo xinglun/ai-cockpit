@@ -32,5 +32,12 @@ Verification，不表示 ProviderVerified 或 EnterpriseVerified evidence。
 Planner 只定义 Verification requirement，不创建人类授权、provider
 assurance、依赖完整性、执行复用或性能豁免。
 
+对于已经 checkpoint、当前 preflight 非 red，且 Contract 与 repository
+snapshot 身份匹配的 active Work Item，如果 Summary 尚没有 typed required
+check 条目，Runtime 可以先执行一次 Contract 声明的检查。这只是首次验证的
+执行边界，不是 passed evidence；`finish`、`archive` 和 `close` 仍必须使用
+正式的 identity-bound receipt。失败、重复、过期、外部来源或格式错误的条目，
+仍会在启动任何项目进程前阻断。
+
 WI-139C 与 WI-139F 的历史 approach artifact 保持原始 bytes，并绑定到 archive
 manifest；active 中不再存在被误认为当前项目状态的孤儿 artifact。
