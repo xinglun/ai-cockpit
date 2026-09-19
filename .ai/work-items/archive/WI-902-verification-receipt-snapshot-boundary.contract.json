@@ -4,7 +4,8 @@
     "Runtime governance-only writes do not create a false source snapshot mismatch, while real source changes still make evidence stale and fail closed.",
     "First typed verification semantics, red preflight zero-process behavior, tamper checks, foreign-runtime checks, malformed receipt checks, and symlink checks remain unchanged.",
     "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
-    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
+    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding.",
+    "A rejected post-checkpoint Contract amendment leaves the active Contract, Summary, and events bytes unchanged; deterministic lifecycle validation fails before any persistent mutation."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -106,7 +107,8 @@
     "bash tests/docs/parity_status_check.sh",
     "bash tests/docs/documentation_acceptance.sh",
     "python3 tests/ci/repository_gate_manifest_test.py",
-    "cargo fmt --all -- --check"
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry contract_amendment"
   ],
   "workItemId": "WI-902-verification-receipt-snapshot-boundary"
 }

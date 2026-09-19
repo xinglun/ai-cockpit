@@ -15,8 +15,9 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json
-- Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json
+- Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json
+- Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json
+- Changed path: crates/cockpit-repository/src/lifecycle.rs
 - Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs
 
 ## Findings
