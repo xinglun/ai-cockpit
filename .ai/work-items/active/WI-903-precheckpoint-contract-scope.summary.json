@@ -1,23 +1,177 @@
 {
-  "changedPaths": [
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.4de22c1f8e1e1972cb8d12ac44d5e8b8488646329f28e45cccc8c414a175151e.json",
-    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json",
-    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.ja.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.zh-CN.md"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-09-19T11:23:14Z",
-  "checkpointContractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+  "checkpointContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "recorded": true,
+      "recordedAt": "2026-09-19T11:23:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "reason": "Add the in-scope deterministic retry-precondition defect and its regression after Runtime preflight rejected the bound retry before process launch.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:31:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:5d63192e2bfe83bc4136dfc7f3df086751fbb2ff5a5fc1f57ac668967ee80293",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+      "reason": "Include the verification precondition coordinator path touched by the in-scope bound-retry fix.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:44:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c5743f9c3a76c03395c57a8485667f7fa56e18c1db6b6d0fce0fe20603d24889",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:5d63192e2bfe83bc4136dfc7f3df086751fbb2ff5a5fc1f57ac668967ee80293",
+      "reason": "Add the in-scope recovery-lineage defect and its fail-closed acceptance coverage discovered by the deterministic PR gate.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:45:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c5743f9c3a76c03395c57a8485667f7fa56e18c1db6b6d0fce0fe20603d24889",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ea4b966f1d60fd09aacda6ae065517eeec2c5eca200db7ca8b7c0dafa9603e53",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+      "reason": "Make the deterministic candidate-runtime identity self-bootstrap boundary explicit after PR quality evidence showed the persisted successor decision cannot otherwise cross equivalent candidate rebuilds.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:54:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dce762f3925359a1fe3416ba44c75748ab699a390b10dbdb385b55da36eb849d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:5f2d45cbdc2c64e5b641a42fd15c98e7b81def6aa630d4a2464f738eb2147f6d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:ea4b966f1d60fd09aacda6ae065517eeec2c5eca200db7ca8b7c0dafa9603e53",
+      "reason": "Authorize the append-only WI-902 to WI-903 recovery decision required to resolve the deterministic archived-scope conflict; archive artifacts remain immutable.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:59:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0390b4e38def45e9503ea9052683da6e493cb6a7bc9a83214dc373cd69e177a6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:5f2d45cbdc2c64e5b641a42fd15c98e7b81def6aa630d4a2464f738eb2147f6d",
+      "reason": "The current WI-902 recovery path exposed a documentation-gate compatibility defect: Runtime recognizes a bounded multi-hop successor lineage while the gate accepts only a direct supersede successor. Extend the active WI with the gate and regression paths needed to repair that in-scope recovery behavior.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T19:52:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1677e516ae9d9a4e9051aafe9899068180cf05ce8fa7ec35a8121c03125dc6fb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
   "createdAt": "2026-09-19T11:21:49Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:36ff2aa8fe9d43731c16eee5c3c4ff3f865ef4c25162b6d898f07303cf6a2062",
+    "reason": "Conversation authorization permits the bounded in-scope recovery-lineage repair and its declared verification.",
+    "recordedAt": "2026-09-19T20:08:30Z",
+    "recordedBy": "human:xinglun",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
+    "schemaVersion": 1,
+    "workItemId": "WI-903-precheckpoint-contract-scope"
+  },
+  "evidenceClasses": {
+    "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+    "items": [
+      {
+        "class": "focused documentation recovery-lineage regression evidence",
+        "evidence": [
+          {
+            "digest": "sha256:c55e60c1590267cb289197ca485c995711d624d53e05116ac7bc21997e95f752",
+            "locator": "two-hop successor lineage fixture",
+            "path": "tests/docs/work_item_status_consistency_test.sh",
+            "type": "test-script",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
   "intentAlignment": {
     "evidence": [
       "https://github.com/xinglun/ai-cockpit/issues/902"
@@ -25,50 +179,78 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-19T11:34:01Z",
-  "preflightContractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
-  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
-  "preflightState": "green",
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "preflightAt": "2026-09-19T20:15:24Z",
+  "preflightContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+  "preflightDecisionDigest": "sha256:dac5b9270d086746808be30e7209c56bb7bd1a742b74445f3adcc69c4b3d442b",
+  "preflightRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
+  "preflightState": "yellow",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [
-        ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
         "crates/cockpit-repository/tests/lifecycle_entry.rs"
       ],
-      "expected": "A not-yet-checkpointed Work Item can add only declared scope through the Runtime when the original Contract has no verification evidence.",
       "required": true,
       "scenario": "precheckpoint-required-scope-addition",
-      "status": "verified",
-      "verificationPlan": "Use a repository fixture to amend scope before checkpoint and then checkpoint successfully."
+      "status": "verified"
     },
     {
       "evidence": [
-        ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
         "crates/cockpit-repository/tests/lifecycle_entry.rs"
       ],
-      "expected": "A checkpointed Work Item retains the existing revalidation and evidence invalidation requirements.",
       "required": true,
       "scenario": "postcheckpoint-scope-amendment-remains-guarded",
-      "status": "verified",
-      "verificationPlan": "Exercise a checkpointed fixture and assert the existing amendment receipt and revalidation behavior."
+      "status": "verified"
     },
     {
       "evidence": [
-        ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
         "crates/cockpit-repository/tests/lifecycle_entry.rs"
       ],
-      "expected": "Scope amendment cannot alter identity, authority, base, mode, or prior acceptance criteria.",
       "required": true,
       "scenario": "identity-and-authority-fields-remain-immutable",
-      "status": "verified",
-      "verificationPlan": "Attempt unsupported or immutable-field amendments and assert fail-closed rejection."
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "bound-retry-stale-preflight",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.be179fbedf2a1164ad879d5305ff1a58542e59e8dacd5342fa04712b6b5736b3.json"
+      ],
+      "required": true,
+      "scenario": "An archived predecessor needs to bind a currently active recovery Work Item that was created on the same base before the predecessor route was selected.",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs"
+      ],
+      "required": true,
+      "scenario": "A same-version candidate Runtime records the explicit existing_active_successor decision, then a separately built same-version candidate validates it.",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.be179fbedf2a1164ad879d5305ff1a58542e59e8dacd5342fa04712b6b5736b3.json"
+      ],
+      "required": true,
+      "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
+      "status": "verified"
     }
   ],
-  "state": "finish_ready",
-  "updatedAt": "2026-09-19T11:34:06Z",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-19T20:08:46.449438+00:00",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -119,5 +301,6 @@
       "result": "passed"
     }
   ],
+  "verificationRecoveryReconciled": "sha256:5ab15bbc7df7c12f7a1547a3c182eeeab9156231080f8e4bc0ec86fe9e3bd305",
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

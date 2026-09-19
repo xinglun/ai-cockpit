@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T14:01:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.archive.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorEventsDigest": "sha256:04bee4ac5dd8f543f7586183fabe4327c99b66fe5f272256fc4030eb5e2fa3d7",
+  "predecessorOutcomeDigest": "sha256:170c8e4a06c65f34e3c215a170e45448f52c5491a35d51597d1f9b80af568bc2",
+  "predecessorSummaryDigest": "sha256:4a25a6ec7a718b018aa2faabe254aa80405441a32de4e5d2a61e9c665e2226dc",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "reason": "Bind the active same-base WI-903 recovery to the immutable WI-902 archive so its finalization mismatch is resolved without rewriting historical evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-903 with current verification, then finish the WI-902 finalization recovery through the bound successor lineage.",
+  "runtimeDigest": "sha256:255db4dde9ec41f2f92bddf24d180fb5bb0ba643d9e47821b69acb1466f6b5eb",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorBindingMode": "existing_active_successor",
+  "successorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+}
