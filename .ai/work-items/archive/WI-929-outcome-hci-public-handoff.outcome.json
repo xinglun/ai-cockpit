@@ -1,0 +1,188 @@
+{
+  "acceptanceResults": [
+    "CLI archive and JSON output expose the exact full humanHandoff body and ordered assistantMessageEvents from the same validated OutcomeDelivery; stderr is not required for delivery.",
+    "MCP delivery=true exposes the same full body, identity, language, ordered segments, and assistantMessageEvents; CLI/MCP parity tests compare the body and event sequence.",
+    "The active conversation language is passed explicitly and en/zh/ja delivery tests preserve Contract text and evidence facts while localizing only Runtime presentation.",
+    "No-host behavior remains full_handoff_only with host display unknown; display_confirmed requires actual per-message receipts and is never inferred from capability flags.",
+    "Interrupted delivery resumes from identity-bound accepted receipts only, with zero additional archive or verification execution; duplicate risk is explicit when idempotency is unavailable.",
+    "A controlled adapter contract test proves exact assistant-message event payloads; documentation names this as adapter evidence and separately states the absence of built-in Codex/Claude display confirmation.",
+    "The active Work Item and reference-parity projections remain synchronized in English, Simplified Chinese, and Japanese through the governed lifecycle."
+  ],
+  "createdAt": "2026-09-19T08:26:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a02de4324d5c0c65b69ba298da12368a8c808babf922880994a55cf10cd344b5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-929-outcome-hci-public-handoff.recovery.c1bc999c14262dc41a515124277b2e4be3a084238db44e2d104e599ff04093e7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the remaining Outcome/HCI handoff gap without claiming host display when no host confirmation exists."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-929-outcome-hci-public-handoff"
+  },
+  "taskReportDigest": "sha256:bdcbd74388076c998630facb129f5cb62c95a0430395b492d404d8424bc57685",
+  "taskReportMarkdownDigest": "sha256:cbe639ae3555b5395236fc79f5762ec651df7deee9753c99bd8a19d6d76947b0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

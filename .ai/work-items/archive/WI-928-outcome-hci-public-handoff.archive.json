@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-19T07:31:34Z",
+  "files": {
+    "contractDigest": "sha256:97ded375b302204947ae0448dd65b73049e24014015e18f7e9084f0ee25333af",
+    "contractPath": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.contract.json",
+    "outcomeDigest": "sha256:540caded53f73eda11933397244bf39218799e66071669240701ac202f6842f4",
+    "outcomePath": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.outcome.json",
+    "summaryDigest": "sha256:a434eb3b39bf3eade13e03719df74fb761568b4fd43078aae3f351dd6a1bab1d",
+    "summaryPath": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-928-outcome-hci-public-handoff.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-928-outcome-hci-public-handoff"
+}

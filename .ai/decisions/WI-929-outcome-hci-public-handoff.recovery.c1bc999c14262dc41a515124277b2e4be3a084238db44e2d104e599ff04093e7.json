@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T08:18:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/896",
+    ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+  "predecessorEventsDigest": "sha256:d9146f24caac54f2410496d05558944823bfcf18903490aac510980844f7f7c5",
+  "predecessorOutcomeDigest": "sha256:efbaf2e59230594698de73b5243101a9e218a3b12a49ce1a0fe933c5c7eec009",
+  "predecessorSummaryDigest": "sha256:13ad2739ce581722c9cf0685caf9c4795657734e6d7482e354cf0514955e0e83",
+  "predecessorWorkItemId": "WI-929-outcome-hci-public-handoff",
+  "reason": "The implementation and verification passed, but finalize-plan was attempted after finish_ready and was correctly rejected. Retry the same Work Item to bind reviewed PR #896 before the next lifecycle evidence cycle; preserve all prior evidence and do not create a successor or rerun unrelated object-repository work.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #896 with finalize-plan, refresh preflight and checkpoint, rerun the required focused verification if identity-sensitive, then finish, archive, hosted-review merge, finalize, finalize-verify, close, and promote documentation projections.",
+  "runtimeDigest": "sha256:8413fd2f7e6f50318fdb701c14e1d10b2c6a0267b401c1fcb792ddd19d0606ec",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

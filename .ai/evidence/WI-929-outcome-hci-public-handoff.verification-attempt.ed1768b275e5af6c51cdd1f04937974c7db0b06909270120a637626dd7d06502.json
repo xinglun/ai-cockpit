@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "66808685d088fd4f46826f388ecf04fe4ce7c547",
+      "commandDigest": "sha256:3109d6a1c76e5ffffb41e1df8bd6fec5bac67abf1a10af3af8f3ca96ed34f4c4",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:8413fd2f7e6f50318fdb701c14e1d10b2c6a0267b401c1fcb792ddd19d0606ec",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
+  "contractExecutionScopeDigest": "sha256:06fa8e279445da65df5080e619692e7b10580bfb0fc8eab5d12e2ee50f454b2b",
+  "createdAt": "2026-09-19T08:18:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-928-outcome-hci-public-handoff/ai-cockpit/.ai/work-items/active/WI-929-outcome-hci-public-handoff.contract.json: verification preconditions are blocked: evidence_classes_stale"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:6e4cf7a5875178eb1198518c995ade12ece3ec339ec62806ef15356b01354557",
+  "runtimeDigest": "sha256:8413fd2f7e6f50318fdb701c14e1d10b2c6a0267b401c1fcb792ddd19d0606ec",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

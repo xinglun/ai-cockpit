@@ -1,0 +1,165 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-929-outcome-hci-public-handoff.recovery.c1bc999c14262dc41a515124277b2e4be3a084238db44e2d104e599ff04093e7.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502.json",
+    ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json",
+    ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-19T07:36:25Z",
+  "checkpointContractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:810449198477dd9bcf48eefc3bedf98b7a8afff0a524c4387a361a3f4de18207",
+      "recorded": true,
+      "recordedAt": "2026-09-19T07:36:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:131b54f4e44a06a19f2cf22e0055e9eec5d701693a40592f84192cce71476839",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:810449198477dd9bcf48eefc3bedf98b7a8afff0a524c4387a361a3f4de18207",
+      "previousContractHash": "sha256:810449198477dd9bcf48eefc3bedf98b7a8afff0a524c4387a361a3f4de18207",
+      "reason": "Bind WI-929 to the current Outcome/HCI evidence and focused verification commands before implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T07:36:48Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:131b54f4e44a06a19f2cf22e0055e9eec5d701693a40592f84192cce71476839",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "createdAt": "2026-09-19T07:30:54Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
+    "items": [
+      {
+        "class": "outcome-delivery",
+        "evidence": [
+          {
+            "digest": "sha256:e0a2802f134ed4a20c08ab18416008d93bdb5884913ce85836ad04be2121a0f8",
+            "locator": "print_lifecycle_result archive delivery projection",
+            "path": "crates/cockpit-cli/src/main.rs",
+            "type": "implementation",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:37ae18b040fc072123446fee75105e9cd288004c0eea8b211acd732903a3e648",
+            "locator": "archive JSON and tri-language full-body assertions",
+            "path": "crates/cockpit-cli/tests/outcome_handoff.rs",
+            "type": "verification-test",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "hci-adapter-contract",
+        "evidence": [
+          {
+            "digest": "sha256:f736dcc453974c68b978a47488e3e6b5165e8650485449bdaf0a347b245b1361",
+            "locator": "assistant message event and receipt semantics",
+            "path": "crates/cockpit-agent/tests/outcome_delivery.rs",
+            "type": "verification-test",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:42c1f03c198fd1ffe0202eeeba15f5c09a4fd152d3e7e206087b19a19df0c2d6",
+            "locator": "controlled command-host adapter protocol",
+            "path": "crates/cockpit-agent/tests/outcome_host_command.rs",
+            "type": "verification-test",
+            "verification": "passed"
+          },
+          {
+            "digest": "sha256:35a72af14ce6cc3138eededdc6654ae30b2ad72e93c495b99df16cc3d902b5f0",
+            "locator": "host display limitation and exact event contract",
+            "path": "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+            "type": "documentation",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-19T08:26:50Z",
+  "preflightContractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T08:26:51Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

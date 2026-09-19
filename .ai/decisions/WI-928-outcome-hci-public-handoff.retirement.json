@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:e7ab648a0f7ce847dc7d95145875cf6deea7acbda1663188ee2c1755f81c34d0",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:97ded375b302204947ae0448dd65b73049e24014015e18f7e9084f0ee25333af",
+      "path": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:540caded53f73eda11933397244bf39218799e66071669240701ac202f6842f4",
+      "path": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a434eb3b39bf3eade13e03719df74fb761568b4fd43078aae3f351dd6a1bab1d",
+      "path": ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:b8931a0c524bee0fb27c4127f6db7743aacfcc7b76281bc463c47f0a5f01aaee",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The initial WI-928 start was stopped before checkpoint because its Contract omitted mandatory three-language documentation projections and preflight was red. No source implementation, verification, or user-facing claim was made; the unchanged base retains all behavior. Continue the same objective under the separately scaffolded WI-929 Contract.",
+  "recordedAt": "2026-09-19T07:31:34Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f83ec1df9acd014cb89bcdeb4c0ad48c74938fa4a4ab6b861fe595a1d60462d9",
+  "runtimeDigest": "sha256:e6e23199b022116f516b98a25a1ce969ae41cce99054ea4cb0d9488be617946f",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:1fbe4fc95f515b73ae530591059ff71023c7a8b8cd15b65e664815617da3f692",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-928-outcome-hci-public-handoff"
+}

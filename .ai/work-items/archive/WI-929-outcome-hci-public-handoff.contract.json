@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "CLI archive and JSON output expose the exact full humanHandoff body and ordered assistantMessageEvents from the same validated OutcomeDelivery; stderr is not required for delivery.",
+    "MCP delivery=true exposes the same full body, identity, language, ordered segments, and assistantMessageEvents; CLI/MCP parity tests compare the body and event sequence.",
+    "The active conversation language is passed explicitly and en/zh/ja delivery tests preserve Contract text and evidence facts while localizing only Runtime presentation.",
+    "No-host behavior remains full_handoff_only with host display unknown; display_confirmed requires actual per-message receipts and is never inferred from capability flags.",
+    "Interrupted delivery resumes from identity-bound accepted receipts only, with zero additional archive or verification execution; duplicate risk is explicit when idempotency is unavailable.",
+    "A controlled adapter contract test proves exact assistant-message event payloads; documentation names this as adapter evidence and separately states the absence of built-in Codex/Claude display confirmation.",
+    "The active Work Item and reference-parity projections remain synchronized in English, Simplified Chinese, and Japanese through the governed lifecycle."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "66808685d088fd4f46826f388ecf04fe4ce7c547",
+  "createdAt": "2026-09-19T07:30:54Z",
+  "goal": "Close the remaining Outcome/HCI handoff gap without claiming host display when no host confirmation exists.",
+  "intent": "Ensure archive and work-item outcome adapters expose one complete, language-selected human Outcome handoff and ordered assistant-message events to the consumer, so a supported adapter cannot lose the body by reading only stderr or a summary field.",
+  "mode": "code",
+  "outOfScope": [
+    "lifecycle state transitions",
+    "authorization semantics",
+    "verification execution",
+    "object repositories",
+    "generic chat platform creation",
+    "global Agent or MCP configuration",
+    "release publication",
+    "claims of third-party host display without a per-message receipt"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f83ec1df9acd014cb89bcdeb4c0ad48c74938fa4a4ab6b861fe595a1d60462d9",
+  "requiredEvidenceClasses": [
+    "verification",
+    "outcome-delivery",
+    "hci-adapter-contract"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-928-outcome-hci-public-handoff",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/896",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-928-outcome-hci-public-handoff/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/**",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/**",
+    "docs/reference/outcome-report*.md",
+    "docs/reference/task-outcome-events*.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/active/WI-929-outcome-hci-public-handoff.*",
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.*",
+    ".ai/decisions/WI-929-outcome-hci-public-handoff.*",
+    ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.*"
+  ],
+  "sources": [
+    "Human request: complete archived Work Item Outcome must be delivered in the active conversation language, with release publication deferred until all directions and issues are complete.",
+    "Live Issue #893 is CLOSED and its Runtime fix is present on main; this Work Item addresses the separate remaining Outcome/HCI handoff boundary and does not modify object repositories.",
+    "Current main/runtime inspection: CLI archive human text was stderr-only for non-JSON output while JSON consumers need a stable complete body; MCP delivery=true and assistantMessageEvents are the existing protocol boundary.",
+    "WI-928 retirement receipt: the predecessor stopped before checkpoint with no implementation or user-facing claim; WI-929 is the governed continuation on unchanged main base."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-agent --test outcome_delivery --test outcome_host_command",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity -- --test-threads=1",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-mcp --test rpc -- --test-threads=1",
+    "bash tests/docs/documentation_acceptance.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}
