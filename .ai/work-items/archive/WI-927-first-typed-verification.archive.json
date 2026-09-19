@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T06:32:51Z",
+  "files": {
+    "contractDigest": "sha256:075f01c9cd94fe6cfb5739a690f02f58914bd7081854608aa8689dd71138df56",
+    "contractPath": ".ai/work-items/archive/WI-927-first-typed-verification.contract.json",
+    "eventsDigest": "sha256:45a3f375abde355f8f6584432abbef54c2653d3414eabf1e42f7b17b63abdad4",
+    "eventsPath": ".ai/work-items/archive/WI-927-first-typed-verification.events.jsonl",
+    "outcomeDigest": "sha256:81242ad26c0ae6f56c4f164b7816ca4c1289e8188b5ba6bdf324b6387d40524e",
+    "outcomePath": ".ai/work-items/archive/WI-927-first-typed-verification.outcome.json",
+    "summaryDigest": "sha256:967c1703a6f4efb5b4483d7209d548a1bfe3c47fe7b62a93f0205b865ddccdb4",
+    "summaryPath": ".ai/work-items/archive/WI-927-first-typed-verification.summary.json",
+    "taskReportDigest": "sha256:c8062ab0f5f5e06275ad24c89c8fb69eb567239fd77330cdab395a87d1449ba9",
+    "taskReportMarkdownDigest": "sha256:ee4b13957c697b1ba8cc557a05312f2ed8d2ccdc05fccbaa5ed936fc5c6ed290",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-927-first-typed-verification.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-927-first-typed-verification.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-927-first-typed-verification"
+}

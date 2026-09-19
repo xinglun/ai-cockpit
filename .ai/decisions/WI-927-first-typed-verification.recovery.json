@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T06:35:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-927-first-typed-verification.verification.json",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs:first_typed_required_verification_is_allowed_before_summary_has_passed_entries"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:dba2da90f8b388301f6104d2b564efed694adacba3363d5ef7caa8318ff604fe",
+  "predecessorEventsDigest": "sha256:e05d17c6d21362bc12777403365b0c3b9505840ff524abb82cba824d2d0919b0",
+  "predecessorOutcomeDigest": "sha256:7f501e41d77c656b746c888e65240433adab17204fd22cbcc8964b85468573f1",
+  "predecessorSummaryDigest": "sha256:79967c035dec87a5ac65456e2a2bebe97b0c62c9a42724dca120d88c4dbfd873",
+  "predecessorWorkItemId": "WI-927-first-typed-verification",
+  "reason": "Retry after the Runtime executable changed while preserving the completed verification evidence and after recording the required intent-alignment projection.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Record fresh current-runtime verification evidence, rerun preflight, and retry finish.",
+  "runtimeDigest": "sha256:e6e23199b022116f516b98a25a1ce969ae41cce99054ea4cb0d9488be617946f",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-927-first-typed-verification"
+}

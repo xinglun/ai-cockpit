@@ -1,0 +1,184 @@
+{
+  "acceptanceResults": [
+    "First typed required verification is permitted only with a current checkpoint, non-red preflight, matching Contract and repository snapshot, and exclusively missing typed verification findings.",
+    "Red preflight, missing checkpoint, digest mismatch, undeclared command, foreign, stale, malformed, failed, cancelled, or timed-out evidence remains blocked before process spawn and preserves prior successful evidence.",
+    "CLI and MCP share the same precondition semantics and tri-language guidance describes the execution boundary without changing lifecycle authority."
+  ],
+  "createdAt": "2026-09-19T06:32:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a2f64315426145b828edc43d56cb60f504c52102319f4591643b4a77e774f122",
+  "evidenceRefs": [
+    ".ai/evidence/WI-927-first-typed-verification.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-927-first-typed-verification.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-927-first-typed-verification.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1fc9aa6a923da4f56aed10d06db8c7640ab33413ebbabe07edec680a64aa25fa",
+      "workItemId": "WI-927-first-typed-verification"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-927-first-typed-verification.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-927-first-typed-verification.verification-attempt.fcb6ebbbe548bb7735d7ad414645713402d72175869dc4b1d287c94b964fd743.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-927-first-typed-verification.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-927-first-typed-verification.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow a valid checkpointed Work Item to execute its first declared typed verification and write its identity-bound Summary receipt without weakening finish, archive, or close gates"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-927-first-typed-verification"
+  },
+  "taskReportDigest": "sha256:c8062ab0f5f5e06275ad24c89c8fb69eb567239fd77330cdab395a87d1449ba9",
+  "taskReportMarkdownDigest": "sha256:ee4b13957c697b1ba8cc557a05312f2ed8d2ccdc05fccbaa5ed936fc5c6ed290",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-927-first-typed-verification.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-927-first-typed-verification"
+}
