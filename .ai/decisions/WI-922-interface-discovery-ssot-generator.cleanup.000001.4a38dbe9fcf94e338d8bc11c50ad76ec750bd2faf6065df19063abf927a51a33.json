@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:9f14a6b036684fdeef098807a2551c863c6acdcca1388939ae97c2dd9442a28c",
+  "branchRef": "refs/heads/codex/wi-922-interface-discovery-ssot-generator",
+  "contractDigest": "sha256:29e5a22d2becead7e618e65443aa9a70062a24d71f5eb7215e7eaae18f7e5522",
+  "headRevision": "303c9b2820468f19721f6d2867cf5f5445070141",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-19T02:26:11Z",
+  "operationId": "sha256:967d54b6efa907903554d3fe9d0e7a387bc42ded3d4e73cb2ba7be09bfeaf0ec",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-922-interface-discovery-ssot-generator",
+  "worktreeId": "sha256:eeb44ca5727e1466c6997007823367ae55fcff106152fb594b377eb9d81bade7"
+}
