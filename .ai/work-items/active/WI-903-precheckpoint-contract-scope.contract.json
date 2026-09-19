@@ -4,7 +4,8 @@
     "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
     "Unsupported Contract fields and identity or authority changes remain rejected.",
     "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
-    "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors."
+    "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors.",
+    "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -67,6 +68,13 @@
       "required": true,
       "scenario": "An archived predecessor needs to bind a currently active recovery Work Item that was created on the same base before the predecessor route was selected.",
       "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "The bounded successor decision remains valid despite executable hash variance; a different Runtime version still fails closed.",
+      "required": true,
+      "scenario": "A same-version candidate Runtime records the explicit existing_active_successor decision, then a separately built same-version candidate validates it.",
+      "status": "unverified"
     }
   ],
   "scope": [
@@ -89,7 +97,8 @@
   "verification": [
     "cargo test --locked --workspace",
     "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift",
-    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor"
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor_accepts_same_version_candidate_rebuild"
   ],
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }
