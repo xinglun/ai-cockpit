@@ -1,33 +1,33 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.8f9c446656bc09825fa069ba68938b89d2e83154728daf8b848977496915db7b.json",
-    ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.json",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.events.jsonl",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.outcome.json",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.task-report.json",
-    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.task-report.md",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification-attempt.f8fd28acc092801176f4e8f179fcd94f178b4c1c6a68c2b11d907e881a844f2e.json",
     ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json",
-    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.archive.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.events.jsonl",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.outcome.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.json",
-    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.md"
+    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-19T01:01:44Z",
+  "checkpointContractDigest": "sha256:a2e3866791ae974234c1e9b6912bfa4f50f60b85384460d46456af0ccceb9a78",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
   "createdAt": "2026-09-19T00:52:23Z",
   "mode": "code",
   "predecessorContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
   "predecessorWorkItemId": "WI-920-interface-ssot-runtime-schema",
-  "preflightState": "not_run",
+  "preflightAt": "2026-09-19T01:11:39Z",
+  "preflightContractDigest": "sha256:a2e3866791ae974234c1e9b6912bfa4f50f60b85384460d46456af0ccceb9a78",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "implementation_active",
-  "updatedAt": "2026-09-19T00:59:10Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T01:11:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "WI-921-interface-ssot-finalization-recovery"
 }
