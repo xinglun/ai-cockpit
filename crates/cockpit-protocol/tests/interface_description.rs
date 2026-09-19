@@ -3,7 +3,7 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_DEFAULT_VIEW, WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
     WORK_ITEM_OUTCOME_VIEW_VALUES, normalize_work_item_outcome_language,
     render_interface_description_markdown, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs,
+    work_item_outcome_interface_specs, work_item_outcome_parameter_definition,
 };
 
 fn surface<'a>(
@@ -128,6 +128,21 @@ fn description_is_materialized_from_protocol_owned_parameter_tables() {
                 parameter.description, spec.description,
                 "surface={surface_name}"
             );
+        }
+    }
+}
+
+#[test]
+fn surface_specs_reference_one_canonical_parameter_definition() {
+    for surface_name in ["cli", "mcp"] {
+        let specs = work_item_outcome_interface_specs(surface_name).expect("known surface");
+        for spec in specs {
+            let definition = work_item_outcome_parameter_definition(spec.canonical_name)
+                .unwrap_or_else(|| panic!("missing canonical definition {}", spec.canonical_name));
+            assert_eq!(spec.wire_type, definition.wire_type, "{surface_name}");
+            assert_eq!(spec.default, definition.default, "{surface_name}");
+            assert_eq!(spec.enum_values, definition.enum_values, "{surface_name}");
+            assert_eq!(spec.description, definition.description, "{surface_name}");
         }
     }
 }

@@ -1963,6 +1963,7 @@ mod tests {
     #[test]
     fn capability_projection_helpers_include_every_protocol_parameter() {
         let extra = InterfaceParameterSpec {
+            canonical_name: "future",
             name: "future",
             wire_type: "enum",
             required: true,
