@@ -573,48 +573,8 @@ enum WorkItemCommand {
     Outcome {
         #[arg(long)]
         repo: PathBuf,
-        #[arg(
-            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
-            help = cockpit_protocol::WORK_ITEM_OUTCOME_ID_DESCRIPTION
-        )]
-        id: String,
-        /// Deliver the immutable archived full Outcome through the configured
-        /// host adapter. Without a host command this is an explicit
-        /// full-handoff-only result and never a display claim.
-        #[arg(
-            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_DELIVERY,
-            help = cockpit_protocol::WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
-            default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY
-        )]
-        delivery: bool,
-        /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
-        #[arg(
-            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_JSON,
-            help = cockpit_protocol::WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
-            default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_JSON
-        )]
-        json: bool,
-        /// Select the human handoff projection. The default is the reader-first summary.
-        #[arg(
-            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_VIEW,
-            help = cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
-            value_parser = clap::builder::PossibleValuesParser::new(
-                cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.iter().copied()
-            ),
-            default_value = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
-        )]
-        view: String,
-        /// Conversation language for the human Outcome. Adapters should pass
-        /// the active dialog language explicitly; otherwise locale fallback
-        /// is used.
-        #[arg(
-            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_LANGUAGE,
-            help = cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
-            value_parser = clap::builder::PossibleValuesParser::new(
-                cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
-            )
-        )]
-        language: Option<String>,
+        #[command(flatten)]
+        query: cockpit_protocol::WorkItemOutcomeQueryArgs,
     },
     /// Move failed-attempt artifacts left by an older/interrupted archive
     /// into the immutable archive and bind them with a reconciliation receipt.
@@ -2367,24 +2327,18 @@ fn run() -> Result<()> {
                     .context("derive implementation approach")?;
                 println!("{}", serde_json::to_string_pretty(&approach)?);
             }
-            WorkItemCommand::Outcome {
-                repo,
-                id,
-                delivery,
-                json,
-                view,
-                language,
-            } => {
+            WorkItemCommand::Outcome { repo, query } => {
                 require_compatible(&repo, &runtime_context)?;
-                if delivery {
+                let language = query.language.map(|language| language.as_str().to_owned());
+                if query.delivery {
                     let prepared = prepare_archive_outcome_delivery(
                         &repo,
-                        &id,
+                        &query.id,
                         &runtime_context,
                         output_language(language.as_deref()),
                     )
                     .context("prepare archived Outcome delivery")?;
-                    let result = deliver_prepared_outcome(&repo, &id, prepared)?;
+                    let result = deliver_prepared_outcome(&repo, &query.id, prepared)?;
                     let mut output = serde_json::to_value(&result.delivery)?;
                     output["assistantMessageEvents"] = serde_json::to_value(
                         cockpit_agent::assistant_message_events(&result.delivery),
@@ -2397,7 +2351,7 @@ fn run() -> Result<()> {
                     if let Some(count) = result.returned_segment_events {
                         output["returnedSegmentEvents"] = json!(count);
                     }
-                    if json {
+                    if query.json {
                         println!("{}", serde_json::to_string_pretty(&output)?);
                     } else {
                         println!("{}", result.handoff);
@@ -2405,11 +2359,11 @@ fn run() -> Result<()> {
                 } else {
                     let input = cockpit_repository::outcome_render_input_with_runtime(
                         &repo,
-                        &id,
+                        &query.id,
                         &runtime_context,
                     )
                     .context("read Work Item outcome")?;
-                    if json {
+                    if query.json {
                         println!("{}", serde_json::to_string_pretty(&input.outcome)?);
                     } else {
                         println!(
@@ -2417,7 +2371,7 @@ fn run() -> Result<()> {
                             cockpit_repository::render_human_outcome_with_view(
                                 &input,
                                 output_language(language.as_deref()),
-                                outcome_repository_view(&view),
+                                outcome_repository_view(query.view.as_str()),
                             )
                         );
                     }
@@ -3743,13 +3697,47 @@ mod tests {
         .expect("parse outcome language");
 
         let CommandKind::WorkItem {
-            command: WorkItemCommand::Outcome { language, view, .. },
+            command: WorkItemCommand::Outcome { query, .. },
         } = cli.command
         else {
             panic!("expected work-item outcome command");
         };
-        assert_eq!(language.as_deref(), Some("zh-CN"));
-        assert_eq!(view, cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW);
+        assert_eq!(
+            query.language,
+            Some(cockpit_protocol::WorkItemOutcomeLanguage::ZhCn)
+        );
+        assert_eq!(query.view, cockpit_protocol::WorkItemOutcomeView::Summary);
+    }
+
+    #[test]
+    fn outcome_parser_returns_the_protocol_owned_query_arguments() {
+        let cli = Cli::try_parse_from([
+            "ai-cockpit",
+            "work-item",
+            "outcome",
+            "--repo",
+            "/tmp/outcome-query-repository",
+            "--id",
+            "WI-QUERY",
+            "--view",
+            "full",
+            "--language",
+            "ja",
+        ])
+        .expect("parse outcome query");
+
+        let CommandKind::WorkItem {
+            command: WorkItemCommand::Outcome { query, .. },
+        } = cli.command
+        else {
+            panic!("expected work-item outcome command");
+        };
+        assert_eq!(query.id, "WI-QUERY");
+        assert_eq!(query.view, cockpit_protocol::WorkItemOutcomeView::Full);
+        assert_eq!(
+            query.language,
+            Some(cockpit_protocol::WorkItemOutcomeLanguage::Ja)
+        );
     }
 
     #[test]

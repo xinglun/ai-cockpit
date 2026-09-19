@@ -4,6 +4,7 @@
 //! read Work Item history, infer authority, or execute a command. CLI and MCP
 //! adapters project the same facts through their respective transports.
 
+use clap::{ArgAction, Args, Command, ValueEnum};
 use serde::{Deserialize, Serialize};
 
 pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
@@ -47,6 +48,86 @@ pub const WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS: &str =
 /// canonical Simplified Chinese renderer.
 pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "zh-CN", "ja"];
 
+/// Actual CLI parser arguments for the discoverable Outcome query.
+///
+/// The CLI flattens this type into `work-item outcome`; interface discovery
+/// reads the same Clap command model.  Keep transport-specific MCP-only
+/// parameters outside this type.
+#[derive(Clone, Debug, Args)]
+pub struct WorkItemOutcomeQueryArgs {
+    #[arg(long, help = WORK_ITEM_OUTCOME_ID_DESCRIPTION)]
+    pub id: String,
+    #[arg(
+        long,
+        action = ArgAction::SetTrue,
+        default_value_t = false,
+        help = WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION
+    )]
+    pub delivery: bool,
+    #[arg(
+        long,
+        action = ArgAction::SetTrue,
+        default_value_t = false,
+        help = WORK_ITEM_OUTCOME_JSON_DESCRIPTION
+    )]
+    pub json: bool,
+    #[arg(
+        long,
+        value_enum,
+        default_value_t = WorkItemOutcomeView::Summary,
+        help = WORK_ITEM_OUTCOME_VIEW_DESCRIPTION
+    )]
+    pub view: WorkItemOutcomeView,
+    #[arg(long, value_enum, help = WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION)]
+    pub language: Option<WorkItemOutcomeLanguage>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub enum WorkItemOutcomeView {
+    #[value(name = WORK_ITEM_OUTCOME_VIEW_SUMMARY)]
+    Summary,
+    #[value(name = WORK_ITEM_OUTCOME_VIEW_FULL)]
+    Full,
+}
+
+impl WorkItemOutcomeView {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Summary => WORK_ITEM_OUTCOME_VIEW_SUMMARY,
+            Self::Full => WORK_ITEM_OUTCOME_VIEW_FULL,
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+pub enum WorkItemOutcomeLanguage {
+    #[value(name = "en")]
+    En,
+    #[value(name = "zh")]
+    Zh,
+    #[value(name = "zh-CN")]
+    ZhCn,
+    #[value(name = "ja")]
+    Ja,
+}
+
+impl WorkItemOutcomeLanguage {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::En => "en",
+            Self::Zh => "zh",
+            Self::ZhCn => "zh-CN",
+            Self::Ja => "ja",
+        }
+    }
+}
+
+/// Return the actual Clap command fragment shared by query parsing and
+/// interface description generation.
+pub fn work_item_outcome_query_command() -> Command {
+    WorkItemOutcomeQueryArgs::augment_args(Command::new("outcome"))
+}
+
 pub fn normalize_work_item_outcome_language(value: &str) -> &'static str {
     let normalized = value.trim().to_ascii_lowercase();
     if normalized.starts_with("zh") {
@@ -89,10 +170,6 @@ pub fn capability_show_language_is_valid(value: &str) -> bool {
     CAPABILITY_SHOW_LANGUAGE_VALUES.contains(&value)
 }
 
-const fn bool_default_text(value: bool) -> &'static str {
-    if value { "true" } else { "false" }
-}
-
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct InterfaceDescription {
@@ -123,6 +200,51 @@ pub struct InterfaceParameter {
     pub description: String,
 }
 
+fn cli_parameter_from_query_argument(argument: &clap::Arg) -> InterfaceParameter {
+    let name = argument.get_id().as_str();
+    let boolean = matches!(
+        argument.get_action(),
+        ArgAction::SetTrue | ArgAction::SetFalse
+    );
+    let enum_values = if boolean {
+        Vec::new()
+    } else {
+        argument
+            .get_possible_values()
+            .into_iter()
+            .map(|value| value.get_name().to_owned())
+            .collect()
+    };
+    InterfaceParameter {
+        name: name.into(),
+        wire_type: if boolean {
+            "boolean".into()
+        } else if enum_values.is_empty() {
+            "string".into()
+        } else {
+            "enum".into()
+        },
+        required: argument.is_required_set(),
+        default: argument
+            .get_default_values()
+            .first()
+            .map(|value| value.to_string_lossy().into_owned()),
+        enum_values,
+        aliases: Vec::new(),
+        description: argument
+            .get_help()
+            .map(ToString::to_string)
+            .unwrap_or_default(),
+    }
+}
+
+fn cli_outcome_parameters_from_query_parser() -> Vec<InterfaceParameter> {
+    work_item_outcome_query_command()
+        .get_arguments()
+        .map(cli_parameter_from_query_argument)
+        .collect()
+}
+
 /// The protocol-owned facts for one discoverable parameter.
 ///
 /// Adapters consume this table rather than copying defaults, enums, or
@@ -144,135 +266,122 @@ pub struct InterfaceParameterSpec {
     pub description: &'static str,
 }
 
-/// Canonical facts for the work-item outcome discovery surface.
+/// A transport binding plus parser-derived facts for one Outcome parameter.
 ///
-/// Adapters must only bind transport names, requiredness, and aliases below;
-/// defaults, enums, wire types, and descriptions are defined once here.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct OutcomeParameterDefinition {
-    pub name: &'static str,
-    pub wire_type: &'static str,
-    pub default: Option<&'static str>,
-    pub enum_values: &'static [&'static str],
-    pub description: &'static str,
+/// Defaults, enum values, types, and descriptions are materialized from the
+/// actual shared Clap parser.  This structure stores only the unavoidable
+/// transport spelling and alias mapping beside those facts.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct OutcomeInterfaceParameterSpec {
+    pub canonical_name: String,
+    pub name: String,
+    pub wire_type: String,
+    pub required: bool,
+    pub default: Option<String>,
+    pub enum_values: Vec<String>,
+    pub aliases: Vec<String>,
+    pub description: String,
 }
 
-const OUTCOME_WORK_ITEM_ID: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
-    wire_type: "string",
-    default: None,
-    enum_values: &[],
-    description: WORK_ITEM_OUTCOME_ID_DESCRIPTION,
-};
+#[derive(Clone, Copy)]
+struct OutcomeTransportBinding {
+    canonical_name: &'static str,
+    cli_name: &'static str,
+    mcp_name: &'static str,
+    mcp_aliases: &'static [&'static str],
+}
 
-const OUTCOME_DELIVERY: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
-    wire_type: "boolean",
-    default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
-    enum_values: &[],
-    description: WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
-};
+const OUTCOME_TRANSPORT_BINDINGS: &[OutcomeTransportBinding] = &[
+    OutcomeTransportBinding {
+        canonical_name: WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+        cli_name: WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
+        mcp_name: WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
+        mcp_aliases: &[WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID],
+    },
+    OutcomeTransportBinding {
+        canonical_name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+        cli_name: WORK_ITEM_OUTCOME_CLI_DELIVERY,
+        mcp_name: WORK_ITEM_OUTCOME_MCP_DELIVERY,
+        mcp_aliases: &[],
+    },
+    OutcomeTransportBinding {
+        canonical_name: WORK_ITEM_OUTCOME_CANONICAL_JSON,
+        cli_name: WORK_ITEM_OUTCOME_CLI_JSON,
+        mcp_name: "",
+        mcp_aliases: &[],
+    },
+    OutcomeTransportBinding {
+        canonical_name: WORK_ITEM_OUTCOME_CANONICAL_VIEW,
+        cli_name: WORK_ITEM_OUTCOME_CLI_VIEW,
+        mcp_name: WORK_ITEM_OUTCOME_MCP_VIEW,
+        mcp_aliases: &[],
+    },
+    OutcomeTransportBinding {
+        canonical_name: WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
+        cli_name: WORK_ITEM_OUTCOME_CLI_LANGUAGE,
+        mcp_name: WORK_ITEM_OUTCOME_MCP_LANGUAGE,
+        mcp_aliases: &[],
+    },
+];
 
-const OUTCOME_JSON: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_JSON,
-    wire_type: "boolean",
-    default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
-    enum_values: &[],
-    description: WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
-};
-
-const OUTCOME_VIEW: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_VIEW,
-    wire_type: "enum",
-    default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
-    enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
-    description: WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
-};
-
-const OUTCOME_LANGUAGE: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
-    wire_type: "enum",
-    default: None,
-    enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-    description: WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
-};
-
-const OUTCOME_DELIVERY_PROGRESS: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS,
-    wire_type: "object",
-    default: None,
-    enum_values: &[],
-    description: "Identity-bound accepted-segment progress for an interrupted delivery.",
-};
-
-const fn bind_outcome_parameter(
-    definition: &'static OutcomeParameterDefinition,
-    name: &'static str,
-    required: bool,
-    aliases: &'static [&'static str],
-) -> InterfaceParameterSpec {
-    InterfaceParameterSpec {
-        canonical_name: definition.name,
-        name,
-        wire_type: definition.wire_type,
-        required,
-        default: definition.default,
-        enum_values: definition.enum_values,
-        aliases,
-        description: definition.description,
+fn outcome_specs_for_surface(surface: &str) -> Option<Vec<OutcomeInterfaceParameterSpec>> {
+    let cli_parameters = cli_outcome_parameters_from_query_parser();
+    let mut specs = Vec::new();
+    for binding in OUTCOME_TRANSPORT_BINDINGS {
+        let parameter = cli_parameters
+            .iter()
+            .find(|parameter| parameter.name == binding.cli_name)?;
+        let (name, aliases) = match surface {
+            "cli" => (binding.cli_name, Vec::new()),
+            "mcp" if !binding.mcp_name.is_empty() => (
+                binding.mcp_name,
+                binding
+                    .mcp_aliases
+                    .iter()
+                    .map(|alias| (*alias).into())
+                    .collect(),
+            ),
+            "mcp" => continue,
+            _ => return None,
+        };
+        specs.push(OutcomeInterfaceParameterSpec {
+            canonical_name: binding.canonical_name.into(),
+            name: name.into(),
+            wire_type: parameter.wire_type.clone(),
+            required: parameter.required,
+            default: parameter.default.clone(),
+            enum_values: parameter.enum_values.clone(),
+            aliases,
+            description: parameter.description.clone(),
+        });
     }
+    if surface == "mcp" {
+        let mcp_order = [
+            WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
+            WORK_ITEM_OUTCOME_MCP_LANGUAGE,
+            WORK_ITEM_OUTCOME_MCP_VIEW,
+            WORK_ITEM_OUTCOME_MCP_DELIVERY,
+        ];
+        specs.sort_by_key(|spec| {
+            mcp_order
+                .iter()
+                .position(|name| *name == spec.name)
+                .unwrap_or(mcp_order.len())
+        });
+        specs.push(OutcomeInterfaceParameterSpec {
+            canonical_name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS.into(),
+            name: WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS.into(),
+            wire_type: "object".into(),
+            required: false,
+            default: None,
+            enum_values: Vec::new(),
+            aliases: Vec::new(),
+            description: "Identity-bound accepted-segment progress for an interrupted delivery."
+                .into(),
+        });
+    }
+    Some(specs)
 }
-
-static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    bind_outcome_parameter(
-        &OUTCOME_WORK_ITEM_ID,
-        WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
-        true,
-        &[],
-    ),
-    bind_outcome_parameter(
-        &OUTCOME_DELIVERY,
-        WORK_ITEM_OUTCOME_CLI_DELIVERY,
-        false,
-        &[],
-    ),
-    bind_outcome_parameter(&OUTCOME_JSON, WORK_ITEM_OUTCOME_CLI_JSON, false, &[]),
-    bind_outcome_parameter(&OUTCOME_VIEW, WORK_ITEM_OUTCOME_CLI_VIEW, false, &[]),
-    bind_outcome_parameter(
-        &OUTCOME_LANGUAGE,
-        WORK_ITEM_OUTCOME_CLI_LANGUAGE,
-        false,
-        &[],
-    ),
-];
-
-static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    bind_outcome_parameter(
-        &OUTCOME_WORK_ITEM_ID,
-        WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
-        true,
-        &[WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID],
-    ),
-    bind_outcome_parameter(
-        &OUTCOME_LANGUAGE,
-        WORK_ITEM_OUTCOME_MCP_LANGUAGE,
-        false,
-        &[],
-    ),
-    bind_outcome_parameter(&OUTCOME_VIEW, WORK_ITEM_OUTCOME_MCP_VIEW, false, &[]),
-    bind_outcome_parameter(
-        &OUTCOME_DELIVERY,
-        WORK_ITEM_OUTCOME_MCP_DELIVERY,
-        false,
-        &[],
-    ),
-    bind_outcome_parameter(
-        &OUTCOME_DELIVERY_PROGRESS,
-        WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS,
-        false,
-        &[],
-    ),
-];
 
 static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
     InterfaceParameterSpec {
@@ -310,38 +419,19 @@ static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[
 /// Return the protocol-owned parameter table for a discoverable surface.
 pub fn work_item_outcome_interface_specs(
     surface: &str,
-) -> Option<&'static [InterfaceParameterSpec]> {
-    match surface {
-        "cli" => Some(CLI_WORK_ITEM_OUTCOME_PARAMETERS),
-        "mcp" => Some(MCP_WORK_ITEM_OUTCOME_PARAMETERS),
-        _ => None,
-    }
-}
-
-/// Return the canonical definition behind one outcome parameter binding.
-pub fn work_item_outcome_parameter_definition(
-    name: &str,
-) -> Option<&'static OutcomeParameterDefinition> {
-    [
-        &OUTCOME_WORK_ITEM_ID,
-        &OUTCOME_DELIVERY,
-        &OUTCOME_JSON,
-        &OUTCOME_VIEW,
-        &OUTCOME_LANGUAGE,
-        &OUTCOME_DELIVERY_PROGRESS,
-    ]
-    .into_iter()
-    .find(|definition| definition.name == name)
+) -> Option<Vec<OutcomeInterfaceParameterSpec>> {
+    outcome_specs_for_surface(surface)
 }
 
 /// Return one protocol-owned parameter fact for adapter schema generation.
 pub fn work_item_outcome_parameter_spec(
     surface: &str,
     name: &str,
-) -> Option<&'static InterfaceParameterSpec> {
+) -> Option<OutcomeInterfaceParameterSpec> {
     work_item_outcome_interface_specs(surface)?
         .iter()
         .find(|spec| spec.name == name)
+        .cloned()
 }
 
 /// Return a transport binding by its protocol-owned canonical identity.
@@ -353,10 +443,11 @@ pub fn work_item_outcome_parameter_spec(
 pub fn work_item_outcome_parameter_spec_by_canonical(
     surface: &str,
     canonical_name: &str,
-) -> Option<&'static InterfaceParameterSpec> {
+) -> Option<OutcomeInterfaceParameterSpec> {
     work_item_outcome_interface_specs(surface)?
         .iter()
         .find(|spec| spec.canonical_name == canonical_name)
+        .cloned()
 }
 
 /// Return the protocol-owned parameter facts for the read-only capability
@@ -372,42 +463,42 @@ pub fn capability_show_parameter_spec(name: &str) -> Option<&'static InterfacePa
         .find(|spec| spec.name == name)
 }
 
-fn materialize_parameter(spec: &InterfaceParameterSpec) -> InterfaceParameter {
+fn materialize_outcome_parameter(spec: &OutcomeInterfaceParameterSpec) -> InterfaceParameter {
     InterfaceParameter {
-        name: spec.name.into(),
-        wire_type: spec.wire_type.into(),
+        name: spec.name.clone(),
+        wire_type: spec.wire_type.clone(),
         required: spec.required,
-        default: spec.default.map(str::to_owned),
-        enum_values: spec
-            .enum_values
-            .iter()
-            .map(|value| (*value).into())
-            .collect(),
-        aliases: spec.aliases.iter().map(|value| (*value).into()).collect(),
-        description: spec.description.into(),
+        default: spec.default.clone(),
+        enum_values: spec.enum_values.clone(),
+        aliases: spec.aliases.clone(),
+        description: spec.description.clone(),
     }
 }
 
 /// Return the one protocol-owned description for the trial interface.
 ///
 /// The CLI and MCP surfaces intentionally expose transport-specific names;
-/// all parameter facts come from the protocol-owned tables above.
+/// all shared parameter facts come from the executable parser above.
 pub fn work_item_outcome_interface_description() -> InterfaceDescription {
     InterfaceDescription {
         schema_version: INTERFACE_DESCRIPTION_SCHEMA_VERSION,
         name: WORK_ITEM_OUTCOME_SURFACE.into(),
         runtime_version: env!("CARGO_PKG_VERSION").into(),
-        surfaces: [
-            ("cli", "argv", CLI_WORK_ITEM_OUTCOME_PARAMETERS),
-            ("mcp", "json-rpc", MCP_WORK_ITEM_OUTCOME_PARAMETERS),
-        ]
-        .into_iter()
-        .map(|(name, transport, specs)| InterfaceSurface {
-            name: name.into(),
-            transport: transport.into(),
-            parameters: specs.iter().map(materialize_parameter).collect(),
-        })
-        .collect(),
+        surfaces: [("cli", "argv"), ("mcp", "json-rpc")]
+            .into_iter()
+            .map(|(name, transport)| {
+                let parameters = outcome_specs_for_surface(name)
+                    .expect("known Outcome interface surface")
+                    .iter()
+                    .map(materialize_outcome_parameter)
+                    .collect();
+                InterfaceSurface {
+                    name: name.into(),
+                    transport: transport.into(),
+                    parameters,
+                }
+            })
+            .collect(),
     }
 }
 

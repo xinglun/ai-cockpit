@@ -1003,7 +1003,7 @@ pub fn render_full_human_outcome(input: &OutcomeRenderInput, language: &str) -> 
 pub fn prepare_archive_outcome_delivery(
     root: &Path,
     work_item_id: &str,
-    runtime: &RuntimeContext,
+    _runtime: &RuntimeContext,
     language: &str,
 ) -> Result<OutcomeDelivery, ObserverError> {
     let manifest_path = root
@@ -1019,8 +1019,39 @@ pub fn prepare_archive_outcome_delivery(
         path: manifest_path.clone(),
         source,
     })?;
+    let manifest: Value =
+        serde_json::from_slice(&manifest_bytes).map_err(|error| ObserverError::State {
+            path: manifest_path.clone(),
+            message: format!("archive manifest is not valid JSON: {error}"),
+        })?;
+    super::verify_archive_manifest(root, work_item_id, &manifest)?;
     let archive_identity = Digest::sha256_bytes(&manifest_bytes);
-    let input = outcome_render_input_with_runtime(root, work_item_id, runtime)?;
+    let outcome_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.outcome.json"));
+    let outcome_bytes = fs::read(&outcome_path).map_err(|source| ObserverError::Read {
+        path: outcome_path.clone(),
+        source,
+    })?;
+    let legacy_outcome: Value =
+        serde_json::from_slice(&outcome_bytes).map_err(|error| ObserverError::State {
+            path: outcome_path.clone(),
+            message: format!("archived Outcome is not valid JSON: {error}"),
+        })?;
+    let outcome: OutcomeV2 = serde_json::from_value(archived_outcome_v2_value(&legacy_outcome))
+        .map_err(|error| ObserverError::State {
+            path: outcome_path.clone(),
+            message: format!("archived Outcome does not match the current protocol: {error}"),
+        })?;
+    if outcome.work_item_id != work_item_id
+        || outcome.repository_id != repository_id(root).to_string()
+    {
+        return Err(ObserverError::State {
+            path: outcome_path,
+            message: "archived Outcome identity does not match the repository or Work Item".into(),
+        });
+    }
+    let input = archive_outcome_render_input(outcome, legacy_outcome, &manifest);
     let language = normalized_language(language).to_owned();
     let body = render_full_human_outcome(&input, &language);
     let body_digest = Digest::sha256_bytes(body.as_bytes());
@@ -1060,6 +1091,97 @@ pub fn prepare_archive_outcome_delivery(
         legacy_outcome: input.legacy_outcome.clone(),
         error: None,
     })
+}
+
+/// Archived Outcome files retain additive legacy lifecycle fields alongside
+/// the OutcomeV2 projection. Select the versioned projection explicitly so
+/// a legacy transport field neither alters nor prevents immutable delivery.
+fn archived_outcome_v2_value(legacy_outcome: &Value) -> Value {
+    const OUTCOME_V2_FIELDS: &[&str] = &[
+        "schemaVersion",
+        "repositoryId",
+        "workItemId",
+        "state",
+        "decisionState",
+        "summary",
+        "acceptanceResults",
+        "unknowns",
+        "evidenceRefs",
+        "humanBenefitReport",
+        "taskOutcomeReport",
+        "failedGate",
+        "recoveryCondition",
+        "recoveryDecision",
+        "historicalStatus",
+        "governanceReasons",
+        "finalization",
+    ];
+    let mut value = legacy_outcome.clone();
+    if let Some(fields) = value.as_object_mut() {
+        fields.retain(|key, _| OUTCOME_V2_FIELDS.contains(&key.as_str()));
+        // The legacy lifecycle projection reuses `state` for values such as
+        // `finish_ready`; OutcomeV2 uses verification states. Preserve the
+        // verified archive fact rather than treating that transport spelling
+        // as a malformed immutable Outcome.
+        if fields.get("state").and_then(Value::as_str) == Some("finish_ready") {
+            fields.insert("state".into(), Value::String("verified".into()));
+        } else if fields.get("state").and_then(Value::as_str) == Some("blocked") {
+            fields.insert("state".into(), Value::String("unknown".into()));
+        }
+    }
+    value
+}
+
+/// Build the archive-delivery view from the manifest-bound Outcome bytes.
+///
+/// Archive delivery is a historical handoff. It deliberately does not reread
+/// current close decisions, provider state, or verification evidence: those
+/// facts may have changed after archive and would otherwise create a mixed
+/// observation that no longer describes the delivered snapshot.
+fn archive_outcome_render_input(
+    outcome: OutcomeV2,
+    legacy_outcome: Value,
+    manifest: &Value,
+) -> OutcomeRenderInput {
+    let manifest_state = manifest["state"].as_str().unwrap_or("archived");
+    let historical = outcome.historical_status.is_some()
+        || matches!(manifest_state, "superseded" | "retired" | "replaced");
+    let superseded = outcome.historical_status.as_deref() == Some("superseded")
+        || manifest_state == "superseded";
+    let lifecycle_status = if historical {
+        if superseded {
+            "historical_superseded"
+        } else {
+            "historical"
+        }
+    } else {
+        "archived"
+    };
+    let finalization = outcome
+        .finalization
+        .clone()
+        .unwrap_or(FinalizationProjection {
+            state: "not_observed".into(),
+            error_code: None,
+            disposition: None,
+            action: "not_recorded_at_archive".into(),
+            reliable: false,
+            observation_state: Some(FinalizationObservationState::NotObserved),
+            error: None,
+            next_action: None,
+        });
+    let reason_keys = outcome.governance_reasons.clone();
+    OutcomeRenderInput {
+        outcome,
+        legacy_outcome: Some(legacy_outcome),
+        // A later close decision is not part of this immutable delivery.
+        human_decision: HumanDecisionProjection::Missing,
+        archived_unclosed: !historical,
+        lifecycle_status: lifecycle_status.into(),
+        finalization,
+        reason_keys,
+        assembly: None,
+    }
 }
 
 fn segment_outcome_delivery_body(

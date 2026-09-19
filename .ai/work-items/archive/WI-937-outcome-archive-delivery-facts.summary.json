@@ -1,0 +1,122 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-936-interface-ssot.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-937-outcome-archive-delivery-facts.verification-attempt.15c2cef6eaf9b7c29fbb991845b6d6a3743614da2b7dabd8c8b8d6fa0b68fb5c.json",
+    ".ai/work-items/archive/WI-937-outcome-archive-delivery-facts.contract.json",
+    ".ai/work-items/archive/WI-937-outcome-archive-delivery-facts.summary.json",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "checkpointAt": "2026-09-19T18:56:54Z",
+  "checkpointContractDigest": "sha256:d034840bd5f67e7b18f979a9dc723ecefe5e7d2e1ec45400e0f4518bbb11e17d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:707c427c2a28356f12398a07df79835a78ad084cfdbcf9ce3d828b93d0ad03cd",
+      "recorded": true,
+      "recordedAt": "2026-09-19T18:56:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-937-outcome-archive-delivery-facts"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d034840bd5f67e7b18f979a9dc723ecefe5e7d2e1ec45400e0f4518bbb11e17d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:707c427c2a28356f12398a07df79835a78ad084cfdbcf9ce3d828b93d0ad03cd",
+      "previousContractHash": "sha256:707c427c2a28356f12398a07df79835a78ad084cfdbcf9ce3d828b93d0ad03cd",
+      "reason": "Include the directly observed amendment atomicity defect and the exact multi-hop recovery regression needed for this archive-delivery recovery.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T18:57:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-937-outcome-archive-delivery-facts"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ea8cc78c3e40091316f122b45b3b7ad8d994ecb66d355babef0c27204e6d5551",
+  "createdAt": "2026-09-19T17:34:48Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+  "predecessorWorkItemId": "WI-936-interface-ssot",
+  "preflightAt": "2026-09-19T19:27:11Z",
+  "preflightContractDigest": "sha256:d034840bd5f67e7b18f979a9dc723ecefe5e7d2e1ec45400e0f4518bbb11e17d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightEffectivePlanDigest": "sha256:425efbe888cb132daaf2de781e6bfd9c0377deba4b69dbed292dd7f1c3b817da",
+  "preflightRepositorySnapshotDigest": "sha256:ea8cc78c3e40091316f122b45b3b7ad8d994ecb66d355babef0c27204e6d5551",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-936-interface-ssot.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T19:27:12Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-937-outcome-archive-delivery-facts"
+}

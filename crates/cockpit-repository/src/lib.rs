@@ -1983,9 +1983,10 @@ fn validate_start_entry(
             .iter()
             .map(|conflict| format!("exact start resource conflict: {conflict}")),
     );
-    let recovery_predecessor = recovery_predecessor_for_candidate(&root, candidate_work_item_id)?;
+    let recovery_predecessors =
+        recovery_predecessor_lineage_for_candidate(&root, candidate_work_item_id)?;
     let scope_conflicts =
-        unclosed_archived_scope_conflicts(&root, candidate_scope, recovery_predecessor.as_deref())?;
+        unclosed_archived_scope_conflicts(&root, candidate_scope, &recovery_predecessors)?;
     if !scope_conflicts.is_empty() {
         failures.push(format!(
             "archived Work Item scope conflict: {}",
@@ -2067,7 +2068,7 @@ fn validate_start_entry(
 fn unclosed_archived_scope_conflicts(
     root: &Path,
     candidate_scope: &[String],
-    recovery_predecessor: Option<&str>,
+    recovery_predecessors: &BTreeSet<String>,
 ) -> Result<Vec<String>, ObserverError> {
     if candidate_scope.is_empty() {
         return Ok(Vec::new());
@@ -2186,13 +2187,13 @@ fn unclosed_archived_scope_conflicts(
         }
         match scope_list_relation(candidate_scope, &archived_scope) {
             ScopeRelation::Overlap => {
-                if recovery_predecessor != Some(work_item_id.as_str()) {
+                if !recovery_predecessors.contains(&work_item_id) {
                     blockers.push(format!("archived_work_item_scope_conflict:{work_item_id}"));
                 }
             }
             ScopeRelation::Unknown => {
-                let authorized_predecessor = recovery_predecessor == Some(work_item_id.as_str());
-                let proven_disjoint = recovery_predecessor.is_some()
+                let authorized_predecessor = recovery_predecessors.contains(&work_item_id);
+                let proven_disjoint = !recovery_predecessors.is_empty()
                     && recovery_scope_list_is_proven_disjoint(candidate_scope, &archived_scope);
                 if !authorized_predecessor && !proven_disjoint {
                     blockers.push(format!("archived_work_item_scope_untrusted:{work_item_id}"));
@@ -2206,43 +2207,70 @@ fn unclosed_archived_scope_conflicts(
     Ok(blockers)
 }
 
-fn recovery_predecessor_for_candidate(
+fn recovery_predecessor_lineage_for_candidate(
     root: &Path,
     candidate_work_item_id: &str,
-) -> Result<Option<String>, ObserverError> {
-    let path = root
-        .join(".ai/work-items/active")
-        .join(format!("{candidate_work_item_id}.contract.json"));
-    let value = match fs::symlink_metadata(&path) {
-        Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
-            read_json(&path)?
+) -> Result<BTreeSet<String>, ObserverError> {
+    const MAX_RECOVERY_PREDECESSORS: usize = 64;
+    let mut lineage = BTreeSet::new();
+    let mut successor = candidate_work_item_id.to_owned();
+    for _ in 0..MAX_RECOVERY_PREDECESSORS {
+        let mut path = None;
+        for phase in ["active", "archive"] {
+            let candidate = root
+                .join(".ai/work-items")
+                .join(phase)
+                .join(format!("{successor}.contract.json"));
+            match fs::symlink_metadata(&candidate) {
+                Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => {
+                    path = Some(candidate);
+                    break;
+                }
+                Ok(_) => {
+                    return Err(ObserverError::State {
+                        path: candidate,
+                        message: "recovery predecessor Contract must be a regular non-symlink file"
+                            .into(),
+                    });
+                }
+                Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                Err(source) => {
+                    return Err(ObserverError::Read {
+                        path: candidate,
+                        source,
+                    });
+                }
+            }
         }
-        Ok(_) => return Ok(None),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
-        Err(source) => return Err(ObserverError::Read { path, source }),
-    };
-    let Some(predecessor) = value
-        .get("predecessorWorkItemId")
-        .and_then(serde_json::Value::as_str)
-        .filter(|value| !value.trim().is_empty())
-    else {
-        return Ok(None);
-    };
-    let predecessor_archive = root
-        .join(".ai/work-items/archive")
-        .join(format!("{predecessor}.archive.json"));
-    if matches!(
-        fs::symlink_metadata(&predecessor_archive),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound
-    ) {
-        return Ok(None);
+        let Some(path) = path else {
+            break;
+        };
+        let value = read_json(&path)?;
+        let Some(predecessor) = value
+            .get("predecessorWorkItemId")
+            .and_then(serde_json::Value::as_str)
+            .filter(|value| !value.trim().is_empty())
+        else {
+            break;
+        };
+        if !recovery_decision_authorizes_existing_predecessor(root, predecessor, &successor)? {
+            break;
+        }
+        if !lineage.insert(predecessor.to_owned()) {
+            return Err(ObserverError::State {
+                path,
+                message: "recovery predecessor lineage contains a cycle".into(),
+            });
+        }
+        successor = predecessor.to_owned();
     }
-    if recovery_decision_authorizes_existing_predecessor(root, predecessor, candidate_work_item_id)?
-    {
-        Ok(Some(predecessor.to_owned()))
-    } else {
-        Ok(None)
+    if lineage.len() == MAX_RECOVERY_PREDECESSORS {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "recovery predecessor lineage exceeds the bounded limit".into(),
+        });
     }
+    Ok(lineage)
 }
 
 fn recovery_scope_list_is_proven_disjoint(left: &[String], right: &[String]) -> bool {
@@ -4932,24 +4960,12 @@ fn governance_decision_for_contract_base_internal_with_archive(
         contract_freshness_findings_with_identity(root, contract, &expected_repository_id)?;
     if !archived {
         explicit_blockers.extend(documentation_projection_findings(root, contract)?);
-        let recovery_predecessor = contract
-            .predecessor_work_item_id
-            .as_deref()
-            .filter(|value| !value.trim().is_empty())
-            .map(|predecessor| {
-                recovery_decision_authorizes_existing_predecessor(
-                    root,
-                    predecessor,
-                    &contract.work_item_id,
-                )
-                .map(|authorized| authorized.then_some(predecessor.to_owned()))
-            })
-            .transpose()?
-            .flatten();
+        let recovery_predecessors =
+            recovery_predecessor_lineage_for_candidate(root, &contract.work_item_id)?;
         explicit_blockers.extend(unclosed_archived_scope_conflicts(
             root,
             &contract.scope,
-            recovery_predecessor.as_deref(),
+            &recovery_predecessors,
         )?);
         explicit_blockers.extend(pending_close_dependency_blockers(root, contract)?);
     }
@@ -13803,9 +13819,8 @@ fn outcome_v2_internal_with_snapshot(
         && contract.resource_context.is_some()
         && verify_resource_finalization_internal(&root, work_item_id, current_runtime).is_err();
     if finalization_pending && state == OutcomeState::Verified {
-        state = OutcomeState::NotReady;
         decision_state = DecisionState::Yellow;
-        summary = "Archived verification is valid, but provider finalization evidence is missing or invalid; outcome is not ready.";
+        summary = "Archived verification is valid, but provider finalization evidence is missing or invalid; cleanup remains pending.";
         evidence_unknown = Some("resource_finalization_pending");
     }
     // Archive is not a terminal handoff.  Even when the verification receipt
@@ -13819,9 +13834,8 @@ fn outcome_v2_internal_with_snapshot(
         && !historical
         && !close_decision_is_valid_for_status(&root, work_item_id, &contract.repository_id);
     if close_pending && state == OutcomeState::Verified {
-        state = OutcomeState::NotReady;
         decision_state = DecisionState::Yellow;
-        summary = "Archived verification is valid, but the required human close decision is missing or invalid; outcome is not ready.";
+        summary = "Archived verification is valid, but the required human close decision is missing or invalid; authorization remains pending.";
         evidence_unknown = Some(if fs::symlink_metadata(&close_decision_path).is_ok() {
             "close_decision_invalid"
         } else {

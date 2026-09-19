@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "归档交付保持 manifest 绑定 Outcome 的验证事实，close 待办独立表达。",
+    "完整多跳恢复链仅允许对应历史 ancestor 的 scope overlap。",
+    "An invalid Contract amendment leaves Contract and Summary bytes unchanged.",
+    "A validated W902 to W936 to W937 recovery chain permits only its exact archived ancestors."
+  ],
+  "authority": "human:xinglun conversation authorization",
+  "baseRevision": "0577f327249388dc1cb69084aea0e039b5e4d014",
+  "createdAt": "2026-09-19T17:34:48Z",
+  "goal": "从归档 manifest 绑定的 Outcome 生成交付正文，并保持待 close 状态与验证事实分离。",
+  "intent": "修复归档 Outcome 交付中错误重组活动治理状态的问题。",
+  "mode": "implementation",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+  "predecessorWorkItemId": "WI-936-interface-ssot",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-936-interface-ssot.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "verified multi-hop recovery lineage for archived scope overlap",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "invalid Contract amendment is atomic",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "bound multi-hop recovery lineage permits only exact ancestors",
+      "status": "unverified"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/851",
+    ".ai/decisions/WI-936-interface-ssot.recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-937-outcome-archive-delivery-facts"
+}

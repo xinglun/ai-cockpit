@@ -1,12 +1,12 @@
 {
   "actor": "human:xinglun",
-  "authoritySource": "user-conversation-continuation-authorization",
-  "decidedAt": "2026-09-19T16:54:00Z",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T14:01:00Z",
   "decision": "successor",
   "decisionId": "work-item-recovery",
   "evidenceRefs": [
     ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.archive.json",
-    ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
   ],
   "policyRefs": [
     ".ai/README.md"
@@ -16,12 +16,13 @@
   "predecessorOutcomeDigest": "sha256:170c8e4a06c65f34e3c215a170e45448f52c5491a35d51597d1f9b80af568bc2",
   "predecessorSummaryDigest": "sha256:4a25a6ec7a718b018aa2faabe254aa80405441a32de4e5d2a61e9c665e2226dc",
   "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
-  "reason": "Continue the archived WI-902 recovery through one identity-bound successor so the in-scope interface SSOT repair can proceed without bypassing its historical scope boundary.",
+  "reason": "Bind the active same-base WI-903 recovery to the immutable WI-902 archive so its finalization mismatch is resolved without rewriting historical evidence.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "resumeCondition": "Complete the successor with current verification, preserve predecessor archive bytes, and do not treat predecessor verification as authorization for unrelated scope.",
-  "runtimeDigest": "sha256:18f444e22dc04eb193415966f5b4b8d8e49174ee96d7fa5e8446f7baacb29321",
+  "resumeCondition": "Complete WI-903 with current verification, then finish the WI-902 finalization recovery through the bound successor lineage.",
+  "runtimeDigest": "sha256:255db4dde9ec41f2f92bddf24d180fb5bb0ba643d9e47821b69acb1466f6b5eb",
   "runtimeVersion": "0.2.100",
   "schemaVersion": 1,
-  "successorWorkItemId": "WI-936-interface-ssot",
+  "successorBindingMode": "existing_active_successor",
+  "successorWorkItemId": "WI-903-precheckpoint-contract-scope",
   "workItemId": "WI-902-verification-receipt-snapshot-boundary"
 }
