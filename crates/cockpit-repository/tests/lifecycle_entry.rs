@@ -1359,6 +1359,105 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
 }
 
 #[test]
+fn finish_ready_allows_reverification_after_committing_changed_source() {
+    let directory = repository();
+    let work_item_id = "WI-FINISH-READY-COMMIT-RETRY";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "refresh stale verification after committing source",
+        "a finish-ready Work Item can reverify the committed source snapshot",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"finish-ready-commit-retry"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let verify = |node_id: &str| {
+        let run = run_repository_verification(
+            directory.path(),
+            &RepositoryVerificationRequest {
+                node_id: node_id.into(),
+                program: "true".into(),
+                args: Vec::new(),
+                scope: vec!["src.rs".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .expect("verification command");
+        let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+        receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+        receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+        record_verification_with_runtime(
+            directory.path(),
+            work_item_id,
+            &receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect("record verification");
+    };
+
+    verify("before-commit");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime).expect("finish");
+
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("source mutation");
+    run(directory.path(), &["add", "src.rs"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=Test",
+            "commit",
+            "-m",
+            "commit verified source",
+        ],
+    );
+
+    let refreshed = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("finish-ready retry preflight");
+    assert_eq!(refreshed.state, DecisionState::Yellow);
+    assert!(
+        refreshed
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_stale"),
+        "the changed source must still require replacement verification: {refreshed:?}"
+    );
+
+    verify("after-commit");
+    archive_work_item(directory.path(), work_item_id).expect("archive replacement evidence");
+}
+
+#[test]
 fn verification_preconditions_accept_complete_repository_bound_custom_evidence() {
     let directory = repository();
     let work_item_id = "WI-CUSTOM-EVIDENCE-PRECONDITION";

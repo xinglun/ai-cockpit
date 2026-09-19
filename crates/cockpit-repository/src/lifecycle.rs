@@ -1794,11 +1794,20 @@ fn preflight_work_item_internal(
             atomic_json(&summary_path, &summary)?;
             return Ok(decision);
         }
-        if !matches!(current_state, "implementation_active" | "checkpointed") {
+        // A source commit after finish can legitimately change the repository
+        // snapshot without changing the Work Item's intent or checkpoint. In
+        // that state archive must keep the old evidence stale, while a fresh
+        // preflight and replacement verification remain available. The
+        // verification recorder already handles this finish-ready retry by
+        // replacing its evidence binding and refreshing the active Outcome.
+        if !matches!(
+            current_state,
+            "implementation_active" | "checkpointed" | "finish_ready"
+        ) {
             return Err(ObserverError::State {
                 path: summary_path,
                 message: format!(
-                    "preflight is invalid from state {current_state:?}; expected implementation_active or checkpointed"
+                    "preflight is invalid from state {current_state:?}; expected implementation_active, checkpointed, or finish_ready"
                 ),
             });
         }

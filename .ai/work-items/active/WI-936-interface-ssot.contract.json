@@ -3,7 +3,8 @@
     "Changing one shared Outcome query default or enum changes actual CLI parsing, MCP schema, and generated three-language reference facts without separately editing those facts.",
     "CLI and MCP retain their current transport-specific names and deliveryProgress remains MCP-only.",
     "The discovery operation remains deterministic, read-only, and starts no verification subprocess.",
-    "The change does not alter Outcome lifecycle, authorization, or delivery behavior."
+    "The change does not alter Outcome lifecycle, authorization, or delivery behavior.",
+    "A finish-ready Work Item whose source snapshot changes after a commit may record a fresh preflight and replacement verification; archive remains blocked until that replacement evidence is current."
   ],
   "authority": "explicit user authorization to continue the existing interface SSOT remediation and record required confirmations",
   "baseRevision": "0577f327249388dc1cb69084aea0e039b5e4d014",
@@ -30,6 +31,14 @@
     "verification"
   ],
   "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "verification-to-commit snapshot transition",
+      "status": "unverified"
+    }
+  ],
   "scope": [
     "crates/cockpit-protocol/src/interface_description.rs",
     "crates/cockpit-protocol/Cargo.toml",
@@ -47,7 +56,9 @@
     "Cargo.lock",
     "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
     "crates/cockpit-mcp/tests/rpc.rs",
-    "crates/cockpit-protocol/src/lib.rs"
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "sources": [
     "user-conversation: approved continuation of the proposed minimal interface SSOT design"
