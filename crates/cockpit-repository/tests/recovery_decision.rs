@@ -553,8 +553,17 @@ fn existing_active_successor_accepts_same_version_candidate_rebuild() {
     decision["runtimeVersion"] = json!(runtime.runtime_version);
     decision["runtimeDigest"] = json!(Digest::sha256_bytes(b"same-version-candidate").to_string());
 
-    record_recovery_decision(directory.path(), "WI-BLOCKED", &decision, &runtime)
+    let recorded = record_recovery_decision(directory.path(), "WI-BLOCKED", &decision, &runtime)
         .expect("bind explicit existing active successor");
+
+    // The compatibility path may consume a prior same-version decision after
+    // a binary rebuild, but the new append-only record is made by the Runtime
+    // executing this call.  It must not preserve the caller-supplied digest.
+    assert_eq!(recorded["runtimeVersion"], json!(runtime.runtime_version));
+    assert_eq!(
+        recorded["runtimeDigest"],
+        json!(runtime.runtime_digest.to_string())
+    );
 
     let contract: Value = serde_json::from_slice(
         &fs::read(

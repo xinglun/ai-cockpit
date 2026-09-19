@@ -4281,6 +4281,17 @@ pub fn record_recovery_decision(
         &summary_path,
         None,
     )?;
+    // A same-version rebuild may continue an already active successor, but
+    // that compatibility exception only permits reading the prior decision.
+    // The append-only receipt written by this invocation must identify the
+    // Runtime that actually performed the operation, rather than retaining a
+    // caller-supplied digest from the earlier binary.
+    if typed.decision == "successor"
+        && typed.successor_binding_mode.as_deref() == Some("existing_active_successor")
+    {
+        typed.runtime_version = runtime.runtime_version.clone();
+        typed.runtime_digest = runtime.runtime_digest.clone();
+    }
     let mut legacy_successor_binding = false;
     let mut existing_active_successor = None;
     if matches!(typed.decision.as_str(), "successor" | "supersede") {
