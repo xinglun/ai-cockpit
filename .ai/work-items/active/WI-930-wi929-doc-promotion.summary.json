@@ -1,0 +1,122 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-930-wi929-doc-promotion.verification-attempt.fdf978f215b52320bac403d39379ef125c63692d93de9d29b2daa4a3e8d539f1.json",
+    ".ai/evidence/WI-930-wi929-doc-promotion.verification.json",
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.events.jsonl",
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.outcome.json",
+    ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.ja.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-19T08:47:38Z",
+  "checkpointContractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:fedaa86cd6879bd842bec0e4ce86727440bab14998f5627545a598a7ba7c1c4f",
+      "recorded": true,
+      "recordedAt": "2026-09-19T08:47:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:751b4d6d7b95ef042c9efc92f5a12b6f9c782184fd5ff4520cfa303b084aa2c9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-930-wi929-doc-promotion"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:fedaa86cd6879bd842bec0e4ce86727440bab14998f5627545a598a7ba7c1c4f",
+      "previousContractHash": "sha256:fedaa86cd6879bd842bec0e4ce86727440bab14998f5627545a598a7ba7c1c4f",
+      "reason": "Record the deterministic documentation and parity checks required by this narrow promotion Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T08:48:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:751b4d6d7b95ef042c9efc92f5a12b6f9c782184fd5ff4520cfa303b084aa2c9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-930-wi929-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:207ed4e2143ffa4677890712b97246772410ea2c40ffd1bcd1f83b7aafbc9f57",
+  "createdAt": "2026-09-19T08:44:10Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-19T09:01:02Z",
+  "preflightContractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:207ed4e2143ffa4677890712b97246772410ea2c40ffd1bcd1f83b7aafbc9f57",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T09:01:03Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-930-wi929-doc-promotion"
+}

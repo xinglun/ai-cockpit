@@ -4,9 +4,13 @@ workItemId: WI-929-outcome-hci-public-handoff
 title: アーカイブ済み Work Item の完全な Outcome 会話引き渡し
 description: ホスト表示を未確認のまま成功と主張せず、CLI と MCP の利用者が完全な言語選択済み人間向け Outcome と順序付き assistant message event を取得できるようにする。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-929-outcome-hci-public-handoff
+terminalArchive: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json
+terminalVerification: .ai/evidence/WI-929-outcome-hci-public-handoff.verification.json
+terminalFinalization: .ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json
+terminalDecision: .ai/decisions/WI-929-outcome-hci-public-handoff.close.json
 ---
 
 # WI-929 — アーカイブ済み Work Item の完全な Outcome 会話引き渡し

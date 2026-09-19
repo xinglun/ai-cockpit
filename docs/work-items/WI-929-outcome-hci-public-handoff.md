@@ -4,9 +4,13 @@ workItemId: WI-929-outcome-hci-public-handoff
 title: Public complete Outcome handoff for archived Work Items
 description: Keep the complete language-selected human Outcome and ordered assistant-message events available to CLI and MCP consumers without claiming host display that has not been confirmed.
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-929-outcome-hci-public-handoff
+terminalArchive: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json
+terminalVerification: .ai/evidence/WI-929-outcome-hci-public-handoff.verification.json
+terminalFinalization: .ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json
+terminalDecision: .ai/decisions/WI-929-outcome-hci-public-handoff.close.json
 ---
 
 # WI-929 — Public complete Outcome handoff for archived Work Items
