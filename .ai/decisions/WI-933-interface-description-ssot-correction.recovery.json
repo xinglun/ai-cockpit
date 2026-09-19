@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T10:47:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35436828123",
+    "https://github.com/xinglun/ai-cockpit/pull/901"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:3769b1bae64742bd9b53568d723c73c43391d6c692b30b0c455c1c9471cade15",
+  "predecessorEventsDigest": "sha256:92f56c022a5534d411146cf660b042233899fbbc380dde7fcaf4ee38ede3f434",
+  "predecessorOutcomeDigest": "sha256:1eaa13cfe25465e633270d5ab061d74d3680391053e118b0e90ecc5f9a30a41c",
+  "predecessorSummaryDigest": "sha256:e5a141576d472cb4fd51d10e81fe31df8b64193e64bed4603cafe1071e6b65bb",
+  "predecessorWorkItemId": "WI-933-interface-description-ssot-correction",
+  "reason": "Continue the same in-scope WI-933 interface-description correction after the synchronized main branch changed the repository snapshot and made the prior verification evidence stale. Preserve the prior evidence and retry only from the legal checkpointed state.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run a fresh current-snapshot preflight, checkpoint, the declared verification plan, and required hosted CI; proceed only with fresh identity-bound evidence.",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "workItemId": "WI-933-interface-description-ssot-correction"
+}

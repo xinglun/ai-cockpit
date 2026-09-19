@@ -14,10 +14,8 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-933-interface-description-ssot-correction.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.058c20310023bbcf64c249dc4f20e46cc69195e8d6b8436b3b8ea4ae1f86348b.json
-- Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.fa8a0d5721cbc3f247f05a491c3d780db8ff3e9f028b2871eb989317a9c752a5.json
-- Changed path: .ai/work-items/active/WI-933-interface-description-ssot-correction.contract.json
 - Changed path: .ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json
 
 ## Findings

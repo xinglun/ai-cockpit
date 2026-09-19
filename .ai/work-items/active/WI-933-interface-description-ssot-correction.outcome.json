@@ -4,9 +4,9 @@
     "CLI parsing, MCP schema projection, and capability description remain consistent for defaults, enums, and types.",
     "The discovery path is deterministic, read-only, and does not start verification or inspect Work Item history."
   ],
-  "createdAt": "2026-09-19T09:38:24Z",
+  "createdAt": "2026-09-19T10:52:25Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:3c9af7167e179f775e8bd9f705c800c2263af57157ad6a64e3fd786ef829b084",
+  "evidenceDigest": "sha256:3cc84c08642485395824ce9352fb5c904dd280cc2038981de1787348ee0e3b53",
   "evidenceRefs": [
     ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
   ],
@@ -32,7 +32,7 @@
         ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:cec6c2bb89a4e7c6bdb1a1b2f1d19b3530883982e9460cd8021217728a5db3a8",
+      "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
       "workItemId": "WI-933-interface-description-ssot-correction"
     },
     "format": "ai-cockpit.task-outcome",
@@ -46,28 +46,14 @@
             ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-933-interface-description-ssot-correction.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.058c20310023bbcf64c249dc4f20e46cc69195e8d6b8436b3b8ea4ae1f86348b.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.fa8a0d5721cbc3f247f05a491c3d780db8ff3e9f028b2871eb989317a9c752a5.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-933-interface-description-ssot-correction.contract.json"
         },
         {
           "evidenceRefs": [
@@ -149,8 +135,8 @@
     "status": "verified",
     "workItemId": "WI-933-interface-description-ssot-correction"
   },
-  "taskReportDigest": "sha256:32de3bc53b240277d1e4748e0e611a0a596cbf883475a39a329fdae7bfb0b57f",
-  "taskReportMarkdownDigest": "sha256:7d9c4a2f8dade9736075d567a0075d8af966da01559414d2dc8010fdfbfd5a9b",
+  "taskReportDigest": "sha256:1b53ab6b9919656488738422a60b65166ac51293211ea34707742c9d17b7893f",
+  "taskReportMarkdownDigest": "sha256:de424066b3f6979e812395c87985081994b3ca63324e1663f81d4a5bb35c372e",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

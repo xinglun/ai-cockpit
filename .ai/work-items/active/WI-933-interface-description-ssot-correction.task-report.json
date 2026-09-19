@@ -4,7 +4,7 @@
       ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:cec6c2bb89a4e7c6bdb1a1b2f1d19b3530883982e9460cd8021217728a5db3a8",
+    "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
     "workItemId": "WI-933-interface-description-ssot-correction"
   },
   "format": "ai-cockpit.task-outcome",
@@ -18,28 +18,14 @@
           ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
         ],
         "inference": false,
+        "text": "Changed path: .ai/decisions/WI-933-interface-description-ssot-correction.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
+        ],
+        "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.058c20310023bbcf64c249dc4f20e46cc69195e8d6b8436b3b8ea4ae1f86348b.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/evidence/WI-933-interface-description-ssot-correction.verification-attempt.fa8a0d5721cbc3f247f05a491c3d780db8ff3e9f028b2871eb989317a9c752a5.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/WI-933-interface-description-ssot-correction.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-933-interface-description-ssot-correction.contract.json"
       },
       {
         "evidenceRefs": [
