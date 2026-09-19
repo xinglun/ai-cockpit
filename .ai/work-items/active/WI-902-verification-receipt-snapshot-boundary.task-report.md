@@ -15,10 +15,13 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4176908abc13dcbeaea9edeeb89175e789bc2ce7cd1019aa58ed8a37462f52d2.json
-- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.6e54a5901fef17c0667482578a6fbff160138a4c1ff5d2d32bf2b65b27c92efb.json
+- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4b270a75757ec65e3ab7f41c6474db586224bd740a0215d6ddc5909b7f8b605e.json
+- Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.7ed85e6d4a8b50260d9d4572e3b366475c0227dab3a048c141a94f18946100ad.json
 - Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json
 - Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json
+- Changed path: docs/reference/reference-parity.ja.md
+- Changed path: docs/reference/reference-parity.md
+- Changed path: docs/reference/reference-parity.zh-CN.md
 
 ## Findings
 

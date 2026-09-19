@@ -3,7 +3,8 @@
     "A successful current-Runtime typed verification remains complete at the immediately following preflight, gate, and finish evidence boundary when no source files changed.",
     "Runtime governance-only writes do not create a false source snapshot mismatch, while real source changes still make evidence stale and fail closed.",
     "First typed verification semantics, red preflight zero-process behavior, tamper checks, foreign-runtime checks, malformed receipt checks, and symlink checks remain unchanged.",
-    "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture."
+    "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
+    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -101,7 +102,10 @@
   ],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "bash tests/docs/parity_status_check.sh",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/repository_gate_manifest_test.py"
   ],
   "workItemId": "WI-902-verification-receipt-snapshot-boundary"
 }

@@ -3,11 +3,12 @@
     "A successful current-Runtime typed verification remains complete at the immediately following preflight, gate, and finish evidence boundary when no source files changed.",
     "Runtime governance-only writes do not create a false source snapshot mismatch, while real source changes still make evidence stale and fail closed.",
     "First typed verification semantics, red preflight zero-process behavior, tamper checks, foreign-runtime checks, malformed receipt checks, and symlink checks remain unchanged.",
-    "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture."
+    "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
+    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
   ],
-  "createdAt": "2026-09-19T12:13:20Z",
+  "createdAt": "2026-09-19T12:28:02Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:cc09d7a83b0a28a17349dd17d7857e2e39e0dcd0d577acee93e2c81c454a6d3f",
+  "evidenceDigest": "sha256:163c78bae52abfd986f5b05d31a51d2f3a4938e20c780cb084b7e75cb422b104",
   "evidenceRefs": [
     ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:f47c315dc665b1db8a8e6554508985dda10cfddf6feef2be0c46465fac4cc276",
+      "repositorySnapshotDigest": "sha256:622c2c45305e36e761e0447f097dbe79ef7711d9715f88514f6b4dca19c1f2d8",
       "workItemId": "WI-902-verification-receipt-snapshot-boundary"
     },
     "format": "ai-cockpit.task-outcome",
@@ -54,14 +55,14 @@
             ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4176908abc13dcbeaea9edeeb89175e789bc2ce7cd1019aa58ed8a37462f52d2.json"
+          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.4b270a75757ec65e3ab7f41c6474db586224bd740a0215d6ddc5909b7f8b605e.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.6e54a5901fef17c0667482578a6fbff160138a4c1ff5d2d32bf2b65b27c92efb.json"
+          "text": "Changed path: .ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification-attempt.7ed85e6d4a8b50260d9d4572e3b366475c0227dab3a048c141a94f18946100ad.json"
         },
         {
           "evidenceRefs": [
@@ -76,6 +77,27 @@
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
         }
       ],
       "evidence": [
@@ -150,8 +172,8 @@
     "status": "verified",
     "workItemId": "WI-902-verification-receipt-snapshot-boundary"
   },
-  "taskReportDigest": "sha256:8b9e3790eab1acf47a1ce60a94940226a682d82285f7cc43443a2d8fdef79da3",
-  "taskReportMarkdownDigest": "sha256:08548f2b784bd2f1f8ada647ad94dd9b1ccfa7529aa9f280ccdc9996b1ac8a62",
+  "taskReportDigest": "sha256:4111c565c194ae8bf973e2bd121c8c5756271f552d2d6ea6ff5d0138d3642a40",
+  "taskReportMarkdownDigest": "sha256:3565c66b3e29ba27bc0fe8cba4aea684db04a7abb3fb222dd1598695a43dde1a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
