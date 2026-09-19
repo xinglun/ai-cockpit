@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "Before checkpoint a Work Item may append declared scope only through Runtime and receives an append-only declaration receipt.",
+    "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
+    "Unsupported Contract fields and identity or authority changes remain rejected.",
+    "A pending identity-bound successor recovery does not cause conditional parity documentation to be treated as terminal; only a verified, confirmed terminal path may resolve that condition.",
+    "The documentation status checker rejects malformed or mismatched recovery facts while accepting the bounded pending-successor projection without rewriting immutable predecessor artifacts.",
+    "The WI-902 archived predecessor is linked to this same-base successor only through an append-only, identity-bound recovery receipt; its archive bytes remain unchanged."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:862f9a5397af3cb1a21e3a583d2f115753ff0cc8588f75150f0164ac5279e4a0",
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
+          ],
+          "inference": false,
+          "text": "允许在尚未开始验证且 Contract 身份未变时安全追加缺失 scope；仍禁止变更 authority、base、已有验收、以及 checkpoint 后无再验证的 scope 扩张。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-903-precheckpoint-contract-scope"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}
