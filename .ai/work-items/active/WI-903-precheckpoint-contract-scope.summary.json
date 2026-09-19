@@ -1,20 +1,7 @@
 {
-  "changedPaths": [
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.4de22c1f8e1e1972cb8d12ac44d5e8b8488646329f28e45cccc8c414a175151e.json",
-    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json",
-    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json",
-    "crates/cockpit-repository/src/lifecycle.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.ja.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.md",
-    "docs/work-items/WI-903-precheckpoint-contract-scope.zh-CN.md"
-  ],
+  "changedPaths": [],
   "checkpointAt": "2026-09-19T11:23:14Z",
-  "checkpointContractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+  "checkpointContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -152,7 +139,7 @@
       "workItemId": "WI-903-precheckpoint-contract-scope"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
+  "checkpointRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
   "createdAt": "2026-09-19T11:21:49Z",
   "decisionEvidence": {
     "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
@@ -194,17 +181,13 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
-  "preflightAt": "2026-09-19T20:08:47Z",
+  "preflightAt": "2026-09-19T20:15:24Z",
   "preflightContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
-  "preflightDecisionDigest": "sha256:36ff2aa8fe9d43731c16eee5c3c4ff3f865ef4c25162b6d898f07303cf6a2062",
+  "preflightDecisionDigest": "sha256:dac5b9270d086746808be30e7209c56bb7bd1a742b74445f3adcc69c4b3d442b",
   "preflightRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
-  "recoveryRetryContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
-  "recoveryRetryDecisionDigest": "sha256:be179fbedf2a1164ad879d5305ff1a58542e59e8dacd5342fa04712b6b5736b3",
-  "recoveryRetryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.be179fbedf2a1164ad879d5305ff1a58542e59e8dacd5342fa04712b6b5736b3.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -318,10 +301,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-19T19:52:51Z"
-  },
+  "verificationRecoveryReconciled": "sha256:5ab15bbc7df7c12f7a1547a3c182eeeab9156231080f8e4bc0ec86fe9e3bd305",
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }
