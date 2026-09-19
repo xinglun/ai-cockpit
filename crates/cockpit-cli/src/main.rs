@@ -2733,6 +2733,7 @@ fn run() -> Result<()> {
                                 )
                             );
                         }
+                        _ => unreachable!("capability format is validated by clap"),
                     }
                 } else {
                     require_compatible(&repo, &runtime_context)?;
