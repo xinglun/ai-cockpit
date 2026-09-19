@@ -8,9 +8,9 @@
     "A controlled adapter contract test proves exact assistant-message event payloads; documentation names this as adapter evidence and separately states the absence of built-in Codex/Claude display confirmation.",
     "The active Work Item and reference-parity projections remain synchronized in English, Simplified Chinese, and Japanese through the governed lifecycle."
   ],
-  "createdAt": "2026-09-19T08:09:13Z",
+  "createdAt": "2026-09-19T08:26:51Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:9cd3fbf777056e93791ed948444b749b7b2758fea80bd51b82ddca3d98837a21",
+  "evidenceDigest": "sha256:a02de4324d5c0c65b69ba298da12368a8c808babf922880994a55cf10cd344b5",
   "evidenceRefs": [
     ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
   ],
@@ -36,7 +36,7 @@
         ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:6e4cf7a5875178eb1198518c995ade12ece3ec339ec62806ef15356b01354557",
+      "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
       "workItemId": "WI-929-outcome-hci-public-handoff"
     },
     "format": "ai-cockpit.task-outcome",
@@ -47,157 +47,59 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-928-outcome-hci-public-handoff.retirement.json"
+          "text": "Changed path: .ai/decisions/WI-929-outcome-hci-public-handoff.recovery.c1bc999c14262dc41a515124277b2e4be3a084238db44e2d104e599ff04093e7.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-929-outcome-hci-public-handoff.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.2266475f7c357e916635b8282394fd6b8fe960c1726537672d0d82f2c9cb2014.json"
+          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.957777fe48ee0da12014e0a5324b4ec59bf95bcfbeb7a2b872e4917c02d38695.json"
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.95b0e6311e2d24f2805bff6a55e7f1ea2c65ae036a4c2650f91534fd106395c9.json"
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ba02b03af6152a7d08a593c128c09a1b089d48b8b7482106ac50149e8525a0de.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-929-outcome-hci-public-handoff.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/archive/WI-928-outcome-hci-public-handoff.archive.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/archive/WI-928-outcome-hci-public-handoff.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/archive/WI-928-outcome-hci-public-handoff.outcome.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/archive/WI-928-outcome-hci-public-handoff.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-cli/src/main.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-cli/tests/outcome_handoff.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md"
         }
       ],
       "evidence": [
@@ -253,7 +155,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.contract.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
           ],
           "inference": false,
           "text": "Close the remaining Outcome/HCI handoff gap without claiming host display when no host confirmation exists."
@@ -262,7 +164,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-929-outcome-hci-public-handoff.contract.json"
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -272,8 +174,8 @@
     "status": "verified",
     "workItemId": "WI-929-outcome-hci-public-handoff"
   },
-  "taskReportDigest": "sha256:86b64ae3cfccd9daaa923f523f0298e7a81283e762b5d8ba5507c8dba551d789",
-  "taskReportMarkdownDigest": "sha256:9ca4f27512da6501ca1c846871c3b3309e16242f79d7681fe5ae7831d6c3030a",
+  "taskReportDigest": "sha256:bdcbd74388076c998630facb129f5cb62c95a0430395b492d404d8424bc57685",
+  "taskReportMarkdownDigest": "sha256:cbe639ae3555b5395236fc79f5762ec651df7deee9753c99bd8a19d6d76947b0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

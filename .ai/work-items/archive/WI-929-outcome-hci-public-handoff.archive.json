@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T08:27:06Z",
+  "files": {
+    "contractDigest": "sha256:01120dfaae3ca5eb3292a8f8a22ecd7b4260acfb3a7dd3cd4fb5a2aa68faa85c",
+    "contractPath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json",
+    "eventsDigest": "sha256:c76f45261973adf900dcced55604bb21c33c149607ca47f6a9172f6ac7bf8e3f",
+    "eventsPath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.events.jsonl",
+    "outcomeDigest": "sha256:6fba67183cefe48a24f8b52da5eb73ec703e910864b8f99903ff4cc22c4bb160",
+    "outcomePath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.outcome.json",
+    "summaryDigest": "sha256:5ca727124f61ab6307ab19b5d578949d9231c47138e17f894135cb2533866f7d",
+    "summaryPath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json",
+    "taskReportDigest": "sha256:bdcbd74388076c998630facb129f5cb62c95a0430395b492d404d8424bc57685",
+    "taskReportMarkdownDigest": "sha256:cbe639ae3555b5395236fc79f5762ec651df7deee9753c99bd8a19d6d76947b0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}

@@ -1,30 +1,16 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-928-outcome-hci-public-handoff.retirement.json",
-    ".ai/decisions/WI-929-outcome-hci-public-handoff.recovery.json",
+    ".ai/decisions/WI-929-outcome-hci-public-handoff.recovery.c1bc999c14262dc41a515124277b2e4be3a084238db44e2d104e599ff04093e7.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.2266475f7c357e916635b8282394fd6b8fe960c1726537672d0d82f2c9cb2014.json",
-    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.957777fe48ee0da12014e0a5324b4ec59bf95bcfbeb7a2b872e4917c02d38695.json",
-    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.95b0e6311e2d24f2805bff6a55e7f1ea2c65ae036a4c2650f91534fd106395c9.json",
-    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ba02b03af6152a7d08a593c128c09a1b089d48b8b7482106ac50149e8525a0de.json",
-    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
-    ".ai/work-items/active/WI-929-outcome-hci-public-handoff.contract.json",
-    ".ai/work-items/active/WI-929-outcome-hci-public-handoff.summary.json",
-    ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.archive.json",
-    ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.contract.json",
-    ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.outcome.json",
-    ".ai/work-items/archive/WI-928-outcome-hci-public-handoff.summary.json",
-    "crates/cockpit-cli/src/main.rs",
-    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    ".ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502.json",
+    ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json",
+    ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
-    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
-    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md"
+    "docs/reference/reference-parity.zh-CN.md"
   ],
   "checkpointAt": "2026-09-19T07:36:25Z",
-  "checkpointContractDigest": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+  "checkpointContractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,10 +48,10 @@
       "workItemId": "WI-929-outcome-hci-public-handoff"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:6e4cf7a5875178eb1198518c995ade12ece3ec339ec62806ef15356b01354557",
+  "checkpointRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
   "createdAt": "2026-09-19T07:30:54Z",
   "evidenceClasses": {
-    "contractDigest": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+    "contractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
     "items": [
       {
         "class": "outcome-delivery",
@@ -116,15 +102,15 @@
     "schemaVersion": 1
   },
   "mode": "code",
-  "preflightAt": "2026-09-19T08:07:10Z",
-  "preflightContractDigest": "sha256:db06834ea284d7746760980c55336523c51b7c37a993608325bb658d07f5935c",
+  "preflightAt": "2026-09-19T08:26:50Z",
+  "preflightContractDigest": "sha256:eec5f861662e14cd65b4af1d8a5020f5bc368401e92d7280719e2d142c9bf1b9",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:6e4cf7a5875178eb1198518c995ade12ece3ec339ec62806ef15356b01354557",
+  "preflightRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-19T08:09:13Z",
+  "updatedAt": "2026-09-19T08:26:51Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

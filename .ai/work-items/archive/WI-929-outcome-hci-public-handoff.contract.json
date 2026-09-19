@@ -33,6 +33,14 @@
     "outcome-delivery",
     "hci-adapter-contract"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-928-outcome-hci-public-handoff",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/896",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-928-outcome-hci-public-handoff/ai-cockpit"
+  },
   "risk": "normal",
   "scope": [
     "crates/cockpit-cli/src/main.rs",
