@@ -2,7 +2,8 @@
   "acceptanceCriteria": [
     "Before checkpoint a Work Item may append declared scope only through Runtime and receives an append-only declaration receipt.",
     "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
-    "Unsupported Contract fields and identity or authority changes remain rejected."
+    "Unsupported Contract fields and identity or authority changes remain rejected.",
+    "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -48,6 +49,16 @@
       "scenario": "identity-and-authority-fields-remain-immutable",
       "status": "unverified",
       "verificationPlan": "Attempt unsupported or immutable-field amendments and assert fail-closed rejection."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "A bound retry permits the replacement verification after snapshot drift; without its recovery binding, preflight drift still prevents process execution.",
+      "required": true,
+      "scenario": "bound-retry-stale-preflight",
+      "status": "unverified",
+      "verificationPlan": "Exercise require_verification_preconditions with a Runtime-bound retry receipt and a changed repository snapshot."
     }
   ],
   "scope": [
@@ -67,7 +78,8 @@
   "sources": [],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift"
   ],
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

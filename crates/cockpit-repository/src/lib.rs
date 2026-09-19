@@ -4319,10 +4319,25 @@ pub fn require_verification_preconditions(
             message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
         });
     }
+    let recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    // A retry receipt is the explicit authorization to replace stale
+    // verification evidence. Validate the receipt before allowing it to
+    // bypass the snapshot and Contract bindings that normally require a new
+    // preflight. Without this binding, stale projections still fail before
+    // any verification process is spawned.
+    if recovery_pending {
+        lifecycle::require_current_retry_recovery_binding(
+            &root,
+            work_item_id,
+            &summary,
+            Some(runtime),
+        )?;
+    }
     let current_snapshot_digest = snapshot_digest(snapshot)?.to_string();
     if summary["preflightRepositorySnapshotDigest"]
         .as_str()
         .is_none_or(|value| value != current_snapshot_digest)
+        && !recovery_pending
     {
         return Err(ObserverError::State {
             path: root
@@ -4336,6 +4351,7 @@ pub fn require_verification_preconditions(
     if summary["preflightContractDigest"]
         .as_str()
         .is_none_or(|value| value != current_contract_digest)
+        && !recovery_pending
     {
         return Err(ObserverError::State {
             path: contract_path.clone(),
@@ -4343,7 +4359,6 @@ pub fn require_verification_preconditions(
         });
     }
     let preflight_state = summary["preflightState"].as_str().unwrap_or_default();
-    let recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
     let amendment_pending = summary
         .get("verificationInvalidatedByContractAmendment")
         .is_some();
