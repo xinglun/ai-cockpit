@@ -2550,6 +2550,8 @@ pub(super) fn validate_recovery_predecessor_bindings(
         candidate_path,
         contract_path,
     )?;
+    let same_version_existing_successor = receipt.decision == "successor"
+        && receipt.successor_binding_mode.as_deref() == Some("existing_active_successor");
     if let Some(runtime) = current_runtime
         && (receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest)
@@ -2557,7 +2559,8 @@ pub(super) fn validate_recovery_predecessor_bindings(
         // boundary.  Permit the same semantic Runtime version to consume its
         // exact marker after a binary rebuild, while still rejecting a
         // protocol-version transition or an unbound receipt.
-        && !(retry_binding && receipt.runtime_version == runtime.runtime_version)
+        && !(receipt.runtime_version == runtime.runtime_version
+            && (retry_binding || same_version_existing_successor))
     {
         return Err(recovery_decision_error(
             decisions,

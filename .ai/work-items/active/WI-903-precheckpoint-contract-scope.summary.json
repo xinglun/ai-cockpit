@@ -90,6 +90,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ea4b966f1d60fd09aacda6ae065517eeec2c5eca200db7ca8b7c0dafa9603e53",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+      "reason": "Make the deterministic candidate-runtime identity self-bootstrap boundary explicit after PR quality evidence showed the persisted successor decision cannot otherwise cross equivalent candidate rebuilds.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:54:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:dce762f3925359a1fe3416ba44c75748ab699a390b10dbdb385b55da36eb849d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
@@ -107,7 +127,7 @@
   "preflightRepositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
   "preflightState": "not_run",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+  "recoveryRetryContractDigest": "sha256:ea4b966f1d60fd09aacda6ae065517eeec2c5eca200db7ca8b7c0dafa9603e53",
   "recoveryRetryDecisionDigest": "sha256:3705526467b7d7b64a3e06728bd9ec80c6eea88ea8d5d93b342d6a2f90d41420",
   "recoveryRetryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.json",
   "recoveryRetryPending": true,
@@ -200,9 +220,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:d1120e5b9c44246f09a9bf61e6e434ae152cf7a09e036dadb521a9a62fd2243b",
+    "contractHash": "sha256:ea4b966f1d60fd09aacda6ae065517eeec2c5eca200db7ca8b7c0dafa9603e53",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-19T13:45:36Z"
+    "recordedAt": "2026-09-19T13:54:18Z"
   },
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

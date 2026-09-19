@@ -434,7 +434,7 @@ fn record_valid_supersede(directory: &tempfile::TempDir, runtime: &RuntimeContex
 }
 
 #[test]
-fn existing_active_successor_binds_an_explicit_same_base_candidate() {
+fn existing_active_successor_accepts_same_version_candidate_rebuild() {
     let directory = repository();
     let runtime = current_runtime();
     start_work_item_with_options(
@@ -454,7 +454,7 @@ fn existing_active_successor_binds_an_explicit_same_base_candidate() {
     let mut decision = receipt(&directory, "bind the existing active successor");
     decision["successorBindingMode"] = json!("existing_active_successor");
     decision["runtimeVersion"] = json!(runtime.runtime_version);
-    decision["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    decision["runtimeDigest"] = json!(Digest::sha256_bytes(b"same-version-candidate").to_string());
 
     record_recovery_decision(directory.path(), "WI-BLOCKED", &decision, &runtime)
         .expect("bind explicit existing active successor");
