@@ -1,12 +1,13 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json",
-    ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json",
+    ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json",
+    ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json",
+    "crates/cockpit-repository/src/lifecycle.rs",
     "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "checkpointAt": "2026-09-19T12:00:16Z",
-  "checkpointContractDigest": "sha256:eb76cd3d31dd66bcde782bce7cec3a7f2e6b481548588b9f90056b5591e8a345",
+  "checkpointContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,9 +63,29 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd473a649ca1495fe6656f5353be4f1a2b8f7599fd97282d6ca1019acbd54d3e",
+      "previousContractHash": "sha256:eb76cd3d31dd66bcde782bce7cec3a7f2e6b481548588b9f90056b5591e8a345",
+      "reason": "The attempted terminal projection exposed a deterministic Runtime amendment atomicity defect. Repair it within this Work Item scope with a direct regression before re-archiving.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T13:03:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-902-verification-receipt-snapshot-boundary"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
+  "checkpointRepositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
   "createdAt": "2026-09-19T11:17:45Z",
   "intentAlignment": {
     "evidence": [
@@ -74,10 +95,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-19T12:41:01Z",
-  "preflightContractDigest": "sha256:eb76cd3d31dd66bcde782bce7cec3a7f2e6b481548588b9f90056b5591e8a345",
+  "preflightAt": "2026-09-19T13:14:03Z",
+  "preflightContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
+  "preflightRepositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -129,7 +150,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-19T12:41:02Z",
+  "updatedAt": "2026-09-19T13:14:04Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",

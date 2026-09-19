@@ -4,7 +4,7 @@
       ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
+    "repositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
     "workItemId": "WI-902-verification-receipt-snapshot-boundary"
   },
   "format": "ai-cockpit.task-outcome",
@@ -15,28 +15,35 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
@@ -95,7 +102,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
         ],
         "inference": false,
         "text": "在无源码变更时让当前 Runtime typed verification receipt 可被后续 preflight、gate 与 finish 正确复用；真实源码变更和身份完整性失败仍严格 fail-closed。"
@@ -104,7 +111,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+          ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

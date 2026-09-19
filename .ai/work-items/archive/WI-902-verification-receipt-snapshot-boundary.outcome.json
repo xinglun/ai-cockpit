@@ -4,11 +4,12 @@
     "Runtime governance-only writes do not create a false source snapshot mismatch, while real source changes still make evidence stale and fail closed.",
     "First typed verification semantics, red preflight zero-process behavior, tamper checks, foreign-runtime checks, malformed receipt checks, and symlink checks remain unchanged.",
     "CLI and MCP use the same snapshot and identity binding behavior, covered by focused regression tests and a repository-bound fixture.",
-    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding."
+    "The tri-language parity ledger assigns an exact full Work Item id to a retired same-short-id record, preserves its unverified retirement facts, and leaves no ambiguous-short-id finding.",
+    "A rejected post-checkpoint Contract amendment leaves the active Contract, Summary, and events bytes unchanged; deterministic lifecycle validation fails before any persistent mutation."
   ],
-  "createdAt": "2026-09-19T12:41:02Z",
+  "createdAt": "2026-09-19T13:14:04Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:2ef7e173a848b752716cd120bba7d01ac83c0d0b323b73921aac3965322980e7",
+  "evidenceDigest": "sha256:762d25251b62d70cc330b05cfbb62f2885c027665ac172b86ed42e2f8f7f81a5",
   "evidenceRefs": [
     ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
   ],
@@ -34,7 +35,7 @@
         ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:f7aa72a0f89838e9612372b569516ef320e3cdda56646250a53a21403dfe7226",
+      "repositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
       "workItemId": "WI-902-verification-receipt-snapshot-boundary"
     },
     "format": "ai-cockpit.task-outcome",
@@ -45,28 +46,35 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.summary.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
@@ -125,7 +133,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
           ],
           "inference": false,
           "text": "在无源码变更时让当前 Runtime typed verification receipt 可被后续 preflight、gate 与 finish 正确复用；真实源码变更和身份完整性失败仍严格 fail-closed。"
@@ -134,7 +142,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-902-verification-receipt-snapshot-boundary.contract.json"
+            ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -144,8 +152,8 @@
     "status": "verified",
     "workItemId": "WI-902-verification-receipt-snapshot-boundary"
   },
-  "taskReportDigest": "sha256:0db9df4e85147eadd07def0bf9864b1e1bf4dd983bcc40872919c4a1a73f2873",
-  "taskReportMarkdownDigest": "sha256:352b7557db4f9b4cfc24b6d9a460e66a870aec25f659ba19f06b6d24e27cca73",
+  "taskReportDigest": "sha256:8d786bae9325fba98499f52a83a72901dbcd4d5b5f9ffb7b8666de04cfcdd6fc",
+  "taskReportMarkdownDigest": "sha256:70065eeb25d71f5b013ad22b56c83ffdc3bcd9ae05e237e172ced2621061621d",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

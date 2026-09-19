@@ -1416,6 +1416,12 @@ pub fn amend_work_item_contract(
     reason: &str,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
+    if reason.trim().is_empty() {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: "contract amendment reason must not be empty".into(),
+        });
+    }
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
