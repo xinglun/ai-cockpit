@@ -807,6 +807,56 @@ fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
 }
 
 #[test]
+fn scope_can_be_appended_before_the_first_checkpoint() {
+    let directory = repository();
+    let work_item_id = "WI-PRECHECKPOINT-SCOPE";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "add a required projection path before checkpoint",
+        "avoid a preflight deadlock without changing immutable Contract facts",
+        &["crates/cockpit-repository/src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+
+    let amendment = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["docs/work-items/WI-PRECHECKPOINT-SCOPE.md"]}),
+        "add the missing required projection path before the first checkpoint",
+    )
+    .expect("pre-checkpoint scope amendment");
+
+    assert_eq!(amendment["stage"], "pre_checkpoint_contract_declaration");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(directory.path().join(format!(
+            ".ai/work-items/active/{work_item_id}.contract.json"
+        )))
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(
+        contract["scope"],
+        json!([
+            "crates/cockpit-repository/src/**",
+            "docs/work-items/WI-PRECHECKPOINT-SCOPE.md"
+        ])
+    );
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/active/{work_item_id}.summary.json")),
+        )
+        .expect("summary"),
+    )
+    .expect("summary JSON");
+    assert_eq!(summary["checkpointCount"], 0);
+    assert!(summary.get("checkpointEvidence").is_none());
+}
+
+#[test]
 fn contract_amendment_appends_sources_and_verification_declarations() {
     let directory = repository();
     let work_item_id = "WI-CONTRACT-DECLARATION-AMENDMENT";

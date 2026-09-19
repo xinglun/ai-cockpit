@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:4de22c1f8e1e1972cb8d12ac44d5e8b8488646329f28e45cccc8c414a175151e",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:157ec845f8ba4107ae8176ee1486928dcf1cc210019e313cb0569be30e22d141",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+  "contractExecutionScopeDigest": "sha256:c74f7a02740e4abe3b3975a285d4ccde0c162c5bae0d2c95e3fc50df66fa6ebb",
+  "createdAt": "2026-09-19T11:25:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-903-precheckpoint-scope/ai-cockpit/.ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0dd62ca51a2e95411e36d166dc93d6033f78cacfe483191e332a5cabefbb184d",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

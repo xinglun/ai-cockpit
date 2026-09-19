@@ -1469,7 +1469,10 @@ pub fn amend_work_item_contract(
                 && object.keys().all(|key| {
                     matches!(
                         key.as_str(),
-                        "scenarioCoverageAppend" | "sourcesAppend" | "verificationAppend"
+                        "scopeAppend"
+                            | "scenarioCoverageAppend"
+                            | "sourcesAppend"
+                            | "verificationAppend"
                     )
                 })
         });
