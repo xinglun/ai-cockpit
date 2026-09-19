@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:5a908475802614cba428a6c9a90f93fbc5612f108f184fef5fafda6c34cae304",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:c594d322406efc371f36596a60afc2a2070d2ffbf03c1f8c1cea8730be7728d4",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+  "contractExecutionScopeDigest": "sha256:c74f7a02740e4abe3b3975a285d4ccde0c162c5bae0d2c95e3fc50df66fa6ebb",
+  "createdAt": "2026-09-19T13:28:26Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

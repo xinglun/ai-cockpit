@@ -6,10 +6,10 @@ use cockpit_repository::{
     amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
     close_work_item_with_structured_decision, finish_work_item, finish_work_item_with_runtime,
     load_reusable_verification_attempt, persist_verification_attempt, preflight_work_item,
-    preflight_work_item_with_runtime, record_verification, record_verification_with_runtime,
-    record_work_item_governance_controls, repository_id, require_verification_preconditions,
-    run_repository_verification, scaffold_work_item, set_work_item_intelligence,
-    start_work_item_with_options, status, work_item_start_advisory,
+    preflight_work_item_with_runtime, record_recovery_decision, record_verification,
+    record_verification_with_runtime, record_work_item_governance_controls, repository_id,
+    require_verification_preconditions, run_repository_verification, scaffold_work_item,
+    set_work_item_intelligence, start_work_item_with_options, status, work_item_start_advisory,
 };
 use serde_json::json;
 use std::fs;
@@ -1109,6 +1109,95 @@ fn verification_preconditions_reject_missing_governance_controls_before_executio
             .contains("verification preconditions are blocked")
     );
     assert!(error.to_string().contains("acceptance_evidence_missing"));
+}
+
+#[test]
+fn verification_preconditions_accept_bound_retry_after_snapshot_drift() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFY-RETRY-SNAPSHOT";
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "retry stale verification evidence",
+        "allow only a Runtime-bound retry to refresh a stale snapshot",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item_with_runtime(directory.path(), &contract_path, &runtime)
+        .expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary")).expect("summary JSON");
+    summary["state"] = json!("finish_ready");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("summary JSON"),
+    )
+    .expect("finish-ready summary fixture");
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    let retry = json!({
+        "schemaVersion": 1,
+        "decisionId": "work-item-recovery",
+        "decision": "retry",
+        "workItemId": work_item_id,
+        "repositoryId": repository_id(directory.path()).to_string(),
+        "predecessorWorkItemId": work_item_id,
+        "predecessorContractDigest": cockpit_protocol::digest_json(&contract).expect("contract digest").to_string(),
+        "predecessorSummaryDigest": cockpit_protocol::digest_json(&summary).expect("summary digest").to_string(),
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest.to_string(),
+        "actor": "human:test",
+        "authoritySource": "test",
+        "reason": "refresh only the stale verification projection",
+        "decidedAt": "2026-09-19T00:00:00Z",
+        "resumeCondition": "run one replacement verification"
+    });
+    record_recovery_decision(directory.path(), work_item_id, &retry, &runtime)
+        .expect("bind retry recovery");
+
+    fs::create_dir_all(directory.path().join("src")).expect("source directory");
+    fs::write(directory.path().join("src/lib.rs"), "// snapshot drift\n").expect("source mutation");
+    let changed_snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("changed snapshot");
+
+    require_verification_preconditions(directory.path(), work_item_id, &runtime, &changed_snapshot)
+        .expect("bound retry must reach replacement verification without a second preflight");
+
+    fs::remove_file(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.recovery.json")),
+    )
+    .expect("remove retry binding");
+    let error = require_verification_preconditions(
+        directory.path(),
+        work_item_id,
+        &runtime,
+        &changed_snapshot,
+    )
+    .expect_err("unbound stale snapshot must still stop before verification execution");
+    assert!(error.to_string().contains("retry_binding_missing"));
 }
 
 #[test]

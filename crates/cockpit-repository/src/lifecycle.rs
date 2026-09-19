@@ -2812,7 +2812,7 @@ fn retry_contract_transition_is_bound(
 
 /// Verify that a pending retry marker is backed by the current Runtime-owned
 /// recovery receipt before any lifecycle operation consumes the marker.
-fn require_current_retry_recovery_binding(
+pub(crate) fn require_current_retry_recovery_binding(
     root: &Path,
     work_item_id: &str,
     summary: &serde_json::Value,
