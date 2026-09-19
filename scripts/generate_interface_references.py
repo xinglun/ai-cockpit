@@ -9,6 +9,7 @@ documentation.  ``--check`` is side-effect free and is the CI/docs gate.
 from __future__ import annotations
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -35,8 +36,21 @@ def interface_region(document: str) -> tuple[int, int, str]:
     return start, end, document[start:end]
 
 
-def render(repo: Path, language: str) -> str:
-    command = [
+def interface_command(repo: Path) -> list[str]:
+    """Use the already-built CLI when a gate provides one.
+
+    Hosted quality jobs download the exact release binary produced by the
+    route job.  Falling back to an offline Cargo invocation keeps the helper
+    usable from a source checkout without allowing the docs check to fetch
+    dependencies or inspect repository history.
+    """
+    configured = os.environ.get("AI_COCKPIT_INTERFACE_DESCRIPTION_BIN")
+    candidates = [Path(configured)] if configured else []
+    candidates.extend((repo / "target/release/ai-cockpit", repo / "target/debug/ai-cockpit"))
+    for candidate in candidates:
+        if candidate.is_file() and os.access(candidate, os.X_OK):
+            return [str(candidate)]
+    return [
         "cargo",
         "run",
         "--quiet",
@@ -45,6 +59,11 @@ def render(repo: Path, language: str) -> str:
         "-p",
         "cockpit-cli",
         "--",
+    ]
+
+
+def render(repo: Path, language: str) -> str:
+    command = interface_command(repo) + [
         "capability",
         "show",
         "--repo",
