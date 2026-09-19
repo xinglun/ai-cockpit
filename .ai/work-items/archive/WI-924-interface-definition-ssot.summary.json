@@ -1,0 +1,134 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.04278907b49572db82db2621704f267a3dbc2dae423d25c2faba902b191e62b1.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.234442d43c8acf7f2ee844399b8a30f8546b0d3380ad72c2fe28df493a6f9a59.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.2f50d7a465574357e0deb6bf4828b2a1cc58e84af7efde4fa0d2a7a9bae56ded.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.a2985e0f41650113407deded9468a861a6c2f8a40c535eb529f4898cb4b0d3a6.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.d4365f40cc71a4357e7b29b7588f11699ebcfff0b55041b58b1c0a1c601afecc.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification-attempt.f4f009d0b8253e9604de0cf22d742aded1544cd8a75ae81ea19a03b95c3297ed.json",
+    ".ai/evidence/WI-924-interface-definition-ssot.verification.json",
+    ".ai/work-items/archive/WI-924-interface-definition-ssot.contract.json",
+    ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-19T03:32:54Z",
+  "checkpointContractDigest": "sha256:58dc7bacecb8373d472c2dcfa7fdb0a60d3640c33f7ec19eb72313505a81bca4",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:f39063b61073bff3bd85dacd70b8a8b76af3acc438028130153df9a3333eabf9",
+      "recorded": true,
+      "recordedAt": "2026-09-19T03:32:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2656d4ad35f90595a471c652e011c1877b7f75c183a826979edd82e16e9f7d4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-924-interface-definition-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bf8c7bf3eb6d01dd730758f9af70fefb13380bfa89defad4d7d777e91a5c425c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f39063b61073bff3bd85dacd70b8a8b76af3acc438028130153df9a3333eabf9",
+      "previousContractHash": "sha256:f39063b61073bff3bd85dacd70b8a8b76af3acc438028130153df9a3333eabf9",
+      "reason": "Include the Runtime-generated observer snapshot changed by current inspection and preflight; no implementation scope expansion.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T03:40:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-924-interface-definition-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:004e69bfc05958e1923058ca6d44023d92d7428288943c53548528c4c3d443ee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f39063b61073bff3bd85dacd70b8a8b76af3acc438028130153df9a3333eabf9",
+      "previousContractHash": "sha256:bf8c7bf3eb6d01dd730758f9af70fefb13380bfa89defad4d7d777e91a5c425c",
+      "reason": "Bind the actual repository-relative implementation paths; the initial scope prose was descriptive rather than path-shaped.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T03:41:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-924-interface-definition-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:58dc7bacecb8373d472c2dcfa7fdb0a60d3640c33f7ec19eb72313505a81bca4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:f39063b61073bff3bd85dacd70b8a8b76af3acc438028130153df9a3333eabf9",
+      "previousContractHash": "sha256:004e69bfc05958e1923058ca6d44023d92d7428288943c53548528c4c3d443ee",
+      "reason": "Bind the focused protocol, CLI, MCP, documentation, formatting, and diff checks to the Work Item Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T03:42:42Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-924-interface-definition-ssot"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+  "createdAt": "2026-09-19T03:32:53Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:58dc7bacecb8373d472c2dcfa7fdb0a60d3640c33f7ec19eb72313505a81bca4",
+    "items": [
+      {
+        "class": "interface-description",
+        "evidence": [
+          {
+            "digest": "sha256:8df280c365b565d15a0a42f95808ea506cc8c31d6fd4b38cbdb3ad17ece87490",
+            "locator": "protocol-owned Work Item Outcome interface definitions",
+            "path": "crates/cockpit-protocol/src/interface_description.rs",
+            "type": "source",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-19T03:51:30Z",
+  "preflightContractDigest": "sha256:58dc7bacecb8373d472c2dcfa7fdb0a60d3640c33f7ec19eb72313505a81bca4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T03:52:10Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-924-interface-definition-ssot"
+}

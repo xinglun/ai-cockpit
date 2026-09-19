@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "The protocol-owned parameter definitions are the sole source for CLI and MCP transport names, requiredness, defaults, enum values, wire types, and descriptions; adapters do not repeat those facts as independent literals.",
+    "A deterministic interface description and generated reference are projected from the same definitions consumed by CLI and MCP.",
+    "Changing one pilot parameter definition changes parser/schema/description/reference behavior through that source, with a regression proving the binding; no lifecycle or language behavior changes.",
+    "Description discovery and reference generation remain read-only and do not start verification subprocesses or inspect Work Item history."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "f490d82ac925069998561c677ebab7570f1ce439",
+  "createdAt": "2026-09-19T03:32:53Z",
+  "goal": "Make the work-item outcome interface facts genuinely single-source: transport names, requiredness, defaults, enums, wire types, and descriptions are defined once and consumed by adapters and generated projections.",
+  "intent": "Eliminate remaining manual duplication in the work-item outcome interface description so one protocol-owned definition drives CLI metadata, MCP schema/validation, and generated references without changing lifecycle, authorization, Outcome language, host delivery, or release behavior.",
+  "mode": "implementation",
+  "outOfScope": [
+    "lifecycle",
+    " authorization",
+    " verification execution",
+    " Outcome host delivery",
+    " performance optimization",
+    " release",
+    " and changes to Contract/evidence semantics"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c2656d4ad35f90595a471c652e011c1877b7f75c183a826979edd82e16e9f7d4",
+  "requiredEvidenceClasses": [
+    "verification",
+    "interface-description"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs canonical interface facts and projection helpers",
+    "crates/cockpit-cli/src/main.rs work-item outcome parser metadata and capability projection",
+    "crates/cockpit-mcp/src/lib.rs outcome schema and argument validation bindings",
+    "crates/cockpit-protocol/tests",
+    " crates/cockpit-cli/tests",
+    " crates/cockpit-mcp/tests regression coverage",
+    "tests/docs interface reference generator and its deterministic fixture if required",
+    "WI-924 verification and Outcome evidence",
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/**",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/**",
+    "tests/docs/**"
+  ],
+  "sources": [
+    "user objective: BAML-style single-source interface discovery remains incomplete",
+    "main f490d82ac925069998561c677ebab7570f1ce439 / merged PR #891 protocol adapter binding baseline",
+    "BAML interface discoverability reference supplied by user",
+    "https://github.com/boundaryml/baml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-protocol --test interface_description",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-cli --bin ai-cockpit outcome_description_facts_match_clap_arguments",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity -- --test-threads=1",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-mcp --lib --test rpc -- --test-threads=1",
+    "tests/docs/interface_reference_generator_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-924-interface-definition-ssot"
+}

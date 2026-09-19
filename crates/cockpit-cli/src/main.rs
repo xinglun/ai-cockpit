@@ -574,7 +574,7 @@ enum WorkItemCommand {
         #[arg(long)]
         repo: PathBuf,
         #[arg(
-            long,
+            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
             help = cockpit_protocol::WORK_ITEM_OUTCOME_ID_DESCRIPTION
         )]
         id: String,
@@ -582,21 +582,21 @@ enum WorkItemCommand {
         /// host adapter. Without a host command this is an explicit
         /// full-handoff-only result and never a display claim.
         #[arg(
-            long,
+            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_DELIVERY,
             help = cockpit_protocol::WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION,
             default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY
         )]
         delivery: bool,
         /// Emit the stable machine-readable Outcome JSON instead of the human handoff.
         #[arg(
-            long,
+            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_JSON,
             help = cockpit_protocol::WORK_ITEM_OUTCOME_JSON_DESCRIPTION,
             default_value_t = cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_JSON
         )]
         json: bool,
         /// Select the human handoff projection. The default is the reader-first summary.
         #[arg(
-            long,
+            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_VIEW,
             help = cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_DESCRIPTION,
             value_parser = clap::builder::PossibleValuesParser::new(
                 cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_VALUES.iter().copied()
@@ -608,7 +608,7 @@ enum WorkItemCommand {
         /// the active dialog language explicitly; otherwise locale fallback
         /// is used.
         #[arg(
-            long,
+            long = cockpit_protocol::WORK_ITEM_OUTCOME_CLI_LANGUAGE,
             help = cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION,
             value_parser = clap::builder::PossibleValuesParser::new(
                 cockpit_protocol::WORK_ITEM_OUTCOME_LANGUAGE_VALUES.iter().copied()
@@ -3350,7 +3350,7 @@ fn print_lifecycle_result(
                     "schemaVersion": cockpit_repository::OUTCOME_DELIVERY_SCHEMA_VERSION,
                     "workItemId": work_item_id,
                     "language": output_language(requested_language),
-                    "view": "full",
+                    "view": cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL,
                     "deliveryState": "preparation_failed",
                     "hostConfirmation": "unknown",
                     "body": null,
@@ -3502,7 +3502,13 @@ mod tests {
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
-    use cockpit_protocol::{RuntimeContext, work_item_outcome_interface_description};
+    use cockpit_protocol::{
+        RuntimeContext, WORK_ITEM_OUTCOME_CANONICAL_DELIVERY, WORK_ITEM_OUTCOME_CANONICAL_JSON,
+        WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE, WORK_ITEM_OUTCOME_CANONICAL_VIEW,
+        WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID, WORK_ITEM_OUTCOME_CLI_DELIVERY,
+        WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
+        WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, work_item_outcome_interface_description,
+    };
     use std::process::Command;
 
     #[test]
@@ -3593,9 +3599,43 @@ mod tests {
                 .get_arguments()
                 .find(|argument| argument.get_id().as_str() == parameter.name)
                 .unwrap_or_else(|| panic!("missing Clap argument {}", parameter.name));
+            let expected_long = match parameter.name.as_str() {
+                WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID => (
+                    WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+                    WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
+                ),
+                WORK_ITEM_OUTCOME_CLI_DELIVERY => (
+                    WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+                    WORK_ITEM_OUTCOME_CLI_DELIVERY,
+                ),
+                WORK_ITEM_OUTCOME_CLI_JSON => {
+                    (WORK_ITEM_OUTCOME_CANONICAL_JSON, WORK_ITEM_OUTCOME_CLI_JSON)
+                }
+                WORK_ITEM_OUTCOME_CLI_VIEW => {
+                    (WORK_ITEM_OUTCOME_CANONICAL_VIEW, WORK_ITEM_OUTCOME_CLI_VIEW)
+                }
+                WORK_ITEM_OUTCOME_CLI_LANGUAGE => (
+                    WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
+                    WORK_ITEM_OUTCOME_CLI_LANGUAGE,
+                ),
+                other => panic!("unexpected CLI interface parameter {other}"),
+            };
+            assert_eq!(parameter.name, expected_long.1, "{}", expected_long.0);
+            assert_eq!(
+                argument.get_long().map(str::to_owned),
+                Some(expected_long.1.to_owned()),
+                "{}",
+                expected_long.0
+            );
             assert_eq!(
                 argument.is_required_set(),
                 parameter.required,
+                "{}",
+                parameter.name
+            );
+            assert_eq!(
+                argument.get_help().map(ToString::to_string),
+                Some(parameter.description.to_owned()),
                 "{}",
                 parameter.name
             );

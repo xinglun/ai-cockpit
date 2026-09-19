@@ -29,6 +29,19 @@ pub const WORK_ITEM_OUTCOME_CANONICAL_JSON: &str = "json";
 pub const WORK_ITEM_OUTCOME_CANONICAL_VIEW: &str = "view";
 pub const WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE: &str = "language";
 pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS: &str = "deliveryProgress";
+// Transport bindings are protocol-owned facts too.  Keeping the CLI spelling
+// here prevents the derive parser from becoming a second interface registry.
+pub const WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID: &str = "id";
+pub const WORK_ITEM_OUTCOME_CLI_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DELIVERY;
+pub const WORK_ITEM_OUTCOME_CLI_JSON: &str = WORK_ITEM_OUTCOME_CANONICAL_JSON;
+pub const WORK_ITEM_OUTCOME_CLI_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
+pub const WORK_ITEM_OUTCOME_CLI_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID: &str = WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID;
+pub const WORK_ITEM_OUTCOME_MCP_DELIVERY: &str = WORK_ITEM_OUTCOME_CANONICAL_DELIVERY;
+pub const WORK_ITEM_OUTCOME_MCP_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
+pub const WORK_ITEM_OUTCOME_MCP_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
+pub const WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS: &str =
+    WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS;
 /// Conversation languages accepted by the human Outcome projections.
 /// `zh-CN` is kept as a locale-compatible spelling and normalizes to the
 /// canonical Simplified Chinese renderer.
@@ -211,19 +224,54 @@ const fn bind_outcome_parameter(
 }
 
 static CLI_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    bind_outcome_parameter(&OUTCOME_WORK_ITEM_ID, "id", true, &[]),
-    bind_outcome_parameter(&OUTCOME_DELIVERY, "delivery", false, &[]),
-    bind_outcome_parameter(&OUTCOME_JSON, "json", false, &[]),
-    bind_outcome_parameter(&OUTCOME_VIEW, "view", false, &[]),
-    bind_outcome_parameter(&OUTCOME_LANGUAGE, "language", false, &[]),
+    bind_outcome_parameter(
+        &OUTCOME_WORK_ITEM_ID,
+        WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
+        true,
+        &[],
+    ),
+    bind_outcome_parameter(
+        &OUTCOME_DELIVERY,
+        WORK_ITEM_OUTCOME_CLI_DELIVERY,
+        false,
+        &[],
+    ),
+    bind_outcome_parameter(&OUTCOME_JSON, WORK_ITEM_OUTCOME_CLI_JSON, false, &[]),
+    bind_outcome_parameter(&OUTCOME_VIEW, WORK_ITEM_OUTCOME_CLI_VIEW, false, &[]),
+    bind_outcome_parameter(
+        &OUTCOME_LANGUAGE,
+        WORK_ITEM_OUTCOME_CLI_LANGUAGE,
+        false,
+        &[],
+    ),
 ];
 
 static MCP_WORK_ITEM_OUTCOME_PARAMETERS: &[InterfaceParameterSpec] = &[
-    bind_outcome_parameter(&OUTCOME_WORK_ITEM_ID, "workItemId", true, &["id"]),
-    bind_outcome_parameter(&OUTCOME_LANGUAGE, "language", false, &[]),
-    bind_outcome_parameter(&OUTCOME_VIEW, "view", false, &[]),
-    bind_outcome_parameter(&OUTCOME_DELIVERY, "delivery", false, &[]),
-    bind_outcome_parameter(&OUTCOME_DELIVERY_PROGRESS, "deliveryProgress", false, &[]),
+    bind_outcome_parameter(
+        &OUTCOME_WORK_ITEM_ID,
+        WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID,
+        true,
+        &[WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID],
+    ),
+    bind_outcome_parameter(
+        &OUTCOME_LANGUAGE,
+        WORK_ITEM_OUTCOME_MCP_LANGUAGE,
+        false,
+        &[],
+    ),
+    bind_outcome_parameter(&OUTCOME_VIEW, WORK_ITEM_OUTCOME_MCP_VIEW, false, &[]),
+    bind_outcome_parameter(
+        &OUTCOME_DELIVERY,
+        WORK_ITEM_OUTCOME_MCP_DELIVERY,
+        false,
+        &[],
+    ),
+    bind_outcome_parameter(
+        &OUTCOME_DELIVERY_PROGRESS,
+        WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS,
+        false,
+        &[],
+    ),
 ];
 
 static CAPABILITY_SHOW_PARAMETERS: &[InterfaceParameterSpec] = &[

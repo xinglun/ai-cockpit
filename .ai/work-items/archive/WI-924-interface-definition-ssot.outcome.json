@@ -1,0 +1,227 @@
+{
+  "acceptanceResults": [
+    "The protocol-owned parameter definitions are the sole source for CLI and MCP transport names, requiredness, defaults, enum values, wire types, and descriptions; adapters do not repeat those facts as independent literals.",
+    "A deterministic interface description and generated reference are projected from the same definitions consumed by CLI and MCP.",
+    "Changing one pilot parameter definition changes parser/schema/description/reference behavior through that source, with a regression proving the binding; no lifecycle or language behavior changes.",
+    "Description discovery and reference generation remain read-only and do not start verification subprocesses or inspect Work Item history."
+  ],
+  "createdAt": "2026-09-19T03:52:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:040334a844d29b8e083a6acc693157b2e9a620dc3af388ff2d0dda628db2f557",
+  "evidenceRefs": [
+    ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+      "workItemId": "WI-924-interface-definition-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.04278907b49572db82db2621704f267a3dbc2dae423d25c2faba902b191e62b1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.234442d43c8acf7f2ee844399b8a30f8546b0d3380ad72c2fe28df493a6f9a59.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.2f50d7a465574357e0deb6bf4828b2a1cc58e84af7efde4fa0d2a7a9bae56ded.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.a2985e0f41650113407deded9468a861a6c2f8a40c535eb529f4898cb4b0d3a6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.d4365f40cc71a4357e7b29b7588f11699ebcfff0b55041b58b1c0a1c601afecc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification-attempt.f4f009d0b8253e9604de0cf22d742aded1544cd8a75ae81ea19a03b95c3297ed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-924-interface-definition-ssot.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-924-interface-definition-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-924-interface-definition-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the work-item outcome interface facts genuinely single-source: transport names, requiredness, defaults, enums, wire types, and descriptions are defined once and consumed by adapters and generated projections."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-924-interface-definition-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-924-interface-definition-ssot"
+  },
+  "taskReportDigest": "sha256:484e457b08e6841d2739c0794dd460a51c56bffe26ff937c244fd375bbc75819",
+  "taskReportMarkdownDigest": "sha256:19d43c65abf5a4e3950b2c6abaf282f8eac0db06ec78a5242388016651024bd0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-924-interface-definition-ssot.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-924-interface-definition-ssot"
+}
