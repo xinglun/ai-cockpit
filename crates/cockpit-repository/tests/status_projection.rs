@@ -1329,11 +1329,14 @@ fn status_projection_distinguishes_archived_from_valid_closed_decision() {
         outcome.outcome.decision_state,
         Some(cockpit_core::DecisionState::Yellow)
     );
-    assert!(
-        outcome
-            .outcome
-            .unknowns
-            .contains(&"resource_finalization_pending".into())
+    assert_eq!(
+        outcome.outcome.state,
+        cockpit_protocol::OutcomeState::Verified,
+        "the archived verification fact remains distinct from pending cleanup"
+    );
+    assert_eq!(
+        outcome.finalization.state, "receipt_missing",
+        "the structured finalization projection records the cleanup gap"
     );
     let handoff = render_human_outcome(&outcome, "zh");
     assert!(handoff.starts_with("Outcome: 🟡"));
