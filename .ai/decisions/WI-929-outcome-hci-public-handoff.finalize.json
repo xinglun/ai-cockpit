@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ff921e464d6e80083e195bc9f347c5bb7b087701",
+    "name": "codex/wi-928-outcome-hci-public-handoff",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "66808685d088fd4f46826f388ecf04fe4ce7c547",
+  "contractDigest": "sha256:01120dfaae3ca5eb3292a8f8a22ecd7b4260acfb3a7dd3cd4fb5a2aa68faa85c",
+  "operationId": "WI-929-outcome-hci-public-handoff-pr-896-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "66808685d088fd4f46826f388ecf04fe4ce7c547",
+    "headRevision": "ff921e464d6e80083e195bc9f347c5bb7b087701",
+    "mergeCommit": "e6efd5cc8dd509b81d1c78d235793cb41bd70155",
+    "number": 896,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/896"
+  },
+  "reason": "Reviewed PR #896 merged as e6efd5cc8dd509b81d1c78d235793cb41bd70155; the exact remote branch and dedicated worktree were deleted and removed after all hosted checks passed.",
+  "receiptId": "WI-929-outcome-hci-public-handoff-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-928-outcome-hci-public-handoff",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/896",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-928-outcome-hci-public-handoff/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:8413fd2f7e6f50318fdb701c14e1d10b2c6a0267b401c1fcb792ddd19d0606ec",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-19T08:38:00Z",
+  "workItemId": "WI-929-outcome-hci-public-handoff",
+  "worktree": {
+    "branch": "codex/wi-928-outcome-hci-public-handoff",
+    "headRevision": "ff921e464d6e80083e195bc9f347c5bb7b087701",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-928-outcome-hci-public-handoff/ai-cockpit",
+    "worktreeId": "wi-928-outcome-hci-public-handoff"
+  }
+}

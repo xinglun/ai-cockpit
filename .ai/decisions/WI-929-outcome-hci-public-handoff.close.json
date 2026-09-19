@@ -1,0 +1,181 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-929-outcome-hci-public-handoff.recovery.c1bc999c14262dc41a515124277b2e4be3a084238db44e2d104e599ff04093e7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-929-outcome-hci-public-handoff.verification-attempt.ed1768b275e5af6c51cdd1f04937974c7db0b06909270120a637626dd7d06502.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
+            ".ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:xinglun via explicit-user-authorization at 2026-09-19T08:40:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+          ],
+          "inference": false,
+          "text": "Close the remaining Outcome/HCI handoff gap without claiming host display when no host confirmation exists."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-929-outcome-hci-public-handoff"
+  },
+  "finalReportDigest": "sha256:0066bcbfb8584bb7d8c9385e869300b7094c292b8bd9b6fbf3ea68240b67cfbf",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:57555b9033eda8c293b73d2a4ce1082846772029866f307a617d63c121af3c2e",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T08:40:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-929-outcome-hci-public-handoff.verification.json",
+      ".ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "接受当前验证、完整 Outcome 传递和 provider cleanup 证据；用户可见收益保持未知，宿主展示确认仍按能力边界表述。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-19T08:39:20Z",
+  "workItemId": "WI-929-outcome-hci-public-handoff"
+}
