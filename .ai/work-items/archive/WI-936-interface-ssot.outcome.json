@@ -3,11 +3,12 @@
     "Changing one shared Outcome query default or enum changes actual CLI parsing, MCP schema, and generated three-language reference facts without separately editing those facts.",
     "CLI and MCP retain their current transport-specific names and deliveryProgress remains MCP-only.",
     "The discovery operation remains deterministic, read-only, and starts no verification subprocess.",
-    "The change does not alter Outcome lifecycle, authorization, or delivery behavior."
+    "The change does not alter Outcome lifecycle, authorization, or delivery behavior.",
+    "A finish-ready Work Item whose source snapshot changes after a commit may record a fresh preflight and replacement verification; archive remains blocked until that replacement evidence is current."
   ],
-  "createdAt": "2026-09-19T17:20:02Z",
+  "createdAt": "2026-09-19T17:30:09Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:fd09ed9f425647f5ca69a5baec571d5250a41a4075ea202f1291762b5ce0de49",
+  "evidenceDigest": "sha256:8fbfcec9a45db95d204ce271db7048f97ebaa1babbe17773755ac86f260dd4ba",
   "evidenceRefs": [
     ".ai/evidence/WI-936-interface-ssot.verification.json"
   ],
@@ -33,7 +34,7 @@
         ".ai/evidence/WI-936-interface-ssot.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:8964dc0ad48c04580a7b9f94aec32df07d78a5a5f6039d7aae9a8bfbd8da204b",
+      "repositorySnapshotDigest": "sha256:05f850f7d0ab7589935b04ab209cfdeedbcd6d1bbcf9eb540aac72e65d197653",
       "workItemId": "WI-936-interface-ssot"
     },
     "format": "ai-cockpit.task-outcome",
@@ -44,94 +45,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-936-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-936-interface-ssot.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-936-interface-ssot.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-936-interface-ssot.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: Cargo.lock"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-cli/src/main.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-protocol/Cargo.toml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+          "text": "Changed path: .ai/work-items/archive/WI-936-interface-ssot.summary.json"
         }
       ],
       "evidence": [
@@ -187,7 +111,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.contract.json"
+            ".ai/work-items/archive/WI-936-interface-ssot.contract.json"
           ],
           "inference": false,
           "text": "Make the actual Outcome query parameter definitions the single source for shared CLI/MCP interface facts, while preserving lifecycle and authorization behavior."
@@ -196,7 +120,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-936-interface-ssot.contract.json"
+            ".ai/work-items/archive/WI-936-interface-ssot.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -206,8 +130,8 @@
     "status": "verified",
     "workItemId": "WI-936-interface-ssot"
   },
-  "taskReportDigest": "sha256:f54c9e2354bc8a28c924d9e0e3ec2b227dcfddf8d7a04179cd33f04d0260a3e6",
-  "taskReportMarkdownDigest": "sha256:216a8a8f98a15c8c76860026e906145016cdb90ad1bcab3795171d2f268e928d",
+  "taskReportDigest": "sha256:9b05d3abd3c018d1e4cbe30255ff594b6888e73965d663510ca8961cacdaf4f1",
+  "taskReportMarkdownDigest": "sha256:8ad215bfe7c8b85eb819c9bbf4df7c5c0c0ba57420bb1462aabee62dffecc29a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
