@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:2a1dfee389baf257ac89956a1f1013cac27454e36f696f91f497579d3f2b7cf7",
+  "branchRef": "refs/heads/codex/wi-925-current-performance",
+  "contractDigest": "sha256:d8acf23e8bf3484649b07fe3f93e725f3289821d9978a0447e4f575d0432d98a",
+  "headRevision": "93427b1ed4d46472975aeaf63f540d79a34f5013",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-19T05:20:04Z",
+  "operationId": "sha256:0954b6079ae7f3c94204067aba31224732fc0932535391bbdc26c2c6ddf4f33f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-925-current-performance",
+  "worktreeId": "sha256:8c6441232a47c9aaf4b30a2e756b6037a000fbf1c3f722a1655c887c405d9bd8"
+}
