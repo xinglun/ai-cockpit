@@ -1,0 +1,27 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "user-conversation-continuation-authorization",
+  "decidedAt": "2026-09-19T16:54:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.archive.json",
+    ".ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorEventsDigest": "sha256:04bee4ac5dd8f543f7586183fabe4327c99b66fe5f272256fc4030eb5e2fa3d7",
+  "predecessorOutcomeDigest": "sha256:170c8e4a06c65f34e3c215a170e45448f52c5491a35d51597d1f9b80af568bc2",
+  "predecessorSummaryDigest": "sha256:4a25a6ec7a718b018aa2faabe254aa80405441a32de4e5d2a61e9c665e2226dc",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "reason": "Continue the archived WI-902 recovery through one identity-bound successor so the in-scope interface SSOT repair can proceed without bypassing its historical scope boundary.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete the successor with current verification, preserve predecessor archive bytes, and do not treat predecessor verification as authorization for unrelated scope.",
+  "runtimeDigest": "sha256:18f444e22dc04eb193415966f5b4b8d8e49174ee96d7fa5e8446f7baacb29321",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-936-interface-ssot",
+  "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+}

@@ -27,14 +27,14 @@ fn cli_outcome_help_projects_protocol_owned_parameter_descriptions() {
         .expect("run outcome help");
     assert!(output.status.success(), "outcome help failed");
     let help = String::from_utf8_lossy(&output.stdout);
+    let specs = work_item_outcome_interface_specs("cli").expect("CLI outcome surface");
     for name in ["delivery", "json", "view", "language"] {
-        let spec = work_item_outcome_interface_specs("cli")
-            .expect("CLI outcome surface")
+        let spec = specs
             .iter()
             .find(|spec| spec.name == name)
             .unwrap_or_else(|| panic!("missing protocol-owned spec: {name}"));
         assert!(
-            help.contains(spec.description),
+            help.contains(&spec.description),
             "CLI help for --{name} must be projected from the protocol description: {}",
             spec.description
         );

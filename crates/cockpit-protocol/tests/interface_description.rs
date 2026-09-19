@@ -8,7 +8,7 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_VIEW_VALUES,
     normalize_work_item_outcome_language, render_interface_description_markdown,
     work_item_outcome_interface_description, work_item_outcome_interface_specs,
-    work_item_outcome_parameter_definition, work_item_outcome_parameter_spec_by_canonical,
+    work_item_outcome_parameter_spec_by_canonical,
 };
 
 fn surface<'a>(
@@ -31,6 +31,60 @@ fn parameter<'a>(
         .iter()
         .find(|parameter| parameter.name == name)
         .unwrap_or_else(|| panic!("missing {name} parameter"))
+}
+
+#[test]
+fn cli_description_is_extracted_from_the_shared_outcome_query_parser() {
+    let command = cockpit_protocol::work_item_outcome_query_command();
+    let description = work_item_outcome_interface_description();
+    let cli = surface(&description, "cli");
+
+    for parameter in &cli.parameters {
+        let argument = command
+            .get_arguments()
+            .find(|argument| argument.get_id().as_str() == parameter.name)
+            .unwrap_or_else(|| panic!("missing parser argument {}", parameter.name));
+        assert_eq!(
+            argument.is_required_set(),
+            parameter.required,
+            "requiredness for {}",
+            parameter.name
+        );
+        assert_eq!(
+            argument.get_help().map(ToString::to_string),
+            Some(parameter.description.clone()),
+            "help for {}",
+            parameter.name
+        );
+        if parameter.wire_type == "boolean" {
+            assert!(
+                parameter.enum_values.is_empty(),
+                "boolean {} must not be represented as an enum",
+                parameter.name
+            );
+        } else {
+            assert_eq!(
+                argument
+                    .get_possible_values()
+                    .into_iter()
+                    .map(|value| value.get_name().to_owned())
+                    .collect::<Vec<_>>(),
+                parameter.enum_values,
+                "enum values for {}",
+                parameter.name
+            );
+        }
+        assert_eq!(
+            argument
+                .get_default_values()
+                .iter()
+                .map(|value| value.to_string_lossy().into_owned())
+                .next(),
+            parameter.default,
+            "default for {}",
+            parameter.name
+        );
+    }
 }
 
 #[test]
@@ -121,7 +175,7 @@ fn description_is_materialized_from_protocol_owned_parameter_tables() {
             assert_eq!(parameter.required, spec.required, "surface={surface_name}");
             assert_eq!(
                 parameter.default.as_deref(),
-                spec.default,
+                spec.default.as_deref(),
                 "surface={surface_name}"
             );
             assert_eq!(
@@ -151,16 +205,38 @@ fn description_is_materialized_from_protocol_owned_parameter_tables() {
 }
 
 #[test]
-fn surface_specs_reference_one_canonical_parameter_definition() {
+fn transport_specs_reuse_the_shared_query_parser_facts() {
+    let command = cockpit_protocol::work_item_outcome_query_command();
     for surface_name in ["cli", "mcp"] {
         let specs = work_item_outcome_interface_specs(surface_name).expect("known surface");
         for spec in specs {
-            let definition = work_item_outcome_parameter_definition(spec.canonical_name)
-                .unwrap_or_else(|| panic!("missing canonical definition {}", spec.canonical_name));
-            assert_eq!(spec.wire_type, definition.wire_type, "{surface_name}");
-            assert_eq!(spec.default, definition.default, "{surface_name}");
-            assert_eq!(spec.enum_values, definition.enum_values, "{surface_name}");
-            assert_eq!(spec.description, definition.description, "{surface_name}");
+            if spec.canonical_name == "deliveryProgress" {
+                continue;
+            }
+            let cli_spec =
+                work_item_outcome_parameter_spec_by_canonical("cli", &spec.canonical_name)
+                    .expect("shared CLI parser binding");
+            let argument = command
+                .get_arguments()
+                .find(|argument| argument.get_id().as_str() == cli_spec.name)
+                .unwrap_or_else(|| panic!("missing parser argument {}", cli_spec.name));
+            assert_eq!(
+                spec.default.as_deref(),
+                argument
+                    .get_default_values()
+                    .first()
+                    .map(|value| value.to_string_lossy())
+                    .as_deref(),
+                "{surface_name}"
+            );
+            assert_eq!(
+                spec.description,
+                argument
+                    .get_help()
+                    .map(ToString::to_string)
+                    .unwrap_or_default(),
+                "{surface_name}"
+            );
         }
     }
 }

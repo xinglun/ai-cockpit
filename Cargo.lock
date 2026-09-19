@@ -333,6 +333,7 @@ dependencies = [
 name = "cockpit-protocol"
 version = "0.2.100"
 dependencies = [
+ "clap",
  "cockpit-core",
  "serde",
  "serde_json",

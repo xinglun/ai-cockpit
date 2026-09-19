@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "Changing one shared Outcome query default or enum changes actual CLI parsing, MCP schema, and generated three-language reference facts without separately editing those facts.",
+    "CLI and MCP retain their current transport-specific names and deliveryProgress remains MCP-only.",
+    "The discovery operation remains deterministic, read-only, and starts no verification subprocess.",
+    "The change does not alter Outcome lifecycle, authorization, or delivery behavior."
+  ],
+  "authority": "explicit user authorization to continue the existing interface SSOT remediation and record required confirmations",
+  "baseRevision": "0577f327249388dc1cb69084aea0e039b5e4d014",
+  "createdAt": "2026-09-19T16:54:51Z",
+  "goal": "Make the actual Outcome query parameter definitions the single source for shared CLI/MCP interface facts, while preserving lifecycle and authorization behavior.",
+  "intent": "Eliminate remaining manual duplication between the work-item outcome executable parser, CLI/MCP interface description, and generated reference facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Outcome lifecycle",
+    " verification execution",
+    " authorization",
+    " host message delivery",
+    " release",
+    " and unrelated command families."
+  ],
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b762d4f3a0e4a50254772cef74ec1fb13d5d98c1951c6b2fbaade86954bc1e6f",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/Cargo.toml",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/work-items/active/WI-936-interface-ssot.*",
+    ".ai/evidence/WI-936-interface-ssot.*",
+    ".ai/decisions/WI-936-interface-ssot.*",
+    ".ai/work-items/archive/WI-936-interface-ssot.*",
+    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery*",
+    "Cargo.lock",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "sources": [
+    "user-conversation: approved continuation of the proposed minimal interface SSOT design"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-936-interface-ssot"
+}
