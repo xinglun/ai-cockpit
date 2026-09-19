@@ -1025,6 +1025,62 @@ fn contract_amendment_rejects_empty_reason_without_writing() {
 }
 
 #[test]
+fn contract_amendment_revalidation_failure_does_not_write_the_contract() {
+    let directory = repository();
+    let work_item_id = "WI-CONTRACT-AMENDMENT-REVALIDATION-ATOMICITY";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "preserve state when amendment revalidation cannot proceed",
+        "keep a rejected post-checkpoint amendment atomic",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let active = directory.path().join(".ai/work-items/active");
+    let contract_path = active.join(format!("{work_item_id}.contract.json"));
+    let summary_path = active.join(format!("{work_item_id}.summary.json"));
+    let events_path = active.join(format!("{work_item_id}.events.jsonl"));
+    preflight_work_item(directory.path(), &contract_path).expect("record preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let mut summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    summary["checkpointEvidence"] = json!([]);
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&summary).expect("invalid summary JSON"),
+    )
+    .expect("remove before-edit evidence in isolated fixture");
+    let original_contract = fs::read(&contract_path).expect("contract bytes");
+    let original_summary = fs::read(&summary_path).expect("summary bytes");
+    let original_events = fs::read(&events_path).ok();
+
+    let error = amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({"scopeAppend": ["tests/**"]}),
+        "add a path after checkpoint",
+    )
+    .expect_err("missing before-edit evidence must reject the amendment");
+    assert!(
+        error
+            .to_string()
+            .contains("contract amendment requires a before_edit checkpoint")
+    );
+    assert_eq!(
+        fs::read(&contract_path).expect("contract bytes"),
+        original_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary bytes"),
+        original_summary
+    );
+    assert_eq!(fs::read(&events_path).ok(), original_events);
+}
+
+#[test]
 fn post_checkpoint_contract_declarations_invalidate_preflight_for_revalidation() {
     let directory = repository();
     let work_item_id = "WI-CONTRACT-DECLARATION-REVALIDATION";
@@ -1588,6 +1644,105 @@ fn source_mutation_after_typed_verification_stales_the_receipt_and_blocks_finish
     let error = finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect_err("source mutation must block finish");
     assert!(error.to_string().contains("current repository snapshot"));
+}
+
+#[test]
+fn finish_ready_allows_reverification_after_committing_changed_source() {
+    let directory = repository();
+    let work_item_id = "WI-FINISH-READY-COMMIT-RETRY";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "refresh stale verification after committing source",
+        "a finish-ready Work Item can reverify the committed source snapshot",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"finish-ready-commit-retry"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let verify = |node_id: &str| {
+        let run = run_repository_verification(
+            directory.path(),
+            &RepositoryVerificationRequest {
+                node_id: node_id.into(),
+                program: "true".into(),
+                args: Vec::new(),
+                scope: vec!["src.rs".into()],
+                stage: "task".into(),
+                runner: "local".into(),
+                runtime_digest: runtime.runtime_digest.to_string(),
+                base_commit: None,
+                workers: 1,
+                work_item_id: None,
+                timeout_seconds: None,
+                policy: RepositoryVerificationPolicy::NeverReuse,
+            },
+        )
+        .expect("verification command");
+        let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+        receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+        receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+        record_verification_with_runtime(
+            directory.path(),
+            work_item_id,
+            &receipt,
+            &runtime,
+            &run.final_snapshot,
+        )
+        .expect("record verification");
+    };
+
+    verify("before-commit");
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime).expect("finish");
+
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 2 }\n",
+    )
+    .expect("source mutation");
+    run(directory.path(), &["add", "src.rs"]);
+    run(
+        directory.path(),
+        &[
+            "-c",
+            "user.email=test@example.com",
+            "-c",
+            "user.name=Test",
+            "commit",
+            "-m",
+            "commit verified source",
+        ],
+    );
+
+    let refreshed = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("finish-ready retry preflight");
+    assert_eq!(refreshed.state, DecisionState::Yellow);
+    assert!(
+        refreshed
+            .unknowns
+            .iter()
+            .any(|unknown| unknown == "evidence_stale"),
+        "the changed source must still require replacement verification: {refreshed:?}"
+    );
+
+    verify("after-commit");
+    archive_work_item(directory.path(), work_item_id).expect("archive replacement evidence");
 }
 
 #[test]
