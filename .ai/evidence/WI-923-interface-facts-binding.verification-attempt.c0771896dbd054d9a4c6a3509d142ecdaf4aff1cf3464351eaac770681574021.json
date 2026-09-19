@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:c0771896dbd054d9a4c6a3509d142ecdaf4aff1cf3464351eaac770681574021",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "interface_description"
+      ],
+      "baseCommit": "a576849adc01e2ef9fdd768ad03d4aae0656717e",
+      "commandDigest": "sha256:161e20d145e581ccea1b286057400ca7bdd726137acbe986172114ed275abd92",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:da90efcd60f8ed06f94511c40973f69f79efe1805c2be4a9306a8b85dc8c9f77",
+  "contractExecutionScopeDigest": "sha256:0381b23996ac6e42b640d410d1fb9fdc9aecff72795eaa5d3115bdc79852f8b4",
+  "createdAt": "2026-09-19T02:55:52Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-923-interface-facts-binding/ai-cockpit/.ai/work-items/active/WI-923-interface-facts-binding.contract.json: verification requires a preflight result for the current Contract"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c2656d4ad35f90595a471c652e011c1877b7f75c183a826979edd82e16e9f7d4",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-923-interface-facts-binding"
+}

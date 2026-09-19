@@ -1,0 +1,218 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2656d4ad35f90595a471c652e011c1877b7f75c183a826979edd82e16e9f7d4",
+      "workItemId": "WI-923-interface-facts-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.04a5935dfa8b3a992bea8efb23c907d8af5d18143690b28f8fcd5323f45dbff1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.1c115a05e74e0c7953a028665c65d7cc6e4e274cd6dd515171e3b6a581b73b94.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.a6197e53c9bd2c8f2e6ede36b729f55ac6ba8487658ea31b616898c3e7053979.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.c0771896dbd054d9a4c6a3509d142ecdaf4aff1cf3464351eaac770681574021.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by xinglun via explicit-user-authorization-for-governed-remediation at 2026-09-19T03:06:36Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "One protocol-owned interface definition drives CLI metadata, MCP schema/validation, capability discovery, and generated references."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-923-interface-facts-binding"
+  },
+  "finalReportDigest": "sha256:f6c3d27e8c1a78294bdb1e0a31dc89843083496484a98dc96dbe11a541403d85",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:889bf82c63fb6da3df73d47142b3635a1c8da91e58d4735ad402a2ee0ae75865",
+    "branch": "codex/wi-923-interface-facts-binding",
+    "branchRef": "refs/heads/codex/wi-923-interface-facts-binding",
+    "capturedAt": "2026-09-19T03:06:50Z",
+    "contractDigest": "sha256:da90efcd60f8ed06f94511c40973f69f79efe1805c2be4a9306a8b85dc8c9f77",
+    "headRevision": "d74a36f443a6389ecc3c0afaa67123ff63bb93f5",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-923-interface-facts-binding",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:c29b42195cd1b647a5d16b304daa7e643590b3abd0e9581105a1cc2a6518b02a",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-923-interface-facts-binding/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:ebd3ea17993bf1a7f05fd75468e34fc891bac54b4814f7667a0da59690362785",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "explicit-user-authorization-for-governed-remediation",
+    "decidedAt": "2026-09-19T03:06:36Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "接受当前验证证据；协议事实绑定回归通过；用户可见收益保持未知；不授权发布。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-19T03:06:50Z",
+  "workItemId": "WI-923-interface-facts-binding"
+}

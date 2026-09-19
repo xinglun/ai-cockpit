@@ -23,6 +23,12 @@ pub const WORK_ITEM_OUTCOME_JSON_DESCRIPTION: &str =
 pub const WORK_ITEM_OUTCOME_VIEW_DESCRIPTION: &str =
     "Select the reader-first summary or complete human view.";
 pub const WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION: &str = "Active conversation language for the human Outcome; adapters should pass it explicitly, with locale fallback only when omitted.";
+pub const WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID: &str = "workItemId";
+pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY: &str = "delivery";
+pub const WORK_ITEM_OUTCOME_CANONICAL_JSON: &str = "json";
+pub const WORK_ITEM_OUTCOME_CANONICAL_VIEW: &str = "view";
+pub const WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE: &str = "language";
+pub const WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS: &str = "deliveryProgress";
 /// Conversation languages accepted by the human Outcome projections.
 /// `zh-CN` is kept as a locale-compatible spelling and normalizes to the
 /// canonical Simplified Chinese renderer.
@@ -139,7 +145,7 @@ pub struct OutcomeParameterDefinition {
 }
 
 const OUTCOME_WORK_ITEM_ID: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "workItemId",
+    name: WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
     wire_type: "string",
     default: None,
     enum_values: &[],
@@ -147,7 +153,7 @@ const OUTCOME_WORK_ITEM_ID: OutcomeParameterDefinition = OutcomeParameterDefinit
 };
 
 const OUTCOME_DELIVERY: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "delivery",
+    name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
     wire_type: "boolean",
     default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_DELIVERY)),
     enum_values: &[],
@@ -155,7 +161,7 @@ const OUTCOME_DELIVERY: OutcomeParameterDefinition = OutcomeParameterDefinition 
 };
 
 const OUTCOME_JSON: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "json",
+    name: WORK_ITEM_OUTCOME_CANONICAL_JSON,
     wire_type: "boolean",
     default: Some(bool_default_text(WORK_ITEM_OUTCOME_DEFAULT_JSON)),
     enum_values: &[],
@@ -163,7 +169,7 @@ const OUTCOME_JSON: OutcomeParameterDefinition = OutcomeParameterDefinition {
 };
 
 const OUTCOME_VIEW: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "view",
+    name: WORK_ITEM_OUTCOME_CANONICAL_VIEW,
     wire_type: "enum",
     default: Some(WORK_ITEM_OUTCOME_DEFAULT_VIEW),
     enum_values: WORK_ITEM_OUTCOME_VIEW_VALUES,
@@ -171,7 +177,7 @@ const OUTCOME_VIEW: OutcomeParameterDefinition = OutcomeParameterDefinition {
 };
 
 const OUTCOME_LANGUAGE: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "language",
+    name: WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
     wire_type: "enum",
     default: None,
     enum_values: WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
@@ -179,7 +185,7 @@ const OUTCOME_LANGUAGE: OutcomeParameterDefinition = OutcomeParameterDefinition 
 };
 
 const OUTCOME_DELIVERY_PROGRESS: OutcomeParameterDefinition = OutcomeParameterDefinition {
-    name: "deliveryProgress",
+    name: WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS,
     wire_type: "object",
     default: None,
     enum_values: &[],
@@ -288,6 +294,21 @@ pub fn work_item_outcome_parameter_spec(
     work_item_outcome_interface_specs(surface)?
         .iter()
         .find(|spec| spec.name == name)
+}
+
+/// Return a transport binding by its protocol-owned canonical identity.
+///
+/// The binding may expose a different transport name (for example the CLI's
+/// `id` versus MCP's `workItemId`) or aliases, but adapters must resolve that
+/// difference from this table rather than repeating the mapping in runtime
+/// handlers.
+pub fn work_item_outcome_parameter_spec_by_canonical(
+    surface: &str,
+    canonical_name: &str,
+) -> Option<&'static InterfaceParameterSpec> {
+    work_item_outcome_interface_specs(surface)?
+        .iter()
+        .find(|spec| spec.canonical_name == canonical_name)
 }
 
 /// Return the protocol-owned parameter facts for the read-only capability
