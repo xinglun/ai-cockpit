@@ -4,9 +4,12 @@ workItemId: WI-925-current-performance
 title: 当前版本对象仓库性能测量
 description: 在不修改对象仓库的前提下重现实 Runtime 与开发周期测量。
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-925-current-performance
+terminalArchive: .ai/work-items/archive/WI-925-current-performance.contract.json
+terminalVerification: .ai/evidence/WI-925-current-performance.verification.json
+terminalDecision: .ai/decisions/WI-925-current-performance.close.json
 ---
 
 [English](WI-925-current-performance.md) · [日本語](WI-925-current-performance.ja.md)

@@ -4,9 +4,12 @@ workItemId: WI-925-current-performance
 title: Current-version object-repository performance measurement
 description: Reproduce current Runtime and development-cycle measurements without changing object repositories.
 audience: [adopter, contributor, maintainer]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-925-current-performance
+terminalArchive: .ai/work-items/archive/WI-925-current-performance.contract.json
+terminalVerification: .ai/evidence/WI-925-current-performance.verification.json
+terminalDecision: .ai/decisions/WI-925-current-performance.close.json
 ---
 
 [简体中文](WI-925-current-performance.zh-CN.md) · [日本語](WI-925-current-performance.ja.md)
