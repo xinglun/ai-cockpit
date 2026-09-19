@@ -726,7 +726,62 @@ close = {
 close["finalReportDigest"] = canonical(close["finalReport"])
 write(decisions / f"{terminal}.close.json", close)
 PY
-python3 "$checker" --repo "$two_hop"
+if python3 "$checker" --repo "$two_hop" >"$tmp/two-hop-terminal.out" \
+  2>"$tmp/two-hop-terminal.err"; then
+  echo 'status consistency treated a successor lineage as terminal supersession' >&2
+  exit 1
+fi
+grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/two-hop-terminal.err"
+
+# A bound successor that remains open is a continuation, not a terminal
+# supersession. Its conditional parity row must remain truthful while the
+# successor is still in progress.
+pending_successor="$tmp/pending-successor"
+cp -R "$terminal_supersede" "$pending_successor"
+python3 - "$pending_successor" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-status-drift-fixture"
+successor = "WI-1000-terminal-successor"
+decisions = root / ".ai/decisions"
+old_path = next(decisions.glob(f"{work_item}.recovery.*.json"))
+recovery = json.loads(old_path.read_text(encoding="utf-8"))
+recovery["decision"] = "successor"
+encoded = json.dumps(
+    recovery, ensure_ascii=False, separators=(",", ":"), sort_keys=True
+).encode("utf-8")
+new_path = decisions / f"{work_item}.recovery.{hashlib.sha256(encoded).hexdigest()}.json"
+old_path.unlink()
+new_path.write_text(json.dumps(recovery, indent=2) + "\n", encoding="utf-8")
+relative = new_path.relative_to(root).as_posix()
+for name in ("contract", "summary"):
+    path = root / ".ai/work-items/archive" / f"{successor}.{name}.json"
+    value = json.loads(path.read_text(encoding="utf-8"))
+    value["predecessorWorkItemId"] = work_item
+    value["predecessorContractDigest"] = recovery["predecessorContractDigest"]
+    value["recoveryDecisionPath"] = relative
+    path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+(decisions / f"{work_item}.close.json").unlink()
+(decisions / f"{successor}.close.json").unlink()
+PY
+python3 "$checker" --repo "$pending_successor"
+
+cp -R "$pending_successor" "$tmp/pending-successor-foreign-binding"
+python3 - "$tmp/pending-successor-foreign-binding" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+path = root / ".ai/work-items/archive/WI-1000-terminal-successor.summary.json"
+value = json.loads(path.read_text(encoding="utf-8"))
+value["predecessorContractDigest"] = "sha256:" + "f" * 64
+path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+PY
 
 expect_conditional_failure() {
   local name=$1
@@ -736,6 +791,15 @@ expect_conditional_failure() {
   fi
   grep -Fq 'terminal Work Item retains conditional parity status' "$tmp/$name.err"
 }
+
+if python3 "$checker" --repo "$tmp/pending-successor-foreign-binding" \
+  >"$tmp/pending-successor-foreign-binding.out" \
+  2>"$tmp/pending-successor-foreign-binding.err"; then
+  echo 'status consistency accepted a mismatched pending successor binding' >&2
+  exit 1
+fi
+grep -Fq 'terminal Work Item retains conditional parity status' \
+  "$tmp/pending-successor-foreign-binding.err"
 
 cp -R "$terminal_supersede" "$tmp/incomplete-successor"
 rm "$tmp/incomplete-successor/.ai/evidence/WI-1000-terminal-successor.verification.json"

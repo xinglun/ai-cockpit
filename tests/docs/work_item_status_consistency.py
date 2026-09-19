@@ -426,9 +426,6 @@ def valid_terminal_supersession(
     the digest-named supersede decision, and the successor's archived,
     verified, and confirmed-close chain must all agree.
     """
-    if valid_terminal_successor_lineage(repository, work_item_id, repository_id):
-        return True
-
     predecessor_archive_path = (
         repository / ".ai/work-items/archive" / f"{work_item_id}.archive.json"
     )
@@ -683,6 +680,63 @@ def has_valid_recovery(repository: Path, work_item_id: str, repository_id: str) 
     return False
 
 
+def valid_pending_successor(
+    repository: Path, work_item_id: str, repository_id: str
+) -> bool:
+    """Recognize an identity-bound successor without upgrading it to terminal.
+
+    A successor decision authorizes continued work only.  It is not evidence
+    that the archived predecessor has been superseded or closed.
+    """
+    if valid_close(
+        repository / ".ai/decisions" / f"{work_item_id}.close.json",
+        work_item_id,
+        repository_id,
+    ):
+        return False
+    for path in recovery_candidates(repository, work_item_id):
+        recovery = load_regular_json(path)
+        if (
+            not recovery
+            or not valid_recovery(path, work_item_id, repository_id)
+            or recovery.get("decision") != "successor"
+        ):
+            continue
+        if path.name != f"{work_item_id}.recovery.json" and not digest_named_recovery(
+            path, recovery
+        ):
+            continue
+        successor_id = recovery.get("successorWorkItemId")
+        if not isinstance(successor_id, str) or not successor_id:
+            continue
+        relative_path = path.relative_to(repository).as_posix()
+        for location in ("active", "archive"):
+            contract = load_regular_json(
+                repository / ".ai/work-items" / location / f"{successor_id}.contract.json"
+            )
+            summary = load_regular_json(
+                repository / ".ai/work-items" / location / f"{successor_id}.summary.json"
+            )
+            if (
+                contract
+                and summary
+                and contract.get("workItemId") == successor_id
+                and contract.get("repositoryId") == repository_id
+                and contract.get("predecessorWorkItemId") == work_item_id
+                and contract.get("predecessorContractDigest")
+                == recovery.get("predecessorContractDigest")
+                and contract.get("recoveryDecisionPath") == relative_path
+                and summary.get("workItemId") == successor_id
+                and summary.get("repositoryId") == repository_id
+                and summary.get("predecessorWorkItemId") == work_item_id
+                and summary.get("predecessorContractDigest")
+                == recovery.get("predecessorContractDigest")
+                and summary.get("recoveryDecisionPath") == relative_path
+            ):
+                return True
+    return False
+
+
 def verifier_is_authoritative(
     repository: Path, verifier: str, work_item_id: str, repository_id: str
 ) -> bool | None:
@@ -808,6 +862,11 @@ def check(repository: Path) -> list[str]:
                 # Preserve the historical conditional row. Only a digest-bound
                 # successor with passing verification and confirmed close
                 # resolves it; no documentation-only successor is required.
+                continue
+            if valid_pending_successor(repository, work_item_id, repository_id):
+                # A successor is a continuation, not a confirmed close. Keep
+                # the conditional human projection until terminal evidence is
+                # independently established.
                 continue
             errors.append(
                 f"{english.relative_to(repository)}: terminal Work Item retains conditional parity status"
