@@ -1,0 +1,227 @@
+{
+  "acceptanceResults": [
+    "A single protocol-owned interface description is the only source for names, types, requiredness, defaults, and enum values projected into CLI, MCP, and the three generated reference regions.",
+    "A deterministic repository-owned command or test regenerates/checks all three reference regions from the protocol description without network, current time, repository observation, validation subprocesses, or machine-specific paths.",
+    "Changing one canonical interface fact causes focused CLI, MCP, and documentation checks to detect and project the same change; two consecutive generations are byte-identical and do not overwrite surrounding human-authored explanation.",
+    "The existing active-conversation language contract remains explicit: adapter calls use en, zh, or ja; Contract source text, JSON field names, enum values, and evidence facts are not translated."
+  ],
+  "createdAt": "2026-09-19T01:56:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4270d8da9987a38cf8f39bb0fab0cd7c378822cbee8daf294c82109c91366127",
+  "evidenceRefs": [
+    ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:045ead5a4e26862d01e55228f464ba5185c0225baa9de61b84b2f78882849f83",
+      "workItemId": "WI-922-interface-discovery-ssot-generator"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.30f66ddea0d8f6488bc43cb8c0891eac128a849cb0240bc871670ef8ae50e152.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.55340374bfb3f412b998246c821d30ea0b81ec08e36a0f24e7b49a36200a12c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.9695325c5a24d2ab361bede0e64dbd2a9ba6803d282139e4d88c33e614925cb8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.eb5dfaf89f702c8abc41c999d7a4e11d619dedbee0c289002f22a9ce9c6da545.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.f679cf9c68b4582cdd7627c71448c56493e5ab8da003562abdb16006b86b11e4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: scripts/generate_interface_references.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/interface_reference_generator_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the work-item outcome interface description the deterministic source for CLI, MCP, and the checked-in reference projections, with an executable generation/check path and evidence that one interface fact change propagates without hand-editing multiple projections."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-922-interface-discovery-ssot-generator"
+  },
+  "taskReportDigest": "sha256:117919c002620319e81e6af0060663de405c5425c71068ab95901da7c387a821",
+  "taskReportMarkdownDigest": "sha256:0ce2527ac23670e85e790ccb8b1f926b7372d472b92505b08bd6f22a87853fe9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-922-interface-discovery-ssot-generator"
+}

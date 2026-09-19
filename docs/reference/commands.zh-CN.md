@@ -188,6 +188,9 @@ Agent 应按以下顺序发现能力：启动绑定仓库的 stdio 服务，调�
 - Outcome 试点的只读接口事实可以在 `capability show` 上增加 `--surface work-item-outcome` 获取。以下生成区域来自
   Runtime 协议投影；它只描述解析和线协议结构，不授予权限，也不代表生命周期已就绪。
 
+使用 `python3 scripts/generate_interface_references.py --repo <path> --write`
+只刷新标记区域；文档门禁使用无副作用的 `--check` 模式。
+
 <!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
 ### 接口事实: `work-item-outcome`
 
