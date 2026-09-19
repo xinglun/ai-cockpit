@@ -4,9 +4,13 @@ workItemId: WI-918-release-v0-2-100
 title: Final release v0.2.100 after Outcome language, HCI, four-direction, and Issue #851 closure
 description: Publish the reviewed main line only after all prerequisite Work Items and issues are complete.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-918-release-v0-2-100
+terminalArchive: .ai/work-items/archive/WI-918-release-v0-2-100.contract.json
+terminalVerification: .ai/evidence/WI-918-release-v0-2-100.verification.json
+terminalFinalization: .ai/decisions/WI-918-release-v0-2-100.finalize.json
+terminalDecision: .ai/decisions/WI-918-release-v0-2-100.close.json
 ---
 
 [简体中文](WI-918-release-v0-2-100.zh-CN.md) · [日本語](WI-918-release-v0-2-100.ja.md)

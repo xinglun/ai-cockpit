@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "33956cb958359b5acc4fffb73df2f6c83759f9c8",
+    "name": "codex/wi-918-release-v0-2-100",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "208a554e563b0c5288c3a6ae873506b8901a2e3a",
+  "contractDigest": "sha256:3b7e817c01f8a5914a4bc4bc5c13f33ec01dbc84395e89ccbc37127deef51754",
+  "operationId": "WI-918-release-v0-2-100-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "208a554e563b0c5288c3a6ae873506b8901a2e3a",
+    "headRevision": "33956cb958359b5acc4fffb73df2f6c83759f9c8",
+    "mergeCommit": "2fc0455536e1ce15f16a53795a60fa95eeaf0cbf",
+    "number": 885,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/885"
+  },
+  "reason": "Reviewed PR #885 merged as 2fc0455536e1ce15f16a53795a60fa95eeaf0cbf; v0.2.100 release evidence and archive records were synchronized through PR #886, then the exact provider branch and linked worktree were deleted and removed.",
+  "receiptId": "WI-918-release-v0-2-100-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-918-release-v0-2-100",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/885",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-918-release-v0-2-100/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-18T23:48:06Z",
+  "workItemId": "WI-918-release-v0-2-100",
+  "worktree": {
+    "branch": "codex/wi-918-release-v0-2-100",
+    "headRevision": "33956cb958359b5acc4fffb73df2f6c83759f9c8",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-918-release-v0-2-100/ai-cockpit",
+    "worktreeId": "wi-918-release-v0-2-100"
+  }
+}
