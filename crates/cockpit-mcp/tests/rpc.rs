@@ -181,7 +181,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
     let outcome_specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
         .expect("protocol-owned outcome specs");
     for spec in outcome_specs {
-        let property = &outcome["inputSchema"]["properties"][spec.name];
+        let property = &outcome["inputSchema"]["properties"][&spec.name];
         assert_eq!(property["description"], spec.description, "{}", spec.name);
         if !spec.enum_values.is_empty() {
             assert_eq!(
@@ -193,7 +193,7 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         }
         for alias in spec.aliases {
             assert!(
-                outcome["inputSchema"]["properties"][*alias].is_object(),
+                outcome["inputSchema"]["properties"][&alias].is_object(),
                 "alias {alias} must be projected from the same spec"
             );
         }
@@ -343,23 +343,23 @@ fn mcp_outcome_schema_projects_protocol_owned_parameter_facts() {
     let identity = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
         .expect("MCP outcome identity spec");
     assert_eq!(
-        properties[identity.name]["description"],
+        properties[&identity.name]["description"],
         identity.description
     );
     for alias in identity.aliases {
         assert_eq!(
-            properties[*alias]["description"],
+            properties[alias]["description"],
             format!("Deprecated alias for {}.", identity.name)
         );
     }
     for spec in cockpit_protocol::work_item_outcome_interface_specs("mcp")
         .expect("MCP outcome interface specs")
     {
-        let property = &properties[spec.name];
+        let property = &properties[&spec.name];
         let expected_type = if spec.wire_type == "enum" {
             "string"
         } else {
-            spec.wire_type
+            spec.wire_type.as_str()
         };
         assert_eq!(property["type"], expected_type, "{} type", spec.name);
         assert_eq!(
@@ -377,7 +377,7 @@ fn mcp_outcome_schema_projects_protocol_owned_parameter_facts() {
                 spec.name
             );
         }
-        if let Some(default) = spec.default {
+        if let Some(default) = &spec.default {
             let expected_default = if spec.wire_type == "boolean" {
                 serde_json::json!(default == "true")
             } else {
