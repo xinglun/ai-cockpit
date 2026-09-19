@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification-attempt.f8fd28acc092801176f4e8f179fcd94f178b4c1c6a68c2b11d907e881a844f2e.json",
-    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json",
-    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+    ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-19T01:01:44Z",
   "checkpointContractDigest": "sha256:a2e3866791ae974234c1e9b6912bfa4f50f60b85384460d46456af0ccceb9a78",

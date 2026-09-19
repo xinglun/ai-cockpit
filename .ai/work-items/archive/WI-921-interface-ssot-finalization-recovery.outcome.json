@@ -44,31 +44,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-921-interface-ssot-finalization-recovery.verification-attempt.f8fd28acc092801176f4e8f179fcd94f178b4c1c6a68c2b11d907e881a844f2e.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
         }
       ],
       "evidence": [
@@ -124,7 +124,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "Bind the exact successor resource context before fresh verification, record the recovery boundary, and complete auditable finalization, cleanup, and closure."
@@ -133,7 +133,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json"
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -143,8 +143,8 @@
     "status": "verified",
     "workItemId": "WI-921-interface-ssot-finalization-recovery"
   },
-  "taskReportDigest": "sha256:4d7d2745ea484eb25bcaa73c260f63933cf010debcdeb4e6ba3302f21fcff594",
-  "taskReportMarkdownDigest": "sha256:35d509914502f3d9bfee86bba10c43366b0ab468ca575f6fe55527f34c0c457d",
+  "taskReportDigest": "sha256:7f717a18df07f62829b53dbbbed147c4b0f641a8b70869ade2c7d9cd33974f86",
+  "taskReportMarkdownDigest": "sha256:d7d1eff5836c81fcea4528edd3ec13b573d64710102172fa99d35cd1afc4e469",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-921-interface-ssot-finalization-recovery.verification-attempt.f8fd28acc092801176f4e8f179fcd94f178b4c1c6a68c2b11d907e881a844f2e.json
-- Changed path: .ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json
-- Changed path: .ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json
+- Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json
+- Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json
 
 ## Findings
 

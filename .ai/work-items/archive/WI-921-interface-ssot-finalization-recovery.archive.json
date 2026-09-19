@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T01:21:52Z",
+  "files": {
+    "contractDigest": "sha256:d6cb575e1ea87322d04f9ab97d1ec1f76ced6eaeda3d30c91e2f5f0bd7f6f9e5",
+    "contractPath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:4c0243bc52b301187aa175bd06fe641c0e57dd6eeef7a3ef78a3a11b50093046",
+    "eventsPath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:1e9c8d219513989a6e1f49290568daad070eb761326e6d24e0ec02e5b33675e0",
+    "outcomePath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:b0286dc027019726a1e99b104799b02b50f1d733b0c2f5d1d5bafbd5417fd312",
+    "summaryPath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:7f717a18df07f62829b53dbbbed147c4b0f641a8b70869ade2c7d9cd33974f86",
+    "taskReportMarkdownDigest": "sha256:d7d1eff5836c81fcea4528edd3ec13b573d64710102172fa99d35cd1afc4e469",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-921-interface-ssot-finalization-recovery"
+}
