@@ -1,0 +1,192 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-927-first-typed-verification.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:1fc9aa6a923da4f56aed10d06db8c7640ab33413ebbabe07edec680a64aa25fa",
+      "workItemId": "WI-927-first-typed-verification"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-927-first-typed-verification.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-927-first-typed-verification.verification-attempt.fcb6ebbbe548bb7735d7ad414645713402d72175869dc4b1d287c94b964fd743.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-927-first-typed-verification.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-927-first-typed-verification.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-19T06:40:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-927-first-typed-verification.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow a valid checkpointed Work Item to execute its first declared typed verification and write its identity-bound Summary receipt without weakening finish, archive, or close gates"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-927-first-typed-verification.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-927-first-typed-verification"
+  },
+  "finalReportDigest": "sha256:97fb0cc681e2b661042e343a68fe53d59c1869f5e0125726e7cbad4827d2914d",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:4b8f1cd78fa8dde00bb11707feecbafd1235d0429594431dfa3768174d8c8cd0",
+    "branch": "codex/wi-893-first-typed-verification",
+    "branchRef": "refs/heads/codex/wi-893-first-typed-verification",
+    "capturedAt": "2026-09-19T06:40:28Z",
+    "contractDigest": "sha256:dba2da90f8b388301f6104d2b564efed694adacba3363d5ef7caa8318ff604fe",
+    "headRevision": "986f9ae92dd048d575ed0c6a1c6cf9cd0ea793a4",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:e6e23199b022116f516b98a25a1ce969ae41cce99054ea4cb0d9488be617946f",
+    "runtimeVersion": "0.2.100",
+    "schemaVersion": 1,
+    "workItemId": "WI-927-first-typed-verification",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:133c688555b8a058a3b0537239f6a60bdce5315526eae0e2d6be5bb2bbc5226f",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-893-first-typed-verification/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:402a5576dd1e097531e5a343db34cdf6497289f8cabaeb06f56bb9a18881b195",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T06:40:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-927-first-typed-verification.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "接受当前验证证据；首个 typed verification 在对象工程上已得到真实执行证据；用户可见收益保持未知；关闭本 WI，不授权合并或发布。",
+    "resumeCondition": "若发现新的同范围证据矛盾，创建受治理 successor，不改写本归档。"
+  },
+  "timestamp": "2026-09-19T06:40:28Z",
+  "workItemId": "WI-927-first-typed-verification"
+}
