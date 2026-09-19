@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:98ceeeb832b96b9dd3904d92f08e52b31277432cde30ae29025872469624b8d9",
+  "branchRef": "refs/heads/codex/wi-924-interface-definition-ssot",
+  "contractDigest": "sha256:58dc7bacecb8373d472c2dcfa7fdb0a60d3640c33f7ec19eb72313505a81bca4",
+  "headRevision": "84846629d84939b58afe4466aab26b840ad05f01",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-19T04:03:25Z",
+  "operationId": "sha256:2e3d4bda9ef7c400fd4884235497eeeaa3876e48711dc0a191950e4f1f05d1e8",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-924-interface-definition-ssot",
+  "worktreeId": "sha256:52bfb3d24eb2773ac36839216112ec1584350e2006d18e7ee84db8260090514e"
+}
