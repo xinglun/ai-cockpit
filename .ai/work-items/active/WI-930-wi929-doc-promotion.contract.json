@@ -1,0 +1,50 @@
+{
+  "acceptanceCriteria": [
+    "All six WI-929 projections show terminal status and exact evidence paths after verified close.",
+    "promote_closed_work_item.py --check-all, documentation acceptance, parity status, and diff checks pass.",
+    "The WI-930 three-language pages and parity rows are present and terminally promoted after close."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "053c45823d892b1784b496c51fff82e3104815f5",
+  "createdAt": "2026-09-19T08:44:10Z",
+  "goal": "After WI-929 was merged and closed, update only its six human documentation projections so they reflect terminal archive, verification, finalization, and close evidence without changing runtime behavior.",
+  "intent": "Promote the verified WI-929 Outcome handoff documentation to terminal status and keep the three-language reference projections aligned.",
+  "mode": "implementation",
+  "outOfScope": [
+    "source code",
+    " tests",
+    " Runtime records",
+    " lifecycle behavior",
+    " release assets",
+    " object repositories",
+    " and all Work Items other than WI-929"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-930-wi929-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo <repo> --work-item WI-929-outcome-hci-public-handoff",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/docs/parity_status_check.sh .",
+    "git diff --check"
+  ],
+  "workItemId": "WI-930-wi929-doc-promotion"
+}
