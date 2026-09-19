@@ -210,6 +210,10 @@ Agent は次の順序で capability を発見します。repository-bound の st
   `--surface work-item-outcome` を追加して取得できます。以下の生成領域は Runtime の protocol projection
   から出力され、解析と wire shape だけを表し、権限や lifecycle の readiness を与えません。
 
+`python3 scripts/generate_interface_references.py --repo <path> --write` で
+マークされた領域だけを更新できます。ドキュメント gate は副作用のない
+`--check` モードを使います。
+
 <!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
 ### インターフェース事実: `work-item-outcome`
 

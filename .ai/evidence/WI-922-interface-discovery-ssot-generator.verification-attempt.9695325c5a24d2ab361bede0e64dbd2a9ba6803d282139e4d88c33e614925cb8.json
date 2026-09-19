@@ -1,0 +1,100 @@
+{
+  "attemptId": "sha256:9695325c5a24d2ab361bede0e64dbd2a9ba6803d282139e4d88c33e614925cb8",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "interface_description",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "cli_mcp_outcome_parity"
+      ],
+      "baseCommit": "f60c7a61e1b18147df2c6e897a10dd02fd5b7e5e",
+      "commandDigest": "sha256:eaa7ad7c30492491a796406ecdbc96a347a37a672d704819d84a022c530c8ea3",
+      "nodeId": "project-command-0",
+      "program": "tests/docs/interface_reference_generator_test.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "interface_description",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "cli_mcp_outcome_parity"
+      ],
+      "baseCommit": "f60c7a61e1b18147df2c6e897a10dd02fd5b7e5e",
+      "commandDigest": "sha256:303d435db172e881f6c75b00d43ef5ff6747cf94020edf2edda8a64a737880ee",
+      "nodeId": "project-command-1",
+      "program": "tests/docs/documentation_acceptance.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "interface_description",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "cli_mcp_outcome_parity"
+      ],
+      "baseCommit": "f60c7a61e1b18147df2c6e897a10dd02fd5b7e5e",
+      "commandDigest": "sha256:9c9904a4dc6ad97bfa070db4e9d145f0db62d9b3002f7fff45d5f34f0171a0f8",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:4a95ee56d0089409b6610a19a716bdb904a747a54806948720a5a0db006ccde5",
+  "contractExecutionScopeDigest": "sha256:bde18b1c0ffce43717a30cf7f4d79f969127eee5a1334c95aa3f7dbfe21a3725",
+  "createdAt": "2026-09-19T01:52:06Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-922-interface-discovery-ssot-generator/ai-cockpit/.ai/work-items/active/WI-922-interface-discovery-ssot-generator.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:045ead5a4e26862d01e55228f464ba5185c0225baa9de61b84b2f78882849f83",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-922-interface-discovery-ssot-generator"
+}

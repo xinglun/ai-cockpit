@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T01:57:00Z",
+  "files": {
+    "contractDigest": "sha256:f4d73baf4211f6dac41b88230aceb2ca9ced3919adf4f37587e44c7708129627",
+    "contractPath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json",
+    "eventsDigest": "sha256:29253e0608d327630b24cf822ec980fdef886ddcc2ba1e95d6ea02771b3d2a86",
+    "eventsPath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.events.jsonl",
+    "outcomeDigest": "sha256:08d0fb7f96be17af30c4800ff6e147d536ef7bb9a568c296f1e404b279d75084",
+    "outcomePath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.outcome.json",
+    "summaryDigest": "sha256:3d992300b2ef0371c6b10fff7c3d00f79bd8513d23493f2ff4f6210093a118b4",
+    "summaryPath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json",
+    "taskReportDigest": "sha256:117919c002620319e81e6af0060663de405c5425c71068ab95901da7c387a821",
+    "taskReportMarkdownDigest": "sha256:0ce2527ac23670e85e790ccb8b1f926b7372d472b92505b08bd6f22a87853fe9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-922-interface-discovery-ssot-generator"
+}

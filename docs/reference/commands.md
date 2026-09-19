@@ -88,6 +88,10 @@ For the read-only interface facts used by the Outcome trial, add
 come from the Runtime protocol projection; they describe parsing and wire
 shape, not permission or lifecycle readiness.
 
+Refresh only the marked regions with
+`python3 scripts/generate_interface_references.py --repo <path> --write`;
+the documentation gate uses the side-effect-free `--check` mode.
+
 <!-- AI_COCKPIT_INTERFACE_FACTS:BEGIN work-item-outcome -->
 ### Interface facts: `work-item-outcome`
 

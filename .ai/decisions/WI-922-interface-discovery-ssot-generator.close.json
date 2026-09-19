@@ -1,0 +1,232 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:045ead5a4e26862d01e55228f464ba5185c0225baa9de61b84b2f78882849f83",
+      "workItemId": "WI-922-interface-discovery-ssot-generator"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.30f66ddea0d8f6488bc43cb8c0891eac128a849cb0240bc871670ef8ae50e152.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.55340374bfb3f412b998246c821d30ea0b81ec08e36a0f24e7b49a36200a12c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.9695325c5a24d2ab361bede0e64dbd2a9ba6803d282139e4d88c33e614925cb8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.eb5dfaf89f702c8abc41c999d7a4e11d619dedbee0c289002f22a9ce9c6da545.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.f679cf9c68b4582cdd7627c71448c56493e5ab8da003562abdb16006b86b11e4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: scripts/generate_interface_references.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/interface_reference_generator_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:xinglun via explicit-user-authorization at 2026-09-19T01:57:19Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the work-item outcome interface description the deterministic source for CLI, MCP, and the checked-in reference projections, with an executable generation/check path and evidence that one interface fact change propagates without hand-editing multiple projections."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-922-interface-discovery-ssot-generator.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-922-interface-discovery-ssot-generator"
+  },
+  "finalReportDigest": "sha256:dcacd8efadda099183751792cd45ac0ab2cf4d997c19f8fc1816a99306b43dca",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:c6c35ca788ad1cabfcb019bb1f74edb93de2862c07f9e01bb01df3e4b8988959",
+    "branch": "codex/wi-922-interface-discovery-ssot-generator",
+    "branchRef": "refs/heads/codex/wi-922-interface-discovery-ssot-generator",
+    "capturedAt": "2026-09-19T01:57:50Z",
+    "contractDigest": "sha256:29e5a22d2becead7e618e65443aa9a70062a24d71f5eb7215e7eaae18f7e5522",
+    "headRevision": "303c9b2820468f19721f6d2867cf5f5445070141",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-922-interface-discovery-ssot-generator",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:eeb44ca5727e1466c6997007823367ae55fcff106152fb594b377eb9d81bade7",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-922-interface-discovery-ssot-generator/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:9f14a6b036684fdeef098807a2551c863c6acdcca1388939ae97c2dd9442a28c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T01:57:19Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Accept the current verification evidence; user-visible benefit remains unknown. Close the no-resource interface discovery Work Item in the current Chinese conversation.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-19T01:57:50Z",
+  "workItemId": "WI-922-interface-discovery-ssot-generator"
+}

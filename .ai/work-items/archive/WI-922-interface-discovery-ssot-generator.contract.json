@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "A single protocol-owned interface description is the only source for names, types, requiredness, defaults, and enum values projected into CLI, MCP, and the three generated reference regions.",
+    "A deterministic repository-owned command or test regenerates/checks all three reference regions from the protocol description without network, current time, repository observation, validation subprocesses, or machine-specific paths.",
+    "Changing one canonical interface fact causes focused CLI, MCP, and documentation checks to detect and project the same change; two consecutive generations are byte-identical and do not overwrite surrounding human-authored explanation.",
+    "The existing active-conversation language contract remains explicit: adapter calls use en, zh, or ja; Contract source text, JSON field names, enum values, and evidence facts are not translated."
+  ],
+  "authority": "human:xinglun:explicit-user-authorization-for-governed-remediation",
+  "baseRevision": "f60c7a61e1b18147df2c6e897a10dd02fd5b7e5e",
+  "createdAt": "2026-09-19T01:47:03Z",
+  "goal": "Make the work-item outcome interface description the deterministic source for CLI, MCP, and the checked-in reference projections, with an executable generation/check path and evidence that one interface fact change propagates without hand-editing multiple projections.",
+  "intent": "Reduce repeated interface maintenance while preserving the existing human Outcome language contract: adapters pass the active conversation language explicitly, and Contract/evidence facts remain unchanged.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Outcome rendering or delivery semantics; host/chat connectors; lifecycle",
+    " authorization",
+    " verification",
+    " performance measurement",
+    " object repositories",
+    " release publication",
+    " and changes to Contract/evidence fact translation."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs; crates/cockpit-cli/src/main.rs and interface parity tests; crates/cockpit-mcp/src/lib.rs and schema tests; docs/reference/commands.md",
+    " docs/reference/commands.zh-CN.md",
+    " docs/reference/commands.ja.md generated interface-facts regions; a repository-owned deterministic generation/check helper; focused documentation and interface tests.",
+    "scripts/generate_interface_references.py",
+    "tests/docs/interface_reference_generator_test.sh",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-922-interface-discovery-ssot-generator.*",
+    ".ai/work-items/active/WI-922-interface-discovery-ssot-generator.*",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/evidence/WI-922-interface-discovery-ssot-generator.verification-attempt.*",
+    ".ai/work-items/active/WI-922-interface-discovery-ssot-generator.contract.json",
+    ".ai/work-items/active/WI-922-interface-discovery-ssot-generator.summary.json",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/outcome_human_decision.rs"
+  ],
+  "sources": [
+    "docs/superpowers/specs/2026-09-17-interface-discovery-design.md",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/docs/interface_reference_generator_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "cargo test --locked -p cockpit-protocol --test interface_description -p cockpit-cli --test cli_mcp_outcome_parity",
+    "cargo test --locked -p cockpit-cli --test outcome_handoff --test outcome_human_decision"
+  ],
+  "workItemId": "WI-922-interface-discovery-ssot-generator"
+}
