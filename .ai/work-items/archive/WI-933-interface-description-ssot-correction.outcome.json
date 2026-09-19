@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "Capability-show CLI defaults come from the protocol-owned description facts rather than duplicated literals.",
+    "CLI parsing, MCP schema projection, and capability description remain consistent for defaults, enums, and types.",
+    "The discovery path is deterministic, read-only, and does not start verification or inspect Work Item history."
+  ],
+  "createdAt": "2026-09-19T10:52:25Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3cc84c08642485395824ce9352fb5c904dd280cc2038981de1787348ee0e3b53",
+  "evidenceRefs": [
+    ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
+      "workItemId": "WI-933-interface-description-ssot-correction"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-933-interface-description-ssot-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-933-interface-description-ssot-correction.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-933-interface-description-ssot-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-933-interface-description-ssot-correction.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-933-interface-description-ssot-correction.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-933-interface-description-ssot-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "Changing one capability-show default in cockpit-protocol must update CLI behavior and discovered descriptions without separately editing CLI and MCP facts."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-933-interface-description-ssot-correction.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-933-interface-description-ssot-correction"
+  },
+  "taskReportDigest": "sha256:21843e188d37cc40cfbd4121b8695678ac51639f9c72088aa6dca91512f23300",
+  "taskReportMarkdownDigest": "sha256:9b54841223679c587c3df329ccadc791fc04c9b0e84283063b062efe78bbd3c3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-933-interface-description-ssot-correction.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-933-interface-description-ssot-correction"
+}
