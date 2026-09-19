@@ -1,0 +1,19 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-19T09:26:19Z",
+  "checkpointContractDigest": "sha256:054d1b62a098f81d57bffa0b3d7181e8e4575685810710ada6e94dc1348941dc",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "createdAt": "2026-09-19T09:26:18Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-19T09:26:19Z",
+  "preflightContractDigest": "sha256:054d1b62a098f81d57bffa0b3d7181e8e4575685810710ada6e94dc1348941dc",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "preflightRepositorySnapshotDigest": "sha256:d1a2f4875adb23c1c34622341a1e528681a58aa85983137acf38ba9d1a02cf9a",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-19T09:26:19Z",
+  "workItemId": "WI-933-interface-description-ssot-correction"
+}
