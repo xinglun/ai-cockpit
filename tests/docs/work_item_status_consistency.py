@@ -229,6 +229,194 @@ def digest_named_recovery(path: Path, value: dict[str, Any]) -> bool:
     return path.name == expected_name
 
 
+def archived_recovery_bundle(
+    repository: Path, work_item_id: str, repository_id: str
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]] | None:
+    """Read one immutable archive bundle without trusting a partial projection."""
+    archive = repository / ".ai/work-items/archive"
+    manifest_path = archive / f"{work_item_id}.archive.json"
+    manifest = load_regular_json(manifest_path)
+    if (
+        not manifest
+        or manifest.get("workItemId") != work_item_id
+        or manifest.get("state") != "archived"
+        or not isinstance(manifest.get("files"), dict)
+    ):
+        return None
+    files = manifest["files"]
+    records: dict[str, dict[str, Any]] = {}
+    for key in ("contract", "summary", "outcome"):
+        relative = f".ai/work-items/archive/{work_item_id}.{key}.json"
+        path = repository / relative
+        value = load_regular_json(path)
+        if (
+            not value
+            or files.get(f"{key}Path") != relative
+            or files.get(f"{key}Digest") != raw_file_digest(path)
+        ):
+            return None
+        records[key] = value
+    contract = records["contract"]
+    summary = records["summary"]
+    outcome = records["outcome"]
+    if (
+        contract.get("workItemId") != work_item_id
+        or contract.get("repositoryId") != repository_id
+        or summary.get("workItemId") != work_item_id
+        or summary.get("repositoryId") != repository_id
+        or outcome.get("workItemId") != work_item_id
+    ):
+        return None
+    return manifest, contract, summary, outcome
+
+
+def recovery_binds_archive_bundle(
+    repository: Path,
+    work_item_id: str,
+    recovery: dict[str, Any],
+    bundle: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]],
+) -> bool:
+    manifest, contract, summary, outcome = bundle
+    archive = repository / ".ai/work-items/archive"
+    manifest_path = archive / f"{work_item_id}.archive.json"
+    expected = {
+        "predecessorContractDigest": canonical_json_digest(contract),
+        "predecessorSummaryDigest": canonical_json_digest(summary),
+        "predecessorOutcomeDigest": canonical_json_digest(outcome),
+    }
+    events_path = archive / f"{work_item_id}.events.jsonl"
+    events_digest = raw_file_digest(events_path)
+    if events_digest is not None:
+        expected["predecessorEventsDigest"] = events_digest
+    if any(recovery.get(key) != value for key, value in expected.items()):
+        return False
+    if events_digest is None and recovery.get("predecessorEventsDigest") is not None:
+        return False
+    manifest_digest = recovery.get("predecessorArchiveManifestDigest")
+    if manifest_digest is not None and manifest_digest != raw_file_digest(manifest_path):
+        return False
+    references = recovery.get("evidenceRefs")
+    return (
+        isinstance(references, list)
+        and all(isinstance(reference, str) for reference in references)
+        and f".ai/work-items/archive/{work_item_id}.archive.json" in references
+        and manifest.get("workItemId") == work_item_id
+    )
+
+
+def terminal_successor_is_verified_and_closed(
+    repository: Path,
+    work_item_id: str,
+    repository_id: str,
+    bundle: tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]],
+) -> bool:
+    _, _, summary, _ = bundle
+    verification_relative = f".ai/evidence/{work_item_id}.verification.json"
+    verification = load_regular_json(repository / verification_relative)
+    if not verification:
+        return False
+    contract_digest = verification.get("contractDigest")
+    snapshot_digest = verification.get("repositorySnapshotDigest")
+    receipt = verification.get("receipt")
+    plan_receipt = receipt.get("planReceipt") if isinstance(receipt, dict) else None
+    if (
+        verification.get("passed") is not True
+        or verification.get("workItemId") != work_item_id
+        or verification.get("repositoryId") != repository_id
+        or not isinstance(contract_digest, str)
+        or contract_digest
+        not in {
+            summary.get("checkpointContractDigest"),
+            summary.get("preflightContractDigest"),
+        }
+        or not isinstance(snapshot_digest, str)
+        or snapshot_digest
+        not in {
+            summary.get("checkpointRepositorySnapshotDigest"),
+            summary.get("preflightRepositorySnapshotDigest"),
+        }
+        or not isinstance(receipt, dict)
+        or receipt.get("passed") is not True
+        or receipt.get("workItemId") != work_item_id
+        or receipt.get("repositoryId") != repository_id
+        or verification.get("receiptDigest") != canonical_json_digest(receipt)
+        or not isinstance(plan_receipt, dict)
+        or plan_receipt.get("workItemId") != work_item_id
+        or plan_receipt.get("repositoryId") != repository_id
+        or plan_receipt.get("repositorySnapshotDigest") != snapshot_digest
+    ):
+        return False
+    close_relative = f".ai/decisions/{work_item_id}.close.json"
+    close = load_regular_json(repository / close_relative)
+    if not close or not valid_close(repository / close_relative, work_item_id, repository_id):
+        return False
+    final_report = close.get("finalReport")
+    bindings = final_report.get("bindings") if isinstance(final_report, dict) else None
+    structured = close.get("structuredDecision")
+    return bool(
+        isinstance(final_report, dict)
+        and close.get("finalReportDigest") == canonical_json_digest(final_report)
+        and final_report.get("status") == "verified"
+        and final_report.get("humanStatusColor") == "green"
+        and isinstance(bindings, dict)
+        and bindings.get("workItemId") == work_item_id
+        and bindings.get("repositoryId") == repository_id
+        and verification_relative in bindings.get("evidenceRefs", [])
+        and isinstance(structured, dict)
+        and structured.get("decision") == "approved"
+        and verification_relative in structured.get("evidenceRefs", [])
+    )
+
+
+def valid_terminal_successor_lineage(
+    repository: Path, work_item_id: str, repository_id: str
+) -> bool:
+    """Follow one bounded, immutable successor lineage to a closed terminal node."""
+    current = work_item_id
+    visited: set[str] = set()
+    for _ in range(64):
+        if current in visited:
+            return False
+        visited.add(current)
+        bundle = archived_recovery_bundle(repository, current, repository_id)
+        if bundle is None:
+            return False
+        candidates: list[tuple[Path, dict[str, Any], str, tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]]] = []
+        for path in recovery_candidates(repository, current):
+            recovery = load_regular_json(path)
+            if (
+                not recovery
+                or not valid_recovery(path, current, repository_id)
+                or recovery.get("decision") not in {"successor", "supersede"}
+                or (path.name != f"{current}.recovery.json" and not digest_named_recovery(path, recovery))
+                or not recovery_binds_archive_bundle(repository, current, recovery, bundle)
+            ):
+                continue
+            successor = recovery.get("successorWorkItemId")
+            if not isinstance(successor, str) or not successor or successor in visited:
+                continue
+            successor_bundle = archived_recovery_bundle(repository, successor, repository_id)
+            if successor_bundle is None:
+                continue
+            successor_contract = successor_bundle[1]
+            if (
+                successor_contract.get("predecessorWorkItemId") != current
+                or successor_contract.get("recoveryDecisionPath")
+                != path.relative_to(repository).as_posix()
+            ):
+                continue
+            candidates.append((path, recovery, successor, successor_bundle))
+        if len(candidates) != 1:
+            return False
+        _, _, successor, successor_bundle = candidates[0]
+        if terminal_successor_is_verified_and_closed(
+            repository, successor, repository_id, successor_bundle
+        ):
+            return True
+        current = successor
+    return False
+
+
 def valid_terminal_supersession(
     repository: Path, work_item_id: str, repository_id: str
 ) -> bool:
@@ -238,6 +426,9 @@ def valid_terminal_supersession(
     the digest-named supersede decision, and the successor's archived,
     verified, and confirmed-close chain must all agree.
     """
+    if valid_terminal_successor_lineage(repository, work_item_id, repository_id):
+        return True
+
     predecessor_archive_path = (
         repository / ".ai/work-items/archive" / f"{work_item_id}.archive.json"
     )

@@ -1197,6 +1197,53 @@ fn append_checkpoint_evidence(
 /// immutable `before_edit` checkpoint.  A post-verification amendment marks
 /// every prior required result stale; a fresh preflight and verification must
 /// clear that marker before finish/archive/close can proceed.
+fn synchronize_scenario_coverage_projection(
+    contract: &Contract,
+    summary: &mut serde_json::Value,
+) -> bool {
+    let Some(contract_entries) = contract
+        .scenario_coverage
+        .as_ref()
+        .and_then(serde_json::Value::as_array)
+    else {
+        return false;
+    };
+    let existing_entries = summary
+        .get("scenarioCoverage")
+        .and_then(serde_json::Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    let projected = contract_entries
+        .iter()
+        .map(|contract_entry| {
+            let name = contract_entry
+                .get("scenario")
+                .and_then(serde_json::Value::as_str);
+            existing_entries
+                .iter()
+                .find(|summary_entry| {
+                    summary_entry
+                        .get("scenario")
+                        .and_then(serde_json::Value::as_str)
+                        == name
+                })
+                .cloned()
+                .unwrap_or_else(|| {
+                    let mut entry = contract_entry.clone();
+                    entry["status"] = serde_json::json!("unverified");
+                    entry["evidence"] = serde_json::json!([]);
+                    entry
+                })
+        })
+        .collect();
+    let projected = serde_json::Value::Array(projected);
+    if summary.get("scenarioCoverage") == Some(&projected) {
+        return false;
+    }
+    summary["scenarioCoverage"] = projected;
+    true
+}
+
 pub fn revalidate_contract_amendment(
     root: &Path,
     work_item_id: &str,
@@ -1218,6 +1265,12 @@ pub fn revalidate_contract_amendment(
     let summary_path = active.join(format!("{work_item_id}.summary.json"));
     let contract = read_contract(&contract_path)?;
     let mut summary = read_json(&summary_path)?;
+    // The Contract is the declaration authority, while Summary is the
+    // evidence projection. An additive scenario amendment must make the new
+    // identity visible in Summary without allowing it to inherit verification
+    // from an earlier checkpoint.
+    let scenario_projection_repaired =
+        synchronize_scenario_coverage_projection(&contract, &mut summary);
     // Contracts created before typed checkpoint evidence was introduced may
     // still have the original checkpoint identity fields on Summary while
     // `checkpointEvidence` is absent.  Upgrade that deterministic legacy
@@ -1321,6 +1374,19 @@ pub fn revalidate_contract_amendment(
         .unwrap_or_else(|| before_edit.contract_hash.clone());
     let current_contract_hash = contract_digest(&contract_path)?.to_string();
     if current_contract_hash == previous_contract_hash {
+        if scenario_projection_repaired {
+            atomic_json(&summary_path, &summary)?;
+            return Ok(serde_json::json!({
+                "schemaVersion": 1,
+                "repositoryId": repository_id(&root),
+                "workItemId": work_item_id,
+                "stage": "contract_amendment_projection_reconciliation",
+                "recorded": true,
+                "contractHash": current_contract_hash,
+                "reason": reason.trim(),
+                "recordedAt": now(),
+            }));
+        }
         return Err(ObserverError::State {
             path: contract_path,
             message: "contract amendment must change Contract bytes".into(),

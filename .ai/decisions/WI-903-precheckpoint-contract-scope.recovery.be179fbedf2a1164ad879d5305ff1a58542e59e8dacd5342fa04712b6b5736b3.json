@@ -1,0 +1,25 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "conversation-authorization-for-retry-binding-reconciliation",
+  "decidedAt": "2026-09-19T19:51:35Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:4f6f6e3496d4cd48849ede892b339ffe9d8b3b19564dde39a07b0aeb3b0c4131",
+  "predecessorSummaryDigest": "sha256:41b0c01400fe79fc55e0315df68974e88fdc882fdd2679a5e4e7d9c2d2f6030b",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "The prior retry marker is bound to a Contract digest that no longer matches the active Contract and lacks the corresponding amendment-revalidation record. Append one fresh retry decision bound to the current Contract and Summary; preserve the original receipt and do not run verification as part of this reconciliation.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the current Work Item's declared preflight and verification before finish; do not treat this receipt as verification, authorization to merge, or a replacement for required evidence.",
+  "runtimeDigest": "sha256:0f919dcb9a7c8646ebcb9120561ccec4680973172645253816679a29bf99bb5d",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}
