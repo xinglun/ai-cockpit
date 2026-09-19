@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "human:xinglun explicit-user-authorization-for-governed-recovery",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "71d8f214fee572b93228cd85809e33aa0beb193e",
+    "name": "codex/wi-921-interface-ssot-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "03861b969317454b7f62987ef96299374dca2028",
+  "contractDigest": "sha256:d6cb575e1ea87322d04f9ab97d1ec1f76ced6eaeda3d30c91e2f5f0bd7f6f9e5",
+  "operationId": "WI-921-interface-ssot-finalization-recovery-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "03861b969317454b7f62987ef96299374dca2028",
+    "headRevision": "71d8f214fee572b93228cd85809e33aa0beb193e",
+    "mergeCommit": "84ff69e2a9958858527f1432ee2a02355a4c133d",
+    "number": 889,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/889"
+  },
+  "reason": "Reviewed PR #889 merged as 84ff69e2a9958858527f1432ee2a02355a4c133d; WI-921 archive evidence was synchronized to main, then the exact provider branch was deleted and its dedicated worktree removed.",
+  "receiptId": "WI-921-interface-ssot-finalization-recovery-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-921-interface-ssot-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/889",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-921-interface-ssot-finalization-recovery/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-19T01:23:46Z",
+  "workItemId": "WI-921-interface-ssot-finalization-recovery",
+  "worktree": {
+    "branch": "codex/wi-921-interface-ssot-finalization-recovery",
+    "headRevision": "71d8f214fee572b93228cd85809e33aa0beb193e",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-921-interface-ssot-finalization-recovery/ai-cockpit",
+    "worktreeId": "wi-921-interface-ssot-finalization-recovery"
+  }
+}

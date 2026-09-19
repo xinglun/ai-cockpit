@@ -1,0 +1,157 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+      "workItemId": "WI-921-interface-ssot-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-921-interface-ssot-finalization-recovery.verification-attempt.f8fd28acc092801176f4e8f179fcd94f178b4c1c6a68c2b11d907e881a844f2e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json",
+            ".ai/decisions/WI-921-interface-ssot-finalization-recovery.finalize.json",
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.archive.json",
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.outcome.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:xinglun via human:xinglun explicit-user-authorization-for-governed-recovery at 2026-09-19T01:25:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "Bind the exact successor resource context before fresh verification, record the recovery boundary, and complete auditable finalization, cleanup, and closure."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-921-interface-ssot-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:15d18015541dcd04c8f19b89d34c11a5c212b9f1eefe00f9d2d2a54db73defee",
+  "humanDecision": "confirmed",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:0e0947cfa74fd3239401a389d4bb7d355760000e071b0ef7eb7eec8b92c86750",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-921-interface-ssot-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "human:xinglun explicit-user-authorization-for-governed-recovery",
+    "decidedAt": "2026-09-19T01:25:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-921-interface-ssot-finalization-recovery.verification.json",
+      ".ai/decisions/WI-921-interface-ssot-finalization-recovery.finalize.json",
+      ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.archive.json",
+      ".ai/work-items/archive/WI-921-interface-ssot-finalization-recovery.outcome.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md:resource-bound-finalization-before-close",
+      "docs/reference/agent-workflow.md:resource-bound-route"
+    ],
+    "reason": "接受当前验证证据；PR #889 已合并，归档已同步到 main，精确资源已完成 finalization 和 finalize-verify。用户可见收益保持未知。",
+    "resumeCondition": "No resume required; WI-921 is archived, finalized, synchronized, and exact resources are removed."
+  },
+  "timestamp": "2026-09-19T01:25:06Z",
+  "workItemId": "WI-921-interface-ssot-finalization-recovery"
+}
