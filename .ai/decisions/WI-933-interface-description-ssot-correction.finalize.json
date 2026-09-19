@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "117e3edd104d8b3d910506458b480cb69bd9148a",
+    "name": "codex/wi-933-interface-ssot",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "053c45823d892b1784b496c51fff82e3104815f5",
+  "contractDigest": "sha256:a1363173e47b1834eb9ff84ed639a7e104547b111e463df999e50e8bd1613b60",
+  "operationId": "WI-933-interface-description-ssot-correction-pr-899-merge-cleanup",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "525241fe187e0c250d489e625b75b1e51d3fefbc",
+    "headRevision": "117e3edd104d8b3d910506458b480cb69bd9148a",
+    "mergeCommit": "81c78b6931932d4c337b682ed2f59ccbdf2c7e17",
+    "number": 899,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/899"
+  },
+  "reason": "Reviewed PR #899 merged as 81c78b6931932d4c337b682ed2f59ccbdf2c7e17; the exact remote branch and dedicated worktree were deleted and removed after all hosted checks passed.",
+  "receiptId": "WI-933-interface-description-ssot-correction-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-933-interface-ssot",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/899",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-933-interface-ssot/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-19T11:03:41Z",
+  "workItemId": "WI-933-interface-description-ssot-correction",
+  "worktree": {
+    "branch": "codex/wi-933-interface-ssot",
+    "headRevision": "117e3edd104d8b3d910506458b480cb69bd9148a",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-933-interface-ssot/ai-cockpit",
+    "worktreeId": "wi-933-interface-ssot"
+  }
+}
