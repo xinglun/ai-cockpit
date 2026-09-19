@@ -1,0 +1,245 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-925-current-performance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:736a719f5db3bddb46526c269522d7e4522e1bd1e6dc00c3f35a3dec77787146",
+      "workItemId": "WI-925-current-performance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance.verification-attempt.398c2a15025d2fc631403c247cb6fc6b82ba00642260b4daf10ee94aad4288a6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/ai-investigation-many-historical-wi.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/current-wi925.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/goods-garden-current-repository.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/org-x-many-files-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/sentinel-many-files-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-925-current-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-925-current-performance.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-925-current-performance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json",
+            ".ai/evidence/WI-925-current-performance/raw/current-wi925.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-19T05:01:33Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce current-version, same-toolchain performance evidence and separate development-cycle cost evidence; preserve unknowns and do not claim speedup without a noise-clearing comparison."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-925-current-performance"
+  },
+  "finalReportDigest": "sha256:990f9e0b88b24e7c79082390a338d85c25460f61df6071188b569c3de36bb0bc",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:47e36fbbaf77c1b8b84bf487e815dc8cd668280bbb6c818d44ecc885429b8638",
+    "branch": "codex/wi-925-current-performance",
+    "branchRef": "refs/heads/codex/wi-925-current-performance",
+    "capturedAt": "2026-09-19T05:01:58Z",
+    "contractDigest": "sha256:d8acf23e8bf3484649b07fe3f93e725f3289821d9978a0447e4f575d0432d98a",
+    "headRevision": "93427b1ed4d46472975aeaf63f540d79a34f5013",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-925-current-performance",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:8c6441232a47c9aaf4b30a2e756b6037a000fbf1c3f722a1655c887c405d9bd8",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-925-current-performance/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:2a1dfee389baf257ac89956a1f1013cac27454e36f696f91f497579d3f2b7cf7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T05:01:33Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-925-current-performance.verification.json",
+      ".ai/evidence/WI-925-current-performance/raw/current-wi925.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "tests/performance/README.md"
+    ],
+    "reason": "接受当前版本性能证据；保留 100+ warm 样本和对象仓库只读证据，不宣称提速，用户可见收益保持未知。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-19T05:01:58Z",
+  "workItemId": "WI-925-current-performance"
+}

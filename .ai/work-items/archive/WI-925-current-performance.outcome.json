@@ -1,0 +1,236 @@
+{
+  "acceptanceResults": [
+    "Every release-grade measured operation has at least 100 valid warm samples; fewer samples remain diagnostic-only and fail the release-grade comparator.",
+    "Captures bind Runtime/binary/repository/toolchain/environment identities and retain raw samples, p50/p95/p99, process counts, execution/reuse counters or explicit unavailable reasons, and invalidation reasons.",
+    "Object repositories are read-only inputs; their branches, worktrees, and pre-existing working-tree bytes remain unchanged and are verified after collection.",
+    "Runtime latency and Contract-to-reviewable, verification-to-finish, and post-merge-cleanup costs remain separate; absent lifecycle/provider measurements are explicit unknowns, never zero.",
+    "No improvement claim is made unless a same-environment paired comparison clears the frozen noise budget; otherwise the result is within_noise or unknown.",
+    "The three-language Work Item documents and parity rows state the measurement boundary, read-only object-repository rule, and unknowns consistently without claiming unmeasured improvement."
+  ],
+  "createdAt": "2026-09-19T04:51:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b9b23a41f946918edb3a433c5f5115e159f2b6e491022327d5934f41594f2388",
+  "evidenceRefs": [
+    ".ai/evidence/WI-925-current-performance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-925-current-performance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-925-current-performance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:736a719f5db3bddb46526c269522d7e4522e1bd1e6dc00c3f35a3dec77787146",
+      "workItemId": "WI-925-current-performance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance.verification-attempt.398c2a15025d2fc631403c247cb6fc6b82ba00642260b4daf10ee94aad4288a6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/ai-investigation-many-historical-wi.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/current-wi925.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/goods-garden-current-repository.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/org-x-many-files-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-925-current-performance/raw/sentinel-many-files-clean.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-925-current-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-925-current-performance.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-925-current-performance.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-925-current-performance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-925-current-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce current-version, same-toolchain performance evidence and separate development-cycle cost evidence; preserve unknowns and do not claim speedup without a noise-clearing comparison."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-925-current-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-925-current-performance"
+  },
+  "taskReportDigest": "sha256:29ab8c8454dfe17358a48b6c7fa2bc15dc1b00ab063228da3ce29974a19c140a",
+  "taskReportMarkdownDigest": "sha256:f5a3ef08f38971ee6f772fb8a5313734837d8df956ad57be84975efd57e52088",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-925-current-performance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-925-current-performance"
+}

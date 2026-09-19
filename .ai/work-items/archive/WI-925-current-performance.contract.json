@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "Every release-grade measured operation has at least 100 valid warm samples; fewer samples remain diagnostic-only and fail the release-grade comparator.",
+    "Captures bind Runtime/binary/repository/toolchain/environment identities and retain raw samples, p50/p95/p99, process counts, execution/reuse counters or explicit unavailable reasons, and invalidation reasons.",
+    "Object repositories are read-only inputs; their branches, worktrees, and pre-existing working-tree bytes remain unchanged and are verified after collection.",
+    "Runtime latency and Contract-to-reviewable, verification-to-finish, and post-merge-cleanup costs remain separate; absent lifecycle/provider measurements are explicit unknowns, never zero.",
+    "No improvement claim is made unless a same-environment paired comparison clears the frozen noise budget; otherwise the result is within_noise or unknown.",
+    "The three-language Work Item documents and parity rows state the measurement boundary, read-only object-repository rule, and unknowns consistently without claiming unmeasured improvement."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "74c8fb711507db21f713186792c36643aa78dbf0",
+  "createdAt": "2026-09-19T04:20:32Z",
+  "goal": "Produce current-version, same-toolchain performance evidence and separate development-cycle cost evidence; preserve unknowns and do not claim speedup without a noise-clearing comparison.",
+  "intent": "Measure current Runtime and development-cycle performance with reproducible warm samples on selected object repositories without modifying their main branches.",
+  "mode": "implementation",
+  "outOfScope": [
+    "object repository source trees and their main/default branches",
+    "interface SSOT implementation and Outcome host integration",
+    "release publication",
+    " tags",
+    " and provider resources",
+    "performance optimization code changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:23c7013975aab6844c5205126e2c204fcefe3b6b1959ed9f01e2c83fae3da714",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**",
+    ".ai/evidence/WI-925-current-performance.*",
+    ".ai/work-items/active/WI-925-current-performance.*",
+    ".ai/work-items/archive/WI-925-current-performance.*",
+    ".ai/decisions/WI-925-current-performance.*",
+    "docs/work-items/WI-925-current-performance.*",
+    ".ai/decisions/observer-snapshot.json",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-889-object-performance-current.md",
+    "docs/reference/governance-performance-budget.md",
+    "tests/performance/README.md",
+    "selected object repositories: ORG-X, sentinel, goods-garden, ai-investigation-orchestrator"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-925-current-performance"
+}
