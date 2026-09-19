@@ -1394,12 +1394,14 @@ def valid_retirement_receipt(
         receipt[key].strip()
     )
     disposition = receipt.get("disposition")
-    if disposition not in {"integrated", "replaced"}:
+    if disposition not in {"integrated", "replaced", "abandoned"}:
         return False
     successor = receipt.get("successorWorkItemId")
     if disposition == "replaced" and (not isinstance(successor, str) or not successor):
         return False
-    if disposition == "integrated" and successor is not None:
+    if disposition in {"integrated", "abandoned"} and successor is not None:
+        return False
+    if disposition == "abandoned" and not str(receipt.get("actor", "")).startswith("human:"):
         return False
     if not (
         receipt.get("schemaVersion") == 1
@@ -1820,9 +1822,10 @@ def main() -> int:
                 record["decisionPath"] = decision
                 record["lifecycleState"] = (
                     (
-                        "replaced"
+                        retirement_candidate[1].get("disposition")
                         if retirement_valid
-                        and retirement_candidate[1].get("disposition") == "replaced"
+                        and retirement_candidate[1].get("disposition")
+                        in {"replaced", "abandoned"}
                         else "retired"
                     )
                     if retirement_valid

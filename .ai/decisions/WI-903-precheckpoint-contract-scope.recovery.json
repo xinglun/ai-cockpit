@@ -1,0 +1,23 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorized-recovery",
+  "decidedAt": "2026-09-19T13:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+  "predecessorSummaryDigest": "sha256:e4ec89f42f67bbab1bc41c63e295f643f555a8b4b5d54aa8722fe84836431fb6",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "The reviewed base advanced after WI-903 reached finish_ready, making its verification evidence stale. Refresh only the current verification projection; preserve the predecessor evidence and do not widen scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one current verification against the unchanged Contract, then finish and archive the existing WI-903 lifecycle.",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

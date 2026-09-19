@@ -572,6 +572,162 @@ for suffix, status in (
 PY
 python3 "$checker" --repo "$terminal_supersede"
 
+# A terminal successor may itself require one bounded recovery.  The
+# documentation gate must follow that identity-continuous lineage instead of
+# treating the first, still-unclosed successor as a permanent conditional row.
+two_hop="$tmp/two-hop-terminal"
+cp -R "$terminal_supersede" "$two_hop"
+python3 - "$two_hop" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+repo_id = "sha256:fixture"
+predecessor = "WI-999-status-drift-fixture"
+middle = "WI-1000-terminal-successor"
+terminal = "WI-1001-terminal-successor"
+archive = root / ".ai/work-items/archive"
+decisions = root / ".ai/decisions"
+evidence = root / ".ai/evidence"
+
+def write(path, value):
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+def canonical(value):
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+
+def raw(path):
+    return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+def refresh_manifest(work_item):
+    contract = archive / f"{work_item}.contract.json"
+    summary = archive / f"{work_item}.summary.json"
+    outcome = archive / f"{work_item}.outcome.json"
+    write(archive / f"{work_item}.archive.json", {
+        "workItemId": work_item,
+        "state": "archived",
+        "files": {
+            "contractPath": f".ai/work-items/archive/{work_item}.contract.json",
+            "contractDigest": raw(contract),
+            "summaryPath": f".ai/work-items/archive/{work_item}.summary.json",
+            "summaryDigest": raw(summary),
+            "outcomePath": f".ai/work-items/archive/{work_item}.outcome.json",
+            "outcomeDigest": raw(outcome),
+        },
+    })
+
+# Replace the direct root supersession with the first edge of a two-hop chain.
+for path in decisions.glob(f"{predecessor}.recovery*.json"):
+    path.unlink()
+root_contract = json.loads((archive / f"{predecessor}.contract.json").read_text())
+root_summary = json.loads((archive / f"{predecessor}.summary.json").read_text())
+root_outcome = json.loads((archive / f"{predecessor}.outcome.json").read_text())
+root_events = archive / f"{predecessor}.events.jsonl"
+root_manifest = archive / f"{predecessor}.archive.json"
+root_recovery = {
+    "schemaVersion": 1,
+    "workItemId": predecessor,
+    "predecessorWorkItemId": predecessor,
+    "successorWorkItemId": middle,
+    "repositoryId": repo_id,
+    "decision": "successor",
+    "reason": "bind the first archived recovery successor",
+    "predecessorContractDigest": canonical(root_contract),
+    "predecessorSummaryDigest": canonical(root_summary),
+    "predecessorEventsDigest": raw(root_events),
+    "predecessorOutcomeDigest": canonical(root_outcome),
+    "evidenceRefs": [f".ai/work-items/archive/{predecessor}.archive.json"],
+}
+root_name = f"{predecessor}.recovery.{canonical(root_recovery).removeprefix('sha256:')}.json"
+root_recovery_path = decisions / root_name
+write(root_recovery_path, root_recovery)
+
+# The previous terminal becomes an archived intermediate node without a close.
+(decisions / f"{middle}.close.json").unlink()
+middle_contract_path = archive / f"{middle}.contract.json"
+middle_contract = json.loads(middle_contract_path.read_text())
+middle_contract["predecessorWorkItemId"] = predecessor
+middle_contract["recoveryDecisionPath"] = f".ai/decisions/{root_name}"
+write(middle_contract_path, middle_contract)
+refresh_manifest(middle)
+
+# Build the verified, closed terminal successor from the intermediate fixture.
+middle_summary = json.loads((archive / f"{middle}.summary.json").read_text())
+middle_outcome = json.loads((archive / f"{middle}.outcome.json").read_text())
+middle_manifest = archive / f"{middle}.archive.json"
+middle_recovery = {
+    "schemaVersion": 1,
+    "workItemId": middle,
+    "predecessorWorkItemId": middle,
+    "successorWorkItemId": terminal,
+    "repositoryId": repo_id,
+    "decision": "successor",
+    "reason": "bind the terminal recovery successor",
+    "predecessorContractDigest": canonical(middle_contract),
+    "predecessorSummaryDigest": canonical(middle_summary),
+    "predecessorOutcomeDigest": canonical(middle_outcome),
+    "evidenceRefs": [f".ai/work-items/archive/{middle}.archive.json"],
+}
+middle_name = f"{middle}.recovery.{canonical(middle_recovery).removeprefix('sha256:')}.json"
+middle_recovery_path = decisions / middle_name
+write(middle_recovery_path, middle_recovery)
+
+terminal_contract = dict(middle_contract)
+terminal_contract.update({
+    "workItemId": terminal,
+    "predecessorWorkItemId": middle,
+    "recoveryDecisionPath": f".ai/decisions/{middle_name}",
+})
+write(archive / f"{terminal}.contract.json", terminal_contract)
+terminal_summary = dict(middle_summary)
+terminal_summary["workItemId"] = terminal
+write(archive / f"{terminal}.summary.json", terminal_summary)
+terminal_outcome = dict(middle_outcome)
+terminal_outcome["workItemId"] = terminal
+write(archive / f"{terminal}.outcome.json", terminal_outcome)
+refresh_manifest(terminal)
+
+verification = json.loads((evidence / f"{middle}.verification.json").read_text())
+verification["workItemId"] = terminal
+verification["receipt"]["workItemId"] = terminal
+verification["receipt"]["planReceipt"]["workItemId"] = terminal
+verification["receiptDigest"] = canonical(verification["receipt"])
+write(evidence / f"{terminal}.verification.json", verification)
+
+close = {
+    "workItemId": terminal,
+    "repositoryId": repo_id,
+    "state": "closed",
+    "decisionState": "confirmed",
+    "humanDecision": "approved",
+    "structuredDecision": {
+        "decision": "approved",
+        "actor": "fixture-human",
+        "authoritySource": "fixture-policy",
+        "reason": "terminal successor evidence",
+        "decidedAt": "2026-09-15T00:00:00Z",
+        "evidenceRefs": [f".ai/evidence/{terminal}.verification.json"],
+    },
+    "finalReport": {
+        "status": "verified",
+        "humanStatusColor": "green",
+        "bindings": {
+            "workItemId": terminal,
+            "repositoryId": repo_id,
+            "repositorySnapshotDigest": verification["repositorySnapshotDigest"],
+            "evidenceRefs": [f".ai/evidence/{terminal}.verification.json"],
+        },
+    },
+}
+close["finalReportDigest"] = canonical(close["finalReport"])
+write(decisions / f"{terminal}.close.json", close)
+PY
+python3 "$checker" --repo "$two_hop"
+
 expect_conditional_failure() {
   local name=$1
   if python3 "$checker" --repo "$tmp/$name" >"$tmp/$name.out" 2>"$tmp/$name.err"; then

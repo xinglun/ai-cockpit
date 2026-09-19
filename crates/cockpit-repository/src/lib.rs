@@ -4347,10 +4347,25 @@ pub fn require_verification_preconditions(
             message: "verification requires exactly one completed checkpoint and an active lifecycle state".into(),
         });
     }
+    let recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
+    // A retry receipt is the explicit authorization to replace stale
+    // verification evidence. Validate the receipt before allowing it to
+    // bypass the snapshot and Contract bindings that normally require a new
+    // preflight. Without this binding, stale projections still fail before
+    // any verification process is spawned.
+    if recovery_pending {
+        lifecycle::require_current_retry_recovery_binding(
+            &root,
+            work_item_id,
+            &summary,
+            Some(runtime),
+        )?;
+    }
     let current_snapshot_digest = snapshot_digest(snapshot)?.to_string();
     if summary["preflightRepositorySnapshotDigest"]
         .as_str()
         .is_none_or(|value| value != current_snapshot_digest)
+        && !recovery_pending
     {
         return Err(ObserverError::State {
             path: root
@@ -4364,6 +4379,7 @@ pub fn require_verification_preconditions(
     if summary["preflightContractDigest"]
         .as_str()
         .is_none_or(|value| value != current_contract_digest)
+        && !recovery_pending
     {
         return Err(ObserverError::State {
             path: contract_path.clone(),
@@ -4371,7 +4387,6 @@ pub fn require_verification_preconditions(
         });
     }
     let preflight_state = summary["preflightState"].as_str().unwrap_or_default();
-    let recovery_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
     let amendment_pending = summary
         .get("verificationInvalidatedByContractAmendment")
         .is_some();
@@ -6367,10 +6382,13 @@ pub fn retire_active_work_item_with_runtime(
             message: "retirement request schema or decision id is invalid".into(),
         });
     }
-    if !matches!(request.disposition.as_str(), "integrated" | "replaced") {
+    if !matches!(
+        request.disposition.as_str(),
+        "integrated" | "replaced" | "abandoned"
+    ) {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
-            message: "retirement disposition must be integrated or replaced".into(),
+            message: "retirement disposition must be integrated, replaced, or abandoned".into(),
         });
     }
     if request.actor.trim().is_empty()
@@ -6384,16 +6402,25 @@ pub fn retire_active_work_item_with_runtime(
                 .into(),
         });
     }
-    if request.disposition == "integrated" && request.successor_work_item_id.is_some() {
+    if matches!(request.disposition.as_str(), "integrated" | "abandoned")
+        && request.successor_work_item_id.is_some()
+    {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
-            message: "integrated retirement cannot include a successor Work Item".into(),
+            message: "integrated or abandoned retirement cannot include a successor Work Item"
+                .into(),
         });
     }
     if request.disposition == "replaced" && request.successor_work_item_id.is_none() {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
             message: "replaced retirement requires an explicitly linked successor Work Item".into(),
+        });
+    }
+    if request.disposition == "abandoned" && !request.actor.starts_with("human:") {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "abandoned retirement requires an explicit human actor".into(),
         });
     }
 
@@ -6645,7 +6672,7 @@ pub fn retire_active_work_item_with_runtime(
     let manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
-        "state": if request.disposition == "integrated" { "retired" } else { "replaced" },
+        "state": if request.disposition == "replaced" { "replaced" } else { "retired" },
         "historicalEvidence": true,
         "closeRequired": false,
         "retirementDisposition": request.disposition,

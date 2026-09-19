@@ -3956,9 +3956,10 @@ pub fn validate_selected_successor_lineage_recovery(
 }
 
 /// An explicit terminal disposition for an active Work Item whose delivery is
-/// already represented elsewhere or is being replaced by a separately
-/// governed successor.  Retirement preserves the predecessor bytes and never
-/// asserts that they were verified or completed.
+/// already represented elsewhere, is being replaced by a separately governed
+/// successor, or was explicitly abandoned before it became a deliverable.
+/// Retirement preserves the predecessor bytes and never asserts that they
+/// were verified or completed.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 pub struct ActiveWorkItemRetirementRequest {

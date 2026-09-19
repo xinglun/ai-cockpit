@@ -1,0 +1,153 @@
+{
+  "acceptanceCriteria": [
+    "Before checkpoint a Work Item may append declared scope only through Runtime and receives an append-only declaration receipt.",
+    "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
+    "Unsupported Contract fields and identity or authority changes remain rejected.",
+    "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
+    "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors.",
+    "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
+    "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact.",
+    "The documentation status gate accepts the identity-continuous WI-902 to WI-936 to WI-937 recovery lineage only when its terminal successor has valid archive, verification, and close evidence.",
+    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error.",
+    "An explicitly authorized abandoned active Work Item is archived with immutable original bytes and a terminal receipt, without claiming verification, completion, merge, or release.",
+    "The governance and documentation projections treat only a valid abandoned retirement receipt as terminal; malformed, foreign, stale, or unsupported retirement records remain fail-closed."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+  "createdAt": "2026-09-19T11:21:49Z",
+  "goal": "允许在尚未开始验证且 Contract 身份未变时安全追加缺失 scope；仍禁止变更 authority、base、已有验收、以及 checkpoint 后无再验证的 scope 扩张。",
+  "intent": "修复未 checkpoint 的 Work Item 无法补充前检必需 scope 的生命周期循环。",
+  "mode": "implementation",
+  "outOfScope": [
+    "verification receipt semantics",
+    "authorization changes",
+    "release workflow and public release"
+  ],
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "focused documentation recovery-lineage regression evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A not-yet-checkpointed Work Item can add only declared scope through the Runtime when the original Contract has no verification evidence.",
+      "required": true,
+      "scenario": "precheckpoint-required-scope-addition",
+      "status": "unverified",
+      "verificationPlan": "Use a repository fixture to amend scope before checkpoint and then checkpoint successfully."
+    },
+    {
+      "evidence": [],
+      "expected": "A checkpointed Work Item retains the existing revalidation and evidence invalidation requirements.",
+      "required": true,
+      "scenario": "postcheckpoint-scope-amendment-remains-guarded",
+      "status": "unverified",
+      "verificationPlan": "Exercise a checkpointed fixture and assert the existing amendment receipt and revalidation behavior."
+    },
+    {
+      "evidence": [],
+      "expected": "Scope amendment cannot alter identity, authority, base, mode, or prior acceptance criteria.",
+      "required": true,
+      "scenario": "identity-and-authority-fields-remain-immutable",
+      "status": "unverified",
+      "verificationPlan": "Attempt unsupported or immutable-field amendments and assert fail-closed rejection."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "A bound retry permits the replacement verification after snapshot drift; without its recovery binding, preflight drift still prevents process execution.",
+      "required": true,
+      "scenario": "bound-retry-stale-preflight",
+      "status": "unverified",
+      "verificationPlan": "Exercise require_verification_preconditions with a Runtime-bound retry receipt and a changed repository snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "The Runtime records one identity-bound decision and binds both successor projections; mismatched or already-bound candidates fail closed.",
+      "required": true,
+      "scenario": "An archived predecessor needs to bind a currently active recovery Work Item that was created on the same base before the predecessor route was selected.",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "The bounded successor decision remains valid despite executable hash variance; a different Runtime version still fails closed.",
+      "required": true,
+      "scenario": "A same-version candidate Runtime records the explicit existing_active_successor decision, then a separately built same-version candidate validates it.",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "One append-only recovery receipt and both WI-903 projections carry the exact predecessor binding; no archived WI-902 artifact changes.",
+      "required": true,
+      "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "A human-authorized abandoned retirement removes only the named active Work Item, preserves its original artifacts, and makes no verification or completion claim.",
+      "required": true,
+      "scenario": "authorized-abandoned-active-work-item",
+      "status": "unverified",
+      "verificationPlan": "Exercise the Runtime retirement API with a valid abandoned request and inspect the archived artifacts and receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "Unsupported dispositions and missing authority continue to fail closed and leave active bytes unchanged.",
+      "required": true,
+      "scenario": "abandoned-retirement-rejects-invalid-authority-or-disposition",
+      "status": "unverified",
+      "verificationPlan": "Exercise invalid retirement requests in the existing repository fixture."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/**",
+    "docs/work-items/WI-903-precheckpoint-contract-scope.md",
+    "docs/work-items/WI-903-precheckpoint-contract-scope.zh-CN.md",
+    "docs/work-items/WI-903-precheckpoint-contract-scope.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.*",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.*",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.*",
+    ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.*",
+    "crates/cockpit-repository/src/lib.rs",
+    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/test_governance_integrity_gate.py"
+  ],
+  "sources": [
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "crates/cockpit-repository/src/status_projection.rs",
+    ".ai/decisions/WI-936-interface-ssot.recovery.json",
+    ".ai/decisions/WI-937-outcome-archive-delivery-facts.close.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor_accepts_same_version_candidate_rebuild",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/ci/repository_gate_manifest_test.sh"
+  ],
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

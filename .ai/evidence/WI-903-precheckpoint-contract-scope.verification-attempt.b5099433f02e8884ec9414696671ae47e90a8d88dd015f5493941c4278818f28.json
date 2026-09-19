@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:b5099433f02e8884ec9414696671ae47e90a8d88dd015f5493941c4278818f28",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:c594d322406efc371f36596a60afc2a2070d2ffbf03c1f8c1cea8730be7728d4",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:a6ea99dd4c9c63829cbf46b2e03538d516b6f87013bf465547eed7298c74f49b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:a42e06a9f3a3e84a05520c59e60e6b74089b35d0811214d4246581df2ae77441",
+  "contractExecutionScopeDigest": "sha256:c74f7a02740e4abe3b3975a285d4ccde0c162c5bae0d2c95e3fc50df66fa6ebb",
+  "createdAt": "2026-09-19T13:35:15Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/ai-cockpit/.ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json: recovery_decision_invalid:retry_binding_missing: pending retry marker has no valid current recovery receipt"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c5743f9c3a76c03395c57a8485667f7fa56e18c1db6b6d0fce0fe20603d24889",
+  "runtimeDigest": "sha256:a6ea99dd4c9c63829cbf46b2e03538d516b6f87013bf465547eed7298c74f49b",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

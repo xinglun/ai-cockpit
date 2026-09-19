@@ -74,7 +74,7 @@ run_case valid 0 none
 # must satisfy the gate from its own immutable receipt and archive bindings,
 # without requiring a fabricated close decision or promoting the old Outcome.
 build_fixture "$fixtures/valid.json" "$tmp/retired-valid"
-python3 - "$tmp/retired-valid" "$tmp/retired-replaced" "$tmp/retired-invalid" "$gate" <<'PY'
+python3 - "$tmp/retired-valid" "$tmp/retired-replaced" "$tmp/retired-abandoned" "$tmp/retired-invalid" "$gate" <<'PY'
 import hashlib
 import json
 import shutil
@@ -83,8 +83,9 @@ from pathlib import Path
 
 valid_root = Path(sys.argv[1])
 replaced_root = Path(sys.argv[2])
-invalid_root = Path(sys.argv[3])
-gate_path = Path(sys.argv[4])
+abandoned_root = Path(sys.argv[3])
+invalid_root = Path(sys.argv[4])
+gate_path = Path(sys.argv[5])
 
 def digest_json(value):
     encoded = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
@@ -92,6 +93,7 @@ def digest_json(value):
 
 shutil.copytree(valid_root, invalid_root)
 shutil.copytree(valid_root, replaced_root)
+shutil.copytree(valid_root, abandoned_root)
 
 def configure(root, disposition="integrated", invalid=False):
     work_item = "WI-900-release-v9-9-9"
@@ -149,11 +151,12 @@ def configure(root, disposition="integrated", invalid=False):
 
 configure(valid_root)
 configure(replaced_root, disposition="replaced")
+configure(abandoned_root, disposition="abandoned")
 configure(invalid_root, invalid=True)
 # Retirement is explicitly not verification.  A valid retired/replaced
 # predecessor must therefore remain valid even when its current evidence and
 # Work Item projection were never produced.
-for root in (valid_root, replaced_root):
+for root in (valid_root, replaced_root, abandoned_root):
     evidence = root / ".ai/evidence/WI-900-release-v9-9-9.verification.json"
     if evidence.exists():
         evidence.unlink()
@@ -182,6 +185,17 @@ report = json.load(open(sys.argv[1], encoding="utf-8"))
 assert report["findings"] == [], report["findings"]
 item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
 assert item["lifecycleState"] == "replaced", item
+assert item["decisionPath"].endswith(".retirement.json"), item
+PY
+python3 "$gate" --repo "$tmp/retired-abandoned" --report "$tmp/retired-abandoned-report.json" >/dev/null
+python3 - "$tmp/retired-abandoned-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+assert report["findings"] == [], report["findings"]
+item = next(item for item in report["inventory"] if item["workItemId"] == "WI-900-release-v9-9-9")
+assert item["lifecycleState"] == "abandoned", item
 assert item["decisionPath"].endswith(".retirement.json"), item
 PY
 set +e
