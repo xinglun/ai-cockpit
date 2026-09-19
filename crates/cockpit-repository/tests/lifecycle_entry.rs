@@ -1016,6 +1016,106 @@ fn verification_preconditions_reject_missing_governance_controls_before_executio
 }
 
 #[test]
+fn first_typed_required_verification_is_allowed_before_summary_has_passed_entries() {
+    let directory = repository();
+    let work_item_id = "WI-FIRST-TYPED-VERIFICATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "run a declared required check for the first time",
+        "allow the first Runtime verification without hand-editing Summary",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "verificationAppend": [{"check": "first-required-check", "required": true}]
+        }),
+        "declare the first required verification check before preflight",
+    )
+    .expect("declare required check");
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    record_work_item_governance_controls(
+        directory.path(),
+        work_item_id,
+        &json!({"intentAlignment":{"state":"resolved","evidence":["test-intent"]}}),
+    )
+    .expect("record intent alignment");
+    let preflight = preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("yellow preflight may await the first required check");
+    assert!(matches!(
+        preflight.state,
+        DecisionState::Green | DecisionState::Yellow
+    ));
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+        .expect("first required verification must pass cheap preconditions");
+
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "first-required-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("first required verification");
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record first required verification");
+
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    assert_eq!(
+        summary["verification"][0],
+        json!({"check": "first-required-check", "result": "passed"})
+    );
+    finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
+        .expect("finish remains available after the formal receipt");
+}
+
+#[test]
 fn verification_preconditions_accept_complete_repository_bound_custom_evidence() {
     let directory = repository();
     let work_item_id = "WI-CUSTOM-EVIDENCE-PRECONDITION";

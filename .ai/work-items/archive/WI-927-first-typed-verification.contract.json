@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "First typed required verification is permitted only with a current checkpoint, non-red preflight, matching Contract and repository snapshot, and exclusively missing typed verification findings.",
+    "Red preflight, missing checkpoint, digest mismatch, undeclared command, foreign, stale, malformed, failed, cancelled, or timed-out evidence remains blocked before process spawn and preserves prior successful evidence.",
+    "CLI and MCP share the same precondition semantics and tri-language guidance describes the execution boundary without changing lifecycle authority."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4c1aaa37d76a3340cd5159528da17e0d6db8eb6b",
+  "createdAt": "2026-09-19T06:07:50Z",
+  "goal": "Allow a valid checkpointed Work Item to execute its first declared typed verification and write its identity-bound Summary receipt without weakening finish, archive, or close gates",
+  "intent": "Repair the first typed required verification execution boundary for Issue #893",
+  "mode": "code",
+  "outOfScope": [
+    "Sentinel business logic",
+    " release publication",
+    " lifecycle redesign",
+    " unrelated historical debt"
+  ],
+  "predecessorContractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "predecessorWorkItemId": "WI-926-first-typed-verification",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-926-first-typed-verification.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1fc9aa6a923da4f56aed10d06db8c7640ab33413ebbabe07edec680a64aa25fa",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/verification-planner*.md",
+    "docs/reference/reference-parity*.md",
+    "docs/work-items/WI-927-first-typed-verification*.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/893",
+    ".ai/work-items/archive/WI-926-first-typed-verification.archive.json",
+    ".ai/decisions/WI-926-first-typed-verification.recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-927-first-typed-verification"
+}

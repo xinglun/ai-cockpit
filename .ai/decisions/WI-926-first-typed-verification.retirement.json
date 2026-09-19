@@ -1,0 +1,34 @@
+{
+  "actor": "codex",
+  "archiveManifestDigest": "sha256:afb74242721641d66fd747ff6939dd2fbaf19dad8deb754bd84eb122096c27f0",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:b21db5b6eaffeb1939f8f18d54f6c9fea5fa1243430ee407604cfa725d4b3a64",
+      "path": ".ai/work-items/archive/WI-926-first-typed-verification.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:c97996f9ac1834817693a28b26f69557e9fd70acb2a45dfffa39f07db848ccd8",
+      "path": ".ai/work-items/archive/WI-926-first-typed-verification.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:c7343ba0e1b9663236c6abe48a227d659d073409bdb92848e3b50cc85cef8237",
+      "path": ".ai/work-items/archive/WI-926-first-typed-verification.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-926 was created with a prose authority value that the Runtime cannot treat as authorized and a non-path scope; replace the malformed governance Contract with a correctly authorized successor while preserving all predecessor bytes and implementation changes.",
+  "recordedAt": "2026-09-19T06:08:01Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d953953e7226416dc524907600199c6d05f3ba23769f9a968c5bdf382589588f",
+  "runtimeDigest": "sha256:5c4853020490cee658bdce115d7caedefb1f22505663a603ef04ec1bec220637",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-927-first-typed-verification",
+  "summaryDigest": "sha256:a5b85271a9965092b72d445edb5b2314b56cb80df12a7697d648be3aa4afc94e",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-926-first-typed-verification"
+}

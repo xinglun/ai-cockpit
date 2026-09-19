@@ -4402,7 +4402,27 @@ pub fn require_verification_preconditions(
         .all(|finding| finding.code == "required_scenario_unverified")
         && !controls.findings.is_empty()
         && scenario_coverage_preflight_unknowns(&contract_value).is_empty();
-    if controls.state == "blocked" && !planned_scenarios_are_ready {
+    // A first typed verification is the operation that creates the Summary
+    // entries consumed by the strict finish/archive/close gates. Permit only
+    // that narrow execution-time gap; every other governance finding remains
+    // fail-closed before spawning a project process.
+    let first_typed_verification_is_ready = !controls.findings.is_empty()
+        && controls.findings.iter().all(|finding| {
+            matches!(
+                finding.code.as_str(),
+                "required_verification_missing" | "required_scenario_unverified"
+            )
+        })
+        && controls.unknowns.iter().all(|unknown| {
+            unknown == "required_verification_missing"
+                || unknown.starts_with("required_verification_missing:")
+                || unknown.starts_with("required_scenario_unverified:")
+        })
+        && scenario_coverage_preflight_unknowns(&contract_value).is_empty();
+    if controls.state == "blocked"
+        && !planned_scenarios_are_ready
+        && !first_typed_verification_is_ready
+    {
         return Err(ObserverError::State {
             path: contract_path,
             message: format!(
@@ -14098,6 +14118,7 @@ fn is_stale_recovery_binding_error(error: &ObserverError) -> bool {
         "predecessor_contract_mismatch",
         "predecessor_summary_mismatch",
         "predecessor_outcome_mismatch",
+        "predecessor_outcome_presence_mismatch",
         "predecessor_events_mismatch",
         "runtime_mismatch",
     ]

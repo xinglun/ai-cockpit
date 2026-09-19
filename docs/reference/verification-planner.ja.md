@@ -34,6 +34,14 @@ required tier が operation 名の隠れたルールになることはありま�
 Planner は Verification requirement だけを定義し、人間の権限、provider
 assurance、依存関係の完全性、実行再利用、性能免除は作りません。
 
+checkpoint 済みで現在の preflight が red ではなく、Contract と repository
+snapshot の identity が一致する active Work Item では、Summary に typed
+required check がまだ無い場合でも、Runtime は Contract に宣言された check
+を一度だけ実行できます。これは初回検証の実行境界であり、passed evidence
+ではありません。`finish`、`archive`、`close` は引き続き正式な
+identity-bound receipt を要求します。failed、重複、stale、foreign、malformed
+な entry は、project process の spawn 前に引き続き fail-closed です。
+
 WI-139C と WI-139F の歴史的 approach artifact は元の bytes を保持したまま
 archive manifest に束縛され、active に現在のプロジェクト状態と誤認される
 孤立 artifact は残りません。

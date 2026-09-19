@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-926-first-typed-verification.contract.json",
+    ".ai/work-items/active/WI-926-first-typed-verification.summary.json"
+  ],
+  "checkpointAt": "2026-09-19T05:35:08Z",
+  "checkpointContractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:81363354d0aabe82f9e8f947f736860a8dbdd134c557852578073ccbc2045ff6",
+  "createdAt": "2026-09-19T05:34:32Z",
+  "mode": "code",
+  "preflightAt": "2026-09-19T05:59:47Z",
+  "preflightContractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "preflightDecisionDigest": "sha256:31e2c2ba4027adf5e11f23f6ea2d4af01d0c20853664916b5461a2097b571b46",
+  "preflightRepositorySnapshotDigest": "sha256:0f9b7e7d1b263cb09408f0a5ae1afd01816c93e56fc14a7c9eb48b626163ace2",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-19T05:35:08Z",
+  "workItemId": "WI-926-first-typed-verification"
+}

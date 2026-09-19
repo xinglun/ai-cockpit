@@ -1,0 +1,89 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-927-first-typed-verification.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-927-first-typed-verification.verification-attempt.fcb6ebbbe548bb7735d7ad414645713402d72175869dc4b1d287c94b964fd743.json",
+    ".ai/evidence/WI-927-first-typed-verification.verification.json",
+    ".ai/work-items/archive/WI-927-first-typed-verification.contract.json",
+    ".ai/work-items/archive/WI-927-first-typed-verification.events.jsonl",
+    ".ai/work-items/archive/WI-927-first-typed-verification.outcome.json",
+    ".ai/work-items/archive/WI-927-first-typed-verification.summary.json"
+  ],
+  "checkpointAt": "2026-09-19T06:14:55Z",
+  "checkpointContractDigest": "sha256:dba2da90f8b388301f6104d2b564efed694adacba3363d5ef7caa8318ff604fe",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:1fc9aa6a923da4f56aed10d06db8c7640ab33413ebbabe07edec680a64aa25fa",
+  "createdAt": "2026-09-19T06:07:50Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs:require_verification_preconditions",
+      "crates/cockpit-repository/tests/lifecycle_entry.rs:first_typed_required_verification_is_allowed_before_summary_has_passed_entries",
+      "docs/reference/verification-planner.zh-CN.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:144f71e641b1cbab1e9a79f5343db2bc9e8cd4027ff4fabf27e8428142f61e05",
+  "predecessorWorkItemId": "WI-926-first-typed-verification",
+  "preflightAt": "2026-09-19T06:32:32Z",
+  "preflightContractDigest": "sha256:dba2da90f8b388301f6104d2b564efed694adacba3363d5ef7caa8318ff604fe",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1fc9aa6a923da4f56aed10d06db8c7640ab33413ebbabe07edec680a64aa25fa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-926-first-typed-verification.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T06:32:38Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-927-first-typed-verification"
+}

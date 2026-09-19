@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-19T06:08:01Z",
+  "files": {
+    "contractDigest": "sha256:b21db5b6eaffeb1939f8f18d54f6c9fea5fa1243430ee407604cfa725d4b3a64",
+    "contractPath": ".ai/work-items/archive/WI-926-first-typed-verification.contract.json",
+    "outcomeDigest": "sha256:c97996f9ac1834817693a28b26f69557e9fd70acb2a45dfffa39f07db848ccd8",
+    "outcomePath": ".ai/work-items/archive/WI-926-first-typed-verification.outcome.json",
+    "summaryDigest": "sha256:c7343ba0e1b9663236c6abe48a227d659d073409bdb92848e3b50cc85cef8237",
+    "summaryPath": ".ai/work-items/archive/WI-926-first-typed-verification.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-926-first-typed-verification.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-927-first-typed-verification",
+  "workItemId": "WI-926-first-typed-verification"
+}
