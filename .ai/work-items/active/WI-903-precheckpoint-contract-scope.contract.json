@@ -6,7 +6,9 @@
     "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
     "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors.",
     "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
-    "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact."
+    "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact.",
+    "The documentation status gate accepts the identity-continuous WI-902 to WI-936 to WI-937 recovery lineage only when its terminal successor has valid archive, verification, and close evidence.",
+    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -28,7 +30,8 @@
   "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
   "requiredEvidenceClasses": [
     "verification",
-    "verification_receipt"
+    "verification_receipt",
+    "focused documentation recovery-lineage regression evidence"
   ],
   "risk": "high",
   "scenarioCoverage": [
@@ -102,15 +105,27 @@
     ".ai/decisions/WI-903-precheckpoint-contract-scope.*",
     ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.*",
     "crates/cockpit-repository/src/lib.rs",
-    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*"
+    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*",
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh"
   ],
-  "sources": [],
+  "sources": [
+    "tests/docs/work_item_status_consistency.py",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "crates/cockpit-repository/src/status_projection.rs",
+    ".ai/decisions/WI-936-interface-ssot.recovery.json",
+    ".ai/decisions/WI-937-outcome-archive-delivery-facts.close.json"
+  ],
   "state": "implementation_active",
   "verification": [
     "cargo test --locked --workspace",
     "cargo test --locked -p cockpit-repository --test lifecycle_entry verification_preconditions_accept_bound_retry_after_snapshot_drift",
     "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor",
-    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor_accepts_same_version_candidate_rebuild"
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test recovery_decision existing_active_successor_accepts_same_version_candidate_rebuild",
+    "tests/docs/work_item_status_consistency_test.sh",
+    "tests/docs/documentation_acceptance.sh",
+    "tests/docs/parity_status_check.sh",
+    "tests/ci/repository_gate_manifest_test.sh"
   ],
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

@@ -8,8 +8,9 @@ use cockpit_repository::{
     load_reusable_verification_attempt, persist_verification_attempt, preflight_work_item,
     preflight_work_item_with_runtime, record_recovery_decision, record_verification,
     record_verification_with_runtime, record_work_item_governance_controls, repository_id,
-    require_verification_preconditions, run_repository_verification, scaffold_work_item,
-    set_work_item_intelligence, start_work_item_with_options, status, work_item_start_advisory,
+    require_verification_preconditions, revalidate_contract_amendment, run_repository_verification,
+    scaffold_work_item, set_work_item_intelligence, start_work_item_with_options, status,
+    validate_scenario_coverage_values, work_item_start_advisory,
 };
 use serde_json::json;
 use std::fs;
@@ -770,10 +771,7 @@ fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
         "declare high-risk scenario coverage",
         "make the preflight boundary explicit",
         &["src/**".into()],
-        &WorkItemStartOptions {
-            risk: "high".into(),
-            ..start_options()
-        },
+        &start_options(),
     )
     .expect("start");
 
@@ -1065,6 +1063,151 @@ fn post_checkpoint_contract_declarations_invalidate_preflight_for_revalidation()
             .expect("summary JSON");
     assert_eq!(summary["checkpointCount"], 1);
     assert_eq!(summary["preflightState"], "not_run");
+}
+
+#[test]
+fn post_checkpoint_scenario_amendment_projects_new_unverified_scenario_to_summary() {
+    let directory = repository();
+    let work_item_id = "WI-SCENARIO-AMENDMENT-REVALIDATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "amend required scenario coverage after checkpoint",
+        "keep Contract and Summary scenario identities aligned while requiring fresh evidence",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "amended scenario requires fresh verification",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "the new scenario is visible but cannot inherit old verification",
+                "verificationPlan": "run the affected regression"
+            }]
+        }),
+        "declare the required scenario discovered during implementation",
+    )
+    .expect("append required scenario after checkpoint");
+
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    let scenario = summary["scenarioCoverage"]
+        .as_array()
+        .expect("scenario coverage projection")
+        .iter()
+        .find(|entry| entry["scenario"] == "amended scenario requires fresh verification")
+        .expect("amended scenario projection");
+    assert_eq!(scenario["status"], "unverified");
+    assert!(
+        scenario["evidence"]
+            .as_array()
+            .expect("evidence array")
+            .is_empty()
+    );
+
+    let contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(contract_path).expect("contract bytes"))
+            .expect("contract JSON");
+    let (state, unknowns, findings) = validate_scenario_coverage_values(&contract, &summary);
+    assert_ne!(
+        state, "blocked",
+        "unknowns={unknowns:?}, findings={findings:#?}"
+    );
+}
+
+#[test]
+fn revalidate_amendment_repairs_only_a_missing_scenario_projection() {
+    let directory = repository();
+    let work_item_id = "WI-SCENARIO-PROJECTION-RECONCILIATION";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "repair an interrupted scenario projection",
+        "recover a generated Summary projection without changing Contract or verification facts",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract_path).expect("initial preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "scenarioCoverageAppend": [{
+                "scenario": "interrupted projection remains unverified",
+                "required": true,
+                "status": "unverified",
+                "evidence": [],
+                "expected": "reconciliation restores the missing identity only",
+                "verificationPlan": "run the affected regression"
+            }]
+        }),
+        "declare the scenario before a simulated interrupted projection write",
+    )
+    .expect("append scenario");
+
+    let summary_path = directory
+        .path()
+        .join(format!(".ai/work-items/active/{work_item_id}.summary.json"));
+    let mut interrupted_summary: serde_json::Value =
+        serde_json::from_slice(&fs::read(&summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    interrupted_summary
+        .as_object_mut()
+        .expect("summary object")
+        .remove("scenarioCoverage");
+    fs::write(
+        &summary_path,
+        serde_json::to_vec_pretty(&interrupted_summary).expect("summary JSON"),
+    )
+    .expect("simulate old incomplete projection");
+
+    let reconciliation = revalidate_contract_amendment(
+        directory.path(),
+        work_item_id,
+        "repair the missing scenario projection without changing the Contract",
+    )
+    .expect("projection reconciliation");
+    assert_eq!(
+        reconciliation["stage"],
+        "contract_amendment_projection_reconciliation"
+    );
+    let repaired: serde_json::Value =
+        serde_json::from_slice(&fs::read(summary_path).expect("summary bytes"))
+            .expect("summary JSON");
+    let scenario = repaired["scenarioCoverage"]
+        .as_array()
+        .expect("repaired scenario projection")
+        .iter()
+        .find(|entry| entry["scenario"] == "interrupted projection remains unverified")
+        .expect("repaired scenario");
+    assert_eq!(scenario["status"], "unverified");
+    assert!(
+        scenario["evidence"]
+            .as_array()
+            .expect("evidence array")
+            .is_empty()
+    );
 }
 
 #[test]
