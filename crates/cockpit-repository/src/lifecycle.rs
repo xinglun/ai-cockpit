@@ -137,10 +137,10 @@ fn work_item_start_advisory_with_mode(
         .collect::<Vec<_>>();
     let active_work_items = load_start_obligations(&root, "active", true)?;
     let archived_work_items = load_start_obligations(&root, "archive", false)?;
-    let recovery_predecessor = if recovery_continuation {
-        recovery_predecessor_work_item_id(&root, work_item_id)
+    let recovery_predecessors = if recovery_continuation {
+        super::recovery_predecessor_lineage_for_candidate(&root, work_item_id)?
     } else {
-        None
+        BTreeSet::new()
     };
     let pending_cleanup = active_work_items
         .iter()
@@ -174,7 +174,7 @@ fn work_item_start_advisory_with_mode(
         if item.work_item_id == work_item_id {
             continue;
         }
-        if recovery_predecessor.as_deref() == Some(item.work_item_id.as_str()) {
+        if recovery_predecessors.contains(&item.work_item_id) {
             // A recovery successor is deliberately activated in the
             // predecessor's existing checkout.  The predecessor binding is
             // the reason this continuation is safe; unrelated resource
@@ -366,22 +366,6 @@ fn git_remote_branch_records(
     }
     branches.sort_by(|left, right| left.name.cmp(&right.name));
     Ok(branches)
-}
-
-fn recovery_predecessor_work_item_id(root: &Path, work_item_id: &str) -> Option<String> {
-    let contract = read_json(
-        &root
-            .join(".ai/work-items/active")
-            .join(format!("{work_item_id}.contract.json")),
-    )
-    .ok()?;
-    (contract["state"] == serde_json::json!("not_ready"))
-        .then(|| {
-            contract["predecessorWorkItemId"]
-                .as_str()
-                .map(str::to_owned)
-        })
-        .flatten()
 }
 
 fn load_start_obligations(
@@ -1432,6 +1416,10 @@ pub fn amend_work_item_contract(
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
+    let original_contract_bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
     let mut contract = read_json(&path)?;
     let summary = read_json(&summary_path)?;
     let retry_pending = summary["recoveryRetryPending"] == serde_json::json!(true);
@@ -1658,7 +1646,13 @@ pub fn amend_work_item_contract(
         });
     }
     atomic_json(&path, &contract)?;
-    let result = revalidate_contract_amendment(&root, work_item_id, reason)?;
+    let result = match revalidate_contract_amendment(&root, work_item_id, reason) {
+        Ok(result) => result,
+        Err(error) => {
+            atomic_write(&path, &original_contract_bytes)?;
+            return Err(error);
+        }
+    };
     if retry_pending {
         let mut summary = read_json(&summary_path)?;
         summary["recoveryRetryContractDigest"] =
@@ -1794,11 +1788,20 @@ fn preflight_work_item_internal(
             atomic_json(&summary_path, &summary)?;
             return Ok(decision);
         }
-        if !matches!(current_state, "implementation_active" | "checkpointed") {
+        // A source commit after finish can legitimately change the repository
+        // snapshot without changing the Work Item's intent or checkpoint. In
+        // that state archive must keep the old evidence stale, while a fresh
+        // preflight and replacement verification remain available. The
+        // verification recorder already handles this finish-ready retry by
+        // replacing its evidence binding and refreshing the active Outcome.
+        if !matches!(
+            current_state,
+            "implementation_active" | "checkpointed" | "finish_ready"
+        ) {
             return Err(ObserverError::State {
                 path: summary_path,
                 message: format!(
-                    "preflight is invalid from state {current_state:?}; expected implementation_active or checkpointed"
+                    "preflight is invalid from state {current_state:?}; expected implementation_active, checkpointed, or finish_ready"
                 ),
             });
         }

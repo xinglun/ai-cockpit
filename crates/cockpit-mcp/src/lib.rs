@@ -82,33 +82,53 @@ fn parameter_schema(spec: &cockpit_protocol::InterfaceParameterSpec) -> Value {
     schema
 }
 
+fn outcome_parameter_schema(spec: &cockpit_protocol::OutcomeInterfaceParameterSpec) -> Value {
+    let wire_type = match spec.wire_type.as_str() {
+        "enum" => "string",
+        other => other,
+    };
+    let mut schema = json!({
+        "type": wire_type,
+        "description": spec.description,
+    });
+    if !spec.enum_values.is_empty() {
+        schema["enum"] = json!(spec.enum_values);
+    }
+    if let Some(default) = &spec.default {
+        schema["default"] = if spec.wire_type == "boolean" {
+            json!(default == "true")
+        } else {
+            json!(default)
+        };
+    }
+    schema
+}
+
 fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
     let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
         .expect("work-item outcome MCP specs");
     let mut properties = serde_json::Map::new();
     for spec in specs {
-        properties.insert(spec.name.to_owned(), parameter_schema(spec));
-        for alias in spec.aliases {
-            let mut alias_schema = parameter_schema(spec);
+        properties.insert(spec.name.clone(), outcome_parameter_schema(&spec));
+        for alias in &spec.aliases {
+            let mut alias_schema = outcome_parameter_schema(&spec);
             alias_schema["description"] = json!(format!("Deprecated alias for {}.", spec.name));
-            properties.insert((*alias).to_owned(), alias_schema);
+            properties.insert(alias.to_owned(), alias_schema);
         }
     }
     properties
 }
 
-fn outcome_parameter_names() -> Vec<&'static str> {
+fn outcome_parameter_names() -> Vec<String> {
     let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
         .expect("work-item outcome MCP specs");
     specs
         .iter()
-        .flat_map(|spec| std::iter::once(spec.name).chain(spec.aliases.iter().copied()))
+        .flat_map(|spec| std::iter::once(spec.name.clone()).chain(spec.aliases.clone()))
         .collect()
 }
 
-fn outcome_parameter_spec(
-    canonical_name: &str,
-) -> &'static cockpit_protocol::InterfaceParameterSpec {
+fn outcome_parameter_spec(canonical_name: &str) -> cockpit_protocol::OutcomeInterfaceParameterSpec {
     cockpit_protocol::work_item_outcome_parameter_spec_by_canonical("mcp", canonical_name)
         .unwrap_or_else(|| panic!("missing MCP Outcome parameter spec: {canonical_name}"))
 }
@@ -116,23 +136,21 @@ fn outcome_parameter_spec(
 fn outcome_argument<'a>(arguments: &'a Value, canonical_name: &str) -> Option<&'a Value> {
     let spec = outcome_parameter_spec(canonical_name);
     arguments
-        .get(spec.name)
-        .or_else(|| spec.aliases.iter().find_map(|alias| arguments.get(*alias)))
+        .get(&spec.name)
+        .or_else(|| spec.aliases.iter().find_map(|alias| arguments.get(alias)))
 }
 
-fn outcome_identity_names() -> Vec<&'static str> {
+fn outcome_identity_names() -> Vec<String> {
     let spec = outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID);
-    std::iter::once(spec.name)
-        .chain(spec.aliases.iter().copied())
-        .collect()
+    std::iter::once(spec.name).chain(spec.aliases).collect()
 }
 
-fn validate_interface_parameter(
-    spec: &cockpit_protocol::InterfaceParameterSpec,
+fn validate_outcome_interface_parameter(
+    spec: &cockpit_protocol::OutcomeInterfaceParameterSpec,
     value: &Value,
     tool: &str,
 ) -> Result<(), String> {
-    let type_matches = match spec.wire_type {
+    let type_matches = match spec.wire_type.as_str() {
         "boolean" => value.is_boolean(),
         "string" | "enum" => value.is_string(),
         "object" => value.is_object(),
@@ -140,7 +158,7 @@ fn validate_interface_parameter(
         _ => true,
     };
     if !type_matches {
-        let article = if matches!(spec.wire_type, "object" | "array") {
+        let article = if matches!(spec.wire_type.as_str(), "object" | "array") {
             "an"
         } else {
             "a"
@@ -152,7 +170,7 @@ fn validate_interface_parameter(
     }
     if !spec.enum_values.is_empty() {
         let value = value.as_str().unwrap_or_default();
-        if !spec.enum_values.contains(&value) {
+        if !spec.enum_values.iter().any(|allowed| allowed == value) {
             return Err(format!(
                 "invalid arguments for {tool}: {} must be one of {}",
                 spec.name,
@@ -231,8 +249,8 @@ fn mcp_tool_schema(name: &str) -> Value {
                 outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID);
             let mut schema = object_schema(Value::Object(properties), &[]);
             let mut identities = Vec::with_capacity(identity.aliases.len() + 1);
-            identities.push(identity.name);
-            identities.extend(identity.aliases.iter().copied());
+            identities.push(identity.name.as_str());
+            identities.extend(identity.aliases.iter().map(String::as_str));
             schema["oneOf"] = one_of_aliases(&identities);
             schema
         }
@@ -537,7 +555,9 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             .map(|fields| fields.contains(&key.as_str()))
             .unwrap_or_else(|| {
                 if name == "work_item_outcome" {
-                    outcome_parameter_names().contains(&key.as_str())
+                    outcome_parameter_names()
+                        .iter()
+                        .any(|parameter| parameter == key)
                 } else {
                     capability_parameter_names(cockpit_protocol::capability_show_interface_specs())
                         .contains(&key.as_str())
@@ -553,9 +573,13 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
             let identity_names = if name == "work_item_outcome" {
                 outcome_identity_names()
             } else {
-                vec!["workItemId", "id"]
+                vec!["workItemId".to_owned(), "id".to_owned()]
             };
-            require_exactly_one_string(object, &identity_names, name)?;
+            let identity_name_refs = identity_names
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>();
+            require_exactly_one_string(object, &identity_name_refs, name)?;
             if name == "work_item_outcome" {
                 let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
                     .expect("work-item outcome MCP specs");
@@ -565,8 +589,8 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                     {
                         continue;
                     }
-                    if let Some(value) = object.get(spec.name) {
-                        validate_interface_parameter(spec, value, name)?;
+                    if let Some(value) = object.get(&spec.name) {
+                        validate_outcome_interface_parameter(&spec, value, name)?;
                     }
                 }
             }
@@ -1662,28 +1686,31 @@ fn work_item_outcome(
         cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
     )
     .and_then(Value::as_bool)
-    .unwrap_or(cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY);
+    .unwrap_or_else(|| {
+        outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DELIVERY)
+            .default
+            .as_deref()
+            .is_some_and(|default| default == "true")
+    });
     let view = outcome_argument(
         arguments,
         cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_VIEW,
     )
     .and_then(Value::as_str)
+    .map(str::to_owned)
+    .or_else(|| {
+        outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_VIEW)
+            .default
+            .clone()
+    })
     .map(|view| {
-        if view == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL {
+        if view == cockpit_protocol::WorkItemOutcomeView::Full.as_str() {
             cockpit_repository::OutcomeRenderView::Full
         } else {
             cockpit_repository::OutcomeRenderView::Summary
         }
     })
-    .unwrap_or_else(|| {
-        if cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
-            == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL
-        {
-            cockpit_repository::OutcomeRenderView::Full
-        } else {
-            cockpit_repository::OutcomeRenderView::Summary
-        }
-    });
+    .unwrap_or(cockpit_repository::OutcomeRenderView::Summary);
     if delivery_requested {
         let mut delivery =
             cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)

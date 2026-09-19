@@ -1,0 +1,27 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "user-conversation-continuation-authorization",
+  "decidedAt": "2026-09-19T17:33:10Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-936-interface-ssot.archive.json",
+    ".ai/work-items/archive/WI-936-interface-ssot.outcome.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:1207709380db79d6c39e8e17b92a31aff1403f0345385f0c19f012ae3fc94188",
+  "predecessorEventsDigest": "sha256:38b0711f0dd968eba1ca41d074f524b864f8b7b51505559760aa34403050ceaf",
+  "predecessorOutcomeDigest": "sha256:f239fd8dee84fd652e616cff652da2d5659b99e98a3b2307c1b4bef26c3a9fad",
+  "predecessorSummaryDigest": "sha256:08bb48d89ef6d721c07a27038e95d75adf104db5fd8b6c9221f3ba198250f158",
+  "predecessorWorkItemId": "WI-936-interface-ssot",
+  "reason": "The immutable WI-936 archive preserved a verified Outcome, but its archive delivery recomputed active governance facts and produced a contradictory human handoff. Continue through one successor without altering predecessor archive bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Prepare the archive delivery from the manifest-bound Outcome, separately state any close decision as pending, verify CLI and MCP delivery parity, and do not rearchive WI-936.",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-937-outcome-archive-delivery-facts",
+  "workItemId": "WI-936-interface-ssot"
+}

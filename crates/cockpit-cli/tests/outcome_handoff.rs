@@ -221,14 +221,14 @@ fn default_lifecycle_commands_emit_localized_handoffs_without_changing_stdout_js
                 .trim_end(),
             archive_body
         );
-        // Once the Work Item is archived, a bound provider context still
-        // requires a valid provider-side finalization receipt.  The Runtime
-        // therefore exposes a visible yellow handoff here; close becomes
-        // green only after `record_deleted` binds that receipt below.
+        // Archive delivery preserves the verified archive fact while making
+        // the missing provider finalization and close decision explicit in
+        // the remaining-risk and next-action sections.  Verification is not
+        // relabelled as not-ready merely because closure remains pending.
         let archive_prefix = match language {
-            "en" => "Outcome: 🟡 Verification not ready",
-            "zh-CN" => "Outcome: 🟡 验证尚未就绪",
-            "ja" => "Outcome: 🟡 検証未準備",
+            "en" => "Outcome: 🟢 Declared verification passed",
+            "zh-CN" => "Outcome: 🟢 已声明的验证通过",
+            "ja" => "Outcome: 🟢 宣言された検証済み",
             _ => unreachable!(),
         };
         assert_handoff(
@@ -457,6 +457,115 @@ fn archived_outcome_delivery_query_reuses_the_full_body_without_rearchiving() {
     );
     let after_json: serde_json::Value = serde_json::from_slice(&after.stdout).expect("after JSON");
     assert_eq!(after_json["archiveIdentity"], archive_identity);
+}
+
+#[test]
+fn archived_outcome_delivery_rejects_an_outcome_that_no_longer_matches_its_manifest() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-ARCHIVE-DELIVERY-MANIFEST-BINDING";
+    let repo = checkpointed(binary, id, true);
+    assert!(
+        run(binary, repo.path(), &["finish", "--id", id])
+            .status
+            .success()
+    );
+    assert!(
+        run(binary, repo.path(), &["archive", "--id", id])
+            .status
+            .success()
+    );
+
+    let outcome_path = repo
+        .path()
+        .join(".ai/work-items/archive")
+        .join(format!("{id}.outcome.json"));
+    let mut outcome: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&outcome_path).expect("archived outcome"))
+            .expect("archived Outcome JSON");
+    outcome["summary"] = serde_json::Value::String("tampered after archive".into());
+    std::fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&outcome).expect("tampered Outcome JSON"),
+    )
+    .expect("tamper archived outcome");
+
+    let delivery = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--delivery", "--json"],
+    );
+    assert!(!delivery.status.success());
+    assert!(
+        String::from_utf8_lossy(&delivery.stderr)
+            .contains("archived outcome digest does not match manifest"),
+        "stderr={}",
+        String::from_utf8_lossy(&delivery.stderr)
+    );
+}
+
+#[test]
+fn archived_outcome_delivery_does_not_mix_in_a_later_close_decision() {
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    let id = "WI-ARCHIVE-DELIVERY-IMMUTABLE-FACTS";
+    let repo = checkpointed(binary, id, true);
+    assert!(
+        run(binary, repo.path(), &["finish", "--id", id])
+            .status
+            .success()
+    );
+    let archive = run(binary, repo.path(), &["archive", "--id", id]);
+    assert!(archive.status.success());
+    let archive_json: serde_json::Value = serde_json::from_slice(&archive.stdout).expect("archive");
+    let archived_body = archive_json["outcomeDelivery"]["body"]
+        .as_str()
+        .unwrap_or_else(|| panic!("archive body missing: {archive_json}"))
+        .to_owned();
+
+    common::record_deleted(binary, repo.path(), id);
+    let close = run(
+        binary,
+        repo.path(),
+        &[
+            "close",
+            "--id",
+            id,
+            "--human-decision",
+            "approved",
+            "--actor",
+            "human:owner",
+            "--authority-source",
+            "reviewed-evidence",
+            "--reason",
+            "the evidence was reviewed",
+            "--evidence-ref",
+            ".ai/evidence/verification.json",
+            "--policy-ref",
+            "repository-policy",
+            "--decided-at",
+            "2026-08-24T00:00:00Z",
+            "--resume-condition",
+            "none",
+        ],
+    );
+    assert!(
+        close.status.success(),
+        "close stderr={}",
+        String::from_utf8_lossy(&close.stderr)
+    );
+
+    let delivery = run(
+        binary,
+        repo.path(),
+        &["work-item", "outcome", "--id", id, "--delivery", "--json"],
+    );
+    assert!(
+        delivery.status.success(),
+        "delivery stderr={}",
+        String::from_utf8_lossy(&delivery.stderr)
+    );
+    let delivery_json: serde_json::Value =
+        serde_json::from_slice(&delivery.stdout).expect("delivery JSON");
+    assert_eq!(delivery_json["body"], archived_body);
 }
 
 #[test]

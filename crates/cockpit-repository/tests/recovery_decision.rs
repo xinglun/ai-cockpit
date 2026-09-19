@@ -345,8 +345,23 @@ fn archived_recovery_receipt(
     successor: Option<&str>,
     runtime: &RuntimeContext,
 ) -> serde_json::Value {
+    archived_recovery_receipt_for(
+        directory,
+        "WI-ARCHIVED-RECOVERY",
+        decision,
+        successor,
+        runtime,
+    )
+}
+
+fn archived_recovery_receipt_for(
+    directory: &tempfile::TempDir,
+    id: &str,
+    decision: &str,
+    successor: Option<&str>,
+    runtime: &RuntimeContext,
+) -> serde_json::Value {
     let root = directory.path();
-    let id = "WI-ARCHIVED-RECOVERY";
     let archive = root.join(".ai/work-items/archive");
     let contract: serde_json::Value =
         serde_json::from_slice(&fs::read(archive.join(format!("{id}.contract.json"))).unwrap())
@@ -383,6 +398,88 @@ fn archived_recovery_receipt(
         receipt["successorWorkItemId"] = json!(successor);
     }
     receipt
+}
+
+#[test]
+fn recovery_successor_can_continue_a_bound_archived_ancestor_chain() {
+    let directory = ready_archived_repository();
+    let runtime = RuntimeContext {
+        runtime_version: "0.2.100".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"archived-recovery-runtime"),
+    };
+    let first = "WI-ARCHIVED-RECOVERY";
+    let second = "WI-ARCHIVED-RECOVERY-NEXT";
+    let third = "WI-ARCHIVED-RECOVERY-FINAL";
+
+    let first_successor =
+        archived_recovery_receipt_for(&directory, first, "successor", Some(second), &runtime);
+    record_recovery_decision(directory.path(), first, &first_successor, &runtime)
+        .expect("bind first successor");
+    start_work_item_with_options(
+        directory.path(),
+        second,
+        "continue the first recovery",
+        "produce an archived successor for the bounded chain",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["the recovery chain remains identity-bound".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("activate direct successor");
+    let second_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{second}.contract.json"));
+    preflight_work_item(directory.path(), &second_contract).expect("preflight second successor");
+    checkpoint_work_item(directory.path(), second).expect("checkpoint second successor");
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "archived-chain-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("verify second successor");
+    record_verification_with_runtime(
+        directory.path(),
+        second,
+        &serde_json::to_value(&run.receipt).expect("receipt JSON"),
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record second verification");
+    finish_work_item(directory.path(), second).expect("finish second successor");
+    archive_work_item(directory.path(), second).expect("archive second successor");
+
+    let second_successor =
+        archived_recovery_receipt_for(&directory, second, "successor", Some(third), &runtime);
+    record_recovery_decision(directory.path(), second, &second_successor, &runtime)
+        .expect("bind second successor");
+    start_work_item_with_options(
+        directory.path(),
+        third,
+        "continue the bound recovery chain",
+        "repair the current delivery without authorizing unrelated archived scope",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: vec!["only the selected predecessor chain is exempt".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("a selected ancestor chain must not self-block the successor start");
 }
 
 fn write_forged_supersede(
@@ -2185,25 +2282,30 @@ fn archived_pending_finalization_requires_explicit_supersede_recovery_before_clo
 
     let before =
         outcome_render_input_with_runtime(directory.path(), id, &runtime).expect("outcome");
-    assert_ne!(
+    assert_eq!(
         before.outcome.state,
         OutcomeState::Verified,
-        "archived work with a resource context but no finalization receipt must not be green"
+        "the archive preserves the successful verification fact"
     );
-    assert_ne!(
+    assert_eq!(
         before.outcome.decision_state,
-        Some(cockpit_core::DecisionState::Green),
-        "pending finalization must remain visibly non-green"
+        Some(cockpit_core::DecisionState::Yellow),
+        "pending finalization remains an actionable non-terminal decision state"
+    );
+    assert_eq!(
+        before.finalization.state, "receipt_missing",
+        "the structured finalization projection carries the resource-cleanup gap"
     );
     assert!(
         before
             .outcome
             .unknowns
-            .contains(&"resource_finalization_pending".into())
+            .contains(&"close_decision_pending".into()),
+        "the independent close authorization gap remains explicit"
     );
     assert!(
         render_human_outcome(&before, "zh").starts_with("Outcome: 🟡"),
-        "pending finalization must be visible to a human"
+        "the current observation keeps the verification fact but visibly marks closure as pending"
     );
 
     let predecessor_contract = fs::read(
