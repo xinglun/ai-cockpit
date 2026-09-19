@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "WI-920 remains immutable historical evidence and is bound to WI-921 by a valid Runtime recovery receipt.",
+    "The WI-921 Contract and exact GitHub branch/worktree/PR resource context are recorded before any fresh verification.",
+    "The exact WI-921 and predecessor WI-920 branches and worktrees are cleaned only after reviewed merge, archive, finalization verification, and close.",
+    "The final human Outcome is delivered in the current conversation language and states unknown benefit explicitly."
+  ],
+  "authority": "human:xinglun explicit-user-authorization-for-governed-recovery",
+  "baseRevision": "03861b969317454b7f62987ef96299374dca2028",
+  "createdAt": "2026-09-19T00:52:23Z",
+  "goal": "Bind the exact successor resource context before fresh verification, record the recovery boundary, and complete auditable finalization, cleanup, and closure.",
+  "intent": "Recover WI-920 finalization ordering without rewriting its merged code or verification evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Source and test behavior already merged by PR #888; Outcome delivery implementation; performance work; Issue #851; releases; object repositories; global Agent or MCP configuration."
+  ],
+  "predecessorContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "predecessorWorkItemId": "WI-920-interface-ssot-runtime-schema",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c39934255a4b8325941a4593a3683c12d40dd1af222e3fee9011d12e4b7cb998",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-921-interface-ssot-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/889",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-921-interface-ssot-finalization-recovery/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.**",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-921-interface-ssot-finalization-recovery"
+}
