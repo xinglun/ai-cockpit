@@ -24,6 +24,14 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-933-interface-ssot",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/899",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-933-interface-ssot/ai-cockpit"
+  },
   "risk": "normal",
   "scope": [
     "crates/cockpit-protocol/src/interface_description.rs",
