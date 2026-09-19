@@ -1,0 +1,41 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-925-current-performance.verification-attempt.398c2a15025d2fc631403c247cb6fc6b82ba00642260b4daf10ee94aad4288a6.json",
+    ".ai/evidence/WI-925-current-performance/raw/ai-investigation-many-historical-wi.json",
+    ".ai/evidence/WI-925-current-performance/raw/current-wi925.json",
+    ".ai/evidence/WI-925-current-performance/raw/goods-garden-current-repository.json",
+    ".ai/evidence/WI-925-current-performance/raw/org-x-many-files-clean.json",
+    ".ai/evidence/WI-925-current-performance/raw/sentinel-many-files-clean.json",
+    ".ai/work-items/archive/WI-925-current-performance.contract.json",
+    ".ai/work-items/archive/WI-925-current-performance.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-925-current-performance.ja.md",
+    "docs/work-items/WI-925-current-performance.md",
+    "docs/work-items/WI-925-current-performance.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-19T04:26:49Z",
+  "checkpointContractDigest": "sha256:d8acf23e8bf3484649b07fe3f93e725f3289821d9978a0447e4f575d0432d98a",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:736a719f5db3bddb46526c269522d7e4522e1bd1e6dc00c3f35a3dec77787146",
+  "createdAt": "2026-09-19T04:20:32Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-19T04:50:33Z",
+  "preflightContractDigest": "sha256:d8acf23e8bf3484649b07fe3f93e725f3289821d9978a0447e4f575d0432d98a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:736a719f5db3bddb46526c269522d7e4522e1bd1e6dc00c3f35a3dec77787146",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T04:51:51Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-925-current-performance"
+}

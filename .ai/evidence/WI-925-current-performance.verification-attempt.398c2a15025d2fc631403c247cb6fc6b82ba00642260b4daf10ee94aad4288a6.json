@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:398c2a15025d2fc631403c247cb6fc6b82ba00642260b4daf10ee94aad4288a6",
+  "commands": [
+    {
+      "args": [
+        "tests/performance/runtime_benchmark_stats_test.py"
+      ],
+      "baseCommit": "74c8fb711507db21f713186792c36643aa78dbf0",
+      "commandDigest": "sha256:f429d92de605289b7f46b0ee36f83e51ef5c17321d169c5f9a475647df809b73",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:d8acf23e8bf3484649b07fe3f93e725f3289821d9978a0447e4f575d0432d98a",
+  "contractExecutionScopeDigest": "sha256:9b32587be03ab816a595d2692016eeea2112b99c325ec17c533feac5cd970b84",
+  "createdAt": "2026-09-19T04:50:16Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-925-current-performance/ai-cockpit/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:736a719f5db3bddb46526c269522d7e4522e1bd1e6dc00c3f35a3dec77787146",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-925-current-performance"
+}

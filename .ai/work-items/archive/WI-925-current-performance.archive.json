@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T04:52:03Z",
+  "files": {
+    "contractDigest": "sha256:c05de2d62abc2da38ab74b750ac71b91513ba12486c772c012838d8d0d6131b8",
+    "contractPath": ".ai/work-items/archive/WI-925-current-performance.contract.json",
+    "eventsDigest": "sha256:dc47bbbe659e77bd40913807c5c99cec8d88cd721d8252d735942e390fc8d954",
+    "eventsPath": ".ai/work-items/archive/WI-925-current-performance.events.jsonl",
+    "outcomeDigest": "sha256:9124bb0bc8705df5196c57b423036e3c27e0a93418578243b4b114d7d571c865",
+    "outcomePath": ".ai/work-items/archive/WI-925-current-performance.outcome.json",
+    "summaryDigest": "sha256:27bbf04447471be90756cf449a1028cde6708f527a7fcebdcc6445c850a6d148",
+    "summaryPath": ".ai/work-items/archive/WI-925-current-performance.summary.json",
+    "taskReportDigest": "sha256:29ab8c8454dfe17358a48b6c7fa2bc15dc1b00ab063228da3ce29974a19c140a",
+    "taskReportMarkdownDigest": "sha256:f5a3ef08f38971ee6f772fb8a5313734837d8df956ad57be84975efd57e52088",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-925-current-performance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-925-current-performance.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-925-current-performance"
+}
