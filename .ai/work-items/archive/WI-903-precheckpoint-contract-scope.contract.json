@@ -8,7 +8,9 @@
     "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
     "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact.",
     "The documentation status gate accepts the identity-continuous WI-902 to WI-936 to WI-937 recovery lineage only when its terminal successor has valid archive, verification, and close evidence.",
-    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error."
+    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error.",
+    "An explicitly authorized abandoned active Work Item is archived with immutable original bytes and a terminal receipt, without claiming verification, completion, merge, or release.",
+    "The governance and documentation projections treat only a valid abandoned retirement receipt as terminal; malformed, foreign, stale, or unsupported retirement records remain fail-closed."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -89,6 +91,22 @@
       "required": true,
       "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
       "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "A human-authorized abandoned retirement removes only the named active Work Item, preserves its original artifacts, and makes no verification or completion claim.",
+      "required": true,
+      "scenario": "authorized-abandoned-active-work-item",
+      "status": "unverified",
+      "verificationPlan": "Exercise the Runtime retirement API with a valid abandoned request and inspect the archived artifacts and receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "Unsupported dispositions and missing authority continue to fail closed and leave active bytes unchanged.",
+      "required": true,
+      "scenario": "abandoned-retirement-rejects-invalid-authority-or-disposition",
+      "status": "unverified",
+      "verificationPlan": "Exercise invalid retirement requests in the existing repository fixture."
     }
   ],
   "scope": [
@@ -107,7 +125,11 @@
     "crates/cockpit-repository/src/lib.rs",
     ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*",
     "tests/docs/work_item_status_consistency.py",
-    "tests/docs/work_item_status_consistency_test.sh"
+    "tests/docs/work_item_status_consistency_test.sh",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/test_governance_integrity_gate.py"
   ],
   "sources": [
     "tests/docs/work_item_status_consistency.py",

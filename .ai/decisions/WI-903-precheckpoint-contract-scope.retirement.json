@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:b0fc9bcfe02e4f4c0bfbf6aa1759ef016c89133b4b7acc445f3f9956ba058e45",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:1aded41510f200be1ec3f239b39b82ce0d2bf3972ee8a0818d284aa6e6795182",
+      "path": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:fdefc833b06acf7b883465c08538ca5920c7866adac42844e95523306b44c565",
+      "path": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:3d5159eadb575012518dee5c9f411bbd3d37aea03ccdd2abfa17cdb625c7d324",
+      "path": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.summary.json"
+    }
+  },
+  "authoritySource": "user-conversation-continuation-authorization",
+  "contractDigest": "sha256:f80900eec2aac09f8b774b65dad889a65042e5915842df8474e763e7bc5f3bf6",
+  "decisionId": "work-item-retirement",
+  "disposition": "abandoned",
+  "originalBytesPreserved": true,
+  "reason": "This independent active candidate was started before the authoritative W902 to W936 to W937 recovery lineage was selected. The selected lineage now carries the intended delivery; retain this Work Item's original bytes and verification history without claiming completion or creating a competing successor.",
+  "recordedAt": "2026-09-19T20:40:08Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:76ed43b3c94a06e923c5a8bd503f4d9efe29a9af0e548fb133c95b81859b9b0f",
+  "runtimeDigest": "sha256:f853c593d5aa7ec319227566aa4454efa5a80858fb98fc3458e14d9c18ea972c",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:4b5972454db31a262e0a3144e10fc7af1aecac5545f4d5762de2b988e245e207",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

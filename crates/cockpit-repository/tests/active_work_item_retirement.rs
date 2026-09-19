@@ -128,6 +128,86 @@ fn integrated_retirement_preserves_bytes_without_claiming_verification() {
 }
 
 #[test]
+fn abandoned_retirement_preserves_bytes_without_a_success_claim() {
+    let directory = repository();
+    let id = "WI-RETIRE-ABANDONED";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "retire a displaced active work item",
+        "preserve a candidate that is no longer the selected delivery path",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let active_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{id}.contract.json"));
+    let original_contract = fs::read(&active_contract).expect("active contract");
+
+    let mut abandoned = request("abandoned");
+    abandoned.reason = "the explicitly authorized delivery path was displaced before this active Work Item could be verified".into();
+    let receipt =
+        retire_active_work_item_with_runtime(directory.path(), id, &abandoned, &runtime())
+            .expect("abandon");
+
+    assert_eq!(receipt["disposition"], json!("abandoned"));
+    assert_eq!(receipt["successorWorkItemId"], serde_json::Value::Null);
+    assert_eq!(receipt["verificationClaim"], json!("not_verified"));
+    assert!(!active_contract.exists());
+    assert_eq!(
+        fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/archive/{id}.contract.json")),
+        )
+        .expect("archived contract"),
+        original_contract
+    );
+    let manifest: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(format!(".ai/work-items/archive/{id}.archive.json")),
+        )
+        .expect("manifest"),
+    )
+    .expect("manifest JSON");
+    assert_eq!(manifest["state"], json!("retired"));
+    assert_eq!(manifest["retirementDisposition"], json!("abandoned"));
+}
+
+#[test]
+fn abandoned_retirement_requires_an_explicit_human_actor() {
+    let directory = repository();
+    let id = "WI-RETIRE-ABANDONED-AUTHORITY";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "reject an unowned abandonment",
+        "an agent cannot silently discard an active Work Item",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let mut abandoned = request("abandoned");
+    abandoned.actor = "agent:test".into();
+
+    let error = retire_active_work_item_with_runtime(directory.path(), id, &abandoned, &runtime())
+        .expect_err("abandonment without a human actor must fail");
+    assert!(
+        error.to_string().contains("explicit human actor"),
+        "{error}"
+    );
+    assert!(
+        directory
+            .path()
+            .join(format!(".ai/work-items/active/{id}.contract.json"))
+            .exists()
+    );
+}
+
+#[test]
 fn stale_binding_is_rejected_before_any_archive_write() {
     let directory = repository();
     let id = "WI-RETIRE-STALE";

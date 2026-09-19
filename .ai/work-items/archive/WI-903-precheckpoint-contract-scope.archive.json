@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-19T20:40:08Z",
+  "files": {
+    "contractDigest": "sha256:1aded41510f200be1ec3f239b39b82ce0d2bf3972ee8a0818d284aa6e6795182",
+    "contractPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json",
+    "outcomeDigest": "sha256:fdefc833b06acf7b883465c08538ca5920c7866adac42844e95523306b44c565",
+    "outcomePath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.outcome.json",
+    "summaryDigest": "sha256:3d5159eadb575012518dee5c9f411bbd3d37aea03ccdd2abfa17cdb625c7d324",
+    "summaryPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "abandoned",
+  "retirementReceiptPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

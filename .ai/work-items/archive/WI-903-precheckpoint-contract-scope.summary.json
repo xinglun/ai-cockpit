@@ -137,6 +137,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:f80900eec2aac09f8b774b65dad889a65042e5915842df8474e763e7bc5f3bf6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+      "reason": "Repair the discovered active-Work-Item retirement gap: a superseded recovery candidate needs an explicit non-success terminal disposition without rewriting archive evidence.",
+      "recorded": true,
+      "recordedAt": "2026-09-19T20:35:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ebeacefdd754edd8e689afb788be88a55de4905240c5d09e21956262366c9532",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
@@ -185,7 +205,7 @@
   "preflightContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
   "preflightDecisionDigest": "sha256:dac5b9270d086746808be30e7209c56bb7bd1a742b74445f3adcc69c4b3d442b",
   "preflightRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
-  "preflightState": "yellow",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -247,6 +267,22 @@
       "required": true,
       "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
       "status": "verified"
+    },
+    {
+      "evidence": [],
+      "expected": "A human-authorized abandoned retirement removes only the named active Work Item, preserves its original artifacts, and makes no verification or completion claim.",
+      "required": true,
+      "scenario": "authorized-abandoned-active-work-item",
+      "status": "unverified",
+      "verificationPlan": "Exercise the Runtime retirement API with a valid abandoned request and inspect the archived artifacts and receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "Unsupported dispositions and missing authority continue to fail closed and leave active bytes unchanged.",
+      "required": true,
+      "scenario": "abandoned-retirement-rejects-invalid-authority-or-disposition",
+      "status": "unverified",
+      "verificationPlan": "Exercise invalid retirement requests in the existing repository fixture."
     }
   ],
   "state": "checkpointed",
@@ -301,6 +337,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:f80900eec2aac09f8b774b65dad889a65042e5915842df8474e763e7bc5f3bf6",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-19T20:35:10Z"
+  },
   "verificationRecoveryReconciled": "sha256:5ab15bbc7df7c12f7a1547a3c182eeeab9156231080f8e4bc0ec86fe9e3bd305",
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

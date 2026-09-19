@@ -6382,10 +6382,13 @@ pub fn retire_active_work_item_with_runtime(
             message: "retirement request schema or decision id is invalid".into(),
         });
     }
-    if !matches!(request.disposition.as_str(), "integrated" | "replaced") {
+    if !matches!(
+        request.disposition.as_str(),
+        "integrated" | "replaced" | "abandoned"
+    ) {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
-            message: "retirement disposition must be integrated or replaced".into(),
+            message: "retirement disposition must be integrated, replaced, or abandoned".into(),
         });
     }
     if request.actor.trim().is_empty()
@@ -6399,16 +6402,25 @@ pub fn retire_active_work_item_with_runtime(
                 .into(),
         });
     }
-    if request.disposition == "integrated" && request.successor_work_item_id.is_some() {
+    if matches!(request.disposition.as_str(), "integrated" | "abandoned")
+        && request.successor_work_item_id.is_some()
+    {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
-            message: "integrated retirement cannot include a successor Work Item".into(),
+            message: "integrated or abandoned retirement cannot include a successor Work Item"
+                .into(),
         });
     }
     if request.disposition == "replaced" && request.successor_work_item_id.is_none() {
         return Err(ObserverError::State {
             path: root.join(".ai/decisions"),
             message: "replaced retirement requires an explicitly linked successor Work Item".into(),
+        });
+    }
+    if request.disposition == "abandoned" && !request.actor.starts_with("human:") {
+        return Err(ObserverError::State {
+            path: root.join(".ai/decisions"),
+            message: "abandoned retirement requires an explicit human actor".into(),
         });
     }
 
@@ -6660,7 +6672,7 @@ pub fn retire_active_work_item_with_runtime(
     let manifest = serde_json::json!({
         "protocolVersion": 1,
         "workItemId": work_item_id,
-        "state": if request.disposition == "integrated" { "retired" } else { "replaced" },
+        "state": if request.disposition == "replaced" { "replaced" } else { "retired" },
         "historicalEvidence": true,
         "closeRequired": false,
         "retirementDisposition": request.disposition,
