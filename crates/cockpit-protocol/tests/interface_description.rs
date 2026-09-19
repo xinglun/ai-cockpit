@@ -1,9 +1,10 @@
 use cockpit_protocol::{
-    CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
-    WORK_ITEM_OUTCOME_DEFAULT_VIEW, WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
-    WORK_ITEM_OUTCOME_VIEW_VALUES, normalize_work_item_outcome_language,
-    render_interface_description_markdown, work_item_outcome_interface_description,
-    work_item_outcome_interface_specs, work_item_outcome_parameter_definition,
+    CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+    WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
+    normalize_work_item_outcome_language, render_interface_description_markdown,
+    work_item_outcome_interface_description, work_item_outcome_interface_specs,
+    work_item_outcome_parameter_definition, work_item_outcome_parameter_spec_by_canonical,
 };
 
 fn surface<'a>(
@@ -144,6 +145,22 @@ fn surface_specs_reference_one_canonical_parameter_definition() {
             assert_eq!(spec.enum_values, definition.enum_values, "{surface_name}");
             assert_eq!(spec.description, definition.description, "{surface_name}");
         }
+    }
+}
+
+#[test]
+fn adapters_resolve_transport_bindings_from_canonical_parameter_facts() {
+    for (surface_name, expected_identity, expected_aliases) in [
+        ("cli", "id", Vec::<&str>::new()),
+        ("mcp", "workItemId", vec!["id"]),
+    ] {
+        let spec = work_item_outcome_parameter_spec_by_canonical(
+            surface_name,
+            WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+        )
+        .expect("canonical Work Item identity binding");
+        assert_eq!(spec.name, expected_identity, "surface={surface_name}");
+        assert_eq!(spec.aliases, expected_aliases, "surface={surface_name}");
     }
 }
 

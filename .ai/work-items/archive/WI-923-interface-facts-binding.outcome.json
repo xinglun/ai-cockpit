@@ -1,0 +1,213 @@
+{
+  "acceptanceResults": [
+    "Protocol-owned definitions are the sole source for outcome parameter names, defaults, enum values, wire types, and descriptions used by CLI and MCP.",
+    "Changing one protocol definition updates capability output, MCP schema/validation, CLI metadata checks, and generated references without a second fact edit.",
+    "The projection remains deterministic, preserves human prose, and does not run repository verification or history scans.",
+    "Existing Outcome language and delivery behavior remain unchanged."
+  ],
+  "createdAt": "2026-09-19T02:58:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8f5d49670a6abedfc1dc4b82a9910d40d1c30d3d584e8e8ddd76b5cc6d539611",
+  "evidenceRefs": [
+    ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c2656d4ad35f90595a471c652e011c1877b7f75c183a826979edd82e16e9f7d4",
+      "workItemId": "WI-923-interface-facts-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.04a5935dfa8b3a992bea8efb23c907d8af5d18143690b28f8fcd5323f45dbff1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.1c115a05e74e0c7953a028665c65d7cc6e4e274cd6dd515171e3b6a581b73b94.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.a6197e53c9bd2c8f2e6ede36b729f55ac6ba8487658ea31b616898c3e7053979.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification-attempt.c0771896dbd054d9a4c6a3509d142ecdaf4aff1cf3464351eaac770681574021.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-923-interface-facts-binding.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-923-interface-facts-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "One protocol-owned interface definition drives CLI metadata, MCP schema/validation, capability discovery, and generated references."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-923-interface-facts-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-923-interface-facts-binding"
+  },
+  "taskReportDigest": "sha256:bda45d1c68cbc97efbd747ed48301998a4f3af89de879d1a02031c9053c3e99d",
+  "taskReportMarkdownDigest": "sha256:eaaa5789f1a92e45df2fc8ef9e939dc7c17761dbb28266e53d6c7ed3cced7645",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-923-interface-facts-binding.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-923-interface-facts-binding"
+}

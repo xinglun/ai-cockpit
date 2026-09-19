@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "Protocol-owned definitions are the sole source for outcome parameter names, defaults, enum values, wire types, and descriptions used by CLI and MCP.",
+    "Changing one protocol definition updates capability output, MCP schema/validation, CLI metadata checks, and generated references without a second fact edit.",
+    "The projection remains deterministic, preserves human prose, and does not run repository verification or history scans.",
+    "Existing Outcome language and delivery behavior remain unchanged."
+  ],
+  "authority": "human:xinglun",
+  "baseRevision": "a576849adc01e2ef9fdd768ad03d4aae0656717e",
+  "createdAt": "2026-09-19T02:44:28Z",
+  "goal": "One protocol-owned interface definition drives CLI metadata, MCP schema/validation, capability discovery, and generated references.",
+  "intent": "Complete the BAML-style interface discovery single source of truth by removing remaining adapter-side outcome field bindings.",
+  "mode": "implementation",
+  "outOfScope": [
+    "lifecycle and authorization behavior",
+    "Outcome delivery and host integration",
+    "performance implementation and release publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1f96e5bb04ee0deb96b496a279ca1a515b17c578b79ef5ea62c8ed12688dfc89",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "scripts/generate_interface_references.py",
+    "tests/docs/interface_reference_generator_test.sh",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-923-interface-facts-binding.*",
+    ".ai/work-items/active/WI-923-interface-facts-binding.*",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "sources": [
+    "Current main a576849a and WI-920/WI-922 interface discovery evidence"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --test interface_description",
+    "cargo test --locked -p cockpit-mcp --lib --test rpc",
+    "cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity",
+    "tests/docs/interface_reference_generator_test.sh"
+  ],
+  "workItemId": "WI-923-interface-facts-binding"
+}

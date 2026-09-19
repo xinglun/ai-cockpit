@@ -106,6 +106,27 @@ fn outcome_parameter_names() -> Vec<&'static str> {
         .collect()
 }
 
+fn outcome_parameter_spec(
+    canonical_name: &str,
+) -> &'static cockpit_protocol::InterfaceParameterSpec {
+    cockpit_protocol::work_item_outcome_parameter_spec_by_canonical("mcp", canonical_name)
+        .unwrap_or_else(|| panic!("missing MCP Outcome parameter spec: {canonical_name}"))
+}
+
+fn outcome_argument<'a>(arguments: &'a Value, canonical_name: &str) -> Option<&'a Value> {
+    let spec = outcome_parameter_spec(canonical_name);
+    arguments
+        .get(spec.name)
+        .or_else(|| spec.aliases.iter().find_map(|alias| arguments.get(*alias)))
+}
+
+fn outcome_identity_names() -> Vec<&'static str> {
+    let spec = outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID);
+    std::iter::once(spec.name)
+        .chain(spec.aliases.iter().copied())
+        .collect()
+}
+
 fn validate_interface_parameter(
     spec: &cockpit_protocol::InterfaceParameterSpec,
     value: &Value,
@@ -206,8 +227,8 @@ fn mcp_tool_schema(name: &str) -> Value {
         ),
         "work_item_outcome" => {
             let properties = outcome_parameter_properties();
-            let identity = cockpit_protocol::work_item_outcome_parameter_spec("mcp", "workItemId")
-                .expect("workItemId outcome spec");
+            let identity =
+                outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID);
             let mut schema = object_schema(Value::Object(properties), &[]);
             let mut identities = Vec::with_capacity(identity.aliases.len() + 1);
             identities.push(identity.name);
@@ -529,12 +550,19 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
 
     match name {
         "work_item_get" | "work_item_outcome" | "work_item_validate" => {
-            require_exactly_one_string(object, &["workItemId", "id"], name)?;
+            let identity_names = if name == "work_item_outcome" {
+                outcome_identity_names()
+            } else {
+                vec!["workItemId", "id"]
+            };
+            require_exactly_one_string(object, &identity_names, name)?;
             if name == "work_item_outcome" {
                 let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
                     .expect("work-item outcome MCP specs");
                 for spec in specs {
-                    if spec.name == "workItemId" {
+                    if spec.canonical_name
+                        == cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID
+                    {
                         continue;
                     }
                     if let Some(value) = object.get(spec.name) {
@@ -1621,36 +1649,41 @@ fn work_item_outcome(
     arguments: &Value,
     runtime: &cockpit_protocol::RuntimeContext,
 ) -> Result<Value, String> {
-    let id = arguments
-        .get("workItemId")
-        .or_else(|| arguments.get("id"))
-        .and_then(Value::as_str)
-        .ok_or("workItemId argument is required")?;
+    let id = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+    )
+    .and_then(Value::as_str)
+    .ok_or("workItemId argument is required")?;
     validate_id(id)?;
     let language = requested_language(arguments);
-    let delivery_requested = arguments
-        .get("delivery")
-        .and_then(Value::as_bool)
-        .unwrap_or(cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY);
-    let view = arguments
-        .get("view")
-        .and_then(Value::as_str)
-        .map(|view| {
-            if view == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL {
-                cockpit_repository::OutcomeRenderView::Full
-            } else {
-                cockpit_repository::OutcomeRenderView::Summary
-            }
-        })
-        .unwrap_or_else(|| {
-            if cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
-                == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL
-            {
-                cockpit_repository::OutcomeRenderView::Full
-            } else {
-                cockpit_repository::OutcomeRenderView::Summary
-            }
-        });
+    let delivery_requested = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DELIVERY,
+    )
+    .and_then(Value::as_bool)
+    .unwrap_or(cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_DELIVERY);
+    let view = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_VIEW,
+    )
+    .and_then(Value::as_str)
+    .map(|view| {
+        if view == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL {
+            cockpit_repository::OutcomeRenderView::Full
+        } else {
+            cockpit_repository::OutcomeRenderView::Summary
+        }
+    })
+    .unwrap_or_else(|| {
+        if cockpit_protocol::WORK_ITEM_OUTCOME_DEFAULT_VIEW
+            == cockpit_protocol::WORK_ITEM_OUTCOME_VIEW_FULL
+        {
+            cockpit_repository::OutcomeRenderView::Full
+        } else {
+            cockpit_repository::OutcomeRenderView::Summary
+        }
+    });
     if delivery_requested {
         let mut delivery =
             cockpit_repository::prepare_archive_outcome_delivery(repo, id, runtime, language)
@@ -1660,13 +1693,15 @@ fn work_item_outcome(
             .join(format!("{id}.progress.json"));
         let mut host =
             cockpit_agent::configured_outcome_host().map_err(|error| error.to_string())?;
-        let supplied_progress = arguments
-            .get("deliveryProgress")
-            .map(|value| {
-                serde_json::from_value::<cockpit_agent::OutcomeDeliveryProgress>(value.clone())
-                    .map_err(|error| format!("invalid deliveryProgress: {error}"))
-            })
-            .transpose()?;
+        let supplied_progress = outcome_argument(
+            arguments,
+            cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS,
+        )
+        .map(|value| {
+            serde_json::from_value::<cockpit_agent::OutcomeDeliveryProgress>(value.clone())
+                .map_err(|error| format!("invalid deliveryProgress: {error}"))
+        })
+        .transpose()?;
         let stored_progress = if host.is_return_only() || supplied_progress.is_some() {
             None
         } else {
@@ -1819,31 +1854,33 @@ fn work_item_validate(
 }
 
 fn requested_language(arguments: &Value) -> &'static str {
-    let requested = arguments
-        .get("language")
-        .and_then(Value::as_str)
-        .map(str::to_ascii_lowercase)
-        .or_else(|| {
-            std::env::var("AI_COCKPIT_LANGUAGE")
-                .ok()
-                .map(|value| value.to_ascii_lowercase())
-        })
-        .or_else(|| {
-            std::env::var("LC_ALL")
-                .ok()
-                .map(|value| value.to_ascii_lowercase())
-        })
-        .or_else(|| {
-            std::env::var("LANGUAGE")
-                .ok()
-                .map(|value| value.to_ascii_lowercase())
-        })
-        .or_else(|| {
-            std::env::var("LANG")
-                .ok()
-                .map(|value| value.to_ascii_lowercase())
-        })
-        .unwrap_or_default();
+    let requested = outcome_argument(
+        arguments,
+        cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE,
+    )
+    .and_then(Value::as_str)
+    .map(str::to_ascii_lowercase)
+    .or_else(|| {
+        std::env::var("AI_COCKPIT_LANGUAGE")
+            .ok()
+            .map(|value| value.to_ascii_lowercase())
+    })
+    .or_else(|| {
+        std::env::var("LC_ALL")
+            .ok()
+            .map(|value| value.to_ascii_lowercase())
+    })
+    .or_else(|| {
+        std::env::var("LANGUAGE")
+            .ok()
+            .map(|value| value.to_ascii_lowercase())
+    })
+    .or_else(|| {
+        std::env::var("LANG")
+            .ok()
+            .map(|value| value.to_ascii_lowercase())
+    })
+    .unwrap_or_default();
     cockpit_protocol::normalize_work_item_outcome_language(&requested)
 }
 
@@ -1957,6 +1994,7 @@ pub fn serve_with_repo<R: BufRead, W: Write>(
 mod tests {
     use super::{
         capability_parameter_names, capability_parameter_properties, capability_parameter_required,
+        outcome_argument, outcome_identity_names, outcome_parameter_spec,
     };
     use cockpit_protocol::InterfaceParameterSpec;
 
@@ -1979,5 +2017,23 @@ mod tests {
         assert!(properties.get("future").is_some());
         assert!(capability_parameter_names(&specs).contains(&"future"));
         assert!(capability_parameter_required(&specs).contains(&"future"));
+    }
+
+    #[test]
+    fn outcome_runtime_bindings_follow_protocol_canonical_specs() {
+        let identity =
+            outcome_parameter_spec(cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID);
+        assert_eq!(identity.name, "workItemId");
+        assert_eq!(outcome_identity_names(), vec!["workItemId", "id"]);
+
+        let arguments = serde_json::json!({"id": "WI-BOUND", "language": "zh"});
+        assert_eq!(
+            outcome_argument(
+                &arguments,
+                cockpit_protocol::WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+            )
+            .and_then(serde_json::Value::as_str),
+            Some("WI-BOUND")
+        );
     }
 }
