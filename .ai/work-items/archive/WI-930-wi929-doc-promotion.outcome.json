@@ -43,112 +43,112 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-930-wi929-doc-promotion.verification-attempt.fdf978f215b52320bac403d39379ef125c63692d93de9d29b2daa4a3e8d539f1.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-930-wi929-doc-promotion.verification.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-930-wi929-doc-promotion.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-930-wi929-doc-promotion.events.jsonl"
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.events.jsonl"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-930-wi929-doc-promotion.outcome.json"
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.zh-CN.md"
@@ -207,7 +207,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "After WI-929 was merged and closed, update only its six human documentation projections so they reflect terminal archive, verification, finalization, and close evidence without changing runtime behavior."
@@ -216,7 +216,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-930-wi929-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -226,8 +226,8 @@
     "status": "verified",
     "workItemId": "WI-930-wi929-doc-promotion"
   },
-  "taskReportDigest": "sha256:65dfd04356d14843946388c381cba3b6cbf27fd2085276e9e81f6247f079d739",
-  "taskReportMarkdownDigest": "sha256:930e5fe5c173e2e4430655b890d0910269c5f6f26a52b736549f5dd1ecc4b3a5",
+  "taskReportDigest": "sha256:7b2d6fc3c804c36fa493522a09c71b47c170f4ef802ef96ab1657fadb9570f87",
+  "taskReportMarkdownDigest": "sha256:e2fe9c06daccbcc20c6c0d2253ff4dfe30384184db21c7fb63010bd8685488ad",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
