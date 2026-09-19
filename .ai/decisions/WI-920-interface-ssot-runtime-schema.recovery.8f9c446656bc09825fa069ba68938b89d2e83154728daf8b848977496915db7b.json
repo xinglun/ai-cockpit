@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-for-governed-recovery",
+  "decidedAt": "2026-09-19T01:05:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.archive.json",
+    ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/888"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:36ac6079aa5d0a5b4976e8673ae2bbfc6f81af747e010bb8d41bc35341e99409",
+  "predecessorContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "predecessorEventsDigest": "sha256:92cc4c37101fc839b46ad790d08924170a1c754725e115b79c0e10079adaf1da",
+  "predecessorOutcomeDigest": "sha256:7e520c40333c27587e048bf99529fa0efeee734fbc9c0324b14af239766cabe5",
+  "predecessorSummaryDigest": "sha256:c49541ec684a87252aa26e790d2ba9c73b467198c6ef109cd0be8c25337ae19e",
+  "predecessorWorkItemId": "WI-920-interface-ssot-runtime-schema",
+  "reason": "The original successor receipt was bound before WI-920 was archived and is stale. Supersede it with an append-only receipt bound to the immutable archived bytes while continuing the same narrow successor finalization recovery.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Complete WI-921 resource finalization recovery, then close the selected lineage and clean both exact branches and worktrees.",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-921-interface-ssot-finalization-recovery",
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}

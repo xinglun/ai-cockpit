@@ -1,0 +1,33 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.8f9c446656bc09825fa069ba68938b89d2e83154728daf8b848977496915db7b.json",
+    ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.events.jsonl",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.outcome.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.task-report.json",
+    ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.task-report.md",
+    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.contract.json",
+    ".ai/work-items/active/WI-921-interface-ssot-finalization-recovery.summary.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.archive.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.events.jsonl",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.outcome.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.json",
+    ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-19T00:52:23Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "predecessorWorkItemId": "WI-920-interface-ssot-runtime-schema",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-920-interface-ssot-runtime-schema.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-19T00:59:10Z",
+  "workItemId": "WI-921-interface-ssot-finalization-recovery"
+}

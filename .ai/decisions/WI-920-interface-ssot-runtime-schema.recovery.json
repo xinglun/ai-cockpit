@@ -1,0 +1,27 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-for-governed-recovery",
+  "decidedAt": "2026-09-19T00:55:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-920-interface-ssot-runtime-schema.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/888"
+  ],
+  "policyRefs": [
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:20178e9ca2f64321f4be79a0b5cfe1c70bb065336016b8f35f341f178ac355a1",
+  "predecessorEventsDigest": "sha256:3f478176cc2411a6ecb7ed0fa8db85efe6e595c2901b2facf2eb3d6bf4213392",
+  "predecessorOutcomeDigest": "sha256:a96b66d5f35c02f76886b4ef4dcfc416696e305522b9b8d4f6643a6ac468ece2",
+  "predecessorSummaryDigest": "sha256:6d148be1f299201af6c6ec59274b114f057287fe670307ed807a6f8a66f1e55f",
+  "predecessorWorkItemId": "WI-920-interface-ssot-runtime-schema",
+  "reason": "WI-920 was merged and verified before the required provider resource finalization plan was bound; preserve its immutable result and continue through a narrow successor that binds the exact PR branch and worktree before any new verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind a reviewed successor Contract and exact resource context before fresh verification, then archive, finalize, finalize-verify, close, and clean both exact branches/worktrees.",
+  "runtimeDigest": "sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-921-interface-ssot-finalization-recovery",
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}

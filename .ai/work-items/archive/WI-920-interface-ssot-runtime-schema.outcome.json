@@ -44,63 +44,63 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.1370a671a70b525ec7b43dff0213f2ccf90704ef3b88e9df984c09fd099074b5.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-920-interface-ssot-runtime-schema.verification-attempt.79c47a2c11ac22eb0ce4923466e4d6d3c08eea5be0976cee95846a6157a8de9f.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.summary.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
@@ -159,7 +159,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json"
           ],
           "inference": false,
           "text": "Make the BAML-style interface description for work-item outcome derive defaults, enums, requiredness, aliases, and parameter descriptions from the actual adapter definitions, with deterministic parity evidence."
@@ -168,7 +168,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-920-interface-ssot-runtime-schema.contract.json"
+            ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -178,8 +178,8 @@
     "status": "verified",
     "workItemId": "WI-920-interface-ssot-runtime-schema"
   },
-  "taskReportDigest": "sha256:9f587b6b134b09db87f6d845f01791263dbab0f977b364c6f1d1b4dcd5099790",
-  "taskReportMarkdownDigest": "sha256:29db101fd9106ea8454cd25e6a2c6f245ebd86b3439da138afa1a1a7e8e5dd97",
+  "taskReportDigest": "sha256:b34182473cd8030e296515781e89fdf9a23cd220851fc0649a74b17fd504d745",
+  "taskReportMarkdownDigest": "sha256:2e079df89d781180ea6556ec16cbfd1dc02d18352d1125938f4167132e775cc6",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

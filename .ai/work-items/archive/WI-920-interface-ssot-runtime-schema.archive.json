@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T00:52:36Z",
+  "files": {
+    "contractDigest": "sha256:0e672eb4081445c162d42ad1ed6c65c380f3504284e306d0bef6501ff8305db2",
+    "contractPath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.contract.json",
+    "eventsDigest": "sha256:92cc4c37101fc839b46ad790d08924170a1c754725e115b79c0e10079adaf1da",
+    "eventsPath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.events.jsonl",
+    "outcomeDigest": "sha256:025efd29833150e9bf504f167570c2b5f7bb759fec52c70fde5a65596d2f522f",
+    "outcomePath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.outcome.json",
+    "summaryDigest": "sha256:2b04867d5c68624ca35e938813aa98a3736b3100575839f31c35f4159a906dc2",
+    "summaryPath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.summary.json",
+    "taskReportDigest": "sha256:b34182473cd8030e296515781e89fdf9a23cd220851fc0649a74b17fd504d745",
+    "taskReportMarkdownDigest": "sha256:2e079df89d781180ea6556ec16cbfd1dc02d18352d1125938f4167132e775cc6",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-920-interface-ssot-runtime-schema.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-920-interface-ssot-runtime-schema"
+}
