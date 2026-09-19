@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:402a5576dd1e097531e5a343db34cdf6497289f8cabaeb06f56bb9a18881b195",
+  "branchRef": "refs/heads/codex/wi-893-first-typed-verification",
+  "contractDigest": "sha256:dba2da90f8b388301f6104d2b564efed694adacba3363d5ef7caa8318ff604fe",
+  "headRevision": "986f9ae92dd048d575ed0c6a1c6cf9cd0ea793a4",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-19T07:07:49Z",
+  "operationId": "sha256:4d7a2c936f30608fe67bda59490be07281ff097f1a25b894aeb61e18b49a7c0f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:e6e23199b022116f516b98a25a1ce969ae41cce99054ea4cb0d9488be617946f",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-927-first-typed-verification",
+  "worktreeId": "sha256:133c688555b8a058a3b0537239f6a60bdce5315526eae0e2d6be5bb2bbc5226f"
+}
