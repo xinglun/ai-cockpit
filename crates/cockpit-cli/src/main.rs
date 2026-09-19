@@ -809,18 +809,24 @@ enum CapabilityCommand {
         #[arg(long)]
         surface: Option<String>,
         /// Description encoding; the existing no-surface registry remains JSON.
-        #[arg(long, value_enum, default_value = "json")]
-        format: CapabilityFormat,
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::CAPABILITY_SHOW_FORMAT_VALUES.iter().copied()
+            ),
+            default_value = cockpit_protocol::CAPABILITY_SHOW_DEFAULT_FORMAT
+        )]
+        format: String,
         /// Language for Markdown labels; structured JSON is language-neutral.
-        #[arg(long, default_value = "en")]
+        #[arg(
+            long,
+            value_parser = clap::builder::PossibleValuesParser::new(
+                cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES.iter().copied()
+            ),
+            default_value = cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE
+        )]
         language: String,
     },
-}
-
-#[derive(Clone, Debug, clap::ValueEnum)]
-enum CapabilityFormat {
-    Json,
-    Markdown,
 }
 
 #[derive(Debug, Subcommand)]
@@ -2714,11 +2720,11 @@ fn run() -> Result<()> {
                         );
                     }
                     let description = cockpit_protocol::work_item_outcome_interface_description();
-                    match format {
-                        CapabilityFormat::Json => {
+                    match format.as_str() {
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_JSON => {
                             println!("{}", serde_json::to_string_pretty(&description)?);
                         }
-                        CapabilityFormat::Markdown => {
+                        cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN => {
                             print!(
                                 "{}",
                                 cockpit_protocol::render_interface_description_markdown(
@@ -3503,8 +3509,8 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{
-        CapabilityCommand, CapabilityFormat, Cli, CommandKind, WorkItemCommand,
-        concurrent_phase_elapsed, record_ordinary_cleanup_command,
+        CapabilityCommand, Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
+        record_ordinary_cleanup_command,
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
@@ -3571,7 +3577,7 @@ mod tests {
                 CapabilityCommand::Show {
                     repo,
                     surface,
-                    format: CapabilityFormat::Markdown,
+                    format,
                     language,
                 },
         } = cli.command
@@ -3583,7 +3589,59 @@ mod tests {
             std::path::PathBuf::from("/tmp/interface-description-repository")
         );
         assert_eq!(surface.as_deref(), Some("work-item-outcome"));
+        assert_eq!(format, cockpit_protocol::CAPABILITY_SHOW_FORMAT_MARKDOWN);
         assert_eq!(language, "zh-CN");
+    }
+
+    #[test]
+    fn capability_description_defaults_and_values_come_from_protocol_facts() {
+        let root = Cli::command();
+        let show = root
+            .find_subcommand("capability")
+            .and_then(|command| command.find_subcommand("show"))
+            .expect("capability show command");
+
+        let format = show
+            .get_arguments()
+            .find(|argument| argument.get_id().as_str() == "format")
+            .expect("capability format argument");
+        assert_eq!(
+            format
+                .get_default_values()
+                .iter()
+                .map(|value| value.to_string_lossy().into_owned())
+                .collect::<Vec<_>>(),
+            vec![cockpit_protocol::CAPABILITY_SHOW_DEFAULT_FORMAT]
+        );
+        assert_eq!(
+            format
+                .get_possible_values()
+                .into_iter()
+                .map(|value| value.get_name().to_owned())
+                .collect::<Vec<_>>(),
+            cockpit_protocol::CAPABILITY_SHOW_FORMAT_VALUES
+        );
+
+        let language = show
+            .get_arguments()
+            .find(|argument| argument.get_id().as_str() == "language")
+            .expect("capability language argument");
+        assert_eq!(
+            language
+                .get_default_values()
+                .iter()
+                .map(|value| value.to_string_lossy().into_owned())
+                .collect::<Vec<_>>(),
+            vec![cockpit_protocol::CAPABILITY_SHOW_DEFAULT_LANGUAGE]
+        );
+        assert_eq!(
+            language
+                .get_possible_values()
+                .into_iter()
+                .map(|value| value.get_name().to_owned())
+                .collect::<Vec<_>>(),
+            cockpit_protocol::CAPABILITY_SHOW_LANGUAGE_VALUES
+        );
     }
 
     #[test]
