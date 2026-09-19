@@ -1,7 +1,11 @@
 use cockpit_protocol::{
     CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
+    WORK_ITEM_OUTCOME_CLI_DELIVERY, WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE,
+    WORK_ITEM_OUTCOME_CLI_VIEW, WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID,
     WORK_ITEM_OUTCOME_DEFAULT_DELIVERY, WORK_ITEM_OUTCOME_DEFAULT_VIEW,
-    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_VIEW_VALUES,
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_MCP_DELIVERY,
+    WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_MCP_LANGUAGE,
+    WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_VIEW_VALUES,
     normalize_work_item_outcome_language, render_interface_description_markdown,
     work_item_outcome_interface_description, work_item_outcome_interface_specs,
     work_item_outcome_parameter_definition, work_item_outcome_parameter_spec_by_canonical,
@@ -39,6 +43,19 @@ fn outcome_description_has_stable_shared_facts() {
     assert_eq!(description.name, "work-item-outcome");
     assert_eq!(description.schema_version, 1);
     assert_eq!(description.runtime_version, env!("CARGO_PKG_VERSION"));
+
+    let cli_specs = work_item_outcome_interface_specs("cli").expect("CLI specs");
+    assert_eq!(cli_specs[0].name, WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID);
+    assert_eq!(cli_specs[1].name, WORK_ITEM_OUTCOME_CLI_DELIVERY);
+    assert_eq!(cli_specs[2].name, WORK_ITEM_OUTCOME_CLI_JSON);
+    assert_eq!(cli_specs[3].name, WORK_ITEM_OUTCOME_CLI_VIEW);
+    assert_eq!(cli_specs[4].name, WORK_ITEM_OUTCOME_CLI_LANGUAGE);
+    let mcp_specs = work_item_outcome_interface_specs("mcp").expect("MCP specs");
+    assert_eq!(mcp_specs[0].name, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID);
+    assert_eq!(mcp_specs[1].name, WORK_ITEM_OUTCOME_MCP_LANGUAGE);
+    assert_eq!(mcp_specs[2].name, WORK_ITEM_OUTCOME_MCP_VIEW);
+    assert_eq!(mcp_specs[3].name, WORK_ITEM_OUTCOME_MCP_DELIVERY);
+    assert_eq!(mcp_specs[4].name, WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS);
 
     let cli = surface(&description, "cli");
     let view = parameter(cli, "view");

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T03:52:16Z",
+  "files": {
+    "contractDigest": "sha256:b00166d5ad5e5c6c586515b980dd0d2c2e3146c5fdd84509de57dee9b36568b1",
+    "contractPath": ".ai/work-items/archive/WI-924-interface-definition-ssot.contract.json",
+    "eventsDigest": "sha256:18ce59ba0766821bd6ec6da70ca3ec270fb36a53fcc1b8f0c65ec90e9486da46",
+    "eventsPath": ".ai/work-items/archive/WI-924-interface-definition-ssot.events.jsonl",
+    "outcomeDigest": "sha256:12cdcc42e38e6e9fabe65649e72a69ba2bfb0c47b5f92f511169240ba14c9bbb",
+    "outcomePath": ".ai/work-items/archive/WI-924-interface-definition-ssot.outcome.json",
+    "summaryDigest": "sha256:05f9b928a170bc7122ae9315a3f6d508e35840908983ed6323f1a08179b73de1",
+    "summaryPath": ".ai/work-items/archive/WI-924-interface-definition-ssot.summary.json",
+    "taskReportDigest": "sha256:484e457b08e6841d2739c0794dd460a51c56bffe26ff937c244fd375bbc75819",
+    "taskReportMarkdownDigest": "sha256:19d43c65abf5a4e3950b2c6abaf282f8eac0db06ec78a5242388016651024bd0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-924-interface-definition-ssot.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-924-interface-definition-ssot.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-924-interface-definition-ssot"
+}
