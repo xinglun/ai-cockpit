@@ -1,0 +1,246 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:207ed4e2143ffa4677890712b97246772410ea2c40ffd1bcd1f83b7aafbc9f57",
+      "workItemId": "WI-930-wi929-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-930-wi929-doc-promotion.verification-attempt.fdf978f215b52320bac403d39379ef125c63692d93de9d29b2daa4a3e8d539f1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-930-wi929-doc-promotion.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-19T09:57:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "After WI-929 was merged and closed, update only its six human documentation projections so they reflect terminal archive, verification, finalization, and close evidence without changing runtime behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-930-wi929-doc-promotion"
+  },
+  "finalReportDigest": "sha256:883d697d077f697b643721767ac2bcbaf50fc56fabff815bdeabba01699b5698",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:db25549ebb89f9902e877a2cf017147b5197c5256492974c20e0494d3fcbb763",
+    "branch": "codex/wi-930-doc-promotion",
+    "branchRef": "refs/heads/codex/wi-930-doc-promotion",
+    "capturedAt": "2026-09-19T09:54:33Z",
+    "contractDigest": "sha256:b08fbc718e72414ea7d2998f38bd89c31620ac8e9037a709436deed68cd01583",
+    "headRevision": "d60b61e027090703c0c50a0ca2059311a877c030",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "WI-930-wi929-doc-promotion",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:b3cc529f4d9c0e8b53e93b6102de148ce78d91b7566470ec221d3689385385b9",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-930-doc-promotion/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:a93b8c0b54c1f000e3729d066c61d910f1063fd263ca518797aa8e6fa69553cd",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-19T09:57:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-930-wi929-doc-promotion.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User authorized execution of required close decisions; accepted current verification evidence and keeps user-visible benefit unknown.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-19T09:54:33Z",
+  "workItemId": "WI-930-wi929-doc-promotion"
+}
