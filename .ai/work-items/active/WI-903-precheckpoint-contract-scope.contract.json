@@ -5,7 +5,8 @@
     "Unsupported Contract fields and identity or authority changes remain rejected.",
     "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
     "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors.",
-    "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode."
+    "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
+    "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -18,8 +19,11 @@
     "authorization changes",
     "release workflow and public release"
   ],
+  "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
+  "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:eb5530ee06a4509e4a13d533f1cdacbed54c3fc8168e69c92cd80ce44e976d80",
   "requiredEvidenceClasses": [
@@ -75,6 +79,13 @@
       "required": true,
       "scenario": "A same-version candidate Runtime records the explicit existing_active_successor decision, then a separately built same-version candidate validates it.",
       "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "expected": "One append-only recovery receipt and both WI-903 projections carry the exact predecessor binding; no archived WI-902 artifact changes.",
+      "required": true,
+      "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
+      "status": "unverified"
     }
   ],
   "scope": [
@@ -90,7 +101,8 @@
     ".ai/evidence/WI-903-precheckpoint-contract-scope.*",
     ".ai/decisions/WI-903-precheckpoint-contract-scope.*",
     ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.*",
-    "crates/cockpit-repository/src/lib.rs"
+    "crates/cockpit-repository/src/lib.rs",
+    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*"
   ],
   "sources": [],
   "state": "implementation_active",
