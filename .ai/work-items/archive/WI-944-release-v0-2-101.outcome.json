@@ -1,0 +1,154 @@
+{
+  "acceptanceResults": [
+    "Cargo.toml, Cargo.lock, and current release/version documentation identify 0.2.101 consistently; historical release facts remain unchanged.",
+    "The v0.2.101 annotated immutable tag, stable GitHub Release, source identity, manifest, checksums, SBOM, archives, and attestation bind to the reviewed merge commit.",
+    "A public downloaded x86_64 artifact passes checksum, isolated fresh install, v0.2.100 to v0.2.101 upgrade, and exact temporary-root cleanup without any object-repository write.",
+    "Issue #902 receives exact public-release evidence only after the published artifact acceptance succeeds; Sentinel is then notified to run its own acceptance replay.",
+    "The Chinese human Outcome explicitly separates completed facts, verification scope, remaining unknowns, and next actions; no performance gain or real host display confirmation is inferred.",
+    "The protocol-owned generated work-item-outcome regions in the three command references identify Runtime 0.2.101 and match the deterministic projection; surrounding human-authored explanation remains unchanged.",
+    "A successor Contract bound to an exact append-only recovery receipt preserves the full authorized predecessor lineage during preflight, even when an older canonical recovery receipt exists; unrelated successors remain blocked.",
+    "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered.",
+    "The live reference-comparison metadata and its six current-Runtime projections identify the 0.2.101 candidate consistently, while retained reference baseline facts remain unchanged.",
+    "Before archive, the current release Work Item has regular three-language in-progress projections and exactly one matching row in each reference-parity ledger; the projections make no terminal or publication claim."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
+      "workItemId": "WI-944-release-v0-2-101"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-944-release-v0-2-101.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-944-release-v0-2-101.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-944-release-v0-2-101.verification-attempt.bec893a61682500e6c5011bf48abba07d4be2b96d05db66ee719bdec9755e425.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-944-release-v0-2-101.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-944-release-v0-2-101.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-944-release-v0-2-101.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-944-release-v0-2-101.contract.json"
+          ],
+          "inference": false,
+          "text": "从最新 main 创建 v0.2.101 候选；只更新版本及当前三语发布投影；经审查 PR、Hosted CI、不可变 tag、稳定 GitHub Release、供应链资产和公开下载验收闭环 #902。Outcome 以当前对话语言完整交付；不宣称性能提速、真实宿主展示或外部对象仓库验收。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-944-release-v0-2-101.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-944-release-v0-2-101"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-944-release-v0-2-101.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-944-release-v0-2-101"
+}

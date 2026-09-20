@@ -1,0 +1,37 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:fbb9a169d7a3cae3141519dbb2d54f4b3c72f2dc8054bb4a9a4055bbabbc98cb",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:c02968895921512dba1de6c2192c50ae4744e012ce58e1f3b73fbd6c95fcc155",
+      "path": ".ai/work-items/archive/WI-944-release-v0-2-101.contract.json"
+    },
+    "events": {
+      "digest": "sha256:337cede4136c8824a9d34710e48a92b27a3deb17f173fa8128c4b258f579bcfe",
+      "path": ".ai/work-items/archive/WI-944-release-v0-2-101.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:a024a237a4c6e525ee792de60d0712d5889d9ee7c708a520e8d3ed18b6d43f46",
+      "path": ".ai/work-items/archive/WI-944-release-v0-2-101.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:25f489797358be05120e90f9610fddd88d4cc652124e76ba7905b4a7d46a16bf",
+      "path": ".ai/work-items/archive/WI-944-release-v0-2-101.summary.json"
+    }
+  },
+  "authoritySource": "Repository owner directed that publication occurs only after all remaining Work Items are complete and authorized continued cleanup in this conversation.",
+  "contractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed v0.2.101 source change is integrated on main, but its public release was intentionally deferred; retire this active release candidate without claiming publication so it no longer blocks the remaining corrective Work Items.",
+  "recordedAt": "2026-09-20T06:36:32Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:dcb13eaed5f06d42c84b1f3594b6cc5fda7611daefd320e04bda3503d35fe86e",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-944-release-v0-2-101"
+}
