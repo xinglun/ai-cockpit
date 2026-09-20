@@ -3,9 +3,10 @@ use cockpit_git::GitRepository;
 use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext, VerificationStage};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
-    archive_work_item_with_runtime, attach, checkpoint_work_item, evaluate_contract_quality_gate,
-    finish_work_item_with_runtime, governance_decision_for_contract, plan_resource_finalization,
-    preflight_work_item, preflight_work_item_with_runtime, record_verification_with_runtime,
+    archive_work_item_with_runtime, attach, checkpoint_work_item, close_work_item_with_decision,
+    evaluate_contract_quality_gate, finish_work_item_with_runtime,
+    governance_decision_for_contract, plan_resource_finalization, preflight_work_item,
+    preflight_work_item_with_runtime, record_verification_with_runtime,
     record_work_item_governance_controls, run_repository_verification,
     start_work_item_with_options,
 };
@@ -80,6 +81,17 @@ fn contract_path(root: &Path) -> PathBuf {
 fn archived_resource_repository() -> (tempfile::TempDir, PathBuf) {
     let directory = repository();
     let root = directory.path();
+    let contract = contract_path(root);
+    let mut value =
+        serde_json::from_slice::<serde_json::Value>(&fs::read(&contract).expect("Contract"))
+            .expect("Contract JSON");
+    value["requiredEvidenceClasses"] =
+        serde_json::json!(["verification", "external_evidence", "delegated:github"]);
+    fs::write(
+        &contract,
+        serde_json::to_vec_pretty(&value).expect("updated Contract JSON"),
+    )
+    .expect("write updated Contract");
     plan_resource_finalization(
         root,
         "WI-CI-GATE",
@@ -272,6 +284,17 @@ fn archived_resource_pull_request_gate_is_read_only() {
         before,
         ai_bytes(root),
         "archived gate changed mutable .ai bytes"
+    );
+}
+
+#[test]
+fn archived_resource_contract_still_blocks_close_until_later_evidence_exists() {
+    let (directory, _) = archived_resource_repository();
+    let error = close_work_item_with_decision(directory.path(), "WI-CI-GATE", "approved")
+        .expect_err("close must retain the later provider-evidence requirement");
+    assert!(
+        error.to_string().contains("required_evidence_missing"),
+        "unexpected close error: {error}"
     );
 }
 

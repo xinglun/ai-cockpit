@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T20:59:47Z",
+  "files": {
+    "contractDigest": "sha256:7129fb1eacac51981d2f1e2188d4dde74538f42559f77ca4c4348db1d286262f",
+    "contractPath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.contract.json",
+    "eventsDigest": "sha256:41c4641f06fcf28eb7119251ae385fee4606de4d84abd3429eda5ff6bf8b9f66",
+    "eventsPath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.events.jsonl",
+    "outcomeDigest": "sha256:20e55af6c47a0cc0ac0dfae9a0b7f23127ceaadf771c95eb817fa3d33d0f874b",
+    "outcomePath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.outcome.json",
+    "summaryDigest": "sha256:06b1765d2b57c3867c0be11e294e5ad7b740e25b50277a80d89c610e0d2cf54c",
+    "summaryPath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json",
+    "taskReportDigest": "sha256:c66f3c9d59f6b70a928edae2ce56346b90ae0660d71695f25a0bcac9f91c4cbd",
+    "taskReportMarkdownDigest": "sha256:21dc951c333c2cda95844a06def4f9960ea3509a5534c2bc91e89fd36cb6ba17",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-956-ci-gate-archive-boundary"
+}

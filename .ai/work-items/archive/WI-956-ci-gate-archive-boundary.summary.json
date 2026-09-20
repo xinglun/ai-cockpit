@@ -1,0 +1,77 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.contract.json",
+    ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
+  ],
+  "checkpointAt": "2026-09-20T20:54:55Z",
+  "checkpointContractDigest": "sha256:a853db8bd9077f7d069646623939f7803ed1b33f96d2b46450efc829b0399f68",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:4a4c3f9e10262358edc15c371e0322925d77f3ebde371db09ec235edebbe6a1a",
+      "recorded": true,
+      "recordedAt": "2026-09-20T20:54:55Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-956-ci-gate-archive-boundary"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:a853db8bd9077f7d069646623939f7803ed1b33f96d2b46450efc829b0399f68",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4a4c3f9e10262358edc15c371e0322925d77f3ebde371db09ec235edebbe6a1a",
+      "previousContractHash": "sha256:4a4c3f9e10262358edc15c371e0322925d77f3ebde371db09ec235edebbe6a1a",
+      "reason": "PR quality gate exposed that the archived Contract boundary must cover the paired archive transition and its regressions; add only the same lifecycle boundary paths and acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T20:55:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-956-ci-gate-archive-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+  "createdAt": "2026-09-20T20:54:54Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T20:59:24Z",
+  "preflightContractDigest": "sha256:a853db8bd9077f7d069646623939f7803ed1b33f96d2b46450efc829b0399f68",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T20:59:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-956-ci-gate-archive-boundary"
+}

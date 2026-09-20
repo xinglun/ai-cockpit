@@ -4065,18 +4065,14 @@ pub fn evaluate_contract_quality_gate(
     // close, and cleanup evidence cannot be required before those stages can
     // produce it.  The mutable lifecycle gates still use the strict normal
     // governance path below and enforce every declared class.
-    let decision = if archived_contract {
-        governance_decision_for_archived_contract_internal(
-            &root,
-            &contract,
-            &snapshot,
-            Some(runtime),
-        )?
-    } else {
-        governance_decision_for_pre_execution_quality_gate(
-            &root, &contract, &snapshot, stage, runtime,
-        )?
-    };
+    let decision = governance_decision_for_pre_execution_quality_gate(
+        &root,
+        &contract,
+        &snapshot,
+        stage,
+        runtime,
+        archived_contract,
+    )?;
     blockers.extend(decision.blockers.clone());
     blockers.sort();
     blockers.dedup();
@@ -4140,6 +4136,7 @@ fn governance_decision_for_pre_execution_quality_gate(
     snapshot: &RepositorySnapshot,
     stage: VerificationStage,
     _runtime: &RuntimeContext,
+    archived: bool,
 ) -> Result<GovernanceDecision, ObserverError> {
     // Every current quality-gate stage is an entry check for work that has
     // not yet produced completion evidence.  Keep the match exhaustive so a
@@ -4155,7 +4152,7 @@ fn governance_decision_for_pre_execution_quality_gate(
             // another runner must not make the source gate contradictory.
             // Runtime-bound lifecycle operations still pass their current
             // identity and enforce replacement through an explicit retry.
-            pre_execution_quality_state(root, contract, snapshot, None)?
+            pre_execution_quality_state(root, contract, snapshot, None, archived)?
         }
     };
     let canonical_preflight_digest = canonical_preflight_decision_digest(root, contract, snapshot)?;
@@ -4164,7 +4161,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         contract,
         snapshot,
         None,
-        false,
+        archived,
         Some(pre_execution_evidence),
         None,
     )?;
@@ -4173,7 +4170,7 @@ fn governance_decision_for_pre_execution_quality_gate(
         contract,
         snapshot,
         decision,
-        false,
+        archived,
         canonical_preflight_digest.as_ref(),
     )
 }
@@ -4217,6 +4214,7 @@ pub(crate) fn pre_execution_quality_state(
     contract: &cockpit_protocol::Contract,
     snapshot: &RepositorySnapshot,
     current_runtime: Option<&RuntimeContext>,
+    archived: bool,
 ) -> Result<EvidenceState, ObserverError> {
     // `verification` is the only completion class that can be meaningfully
     // required by the entry gate: an existing receipt can prove that the
@@ -4233,7 +4231,7 @@ pub(crate) fn pre_execution_quality_state(
         .join(".ai/evidence")
         .join(format!("{}.verification.json", contract.work_item_id));
     if requires_verification || fs::symlink_metadata(&evidence_path).is_ok() {
-        verification_evidence_state(root, contract, snapshot, false, current_runtime)
+        verification_evidence_state(root, contract, snapshot, archived, current_runtime)
     } else {
         Ok(EvidenceState::Complete)
     }
@@ -4249,7 +4247,7 @@ pub(crate) fn governance_decision_for_pre_execution_boundary(
     current_runtime: Option<&RuntimeContext>,
     observation: Option<&ObservationContext>,
 ) -> Result<GovernanceDecision, ObserverError> {
-    let evidence = pre_execution_quality_state(root, contract, snapshot, current_runtime)?;
+    let evidence = pre_execution_quality_state(root, contract, snapshot, current_runtime, false)?;
     governance_decision_for_contract_base_internal_with_archive(
         root,
         contract,
@@ -5456,7 +5454,13 @@ fn require_green_governance_internal(
     operation: &str,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<(), ObserverError> {
-    if operation == "finish" {
+    if matches!(operation, "finish" | "archive") {
+        // Finish and archive establish the locally verified delivery boundary.
+        // Provider, publication, adopter, and cleanup evidence is intentionally
+        // collected later, so requiring those classes here would make a
+        // resource-bound Work Item impossible to archive before its reviewed
+        // provider action. Terminal operations still use the complete decision
+        // below and therefore remain fail-closed on those requirements.
         let decision = governance_decision_for_pre_execution_boundary(
             root,
             contract,

@@ -1,0 +1,37 @@
+{
+  "acceptanceCriteria": [
+    "Archived resource Contract with verification plus external/delegated evidence passes the pull-request quality gate without writes; close still rejects missing later evidence; regression tests cover both boundaries",
+    "Archive defers declared external or delegated evidence that can only exist after the reviewed provider action, while terminal close still fails closed until those requirements are satisfied."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1086c03e5142f8b4e2be7f8f791a32d74d06aeba",
+  "createdAt": "2026-09-20T20:54:54Z",
+  "goal": "让 PR 前的只读质量门禁与 archive 边界一致，同时保持 close 对后续证据的严格要求",
+  "intent": "修复归档资源型 Contract 在 PR 质量门禁错误要求未来外部证据的问题",
+  "mode": "implementation",
+  "outOfScope": [
+    "Release publication",
+    "Sentinel source changes",
+    "other lifecycle redesign"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/ci_quality_gate.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test archive_integrity",
+    "cargo test --locked -p cockpit-repository --test lifecycle_order",
+    "cargo test --locked -p cockpit-repository --test ci_quality_gate"
+  ],
+  "workItemId": "WI-956-ci-gate-archive-boundary"
+}
