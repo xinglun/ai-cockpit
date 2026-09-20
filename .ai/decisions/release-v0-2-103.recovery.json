@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-20T20:29:52Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/release-v0-2-103.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/936"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:f8649b0d2970e8cd416a10a4619e99bde685e95714b6fa9aae8a81412ae2f0a7",
+  "predecessorEventsDigest": "sha256:0e8012448d926c9fb9f6c96dae92e0f8260a15f15cac2724646d3fb72cf4e665",
+  "predecessorOutcomeDigest": "sha256:e3c8479d7984d901dea20d521bb9e79484a41f460a71c826be9294b3f784ca75",
+  "predecessorSummaryDigest": "sha256:6e328b4c471bb91e571e63b2d23322d2a30cf8dbeab1dd81df902f125a892248",
+  "predecessorWorkItemId": "release-v0-2-103",
+  "reason": "The release Work Item requires a non-provisional GitHub resource context for reviewed PR, release evidence, and exact cleanup. The context was omitted before the completed local verification cycle; retry only to bind PR #936 and reverify without discarding the predecessor evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the exact PR #936 resource context, rerun the current verification plan, and then complete archive, hosted review, release acceptance, and provider cleanup.",
+  "runtimeDigest": "sha256:f5e7dab36fb42838831ac4dbf1270c4ae13285e2d144af2ab09c09e478fa3856",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "workItemId": "release-v0-2-103"
+}

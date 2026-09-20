@@ -32,6 +32,14 @@
     "external_evidence",
     "delegated:github"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-103",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/936",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-103/ai-cockpit"
+  },
   "risk": "normal",
   "scope": [
     "Cargo.toml",
