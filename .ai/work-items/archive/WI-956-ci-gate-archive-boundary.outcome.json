@@ -1,0 +1,176 @@
+{
+  "acceptanceResults": [
+    "Archived resource Contract with verification plus external/delegated evidence passes the pull-request quality gate without writes; close still rejects missing later evidence; regression tests cover both boundaries",
+    "Archive defers declared external or delegated evidence that can only exist after the reviewed provider action, while terminal close still fails closed until those requirements are satisfied."
+  ],
+  "createdAt": "2026-09-20T20:59:46Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a65bf59fdbdb05cf40ec71b80fc1355d9d0d6a3afadf29eadb388bcb085bee1a",
+  "evidenceRefs": [
+    ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+      "workItemId": "WI-956-ci-gate-archive-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-956-ci-gate-archive-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/archive_integrity.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/ci_quality_gate.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_order.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "让 PR 前的只读质量门禁与 archive 边界一致，同时保持 close 对后续证据的严格要求"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-956-ci-gate-archive-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-956-ci-gate-archive-boundary"
+  },
+  "taskReportDigest": "sha256:c66f3c9d59f6b70a928edae2ce56346b90ae0660d71695f25a0bcac9f91c4cbd",
+  "taskReportMarkdownDigest": "sha256:21dc951c333c2cda95844a06def4f9960ea3509a5534c2bc91e89fd36cb6ba17",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-956-ci-gate-archive-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-956-ci-gate-archive-boundary"
+}

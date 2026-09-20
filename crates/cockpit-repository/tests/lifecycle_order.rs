@@ -244,7 +244,7 @@ fn verification_promotes_initial_yellow_preflight_and_allows_recovery() {
 }
 
 #[test]
-fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
+fn future_lifecycle_evidence_is_deferred_until_terminal_completion_boundary() {
     let directory = repository();
     let id = "WI-ORDER-FUTURE-EVIDENCE";
     start_work_item_with_options(
@@ -299,13 +299,8 @@ fn future_lifecycle_evidence_is_deferred_until_completion_boundary() {
     assert_eq!(summary["preflightState"], "green");
     finish_work_item(directory.path(), id).expect("finish must not require future evidence");
 
-    let archive = archive_work_item(directory.path(), id)
-        .expect_err("archive must retain the later-stage evidence boundary");
-    assert!(
-        archive.to_string().contains("valid verification evidence")
-            || archive.to_string().contains("green governance"),
-        "unexpected archive error: {archive}"
-    );
+    archive_work_item(directory.path(), id)
+        .expect("archive must defer evidence produced by reviewed provider actions");
 }
 
 #[test]

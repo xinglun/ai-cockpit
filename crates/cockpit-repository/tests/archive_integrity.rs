@@ -180,6 +180,50 @@ fn no_resource_context_can_finish_archive_and_close_without_provider_evidence() 
     fs::remove_dir_all(path).expect("cleanup");
 }
 
+#[test]
+fn archive_defers_later_external_evidence_but_close_remains_blocked() {
+    let path = repository();
+    let work_item_id = "WI-ARCHIVE-DEFERS-EXTERNAL-EVIDENCE";
+    start_work_item_with_options(
+        &path,
+        work_item_id,
+        "archive evidence boundary",
+        "allow archival before reviewed provider actions create their required evidence",
+        &[".ai/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            required_evidence_classes: vec![
+                "verification".into(),
+                "external_evidence".into(),
+                "delegated:github".into(),
+            ],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start");
+    prepare_without_finalization_plan(&path, work_item_id);
+    record_verification(
+        &path,
+        work_item_id,
+        &serde_json::json!({"passed": true, "nodesPlanned": 1}),
+        "0.2.103",
+        &Digest::sha256_bytes(b"runtime"),
+    )
+    .expect("verification");
+
+    finish_work_item(&path, work_item_id).expect("finish defers later external evidence");
+    archive_work_item(&path, work_item_id)
+        .expect("archive defers later external and delegated evidence");
+
+    let error = close_work_item_with_decision(&path, work_item_id, "approved")
+        .expect_err("close must still require the declared external evidence");
+    assert!(
+        error.to_string().contains("required_evidence_missing"),
+        "unexpected close error: {error}"
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
 fn record_old_typed_verification(
     path: &std::path::Path,
     work_item_id: &str,
