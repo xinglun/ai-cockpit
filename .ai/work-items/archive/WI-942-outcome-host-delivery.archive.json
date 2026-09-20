@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-20T03:04:06Z",
+  "files": {
+    "contractDigest": "sha256:df653ad631b48405167548c0e3a1bbcf395fb584e509c5ee57cba7575ae0e797",
+    "contractPath": ".ai/work-items/archive/WI-942-outcome-host-delivery.contract.json",
+    "eventsDigest": "sha256:01d2a91a65307a2581ae633c19e22aa5a5185c5cdbf70e39f5e9cc9e69b0e11a",
+    "eventsPath": ".ai/work-items/archive/WI-942-outcome-host-delivery.events.jsonl",
+    "outcomeDigest": "sha256:80c6861e960bdbc594a5ac9c779b5f42f6976421c029e5ecab60ee8a7bb9478d",
+    "outcomePath": ".ai/work-items/archive/WI-942-outcome-host-delivery.outcome.json",
+    "summaryDigest": "sha256:9b324ae948730a591fe505208a7e91769c6847425b43338372d1be8347f1b3c8",
+    "summaryPath": ".ai/work-items/archive/WI-942-outcome-host-delivery.summary.json",
+    "taskReportDigest": "sha256:1b9f0c94870f4941bbddbc34f614a5158d3add5910d03340290b98b77884d268",
+    "taskReportMarkdownDigest": "sha256:2b75cc83d19a80ade1a6cb0c1564040defcdc37da3813bcd02c27dac2cbce40e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-942-outcome-host-delivery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-942-outcome-host-delivery.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-942-outcome-host-delivery.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-942-outcome-host-delivery"
+}

@@ -1,0 +1,41 @@
+{
+  "acceptanceCriteria": [
+    "A host adapter with a real per-message receipt is invoked from an archive/delivery production path, and accepted or displayed states come from the receipt rather than capability flags.",
+    "Without a supported host send API, CLI and MCP continue to report full_handoff_only and unknown rather than claiming chat display.",
+    "A controlled end-to-end adapter test observes independent assistant-message events containing the complete localized body in order; retries resend only unaccepted segments and do not rerun archive or verification.",
+    "Chinese, Japanese, and English delivery uses the active conversation language without translating Contract or evidence facts.",
+    "Existing CLI/MCP query and archive semantics remain compatible.",
+    "End-to-end completion for the current Codex desktop conversation requires a host-provided send operation and a per-message receipt bound to the delivered Outcome; prepared events, a command-host fixture, or full_handoff_only do not satisfy this criterion."
+  ],
+  "authority": "User standing authorization for in-scope implementation and lifecycle decisions recorded in conversation.",
+  "baseRevision": "a91e39cda044b05a8c5a2075816ae4d9fc870695",
+  "createdAt": "2026-09-20T02:44:21Z",
+  "goal": "Close the gap between prepared OutcomeDelivery events and verified host message delivery without altering lifecycle authority, evidence identity, or release behavior.",
+  "intent": "Ensure that a Work Item archive produces a complete localized Outcome that is actually delivered as visible independent assistant messages whenever the current host offers a real send and confirmation interface; otherwise report the unsupported boundary truthfully.",
+  "mode": "code",
+  "outOfScope": [
+    "No new generic message platform; no Codex or Claude API emulation; no release; no lifecycle or authorization redesign; no object-repository changes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:codex-host-display"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-agent/**; crates/cockpit-cli/**; crates/cockpit-mcp/**; crates/cockpit-protocol/** only where delivery contract requires it; focused delivery tests and documentation"
+  ],
+  "sources": [
+    "docs/reference/outcome-report.md",
+    "crates/cockpit-agent/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-942-outcome-host-delivery"
+}

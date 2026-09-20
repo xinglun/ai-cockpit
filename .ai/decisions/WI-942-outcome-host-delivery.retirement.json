@@ -1,0 +1,45 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:a274c19c1ea2a751ed2dddb0b9c0819280b31b399ec6423f38079aec3222d0ce",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:df653ad631b48405167548c0e3a1bbcf395fb584e509c5ee57cba7575ae0e797",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.contract.json"
+    },
+    "events": {
+      "digest": "sha256:01d2a91a65307a2581ae633c19e22aa5a5185c5cdbf70e39f5e9cc9e69b0e11a",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:80c6861e960bdbc594a5ac9c779b5f42f6976421c029e5ecab60ee8a7bb9478d",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:9b324ae948730a591fe505208a7e91769c6847425b43338372d1be8347f1b3c8",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:1b9f0c94870f4941bbddbc34f614a5158d3add5910d03340290b98b77884d268",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:2b75cc83d19a80ade1a6cb0c1564040defcdc37da3813bcd02c27dac2cbce40e",
+      "path": ".ai/work-items/archive/WI-942-outcome-host-delivery.task-report.md"
+    }
+  },
+  "authoritySource": "Explicit conversation direction on 2026-09-20: accept completion limited to AI Cockpit capability; defer external-host confirmation to future human-use feedback and a new Work Item.",
+  "contractDigest": "sha256:3b1463e91fcdcc0bad2055b14e4981aa31c3c5137e33e576d631e5e7f1561e14",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The synchronized base already contains the Runtime-scoped delivery contract, localized full Outcome handoff, receipt-bound command-host adapter, retry behavior, and truthful full_handoff_only boundary. The active Contract's later requirement for a current Codex desktop host send operation and display receipt is outside AI Cockpit's supported capability and is no longer an acceptance prerequisite. Preserve this active record without claiming verification; future real-host feedback starts a separately governed Work Item.",
+  "recordedAt": "2026-09-20T03:04:06Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:c34854002f9b984c66cfb5687a83116f841b0bcc041ce299f7544f3b04cced8d",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-942-outcome-host-delivery"
+}
