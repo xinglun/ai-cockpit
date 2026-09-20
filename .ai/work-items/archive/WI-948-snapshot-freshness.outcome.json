@@ -43,42 +43,42 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-944-release-v0-2-101.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-git/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-git/tests/repository.rs"
@@ -137,7 +137,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
           ],
           "inference": false,
           "text": "在不改变归档历史或授权边界的前提下，使 comparison snapshot 保留 working-tree source evidence。"
@@ -146,7 +146,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+            ".ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -156,8 +156,8 @@
     "status": "verified",
     "workItemId": "WI-948-snapshot-freshness"
   },
-  "taskReportDigest": "sha256:6323c4c9e7e3a2c076c5e117e01aecf347bbffffbc052de79c6c5e89e63140cc",
-  "taskReportMarkdownDigest": "sha256:5d9f08c96c1488c1b0ae13d3e687592b5e77fcbf182bb969a1e65a927f496768",
+  "taskReportDigest": "sha256:13690174a3091cc53358b0dbe4418f500411701ec221c6f849eacd64f1e64303",
+  "taskReportMarkdownDigest": "sha256:940f3637f3dcac239767befb7ecd090dc2d30eb911b7ebfb450843267a8dc0a8",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

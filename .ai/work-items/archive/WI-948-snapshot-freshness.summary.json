@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/WI-944-release-v0-2-101.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-948-snapshot-freshness.contract.json",
-    ".ai/work-items/active/WI-948-snapshot-freshness.summary.json",
+    ".ai/work-items/archive/WI-948-snapshot-freshness.contract.json",
+    ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json",
     "crates/cockpit-git/src/lib.rs",
     "crates/cockpit-git/tests/repository.rs"
   ],
