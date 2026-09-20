@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.100` with binary digest
-`sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350`.
+and the reviewed Runtime `ai-cockpit v0.2.101` with binary digest
+`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records

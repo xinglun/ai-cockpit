@@ -7,7 +7,8 @@
     "The Chinese human Outcome explicitly separates completed facts, verification scope, remaining unknowns, and next actions; no performance gain or real host display confirmation is inferred.",
     "The protocol-owned generated work-item-outcome regions in the three command references identify Runtime 0.2.101 and match the deterministic projection; surrounding human-authored explanation remains unchanged.",
     "A successor Contract bound to an exact append-only recovery receipt preserves the full authorized predecessor lineage during preflight, even when an older canonical recovery receipt exists; unrelated successors remain blocked.",
-    "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered."
+    "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered.",
+    "The live reference-comparison metadata and its six current-Runtime projections identify the 0.2.101 candidate consistently, while retained reference baseline facts remain unchanged."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "4290afcf094288379e396c51026a7c08c747d806",
@@ -76,7 +77,14 @@
     "docs/reference/commands.ja.md",
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/tests/status_projection.rs",
-    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/902",

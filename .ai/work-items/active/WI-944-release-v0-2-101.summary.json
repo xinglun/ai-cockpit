@@ -89,6 +89,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-944-release-v0-2-101"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:f424c4f28b20c94bf5cbbd7844de351415a6837b76e5690381ac888ff4795000",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:61b5659aee4848ec4c5b33ae54f4f6cb092527a405eaa9b3a650ba3af348d2a9",
+      "previousContractHash": "sha256:b1e86a784d9749b450a77c9807d79fbd5e7769ee2937281306ccb1d37edb4419",
+      "reason": "Hosted docs_acceptance identified a release-version projection omitted from the original scope: the metadata sidecar and its six live reference projections must track the workspace candidate version. This is a deterministic in-scope release documentation correction; preserved baseline facts will not be rewritten.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T05:17:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a7fc34c52708e9d0e2fd6d75f0460a6cc6e649fe9a845070b2dec2c9b6da79a2",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-944-release-v0-2-101"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:a7fc34c52708e9d0e2fd6d75f0460a6cc6e649fe9a845070b2dec2c9b6da79a2",
@@ -105,11 +125,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
   "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
-  "preflightAt": "2026-09-20T05:07:37Z",
+  "preflightAt": "2026-09-20T05:08:59Z",
   "preflightContractDigest": "sha256:b1e86a784d9749b450a77c9807d79fbd5e7769ee2937281306ccb1d37edb4419",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:a7fc34c52708e9d0e2fd6d75f0460a6cc6e649fe9a845070b2dec2c9b6da79a2",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.0150ac929c6f14580a36e2bc7cf0bb8128ab6b23edee591d5eb58b84063902a2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -193,6 +213,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:f424c4f28b20c94bf5cbbd7844de351415a6837b76e5690381ac888ff4795000",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-20T05:17:30Z"
+  },
   "verificationRecoveryReconciled": "sha256:13604793fc4d9f01ad0b773874d02e7c3db7e4e58134923738517266e2011968",
   "workItemId": "WI-944-release-v0-2-101"
 }

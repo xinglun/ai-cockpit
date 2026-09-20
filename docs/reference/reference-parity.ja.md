@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.100`（binary digest
-`sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350`）を使用します。
+review 済み `ai-cockpit v0.2.101`（binary digest
+`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
