@@ -1,0 +1,24 @@
+{
+  "bindingDigest": "sha256:ddc01759493dbb8ff18d8b3bef9ae74e531768ae0bc8b5c57e053c6563357d8e",
+  "branchRef": "refs/heads/codex/ci-gate-archive-boundary",
+  "contractDigest": "sha256:a853db8bd9077f7d069646623939f7803ed1b33f96d2b46450efc829b0399f68",
+  "headRevision": "7ad7003cc37f670b4c1c527201f022d44448a375",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T23:03:59Z",
+  "operationId": "sha256:dddec49d48c6492adfa7eb3c519e163d51195dcf57ca6fb67a5d7766776b4701",
+  "predecessorReceiptDigest": "sha256:36656c8041dcce1b283c1e38937390a2ef39d28100445ba59f4ff944ac2786c4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:35467944e18f0e8c02a3a149e806d9aa2650c695a1f331ff725aec2924593d70",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "workItemId": "WI-956-ci-gate-archive-boundary",
+  "worktreeId": "sha256:cc18a20def406caf221c897fa884ee5489470aa096278f0a9d94127b74070036"
+}
