@@ -26,6 +26,14 @@
     "external_evidence",
     "delegated:github"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-952-release-finalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/930",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-952-release-finalization/ai-cockpit"
+  },
   "risk": "normal",
   "scope": [
     ".ai/**",
