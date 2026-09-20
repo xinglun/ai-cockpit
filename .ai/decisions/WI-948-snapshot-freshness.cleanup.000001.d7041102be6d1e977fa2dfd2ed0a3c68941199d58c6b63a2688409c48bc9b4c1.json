@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:6e34f4ecb2335c03777620fb5d4c65acfebec3d97e66bebfa8a56ddc91722cd1",
+  "branchRef": "refs/heads/codex/wi-948-snapshot-freshness",
+  "contractDigest": "sha256:d80ab7ff40d066a891fb055865e7d922312187d96e2d9313c2259325f2ed4cfd",
+  "headRevision": "63f5b06c7a20dafea5945ec151b166b4c6a83425",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T11:50:54Z",
+  "operationId": "sha256:9a0636143a9839814b26bae706b25521a8d62a5fc7b776e6645dcb6679fe3b5b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-948-snapshot-freshness",
+  "worktreeId": "sha256:3582d6e52afd2270a086f0f02670bbaf2723b81831507f250003a5f060458696"
+}
