@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "c56850569aa9ba9693731da6ce8e8637d71f8db8",
+      "commandDigest": "sha256:bfed9ee0388a83d006cb3f249677fd9fb64704f60ff0713125c20f9c92b23c16",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:cb3224c649c5f6f01fa4ca4435782c2c3950c226ed962f0891ec1219c7797bbd",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:932945ecc51b5943e956d23185770a966c79600f4190ed57a78986e137291ea4",
+  "contractExecutionScopeDigest": "sha256:cdd54fffe77c1f15f25ffbc5a2d3285c4acd791f11585b9b514a2bc7dcf20edc",
+  "createdAt": "2026-09-20T12:24:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-950-direct-merge-context/ai-cockpit/.ai/work-items/active/WI-950-direct-merge-context.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:07edec6d39796f62920bea1e2886e7759e52d62bfcb8153413d2cac5c8c2cc50",
+  "runtimeDigest": "sha256:cb3224c649c5f6f01fa4ca4435782c2c3950c226ed962f0891ec1219c7797bbd",
+  "runtimeVersion": "0.2.101",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-950-direct-merge-context"
+}

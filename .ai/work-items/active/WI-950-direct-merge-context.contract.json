@@ -1,0 +1,36 @@
+{
+  "acceptanceCriteria": [
+    "GitHub resource context direct-merge receipt passes identity validation.",
+    "Mismatched GitHub context remains rejected.",
+    "Existing local and provisional compatibility behavior remains covered."
+  ],
+  "authority": "human:repository-owner",
+  "baseRevision": "c56850569aa9ba9693731da6ce8e8637d71f8db8",
+  "createdAt": "2026-09-20T12:21:44Z",
+  "goal": "让 Runtime 生成的 direct_merge_candidate receipt 在相同 GitHub 资源上下文下可被严格校验，同时保留历史低保证与资源状态未知。",
+  "intent": "修复历史 direct-merge finalization recovery 在原 Contract 使用 GitHub provider 时生成的 receipt 无法被当前 Runtime 执行的问题。",
+  "mode": "implementation",
+  "outOfScope": [
+    "资源清理状态推断",
+    "发布流程或产物",
+    "Outcome 交付"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:08c35301e928475c8e47f96e0967a6ebce24e823da05583dc4f342e945288ef8",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs"
+  ],
+  "sources": [
+    "用户授权：发现同类缺陷即在当前工作中修复；全部清理、确认完成后才发布。"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-950-direct-merge-context"
+}
