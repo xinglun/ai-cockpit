@@ -882,6 +882,71 @@ fn historical_direct_merge_can_rebind_legacy_local_context_narrowly() {
 }
 
 #[test]
+fn historical_direct_merge_can_rebind_archived_github_context_narrowly() {
+    let mut historical = receipt();
+    historical.pull_request.number = 0;
+    historical.pull_request.url = "historical://direct-merge/merge-158".into();
+    historical.provider = "historical".into();
+    historical.resource_context = Some(ResourceFinalizationContext {
+        branch: historical.branch.name.clone(),
+        worktree: historical.worktree.path.clone(),
+        base_branch: historical.pull_request.base_branch.clone(),
+        base_remote: historical.pull_request.base_remote.clone(),
+        provider: "historical".into(),
+        pull_request: historical.pull_request.url.clone(),
+    });
+    historical.historical = Some(HistoricalFinalization {
+        kind: HistoricalFinalizationKind::DirectMergeNoPr,
+        assurance: "historical_low".into(),
+        merge_commit: Some("merge-158".into()),
+        merge_parents: vec!["base-785112b".into(), "parent-b".into()],
+        base_revision: historical.pull_request.base_revision.clone(),
+        contract_base_revision: None,
+    });
+    let mut archived_context = historical.resource_context.clone().unwrap();
+    archived_context.provider = "github".into();
+    archived_context.pull_request = "https://github.example/acme/project/pull/158".into();
+    validate_resource_finalization_receipt_for(
+        &historical,
+        REPOSITORY_ID,
+        WORK_ITEM_ID,
+        Some(&Digest::sha256_bytes(b"contract")),
+        Some(&archived_context),
+    )
+    .expect("historical direct merge may rebind the archived GitHub context");
+
+    let mut foreign = archived_context.clone();
+    foreign.worktree = "/private/tmp/foreign-worktree".into();
+    assert_eq!(
+        validate_resource_finalization_receipt_for(
+            &historical,
+            REPOSITORY_ID,
+            WORK_ITEM_ID,
+            Some(&Digest::sha256_bytes(b"contract")),
+            Some(&foreign),
+        ),
+        Err(ResourceFinalizationError::IdentityMismatch(
+            "resourceContext.worktree",
+        ))
+    );
+
+    let mut unsupported = archived_context;
+    unsupported.provider = "gitlab".into();
+    assert_eq!(
+        validate_resource_finalization_receipt_for(
+            &historical,
+            REPOSITORY_ID,
+            WORK_ITEM_ID,
+            Some(&Digest::sha256_bytes(b"contract")),
+            Some(&unsupported),
+        ),
+        Err(ResourceFinalizationError::IdentityMismatch(
+            "resourceContext.provider",
+        ))
+    );
+}
+
+#[test]
 fn historical_direct_merge_accepts_unchanged_archived_local_context() {
     let mut historical = receipt();
     let mut archived_context = historical.resource_context.clone().unwrap();

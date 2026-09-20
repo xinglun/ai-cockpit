@@ -1924,6 +1924,7 @@ pub fn validate_resource_finalization_receipt_for(
             Some(HistoricalFinalizationKind::DirectMergeNoPr)
         ) && receipt.provider == "historical"
             && (expected_context.provider == "local"
+                || expected_context.provider == "github"
                 || is_provisional_resource_context_value(&expected_context.provider))
             && receipt.resource_context.as_ref().is_some_and(|actual| {
                 actual.provider == "historical"

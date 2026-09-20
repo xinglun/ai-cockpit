@@ -1,0 +1,74 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "historical_direct_merge_can_rebind_archived_github_context_narrowly",
+          "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "historical_direct_merge_can_rebind_archived_github_context_narrowly",
+          "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "resource_finalization",
+          "path": "crates/cockpit-protocol/tests/resource_finalization.rs",
+          "type": "test",
+          "verification": "passed"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-950-direct-merge-context.verification-attempt.76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9.json",
+    ".ai/work-items/active/WI-950-direct-merge-context.contract.json",
+    ".ai/work-items/active/WI-950-direct-merge-context.summary.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs"
+  ],
+  "checkpointAt": "2026-09-20T12:21:45Z",
+  "checkpointContractDigest": "sha256:932945ecc51b5943e956d23185770a966c79600f4190ed57a78986e137291ea4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:07edec6d39796f62920bea1e2886e7759e52d62bfcb8153413d2cac5c8c2cc50",
+  "createdAt": "2026-09-20T12:21:44Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-protocol/tests/resource_finalization.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T12:25:17Z",
+  "preflightContractDigest": "sha256:932945ecc51b5943e956d23185770a966c79600f4190ed57a78986e137291ea4",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:07edec6d39796f62920bea1e2886e7759e52d62bfcb8153413d2cac5c8c2cc50",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T12:26:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-950-direct-merge-context"
+}
