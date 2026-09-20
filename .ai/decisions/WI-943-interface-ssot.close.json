@@ -1,0 +1,183 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-943-interface-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+      "workItemId": "WI-943-interface-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-943-interface-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-943-interface-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-943-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-943-interface-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-943-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via conversation:user-standing-authorization at 2026-09-20T03:53:55Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-943-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-943-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-943-interface-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "Replace manual transport and MCP-only outcome parameter fact tables with projections derived from executable definitions, while retaining only unavoidable transport adaptation and preserving CLI/MCP behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-943-interface-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-943-interface-ssot"
+  },
+  "finalReportDigest": "sha256:94fef71b804bb50e3f2aafbdf41611b0a8feba827491615c9f5bf549cfccb02a",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:1c346ad543e09056e1e71ee0c600622e35edcfbd5c589389e2f190a6b1d8458c",
+    "branch": "codex/wi-943-interface-ssot",
+    "branchRef": "refs/heads/codex/wi-943-interface-ssot",
+    "capturedAt": "2026-09-20T03:54:07Z",
+    "contractDigest": "sha256:ca1e6972be1862c7892b9f8464f069ae106275b4988a00c616b9cf4fecaf461d",
+    "headRevision": "efab04dfb49cdb354d014dc6c296d13c0ada780f",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:526b61f06fd8e1a3c4c09836652b9149e61c7dce039ee4f1cb4df50cbb7fdc90",
+    "runtimeVersion": "0.2.100",
+    "schemaVersion": 1,
+    "workItemId": "WI-943-interface-ssot",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit3",
+    "worktreeId": "sha256:9e9c72a0c4d916f65550ff44505d3b146e4a7490c1e6786e8de5eb95d54c503d",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi943-interface-ssot/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:8e1e5808a706ea620e66330457cce10ac8b65fde63893b1b33b635acdc85ee62",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "conversation:user-standing-authorization",
+    "decidedAt": "2026-09-20T03:53:55Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-943-interface-ssot.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Reviewed merged PR #916 and its complete bound verification/archive evidence; close the interface SSOT Work Item without claiming user-visible benefit.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-20T03:54:07Z",
+  "workItemId": "WI-943-interface-ssot"
+}
