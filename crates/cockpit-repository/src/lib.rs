@@ -4498,17 +4498,20 @@ pub fn require_verification_preconditions(
         .all(|finding| finding.code == "required_scenario_unverified")
         && !controls.findings.is_empty()
         && scenario_coverage_preflight_unknowns(&contract_value).is_empty();
-    // A first typed verification is the operation that creates the Summary
-    // entries consumed by the strict finish/archive/close gates. Permit only
-    // that narrow execution-time gap; every other governance finding remains
-    // fail-closed before spawning a project process.
-    let first_typed_verification_is_ready = !controls.findings.is_empty()
-        && controls.findings.iter().all(|finding| {
-            matches!(
-                finding.code.as_str(),
-                "required_verification_missing" | "required_scenario_unverified"
-            )
-        })
+    // A first typed verification creates the Summary entries consumed by the
+    // strict finish/archive/close gates. A post-checkpoint amendment similarly
+    // needs exactly one replacement execution after it invalidates those
+    // entries. Permit only those narrow execution-time gaps; every other
+    // governance finding remains fail-closed before spawning a project process.
+    let required_typed_verification_is_ready = !controls.findings.is_empty()
+        && controls
+            .findings
+            .iter()
+            .all(|finding| match finding.code.as_str() {
+                "required_verification_missing" | "required_scenario_unverified" => true,
+                "required_verification_invalidated" => amendment_pending,
+                _ => false,
+            })
         && controls.unknowns.iter().all(|unknown| {
             unknown == "required_verification_missing"
                 || unknown.starts_with("required_verification_missing:")
@@ -4517,7 +4520,7 @@ pub fn require_verification_preconditions(
         && scenario_coverage_preflight_unknowns(&contract_value).is_empty();
     if controls.state == "blocked"
         && !planned_scenarios_are_ready
-        && !first_typed_verification_is_ready
+        && !required_typed_verification_is_ready
     {
         return Err(ObserverError::State {
             path: contract_path,

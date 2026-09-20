@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T22:09:46Z",
+  "files": {
+    "contractDigest": "sha256:73659bc2ad0cf6ec2056c3d2f1b7864f511c406a2080287f07c8b248bef22dd5",
+    "contractPath": ".ai/work-items/archive/WI-957-start-authority-recovery.contract.json",
+    "eventsDigest": "sha256:44f100881871f23821ef63cf66c8e66f1501d48761b6ac707dea165ab9f2d5fb",
+    "eventsPath": ".ai/work-items/archive/WI-957-start-authority-recovery.events.jsonl",
+    "outcomeDigest": "sha256:11679b3e88b6ee279b85e9564bd18b3cfe8f188df311a7db42655742ad303dde",
+    "outcomePath": ".ai/work-items/archive/WI-957-start-authority-recovery.outcome.json",
+    "summaryDigest": "sha256:110dc9563849702a3a613f5af9ac01b3af01476787b001ff41f42de218c527be",
+    "summaryPath": ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json",
+    "taskReportDigest": "sha256:b9c8769014bfe50accaa199856022ab283fb13fe85ce512f4346e2cb2278fdff",
+    "taskReportMarkdownDigest": "sha256:f3731a97812e39385317a5814240ddc4711f188b842f75d864ceca31e3c961d5",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-957-start-authority-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-957-start-authority-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-957-start-authority-recovery"
+}

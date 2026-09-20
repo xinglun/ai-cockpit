@@ -1547,25 +1547,45 @@ fn run() -> Result<()> {
             let commands = if explicit {
                 command
                     .into_iter()
-                    .map(|program| (program, args.clone()))
+                    .map(|program| DeclaredVerificationCommand {
+                        node_id: None,
+                        program,
+                        args: args.clone(),
+                    })
                     .collect::<Vec<_>>()
             } else if let Some(work_item_id) = work_item.as_deref() {
                 let declared = declared_verification_commands(&root, work_item_id)?;
                 if declared.is_empty() {
                     detected_verification_commands(&root)?
+                        .into_iter()
+                        .map(|(program, args)| DeclaredVerificationCommand {
+                            node_id: None,
+                            program,
+                            args,
+                        })
+                        .collect()
                 } else {
                     declared
                 }
             } else {
                 detected_verification_commands(&root)?
+                    .into_iter()
+                    .map(|(program, args)| DeclaredVerificationCommand {
+                        node_id: None,
+                        program,
+                        args,
+                    })
+                    .collect()
             };
             let requests = commands
                 .into_iter()
                 .enumerate()
-                .map(|(index, (program, args))| RepositoryVerificationRequest {
-                    node_id: format!("project-command-{index}"),
-                    program,
-                    args,
+                .map(|(index, command)| RepositoryVerificationRequest {
+                    node_id: command
+                        .node_id
+                        .unwrap_or_else(|| format!("project-command-{index}")),
+                    program: command.program,
+                    args: command.args,
                     scope: vec!["**".into()],
                     stage: stage.as_str().into(),
                     runner: "local".into(),
@@ -3106,10 +3126,16 @@ fn valid_cli_git_object_id(value: &str) -> bool {
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
+struct DeclaredVerificationCommand {
+    node_id: Option<String>,
+    program: String,
+    args: Vec<String>,
+}
+
 fn declared_verification_commands(
     root: &Path,
     work_item_id: &str,
-) -> Result<Vec<(String, Vec<String>)>> {
+) -> Result<Vec<DeclaredVerificationCommand>> {
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -3118,14 +3144,27 @@ fn declared_verification_commands(
             .with_context(|| format!("read Work Item Contract {}", contract_path.display()))?,
     )
     .with_context(|| format!("parse Work Item Contract {}", contract_path.display()))?;
-    let mut commands = Vec::new();
-    for declaration in contract.verification {
-        let VerificationDeclaration::Legacy(command) = declaration else {
-            continue;
-        };
-        commands.push(parse_declared_verification_command(&command)?);
-    }
-    Ok(commands)
+    declared_verification_commands_from_declarations(contract.verification)
+}
+
+fn declared_verification_commands_from_declarations(
+    declarations: Vec<VerificationDeclaration>,
+) -> Result<Vec<DeclaredVerificationCommand>> {
+    declarations
+        .into_iter()
+        .map(|declaration| {
+            let (node_id, command) = match declaration {
+                VerificationDeclaration::Legacy(command) => (None, command),
+                VerificationDeclaration::Check(check) => (Some(check.check.clone()), check.check),
+            };
+            let (program, args) = parse_declared_verification_command(&command)?;
+            Ok(DeclaredVerificationCommand {
+                node_id,
+                program,
+                args,
+            })
+        })
+        .collect()
 }
 
 fn detected_verification_commands(root: &Path) -> Result<Vec<(String, Vec<String>)>> {

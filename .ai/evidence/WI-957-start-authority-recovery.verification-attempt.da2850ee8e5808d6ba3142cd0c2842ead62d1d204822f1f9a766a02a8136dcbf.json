@@ -1,0 +1,49 @@
+{
+  "attemptId": "sha256:da2850ee8e5808d6ba3142cd0c2842ead62d1d204822f1f9a766a02a8136dcbf",
+  "commands": [
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry"
+      ],
+      "baseCommit": "bde14a8062563cc12c071f41d60e6ba524d214b3",
+      "commandDigest": "sha256:5be577cc5da7b281e76458f0f2a76d7f1aca2d62ad00e2786b1538aad812fb6a",
+      "nodeId": "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:88a8ce15ac29dc97185818b21697d0d8e411c3ab5e7bd61fefa0be469cb65777",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:d362db6110af0202f2f92c2a800d677ff6cdc8e1ba94a17b8f130b142967c570",
+  "contractExecutionScopeDigest": "sha256:f8fdf23456cf4744d4c27e839fddce68b39247c04f79c7c735ec081760ef37ba",
+  "createdAt": "2026-09-20T22:03:09Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/start-authority-recovery/ai-cockpit/.ai/work-items/active/WI-957-start-authority-recovery.contract.json: verification preconditions are blocked: required_verification_invalidated, required_verification_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:347258fdefe4a258a9836ea494b96e087c2c70b403951ccb1269799c39569d49",
+  "runtimeDigest": "sha256:88a8ce15ac29dc97185818b21697d0d8e411c3ab5e7bd61fefa0be469cb65777",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-957-start-authority-recovery"
+}

@@ -29,6 +29,15 @@ pub fn start_work_item_with_options(
     scope: &[String],
     options: &WorkItemStartOptions,
 ) -> Result<LifecycleReceipt, ObserverError> {
+    if !matches!(options.authority.as_str(), "authorized" | "missing") {
+        return Err(ObserverError::State {
+            path: root.join(".ai/work-items/active"),
+            message: format!(
+                "authority must be `authorized` or `missing`, got {:?}",
+                options.authority
+            ),
+        });
+    }
     validate_required_evidence_classes(&options.required_evidence_classes).map_err(|message| {
         ObserverError::State {
             path: root.join(".ai/work-items/active"),
