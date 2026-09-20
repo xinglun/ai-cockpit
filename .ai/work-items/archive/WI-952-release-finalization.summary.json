@@ -1,7 +1,7 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-952-release-finalization.summary.json",
+    ".ai/work-items/archive/WI-952-release-finalization.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md"
@@ -12,21 +12,20 @@
   "checkpointRepositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
   "createdAt": "2026-09-20T14:53:53Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-20T15:15:05Z",
+  "preflightAt": "2026-09-20T16:00:52Z",
   "preflightContractDigest": "sha256:81c4181f0f69a39a2e2737b7984194ac4e082d1b7b209916b3c2206f31ee0080",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-20T14:56:55Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T16:00:06Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:cc1817eb67c181d8e377bea0eea16f1a8332b6958cbc1054fc4935812c81616c",
   "workItemId": "WI-952-release-finalization"
 }

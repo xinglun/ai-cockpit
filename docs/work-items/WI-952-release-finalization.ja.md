@@ -4,9 +4,13 @@ workItemId: WI-952-release-finalization
 title: v0.2.102 release finalization
 description: マージ済み source preparation で欠けた resource-bound release route を完了する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-952-release-finalization
+terminalArchive: .ai/work-items/archive/WI-952-release-finalization.contract.json
+terminalVerification: .ai/evidence/WI-952-release-finalization.verification.json
+terminalFinalization: .ai/decisions/WI-952-release-finalization.finalize.json
+terminalDecision: .ai/decisions/WI-952-release-finalization.close.json
 ---
 
 [English](WI-952-release-finalization.md) · [简体中文](WI-952-release-finalization.zh-CN.md)

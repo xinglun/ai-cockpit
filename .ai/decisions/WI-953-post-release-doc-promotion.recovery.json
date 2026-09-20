@@ -1,0 +1,26 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit user authorization in current conversation",
+  "decidedAt": "2026-09-21T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "crates/cockpit-repository/src/lifecycle.rs:624",
+    "tests/docs/promote_closed_work_item.py:879"
+  ],
+  "policyRefs": [
+    "AGENTS.md:fix-in-current-work-item-or-record-successor",
+    "AGENTS.md:immutable-history-and-successor-recovery"
+  ],
+  "predecessorContractDigest": "sha256:96852446c28c4edc7f8734821b4d41253b2a6bb5e9fbda5b52fd00be139873ec",
+  "predecessorSummaryDigest": "sha256:3ac430f2b75a0f3d5668dae5578aedbee70bbd78161e4c01dc2590c0e76ce230",
+  "predecessorWorkItemId": "WI-953-post-release-doc-promotion",
+  "reason": "The documentation-promotion Contract was initialized with an unconditional Cargo workspace verification command, which conflicts with its accepted documentation-only validation boundary. Create a bound successor to add an explicit start-time verification declaration while preserving the predecessor bytes.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use WI-954 to add a shared explicit verification declaration for start, preserve default Cargo behavior when omitted, prove CLI/MCP parity, then complete the bounded documentation projection without starting unrelated project verification.",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-954-start-verification-declaration",
+  "workItemId": "WI-953-post-release-doc-promotion"
+}

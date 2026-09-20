@@ -1,0 +1,34 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:dc31826cf20fd47dc814a27fd09bbd34f8fe14c5a5bb512e10640982d837d31b",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:017f18b4defbb95d7ab91d012f1a66a77ac333785044efc3880d01e21e4b0e97",
+      "path": ".ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:bed849080a8b8a4077576532530216860b195f305f0b57e3c09031a29c33aeb7",
+      "path": ".ai/work-items/archive/WI-953-post-release-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:b98f4f251949f4d95a13106a56c85753c7be05930bccbb3557844f3b8fd0fd47",
+      "path": ".ai/work-items/archive/WI-953-post-release-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "explicit user authorization in current conversation",
+  "contractDigest": "sha256:96852446c28c4edc7f8734821b4d41253b2a6bb5e9fbda5b52fd00be139873ec",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-953 was prepared with an immutable default Cargo workspace verification command. That command conflicts with its accepted documentation-only validation boundary, and its Runtime interface files are out of scope. Preserve the uncheckpointed Contract and replace it with WI-954, which will add an explicit verification declaration at the start boundary and then complete the required documentation projection.",
+  "recordedAt": "2026-09-20T16:28:47Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:cb48fe7335564291c99e771f94427ab0a55e6fe32f9b61809c06dba364f8f4aa",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-954-start-verification-declaration",
+  "summaryDigest": "sha256:3ac430f2b75a0f3d5668dae5578aedbee70bbd78161e4c01dc2590c0e76ce230",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-953-post-release-doc-promotion"
+}

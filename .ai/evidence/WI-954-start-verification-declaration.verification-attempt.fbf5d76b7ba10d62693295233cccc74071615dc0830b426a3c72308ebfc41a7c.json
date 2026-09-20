@@ -1,0 +1,44 @@
+{
+  "attemptId": "sha256:fbf5d76b7ba10d62693295233cccc74071615dc0830b426a3c72308ebfc41a7c",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        "/Users/sei-rinn/.codex/worktrees/wi-954-start-verification-declaration",
+        "--check-all"
+      ],
+      "baseCommit": "a93e1715533465a76998e598b3ec96e090d4c842",
+      "commandDigest": "sha256:a8e2b9d944fc1d134bc8b35906e05da5c3c21aea593a22c8d410e9563f85254f",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:bab2e27cf016a4a347e0884af804dff4c15d52c0504ebbf7245dd5d47c6e89ca",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6d6ef27c5db16766b4f7991a9a8385d3280476d2336c4364353e5c9c180d26b2",
+  "contractExecutionScopeDigest": "sha256:d86bfeded47d9444289a2eef6534cc7e36471c093c218773361cae6dc4b37e24",
+  "createdAt": "2026-09-20T17:12:30Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-954-start-verification-declaration/.ai/work-items/active/WI-954-start-verification-declaration.summary.json: verification requires exactly one completed checkpoint and an active lifecycle state"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2ff7f3c68f5c4b3df4f5c61b31bdbf89c80bf333f422b809a71493681a5c4f6e",
+  "runtimeDigest": "sha256:bab2e27cf016a4a347e0884af804dff4c15d52c0504ebbf7245dd5d47c6e89ca",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-954-start-verification-declaration"
+}
