@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -22,7 +22,7 @@ capabilityClaims:
 
 当前比对元数据由与逐文件比对入口共用的
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) 旁车文件
-维护。它绑定固定源提交、经过评审的 Rust 基线、已发布 Runtime identity 和当前台账
+维护。它绑定固定源提交、经过评审的 Rust 基线、候选 Runtime identity 和当前台账
 计数；三语页面会一起检查，避免发布或比对更新后只留下过期的页面表头。
 
 维护中的语义参考源是由 `AI_COCKPIT_REFERENCE_ROOT` 选择的本地 checkout，当前固定在提交
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.102` Runtime（二进制摘要
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）。
+`ai-cockpit v0.2.103` Runtime（二进制摘要
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。

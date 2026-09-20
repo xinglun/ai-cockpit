@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -23,7 +23,7 @@ mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照�
 
 Current comparison metadata は file-level comparison route と共有する
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) の sidecar
-で管理します。pinned source commit、review 済み Rust baseline、published Runtime
+で管理します。pinned source commit、review 済み Rust baseline、candidate Runtime
 identity、current ledger count を束縛し、三言語 page を同時に検査して release または
 comparison 更新後の stale header を防ぎます。
 
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.102`（binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）を使用します。
+review 済み `ai-cockpit v0.2.103`（binary digest
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。

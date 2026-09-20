@@ -43,7 +43,11 @@
     "docs/work-items/WI-95*",
     ".github/workflows/**",
     ".ai/**",
-    "docs/reference/reference-parity*"
+    "docs/reference/reference-parity*",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
   ],
   "sources": [
     "docs/release/distribution.md",

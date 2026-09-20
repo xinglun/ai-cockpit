@@ -6,6 +6,42 @@
   "checkpointAt": "2026-09-20T23:20:05Z",
   "checkpointContractDigest": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:20:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "previousContractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "reason": "Hosted docs_acceptance rejected the live comparison metadata because its Runtime identity remained v0.2.102 while this v0.2.103 candidate is under review. Add only the metadata and three generated-projection pages needed to correct that current candidate identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:48:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
   "createdAt": "2026-09-20T23:14:21Z",
   "mode": "code",
@@ -15,11 +51,11 @@
   "preflightContractDigest": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-958-v0-2-103-release.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-20T23:38:57Z",
   "verification": [
     {
@@ -83,5 +119,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-20T23:48:38Z"
+  },
   "workItemId": "WI-959-v0-2-103-release-recovery"
 }

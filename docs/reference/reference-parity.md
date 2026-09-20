@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ mapping, see [Contract and Summary fields](contract-fields.md).
 Current comparison metadata is maintained in the
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json)
 sidecar shared with the file-level comparison route. It binds the pinned
-source commit, reviewed Rust baseline, published Runtime identity, and current
+source commit, reviewed Rust baseline, candidate Runtime identity, and current
 ledger counts; the tri-language pages are checked together so a release or
 comparison update cannot leave a stale presentation header.
 
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.102` with binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`.
+and the reviewed Runtime `ai-cockpit v0.2.103` with binary digest
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
