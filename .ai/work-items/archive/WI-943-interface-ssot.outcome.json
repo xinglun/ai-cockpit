@@ -44,49 +44,49 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-943-interface-ssot.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-943-interface-ssot.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-943-interface-ssot.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-943-interface-ssot.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.summary.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
@@ -145,7 +145,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.contract.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.contract.json"
           ],
           "inference": false,
           "text": "Replace manual transport and MCP-only outcome parameter fact tables with projections derived from executable definitions, while retaining only unavoidable transport adaptation and preserving CLI/MCP behavior."
@@ -154,7 +154,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-943-interface-ssot.contract.json"
+            ".ai/work-items/archive/WI-943-interface-ssot.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -164,8 +164,8 @@
     "status": "verified",
     "workItemId": "WI-943-interface-ssot"
   },
-  "taskReportDigest": "sha256:2676f480d6eddfb335a193b4583b713901e1256b019c55b1f02a701eba636714",
-  "taskReportMarkdownDigest": "sha256:0a1b13d556894d680049aff02af8578092b4791d161f7d834740989b80ed55ca",
+  "taskReportDigest": "sha256:8ffb9ae2fcb08a4d4e9680efba5f735aa8697bcbac48b2b73509ab463b19dfc1",
+  "taskReportMarkdownDigest": "sha256:035035c35c0c4ed8adf6ae3690b150dfc9dc30707bdae5a9377afda6044afdb7",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

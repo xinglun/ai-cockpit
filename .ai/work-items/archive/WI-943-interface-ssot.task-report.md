@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-943-interface-ssot.contract.json
-- Changed path: .ai/work-items/active/WI-943-interface-ssot.summary.json
+- Changed path: .ai/work-items/archive/WI-943-interface-ssot.contract.json
+- Changed path: .ai/work-items/archive/WI-943-interface-ssot.summary.json
 - Changed path: crates/cockpit-mcp/src/lib.rs
 - Changed path: crates/cockpit-protocol/src/interface_description.rs
 - Changed path: crates/cockpit-protocol/src/lib.rs
