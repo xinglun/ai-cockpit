@@ -1,0 +1,80 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json",
+    ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json",
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/formula.rs",
+    "crates/cockpit-release/tests/formula.rs",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-20T18:45:18Z",
+  "checkpointContractDigest": "sha256:1f891e2a8415acadcf90483c4ebd57c934f39bb17034abd8a2c98027f6bc89f1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+  "createdAt": "2026-09-20T18:45:17Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T18:54:10Z",
+  "preflightContractDigest": "sha256:1f891e2a8415acadcf90483c4ebd57c934f39bb17034abd8a2c98027f6bc89f1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T18:55:06Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "homebrew-arm-only-distribution"
+}

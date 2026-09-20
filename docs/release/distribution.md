@@ -166,8 +166,9 @@ brew uninstall ai-cockpit
 brew untap xinglun/tap                 # optional
 ```
 
-The Formula currently targets macOS ARM64 and Intel. Linuxbrew is not a
-supported path.
+The Formula currently targets Apple Silicon macOS only. Linuxbrew and Intel
+macOS are not supported Homebrew paths. The separate Intel macOS release
+archive remains available for direct artifact installation.
 
 ## Verify a Release asset
 

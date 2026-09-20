@@ -49,7 +49,7 @@ fn manifest() -> ReleaseManifest {
 }
 
 #[test]
-fn production_formula_is_stable_and_contains_both_macos_variants() {
+fn production_formula_is_stable_and_contains_only_the_macos_arm_variant() {
     let manifest = manifest();
     let first = render_formula(
         &manifest,
@@ -67,7 +67,8 @@ fn production_formula_is_stable_and_contains_both_macos_variants() {
     .unwrap();
     assert_eq!(first, second);
     assert!(first.contains("on_arm"));
-    assert!(first.contains("on_intel"));
+    assert!(!first.contains("on_intel"));
+    assert!(!first.contains("x86_64-apple-darwin"));
     assert!(first.contains("version \"0.1.0\""));
     assert!(
         first.contains(

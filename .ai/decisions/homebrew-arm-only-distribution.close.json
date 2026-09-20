@@ -1,0 +1,206 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+      "workItemId": "homebrew-arm-only-distribution"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/formula.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/tests/formula.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via user-standing-authorization at 2026-09-20T18:56:16Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+          ],
+          "inference": false,
+          "text": "将 Homebrew Formula 和 Hosted Homebrew smoke 收敛为 Apple Silicon，仅保留 ARM64 Formula 输入与验收，并以回归测试固定边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "homebrew-arm-only-distribution"
+  },
+  "finalReportDigest": "sha256:b416576e0b20cd93b3f61998490293a51289e4083e75cd61acb88ba767d1308b",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:8c7163cc0be6c898e1c64efc1e5d240f00b08d7cfc72e2afae547c1b2c340c44",
+    "branch": "codex/homebrew-arm-only",
+    "branchRef": "refs/heads/codex/homebrew-arm-only",
+    "capturedAt": "2026-09-20T18:56:17Z",
+    "contractDigest": "sha256:1f891e2a8415acadcf90483c4ebd57c934f39bb17034abd8a2c98027f6bc89f1",
+    "headRevision": "7ded8f51627735241af0c08ef019d519a44edf18",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+    "runtimeVersion": "0.2.100",
+    "schemaVersion": 1,
+    "workItemId": "homebrew-arm-only-distribution",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:ab99d9f2baed76d88897223764f2555535dedb867e127642364266b577835091",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/homebrew-arm-only/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:02557f3ed65d4939051f3240fef0db82a0411388e7591f25e78c44373bbaeec4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user-standing-authorization",
+    "decidedAt": "2026-09-20T18:56:16Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md: ordinary Work Item close route"
+    ],
+    "reason": "用户明确授权停止 Intel Homebrew 分发；ARM-only Formula、Hosted smoke、三语说明和回归验证均已完成，独立 Intel archive 支持保持不变。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-20T18:56:17Z",
+  "workItemId": "homebrew-arm-only-distribution"
+}
