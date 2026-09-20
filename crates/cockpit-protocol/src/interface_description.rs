@@ -11,8 +11,6 @@ pub const INTERFACE_DESCRIPTION_SCHEMA_VERSION: u32 = 1;
 pub const WORK_ITEM_OUTCOME_SURFACE: &str = "work-item-outcome";
 pub const WORK_ITEM_OUTCOME_VIEW_SUMMARY: &str = "summary";
 pub const WORK_ITEM_OUTCOME_VIEW_FULL: &str = "full";
-pub const WORK_ITEM_OUTCOME_VIEW_VALUES: &[&str] =
-    &[WORK_ITEM_OUTCOME_VIEW_SUMMARY, WORK_ITEM_OUTCOME_VIEW_FULL];
 pub const WORK_ITEM_OUTCOME_DEFAULT_VIEW: &str = WORK_ITEM_OUTCOME_VIEW_SUMMARY;
 pub const WORK_ITEM_OUTCOME_DEFAULT_DELIVERY: bool = false;
 pub const WORK_ITEM_OUTCOME_DEFAULT_JSON: bool = false;
@@ -43,10 +41,51 @@ pub const WORK_ITEM_OUTCOME_MCP_VIEW: &str = WORK_ITEM_OUTCOME_CANONICAL_VIEW;
 pub const WORK_ITEM_OUTCOME_MCP_LANGUAGE: &str = WORK_ITEM_OUTCOME_CANONICAL_LANGUAGE;
 pub const WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS: &str =
     WORK_ITEM_OUTCOME_CANONICAL_DELIVERY_PROGRESS;
-/// Conversation languages accepted by the human Outcome projections.
-/// `zh-CN` is kept as a locale-compatible spelling and normalizes to the
-/// canonical Simplified Chinese renderer.
-pub const WORK_ITEM_OUTCOME_LANGUAGE_VALUES: &[&str] = &["en", "zh", "zh-CN", "ja"];
+/// Define one Outcome enum and its public value list from the same declaration.
+///
+/// The parser uses the enum while adapters that need a static slice use the
+/// generated list.  This avoids making the list a second hand-maintained
+/// registry of the `ValueEnum` spellings.
+macro_rules! outcome_value_enum {
+    ($enum_name:ident, $values_name:ident, $( $variant:ident => $value:expr ),+ $(,)?) => {
+        #[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
+        pub enum $enum_name {
+            $(
+                #[value(name = $value)]
+                $variant,
+            )+
+        }
+
+        impl $enum_name {
+            pub const fn as_str(self) -> &'static str {
+                match self {
+                    $(Self::$variant => $value,)+
+                }
+            }
+        }
+
+        pub const $values_name: &[&str] = &[$($value),+];
+    };
+}
+
+outcome_value_enum!(
+    WorkItemOutcomeView,
+    WORK_ITEM_OUTCOME_VIEW_VALUES,
+    Summary => WORK_ITEM_OUTCOME_VIEW_SUMMARY,
+    Full => WORK_ITEM_OUTCOME_VIEW_FULL,
+);
+
+// Conversation languages accepted by the human Outcome projections. `zh-CN`
+// is kept as a locale-compatible spelling and normalizes to the canonical
+// Simplified Chinese renderer.
+outcome_value_enum!(
+    WorkItemOutcomeLanguage,
+    WORK_ITEM_OUTCOME_LANGUAGE_VALUES,
+    En => "en",
+    Zh => "zh",
+    ZhCn => "zh-CN",
+    Ja => "ja",
+);
 
 /// Actual CLI parser arguments for the discoverable Outcome query.
 ///
@@ -60,66 +99,26 @@ pub struct WorkItemOutcomeQueryArgs {
     #[arg(
         long,
         action = ArgAction::SetTrue,
-        default_value_t = false,
+        default_value_t = WORK_ITEM_OUTCOME_DEFAULT_DELIVERY,
         help = WORK_ITEM_OUTCOME_DELIVERY_DESCRIPTION
     )]
     pub delivery: bool,
     #[arg(
         long,
         action = ArgAction::SetTrue,
-        default_value_t = false,
+        default_value_t = WORK_ITEM_OUTCOME_DEFAULT_JSON,
         help = WORK_ITEM_OUTCOME_JSON_DESCRIPTION
     )]
     pub json: bool,
     #[arg(
         long,
         value_enum,
-        default_value_t = WorkItemOutcomeView::Summary,
+        default_value = WORK_ITEM_OUTCOME_DEFAULT_VIEW,
         help = WORK_ITEM_OUTCOME_VIEW_DESCRIPTION
     )]
     pub view: WorkItemOutcomeView,
     #[arg(long, value_enum, help = WORK_ITEM_OUTCOME_LANGUAGE_DESCRIPTION)]
     pub language: Option<WorkItemOutcomeLanguage>,
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
-pub enum WorkItemOutcomeView {
-    #[value(name = WORK_ITEM_OUTCOME_VIEW_SUMMARY)]
-    Summary,
-    #[value(name = WORK_ITEM_OUTCOME_VIEW_FULL)]
-    Full,
-}
-
-impl WorkItemOutcomeView {
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::Summary => WORK_ITEM_OUTCOME_VIEW_SUMMARY,
-            Self::Full => WORK_ITEM_OUTCOME_VIEW_FULL,
-        }
-    }
-}
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq, ValueEnum)]
-pub enum WorkItemOutcomeLanguage {
-    #[value(name = "en")]
-    En,
-    #[value(name = "zh")]
-    Zh,
-    #[value(name = "zh-CN")]
-    ZhCn,
-    #[value(name = "ja")]
-    Ja,
-}
-
-impl WorkItemOutcomeLanguage {
-    pub const fn as_str(self) -> &'static str {
-        match self {
-            Self::En => "en",
-            Self::Zh => "zh",
-            Self::ZhCn => "zh-CN",
-            Self::Ja => "ja",
-        }
-    }
 }
 
 /// Return the actual Clap command fragment shared by query parsing and

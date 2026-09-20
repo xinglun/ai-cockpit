@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "The Outcome CLI parser remains the authoritative source for its defaults and enum values; protocol discovery, MCP schema projection, and generated reference output obtain those facts from that executable parser rather than a hand-maintained duplicate list.",
+    "The accepted Outcome language values and default view/delivery/json behavior remain behaviorally compatible, with targeted regression coverage for CLI parsing and CLI/MCP discovery parity.",
+    "The MCP-only deliveryProgress field remains explicitly transport-specific and is not inferred as a CLI argument.",
+    "The change is deterministic and does not alter Outcome lifecycle, authorization, delivery, or release behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5700757ce0f1f9e17a0aea7b712fa86cb7a1e6ad",
+  "createdAt": "2026-09-20T09:42:08Z",
+  "goal": "Complete the remaining Outcome interface-description single-source-of-truth correction without changing public behavior.",
+  "intent": "Remove residual hand-maintained Outcome interface facts so parser behavior and generated descriptions do not drift.",
+  "mode": "code",
+  "outOfScope": [
+    "Outcome host delivery implementation or external chat-host integration",
+    "Outcome lifecycle",
+    " authorization",
+    " receipt",
+    " retry",
+    " or release behavior",
+    "Whole-repository documentation migration or unrelated historical worktree cleanup",
+    "Publishing a Runtime release"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
+  "requiredEvidenceClasses": [],
+  "risk": "low",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "sources": [
+    "User-provided deep-analysis objective and explicit authorization to continue implementation",
+    "Existing WorkItemOutcomeQueryArgs Clap parser and interface-description tests"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-947-interface-ssot-completion"
+}
