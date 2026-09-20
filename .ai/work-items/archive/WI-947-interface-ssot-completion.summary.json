@@ -2,10 +2,10 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-947-interface-ssot-completion.verification-attempt.43b9408be49b04c505bb96a14a0094a3bd0c513f40527357da3a72c9625544f3.json",
-    ".ai/work-items/active/WI-947-interface-ssot-completion.approach.json",
-    ".ai/work-items/active/WI-947-interface-ssot-completion.contract.json",
-    ".ai/work-items/active/WI-947-interface-ssot-completion.intelligence.json",
-    ".ai/work-items/active/WI-947-interface-ssot-completion.summary.json",
+    ".ai/work-items/archive/WI-947-interface-ssot-completion.approach.json",
+    ".ai/work-items/archive/WI-947-interface-ssot-completion.contract.json",
+    ".ai/work-items/archive/WI-947-interface-ssot-completion.intelligence.json",
+    ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json",
     "crates/cockpit-protocol/src/interface_description.rs",
     "crates/cockpit-protocol/tests/interface_description.rs"
   ],

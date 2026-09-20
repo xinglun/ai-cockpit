@@ -1,0 +1,185 @@
+{
+  "acceptanceResults": [
+    "The Outcome CLI parser remains the authoritative source for its defaults and enum values; protocol discovery, MCP schema projection, and generated reference output obtain those facts from that executable parser rather than a hand-maintained duplicate list.",
+    "The accepted Outcome language values and default view/delivery/json behavior remain behaviorally compatible, with targeted regression coverage for CLI parsing and CLI/MCP discovery parity.",
+    "The MCP-only deliveryProgress field remains explicitly transport-specific and is not inferred as a CLI argument.",
+    "The change is deterministic and does not alter Outcome lifecycle, authorization, delivery, or release behavior."
+  ],
+  "createdAt": "2026-09-20T09:56:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c8fbf7d2b1aec551b3f14fbcb2ae3e67b247c786d2a69eb602c14727219cc328",
+  "evidenceRefs": [
+    ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4963f4aa55f1c83c1ecd784912573a5c8758cc9665ed832024820ebb7b7e88d5",
+      "workItemId": "WI-947-interface-ssot-completion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-947-interface-ssot-completion.verification-attempt.43b9408be49b04c505bb96a14a0094a3bd0c513f40527357da3a72c9625544f3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-947-interface-ssot-completion.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-947-interface-ssot-completion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-947-interface-ssot-completion.intelligence.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/interface_description.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/interface_description.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-947-interface-ssot-completion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.contract.json"
+          ],
+          "inference": false,
+          "text": "Complete the remaining Outcome interface-description single-source-of-truth correction without changing public behavior."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-947-interface-ssot-completion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-947-interface-ssot-completion"
+  },
+  "taskReportDigest": "sha256:64642c33961ad0332d0ea407647658a8fa3f285aae22ab30930ee9a550f31fbd",
+  "taskReportMarkdownDigest": "sha256:097899941a8dbe09531277d413269c7cb5062aced08d76760c3d9dad4c21697f",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-947-interface-ssot-completion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-947-interface-ssot-completion"
+}
