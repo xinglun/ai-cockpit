@@ -1,0 +1,176 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-950-direct-merge-context.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:07edec6d39796f62920bea1e2886e7759e52d62bfcb8153413d2cac5c8c2cc50",
+      "workItemId": "WI-950-direct-merge-context"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-950-direct-merge-context.verification-attempt.76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-950-direct-merge-context.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/resource_finalization.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-950-direct-merge-context.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-950-direct-merge-context.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-950-direct-merge-context.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via user:repository-owner at 2026-09-20T12:44:03Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-950-direct-merge-context.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-950-direct-merge-context.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-950-direct-merge-context.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.contract.json"
+          ],
+          "inference": false,
+          "text": "让 Runtime 生成的 direct_merge_candidate receipt 在相同 GitHub 资源上下文下可被严格校验，同时保留历史低保证与资源状态未知。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-950-direct-merge-context.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-950-direct-merge-context"
+  },
+  "finalReportDigest": "sha256:48c766213a6fc17379b71d5d6f989134912588aff21eb1b860dba6e221408d20",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:69d05ed659252682cea5ff35e9343204a2385349445c0361ba31a246b0b65f25",
+    "branch": "codex/wi-950-direct-merge-context",
+    "branchRef": "refs/heads/codex/wi-950-direct-merge-context",
+    "capturedAt": "2026-09-20T12:44:23Z",
+    "contractDigest": "sha256:932945ecc51b5943e956d23185770a966c79600f4190ed57a78986e137291ea4",
+    "headRevision": "e75a7e4fa78ffc94883ced398569834da2ce10b7",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:cb3224c649c5f6f01fa4ca4435782c2c3950c226ed962f0891ec1219c7797bbd",
+    "runtimeVersion": "0.2.101",
+    "schemaVersion": 1,
+    "workItemId": "WI-950-direct-merge-context",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:6d7f08c7399d54a2874f84cb189423d5ed1db30652f14d7c87465479b0c0af32",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-950-direct-merge-context/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:a01713f70eac3f7ec87de5b0c8b5a8a70693b911865f6be3562374758b03adc1",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user:repository-owner",
+    "decidedAt": "2026-09-20T12:44:03Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-950-direct-merge-context.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "Repository owner granted full authority to complete verified cleanup and release preparation; WI-950 acceptance evidence and hosted review are accepted.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-20T12:44:23Z",
+  "workItemId": "WI-950-direct-merge-context"
+}
