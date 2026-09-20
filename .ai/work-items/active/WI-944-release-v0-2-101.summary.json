@@ -1,6 +1,7 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-944-release-v0-2-101.verification-attempt.bec893a61682500e6c5011bf48abba07d4be2b96d05db66ee719bdec9755e425.json",
     ".ai/work-items/active/WI-944-release-v0-2-101.summary.json"
   ],
   "checkpointAt": "2026-09-20T04:32:50Z",
@@ -122,7 +123,7 @@
       "workItemId": "WI-944-release-v0-2-101"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:e7d735bef54adf8dffb538e85dc14ca450f1289fc744439d8c8e3b7904301756",
+  "checkpointRepositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
   "createdAt": "2026-09-20T04:29:09Z",
   "intentAlignment": {
     "evidence": [
@@ -136,10 +137,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
   "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
-  "preflightAt": "2026-09-20T05:29:42Z",
+  "preflightAt": "2026-09-20T05:41:59Z",
   "preflightContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:e7d735bef54adf8dffb538e85dc14ca450f1289fc744439d8c8e3b7904301756",
+  "preflightRepositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
   "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.0150ac929c6f14580a36e2bc7cf0bb8128ab6b23edee591d5eb58b84063902a2.json",

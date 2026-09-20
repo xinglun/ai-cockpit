@@ -1,0 +1,104 @@
+{
+  "attemptId": "sha256:bec893a61682500e6c5011bf48abba07d4be2b96d05db66ee719bdec9755e425",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "4290afcf094288379e396c51026a7c08c747d806",
+      "commandDigest": "sha256:5b7326a1cf752d980d291d074a0fc83fc637339400468166296879da8ff19b50",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-protocol",
+        "--test",
+        "interface_description"
+      ],
+      "baseCommit": "4290afcf094288379e396c51026a7c08c747d806",
+      "commandDigest": "sha256:89b0407eb0353196abb010ed434383e57021785d40fa54c57ef6cab118329224",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "scripts/generate_interface_references.py",
+        "--repo",
+        ".",
+        "--check"
+      ],
+      "baseCommit": "4290afcf094288379e396c51026a7c08c747d806",
+      "commandDigest": "sha256:05087c41f498c9bb5015f4dcd5ee876391edd20fa7b9db0151769b4a44dd5a6a",
+      "nodeId": "project-command-2",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--package",
+        "cockpit-repository",
+        "--test",
+        "status_projection"
+      ],
+      "baseCommit": "4290afcf094288379e396c51026a7c08c747d806",
+      "commandDigest": "sha256:ba0f524248a9f2cd438033bb9e6cf3b951573ed070ce6e3f5b0e6794bb77fa3d",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
+  "contractExecutionScopeDigest": "sha256:ba577176f8b8db1a822098768d09e61589b86ac826699689c9eae10e5afdbedd",
+  "createdAt": "2026-09-20T05:37:29Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi944-release-v0-2-101/ai-cockpit/.ai/work-items/active/WI-944-release-v0-2-101.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0123f96c59be59739bd0f63055d591c5700086b8d588597c235badea84271839",
+  "runtimeDigest": "sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915",
+  "runtimeVersion": "0.2.101",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-944-release-v0-2-101"
+}
