@@ -1,0 +1,73 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-942-outcome-host-delivery.verification-attempt.17afcbe102431cedb1b63a2319a4c588caa50748b4375e9fda78b040a691d0a7.json",
+    ".ai/evidence/WI-942-outcome-host-delivery.verification-attempt.6be597355c09c87e5d0ff1202480a5b5b5a0459218343697baa91e9c1e83370b.json",
+    ".ai/evidence/WI-942-outcome-host-delivery.verification.json",
+    ".ai/work-items/active/WI-942-outcome-host-delivery.contract.json",
+    ".ai/work-items/active/WI-942-outcome-host-delivery.summary.json"
+  ],
+  "checkpointAt": "2026-09-20T02:44:52Z",
+  "checkpointContractDigest": "sha256:85e37f84be2ef89f8602d495376e2247863b5d346c2de6090f3a1bd5e01fef10",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:85e37f84be2ef89f8602d495376e2247863b5d346c2de6090f3a1bd5e01fef10",
+      "recorded": true,
+      "recordedAt": "2026-09-20T02:44:52Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-942-outcome-host-delivery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3b1463e91fcdcc0bad2055b14e4981aa31c3c5137e33e576d631e5e7f1561e14",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:85e37f84be2ef89f8602d495376e2247863b5d346c2de6090f3a1bd5e01fef10",
+      "previousContractHash": "sha256:85e37f84be2ef89f8602d495376e2247863b5d346c2de6090f3a1bd5e01fef10",
+      "reason": "The completed fixture and return-only checks prove truthful degradation but do not prove delivery into the active Codex desktop conversation; retain that distinct user requirement as an explicit external evidence boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T02:49:18Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-942-outcome-host-delivery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "createdAt": "2026-09-20T02:44:21Z",
+  "mode": "code",
+  "preflightAt": "2026-09-20T02:48:37Z",
+  "preflightContractDigest": "sha256:85e37f84be2ef89f8602d495376e2247863b5d346c2de6090f3a1bd5e01fef10",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-20T02:48:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:3b1463e91fcdcc0bad2055b14e4981aa31c3c5137e33e576d631e5e7f1561e14",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-20T02:49:18Z"
+  },
+  "workItemId": "WI-942-outcome-host-delivery"
+}
