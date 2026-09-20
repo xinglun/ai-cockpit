@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:c7291599fbfc0ffbf54aec3f3132cdd0c6b31dd2c20cf6b0ba9307475c4c5818",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "2056ccd22356b7e3adb9284403a72172e7888e4f",
+      "commandDigest": "sha256:ea494f929e51ef6f650c67a0b2600e2939286dcb908f00dfb71ab01f2e4cd7dd",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:f76ae900a7acbad24dccbd7248d0acb43629a1ba2fc4ee8376fc37b3795b704b",
+  "contractExecutionScopeDigest": "sha256:50e8b4c62b2aebd261df52b5bc18230ee553316015c5aa8644da2ad6b43bd320",
+  "createdAt": "2026-09-20T16:45:40Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-955-start-recovery-boundary/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4fb424a6a2999b1e73e1b25d5458ba88b8ea74e69cb5f579fd5178d5dbcbd874",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-955-start-recovery-boundary"
+}

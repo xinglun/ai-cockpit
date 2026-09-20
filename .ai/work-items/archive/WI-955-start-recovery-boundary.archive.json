@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T16:55:38Z",
+  "files": {
+    "contractDigest": "sha256:24de633766a38e913eca1d398c16aee8453d513867d5191f7d8fe85f3ec89e0d",
+    "contractPath": ".ai/work-items/archive/WI-955-start-recovery-boundary.contract.json",
+    "eventsDigest": "sha256:4d1848051e3313259f15db5699fd77c0d1fb5d64dcc94cd4f5ecfb43afe2dcab",
+    "eventsPath": ".ai/work-items/archive/WI-955-start-recovery-boundary.events.jsonl",
+    "outcomeDigest": "sha256:0a2ff1190b0ece0e004a24035b5b0a6df298d330f21ae0974d1b45ea953d28b2",
+    "outcomePath": ".ai/work-items/archive/WI-955-start-recovery-boundary.outcome.json",
+    "summaryDigest": "sha256:3b57dba55828dcce4abc6c5a81e8287dc0b45c03d4846b9cf34ae886e78607ba",
+    "summaryPath": ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json",
+    "taskReportDigest": "sha256:f6c06071cb29cba5bd95ef57b08640f139115193360d0b6a3457f06d1daa2991",
+    "taskReportMarkdownDigest": "sha256:7068dda89389145f6c7275225bde54c125d3f69545a836aa0cac0999daec8552",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-955-start-recovery-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-955-start-recovery-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-955-start-recovery-boundary"
+}

@@ -808,6 +808,9 @@ pub struct WorkItemStartOptions {
     pub authority: String,
     pub acceptance_criteria: Vec<String>,
     pub required_evidence_classes: Vec<String>,
+    /// Human-declared verification commands. An empty list preserves the
+    /// repository-observed default at the start boundary.
+    pub verification_commands: Vec<String>,
 }
 
 /// The built-in required-evidence vocabulary is intentionally small and
