@@ -8,7 +8,7 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_VIEW_VALUES,
     normalize_work_item_outcome_language, render_interface_description_markdown,
     work_item_outcome_interface_description, work_item_outcome_interface_specs,
-    work_item_outcome_parameter_spec_by_canonical,
+    work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec_by_canonical,
 };
 
 fn surface<'a>(
@@ -202,6 +202,48 @@ fn description_is_materialized_from_protocol_owned_parameter_tables() {
             );
         }
     }
+}
+
+#[test]
+fn mcp_request_schema_and_discovery_share_the_same_parameter_projection() {
+    let description = work_item_outcome_interface_description();
+    let mcp = surface(&description, "mcp");
+    let request_parameters = work_item_outcome_mcp_request_parameter_specs();
+
+    assert_eq!(
+        request_parameters
+            .iter()
+            .map(|parameter| parameter.name.as_str())
+            .collect::<Vec<_>>(),
+        vec![
+            "workItemId",
+            "language",
+            "view",
+            "delivery",
+            "deliveryProgress"
+        ]
+    );
+    assert_eq!(
+        request_parameters
+            .iter()
+            .map(|parameter| parameter.name.as_str())
+            .collect::<Vec<_>>(),
+        mcp.parameters
+            .iter()
+            .map(|parameter| parameter.name.as_str())
+            .collect::<Vec<_>>()
+    );
+    let progress = request_parameters
+        .iter()
+        .find(|parameter| parameter.name == "deliveryProgress")
+        .expect("MCP delivery progress parameter");
+    assert_eq!(progress.wire_type, "object");
+    assert!(!progress.required);
+    assert!(progress.default.is_none());
+    assert_eq!(
+        progress.description,
+        "Identity-bound accepted-segment progress for an interrupted delivery."
+    );
 }
 
 #[test]

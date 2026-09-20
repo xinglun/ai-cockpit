@@ -1,0 +1,121 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-943-interface-ssot.contract.json",
+    ".ai/work-items/active/WI-943-interface-ssot.summary.json",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-20T03:13:47Z",
+  "checkpointContractDigest": "sha256:ca1e6972be1862c7892b9f8464f069ae106275b4988a00c616b9cf4fecaf461d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b40be3c765973d5fbc420f41ab149abeb5cf59947dab19131d3a93395fc341d5",
+      "recorded": true,
+      "recordedAt": "2026-09-20T03:13:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-943-interface-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3d416c057a8da278c4812131f7f58597167e6cc60896a7af2cba1ac9bb6e85a4",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b40be3c765973d5fbc420f41ab149abeb5cf59947dab19131d3a93395fc341d5",
+      "previousContractHash": "sha256:b40be3c765973d5fbc420f41ab149abeb5cf59947dab19131d3a93395fc341d5",
+      "reason": "The protocol crate root must re-export the new MCP request-schema projection so the existing MCP adapter can consume the single executable definition; this is required by the declared interface-description refactor.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T03:22:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-943-interface-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7553c646b682f7ac6494e87aab554d0a5d4f0cd215e597a4ae6ec4d76d7d2095",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b40be3c765973d5fbc420f41ab149abeb5cf59947dab19131d3a93395fc341d5",
+      "previousContractHash": "sha256:3d416c057a8da278c4812131f7f58597167e6cc60896a7af2cba1ac9bb6e85a4",
+      "reason": "The original semicolon-delimited scope entry remained one literal path under the Runtime Contract schema. Add each already-declared protocol, MCP and focused test path as explicit scope entries so the checked refactor can be verified.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T03:22:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-943-interface-ssot"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ca1e6972be1862c7892b9f8464f069ae106275b4988a00c616b9cf4fecaf461d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b40be3c765973d5fbc420f41ab149abeb5cf59947dab19131d3a93395fc341d5",
+      "previousContractHash": "sha256:7553c646b682f7ac6494e87aab554d0a5d4f0cd215e597a4ae6ec4d76d7d2095",
+      "reason": "Record the focused protocol, MCP, CLI parity, and formatting checks selected for this bounded interface projection.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T03:35:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-943-interface-ssot"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+  "createdAt": "2026-09-20T03:13:46Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T03:35:51Z",
+  "preflightContractDigest": "sha256:ca1e6972be1862c7892b9f8464f069ae106275b4988a00c616b9cf4fecaf461d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T03:36:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-943-interface-ssot"
+}

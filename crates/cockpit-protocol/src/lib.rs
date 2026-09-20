@@ -32,8 +32,9 @@ pub use interface_description::{
     capability_show_parameter_spec, normalize_work_item_outcome_language,
     render_interface_description_markdown, work_item_outcome_interface_description,
     work_item_outcome_interface_specs, work_item_outcome_language_is_valid,
-    work_item_outcome_parameter_spec, work_item_outcome_parameter_spec_by_canonical,
-    work_item_outcome_query_command, work_item_outcome_view_is_valid,
+    work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec,
+    work_item_outcome_parameter_spec_by_canonical, work_item_outcome_query_command,
+    work_item_outcome_view_is_valid,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;
