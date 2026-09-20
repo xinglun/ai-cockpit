@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-953——发布后文档投影晋级"
 description: "在 v0.2.102 发布收尾后晋级已关闭 WI-952 的文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: human:xinglun
 workItemId: WI-953-post-release-doc-promotion
 lastVerifiedBy: WI-953-post-release-doc-promotion
@@ -26,3 +26,10 @@ lastVerifiedBy: WI-953-post-release-doc-promotion
 
 - WI-952 的三语页面和 parity 行如实表达其已归档、已最终化和已关闭状态。
 - 文档检查不启动项目验证子进程。
+
+## 替换记录
+
+该路径在验证前被替换：其不可变 Contract 无条件声明 Cargo workspace 验证命令，
+与文档专用边界冲突。归档字节保持不变；有效的 retirement receipt 为
+`.ai/decisions/WI-953-post-release-doc-promotion.retirement.json`，WI-954 是
+绑定的后继项。WI-953 不宣称已经验证或关闭。
