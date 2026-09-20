@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "A comparison snapshot against an unchanged committed base preserves a dirty tracked source path and its current content evidence.",
+    "The existing clean committed-comparison behavior remains unchanged.",
+    "No archived Work Item artifact is modified."
+  ],
+  "authority": "authorized",
+  "baseRevision": "fd6d25cef709a03406d153035cb3e00d207aa3a6",
+  "createdAt": "2026-09-20T11:10:42Z",
+  "goal": "在不改变归档历史或授权边界的前提下，使 comparison snapshot 保留 working-tree source evidence。",
+  "intent": "修复当前主线中 comparison snapshot 丢失未提交源文件证据、导致验证身份被错误判定为 stale 的回归；在发布前清理该遗留修复。",
+  "mode": "implementation",
+  "outOfScope": [
+    ".ai/**",
+    "crates/cockpit-repository/**",
+    "release publication",
+    "host outcome delivery protocol",
+    "object repositories",
+    "historical archive rewrites"
+  ],
+  "predecessorContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
+  "predecessorWorkItemId": "WI-944-release-v0-2-101",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-944-release-v0-2-101.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4963f4aa55f1c83c1ecd784912573a5c8758cc9665ed832024820ebb7b7e88d5",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification-receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs"
+  ],
+  "sources": [
+    "Current main and the preserved WI-938 retry checkout identify an unmerged cockpit-git regression; the old checkout is reference-only."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-948-snapshot-freshness"
+}

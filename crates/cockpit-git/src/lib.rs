@@ -549,6 +549,11 @@ impl GitRepository {
     /// committed to a pull-request branch.
     pub fn snapshot_against(&self, base: &str) -> Result<RepositorySnapshot, GitError> {
         let mut snapshot = self.snapshot()?;
+        // A base..HEAD comparison intentionally omits uncommitted paths, but
+        // callers also use this snapshot to bind current source verification.
+        // Retain the working-tree evidence collected above so that binding
+        // cannot regress to the index when source is still dirty.
+        let working_change_evidence = std::mem::take(&mut snapshot.change_evidence);
         let Some(head) = snapshot.head.clone() else {
             return Err(GitError::Command(
                 "comparison snapshot requires a committed HEAD".into(),
@@ -576,7 +581,7 @@ impl GitRepository {
             base,
             head.as_str(),
         ])?;
-        let (changed_paths, change_kinds) = comparison_change_facts(&name_status);
+        let (mut changed_paths, change_kinds) = comparison_change_facts(&name_status);
         let mut change_evidence = changed_paths
             .iter()
             .map(|path| {
@@ -597,6 +602,14 @@ impl GitRepository {
             })
             .collect::<BTreeMap<_, _>>();
         apply_patch_facts(&patch, &mut change_evidence);
+        for change in working_change_evidence {
+            if !changed_paths.iter().any(|path| path == &change.path) {
+                changed_paths.push(change.path.clone());
+                change_evidence.insert(change.path.clone(), change);
+            }
+        }
+        changed_paths.sort();
+        changed_paths.dedup();
         for change in change_evidence.values_mut() {
             let path = self.root.join(&change.path);
             match std::fs::read(&path) {

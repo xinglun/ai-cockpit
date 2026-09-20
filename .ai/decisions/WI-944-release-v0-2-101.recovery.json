@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-20T12:10:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-944-release-v0-2-101.archive.json",
+    "/Users/sei-rinn/.codex/worktrees/wi-938-ci-negative-output/ai-cockpit"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
+  "predecessorEventsDigest": "sha256:337cede4136c8824a9d34710e48a92b27a3deb17f173fa8128c4b258f579bcfe",
+  "predecessorOutcomeDigest": "sha256:57da1fa306fe744f3c6b7d594dbf4f7e367b3049b5e4d72d337be0fe8612aa56",
+  "predecessorSummaryDigest": "sha256:dcb13eaed5f06d42c84b1f3594b6cc5fda7611daefd320e04bda3503d35fe86e",
+  "predecessorWorkItemId": "WI-944-release-v0-2-101",
+  "reason": "Complete the current-base snapshot-freshness correction and then publish only after exact cleanup, as authorized by the repository owner.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Verify the correction on current main, clean exact obsolete retry identities, then run a separately authorized release workflow.",
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-948-snapshot-freshness",
+  "workItemId": "WI-944-release-v0-2-101"
+}
