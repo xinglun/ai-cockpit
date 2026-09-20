@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:40a668094ca6930ab036df223cda2fbcb3bc82c9de204fcbb2796a733262a33b",
+  "branchRef": "refs/heads/codex/wi-940-recovery-gate-projection",
+  "contractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "headRevision": "574bafca3d22f2a79febd711c009a9535a97a4ce",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T01:32:15Z",
+  "operationId": "sha256:a785cc6c8396446abb527d1207ea92cee4449cbbdce4874ef2d97a86a2a508c3",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:e08f46b49c355a9e66469b5ea2f2de09c9868710dd112a2d973e3b9c170d3aff",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope",
+  "worktreeId": "sha256:21c9e1d81128f7be64e2c987a7cf60a2a2d60aa5104929edf2471feef5eaa134"
+}
