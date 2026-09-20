@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:8e1e5808a706ea620e66330457cce10ac8b65fde63893b1b33b635acdc85ee62",
+  "branchRef": "refs/heads/codex/wi-943-interface-ssot",
+  "contractDigest": "sha256:ca1e6972be1862c7892b9f8464f069ae106275b4988a00c616b9cf4fecaf461d",
+  "headRevision": "efab04dfb49cdb354d014dc6c296d13c0ada780f",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T04:03:34Z",
+  "operationId": "sha256:bfc6f28afee01785ac9227e338db01789c8f8e2508632d066d06495f67f85b9c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:1249701c45f3d882f8d8031c79e296652ce4a84d489e99cbcfe654e3adbdab57",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-943-interface-ssot",
+  "worktreeId": "sha256:9e9c72a0c4d916f65550ff44505d3b146e4a7490c1e6786e8de5eb95d54c503d"
+}
