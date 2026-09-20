@@ -125,7 +125,8 @@ brew uninstall ai-cockpit
 brew untap xinglun/tap                 # 可选
 ```
 
-当前 Formula 只支持 macOS ARM64 和 Intel；Linuxbrew 不属于支持路径。
+当前 Formula 只支持 Apple Silicon macOS；Linuxbrew 和 Intel macOS 不属于支持的
+Homebrew 路径。独立的 Intel macOS Release archive 仍可用于直接制品安装。
 
 ## 验证 Release 制品
 

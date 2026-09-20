@@ -125,6 +125,20 @@ require_match '(cockpit-release -- checksums|COCKPIT_RELEASE_BIN.* checksums)' '
 require_match 'dist/ai-cockpit-v\*-\*\.spdx\.json' 'publication and attestation must select only target-bound SBOM filenames'
 require_match 'brew test' 'Homebrew fixture test must be defined'
 require_match 'ai-cockpit --version' 'installed binary version smoke must be defined'
+homebrew_smoke_block="$(awk '
+  /^  smoke_homebrew:/ { in_job=1; next }
+  in_job && /^  [A-Za-z0-9_-]+:/ { exit }
+  in_job { print }
+' "$workflow")"
+if grep -Fq 'macos-15-intel' <<<"$homebrew_smoke_block" \
+  || grep -Fq 'target: x86_64-apple-darwin' <<<"$homebrew_smoke_block"; then
+  printf 'policy failure: Homebrew smoke must not retain an Intel macOS lane\n' >&2
+  exit 1
+fi
+if ! grep -Fq 'target: aarch64-apple-darwin' <<<"$homebrew_smoke_block"; then
+  printf 'policy failure: Homebrew smoke must retain the Apple Silicon lane\n' >&2
+  exit 1
+fi
 require_match '^  publish:' 'publish job must be present'
 require_match 'needs:' 'publish must depend on verification jobs'
 require_match '^  release_preflight:' 'cheap release preflight must run before build and expensive verification'

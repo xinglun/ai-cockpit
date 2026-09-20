@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "生成的 Homebrew Formula 只引用 aarch64-apple-darwin artifact；manifest 中仍存在 Intel 独立 artifact 时 Formula 也保持可生成。",
+    "Hosted release workflow 只对 ARM64 macOS 执行 Homebrew install/test/uninstall smoke，不再配置 Intel Homebrew runner。",
+    "发布矩阵和 generic archive 验证仍保留 x86_64-apple-darwin，避免将 Homebrew 收敛误扩张为 archive 支持删除。",
+    "英文、简体中文、日文安装说明对 Homebrew Apple Silicon 支持边界一致。",
+    "定向 release/formula/workflow policy 检查通过，且本 WI 不发布任何版本。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "30135d4ae01825377fd7db2ac9bc7b2ec6009fa6",
+  "createdAt": "2026-09-20T18:45:17Z",
+  "goal": "将 Homebrew Formula 和 Hosted Homebrew smoke 收敛为 Apple Silicon，仅保留 ARM64 Formula 输入与验收，并以回归测试固定边界。",
+  "intent": "Codex 已明确不再支持 Intel Mac；后续 AI Cockpit Homebrew 分发不再生成或验收 Intel Homebrew 版本，同时保持独立 Intel macOS archive 的既有支持不变。",
+  "mode": "implementation",
+  "outOfScope": [
+    "删除 x86_64-apple-darwin 独立 release archive",
+    "修改历史 Release 或 Homebrew tap",
+    "发布新版本",
+    "Runtime 生命周期或验证语义变更"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ce9dfa29c45c87bbffa48c821c4ed510e074912cc1c8490d69a42afbaacd7ef5",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/formula.rs",
+    "crates/cockpit-release/tests/formula.rs",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md"
+  ],
+  "sources": [
+    "user standing authorization: Intel Homebrew distribution no longer required",
+    ".github/workflows/release.yml",
+    "crates/cockpit-release/src/formula.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "homebrew-arm-only-distribution"
+}

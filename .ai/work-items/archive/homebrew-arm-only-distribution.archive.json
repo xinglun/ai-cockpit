@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T18:55:18Z",
+  "files": {
+    "contractDigest": "sha256:2d96155d36cd986513c3b8e30e9b1d353afaebc0c8d82f3e9c15dc74e4f484b5",
+    "contractPath": ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json",
+    "eventsDigest": "sha256:a4a7da10adda9c41dd5da1e075736dcd1b77a7e226100a6836f01931c6020950",
+    "eventsPath": ".ai/work-items/archive/homebrew-arm-only-distribution.events.jsonl",
+    "outcomeDigest": "sha256:cc20f4f5bba3a0ce4f10e297fbc29958d736055bb1a935a404f02fe48617497a",
+    "outcomePath": ".ai/work-items/archive/homebrew-arm-only-distribution.outcome.json",
+    "summaryDigest": "sha256:b14bf1a828396539138452c3513990564d1d32f182c5cdffd7273fe76f42443d",
+    "summaryPath": ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json",
+    "taskReportDigest": "sha256:e3d80148e601fc9c7d70ea26112630abda134bf57e9b68ff0c7a4dc37ccd4be3",
+    "taskReportMarkdownDigest": "sha256:07795249523a09809681a18600ee198a9aaa8656e4d1be5302734ada63f801a2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/homebrew-arm-only-distribution.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/homebrew-arm-only-distribution.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "homebrew-arm-only-distribution"
+}

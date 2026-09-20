@@ -1,0 +1,200 @@
+{
+  "acceptanceResults": [
+    "生成的 Homebrew Formula 只引用 aarch64-apple-darwin artifact；manifest 中仍存在 Intel 独立 artifact 时 Formula 也保持可生成。",
+    "Hosted release workflow 只对 ARM64 macOS 执行 Homebrew install/test/uninstall smoke，不再配置 Intel Homebrew runner。",
+    "发布矩阵和 generic archive 验证仍保留 x86_64-apple-darwin，避免将 Homebrew 收敛误扩张为 archive 支持删除。",
+    "英文、简体中文、日文安装说明对 Homebrew Apple Silicon 支持边界一致。",
+    "定向 release/formula/workflow policy 检查通过，且本 WI 不发布任何版本。"
+  ],
+  "createdAt": "2026-09-20T18:55:06Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:904899d5f4e7456d95cbfdaf70fc2a29d789febc419f0d0eb221250d8c463ba5",
+  "evidenceRefs": [
+    ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e52d20d9f2245ca9015e5cf967dbf01e9f4ebb7cefebdf81c6fc3c4f800db39d",
+      "workItemId": "homebrew-arm-only-distribution"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/src/formula.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-release/tests/formula.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/homebrew-arm-only-distribution.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+          ],
+          "inference": false,
+          "text": "将 Homebrew Formula 和 Hosted Homebrew smoke 收敛为 Apple Silicon，仅保留 ARM64 Formula 输入与验收，并以回归测试固定边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/homebrew-arm-only-distribution.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "homebrew-arm-only-distribution"
+  },
+  "taskReportDigest": "sha256:e3d80148e601fc9c7d70ea26112630abda134bf57e9b68ff0c7a4dc37ccd4be3",
+  "taskReportMarkdownDigest": "sha256:07795249523a09809681a18600ee198a9aaa8656e4d1be5302734ada63f801a2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/homebrew-arm-only-distribution.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "homebrew-arm-only-distribution"
+}

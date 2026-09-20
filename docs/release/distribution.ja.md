@@ -123,8 +123,9 @@ brew uninstall ai-cockpit
 brew untap xinglun/tap                 # optional
 ```
 
-現在の Formula は macOS ARM64 と Intel のみを対象とします。Linuxbrew は supported path
-ではありません。
+現在の Formula は Apple Silicon macOS のみを対象とします。Linuxbrew と Intel macOS は
+Homebrew の supported path ではありません。Intel macOS 向けの独立した Release archive は
+直接 artifact install 用として引き続き利用できます。
 
 ## Release artifact の verify
 
