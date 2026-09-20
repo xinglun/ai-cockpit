@@ -1,0 +1,162 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/repository_context.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via conversation:user-standing-authorization at 2026-09-20T02:25:02Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
+          ],
+          "inference": false,
+          "text": "Produce same-machine baseline and candidate evidence with at least 100 valid warm samples for a selected target; adopt only a bounded optimization whose improvement exceeds measured noise, otherwise retain the diagnosis and report no speed-up."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-941-runtime-performance-hotpath"
+  },
+  "finalReportDigest": "sha256:5ee7be9eb86805f4e7af591492409169804e72c954dbdf00ac0b17dd9d867e2f",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:8d9228cc9f4138cbbea5258e09e8930f1d00d294f62617f697e6e15da4565b5f",
+    "branch": "codex/wi-941-runtime-performance-hotpath",
+    "branchRef": "refs/heads/codex/wi-941-runtime-performance-hotpath",
+    "capturedAt": "2026-09-20T02:25:09Z",
+    "contractDigest": "sha256:70dac6f3f2a426201672a8eddc6f1ed70ce2d9dfac22684e1741b64aa9fc388a",
+    "headRevision": "9b8acb391631c8bc5dbfbedea2329467cc71b727",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:c6ae8e37cdcc91535506733a22243274030a6181a093c7a814ad4d6a36b6bd16",
+    "runtimeVersion": "0.2.100",
+    "schemaVersion": 1,
+    "workItemId": "WI-941-runtime-performance-hotpath",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit3",
+    "worktreeId": "sha256:26fbfae94318be6a63bde79476494e0d51b20efa0f8348809cdf9f851d8e3845",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi941-runtime-performance-hotpath/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:2dd8a210e2e192efe232ac8aae431cc1a523b0b7fd4698d1fb9815b429aedce8",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "conversation:user-standing-authorization",
+    "decidedAt": "2026-09-20T02:25:02Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-941-runtime-performance-hotpath.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "User granted standing authorization for in-scope lifecycle decisions; hosted PR #912 passed, the performance scope is bounded, and release remains explicitly out of scope.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-20T02:25:09Z",
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}
