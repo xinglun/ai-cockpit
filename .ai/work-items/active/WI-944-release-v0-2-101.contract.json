@@ -8,7 +8,8 @@
     "The protocol-owned generated work-item-outcome regions in the three command references identify Runtime 0.2.101 and match the deterministic projection; surrounding human-authored explanation remains unchanged.",
     "A successor Contract bound to an exact append-only recovery receipt preserves the full authorized predecessor lineage during preflight, even when an older canonical recovery receipt exists; unrelated successors remain blocked.",
     "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered.",
-    "The live reference-comparison metadata and its six current-Runtime projections identify the 0.2.101 candidate consistently, while retained reference baseline facts remain unchanged."
+    "The live reference-comparison metadata and its six current-Runtime projections identify the 0.2.101 candidate consistently, while retained reference baseline facts remain unchanged.",
+    "Before archive, the current release Work Item has regular three-language in-progress projections and exactly one matching row in each reference-parity ledger; the projections make no terminal or publication claim."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "4290afcf094288379e396c51026a7c08c747d806",
@@ -84,7 +85,10 @@
     "docs/reference/reference-file-comparison.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",
-    "docs/reference/reference-parity.ja.md"
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-944-release-v0-2-101.md",
+    "docs/work-items/WI-944-release-v0-2-101.zh-CN.md",
+    "docs/work-items/WI-944-release-v0-2-101.ja.md"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/902",
