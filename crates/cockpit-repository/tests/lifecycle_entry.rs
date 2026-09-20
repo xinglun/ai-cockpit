@@ -1,6 +1,8 @@
 use cockpit_core::{DecisionState, Digest};
 use cockpit_git::GitRepository;
-use cockpit_protocol::{HumanDecision, RuntimeContext};
+use cockpit_protocol::{
+    EvidenceAssurance, HumanDecision, RuntimeContext, VerificationStage, VerificationTier,
+};
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
     amend_work_item_contract, archive_work_item, attach, checkpoint_work_item,
@@ -12,6 +14,7 @@ use cockpit_repository::{
     scaffold_work_item, set_work_item_intelligence, start_work_item_with_options, status,
     validate_scenario_coverage_values, work_item_start_advisory,
 };
+use cockpit_verification::{VerificationCoverageManifest, VerificationPlanReceipt};
 use serde_json::json;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -1622,6 +1625,121 @@ fn typed_verification_survives_its_governance_projection_at_preflight_and_finish
     );
     finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
         .expect("governance projection must not stale verification evidence");
+}
+
+#[test]
+fn typed_verification_with_bounded_output_stays_current_at_preflight() {
+    let directory = repository();
+    let work_item_id = "WI-VERIFICATION-BOUNDED-STDOUT";
+    fs::write(
+        directory.path().join("src.rs"),
+        "pub fn value() -> u8 { 1 }\n",
+    )
+    .expect("source");
+    commit_fixture_baseline(directory.path());
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "keep typed verification current when diagnostic output is bounded",
+        "a successful identity-bound receipt remains usable even when retained stdout or stderr is truncated",
+        &["src.rs".into()],
+        &start_options(),
+    )
+    .expect("start");
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"bounded-stdout-runtime"),
+    };
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime).expect("preflight");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint");
+    let mut run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "bounded-stdout-package-fixture".into(),
+            program: "sh".into(),
+            args: vec![
+                "-c".into(),
+                "yes x | head -c 131072; yes y | head -c 131072 >&2".into(),
+            ],
+            scope: vec!["src.rs".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("bounded-output verification");
+    assert!(
+        run.receipt.execution_records[0].stdout_truncated,
+        "fixture must exercise the bounded stdout receipt path"
+    );
+    assert!(
+        run.receipt.execution_records[0].stderr_truncated,
+        "fixture must exercise the bounded stderr receipt path"
+    );
+    let command_digest = run.receipt.execution_records[0].command_digest.clone();
+    let coverage_manifest = VerificationCoverageManifest {
+        schema_version: 1,
+        source_program: "sh".into(),
+        source_args: vec![
+            "-c".into(),
+            "yes x | head -c 131072; yes y | head -c 131072 >&2".into(),
+        ],
+        planning_program: "test-planner".into(),
+        planning_args: Vec::new(),
+        planning_processes_spawned: 1,
+        metadata_digest: Digest::sha256_bytes(b"bounded-stdout-metadata").to_string(),
+        workspace_members: vec!["fixture".into()],
+        node_ids: vec!["bounded-stdout-package-fixture".into()],
+        command_digests: vec![command_digest],
+    };
+    coverage_manifest.validate().expect("coverage manifest");
+    let mut plan = VerificationPlanReceipt::new(
+        VerificationStage::Task,
+        VerificationTier::T0,
+        VerificationTier::T0,
+        EvidenceAssurance::SelfDeclared,
+        vec!["bounded_stdout_regression".into()],
+        Vec::new(),
+    )
+    .expect("plan receipt");
+    plan.work_item_id = Some(work_item_id.into());
+    plan.repository_id = Some(repository_id(directory.path()).to_string());
+    plan.repository_snapshot_digest = Some(
+        cockpit_repository::snapshot_digest(&run.final_snapshot)
+            .expect("snapshot digest")
+            .to_string(),
+    );
+    plan.executed_nodes = vec!["bounded-stdout-package-fixture".into()];
+    plan.coverage_manifest = Some(coverage_manifest);
+    run.receipt.plan_receipt = Some(plan);
+    let mut receipt = serde_json::to_value(&run.receipt).expect("receipt JSON");
+    receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &receipt,
+        &runtime,
+        &run.final_snapshot,
+    )
+    .expect("record verification");
+
+    assert_eq!(
+        preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+            .expect("post-verification preflight")
+            .state,
+        DecisionState::Green,
+        "bounded diagnostic output is not contradictory evidence"
+    );
 }
 
 #[test]

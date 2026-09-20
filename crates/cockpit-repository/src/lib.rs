@@ -6065,8 +6065,6 @@ fn validate_execution_boundary_receipt(
             || !record.spawned
             || !record.passed
             || record.timed_out
-            || record.stdout_truncated
-            || record.stderr_truncated
         {
             return false;
         }

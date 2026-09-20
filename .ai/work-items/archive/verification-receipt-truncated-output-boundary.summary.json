@@ -1,0 +1,75 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json",
+    ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+  ],
+  "checkpointAt": "2026-09-20T18:08:17Z",
+  "checkpointContractDigest": "sha256:58dc6c51481abcd986289a122f21e1336dea0125b8e44d2ad421382c7b318c2b",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ce9dfa29c45c87bbffa48c821c4ed510e074912cc1c8490d69a42afbaacd7ef5",
+  "createdAt": "2026-09-20T18:08:14Z",
+  "mode": "code",
+  "preflightAt": "2026-09-20T18:20:01Z",
+  "preflightContractDigest": "sha256:58dc6c51481abcd986289a122f21e1336dea0125b8e44d2ad421382c7b318c2b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ce9dfa29c45c87bbffa48c821c4ed510e074912cc1c8490d69a42afbaacd7ef5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T18:20:04Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "verification-receipt-truncated-output-boundary"
+}

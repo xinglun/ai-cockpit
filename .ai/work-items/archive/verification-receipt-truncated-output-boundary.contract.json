@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "成功且身份一致、仅 stdout 或 stderr 有界截断的 receipt 在无源码变化的 post-verification preflight 中为 green。",
+    "截断事实继续记录；超时、失败、身份不匹配或丢失执行记录仍 fail closed。",
+    "现有未截断和源码变更 stale 回归保持通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0a89651a75382a4d0c563eebe577bcedd27e917f",
+  "createdAt": "2026-09-20T18:08:14Z",
+  "goal": "保留 stdout/stderr 截断事实和执行边界，同时允许通过、身份绑定完整的 receipt 在后续 preflight 与 finish 中保持当前；添加端到端回归。",
+  "intent": "修复 #902 的真实下游验收发现：成功测试的有界日志截断不能使身份一致的 verification receipt 被误判为矛盾。",
+  "mode": "code",
+  "outOfScope": [
+    "verification result falsification",
+    " log-bound removal",
+    " receipt identity weakening",
+    " unrelated lifecycle refactor",
+    " release"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e90ca40c78f2ea8586bad2293741d48443bc4846915534a48114b3669df9c917",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/902"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "verification-receipt-truncated-output-boundary"
+}

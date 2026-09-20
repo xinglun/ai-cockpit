@@ -1,6 +1,6 @@
 {
   "dependencyFingerprint": "sha256:5e15befb878d39e663c2416ee36187293b6e216dc04f2024a44012095929fbaa",
-  "diffDigest": "sha256:ba5eb2fc65cf61a40aefb9563934e8fb848e43b98c88e65623cf01c1caedb4e1",
+  "diffDigest": "sha256:9fc190b010bc5d0e9b02741ac6293567a216ea539eef8e32faf456e0edcc99dc",
   "observation": {
     "buildSystems": [
       "Cargo"
@@ -31,10 +31,10 @@
         "state": "detected"
       }
     ],
-    "snapshotDigest": "sha256:06cc216fe637be51892eb38ac5b7fe9ca185f51a612dd880ba82c5407c11f8b7",
+    "snapshotDigest": "sha256:37525277484a7aa0030985fd07e77be412767daf1a4f155d8785e187bc9f7998",
     "testRoots": [
       "tests/**"
     ]
   },
-  "treeDigest": "sha256:834a86c32a13d8fc1ad7a794dd1202357037d36736c20cd61af2035f25041a60"
+  "treeDigest": "sha256:3623b1979bf5e36638a69ff8b209967243b6f6a769e975c94ac26fc03dd52bda"
 }

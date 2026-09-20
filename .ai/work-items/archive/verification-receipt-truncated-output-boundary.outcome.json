@@ -1,0 +1,163 @@
+{
+  "acceptanceResults": [
+    "成功且身份一致、仅 stdout 或 stderr 有界截断的 receipt 在无源码变化的 post-verification preflight 中为 green。",
+    "截断事实继续记录；超时、失败、身份不匹配或丢失执行记录仍 fail closed。",
+    "现有未截断和源码变更 stale 回归保持通过。"
+  ],
+  "createdAt": "2026-09-20T18:20:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2f8dcbf96e2e7f146dd9705591d51f395718a3deb275d523af4c67ed8145ba64",
+  "evidenceRefs": [
+    ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ce9dfa29c45c87bbffa48c821c4ed510e074912cc1c8490d69a42afbaacd7ef5",
+      "workItemId": "verification-receipt-truncated-output-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "保留 stdout/stderr 截断事实和执行边界，同时允许通过、身份绑定完整的 receipt 在后续 preflight 与 finish 中保持当前；添加端到端回归。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "verification-receipt-truncated-output-boundary"
+  },
+  "taskReportDigest": "sha256:f0092216f32a5640caf4fe71b442c2ea1739c850e41fce66a1da0aa756695f12",
+  "taskReportMarkdownDigest": "sha256:5d139c15adb7b557cba118a369c9f7742e2836abb257954db9c06b1c457d99f1",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "verification-receipt-truncated-output-boundary"
+}
