@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:2dd8a210e2e192efe232ac8aae431cc1a523b0b7fd4698d1fb9815b429aedce8",
+  "branchRef": "refs/heads/codex/wi-941-runtime-performance-hotpath",
+  "contractDigest": "sha256:70dac6f3f2a426201672a8eddc6f1ed70ce2d9dfac22684e1741b64aa9fc388a",
+  "headRevision": "9b8acb391631c8bc5dbfbedea2329467cc71b727",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T02:33:53Z",
+  "operationId": "sha256:9fb66559cc157126c842bcc182ad172bec7f972ebd663dda44a643a3b96b4423",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-941-runtime-performance-hotpath",
+  "worktreeId": "sha256:26fbfae94318be6a63bde79476494e0d51b20efa0f8348809cdf9f851d8e3845"
+}
