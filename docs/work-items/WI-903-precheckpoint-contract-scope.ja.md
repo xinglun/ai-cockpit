@@ -4,9 +4,12 @@ workItemId: WI-903-precheckpoint-contract-scope
 title: checkpoint 前 Contract scope 追加
 description: 必須の初期 projection が漏れた場合に、checkpoint または verification 前の active Work Item が Runtime 経由で scope を追加できるようにする。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-903-precheckpoint-contract-scope
+terminalArchive: .ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json
+terminalVerification: .ai/evidence/WI-903-precheckpoint-contract-scope.verification.json
+terminalDecision: .ai/decisions/WI-903-precheckpoint-contract-scope.close.json
 ---
 
 # WI-903 — checkpoint 前 Contract scope 追加
