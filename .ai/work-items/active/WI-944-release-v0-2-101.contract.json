@@ -4,7 +4,10 @@
     "The v0.2.101 annotated immutable tag, stable GitHub Release, source identity, manifest, checksums, SBOM, archives, and attestation bind to the reviewed merge commit.",
     "A public downloaded x86_64 artifact passes checksum, isolated fresh install, v0.2.100 to v0.2.101 upgrade, and exact temporary-root cleanup without any object-repository write.",
     "Issue #902 receives exact public-release evidence only after the published artifact acceptance succeeds; Sentinel is then notified to run its own acceptance replay.",
-    "The Chinese human Outcome explicitly separates completed facts, verification scope, remaining unknowns, and next actions; no performance gain or real host display confirmation is inferred."
+    "The Chinese human Outcome explicitly separates completed facts, verification scope, remaining unknowns, and next actions; no performance gain or real host display confirmation is inferred.",
+    "The protocol-owned generated work-item-outcome regions in the three command references identify Runtime 0.2.101 and match the deterministic projection; surrounding human-authored explanation remains unchanged.",
+    "A successor Contract bound to an exact append-only recovery receipt preserves the full authorized predecessor lineage during preflight, even when an older canonical recovery receipt exists; unrelated successors remain blocked.",
+    "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "4290afcf094288379e396c51026a7c08c747d806",
@@ -35,6 +38,14 @@
     "external_evidence",
     "delegated:github"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-944-release-v0-2-101",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/919",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi944-release-v0-2-101/ai-cockpit"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
@@ -59,7 +70,13 @@
     "Cargo.lock",
     "docs/release/**",
     "docs/architecture/versioning.**",
-    "docs/architecture/release-distribution.**"
+    "docs/architecture/release-distribution.**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/902",
@@ -68,7 +85,10 @@
   ],
   "state": "implementation_active",
   "verification": [
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "cargo test --locked --package cockpit-protocol --test interface_description",
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "cargo test --locked --package cockpit-repository --test status_projection"
   ],
   "workItemId": "WI-944-release-v0-2-101"
 }

@@ -2245,24 +2245,37 @@ fn recovery_predecessor_lineage_for_candidate(
         let Some(path) = path else {
             break;
         };
-        let value = read_json(&path)?;
-        let Some(predecessor) = value
+        // Historical recovery scaffolds are intentionally inspected before their
+        // full Contract validity is established.  Keep that compatibility path
+        // fail-closed: only an explicit recoveryDecisionPath receives the
+        // stronger, identity-bound receipt validation below.
+        let contract = read_json(&path)?;
+        let Some(predecessor) = contract
             .get("predecessorWorkItemId")
             .and_then(serde_json::Value::as_str)
             .filter(|value| !value.trim().is_empty())
+            .map(ToOwned::to_owned)
         else {
             break;
         };
-        if !recovery_decision_authorizes_existing_predecessor(root, predecessor, &successor)? {
+        let selected_recovery_path = contract
+            .get("recoveryDecisionPath")
+            .and_then(serde_json::Value::as_str);
+        if !recovery_decision_authorizes_existing_predecessor(
+            root,
+            &predecessor,
+            &successor,
+            selected_recovery_path,
+        )? {
             break;
         }
-        if !lineage.insert(predecessor.to_owned()) {
+        if !lineage.insert(predecessor.clone()) {
             return Err(ObserverError::State {
                 path,
                 message: "recovery predecessor lineage contains a cycle".into(),
             });
         }
-        successor = predecessor.to_owned();
+        successor = predecessor;
     }
     if lineage.len() == MAX_RECOVERY_PREDECESSORS {
         return Err(ObserverError::State {
@@ -2288,6 +2301,7 @@ fn recovery_decision_authorizes_existing_predecessor(
     root: &Path,
     predecessor_work_item_id: &str,
     successor_work_item_id: &str,
+    selected_recovery_path: Option<&str>,
 ) -> Result<bool, ObserverError> {
     let predecessor_archive = root
         .join(".ai/work-items/archive")
@@ -2298,14 +2312,52 @@ fn recovery_decision_authorizes_existing_predecessor(
     ) {
         return Ok(false);
     }
-    recovery_decision_authorizes_successor(root, predecessor_work_item_id, successor_work_item_id)
+    recovery_decision_authorizes_successor(
+        root,
+        predecessor_work_item_id,
+        successor_work_item_id,
+        selected_recovery_path,
+    )
 }
 
 fn recovery_decision_authorizes_successor(
     root: &Path,
     predecessor_work_item_id: &str,
     successor_work_item_id: &str,
+    selected_recovery_path: Option<&str>,
 ) -> Result<bool, ObserverError> {
+    if let Some(relative) = selected_recovery_path {
+        let relative_path = Path::new(relative);
+        let file_name = relative_path
+            .file_name()
+            .and_then(|name| name.to_str())
+            .unwrap_or_default();
+        let canonical = format!("{predecessor_work_item_id}.recovery.json");
+        let versioned_prefix = format!("{predecessor_work_item_id}.recovery.");
+        if relative_path.parent() != Some(Path::new(".ai/decisions"))
+            || (file_name != canonical
+                && !(file_name.starts_with(&versioned_prefix) && file_name.ends_with(".json")))
+        {
+            return Err(recovery_decision_error(
+                root.join(".ai/decisions"),
+                "successor_binding_mismatch",
+                "successor Contract references a foreign recovery decision path",
+            ));
+        }
+        let contract_path =
+            work_item_artifact_path(root, predecessor_work_item_id, "contract.json")?;
+        let summary_path = work_item_artifact_path(root, predecessor_work_item_id, "summary.json")?;
+        let decision = read_and_validate_recovery_decision(
+            root,
+            predecessor_work_item_id,
+            &root.join(relative_path),
+            None,
+            &contract_path,
+            &summary_path,
+        )?;
+        return Ok(decision.decision == "successor"
+            && decision.successor_work_item_id.as_deref() == Some(successor_work_item_id));
+    }
     let (candidates, _) = recovery_decision_candidate_paths(root, predecessor_work_item_id, true)?;
     if candidates.is_empty() {
         return Ok(false);
