@@ -3,18 +3,25 @@
     "Before checkpoint a Work Item may append declared scope only through Runtime and receives an append-only declaration receipt.",
     "After checkpoint existing amendment and revalidation requirements remain fail-closed.",
     "Unsupported Contract fields and identity or authority changes remain rejected.",
-    "A pending identity-bound successor recovery does not cause conditional parity documentation to be treated as terminal; only a verified, confirmed terminal path may resolve that condition.",
-    "The documentation status checker rejects malformed or mismatched recovery facts while accepting the bounded pending-successor projection without rewriting immutable predecessor artifacts.",
-    "The WI-902 archived predecessor is linked to this same-base successor only through an append-only, identity-bound recovery receipt; its archive bytes remain unchanged."
+    "A Runtime-authorized retry from finish_ready to checkpointed may refresh stale verification evidence without a second preflight, while an unbound stale snapshot remains rejected before process execution.",
+    "An explicit existing_active_successor recovery decision binds only a same-repository, same-base active successor without prior lineage, and refuses mismatched or already-bound successors.",
+    "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
+    "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact.",
+    "The documentation status gate accepts the identity-continuous WI-902 to WI-936 to WI-937 recovery lineage only when its terminal successor has valid archive, verification, and close evidence.",
+    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error.",
+    "For a Work Item with declared executable verification commands, default verification plans every declared command deterministically, preserves Cargo workspace partitioning, and reports an unparseable declaration before any project process is launched."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-09-20T01:02:08Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8689c228e161bef9555865148de4cf45f70e1ae1085c3ac7d90b3e0c80622921",
   "evidenceRefs": [
     ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -22,24 +29,21 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:862f9a5397af3cb1a21e3a583d2f115753ff0cc8588f75150f0164ac5279e4a0",
+      "repositorySnapshotDigest": "sha256:a4f5319031f2460a61b38d96d71211835b98b58ace90616a58bff4d3eccd9339",
       "workItemId": "WI-903-precheckpoint-contract-scope"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
@@ -49,7 +53,56 @@
             ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json"
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.2225d842b80416c562e0c387252cf8f870d11022b5fa7e9e620fb25be1118b4d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.2fdc1a9fa6d2112caec4e9eb6dc0d175eae3588de703363c2978cd06829fffb6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.471629f66d953e20b8f3c9b870a202a27cfa82ae5025069a003cf641fe6aaac1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.64a4baa9d7b79b8443f5aabfa6cd6336c0200ddc9fa4e72d3500b881fb59766f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.b2323f40e66d0dfc12629cbdf209a661064fe06038d730aef895b3c75cb372c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.recovery.15ce1f25104f1c6be8ea8453ac1dafc8d37597bd5e4cdf5b571c6f507e1e3be1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.recovery.6d952acfb1f3605fe0b8457b0016ff9b10be1015e4d34668f97306f4ebf9de8d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-903-precheckpoint-contract-scope.recovery.99fbb63804e12638a04d162ddb113844d63df687a8e300d5588dfe0571057bad.json"
         },
         {
           "evidenceRefs": [
@@ -63,6 +116,90 @@
             ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.0b1dce26681e14f6555d6434d51f15cb2bcaa857366b2e44a6c75813cef6ede2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.0e0cf252261dbccf8d0f4b48cc67a836460b406204890d38f82323168a5868c9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.57992e1802c1fb27f343c57c2bb3d58f4ecdd803c4c967dc662c4b3ed80b1ea2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.8378ca97b3c8d52a54d949d1b8daec4ff4328b548760d725639c0739fa425c16.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.acab6dbb896f652bae2cda3ec88df95da24db312b361927d6bdcae923dc5ce2f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.b52ffe4a9f689364e25b3c47b454ea5d5a3ec2dce5f4871715a2a6d2db4c48b7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.be94222a95706763351d009924ee5dabb2af9856225207a51313b14543067dfd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.c3d90fce3258c9b82a7bce1f449d3f241a1b8d949fa65906ff6cef09eda305dd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.dfccc16e6d9c6639e3f03249d774f009df4f916560d842121b3110212c8fdd7d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.e20f4b0c28c07c50169618324401faa655864c4b62facff4bf1bfcd9c26f522c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.fc1d7e0226474e41dbe40036d8516f213e85f1b24b061321df6a8fb5766a5e6f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json"
         },
         {
@@ -70,7 +207,63 @@
             ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-903-precheckpoint-contract-scope.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
         }
       ],
       "evidence": [
@@ -89,15 +282,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -108,7 +293,7 @@
             ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -118,10 +303,18 @@
             ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
@@ -142,16 +335,18 @@
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "WI-903-precheckpoint-contract-scope"
   },
+  "taskReportDigest": "sha256:b70333a60107bb9a3686aa115faba3faf432e0b4f53c522904ac7929d047d9be",
+  "taskReportMarkdownDigest": "sha256:870cf00bc321ab6d0d7ba3ca37d5bdb5813cf9696ae6247746de2a516d1a9469",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

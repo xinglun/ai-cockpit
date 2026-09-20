@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "reason": "Standing authorization confirms one final verification against the final formatted WI-903 source snapshot.",
+  "recordedAt": "2026-09-20T01:06:00Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a4f5319031f2460a61b38d96d71211835b98b58ace90616a58bff4d3eccd9339",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

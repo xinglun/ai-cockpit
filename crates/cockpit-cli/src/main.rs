@@ -6,7 +6,7 @@ use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
     AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
     EvidencePersistence, EvidenceRetention, HumanDecision, RepositoryConfig, RuntimeContext,
-    VerificationStage, VerificationTier, validate_protocol_version,
+    VerificationDeclaration, VerificationStage, VerificationTier, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -534,7 +534,7 @@ enum WorkItemCommand {
         id: String,
         /// JSON object with additive scopeAppend, outOfScopeAppend,
         /// sourcesAppend, verificationAppend, acceptanceAppend,
-        /// requiredEvidenceClassesAppend, and/or scenarioCoverageAppend arrays.
+        /// requiredEvidenceClassesAppend, scenarioCoverageAppend, and/or scenarioCoveragePlanAppend arrays.
         #[arg(long)]
         input: PathBuf,
         #[arg(long)]
@@ -1538,27 +1538,28 @@ fn run() -> Result<()> {
                 None
             };
             let explicit = !command.is_empty();
-            let (programs, command_args) = if explicit {
-                (command, args)
-            } else if root.join("Cargo.toml").is_file() {
-                let mut detected_args = vec!["test".into()];
-                if root.join("Cargo.lock").is_file() {
-                    detected_args.push("--locked".into());
+            let commands = if explicit {
+                command
+                    .into_iter()
+                    .map(|program| (program, args.clone()))
+                    .collect::<Vec<_>>()
+            } else if let Some(work_item_id) = work_item.as_deref() {
+                let declared = declared_verification_commands(&root, work_item_id)?;
+                if declared.is_empty() {
+                    detected_verification_commands(&root)?
+                } else {
+                    declared
                 }
-                detected_args.push("--workspace".into());
-                (vec!["cargo".into()], detected_args)
-            } else if root.join("package.json").is_file() {
-                (vec!["npm".into()], vec!["test".into()])
             } else {
-                anyhow::bail!("no verified project command detected; provide --command")
+                detected_verification_commands(&root)?
             };
-            let requests = programs
+            let requests = commands
                 .into_iter()
                 .enumerate()
-                .map(|(index, program)| RepositoryVerificationRequest {
+                .map(|(index, (program, args))| RepositoryVerificationRequest {
                     node_id: format!("project-command-{index}"),
                     program,
-                    args: command_args.clone(),
+                    args,
                     scope: vec!["**".into()],
                     stage: stage.as_str().into(),
                     runner: "local".into(),
@@ -1636,32 +1637,45 @@ fn run() -> Result<()> {
                 )
                 .context("check archived verification recovery preconditions")?;
             }
-            let (requests, coverage_manifest) = if !explicit && requests.len() == 1 {
-                let plan =
-                    match cockpit_repository::plan_repository_verification(&root, &requests[0]) {
-                        Ok(plan) => plan,
-                        Err(error) => {
-                            if let Some(work_item_id) = work_item.as_deref() {
-                                let _ = cockpit_repository::persist_verification_attempt(
-                                    &root,
-                                    work_item_id,
-                                    &requests,
-                                    &initial_snapshot,
-                                    &runtime_context,
-                                    "precondition_rejected",
-                                    Some(("verification_plan", &error.to_string())),
-                                    None,
-                                );
-                            }
-                            return Err(anyhow::anyhow!(
-                                "plan repository verification coverage: {error}"
-                            ));
+            let mut planned_requests = Vec::new();
+            let mut coverage_manifest = None;
+            for request in requests {
+                let is_cargo_workspace = !explicit
+                    && request.program == "cargo"
+                    && request
+                        .args
+                        .iter()
+                        .any(|argument| argument == "--workspace");
+                if !is_cargo_workspace {
+                    planned_requests.push(request);
+                    continue;
+                }
+                let plan = match cockpit_repository::plan_repository_verification(&root, &request) {
+                    Ok(plan) => plan,
+                    Err(error) => {
+                        if let Some(work_item_id) = work_item.as_deref() {
+                            let _ = cockpit_repository::persist_verification_attempt(
+                                &root,
+                                work_item_id,
+                                &planned_requests,
+                                &initial_snapshot,
+                                &runtime_context,
+                                "precondition_rejected",
+                                Some(("verification_plan", &error.to_string())),
+                                None,
+                            );
                         }
-                    };
-                (plan.requests, plan.coverage_manifest)
-            } else {
-                (requests, None)
-            };
+                        return Err(anyhow::anyhow!(
+                            "plan repository verification coverage: {error}"
+                        ));
+                    }
+                };
+                if coverage_manifest.is_none() {
+                    coverage_manifest = plan.coverage_manifest;
+                }
+                planned_requests.extend(plan.requests);
+            }
+            let requests = planned_requests;
             let reusable_attempt = if let Some(work_item_id) = work_item.as_deref()
                 && !archived_recovery
             {
@@ -3086,6 +3100,90 @@ fn valid_cli_git_object_id(value: &str) -> bool {
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
+fn declared_verification_commands(
+    root: &Path,
+    work_item_id: &str,
+) -> Result<Vec<(String, Vec<String>)>> {
+    let contract_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{work_item_id}.contract.json"));
+    let contract: cockpit_protocol::Contract = serde_json::from_slice(
+        &fs::read(&contract_path)
+            .with_context(|| format!("read Work Item Contract {}", contract_path.display()))?,
+    )
+    .with_context(|| format!("parse Work Item Contract {}", contract_path.display()))?;
+    let mut commands = Vec::new();
+    for declaration in contract.verification {
+        let VerificationDeclaration::Legacy(command) = declaration else {
+            continue;
+        };
+        commands.push(parse_declared_verification_command(&command)?);
+    }
+    Ok(commands)
+}
+
+fn detected_verification_commands(root: &Path) -> Result<Vec<(String, Vec<String>)>> {
+    if root.join("Cargo.toml").is_file() {
+        let mut args = vec!["test".into()];
+        if root.join("Cargo.lock").is_file() {
+            args.push("--locked".into());
+        }
+        args.push("--workspace".into());
+        Ok(vec![("cargo".into(), args)])
+    } else if root.join("package.json").is_file() {
+        Ok(vec![("npm".into(), vec!["test".into()])])
+    } else {
+        anyhow::bail!("no verified project command detected; provide --command")
+    }
+}
+
+fn parse_declared_verification_command(declaration: &str) -> Result<(String, Vec<String>)> {
+    if declaration.trim().is_empty()
+        || declaration.chars().any(|character| {
+            matches!(
+                character,
+                '\'' | '"' | '\\' | '|' | '&' | ';' | '<' | '>' | '`' | '$' | '(' | ')'
+            )
+        })
+    {
+        anyhow::bail!(
+            "verification declaration is not a supported argv command: {declaration:?}; use an explicit --command invocation"
+        );
+    }
+    let mut tokens = declaration
+        .split_ascii_whitespace()
+        .map(str::to_owned)
+        .collect::<Vec<_>>();
+    let assignment_count = tokens
+        .iter()
+        .take_while(|token| is_environment_assignment(token))
+        .count();
+    if tokens.len() == assignment_count {
+        anyhow::bail!(
+            "verification declaration has environment assignments but no program: {declaration:?}"
+        );
+    }
+    if assignment_count == 0 {
+        let program = tokens.remove(0);
+        return Ok((program, tokens));
+    }
+    let mut args = tokens.drain(..assignment_count).collect::<Vec<_>>();
+    args.extend(tokens);
+    Ok(("env".into(), args))
+}
+
+fn is_environment_assignment(token: &str) -> bool {
+    let Some((name, value)) = token.split_once('=') else {
+        return false;
+    };
+    !value.is_empty()
+        && name.chars().enumerate().all(|(index, character)| {
+            character == '_'
+                || character.is_ascii_alphanumeric()
+                    && (index > 0 || character.is_ascii_alphabetic())
+        })
+}
+
 fn concurrent_phase_elapsed(durations: impl IntoIterator<Item = u128>) -> u128 {
     durations.into_iter().max().unwrap_or_default()
 }
@@ -3465,7 +3563,7 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 mod tests {
     use super::{
         CapabilityCommand, Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
-        record_ordinary_cleanup_command,
+        parse_declared_verification_command, record_ordinary_cleanup_command,
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
@@ -3482,6 +3580,33 @@ mod tests {
     fn concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time() {
         assert_eq!(concurrent_phase_elapsed([1_000, 1_200]), 1_200);
         assert_eq!(concurrent_phase_elapsed([]), 0);
+    }
+
+    #[test]
+    fn declared_verification_parser_preserves_environment_prefix_without_shell_evaluation() {
+        assert_eq!(
+            parse_declared_verification_command(
+                "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/tmp/verify cargo test --locked",
+            )
+            .expect("parse declaration"),
+            (
+                "env".into(),
+                vec![
+                    "CARGO_INCREMENTAL=0".into(),
+                    "CARGO_TARGET_DIR=/tmp/verify".into(),
+                    "cargo".into(),
+                    "test".into(),
+                    "--locked".into(),
+                ],
+            )
+        );
+    }
+
+    #[test]
+    fn declared_verification_parser_rejects_shell_syntax() {
+        let error = parse_declared_verification_command("cargo test | tee result.log")
+            .expect_err("shell pipeline must be rejected before spawn");
+        assert!(error.to_string().contains("not a supported argv command"));
     }
 
     #[test]

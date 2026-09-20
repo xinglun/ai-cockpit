@@ -5987,7 +5987,10 @@ fn validate_execution_boundary_receipt(
         .map(|result| result.node_id.clone())
         .collect::<BTreeSet<_>>();
     if result_ids.len() != receipt.results.len()
-        || result_ids.iter().cloned().collect::<Vec<_>>() != manifest.node_ids
+        || !manifest
+            .node_ids
+            .iter()
+            .all(|node_id| result_ids.contains(node_id))
     {
         return false;
     }
@@ -6001,8 +6004,9 @@ fn validate_execution_boundary_receipt(
     for record in &receipt.execution_records {
         if !record_ids.insert(record.node_id.clone())
             || record.command_digest.parse::<Digest>().is_err()
-            || expected_digests.get(record.node_id.as_str()).copied()
-                != Some(record.command_digest.as_str())
+            || expected_digests
+                .get(record.node_id.as_str())
+                .is_some_and(|expected| *expected != record.command_digest)
             || !record.spawned
             || !record.passed
             || record.timed_out
@@ -6018,9 +6022,16 @@ fn validate_execution_boundary_receipt(
         .filter(|result| !result.reused)
         .map(|result| result.node_id.clone())
         .collect::<BTreeSet<_>>();
+    let planned_ids = plan
+        .executed_nodes
+        .iter()
+        .chain(&plan.reused_nodes)
+        .cloned()
+        .collect::<BTreeSet<_>>();
     record_ids == expected_record_ids
         && receipt.results.iter().all(|result| result.passed)
-        && receipt.nodes_planned == manifest.node_ids.len()
+        && planned_ids == result_ids
+        && receipt.nodes_planned == result_ids.len()
 }
 
 fn effective_policy_requirement_for_contract(

@@ -1,0 +1,21 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "standing-user-authorization",
+  "decidedAt": "2026-09-20T00:55:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "predecessorEventsDigest": "sha256:cd30a13d12fda0d5c734ec3c9290c04936b8bf2229588408be79323067926fcf",
+  "predecessorOutcomeDigest": "sha256:ba7a5d0e49bd798a88ed2eb4bebe300ba7a03d204c3971f2a561b35e461849eb",
+  "predecessorSummaryDigest": "sha256:71843664eca4ab58230abaf91b35198328674d89a3f5cab56ea4e1e8627512ce",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "The current WI-903 receipt-validation repair fixes the mixed workspace and declared documentation-gate binding. Reuse the already successful current verification execution only; preserve prior evidence and do not create a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind the current Runtime to the already successful declared verification receipt, then continue the existing WI-903 lifecycle.",
+  "runtimeDigest": "sha256:e08f46b49c355a9e66469b5ea2f2de09c9868710dd112a2d973e3b9c170d3aff",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

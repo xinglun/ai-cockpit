@@ -1,0 +1,21 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "standing-user-authorization",
+  "decidedAt": "2026-09-20T01:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "predecessorEventsDigest": "sha256:cd30a13d12fda0d5c734ec3c9290c04936b8bf2229588408be79323067926fcf",
+  "predecessorOutcomeDigest": "sha256:1e6e7abf860d26081ede31ee0ddfb10eea6bb4304b35827e4bbc6bbd4bd61e36",
+  "predecessorSummaryDigest": "sha256:ecf50b43f1280012683f0ae884cee935fa884dfc1b1d8ae8cf0f19aa937fb2fa",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "The formatting-only source change occurred after the successful receipt-validation repair. Re-run the current declared verification once against the final formatted snapshot; preserve all prior attempts and do not create a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the current declared verification once against the final formatted source snapshot, then continue the existing WI-903 lifecycle.",
+  "runtimeDigest": "sha256:e08f46b49c355a9e66469b5ea2f2de09c9868710dd112a2d973e3b9c170d3aff",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

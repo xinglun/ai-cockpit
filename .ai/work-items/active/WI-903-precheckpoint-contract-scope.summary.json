@@ -1,7 +1,39 @@
 {
-  "changedPaths": [],
+  "changedPaths": [
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.2225d842b80416c562e0c387252cf8f870d11022b5fa7e9e620fb25be1118b4d.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.2fdc1a9fa6d2112caec4e9eb6dc0d175eae3588de703363c2978cd06829fffb6.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.471629f66d953e20b8f3c9b870a202a27cfa82ae5025069a003cf641fe6aaac1.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.64a4baa9d7b79b8443f5aabfa6cd6336c0200ddc9fa4e72d3500b881fb59766f.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.preflight-review.b2323f40e66d0dfc12629cbdf209a661064fe06038d730aef895b3c75cb372c4.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.15ce1f25104f1c6be8ea8453ac1dafc8d37597bd5e4cdf5b571c6f507e1e3be1.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.6d952acfb1f3605fe0b8457b0016ff9b10be1015e4d34668f97306f4ebf9de8d.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.99fbb63804e12638a04d162ddb113844d63df687a8e300d5588dfe0571057bad.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.0b1dce26681e14f6555d6434d51f15cb2bcaa857366b2e44a6c75813cef6ede2.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.0e0cf252261dbccf8d0f4b48cc67a836460b406204890d38f82323168a5868c9.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.57992e1802c1fb27f343c57c2bb3d58f4ecdd803c4c967dc662c4b3ed80b1ea2.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.8378ca97b3c8d52a54d949d1b8daec4ff4328b548760d725639c0739fa425c16.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.acab6dbb896f652bae2cda3ec88df95da24db312b361927d6bdcae923dc5ce2f.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.b52ffe4a9f689364e25b3c47b454ea5d5a3ec2dce5f4871715a2a6d2db4c48b7.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.be94222a95706763351d009924ee5dabb2af9856225207a51313b14543067dfd.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.c3d90fce3258c9b82a7bce1f449d3f241a1b8d949fa65906ff6cef09eda305dd.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.dfccc16e6d9c6639e3f03249d774f009df4f916560d842121b3110212c8fdd7d.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.e20f4b0c28c07c50169618324401faa655864c4b62facff4bf1bfcd9c26f522c.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification-attempt.fc1d7e0226474e41dbe40036d8516f213e85f1b24b061321df6a8fb5766a5e6f.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.outcome.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.task-report.json",
+    ".ai/work-items/active/WI-903-precheckpoint-contract-scope.task-report.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs"
+  ],
   "checkpointAt": "2026-09-19T11:23:14Z",
-  "checkpointContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+  "checkpointContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -137,31 +169,71 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:510fce3705623ba57fa449769ef2c59f36dc124cd0e015c0790c1a0d66dba3ee",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+      "reason": "Repair the in-scope deterministic verifier-planning defect: default Work Item verification silently drops declared non-Cargo commands, preventing required scenario evidence from being collected.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T00:07:22Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:63b3b5b6f486f4a84dc25bddd76360c5fd171d84a94a063efb34833a345bbfa5",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3802bb0d8a59ae10bd60dc9b603ca52727aa9043add0d7cee5919d0a8df5bd76",
+      "previousContractHash": "sha256:510fce3705623ba57fa449769ef2c59f36dc124cd0e015c0790c1a0d66dba3ee",
+      "reason": "Complete only the missing verification plans on existing historical scenarios so the bounded retry can collect current evidence without changing scenario facts.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T00:27:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a737f4760bd4346aee1962e626820f0c54869afe156ff992999b758801a6e748",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-903-precheckpoint-contract-scope"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
+  "checkpointRepositorySnapshotDigest": "sha256:a4f5319031f2460a61b38d96d71211835b98b58ace90616a58bff4d3eccd9339",
   "createdAt": "2026-09-19T11:21:49Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+    "contractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:36ff2aa8fe9d43731c16eee5c3c4ff3f865ef4c25162b6d898f07303cf6a2062",
-    "reason": "Conversation authorization permits the bounded in-scope recovery-lineage repair and its declared verification.",
-    "recordedAt": "2026-09-19T20:08:30Z",
+    "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+    "reason": "Standing authorization confirms the already completed final verification and allows this Work Item to continue through its governed finish boundary.",
+    "recordedAt": "2026-09-20T01:10:00Z",
     "recordedBy": "human:xinglun",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
+    "repositorySnapshotDigest": "sha256:a4f5319031f2460a61b38d96d71211835b98b58ace90616a58bff4d3eccd9339",
     "schemaVersion": 1,
     "workItemId": "WI-903-precheckpoint-contract-scope"
   },
   "evidenceClasses": {
-    "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+    "contractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
     "items": [
       {
         "class": "focused documentation recovery-lineage regression evidence",
         "evidence": [
           {
-            "digest": "sha256:c55e60c1590267cb289197ca485c995711d624d53e05116ac7bc21997e95f752",
+            "digest": "sha256:81cd1e20efadbba4daeeaad55c429744657fd3d0a1c9c5c99de7d6ffd9933ca6",
             "locator": "two-hop successor lineage fixture",
             "path": "tests/docs/work_item_status_consistency_test.sh",
             "type": "test-script",
@@ -181,11 +253,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4fbdc8e2229d36c77950eda4bf6ce17e16f6b2e1794f0b88a03b593604da4402",
   "predecessorWorkItemId": "WI-902-verification-receipt-snapshot-boundary",
-  "preflightAt": "2026-09-19T20:15:24Z",
-  "preflightContractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
-  "preflightDecisionDigest": "sha256:dac5b9270d086746808be30e7209c56bb7bd1a742b74445f3adcc69c4b3d442b",
-  "preflightRepositorySnapshotDigest": "sha256:f138279e7d7129537176758427a69df12f1c93b6945b80bbe036cff4b9157464",
-  "preflightState": "yellow",
+  "preflightAt": "2026-09-20T01:02:07Z",
+  "preflightContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:a4f5319031f2460a61b38d96d71211835b98b58ace90616a58bff4d3eccd9339",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -247,10 +319,18 @@
       "required": true,
       "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
       "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/verify.rs"
+      ],
+      "required": true,
+      "scenario": "Default Work Item verification plans a Cargo workspace declaration together with a declared shell documentation gate instead of silently dropping the latter.",
+      "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-19T20:08:46.449438+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T01:02:08Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -299,8 +379,35 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:5ab15bbc7df7c12f7a1547a3c182eeeab9156231080f8e4bc0ec86fe9e3bd305",
   "workItemId": "WI-903-precheckpoint-contract-scope"
 }

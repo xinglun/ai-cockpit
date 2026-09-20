@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:9b249e9c7256748246ad7217d9149abceecf49affdb2e1d41383506fd7af626f",
+  "reason": "Standing authorization confirms the bounded WI-903 recovery-lineage repair and its declared deterministic verification after the rebase refreshed the repository snapshot.",
+  "recordedAt": "2026-09-20T00:05:32Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:63b3b5b6f486f4a84dc25bddd76360c5fd171d84a94a063efb34833a345bbfa5",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}
