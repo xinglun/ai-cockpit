@@ -4,7 +4,7 @@
       ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+    "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
     "workItemId": "WI-959-v0-2-103-release-recovery"
   },
   "format": "ai-cockpit.task-outcome",

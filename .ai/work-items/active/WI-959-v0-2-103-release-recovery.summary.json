@@ -4,7 +4,7 @@
     ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-20T23:20:05Z",
-  "checkpointContractDigest": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+  "checkpointContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,21 +42,21 @@
       "workItemId": "WI-959-v0-2-103-release-recovery"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+  "checkpointRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
   "createdAt": "2026-09-20T23:14:21Z",
   "mode": "code",
   "predecessorContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
   "predecessorWorkItemId": "WI-958-v0-2-103-release",
-  "preflightAt": "2026-09-20T23:38:42Z",
-  "preflightContractDigest": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+  "preflightAt": "2026-09-20T23:57:33Z",
+  "preflightContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-958-v0-2-103-release.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-20T23:38:57Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T23:58:01Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -119,10 +119,5 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-20T23:48:38Z"
-  },
   "workItemId": "WI-959-v0-2-103-release-recovery"
 }
