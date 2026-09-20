@@ -1,0 +1,24 @@
+{
+  "bindingDigest": "sha256:7ee5bad28e47718354101d07d702f752350e8aa95738492ef4d586f8b17c6e90",
+  "branchRef": "refs/heads/codex/wi-947-interface-ssot-completion",
+  "contractDigest": "sha256:8d8cb6ad24766b2a965e8f3a754185f2a043d38931f9e23430067a08271feaf9",
+  "headRevision": "1a0c49475df16bea9b2610402e83c6326d0df346",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T10:17:00Z",
+  "operationId": "sha256:147b21e84ea4bf47394fa75e9c0cc4b05b32a519b694d6d388f19679035e22d0",
+  "predecessorReceiptDigest": "sha256:0d366abde069f53e83d48caf4b80ad7b74d24fb463bd7351fb021690e09812fc",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "workItemId": "WI-947-interface-ssot-completion",
+  "worktreeId": "sha256:5148bc353bee31cefd904722aefa32515c70406f3c2de552816797b9b7c37399"
+}
