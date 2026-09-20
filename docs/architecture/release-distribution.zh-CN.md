@@ -16,7 +16,7 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # 发布分发架构
 
-当前发布候选是 `v0.2.102`；在公开 Release 和发布后验收完成之前，它不是安装基线。当前不可变公开安装基线是 `v0.2.100`。
+当前发布候选是 `v0.2.103`；在公开 Release 和发布后验收完成之前，它不是安装基线。当前不可变公开安装基线是 `v0.2.102`。
 失败的 `v0.2.88` 标签作为不可变发布失败历史保留（WI-764，workflow run `34371183927`）；它没有 provider Release，不能复用或作为安装基线。
 `v0.2.77` 标签作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。
 `v0.2.68` 标签保留为不可变的发布失败历史（workflow run `33795945667`）：source quality
@@ -98,7 +98,7 @@ Release manifest 绑定 version、tag、commit、target、runner image、archive
 
 ## 采用者需要做什么
 
-1. 从已发布的 Homebrew Formula 安装，或从 immutable Release 下载匹配的 archive。
+1. Apple Silicon 可从已发布的 Homebrew Formula 安装；Intel macOS 或其他受支持目标应从 immutable Release 下载匹配的 archive。Intel Homebrew 不再是受支持的分发路径。
 2. 验证 version、SHA-256 digest 和 provider attestation。
 3. 只有在审查目标 repository 及其 Work Item 后，才运行
    `ai-cockpit attach --repo /path/to/repository`。Attach 是显式步骤，可能创建或更新 `.ai/`。
@@ -128,11 +128,11 @@ Release，并独立上传 receipt。手动触发必须显式提供公开的 `fro
 
 - `cockpit-release` 与 release workflow 负责本地 release contract、确定性 manifest、Formula 投影、
   hosted checks 和已发布 Release identity。
-- 已公开的不可变安装基线是 `v0.2.100`；当前发布基线目标是 `v0.2.102` 候选，public adopter acceptance 和 N-1 升级验收仍属于发布后 evidence。外部 Homebrew tap 是
+- 已公开的不可变安装基线是 `v0.2.102`；当前发布基线目标是 `v0.2.103` 候选，public adopter acceptance 和 N-1 升级验收仍属于发布后 evidence。外部 Homebrew tap 是
   独立 provider surface，不由本仓库自动保证。
 - 预留的 `v0.2.24` tag 与不可变的 `v0.2.25` tag 作为发布前失败历史保留，不作为公开 Release，也永远不会复用。
 - Tap 接收经过审查的 Formula 投影，不会重新构建 binary。
-- Homebrew 是交付路径，不是治理权威。Repository 事实和人类决策仍来自已 attach 的 repository 与 Work Item。
+- 面向 Apple Silicon 的 Homebrew 是交付路径，不是治理权威；Intel Homebrew 不受支持。Repository 事实和人类决策仍来自已 attach 的 repository 与 Work Item。
 - 产物源码身份与编排执行身份是两个独立绑定。不可变 tag 会在昂贵发布工作前
   与远端 peeled commit 校验；当前 dispatch commit 独立记录，不能改写或替代 tag 身份。
 

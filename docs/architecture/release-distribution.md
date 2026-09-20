@@ -16,9 +16,9 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-The current release candidate is `v0.2.102`; it is not an installation baseline
+The current release candidate is `v0.2.103`; it is not an installation baseline
 until the public Release and post-release acceptance are complete. The current
-immutable public installation baseline is `v0.2.100`.
+immutable public installation baseline is `v0.2.102`.
 The failed `v0.2.88` tag is retained as immutable publication-failure history
 (WI-764, workflow run `34371183927`); it has no provider Release and is never
 reused or treated as an installation baseline.
@@ -124,8 +124,9 @@ asset alone is not installation evidence.
 
 ## What an adopter does
 
-1. Install from the published Homebrew Formula, or download the matching
-   archive from the immutable Release.
+1. On Apple Silicon, install from the published Homebrew Formula; on Intel
+   macOS or another supported target, download the matching archive from the
+   immutable Release. Intel Homebrew is not a supported distribution path.
 2. Verify the version, SHA-256 digest, and provider attestation.
 3. Run `ai-cockpit attach --repo /path/to/repository` only after reviewing the
    target repository and its Work Item. Attachment is explicit and is the step
@@ -163,14 +164,15 @@ approval-gated migration branch.
 - `cockpit-release` and the release workflow own the local release contract,
   deterministic manifest, Formula projection, hosted checks, and published
   Release identity.
-- The existing immutable public baseline is `v0.2.100`; the current release
-  baseline target is the `v0.2.102` candidate, whose public adopter acceptance
+- The existing immutable public baseline is `v0.2.102`; the current release
+  baseline target is the `v0.2.103` candidate, whose public adopter acceptance
   and N-1 upgrade acceptance remain post-release evidence. An external Homebrew tap is a separate provider surface
   and is not implied by this repository.
 - The reserved `v0.2.24` tag and immutable `v0.2.25` tag are retained as failed
   pre-publication history; neither is treated as a public Release or reused.
 - The tap receives a reviewed Formula projection; it does not rebuild binaries.
-- Homebrew is a delivery path, not a governance authority. Repository facts and
+- Homebrew for Apple Silicon is a delivery path, not a governance authority;
+  Intel Homebrew is unsupported. Repository facts and
   human decisions still come from the attached repository and its Work Items.
 - Artifact source identity and orchestration execution identity are separate
   bindings. An immutable tag is checked against its remote peeled commit before

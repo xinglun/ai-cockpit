@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: release-v0-2-103
 capabilityClaims:
   - reference_parity
 ---
@@ -272,8 +272,8 @@ final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.102 with binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`.
+The reviewed Runtime is v0.2.103 with binary digest
+`sha256:b3dda2d764e3d0504a748873a2429cf9a6e59c89f22b4e6920270c261e5808db`.
 
 | Metric | Count |
 | --- | ---: |

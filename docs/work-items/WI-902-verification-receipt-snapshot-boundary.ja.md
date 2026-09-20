@@ -4,7 +4,7 @@ workItemId: WI-902-verification-receipt-snapshot-boundary
 title: verification receipt の snapshot 境界
 description: Runtime の governance write をまたいで成功した typed verification を current のまま保ち、実際の source change では失効させる。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-902-verification-receipt-snapshot-boundary
 ---
@@ -25,3 +25,7 @@ semantics、receipt identity、tamper safety は維持する。
 - CLI と MCP は同じ identity と snapshot 判定を使う。
 - malformed、foreign-runtime、tampered、symlink receipt の既存 fail-closed
   behavior を維持する。
+
+## Closure boundary
+
+archive 済み verification evidence と Runtime 生成の close record を保持する。historical provider resource state は明示的に unknown のままであり、この close は Sentinel の downstream replay または Runtime の public release を主張しない。

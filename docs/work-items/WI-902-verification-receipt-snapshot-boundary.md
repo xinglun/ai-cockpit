@@ -4,7 +4,7 @@ workItemId: WI-902-verification-receipt-snapshot-boundary
 title: Verification receipt snapshot boundary
 description: Keep successful typed verification current across Runtime governance writes while invalidating it for real source changes.
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-902-verification-receipt-snapshot-boundary
 ---
@@ -25,3 +25,9 @@ verification, zero-process red preflight, receipt identity, and tamper safety.
 - CLI and MCP consume the same identity and snapshot decision.
 - Existing malformed, foreign-runtime, tampered, and symlink receipt failures
   remain fail-closed.
+
+## Closure boundary
+
+The archived verification evidence and the Runtime-generated close record are
+preserved. Historical provider-resource state remains explicitly unknown; this
+closure does not claim a downstream Sentinel replay or a public Runtime release.

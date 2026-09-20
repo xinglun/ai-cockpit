@@ -16,7 +16,7 @@ keywords: [ai-cockpit, release, homebrew, distribution, provenance]
 
 # Release Distribution Architecture
 
-現在のリリース候補は `v0.2.102` です。公開 Release と post-release acceptance が完了するまで installation baseline にはしません。現在の immutable public installation baseline は `v0.2.100` です。失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な公開失敗履歴として保持し、provider Release がないため再利用も installation baseline 化もしません。`v0.2.77` tag は provider Release のない immutable な公開失敗履歴として保持し、installation baseline にはしません。予約済みの `v0.2.51` tag は workflow run `33417057474` の immutable な公開失敗試行で、provider Release のない lightweight tag なので再利用しません。失敗した `v0.2.56` tag も source-quality が provider Release 作成前に失敗した immutable な公開失敗履歴であり、再利用も installation baseline 化もしません。失敗した `v0.2.49` tag は workflow run `33379366308` による公開前の失敗履歴として保持し、公開 Release はありません。installation baseline にはしません。失敗した `v0.2.35` tag は workflow run `33162800569` による公開失敗履歴として保持し、公開 Release はありません。先行する失敗 `v0.2.34` tag（workflow run `33155382717`）も保持します。失敗した staged `v0.2.32` tag は WI-299 の finalize binding defect による公開失敗履歴として保持し、installation baseline にはしません。immutable な `v0.2.30` tag も clean-batch の route defect による公開失敗履歴として保持します。
+現在のリリース候補は `v0.2.103` です。公開 Release と post-release acceptance が完了するまで installation baseline にはしません。現在の immutable public installation baseline は `v0.2.102` です。失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な公開失敗履歴として保持し、provider Release がないため再利用も installation baseline 化もしません。`v0.2.77` tag は provider Release のない immutable な公開失敗履歴として保持し、installation baseline にはしません。予約済みの `v0.2.51` tag は workflow run `33417057474` の immutable な公開失敗試行で、provider Release のない lightweight tag なので再利用しません。失敗した `v0.2.56` tag も source-quality が provider Release 作成前に失敗した immutable な公開失敗履歴であり、再利用も installation baseline 化もしません。失敗した `v0.2.49` tag は workflow run `33379366308` による公開前の失敗履歴として保持し、公開 Release はありません。installation baseline にはしません。失敗した `v0.2.35` tag は workflow run `33162800569` による公開失敗履歴として保持し、公開 Release はありません。先行する失敗 `v0.2.34` tag（workflow run `33155382717`）も保持します。失敗した staged `v0.2.32` tag は WI-299 の finalize binding defect による公開失敗履歴として保持し、installation baseline にはしません。immutable な `v0.2.30` tag も clean-batch の route defect による公開失敗履歴として保持します。
 未公開の `v0.2.36` tag も staged acceptance failure の immutable な履歴として保持し、installation baseline にはしません。
 以前の公開 `v0.2.63` Release は historical evidence として保持し、現在の baseline に置き換えます。`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の historical evidence として保持します。
 失敗した `v0.2.49` tag は immutable な公開前履歴として保持し、公開 Release はありません。
@@ -87,7 +87,7 @@ provider Release や単独の artifact upload だけでは installation evidence
 
 ## Adopter が行うこと
 
-1. 公開済み Homebrew Formula から install するか、immutable Release から対応する archive を download します。
+1. Apple Silicon では公開済み Homebrew Formula から install し、Intel macOS または他のサポート対象では immutable Release から対応する archive を download します。Intel Homebrew はサポート対象の配布経路ではありません。
 2. version、SHA-256 digest、provider attestation を verify します。
 3. 対象 repository と Work Item を review してから、`ai-cockpit attach --repo /path/to/repository`
    を実行します。attach は明示的な手順で、`.ai/` を作成・更新し得ます。
@@ -120,11 +120,11 @@ schema が変わる pair だけが approval-gated migration branch に進みま�
 - `cockpit-release` と release workflow は local release contract、deterministic manifest、Formula projection、
   hosted check、published Release identity を扱います。
 - 失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な公開失敗履歴で、provider Release がなく再利用できません。
-- 既存の immutable public baseline は `v0.2.100` です。現在の release baseline target は `v0.2.102` candidate であり、public adopter acceptance と N-1 upgrade 受入れは post-release evidence のままです。
+- 既存の immutable public baseline は `v0.2.102` です。現在の release baseline target は `v0.2.103` candidate であり、public adopter acceptance と N-1 upgrade 受入れは post-release evidence のままです。
   external Homebrew tap は別の provider surface であり、この repository が自動的に保証するものではありません。
 - 予約済みの `v0.2.24` tag と immutable な `v0.2.25` tag は公開前 failure history として保持し、公開 Release として扱わず、再利用しません。
 - Tap は review 済み Formula projection を受け取り、binary を rebuild しません。
-- Homebrew は delivery path であり governance authority ではありません。repository facts と human decision
+- Apple Silicon 向け Homebrew は delivery path であり governance authority ではありません。Intel Homebrew はサポート対象外です。repository facts と human decision
   は attach 済み repository と Work Item から来ます。
 - 成果物のソース識別子とオーケストレーション実行識別子は別々に束ねます。不変な
   tag は高コストな公開処理の前にリモートの peeled commit と照合し、現在の

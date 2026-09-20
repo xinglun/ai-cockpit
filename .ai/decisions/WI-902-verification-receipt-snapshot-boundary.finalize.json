@@ -1,0 +1,71 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "authoritySource": "conversation:user-standing-authorization",
+  "before": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "branch": {
+    "headRevision": "be638fb24976c42ab7278a996400dd0df23d26f5",
+    "name": "codex/wi-902-verification-snapshot",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:899c7b2b59585ae3c77dd0104074cb293687fbd9fdc11442b37b5cfdfa310a87",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "a67ce39d09abf25302ff1cbbaa9879455f0f0fda",
+    "contractBaseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "4861534ae04d6987807482e310b8e75a5d7363cf",
+    "mergeParents": [
+      "a67ce39d09abf25302ff1cbbaa9879455f0f0fda",
+      "be638fb24976c42ab7278a996400dd0df23d26f5"
+    ]
+  },
+  "operationId": "historical-direct-merge-operation-4861534ae04d6987807482e310b8e75a5d7363cf",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "a67ce39d09abf25302ff1cbbaa9879455f0f0fda",
+    "headRevision": "be638fb24976c42ab7278a996400dd0df23d26f5",
+    "mergeCommit": "4861534ae04d6987807482e310b8e75a5d7363cf",
+    "number": 0,
+    "url": "historical://direct-merge/4861534ae04d6987807482e310b8e75a5d7363cf"
+  },
+  "reason": "Record the Runtime-derived historical direct-merge finalization classification for merged PR #904. Preserve unknown historical resource state rather than asserting cleanup, and do not claim public release or Sentinel acceptance.",
+  "receiptId": "historical-direct-merge-WI-902-verification-receipt-snapshot-boundary-4861534ae04d6987807482e310b8e75a5d7363cf",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-902-verification-snapshot",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/4861534ae04d6987807482e310b8e75a5d7363cf",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-902-verification-snapshot/ai-cockpit"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": [
+      "historical_resource_state_unknown"
+    ]
+  },
+  "runtimeDigest": "sha256:f5e7dab36fb42838831ac4dbf1270c4ae13285e2d144af2ab09c09e478fa3856",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-20T19:23:26Z",
+  "workItemId": "WI-902-verification-receipt-snapshot-boundary",
+  "worktree": {
+    "branch": "codex/wi-902-verification-snapshot",
+    "headRevision": "be638fb24976c42ab7278a996400dd0df23d26f5",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-902-verification-snapshot/ai-cockpit",
+    "worktreeId": "historical-direct-merge-4861534ae04d6987807482e310b8e75a5d7363cf"
+  }
+}

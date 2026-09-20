@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: release-v0-2-103
 capabilityClaims:
   - reference_parity
 ---
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.102` Runtime（二进制摘要
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）。
+`ai-cockpit v0.2.103` Runtime（二进制摘要
+`sha256:b3dda2d764e3d0504a748873a2429cf9a6e59c89f22b4e6920270c261e5808db`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -897,7 +897,7 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-929-outcome-hci-public-handoff——归档 Work Item 的完整 Outcome 对话交接 | 已实现 | [Work Item](../work-items/WI-929-outcome-hci-public-handoff.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-929-outcome-hci-public-handoff.contract.json`; verification `.ai/evidence/WI-929-outcome-hci-public-handoff.verification.json`; finalization `.ai/decisions/WI-929-outcome-hci-public-handoff.finalize.json`; close `.ai/decisions/WI-929-outcome-hci-public-handoff.close.json`. |
 | WI-903-precheckpoint-contract-scope——checkpoint 前的 Contract scope 增补 | 已实现 | [Work Item](../work-items/WI-903-precheckpoint-contract-scope.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json`; verification `.ai/evidence/WI-903-precheckpoint-contract-scope.verification.json`; close `.ai/decisions/WI-903-precheckpoint-contract-scope.close.json`. |
 | WI-902-wi899-doc-promotion——已退休的 WI-899 文档投影尝试 | 验证前退休 | 不可变 archive `.ai/work-items/archive/WI-902-wi899-doc-promotion.archive.json` 和退休回执 `.ai/decisions/WI-902-wi899-doc-promotion.retirement.json` 记录该未 checkpoint 的尝试没有产生范围内仓库改动；不声明 verification 或 close。 |
-| WI-902-verification-receipt-snapshot-boundary——验证 receipt 的快照边界 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-902-verification-receipt-snapshot-boundary.zh-CN.md); 将仅治理的快照变化与源码证据身份分开；不可变 archive `.ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json`；verification `.ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json`；finalization `.ai/decisions/WI-902-verification-receipt-snapshot-boundary.finalize.json`；close `.ai/decisions/WI-902-verification-receipt-snapshot-boundary.close.json`；successor recovery `.ai/decisions/WI-902-verification-receipt-snapshot-boundary.recovery.json` 将 WI-903 绑定为活跃的继续路径；这不是终态证据或 close。 |
+| WI-902-verification-receipt-snapshot-boundary——验证 receipt 的快照边界 | 已实现 | [Work Item](../work-items/WI-902-verification-receipt-snapshot-boundary.zh-CN.md)；将仅治理的快照变化与源码证据身份分开；不可变 archive `.ai/work-items/archive/WI-902-verification-receipt-snapshot-boundary.contract.json`；verification `.ai/evidence/WI-902-verification-receipt-snapshot-boundary.verification.json`；Runtime 生成的 finalization `.ai/decisions/WI-902-verification-receipt-snapshot-boundary.finalize.json`；close `.ai/decisions/WI-902-verification-receipt-snapshot-boundary.close.json`。历史 provider 资源状态仍未知；不推断下游重放或 Runtime 公开发布。 |
 | WI-930-wi929-doc-promotion——WI-929 终态文档晋级 | 已实现 | [Work Item](../work-items/WI-930-wi929-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-930-wi929-doc-promotion.contract.json`; verification `.ai/evidence/WI-930-wi929-doc-promotion.verification.json`; close `.ai/decisions/WI-930-wi929-doc-promotion.close.json`. |
 | WI-890-release-v0-2-95——四方向收敛后的受治理 v0.2.95 发布 | 已恢复 | [Work Item](../work-items/WI-890-release-v0-2-95.zh-CN.md)；不可变的 v0.2.95 候选历史已保留，失败发布尝试后的路径已被替换；不宣称 provider Release 或发布成功；archive `.ai/work-items/archive/WI-890-release-v0-2-95.contract.json`；retirement `.ai/decisions/WI-890-release-v0-2-95.retirement.json`；后续路径为 WI-892。 |
 | WI-891-release-v0-2-96-isolation-fix——v0.2.96 发布验证隔离修复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-891-release-v0-2-96-isolation-fix.zh-CN.md)；承接不可变失败的 v0.2.95 候选；发布仍受评审合并、候选隔离验收、下载制品验收和精确清理证据约束；archive `.ai/work-items/archive/WI-891-release-v0-2-96-isolation-fix.contract.json`；verification `.ai/evidence/WI-891-release-v0-2-96-isolation-fix.verification.json`；finalization `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.finalize.json`；close `.ai/decisions/WI-891-release-v0-2-96-isolation-fix.close.json`。 |
@@ -910,6 +910,7 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-944-release-v0-2-101——verification snapshot lifecycle 的 v0.2.101 发布候选 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-944-release-v0-2-101.zh-CN.md)；终态 lifecycle 将绑定 archive `.ai/work-items/archive/WI-944-release-v0-2-101.contract.json`、verification `.ai/evidence/WI-944-release-v0-2-101.verification.json`、finalization `.ai/decisions/WI-944-release-v0-2-101.finalize.json` 与 close `.ai/decisions/WI-944-release-v0-2-101.close.json`。Hosted review、不可变发布、下载制品验收和 Sentinel replay 仍待完成。 |
 | WI-951-release-v0-2-102——清理完成后的 v0.2.102 公开 Runtime 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-951-release-v0-2-102.zh-CN.md)；发布仍受已审查合并、不可变 tag 与公开 Release、下载制品验收和精确 provider 清理约束；终态 lifecycle 将绑定 archive `.ai/work-items/archive/WI-951-release-v0-2-102.contract.json`、verification `.ai/evidence/WI-951-release-v0-2-102.verification.json`、finalization `.ai/decisions/WI-951-release-v0-2-102.finalize.json` 与 close `.ai/decisions/WI-951-release-v0-2-102.close.json`。 |
 | WI-952-release-finalization——v0.2.102 的资源绑定发布收尾 | 已实现 | [Work Item](../work-items/WI-952-release-finalization.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-952-release-finalization.contract.json`; verification `.ai/evidence/WI-952-release-finalization.verification.json`; finalization `.ai/decisions/WI-952-release-finalization.finalize.json`; close `.ai/decisions/WI-952-release-finalization.close.json`. |
+| release-v0-2-103——v0.2.103 Runtime 发布候选 | 进行中 | [Work Item](../work-items/release-v0-2-103.zh-CN.md)；发布仍等待已审查合并、不可变公开制品、下载制品验收与精确 provider 清理。 |
 | WI-953-post-release-doc-promotion——v0.2.102 发布后文档投影晋级 | 已实现 · 验证前已替换 | [Work Item](../work-items/WI-953-post-release-doc-promotion.zh-CN.md)；不可变 archive `.ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json`；验证引用 `.ai/evidence/WI-953-post-release-doc-promotion.verification.json` 因不宣称验证而刻意不存在；retirement `.ai/decisions/WI-953-post-release-doc-promotion.retirement.json` 保留该路径并绑定后继 WI-954。 |
 | WI-954-start-verification-declaration——文档投影恢复 | 已实现 | [Work Item](../work-items/WI-954-start-verification-declaration.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-954-start-verification-declaration.contract.json`; verification `.ai/evidence/WI-954-start-verification-declaration.verification.json`; close `.ai/decisions/WI-954-start-verification-declaration.close.json`. |
 | WI-912-wi911-doc-promotion——WI-911 终态文档投影修复 | 已实现 | [Work Item](../work-items/WI-912-wi911-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
