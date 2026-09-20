@@ -1,0 +1,26 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T10:05:32Z",
+  "files": {
+    "approachDigest": "sha256:6c143ada3c42e8284a6cfa34982c32719fa5a6141de09703d6ce16202dd6464c",
+    "approachPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.approach.json",
+    "contractDigest": "sha256:099284f6acca004430ba6fd689a89410d4f2519017657638f947c97d2dbe9dfb",
+    "contractPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.contract.json",
+    "eventsDigest": "sha256:9950812331cd963d72f31ca17d1de4426709ce0a32f6c74af4b31d23ce39cf8f",
+    "eventsPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.events.jsonl",
+    "intelligenceDigest": "sha256:55126be31d87fe5dbd81c0474d40459e4589e9b8245c710c1eaa40be057e7e20",
+    "intelligencePath": ".ai/work-items/archive/WI-947-interface-ssot-completion.intelligence.json",
+    "outcomeDigest": "sha256:6987ceea3a49549b4c8bb99d8861206880aeb1dbc9b37dc2b4ccaeda2d4a414e",
+    "outcomePath": ".ai/work-items/archive/WI-947-interface-ssot-completion.outcome.json",
+    "summaryDigest": "sha256:7c5ede48d112c19b7689c00dfcc4f38c89ac6c1702b84f6d20e31516c16a5657",
+    "summaryPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.summary.json",
+    "taskReportDigest": "sha256:64642c33961ad0332d0ea407647658a8fa3f285aae22ab30930ee9a550f31fbd",
+    "taskReportMarkdownDigest": "sha256:097899941a8dbe09531277d413269c7cb5062aced08d76760c3d9dad4c21697f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-947-interface-ssot-completion.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-947-interface-ssot-completion"
+}
