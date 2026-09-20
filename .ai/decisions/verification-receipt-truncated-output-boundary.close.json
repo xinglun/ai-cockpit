@@ -1,0 +1,171 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ce9dfa29c45c87bbffa48c821c4ed510e074912cc1c8490d69a42afbaacd7ef5",
+      "workItemId": "verification-receipt-truncated-output-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by xinglun via user-standing-authorization at 2026-09-20T18:30:50Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "保留 stdout/stderr 截断事实和执行边界，同时允许通过、身份绑定完整的 receipt 在后续 preflight 与 finish 中保持当前；添加端到端回归。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "verification-receipt-truncated-output-boundary"
+  },
+  "finalReportDigest": "sha256:873c2cfd1b5ac2ba9eceaa87b5634c67997585ea545ccde84e045e102285a634",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:fba7d61977b4eec9ca7bd8199586f13d220769db42d025a47a807e91eef842b9",
+    "branch": "codex/verification-receipt-truncated-output-boundary",
+    "branchRef": "refs/heads/codex/verification-receipt-truncated-output-boundary",
+    "capturedAt": "2026-09-20T18:30:51Z",
+    "contractDigest": "sha256:58dc6c51481abcd986289a122f21e1336dea0125b8e44d2ad421382c7b318c2b",
+    "headRevision": "15a201a3a7b777ecebb30b160c39a05fae993d95",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+    "runtimeVersion": "0.2.100",
+    "schemaVersion": 1,
+    "workItemId": "verification-receipt-truncated-output-boundary",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:f3b6bce7962fee0298ca992d6b990b59e20e433a8e7e0f88aea91b220c23a1f3",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/runtime-truncated-output-receipt/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:8985629bb69ede273390909aab89e2d4a90528ca509d5ac4f6a6e47da2a270a4",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "xinglun",
+    "authoritySource": "user-standing-authorization",
+    "decidedAt": "2026-09-20T18:30:50Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/verification-receipt-truncated-output-boundary.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md: ordinary Work Item close route"
+    ],
+    "reason": "用户已授权持续推进；成功且身份绑定完整的有界输出 receipt 修复完成并通过声明验证。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-20T18:30:51Z",
+  "workItemId": "verification-receipt-truncated-output-boundary"
+}

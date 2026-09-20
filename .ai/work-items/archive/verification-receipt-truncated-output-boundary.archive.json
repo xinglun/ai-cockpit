@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T18:20:21Z",
+  "files": {
+    "contractDigest": "sha256:33caa017ccda10f5359527ed7d63c29d034fde4b20efbecc52233ddcc749a00a",
+    "contractPath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.contract.json",
+    "eventsDigest": "sha256:434f9f161de3b4c0ef2c1f65d57004ac76f3becc617971982ff7507d5d7ecbba",
+    "eventsPath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.events.jsonl",
+    "outcomeDigest": "sha256:ad59d1ac87aea06d94d4cfbccb35998ee735ed460ece893d42297460de0da250",
+    "outcomePath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.outcome.json",
+    "summaryDigest": "sha256:0faee798c0f05e9d1c4af685071f727ee71f6972e7e691614134b044bf2cd5d9",
+    "summaryPath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.summary.json",
+    "taskReportDigest": "sha256:f0092216f32a5640caf4fe71b442c2ea1739c850e41fce66a1da0aa756695f12",
+    "taskReportMarkdownDigest": "sha256:5d139c15adb7b557cba118a369c9f7742e2836abb257954db9c06b1c457d99f1",
+    "taskReportMarkdownPath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/verification-receipt-truncated-output-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "verification-receipt-truncated-output-boundary"
+}
