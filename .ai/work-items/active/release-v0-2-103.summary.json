@@ -180,15 +180,35 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "release-v0-2-103"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:f8649b0d2970e8cd416a10a4619e99bde685e95714b6fa9aae8a81412ae2f0a7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af3c46bc2311c0b752392d67a819676981d7d2b1b688a6068100689ba2499d49",
+      "previousContractHash": "sha256:dd47318db96cae5539f1a7d817112f05bf7600b9b7322e012fc98293fc1f70fa",
+      "reason": "The full workspace regression identified lifecycle_order.rs asserting the same obsolete archive boundary. Update that in-scope regression to require archival while retaining later completion evidence at terminal stages.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T20:19:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de246f6a4e0b226043cd8117d91dc8eaabf33760b303b846027c994c680fbaaf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "release-v0-2-103"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
   "createdAt": "2026-09-20T19:10:49Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-20T20:05:45Z",
-  "preflightContractDigest": "sha256:23d24cd67577e474c532d7b8b8ad5bc563c2a8e5aba55ad86e5dd75d22e7c17b",
-  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
+  "preflightAt": "2026-09-20T20:15:31Z",
+  "preflightContractDigest": "sha256:dd47318db96cae5539f1a7d817112f05bf7600b9b7322e012fc98293fc1f70fa",
+  "preflightDecisionDigest": "sha256:9f92487e0755e0da84044f7018bdeb1621c751b6e1653192c5622f73fe004dcb",
+  "preflightRepositorySnapshotDigest": "sha256:de246f6a4e0b226043cd8117d91dc8eaabf33760b303b846027c994c680fbaaf",
   "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -245,9 +265,9 @@
     }
   ],
   "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:dd47318db96cae5539f1a7d817112f05bf7600b9b7322e012fc98293fc1f70fa",
+    "contractHash": "sha256:f8649b0d2970e8cd416a10a4619e99bde685e95714b6fa9aae8a81412ae2f0a7",
     "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-20T20:12:58Z"
+    "recordedAt": "2026-09-20T20:19:49Z"
   },
   "workItemId": "release-v0-2-103"
 }

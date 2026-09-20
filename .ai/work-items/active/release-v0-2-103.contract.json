@@ -64,7 +64,8 @@
     "docs/reference/commands.zh-CN.md",
     "docs/reference/commands.ja.md",
     "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/archive_integrity.rs"
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "crates/cockpit-repository/tests/lifecycle_order.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/902",
