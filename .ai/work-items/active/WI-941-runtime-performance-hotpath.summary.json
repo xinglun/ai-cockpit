@@ -1,0 +1,73 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-941-runtime-performance-hotpath.verification-attempt.685f1a6527ee620cd8de4aeda9a8ce912a05118303c863c0d64fbfb8a8ddbc6e.json",
+    ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json",
+    ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs"
+  ],
+  "checkpointAt": "2026-09-20T01:44:59Z",
+  "checkpointContractDigest": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "recorded": true,
+      "recordedAt": "2026-09-20T01:44:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81f352374a00a93f202509d39dce6b569c2c57f92737f3207b45155cf5d0295c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "previousContractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "reason": "Diagnosis measured git_snapshot at approximately 129ms of 144ms runtime_internal time. The selected safe hotspot is removal of the redundant standalone HEAD subprocess by deriving the same fact from status v2 branch output; this adds only the exact implementation and regression-test paths needed.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T01:48:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81f352374a00a93f202509d39dce6b569c2c57f92737f3207b45155cf5d0295c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:d930b6310b537e6d982c3c164b9627c28b62d0fe7054da28e5054fb813beef76",
+  "createdAt": "2026-09-20T01:44:58Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T02:00:14Z",
+  "preflightContractDigest": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:d930b6310b537e6d982c3c164b9627c28b62d0fe7054da28e5054fb813beef76",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-20T01:44:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:5ad7e2b206a8e10b40e6eca65a135aa185fde28ba7d802c492b10f65650d7b93",
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}
