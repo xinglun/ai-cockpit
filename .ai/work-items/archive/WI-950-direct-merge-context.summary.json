@@ -37,8 +37,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-950-direct-merge-context.verification-attempt.76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9.json",
-    ".ai/work-items/active/WI-950-direct-merge-context.contract.json",
-    ".ai/work-items/active/WI-950-direct-merge-context.summary.json",
+    ".ai/work-items/archive/WI-950-direct-merge-context.contract.json",
+    ".ai/work-items/archive/WI-950-direct-merge-context.summary.json",
     "crates/cockpit-protocol/src/lib.rs",
     "crates/cockpit-protocol/tests/resource_finalization.rs"
   ],

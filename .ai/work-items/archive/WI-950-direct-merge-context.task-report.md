@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-950-direct-merge-context.verification-attempt.76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9.json
-- Changed path: .ai/work-items/active/WI-950-direct-merge-context.contract.json
-- Changed path: .ai/work-items/active/WI-950-direct-merge-context.summary.json
+- Changed path: .ai/work-items/archive/WI-950-direct-merge-context.contract.json
+- Changed path: .ai/work-items/archive/WI-950-direct-merge-context.summary.json
 - Changed path: crates/cockpit-protocol/src/lib.rs
 - Changed path: crates/cockpit-protocol/tests/resource_finalization.rs
 
