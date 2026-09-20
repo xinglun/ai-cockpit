@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-944-release-v0-2-101.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-948-snapshot-freshness.contract.json
-- Changed path: .ai/work-items/active/WI-948-snapshot-freshness.summary.json
+- Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.contract.json
+- Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.summary.json
 - Changed path: crates/cockpit-git/src/lib.rs
 - Changed path: crates/cockpit-git/tests/repository.rs
 

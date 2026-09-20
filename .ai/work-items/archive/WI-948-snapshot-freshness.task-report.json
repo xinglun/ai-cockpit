@@ -15,42 +15,42 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-944-release-v0-2-101.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-git/src/lib.rs"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.summary.json"
         ],
         "inference": false,
         "text": "Changed path: crates/cockpit-git/tests/repository.rs"
@@ -109,7 +109,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
         ],
         "inference": false,
         "text": "在不改变归档历史或授权边界的前提下，使 comparison snapshot 保留 working-tree source evidence。"
@@ -118,7 +118,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+          ".ai/work-items/archive/WI-948-snapshot-freshness.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
