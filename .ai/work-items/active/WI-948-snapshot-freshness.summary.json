@@ -1,0 +1,79 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-944-release-v0-2-101.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-948-snapshot-freshness.contract.json",
+    ".ai/work-items/active/WI-948-snapshot-freshness.summary.json",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs"
+  ],
+  "checkpointAt": "2026-09-20T11:13:17Z",
+  "checkpointContractDigest": "sha256:d80ab7ff40d066a891fb055865e7d922312187d96e2d9313c2259325f2ed4cfd",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:08c35301e928475c8e47f96e0967a6ebce24e823da05583dc4f342e945288ef8",
+  "createdAt": "2026-09-20T11:10:42Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
+  "predecessorWorkItemId": "WI-944-release-v0-2-101",
+  "preflightAt": "2026-09-20T11:25:46Z",
+  "preflightContractDigest": "sha256:d80ab7ff40d066a891fb055865e7d922312187d96e2d9313c2259325f2ed4cfd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:08c35301e928475c8e47f96e0967a6ebce24e823da05583dc4f342e945288ef8",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-944-release-v0-2-101.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T11:26:31Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-948-snapshot-freshness"
+}

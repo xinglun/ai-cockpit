@@ -1,0 +1,170 @@
+{
+  "acceptanceResults": [
+    "A comparison snapshot against an unchanged committed base preserves a dirty tracked source path and its current content evidence.",
+    "The existing clean committed-comparison behavior remains unchanged.",
+    "No archived Work Item artifact is modified."
+  ],
+  "createdAt": "2026-09-20T11:26:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:799274d0d46ed0d674e1a516da40e911e39bf94bb3c746f6f865b7cab5e4a49e",
+  "evidenceRefs": [
+    ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:08c35301e928475c8e47f96e0967a6ebce24e823da05583dc4f342e945288ef8",
+      "workItemId": "WI-948-snapshot-freshness"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-944-release-v0-2-101.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-git/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-git/tests/repository.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-948-snapshot-freshness.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变归档历史或授权边界的前提下，使 comparison snapshot 保留 working-tree source evidence。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-948-snapshot-freshness.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-948-snapshot-freshness"
+  },
+  "taskReportDigest": "sha256:6323c4c9e7e3a2c076c5e117e01aecf347bbffffbc052de79c6c5e89e63140cc",
+  "taskReportMarkdownDigest": "sha256:5d9f08c96c1488c1b0ae13d3e687592b5e77fcbf182bb969a1e65a927f496768",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-948-snapshot-freshness.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-948-snapshot-freshness"
+}

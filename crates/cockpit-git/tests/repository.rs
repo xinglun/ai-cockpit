@@ -180,6 +180,38 @@ fn comparison_snapshot_includes_committed_changes_on_a_clean_worktree() {
 }
 
 #[test]
+fn comparison_snapshot_preserves_uncommitted_source_paths() {
+    let path = temporary_repository();
+    let base = String::from_utf8(
+        Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(&path)
+            .output()
+            .expect("git revision")
+            .stdout,
+    )
+    .expect("revision UTF-8")
+    .trim()
+    .to_owned();
+    fs::write(path.join("README.md"), "working-tree change\n").expect("write");
+
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot_against(&base)
+        .expect("comparison snapshot");
+
+    assert_eq!(snapshot.changed_paths, vec!["README.md"]);
+    let change = snapshot
+        .change_evidence
+        .iter()
+        .find(|change| change.path == "README.md")
+        .expect("working-tree change evidence");
+    assert_eq!(change.kind, ChangeKind::Modified);
+    assert_eq!(change.after_text.as_deref(), Some("working-tree change\n"));
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn snapshot_reuses_tracked_patch_facts_without_serializing_source_text() {
     let path = temporary_repository();
     fs::write(path.join("README.md"), "changed\nSENTINEL_NEW_TEXT\n").expect("write");
