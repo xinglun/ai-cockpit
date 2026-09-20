@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:a01713f70eac3f7ec87de5b0c8b5a8a70693b911865f6be3562374758b03adc1",
+  "branchRef": "refs/heads/codex/wi-950-direct-merge-context",
+  "contractDigest": "sha256:932945ecc51b5943e956d23185770a966c79600f4190ed57a78986e137291ea4",
+  "headRevision": "e75a7e4fa78ffc94883ced398569834da2ce10b7",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-20T12:53:15Z",
+  "operationId": "sha256:0418e98fca740c17c5dde19dff35179cb348a0b645097ff2f481f511a39d9389",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:cb3224c649c5f6f01fa4ca4435782c2c3950c226ed962f0891ec1219c7797bbd",
+  "runtimeVersion": "0.2.101",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-950-direct-merge-context",
+  "worktreeId": "sha256:6d7f08c7399d54a2874f84cb189423d5ed1db30652f14d7c87465479b0c0af32"
+}
