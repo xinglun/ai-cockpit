@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-943-interface-ssot.contract.json",
-    ".ai/work-items/active/WI-943-interface-ssot.summary.json",
+    ".ai/work-items/archive/WI-943-interface-ssot.contract.json",
+    ".ai/work-items/archive/WI-943-interface-ssot.summary.json",
     "crates/cockpit-mcp/src/lib.rs",
     "crates/cockpit-protocol/src/interface_description.rs",
     "crates/cockpit-protocol/src/lib.rs",
