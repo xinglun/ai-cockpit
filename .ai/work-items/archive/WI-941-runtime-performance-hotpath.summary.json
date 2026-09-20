@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json",
-    ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json",
+    ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json",
+    ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json",
     "crates/cockpit-repository/tests/repository_context.rs"
   ],
   "checkpointAt": "2026-09-20T01:44:59Z",
@@ -74,8 +74,8 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-20T01:44:59Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T02:18:00Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -90,6 +90,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ed602891a09dc27201b3abf52d83c6e0ca55d3661fd37f4ea21a228d642e0b8e",
   "workItemId": "WI-941-runtime-performance-hotpath"
 }
