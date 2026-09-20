@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:6d1bc1bf8885ad2e72230347ba5ce9e333b96f39c65e35223c5b441c2b634fcd",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "da7d5125fce56f5d6ca371836b5250c4a1080ec9",
+      "commandDigest": "sha256:3970fc472fb3402feec88487ba878f1818662a82ea849617112657d9293592ad",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "contractExecutionScopeDigest": "sha256:8d6a89fcfa93f2f0c5a245c3b6b2159275669e81b0a1e109e6e0d136fcb6d7a5",
+  "createdAt": "2026-09-20T23:11:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-103-recovery/ai-cockpit/.ai/work-items/active/WI-958-v0-2-103-release.contract.json: verification preconditions are blocked: evidence_classes_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a2ef547656c3d85deb3dd53061011d709d1802459849f707540a30d15621063",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-958-v0-2-103-release"
+}

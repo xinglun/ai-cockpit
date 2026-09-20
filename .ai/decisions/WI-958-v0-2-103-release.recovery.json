@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-20T23:13:37Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-958-v0-2-103-release.verification-attempt.5e4b502c2d4b61d3491dcd8e27b99bd7ef3f79da8bca573a1cd94885486f0c91.json",
+    ".ai/evidence/WI-958-v0-2-103-release.verification-attempt.6d1bc1bf8885ad2e72230347ba5ce9e333b96f39c65e35223c5b441c2b634fcd.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "predecessorSummaryDigest": "sha256:87b519bffa1154e1f36f3022a3e6053ec779052999085fc279c412a60d1c0556",
+  "predecessorWorkItemId": "WI-958-v0-2-103-release",
+  "reason": "WI-958 将发布后才可能取得的 delegated evidence class 误列为验证前置条件；该不可变 Contract 造成验证计划循环阻塞。创建唯一 successor，保留其两次零进程前检拒绝和候选准备事实。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor 只将当前验证作为 required evidence class；GitHub review、公开 Release、产物验收和候选清理仍作为顺序化 acceptance evidence，在各自可发生的阶段收集。",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-959-v0-2-103-release-recovery",
+  "workItemId": "WI-958-v0-2-103-release"
+}
