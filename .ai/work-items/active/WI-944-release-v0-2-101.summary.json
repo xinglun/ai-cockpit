@@ -1,19 +1,10 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-944-release-v0-2-101.verification-attempt.d1138f786e87e0427ed33779469ca3d22f5443128fdc7fcfab992183ea8dd972.json",
-    ".ai/evidence/WI-944-release-v0-2-101.verification-attempt.e2d727558dbe3dd7228d4168e5b6684feee6b5c035984ee291ccc20f8e676ebe.json",
-    ".ai/evidence/WI-944-release-v0-2-101.verification-attempt.fac3bbcfbe7d5d71d15852d761f7046a9efe2522f4935914c3917d66c0eeb51f.json",
-    ".ai/work-items/active/WI-944-release-v0-2-101.contract.json",
-    ".ai/work-items/active/WI-944-release-v0-2-101.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/tests/status_projection.rs",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md"
+    ".ai/work-items/active/WI-944-release-v0-2-101.summary.json"
   ],
   "checkpointAt": "2026-09-20T04:32:50Z",
-  "checkpointContractDigest": "sha256:b1e86a784d9749b450a77c9807d79fbd5e7769ee2937281306ccb1d37edb4419",
+  "checkpointContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -131,7 +122,7 @@
       "workItemId": "WI-944-release-v0-2-101"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a7fc34c52708e9d0e2fd6d75f0460a6cc6e649fe9a845070b2dec2c9b6da79a2",
+  "checkpointRepositorySnapshotDigest": "sha256:e7d735bef54adf8dffb538e85dc14ca450f1289fc744439d8c8e3b7904301756",
   "createdAt": "2026-09-20T04:29:09Z",
   "intentAlignment": {
     "evidence": [
@@ -145,11 +136,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
   "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
-  "preflightAt": "2026-09-20T05:08:59Z",
-  "preflightContractDigest": "sha256:b1e86a784d9749b450a77c9807d79fbd5e7769ee2937281306ccb1d37edb4419",
+  "preflightAt": "2026-09-20T05:29:42Z",
+  "preflightContractDigest": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:a7fc34c52708e9d0e2fd6d75f0460a6cc6e649fe9a845070b2dec2c9b6da79a2",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:e7d735bef54adf8dffb538e85dc14ca450f1289fc744439d8c8e3b7904301756",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.0150ac929c6f14580a36e2bc7cf0bb8128ab6b23edee591d5eb58b84063902a2.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -233,11 +224,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:234a7ce463d7344735e52ce1c3d9e73b742de8ff121fb9bc1bf9163e45be2613",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-20T05:24:07Z"
-  },
-  "verificationRecoveryReconciled": "sha256:13604793fc4d9f01ad0b773874d02e7c3db7e4e58134923738517266e2011968",
+  "verificationRecoveryReconciled": "sha256:5b37b44842bff9adacc4ee84335ae12b06364bac1207927d55010cce87522fca",
   "workItemId": "WI-944-release-v0-2-101"
 }
