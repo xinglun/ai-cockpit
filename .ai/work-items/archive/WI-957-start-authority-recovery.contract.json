@@ -1,0 +1,68 @@
+{
+  "acceptanceCriteria": [
+    "未知 authority 被 start 拒绝且不会创建 active Contract 或 Summary。",
+    "合法 authorized 与 missing 值保持可创建 Work Item 的现有行为。",
+    "typed required verification declarations are planned as executable argv commands and recorded under the exact declared check identity; they do not silently fall back to repository-default verification.",
+    "an additive post-checkpoint amendment may invalidate a typed required check, but after a current non-red preflight the one fresh replacement verification is allowed to start; unrelated blocked controls still prevent subprocess execution."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bde14a8062563cc12c071f41d60e6ba524d214b3",
+  "createdAt": "2026-09-20T21:31:03Z",
+  "goal": "未知 authority 在写入任何 active Contract/Summary 前被拒绝；合法 authority 保持现有行为，并有可重复回归测试。",
+  "intent": "修复 Runtime 在 start 时接受未知 authority 并制造不可继续 active Work Item 的确定性前检缺口。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不改变授权语义、不修改发布流程、不删除或篡改既有 active/archived Work Item。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lifecycle.rs",
+    " crates/cockpit-repository/tests/lifecycle_entry.rs",
+    " docs/work-items/WI-957-start-authority-recovery.*",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/work-items/WI-957-start-authority-recovery.md",
+    "docs/work-items/WI-957-start-authority-recovery.zh-CN.md",
+    "docs/work-items/WI-957-start-authority-recovery.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/lib.rs"
+  ],
+  "sources": [
+    {
+      "path": "crates/cockpit-repository/src/lifecycle.rs",
+      "reason": "Defines the start transition that must reject invalid authority values before writing active Work Item state."
+    },
+    {
+      "path": "crates/cockpit-repository/tests/lifecycle_entry.rs",
+      "reason": "Exercises the start transition and its active-state boundary."
+    },
+    {
+      "path": "crates/cockpit-cli/src/main.rs",
+      "reason": "CLI selection and request-node identity path for Contract verification declarations"
+    },
+    {
+      "path": "crates/cockpit-cli/tests/verify.rs",
+      "reason": "End-to-end CLI regression proving a typed required Contract check is planned under its declared identity."
+    },
+    {
+      "path": "crates/cockpit-repository/src/lib.rs",
+      "reason": "Deterministic verification precondition that must permit fresh typed evidence after an additive Contract amendment."
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry",
+      "required": true
+    }
+  ],
+  "workItemId": "WI-957-start-authority-recovery"
+}

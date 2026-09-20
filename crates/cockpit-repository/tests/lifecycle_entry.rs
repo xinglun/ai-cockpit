@@ -66,6 +66,29 @@ fn start_options() -> WorkItemStartOptions {
     }
 }
 
+#[test]
+fn start_rejects_unknown_authority_without_creating_active_state() {
+    let directory = repository();
+    let error = start_work_item_with_options(
+        directory.path(),
+        "WI-UNKNOWN-AUTHORITY",
+        "reject unknown authority",
+        "leave no active Work Item behind",
+        &["crates/**".into()],
+        &WorkItemStartOptions {
+            authority: "explicit-user-authorization".into(),
+            acceptance_criteria: vec!["authority must be recognized".into()],
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect_err("unknown authority must fail at start");
+
+    assert!(error.to_string().contains("authority"));
+    let active = directory.path().join(".ai/work-items/active");
+    assert!(!active.join("WI-UNKNOWN-AUTHORITY.contract.json").exists());
+    assert!(!active.join("WI-UNKNOWN-AUTHORITY.summary.json").exists());
+}
+
 fn enable_tri_language_projection_convention(root: &Path) {
     fs::create_dir_all(root.join("docs/work-items")).expect("work-item docs");
     fs::create_dir_all(root.join("docs/reference")).expect("reference docs");
@@ -1554,8 +1577,63 @@ fn first_typed_required_verification_is_allowed_before_summary_has_passed_entrie
         summary["verification"][0],
         json!({"check": "first-required-check", "result": "passed"})
     );
+    amend_work_item_contract(
+        directory.path(),
+        work_item_id,
+        &json!({
+            "sourcesAppend": [{
+                "path": "src/lib.rs",
+                "reason": "the amended Contract needs one fresh replacement verification"
+            }]
+        }),
+        "invalidate the prior required check after it was recorded",
+    )
+    .expect("amend after verification");
+    preflight_work_item_with_runtime(directory.path(), &contract, &runtime)
+        .expect("current preflight after amendment");
+    let replacement_snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("replacement snapshot");
+    require_verification_preconditions(
+        directory.path(),
+        work_item_id,
+        &runtime,
+        &replacement_snapshot,
+    )
+    .expect("amendment must allow the one replacement required verification");
+    let replacement_run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "first-required-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("replacement required verification");
+    let mut replacement_receipt =
+        serde_json::to_value(&replacement_run.receipt).expect("replacement receipt JSON");
+    replacement_receipt["runtimeVersion"] = runtime.runtime_version.clone().into();
+    replacement_receipt["runtimeDigest"] = runtime.runtime_digest.to_string().into();
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &replacement_receipt,
+        &runtime,
+        &replacement_run.final_snapshot,
+    )
+    .expect("record replacement required verification");
     finish_work_item_with_runtime(directory.path(), work_item_id, &runtime)
-        .expect("finish remains available after the formal receipt");
+        .expect("finish remains available after the replacement formal receipt");
 }
 
 #[test]

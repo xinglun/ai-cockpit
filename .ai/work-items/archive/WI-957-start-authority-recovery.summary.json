@@ -1,0 +1,205 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-957-start-authority-recovery.verification-attempt.aa36af72071deecadf01829d4040f91d3ae267ae8247e11aa83d64de33f71a13.json",
+    ".ai/evidence/WI-957-start-authority-recovery.verification-attempt.da2850ee8e5808d6ba3142cd0c2842ead62d1d204822f1f9a766a02a8136dcbf.json",
+    ".ai/evidence/WI-957-start-authority-recovery.verification-attempt.ec04920b93602cc12442b14246dd228d3b3b16bd757250d7f7177e451d3598aa.json",
+    ".ai/evidence/WI-957-start-authority-recovery.verification.json",
+    ".ai/work-items/archive/WI-957-start-authority-recovery.contract.json",
+    ".ai/work-items/archive/WI-957-start-authority-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-957-start-authority-recovery.outcome.json",
+    ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/verify.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-957-start-authority-recovery.ja.md",
+    "docs/work-items/WI-957-start-authority-recovery.md",
+    "docs/work-items/WI-957-start-authority-recovery.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-20T21:43:36Z",
+  "checkpointContractDigest": "sha256:57eef4ace2bf553b41c1d46ea07d146695fc6b31dfb0e54c59489e7e73082b3a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "recorded": true,
+      "recordedAt": "2026-09-20T21:43:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed1e369df73b020616a720152229de38c96721e9f18a1c83420ed47e6edac000",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:1376546341166668d735271ffec457f690700dbb50712fea9a672707ea74f302",
+      "invalidatedRequiredChecks": [
+        "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry"
+      ],
+      "originalBeforeEditContractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "previousContractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "reason": "The formal verification receipt proved that typed required verification declarations are hard gates but are not selected by the CLI executor; include the CLI selection and recording path needed to make the declared check executable and identically recorded.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T21:56:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed1e369df73b020616a720152229de38c96721e9f18a1c83420ed47e6edac000",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:151123fc853022f3ca3ad39aa31213e83e3bbabddd82a793e7176da2becccdf9",
+      "invalidatedRequiredChecks": [
+        "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry"
+      ],
+      "originalBeforeEditContractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "previousContractHash": "sha256:1376546341166668d735271ffec457f690700dbb50712fea9a672707ea74f302",
+      "reason": "Add the CLI integration regression that proves typed required declarations are planned and recorded by their Contract check identity, rather than silently falling back to default workspace verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T21:58:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ed1e369df73b020616a720152229de38c96721e9f18a1c83420ed47e6edac000",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:d362db6110af0202f2f92c2a800d677ff6cdc8e1ba94a17b8f130b142967c570",
+      "invalidatedRequiredChecks": [
+        "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry"
+      ],
+      "originalBeforeEditContractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "previousContractHash": "sha256:151123fc853022f3ca3ad39aa31213e83e3bbabddd82a793e7176da2becccdf9",
+      "reason": "The discovered CLI execution gap is in scope and requires an explicit acceptance criterion: a typed required declaration must be executed and persisted under its declared check identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T22:02:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:347258fdefe4a258a9836ea494b96e087c2c70b403951ccb1269799c39569d49",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:57eef4ace2bf553b41c1d46ea07d146695fc6b31dfb0e54c59489e7e73082b3a",
+      "invalidatedRequiredChecks": [
+        "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry"
+      ],
+      "originalBeforeEditContractHash": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+      "previousContractHash": "sha256:d362db6110af0202f2f92c2a800d677ff6cdc8e1ba94a17b8f130b142967c570",
+      "reason": "The candidate Runtime reproduced a deterministic 0-subprocess dead end after a post-checkpoint Contract amendment: it invalidates typed evidence but its precondition gate does not permit the one replacement verification. Include the precondition boundary and regression in this current Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T22:05:45Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:347258fdefe4a258a9836ea494b96e087c2c70b403951ccb1269799c39569d49",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-957-start-authority-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:535e37308b87f955712f897e3fa9deda9a6a941bad210ea0eae8dd38f2595548",
+  "createdAt": "2026-09-20T21:31:03Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/tests/lifecycle_entry.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T22:08:55Z",
+  "preflightContractDigest": "sha256:57eef4ace2bf553b41c1d46ea07d146695fc6b31dfb0e54c59489e7e73082b3a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:535e37308b87f955712f897e3fa9deda9a6a941bad210ea0eae8dd38f2595548",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T22:09:12Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test lifecycle_entry",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-957-start-authority-recovery"
+}

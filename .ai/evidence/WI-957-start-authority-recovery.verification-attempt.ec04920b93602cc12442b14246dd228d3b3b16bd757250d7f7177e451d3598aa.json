@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:ec04920b93602cc12442b14246dd228d3b3b16bd757250d7f7177e451d3598aa",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bde14a8062563cc12c071f41d60e6ba524d214b3",
+      "commandDigest": "sha256:30604809f914033f56b7a8ea670bd76aad46e5d8bdc3dc73e407f2f932ce5462",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:f5e7dab36fb42838831ac4dbf1270c4ae13285e2d144af2ab09c09e478fa3856",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:900c5a456d1848b8a7f6e1e00170287cdaba16ee7e76c56ad1f52bcc6b515997",
+  "contractExecutionScopeDigest": "sha256:d29fdac27ac02597afebde8ed234fe4432b7b1c30d8892df9124f406427433bd",
+  "createdAt": "2026-09-20T21:43:44Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/start-authority-recovery/ai-cockpit/.ai/work-items/active/WI-957-start-authority-recovery.contract.json: verification preconditions are blocked: intent_alignment_missing, required_verification_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ed1e369df73b020616a720152229de38c96721e9f18a1c83420ed47e6edac000",
+  "runtimeDigest": "sha256:f5e7dab36fb42838831ac4dbf1270c4ae13285e2d144af2ab09c09e478fa3856",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-957-start-authority-recovery"
+}

@@ -428,8 +428,10 @@ fn work_item_plan_includes_each_declared_verification_command() {
     let mut contract: serde_json::Value =
         serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
             .expect("contract JSON");
-    contract["verification"] =
-        serde_json::json!(["cargo test --locked --workspace", "bash docs-gate.sh"]);
+    contract["verification"] = serde_json::json!([
+        "cargo test --locked --workspace",
+        {"check": "bash docs-gate.sh", "required": true}
+    ]);
     fs::write(
         &contract_path,
         serde_json::to_vec_pretty(&contract).expect("contract bytes"),
@@ -452,6 +454,28 @@ fn work_item_plan_includes_each_declared_verification_command() {
             .args(["--id", "WI-DECLARED-VERIFY"])
             .status()
             .expect("checkpoint")
+            .success()
+    );
+    let controls = tempfile::NamedTempFile::new().expect("controls input");
+    fs::write(
+        controls.path(),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "intentAlignment": {
+                "state": "resolved",
+                "evidence": ["docs-gate.sh"]
+            }
+        }))
+        .expect("controls JSON"),
+    )
+    .expect("write controls");
+    assert!(
+        Command::new(binary)
+            .args(["work-item", "controls", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-DECLARED-VERIFY", "--input"])
+            .arg(controls.path())
+            .status()
+            .expect("record controls")
             .success()
     );
     let output = Command::new(binary)
@@ -480,7 +504,15 @@ fn work_item_plan_includes_each_declared_verification_command() {
         requests.iter().any(|request| {
             request["program"] == "bash" && request["args"] == serde_json::json!(["docs-gate.sh"])
         }),
-        "declared shell gate must not be dropped: {plan:#}"
+        "typed declared shell gate must not be dropped: {plan:#}"
+    );
+    assert!(
+        requests.iter().any(|request| {
+            request["nodeId"] == "bash docs-gate.sh"
+                && request["program"] == "bash"
+                && request["args"] == serde_json::json!(["docs-gate.sh"])
+        }),
+        "typed required check must retain its Contract identity: {plan:#}"
     );
     assert_eq!(plan["processesSpawned"], 0);
     let verification = Command::new(binary)
