@@ -1,0 +1,73 @@
+{
+  "attemptId": "sha256:685f1a6527ee620cd8de4aeda9a8ce912a05118303c863c0d64fbfb8a8ddbc6e",
+  "commands": [
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-git",
+        "--test",
+        "repository"
+      ],
+      "baseCommit": "4c455e4d51920dbb31197dd60f95e408f7c837b0",
+      "commandDigest": "sha256:356e76195afbaabbf9a07926875edbb2038574f11f1c94fa853b5e2137eaa966",
+      "nodeId": "project-command-0",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:c6ae8e37cdcc91535506733a22243274030a6181a093c7a814ad4d6a36b6bd16",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "intelligence"
+      ],
+      "baseCommit": "4c455e4d51920dbb31197dd60f95e408f7c837b0",
+      "commandDigest": "sha256:d5ef6433a527c2a0c7c5a7541aca4d29cd3a778c204ad0b888f2415418181a4c",
+      "nodeId": "project-command-1",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:c6ae8e37cdcc91535506733a22243274030a6181a093c7a814ad4d6a36b6bd16",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+  "contractExecutionScopeDigest": "sha256:95069af3cae4f54f617bc1ba65aed78caecd6975f3f8fa337024a63d0f708b46",
+  "createdAt": "2026-09-20T01:59:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi941-runtime-performance-hotpath/ai-cockpit/.ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d930b6310b537e6d982c3c164b9627c28b62d0fe7054da28e5054fb813beef76",
+  "runtimeDigest": "sha256:c6ae8e37cdcc91535506733a22243274030a6181a093c7a814ad4d6a36b6bd16",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}

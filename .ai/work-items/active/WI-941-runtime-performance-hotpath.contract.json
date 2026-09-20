@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "Baseline and candidate use the same machine, toolchain, build mode, and scenario; every claimed percentile has at least 100 valid warm samples.",
+    "The report contains raw samples, environment identity, execution and reuse counts, diagnostic availability, and invalidation reasons; unavailable metrics are stated as unavailable rather than zero.",
+    "No speed-up is claimed unless target-path improvement exceeds the reviewed noise range; non-target critical scenarios have no over-budget regression.",
+    "The optimization preserves authorization, evidence freshness, and verification reuse semantics, including zero verification subprocesses on unmet deterministic prerequisites.",
+    "Runtime diagnostics do not contribute to business-evidence identity."
+  ],
+  "authority": "human:xinglun standing authorization for in-scope implementation and verification; release remains separately authorized and last.",
+  "baseRevision": "4c455e4d51920dbb31197dd60f95e408f7c837b0",
+  "createdAt": "2026-09-20T01:44:58Z",
+  "goal": "Produce same-machine baseline and candidate evidence with at least 100 valid warm samples for a selected target; adopt only a bounded optimization whose improvement exceeds measured noise, otherwise retain the diagnosis and report no speed-up.",
+  "intent": "Use current paired Runtime measurements to identify and remove one measured hot-path cost without relaxing authorization, evidence freshness, or verification semantics.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Release publication; object-repository modifications; authorization or evidence-policy relaxation; Outcome host adapters; full lifecycle architecture refactors; performance claims without paired evidence."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:81f352374a00a93f202509d39dce6b569c2c57f92737f3207b45155cf5d0295c",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/performance/**; crates/cockpit-cli/tests/performance.rs; selected Runtime hot-path implementation discovered by measurement; docs/reference/performance-diagnosis.md; docs/work-items/WI-941-runtime-performance-hotpath*.md; docs/reference/reference-parity*.md",
+    "crates/cockpit-git/src/lib.rs",
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/tests/repository_context.rs"
+  ],
+  "sources": [
+    "tests/performance/README.md",
+    "docs/reference/performance-diagnosis.md",
+    "docs/work-items/WI-925-current-performance.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-git --test repository",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test intelligence",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test repository_context"
+  ],
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}

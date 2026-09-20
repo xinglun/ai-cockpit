@@ -1,0 +1,95 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json",
+    ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json",
+    "crates/cockpit-repository/tests/repository_context.rs"
+  ],
+  "checkpointAt": "2026-09-20T01:44:59Z",
+  "checkpointContractDigest": "sha256:70dac6f3f2a426201672a8eddc6f1ed70ce2d9dfac22684e1741b64aa9fc388a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "recorded": true,
+      "recordedAt": "2026-09-20T01:44:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81f352374a00a93f202509d39dce6b569c2c57f92737f3207b45155cf5d0295c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "previousContractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "reason": "Diagnosis measured git_snapshot at approximately 129ms of 144ms runtime_internal time. The selected safe hotspot is removal of the redundant standalone HEAD subprocess by deriving the same fact from status v2 branch output; this adds only the exact implementation and regression-test paths needed.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T01:48:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:81f352374a00a93f202509d39dce6b569c2c57f92737f3207b45155cf5d0295c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:70dac6f3f2a426201672a8eddc6f1ed70ce2d9dfac22684e1741b64aa9fc388a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:41580dd26cf8dad8d3fbc9ee1f993b5fde7c4296456f0c25d20952a75eb35b30",
+      "previousContractHash": "sha256:63640befa9fb58c11cef7e9e50b6840add79229caa0b1209d23755fc9ef2d7fd",
+      "reason": "Hosted workspace regression identified the exact affected expectation: repository_context still asserts the pre-optimization snapshot Git-call count of four. Add only that direct regression path and its targeted test command to preserve the measured snapshot contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T02:08:33Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d930b6310b537e6d982c3c164b9627c28b62d0fe7054da28e5054fb813beef76",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "createdAt": "2026-09-20T01:44:58Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T02:09:11Z",
+  "preflightContractDigest": "sha256:70dac6f3f2a426201672a8eddc6f1ed70ce2d9dfac22684e1741b64aa9fc388a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-20T01:44:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ed602891a09dc27201b3abf52d83c6e0ca55d3661fd37f4ea21a228d642e0b8e",
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}

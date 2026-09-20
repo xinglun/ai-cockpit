@@ -56,7 +56,7 @@ fn snapshot_observes_head_and_untracked_paths_with_one_snapshot_api() {
     let snapshot = repository.snapshot().expect("snapshot");
     assert!(snapshot.head.is_some());
     assert_eq!(snapshot.changed_paths, vec!["src.txt"]);
-    assert_eq!(snapshot.git_calls, 4);
+    assert_eq!(snapshot.git_calls, 3);
     assert_eq!(snapshot.bytes_read, b"change\n".len() as u64);
     assert_eq!(snapshot.bytes_hashed, b"change\n".len() as u64);
     assert_eq!(snapshot.change_evidence.len(), 1);
@@ -87,9 +87,52 @@ fn clean_snapshot_skips_redundant_diff_subprocess() {
     let repository = GitRepository::discover(&path).expect("discover");
     let snapshot = repository.snapshot().expect("snapshot");
     assert!(snapshot.changed_paths.is_empty());
-    assert_eq!(snapshot.git_calls, 3);
+    assert_eq!(snapshot.git_calls, 2);
     assert!(snapshot.diff_digest.starts_with("sha256:"));
     assert!(snapshot.source_tree_digest.is_some());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn snapshot_keeps_an_unborn_repository_headless() {
+    let suffix = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock")
+        .as_nanos();
+    let path = std::env::temp_dir().join(format!("cockpit-git-unborn-{suffix}"));
+    fs::create_dir_all(&path).expect("temp repository");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&path)
+        .status()
+        .expect("git init");
+    fs::write(path.join("README.md"), "unborn\n").expect("write change");
+
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    assert!(snapshot.head.is_none());
+    assert_eq!(snapshot.changed_paths, vec!["README.md"]);
+    assert_eq!(snapshot.change_evidence[0].kind, ChangeKind::Added);
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn snapshot_uses_the_v2_rename_target_path() {
+    let path = temporary_repository();
+    Command::new("git")
+        .args(["mv", "README.md", "renamed.md"])
+        .current_dir(&path)
+        .status()
+        .expect("rename");
+
+    let snapshot = GitRepository::discover(&path)
+        .expect("discover")
+        .snapshot()
+        .expect("snapshot");
+    assert_eq!(snapshot.changed_paths, vec!["renamed.md"]);
+    assert_eq!(snapshot.change_evidence[0].kind, ChangeKind::Renamed);
     fs::remove_dir_all(path).expect("cleanup");
 }
 
@@ -163,7 +206,7 @@ fn snapshot_reuses_tracked_patch_facts_without_serializing_source_text() {
     assert!(!serialized.contains("SENTINEL_NEW_TEXT"));
     assert!(!serialized.contains("changeEvidence"));
     assert!(!serialized.contains("sourceTreeDigest"));
-    assert_eq!(snapshot.git_calls, 4);
+    assert_eq!(snapshot.git_calls, 3);
     fs::remove_dir_all(path).expect("cleanup");
 }
 

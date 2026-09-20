@@ -341,16 +341,22 @@ impl GitRepository {
     }
 
     pub fn snapshot(&self) -> Result<RepositorySnapshot, GitError> {
-        let head = self
-            .run(["rev-parse", "HEAD"])
-            .ok()
-            .map(|value| value.trim().to_owned());
-        let status = self.run(["status", "--porcelain=v1", "--untracked-files=all"])?;
+        // Porcelain v2 exposes the current HEAD alongside working-tree facts.
+        // Reading both from one Git invocation avoids a redundant `rev-parse`
+        // process without weakening the snapshot boundary: the branch OID and
+        // status records are produced by the same Git observation.
+        let status = self.run([
+            "status",
+            "--porcelain=v2",
+            "--branch",
+            "--untracked-files=all",
+        ])?;
+        let head = status_v2_head(&status);
         // A clean status proves that the equivalent diff is empty, so avoid
         // spawning a fourth Git process on the hot status path. Dirty or
         // otherwise uncertain input retains the full patch inspection path.
-        let mut git_calls = 3;
-        let diff = if status.is_empty() {
+        let mut git_calls = 2;
+        let diff = if !status_v2_has_changes(&status) {
             String::new()
         } else if head.is_some() {
             git_calls += 1;
@@ -655,32 +661,77 @@ impl GitRepository {
 fn status_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKind>) {
     let mut kinds = BTreeMap::new();
     for line in status.lines() {
-        let Some(raw_path) = line.get(3..) else {
-            continue;
-        };
-        let path = raw_path
-            .rsplit_once(" -> ")
-            .map_or(raw_path, |(_, target)| target);
-        let Some(path) = normalize_changed_paths([path]).into_iter().next() else {
-            continue;
-        };
-        let code = line.get(..2).unwrap_or("  ");
-        let kind = if code.contains('D') {
-            ChangeKind::Deleted
-        } else if code.contains('R') {
-            ChangeKind::Renamed
-        } else if code.contains('C') {
-            ChangeKind::Copied
-        } else if code.contains('A') || code == "??" {
-            ChangeKind::Added
-        } else if code.trim().is_empty() {
-            ChangeKind::Unknown
+        let (code, raw_path) = if let Some(path) = line.strip_prefix("? ") {
+            ("??", path)
+        } else if let Some(path) = line.strip_prefix("1 ") {
+            let mut fields = path.splitn(8, ' ');
+            let Some(code) = fields.next() else {
+                continue;
+            };
+            let Some(path) = fields.nth(6) else {
+                continue;
+            };
+            (code, path)
+        } else if let Some(path) = line.strip_prefix("2 ") {
+            let mut fields = path.splitn(9, ' ');
+            let Some(code) = fields.next() else {
+                continue;
+            };
+            let Some(path) = fields.nth(7) else {
+                continue;
+            };
+            (
+                code,
+                path.split_once('\t').map_or(path, |(target, _)| target),
+            )
+        } else if let Some(path) = line.strip_prefix("u ") {
+            let mut fields = path.splitn(10, ' ');
+            let Some(code) = fields.next() else {
+                continue;
+            };
+            let Some(path) = fields.nth(8) else {
+                continue;
+            };
+            (code, path)
         } else {
-            ChangeKind::Modified
+            continue;
         };
+        let Some(path) = normalize_changed_paths([raw_path]).into_iter().next() else {
+            continue;
+        };
+        let kind = change_kind_from_status_code(code);
         kinds.insert(path, kind);
     }
     (kinds.keys().cloned().collect(), kinds)
+}
+
+fn status_v2_head(status: &str) -> Option<String> {
+    let head = status
+        .lines()
+        .find_map(|line| line.strip_prefix("# branch.oid "))?;
+    (head.len() == 40 && head.bytes().all(|byte| byte.is_ascii_hexdigit())).then(|| head.to_owned())
+}
+
+fn status_v2_has_changes(status: &str) -> bool {
+    status
+        .lines()
+        .any(|line| !line.is_empty() && !line.starts_with("# "))
+}
+
+fn change_kind_from_status_code(code: &str) -> ChangeKind {
+    if code.contains('D') {
+        ChangeKind::Deleted
+    } else if code.contains('R') {
+        ChangeKind::Renamed
+    } else if code.contains('C') {
+        ChangeKind::Copied
+    } else if code.contains('A') || code == "??" {
+        ChangeKind::Added
+    } else if code.trim().is_empty() {
+        ChangeKind::Unknown
+    } else {
+        ChangeKind::Modified
+    }
 }
 
 fn comparison_change_facts(status: &str) -> (Vec<String>, BTreeMap<String, ChangeKind>) {
