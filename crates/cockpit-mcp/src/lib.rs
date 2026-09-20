@@ -105,8 +105,7 @@ fn outcome_parameter_schema(spec: &cockpit_protocol::OutcomeInterfaceParameterSp
 }
 
 fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
-    let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
-        .expect("work-item outcome MCP specs");
+    let specs = cockpit_protocol::work_item_outcome_mcp_request_parameter_specs();
     let mut properties = serde_json::Map::new();
     for spec in specs {
         properties.insert(spec.name.clone(), outcome_parameter_schema(&spec));
@@ -120,8 +119,7 @@ fn outcome_parameter_properties() -> serde_json::Map<String, Value> {
 }
 
 fn outcome_parameter_names() -> Vec<String> {
-    let specs = cockpit_protocol::work_item_outcome_interface_specs("mcp")
-        .expect("work-item outcome MCP specs");
+    let specs = cockpit_protocol::work_item_outcome_mcp_request_parameter_specs();
     specs
         .iter()
         .flat_map(|spec| std::iter::once(spec.name.clone()).chain(spec.aliases.clone()))

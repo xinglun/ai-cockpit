@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "Changing a shared Outcome parameter default, enum, type, requiredness or description requires editing one executable definition, and CLI parsing, MCP schema, machine description and generated reference facts follow it.",
+    "Transport-only names and aliases are represented once as adapter bindings; MCP-only deliveryProgress is defined from the MCP executable schema rather than a duplicate discovery fact table.",
+    "CLI and MCP behavior, existing Outcome delivery semantics and generated three-language reference regions remain compatible.",
+    "The discovery projection remains deterministic and read-only: no repository observation, verification subprocess, network or clock access."
+  ],
+  "authority": "User standing authorization for in-scope implementation and lifecycle decisions recorded in conversation.",
+  "baseRevision": "334afbf3adc3b99cb8f09cbf7c79e24cb2775ca5",
+  "createdAt": "2026-09-20T03:13:46Z",
+  "goal": "Replace manual transport and MCP-only outcome parameter fact tables with projections derived from executable definitions, while retaining only unavoidable transport adaptation and preserving CLI/MCP behavior.",
+  "intent": "Eliminate the remaining duplicated runtime interface facts in the work-item outcome discovery pilot so one executable definition drives CLI parsing, MCP schema and generated reference facts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "No lifecycle",
+    " authorization",
+    " Outcome delivery",
+    " host integration",
+    " release",
+    " generic interface platform",
+    " or object-repository changes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0e4f26d59081ea0a2b1d592bef765714797e29a48a9dc751227f847daa63c756",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/interface_description.rs; crates/cockpit-cli/src/main.rs; crates/cockpit-mcp/src/lib.rs; crates/cockpit-protocol/tests/interface_description.rs; crates/cockpit-cli/tests/**; crates/cockpit-mcp/tests/**; docs/reference/commands*.md",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "sources": [
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-protocol --test interface_description",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-mcp --test rpc",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo fmt --check"
+  ],
+  "workItemId": "WI-943-interface-ssot"
+}
