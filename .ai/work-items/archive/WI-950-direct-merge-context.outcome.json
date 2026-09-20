@@ -43,42 +43,42 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-950-direct-merge-context.verification-attempt.76a891ea65d41e51663ab459daecc9d5ffc84dce95e9807843bef04ec80596a9.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-950-direct-merge-context.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-950-direct-merge-context.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-950-direct-merge-context.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-950-direct-merge-context.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.summary.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-protocol/tests/resource_finalization.rs"
@@ -137,7 +137,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.contract.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.contract.json"
           ],
           "inference": false,
           "text": "让 Runtime 生成的 direct_merge_candidate receipt 在相同 GitHub 资源上下文下可被严格校验，同时保留历史低保证与资源状态未知。"
@@ -146,7 +146,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-950-direct-merge-context.contract.json"
+            ".ai/work-items/archive/WI-950-direct-merge-context.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -156,8 +156,8 @@
     "status": "verified",
     "workItemId": "WI-950-direct-merge-context"
   },
-  "taskReportDigest": "sha256:23b105acdc0f9c4460f60299e435565912fd7aa7029c2235b1767f28c7c96f2a",
-  "taskReportMarkdownDigest": "sha256:c17171aff0da1f52fd7e535b6f4d9d35acdfc11a697d7a3b9d2178b27bdeb848",
+  "taskReportDigest": "sha256:e1f73d49736ba2aefa8c2cd3cf387d0f34bea3dc71a932a808f64d1d3c3a5f7b",
+  "taskReportMarkdownDigest": "sha256:c0214a73e86d0263de55189cb34ff84729ec3f0954166349093c59175b86586e",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
