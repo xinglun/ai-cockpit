@@ -1,0 +1,33 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:f0bdbd78ed05c5cc77cf5ccdd85db0eabfe9495a8ce618d65ddf783dbb4ae0fc",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:0d8685d3d0686ceede95d5005e92c6ef63cefe795676ff08ca5a8b3962b4b08f",
+      "path": ".ai/work-items/archive/WI-951-release-v0-2-102.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:29f248dba76b6bbde53fbb3224e5fd5f922ef37a319c02b9a2b86fba9ee7d96b",
+      "path": ".ai/work-items/archive/WI-951-release-v0-2-102.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a961195a3ee2ab7ff4a83ca98515a7e3b3707ec6def2e88f2972ca42fa4c7dfc",
+      "path": ".ai/work-items/archive/WI-951-release-v0-2-102.summary.json"
+    }
+  },
+  "authoritySource": "explicit user authorization in current conversation",
+  "contractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The reviewed WI-951 source delivery is integrated on synchronized origin/main and published in immutable v0.2.102. WI-951 could not bind provider resource context before source verification, so retire its active records as integrated without asserting current verification, duplicate release completion, or an undeclared user-visible benefit.",
+  "recordedAt": "2026-09-20T16:09:27Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:04984dc4ce52a3d2805363ac3e5701f1407a8453a6112e066ddf8fb0ee6c6fcf",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-951-release-v0-2-102"
+}

@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit user authorization in current conversation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "93dedec4547025b367e9d4c17f045918e74f26d9",
+    "name": "codex/wi-952-release-finalization",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "447a8da54f4fb2aaa2d648a07f00224eee39118d",
+  "contractDigest": "sha256:46f0609e3c4c9906d26857494268b6e6a2c8f99d0a7deddf8fec4da8170fada9",
+  "operationId": "WI-952-release-finalization-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "447a8da54f4fb2aaa2d648a07f00224eee39118d",
+    "headRevision": "93dedec4547025b367e9d4c17f045918e74f26d9",
+    "mergeCommit": "2056ccd22356b7e3adb9284403a72172e7888e4f",
+    "number": 930,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/930"
+  },
+  "reason": "Reviewed PR #930 merged as 2056ccd22356b7e3adb9284403a72172e7888e4f. The immutable v0.2.102 release and downloaded artifact acceptance completed in GitHub Actions run 35519887673; after archive, only this exact remote branch, local branch, and linked worktree were deleted.",
+  "receiptId": "WI-952-release-finalization-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-952-release-finalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/930",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-952-release-finalization/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-20T16:05:17Z",
+  "workItemId": "WI-952-release-finalization",
+  "worktree": {
+    "branch": "codex/wi-952-release-finalization",
+    "headRevision": "93dedec4547025b367e9d4c17f045918e74f26d9",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-952-release-finalization/ai-cockpit",
+    "worktreeId": "wi-952-release-finalization"
+  }
+}

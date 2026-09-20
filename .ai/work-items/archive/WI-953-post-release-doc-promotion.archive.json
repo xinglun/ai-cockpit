@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-20T16:28:47Z",
+  "files": {
+    "contractDigest": "sha256:017f18b4defbb95d7ab91d012f1a66a77ac333785044efc3880d01e21e4b0e97",
+    "contractPath": ".ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json",
+    "outcomeDigest": "sha256:bed849080a8b8a4077576532530216860b195f305f0b57e3c09031a29c33aeb7",
+    "outcomePath": ".ai/work-items/archive/WI-953-post-release-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:b98f4f251949f4d95a13106a56c85753c7be05930bccbb3557844f3b8fd0fd47",
+    "summaryPath": ".ai/work-items/archive/WI-953-post-release-doc-promotion.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-953-post-release-doc-promotion.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-954-start-verification-declaration",
+  "workItemId": "WI-953-post-release-doc-promotion"
+}

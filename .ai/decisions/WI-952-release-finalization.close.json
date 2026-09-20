@@ -1,0 +1,157 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-952-release-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+      "workItemId": "WI-952-release-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-952-release-finalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-952-release-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-952-release-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-952-release-finalization.verification.json",
+            ".ai/decisions/WI-952-release-finalization.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit user authorization in current conversation at 2026-09-20T16:07:09Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-952-release-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-952-release-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-952-release-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "仅完成 WI-951 遗漏的 provider finalization 资源绑定、不可变发布、下载产物验收、精确清理与最终下游通知；不修改 Runtime 功能、对象工程或版本语义。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-952-release-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-952-release-finalization"
+  },
+  "finalReportDigest": "sha256:3b7e3da718b3903e8ffe023eb178f084031fe4c78fa2d5fa1e285504f5351b81",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:dd5d7f28c6bbefcf3371639f9313e4f12225adb1aa0d7abad3c5da31facdd461",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-952-release-finalization.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit user authorization in current conversation",
+    "decidedAt": "2026-09-20T16:07:09Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-952-release-finalization.verification.json",
+      ".ai/decisions/WI-952-release-finalization.finalize.json"
+    ],
+    "policyRefs": [],
+    "reason": "The reviewed PR, immutable v0.2.102 public release, GitHub-hosted release close, downloaded-artifact acceptance, archive, and exact resource finalization have been verified. Close this WI without asserting an undeclared user-visible benefit.",
+    "resumeCondition": "Reopen only if the immutable release evidence, finalization receipt, or downstream acceptance replay contradicts this decision."
+  },
+  "timestamp": "2026-09-20T16:07:09Z",
+  "workItemId": "WI-952-release-finalization"
+}

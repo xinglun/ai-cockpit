@@ -4,9 +4,13 @@ workItemId: WI-952-release-finalization
 title: Release finalization for v0.2.102
 description: Complete the resource-bound release route omitted by the merged source preparation.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: authorized
 lastVerifiedBy: WI-952-release-finalization
+terminalArchive: .ai/work-items/archive/WI-952-release-finalization.contract.json
+terminalVerification: .ai/evidence/WI-952-release-finalization.verification.json
+terminalFinalization: .ai/decisions/WI-952-release-finalization.finalize.json
+terminalDecision: .ai/decisions/WI-952-release-finalization.close.json
 ---
 
 [简体中文](WI-952-release-finalization.zh-CN.md) · [日本語](WI-952-release-finalization.ja.md)

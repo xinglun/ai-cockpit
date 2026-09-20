@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "The promotion helper produces the required WI-951/WI-952 documentation and three-language reference updates from the archived records.",
+    "The closed-Work-Item projection check passes without starting project verification subprocesses.",
+    "No Runtime behavior, release artifact, or historical record is manually rewritten."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2056ccd22356b7e3adb9284403a72172e7888e4f",
+  "createdAt": "2026-09-20T16:11:09Z",
+  "goal": "Generate only the required English, Chinese, and Japanese closed-Work-Item documentation projections and validate them without changing Runtime behavior or release content.",
+  "intent": "Promote the closed WI-951/WI-952 records into the required human reference projections after release closure, preserving generated Runtime evidence.",
+  "mode": "documentation",
+  "outOfScope": [
+    "Runtime source",
+    " release tag/assets",
+    " object repositories",
+    " historical cleanup beyond WI-951/WI-952",
+    " and any new publication."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "docs/work-items/WI-951-release-v0-2-102*",
+    "docs/work-items/WI-952-release-finalization*",
+    "docs/reference/reference-parity.*",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/WI-951-release-v0-2-102.retirement.json",
+    ".ai/decisions/WI-952-release-finalization.close.json",
+    ".ai/decisions/WI-952-release-finalization.finalize.json",
+    ".ai/evidence/external/WI-952-release-finalization.a3efb9d3befe7dc2ba1b2fe1a66349ec7ee8e44425b881caea3a7ef43202884c.delegated.json",
+    ".ai/evidence/external/WI-952-v0.2.102-release-close.json",
+    ".ai/work-items/active/WI-951-release-v0-2-102.contract.json",
+    ".ai/work-items/active/WI-951-release-v0-2-102.summary.json",
+    ".ai/work-items/active/WI-952-release-finalization.contract.json",
+    ".ai/work-items/active/WI-952-release-finalization.summary.json",
+    ".ai/work-items/archive/WI-951-release-v0-2-102.archive.json",
+    ".ai/work-items/archive/WI-951-release-v0-2-102.contract.json",
+    ".ai/work-items/archive/WI-951-release-v0-2-102.outcome.json",
+    ".ai/work-items/archive/WI-951-release-v0-2-102.summary.json",
+    ".ai/work-items/archive/WI-952-release-finalization.archive.json",
+    ".ai/work-items/archive/WI-952-release-finalization.contract.json",
+    ".ai/work-items/archive/WI-952-release-finalization.events.jsonl",
+    ".ai/work-items/archive/WI-952-release-finalization.outcome.json",
+    ".ai/work-items/archive/WI-952-release-finalization.summary.json",
+    ".ai/work-items/archive/WI-952-release-finalization.task-report.json",
+    ".ai/work-items/archive/WI-952-release-finalization.task-report.md",
+    "docs/work-items/WI-953-post-release-doc-promotion.md",
+    "docs/work-items/WI-953-post-release-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-953-post-release-doc-promotion.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-953-post-release-doc-promotion"
+}

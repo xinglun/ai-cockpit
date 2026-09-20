@@ -1,0 +1,40 @@
+{
+  "acceptanceCriteria": [
+    "The closed-work-item projection helper succeeds and reaches a stable second run.",
+    "The three language projections contain matching interface facts while preserving human explanations.",
+    "This documentation-only Work Item does not launch Cargo verification."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "a93e1715533465a76998e598b3ec96e090d4c842",
+  "createdAt": "2026-09-20T17:09:08Z",
+  "goal": "Restore accurate English, Simplified Chinese, and Japanese projections for closed Work Items and prove the projection helper reaches a stable state.",
+  "intent": "Promote closed Work Item documentation after the v0.2.102 release without repeating release verification.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime lifecycle code",
+    " release artifacts",
+    " and any rerun of completed release verification."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:4fb424a6a2999b1e73e1b25d5458ba88b8ea74e69cb5f579fd5178d5dbcbd874",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity*.md",
+    "docs/work-items/WI-952-release-finalization*.md",
+    "docs/work-items/WI-953-post-release-doc-promotion*.md",
+    "docs/work-items/WI-954-start-verification-declaration*.md"
+  ],
+  "sources": [
+    "Current main release closure records and retained WI-951 through WI-953 evidence."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo /Users/sei-rinn/.codex/worktrees/wi-954-start-verification-declaration --check-all"
+  ],
+  "workItemId": "WI-954-start-verification-declaration"
+}

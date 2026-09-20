@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-20T16:03:31Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-20T15:50:57Z",
+    "digest": "sha256:a3efb9d3befe7dc2ba1b2fe1a66349ec7ee8e44425b881caea3a7ef43202884c",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35519887673",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-952-v0.2.102-release-close.json",
+    "subject": "v0.2.102 release close and public artifact acceptance",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "workItemId": "WI-952-release-finalization"
+}
