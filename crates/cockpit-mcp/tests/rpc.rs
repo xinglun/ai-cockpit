@@ -231,6 +231,10 @@ fn mcp_tool_list_exposes_typed_argument_schemas() {
         start["inputSchema"]["properties"]["sources"]["type"],
         "array"
     );
+    assert_eq!(
+        start["inputSchema"]["properties"]["verification"]["type"],
+        "array"
+    );
     assert!(start["inputSchema"]["required"].as_array().is_some());
 }
 
@@ -459,6 +463,7 @@ fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
                 "goal":"prepare a Work Item before implementation",
                 "scope":["README.md"],
                 "authority":"authorized",
+                "verification":["python3 docs-check.py"],
                 "sources":["README.md:human-provided source"]
             }}
         }),
@@ -495,6 +500,10 @@ fn mcp_prepared_start_persists_preflight_and_exactly_one_checkpoint() {
     )
     .expect("summary JSON");
     assert_eq!(contract["sources"][0], "README.md:human-provided source");
+    assert_eq!(
+        contract["verification"],
+        serde_json::json!(["python3 docs-check.py"])
+    );
     assert_eq!(summary["checkpointCount"], 1);
     assert_eq!(
         summary["preflightContractDigest"],

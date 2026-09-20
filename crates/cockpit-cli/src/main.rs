@@ -148,6 +148,10 @@ enum CommandKind {
         /// evidence and are rejected at this boundary.
         #[arg(long, value_delimiter = ',')]
         required_evidence: Vec<String>,
+        /// Explicit verification command; repeat for multiple commands. When
+        /// omitted, Runtime records the repository-observed default.
+        #[arg(long, action = ArgAction::Append)]
+        verification: Vec<String>,
         /// Persist preflight and create one before-edit checkpoint when the
         /// decision has no blockers or human-confirmation boundary.
         #[arg(long, default_value_t = false)]
@@ -1296,6 +1300,7 @@ fn run() -> Result<()> {
             authority,
             acceptance,
             required_evidence,
+            verification,
             prepare,
             source,
         } => {
@@ -1311,6 +1316,7 @@ fn run() -> Result<()> {
                 authority,
                 acceptance_criteria: acceptance,
                 required_evidence_classes: required_evidence,
+                verification_commands: verification,
             };
             if prepare {
                 let report = cockpit_repository::start_work_item_prepared(
@@ -3633,6 +3639,36 @@ mod tests {
             std::path::PathBuf::from("/tmp/ordinary-cleanup-repository")
         );
         assert_eq!(id, "WI-ORDINARY-CLEANUP");
+    }
+
+    #[test]
+    fn start_parser_preserves_repeated_explicit_verification_commands() {
+        let cli = Cli::try_parse_from([
+            "ai-cockpit",
+            "start",
+            "--repo",
+            "/tmp/repository",
+            "--id",
+            "WI-START-VERIFY",
+            "--intent",
+            "declare checks",
+            "--goal",
+            "avoid an unrelated default",
+            "--scope",
+            "docs/**",
+            "--verification",
+            "python3 docs-check.py",
+            "--verification",
+            "cargo test -p cockpit-cli",
+        ])
+        .expect("parse start command");
+        let CommandKind::Start { verification, .. } = cli.command else {
+            panic!("start must parse to the start command");
+        };
+        assert_eq!(
+            verification,
+            vec!["python3 docs-check.py", "cargo test -p cockpit-cli"]
+        );
     }
 
     #[test]

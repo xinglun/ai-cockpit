@@ -1,0 +1,74 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-955-start-recovery-boundary.verification-attempt.12ff5c9df5600e60cc0d239d5ddba029865c5272d0170d8539c13c8aa97a003a.json",
+    ".ai/evidence/WI-955-start-recovery-boundary.verification-attempt.c7291599fbfc0ffbf54aec3f3132cdd0c6b31dd2c20cf6b0ba9307475c4c5818.json",
+    ".ai/work-items/archive/WI-955-start-recovery-boundary.contract.json",
+    ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/rpc.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs"
+  ],
+  "checkpointAt": "2026-09-20T16:32:59Z",
+  "checkpointContractDigest": "sha256:f76ae900a7acbad24dccbd7248d0acb43629a1ba2fc4ee8376fc37b3795b704b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b27839bd5568cfdf90a3e09ddedb9f413608bfb38ba77f9a5889c5ae9d487fb1",
+      "recorded": true,
+      "recordedAt": "2026-09-20T16:32:59Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-955-start-recovery-boundary"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:f76ae900a7acbad24dccbd7248d0acb43629a1ba2fc4ee8376fc37b3795b704b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b27839bd5568cfdf90a3e09ddedb9f413608bfb38ba77f9a5889c5ae9d487fb1",
+      "previousContractHash": "sha256:b27839bd5568cfdf90a3e09ddedb9f413608bfb38ba77f9a5889c5ae9d487fb1",
+      "reason": "Focused regression coverage requires repository lifecycle, Contract preflight, and MCP RPC test fixtures; no behavior outside the existing start and replacement boundary is added.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T16:34:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-955-start-recovery-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4fb424a6a2999b1e73e1b25d5458ba88b8ea74e69cb5f579fd5178d5dbcbd874",
+  "createdAt": "2026-09-20T16:32:58Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T16:50:52Z",
+  "preflightContractDigest": "sha256:f76ae900a7acbad24dccbd7248d0acb43629a1ba2fc4ee8376fc37b3795b704b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4fb424a6a2999b1e73e1b25d5458ba88b8ea74e69cb5f579fd5178d5dbcbd874",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T16:54:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-955-start-recovery-boundary"
+}

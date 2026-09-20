@@ -1,8 +1,8 @@
 use cockpit_core::Digest;
-use cockpit_protocol::{ActiveWorkItemRetirementRequest, RuntimeContext};
+use cockpit_protocol::{ActiveWorkItemRetirementRequest, RecoveryDecisionReceipt, RuntimeContext};
 use cockpit_repository::{
-    WorkItemStartOptions, attach, outcome_v2_with_runtime, retire_active_work_item_with_runtime,
-    start_work_item_with_options, status_with_runtime,
+    WorkItemStartOptions, attach, outcome_v2_with_runtime, record_recovery_decision,
+    retire_active_work_item_with_runtime, start_work_item_with_options, status_with_runtime,
 };
 use serde_json::json;
 use std::fs;
@@ -186,6 +186,100 @@ fn replacement_requires_an_existing_explicit_successor() {
             .join(format!(".ai/work-items/active/{id}.contract.json"))
             .exists()
     );
+}
+
+#[test]
+fn replacement_outcome_allows_only_its_bound_successor_to_activate() {
+    let directory = repository();
+    let predecessor = "WI-RETIRE-BOUND-PREDECESSOR";
+    let successor = "WI-RETIRE-BOUND-SUCCESSOR";
+    start_work_item_with_options(
+        directory.path(),
+        predecessor,
+        "replace stale setup",
+        "preserve predecessor",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start predecessor");
+    let active = directory.path().join(".ai/work-items/active");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{predecessor}.contract.json"))).expect("contract"),
+    )
+    .expect("contract JSON");
+    let summary: serde_json::Value = serde_json::from_slice(
+        &fs::read(active.join(format!("{predecessor}.summary.json"))).expect("summary"),
+    )
+    .expect("summary JSON");
+    let recovery = RecoveryDecisionReceipt {
+        schema_version: 1,
+        decision_id: "work-item-recovery".into(),
+        decision: "successor".into(),
+        work_item_id: predecessor.into(),
+        repository_id: cockpit_repository::repository_id(directory.path()).to_string(),
+        predecessor_work_item_id: predecessor.into(),
+        predecessor_contract_digest: cockpit_protocol::digest_json(&contract)
+            .expect("contract digest"),
+        predecessor_summary_digest: cockpit_protocol::digest_json(&summary)
+            .expect("summary digest"),
+        predecessor_outcome_digest: None,
+        predecessor_events_digest: None,
+        predecessor_archive_manifest_digest: None,
+        successor_work_item_id: Some(successor.into()),
+        successor_binding_mode: None,
+        current_contract_digest: None,
+        predecessor_verification_evidence_digest: None,
+        predecessor_finalization_contract_digest: None,
+        runtime_version: runtime().runtime_version,
+        runtime_digest: runtime().runtime_digest,
+        actor: "human:test".into(),
+        authority_source: "explicit-user-authorization".into(),
+        reason: "replace before verification".into(),
+        evidence_refs: Vec::new(),
+        policy_refs: Vec::new(),
+        decided_at: "2026-09-21T00:00:00Z".into(),
+        resume_condition: "activate the bound successor".into(),
+    };
+    record_recovery_decision(
+        directory.path(),
+        predecessor,
+        &serde_json::to_value(recovery).expect("recovery JSON"),
+        &runtime(),
+    )
+    .expect("record successor");
+    let mut replacement = request("replaced");
+    replacement.successor_work_item_id = Some(successor.into());
+    retire_active_work_item_with_runtime(directory.path(), predecessor, &replacement, &runtime())
+        .expect("retire predecessor");
+    let outcome_path = directory
+        .path()
+        .join(format!(".ai/work-items/archive/{predecessor}.outcome.json"));
+    let outcome = fs::read(&outcome_path).expect("retirement outcome");
+    fs::write(&outcome_path, br#"{"state":"foreign"}"#).expect("tamper outcome");
+    let error = start_work_item_with_options(
+        directory.path(),
+        successor,
+        "repair lifecycle boundary",
+        "reject foreign outcome",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect_err("unbound replacement Outcome must not activate the successor");
+    assert!(
+        error
+            .to_string()
+            .contains("predecessor_outcome_presence_mismatch")
+    );
+    fs::write(&outcome_path, outcome).expect("restore outcome");
+    start_work_item_with_options(
+        directory.path(),
+        successor,
+        "repair lifecycle boundary",
+        "activate bound successor",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("activate successor after bound retirement Outcome");
 }
 
 #[test]

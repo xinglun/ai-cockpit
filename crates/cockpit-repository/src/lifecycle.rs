@@ -621,12 +621,10 @@ fn activate_not_ready_scaffold(
             path: contract_path.clone(),
             message: error.to_string(),
         })?;
-    contract["verification"] =
-        serde_json::to_value(default_verification_commands(&root)).map_err(|error| {
-            ObserverError::State {
-                path: contract_path.clone(),
-                message: error.to_string(),
-            }
+    contract["verification"] = serde_json::to_value(verification_commands(&root, options))
+        .map_err(|error| ObserverError::State {
+            path: contract_path.clone(),
+            message: error.to_string(),
         })?;
     summary["state"] = serde_json::json!("implementation_active");
     summary["repositoryId"] = serde_json::json!(profile.repository_id);
@@ -658,6 +656,14 @@ fn default_verification_commands(root: &Path) -> Vec<String> {
         vec!["cargo test --locked --workspace".into()]
     } else {
         vec!["cargo test --workspace".into()]
+    }
+}
+
+fn verification_commands(root: &Path, options: &WorkItemStartOptions) -> Vec<String> {
+    if options.verification_commands.is_empty() {
+        default_verification_commands(root)
+    } else {
+        options.verification_commands.clone()
     }
 }
 
@@ -714,6 +720,7 @@ fn scaffold_work_item_internal(
         authority: "unknown".into(),
         acceptance_criteria: Vec::new(),
         required_evidence_classes: Vec::new(),
+        verification_commands: Vec::new(),
     };
     let scaffold = create_work_item_scaffold(
         root,
@@ -847,7 +854,7 @@ fn create_work_item_scaffold(
         "acceptanceCriteria": input.options.acceptance_criteria.clone(),
         "requiredEvidenceClasses": input.options.required_evidence_classes.clone(),
         "sources": [],
-        "verification": [],
+        "verification": verification_commands(&root, input.options),
         "baseRevision": facts.base_revision,
         "projectProfileDigest": facts.project_profile_digest,
         "repositorySnapshotDigest": facts.repository_snapshot_digest,
@@ -2791,6 +2798,8 @@ pub(super) fn validate_recovery_predecessor_bindings(
                 ));
             }
         }
+        (None, Some(path))
+            if replacement_retirement_outcome_is_bound(root, work_item_id, receipt, path)? => {}
         (Some(_), None) | (None, Some(_)) => {
             return Err(recovery_decision_error(
                 root.join(".ai/work-items"),
@@ -2827,6 +2836,57 @@ pub(super) fn validate_recovery_predecessor_bindings(
         (None, None) => {}
     }
     Ok(())
+}
+
+/// A replacement retirement creates the predecessor's historical Outcome
+/// after the successor decision is recorded. Permit precisely that transition
+/// only when the immutable replacement manifest, retirement receipt, and
+/// archived Outcome all bind the same predecessor and successor.
+fn replacement_retirement_outcome_is_bound(
+    root: &Path,
+    work_item_id: &str,
+    recovery: &RecoveryDecisionReceipt,
+    outcome_path: &Path,
+) -> Result<bool, ObserverError> {
+    let Some(successor_id) = recovery.successor_work_item_id.as_deref() else {
+        return Ok(false);
+    };
+    if recovery.decision != "successor" {
+        return Ok(false);
+    }
+    let archive = root.join(".ai/work-items/archive");
+    let manifest_path = archive.join(format!("{work_item_id}.archive.json"));
+    let receipt_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.retirement.json"));
+    if !is_regular_non_symlink(&manifest_path)? || !is_regular_non_symlink(&receipt_path)? {
+        return Ok(false);
+    }
+    let manifest = read_json(&manifest_path)?;
+    let retirement = read_json(&receipt_path)?;
+    let outcome_digest =
+        Digest::sha256_bytes(
+            &fs::read(outcome_path).map_err(|source| ObserverError::Read {
+                path: outcome_path.into(),
+                source,
+            })?,
+        );
+    Ok(manifest["state"] == serde_json::json!("replaced")
+        && manifest["retirementDisposition"] == serde_json::json!("replaced")
+        && manifest["workItemId"] == serde_json::json!(work_item_id)
+        && manifest["successorWorkItemId"] == serde_json::json!(successor_id)
+        && manifest
+            .pointer("/files/outcomeDigest")
+            .and_then(serde_json::Value::as_str)
+            == Some(outcome_digest.to_string().as_str())
+        && retirement["workItemId"] == serde_json::json!(work_item_id)
+        && retirement["disposition"] == serde_json::json!("replaced")
+        && retirement["successorWorkItemId"] == serde_json::json!(successor_id)
+        && retirement["contractDigest"]
+            == serde_json::json!(recovery.predecessor_contract_digest.to_string())
+        && retirement["summaryDigest"]
+            == serde_json::json!(recovery.predecessor_summary_digest.to_string())
+        && retirement["verificationClaim"] == serde_json::json!("not_verified"))
 }
 
 fn retry_recovery_binding_matches(

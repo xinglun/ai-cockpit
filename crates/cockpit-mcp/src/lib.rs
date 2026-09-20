@@ -237,6 +237,7 @@ fn mcp_tool_schema(name: &str) -> Value {
                 "authority": string_property("Human-supplied authority; defaults to missing and never grants authority by inference."),
                 "acceptanceCriteria": {"type":"array", "items":string_property("Human-supplied acceptance criterion.")},
                 "requiredEvidenceClasses": {"type":"array", "items":string_property("Evidence class required by the Contract.")},
+                "verification": {"type":"array", "items":string_property("Explicit verification command. When omitted, Runtime uses the repository-observed default.")},
                 "sources": {"type":"array", "items":string_property("Human- or task-provided source reference appended before preflight.")},
             }),
             &["workItemId", "intent", "goal", "scope"],
@@ -523,6 +524,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "authority",
                 "acceptanceCriteria",
                 "requiredEvidenceClasses",
+                "verification",
                 "sources",
             ][..],
         ),
@@ -605,6 +607,7 @@ fn validate_tool_arguments(name: &str, arguments: &Value) -> Result<(), String> 
                 "outOfScope",
                 "acceptanceCriteria",
                 "requiredEvidenceClasses",
+                "verification",
                 "sources",
             ] {
                 parse_string_array(object, field, name, false, 0)?;
@@ -1214,6 +1217,8 @@ fn work_item_start(
         0,
     )?;
     let sources = parse_string_array(object, "sources", "work_item_start", false, 0)?;
+    let verification_commands =
+        parse_string_array(object, "verification", "work_item_start", false, 0)?;
     let options = cockpit_repository::WorkItemStartOptions {
         out_of_scope,
         risk: arguments
@@ -1228,6 +1233,7 @@ fn work_item_start(
             .to_owned(),
         acceptance_criteria,
         required_evidence_classes,
+        verification_commands,
     };
     let intent = arguments
         .get("intent")

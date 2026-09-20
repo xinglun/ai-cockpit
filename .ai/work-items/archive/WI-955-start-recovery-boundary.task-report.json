@@ -1,0 +1,172 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4fb424a6a2999b1e73e1b25d5458ba88b8ea74e69cb5f579fd5178d5dbcbd874",
+    "workItemId": "WI-955-start-recovery-boundary"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-955-start-recovery-boundary.verification-attempt.12ff5c9df5600e60cc0d239d5ddba029865c5272d0170d8539c13c8aa97a003a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-955-start-recovery-boundary.verification-attempt.c7291599fbfc0ffbf54aec3f3132cdd0c6b31dd2c20cf6b0ba9307475c4c5818.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-955-start-recovery-boundary.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/tests/rpc.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/active_work_item_retirement.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/contract_preflight.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-955-start-recovery-boundary.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.contract.json"
+        ],
+        "inference": false,
+        "text": "Make start-time verification explicit when supplied while preserving defaults, and allow the recorded recovery-to-replacement sequence to validate the retirement-generated Outcome without weakening identity checks."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-955-start-recovery-boundary.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-955-start-recovery-boundary"
+}

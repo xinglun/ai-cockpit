@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Omitted start verification retains the observed default command for Cargo repositories.",
+    "A non-empty explicit verification list supplied through CLI or MCP becomes the Contract list and no verification subprocess is launched by start itself.",
+    "A successor created before retirement can activate after retirement adds its required Outcome only when the replacement manifest and retirement receipt bind the exact predecessor and successor identities.",
+    "Unrelated Outcome appearance or identity mismatch remains rejected.",
+    "Regression tests exercise the full recovery-to-replacement-to-successor-activation sequence and reject an unrelated archive Outcome.",
+    "Regression tests prove explicit verification values reach the repository Contract through CLI/MCP-facing parsing while omitted values retain the default."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2056ccd22356b7e3adb9284403a72172e7888e4f",
+  "createdAt": "2026-09-20T16:32:58Z",
+  "goal": "Make start-time verification explicit when supplied while preserving defaults, and allow the recorded recovery-to-replacement sequence to validate the retirement-generated Outcome without weakening identity checks.",
+  "intent": "Repair the Runtime lifecycle boundary that prevents a documentation Work Item from declaring bounded verification and prevents its formally replaced successor from activating after retirement adds an Outcome.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Release publication",
+    " documentation projection content",
+    " global Agent configuration",
+    " and any relaxation of Contract",
+    " Summary",
+    " archive",
+    " or receipt identity binding."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:eb03a513a085bd9ca6125b3f3bcda16f2b1274a41af321b27de7ca451b9b020c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-repository/tests/active_work_item_retirement.rs",
+    "crates/cockpit-repository/tests/contract_preflight.rs",
+    "crates/cockpit-mcp/tests/rpc.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-955-start-recovery-boundary"
+}

@@ -146,6 +146,82 @@ fn snapshot_digest_ignores_governance_only_commits_but_tracks_source_commits() {
     assert_ne!(source, repository_snapshot_digest(directory.path()));
 }
 
+#[test]
+fn explicit_start_verification_overrides_only_the_observed_default() {
+    let directory = repository();
+    fs::write(
+        directory.path().join("Cargo.toml"),
+        "[package]\nname = \"fixture\"\nversion = \"0.1.0\"\n",
+    )
+    .expect("Cargo manifest");
+    fs::write(directory.path().join("Cargo.lock"), "# fixture\n").expect("Cargo lock");
+    commit(directory.path(), "add Cargo verification fixture");
+    let options = WorkItemStartOptions {
+        authority: "authorized".into(),
+        verification_commands: vec!["python3 docs-check.py".into()],
+        ..Default::default()
+    };
+    start_work_item_with_options(
+        directory.path(),
+        "WI-EXPLICIT-VERIFY",
+        "declare bounded verification",
+        "avoid an unrelated Cargo test",
+        &["docs/**".into()],
+        &options,
+    )
+    .expect("start");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-EXPLICIT-VERIFY.contract.json"),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    assert_eq!(
+        contract["verification"],
+        serde_json::json!(["python3 docs-check.py"])
+    );
+
+    let default_directory = repository();
+    fs::write(
+        default_directory.path().join("Cargo.toml"),
+        "[package]\nname = \"default-fixture\"\nversion = \"0.1.0\"\n",
+    )
+    .expect("Cargo manifest");
+    fs::write(default_directory.path().join("Cargo.lock"), "# fixture\n").expect("Cargo lock");
+    commit(
+        default_directory.path(),
+        "add default Cargo verification fixture",
+    );
+    start_work_item_with_options(
+        default_directory.path(),
+        "WI-DEFAULT-VERIFY",
+        "use observed default",
+        "retain Cargo verification",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start default");
+    let default_contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            default_directory
+                .path()
+                .join(".ai/work-items/active/WI-DEFAULT-VERIFY.contract.json"),
+        )
+        .expect("default contract"),
+    )
+    .expect("default contract JSON");
+    assert_eq!(
+        default_contract["verification"],
+        serde_json::json!(["cargo test --locked --workspace"])
+    );
+}
+
 fn set_operation(path: &std::path::Path, work_item_id: &str, operation: &str) {
     let contract_path = path
         .join(".ai/work-items/active")
