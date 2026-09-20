@@ -1,0 +1,276 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:535e37308b87f955712f897e3fa9deda9a6a941bad210ea0eae8dd38f2595548",
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-957-start-authority-recovery.verification-attempt.aa36af72071deecadf01829d4040f91d3ae267ae8247e11aa83d64de33f71a13.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-957-start-authority-recovery.verification-attempt.da2850ee8e5808d6ba3142cd0c2842ead62d1d204822f1f9a766a02a8136dcbf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-957-start-authority-recovery.verification-attempt.ec04920b93602cc12442b14246dd228d3b3b16bd757250d7f7177e451d3598aa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-957-start-authority-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-957-start-authority-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-957-start-authority-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-957-start-authority-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/verify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/lifecycle_entry.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-957-start-authority-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-957-start-authority-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-957-start-authority-recovery.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-957-start-authority-recovery.verification.json",
+            ".ai/work-items/archive/WI-957-start-authority-recovery.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:sei-rinn via standing user authorization in this conversation at 2026-09-20T22:22:53Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-957-start-authority-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "未知 authority 在写入任何 active Contract/Summary 前被拒绝；合法 authority 保持现有行为，并有可重复回归测试。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-957-start-authority-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-957-start-authority-recovery"
+  },
+  "finalReportDigest": "sha256:f5606a8ca40719583cd93195ce843fa63d102e9948cd68b4a3bce29de5d9b932",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:7c82dc64e4eca5dbe83cfae2dcceb614a1893734193925967dfc1ed1d84035ff",
+    "branch": "codex/start-authority-recovery",
+    "branchRef": "refs/heads/codex/start-authority-recovery",
+    "capturedAt": "2026-09-20T22:23:11Z",
+    "contractDigest": "sha256:57eef4ace2bf553b41c1d46ea07d146695fc6b31dfb0e54c59489e7e73082b3a",
+    "headRevision": "67aa851330431a94a5236165666687e493e3ca24",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:35467944e18f0e8c02a3a149e806d9aa2650c695a1f331ff725aec2924593d70",
+    "runtimeVersion": "0.2.102",
+    "schemaVersion": 1,
+    "workItemId": "WI-957-start-authority-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit4",
+    "worktreeId": "sha256:5c59c15e2b50f10930ff6bae6415277229736e8ddbaf587b6608cdd90fa2d5ea",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/start-authority-recovery/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:c966791adedacd23510aec872b40e614084cb2e28d863e2d902e0308d08ecc7f",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:sei-rinn",
+    "authoritySource": "standing user authorization in this conversation",
+    "decidedAt": "2026-09-20T22:22:53Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-957-start-authority-recovery.verification.json",
+      ".ai/work-items/archive/WI-957-start-authority-recovery.archive.json"
+    ],
+    "policyRefs": [],
+    "reason": "The user authorized autonomous completion; archived evidence and all declared verification passed.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-20T22:23:11Z",
+  "workItemId": "WI-957-start-authority-recovery"
+}

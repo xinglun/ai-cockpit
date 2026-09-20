@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-957 — start authority と typed 検証の検証"
 description: "active Work Item state を作成する前に未対応の authority 値を拒否し、typed 必須検証を宣言した identity で実行する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-957-start-authority-recovery
 lastVerifiedBy: WI-957-start-authority-recovery
+terminalArchive: .ai/work-items/archive/WI-957-start-authority-recovery.contract.json
+terminalVerification: .ai/evidence/WI-957-start-authority-recovery.verification.json
+terminalDecision: .ai/decisions/WI-957-start-authority-recovery.close.json
 ---
 
 [English](WI-957-start-authority-recovery.md) · [简体中文](WI-957-start-authority-recovery.zh-CN.md)

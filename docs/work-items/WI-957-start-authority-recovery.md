@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-957 — start authority and typed verification validation"
 description: "Reject unsupported authority values before active state and execute typed required verification under its declared identity."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-957-start-authority-recovery
 lastVerifiedBy: WI-957-start-authority-recovery
+terminalArchive: .ai/work-items/archive/WI-957-start-authority-recovery.contract.json
+terminalVerification: .ai/evidence/WI-957-start-authority-recovery.verification.json
+terminalDecision: .ai/decisions/WI-957-start-authority-recovery.close.json
 ---
 
 [简体中文](WI-957-start-authority-recovery.zh-CN.md) · [日本語](WI-957-start-authority-recovery.ja.md)

@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-957 — start 授权值与 typed 验证校验"
 description: "在创建活跃 Work Item 状态前拒绝不受支持的授权值，并以声明身份执行 typed 必需验证。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-957-start-authority-recovery
 lastVerifiedBy: WI-957-start-authority-recovery
+terminalArchive: .ai/work-items/archive/WI-957-start-authority-recovery.contract.json
+terminalVerification: .ai/evidence/WI-957-start-authority-recovery.verification.json
+terminalDecision: .ai/decisions/WI-957-start-authority-recovery.close.json
 ---
 
 [English](WI-957-start-authority-recovery.md) · [日本語](WI-957-start-authority-recovery.ja.md)
