@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-911-release-v0-2-99
+lastVerifiedBy: WI-951-release-v0-2-102
 capabilityClaims:
   - reference_parity
 ---
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.101` with binary digest
-`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915`.
+and the reviewed Runtime `ai-cockpit v0.2.102` with binary digest
+`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1069,6 +1069,7 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-911-release-v0-2-99 — final release after Outcome language, HCI, four-direction, and Issue #851 convergence | Implemented | [Work Item](../work-items/WI-911-release-v0-2-99.md); terminal lifecycle: archive `.ai/work-items/archive/WI-911-release-v0-2-99.contract.json`; verification `.ai/evidence/WI-911-release-v0-2-99.verification.json`; close `.ai/decisions/WI-911-release-v0-2-99.close.json`. |
 | WI-918-release-v0-2-100 — final release after Outcome language, HCI, four-direction, and Issue #851 convergence | Implemented | [Work Item](../work-items/WI-918-release-v0-2-100.md); terminal lifecycle: archive `.ai/work-items/archive/WI-918-release-v0-2-100.contract.json`; verification `.ai/evidence/WI-918-release-v0-2-100.verification.json`; finalization `.ai/decisions/WI-918-release-v0-2-100.finalize.json`; close `.ai/decisions/WI-918-release-v0-2-100.close.json`. |
 | WI-944-release-v0-2-101 — v0.2.101 verification snapshot lifecycle release candidate | In progress → Implemented after verified close | [Work Item](../work-items/WI-944-release-v0-2-101.md); terminal lifecycle will bind archive `.ai/work-items/archive/WI-944-release-v0-2-101.contract.json`; verification `.ai/evidence/WI-944-release-v0-2-101.verification.json`; finalization `.ai/decisions/WI-944-release-v0-2-101.finalize.json`; close `.ai/decisions/WI-944-release-v0-2-101.close.json`. Hosted review, immutable publication, downloaded-artifact acceptance, and Sentinel replay remain pending. |
+| WI-951-release-v0-2-102 — v0.2.102 public Runtime release after cleanup | In progress → Implemented after verified close | [Work Item](../work-items/WI-951-release-v0-2-102.md); publication remains gated on reviewed merge, immutable tag and public Release, downloaded-artifact acceptance, and exact provider cleanup; terminal lifecycle will bind archive `.ai/work-items/archive/WI-951-release-v0-2-102.contract.json`, verification `.ai/evidence/WI-951-release-v0-2-102.verification.json`, finalization `.ai/decisions/WI-951-release-v0-2-102.finalize.json`, and close `.ai/decisions/WI-951-release-v0-2-102.close.json`. |
 | WI-912-wi911-doc-promotion — WI-911 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-912-wi911-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

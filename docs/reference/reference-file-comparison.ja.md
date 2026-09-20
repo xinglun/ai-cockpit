@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-911-release-v0-2-99
+lastVerifiedBy: WI-951-release-v0-2-102
 capabilityClaims:
   - reference_parity
 ---
@@ -359,8 +359,8 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
-review に使用した Runtime は v0.2.101、binary digest は
-`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915` です。
+review に使用した Runtime は v0.2.102、binary digest は
+`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set と append-only ledger はともに 5,175 path/record です。今回の

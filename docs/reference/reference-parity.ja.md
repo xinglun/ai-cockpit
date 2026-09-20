@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-911-release-v0-2-99
+lastVerifiedBy: WI-951-release-v0-2-102
 capabilityClaims:
   - reference_parity
 ---
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.101`（binary digest
-`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915`）を使用します。
+review 済み `ai-cockpit v0.2.102`（binary digest
+`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -934,6 +934,7 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-911-release-v0-2-99 — Outcome、HCI、四方向、Issue #851 完了後の最終リリース | Implemented | [Work Item](../work-items/WI-911-release-v0-2-99.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-911-release-v0-2-99.contract.json`; verification `.ai/evidence/WI-911-release-v0-2-99.verification.json`; close `.ai/decisions/WI-911-release-v0-2-99.close.json`. |
 | WI-918-release-v0-2-100 — Outcome 言語、HCI、四方向、Issue #851 完了後の最終リリース | Implemented | [Work Item](../work-items/WI-918-release-v0-2-100.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-918-release-v0-2-100.contract.json`; verification `.ai/evidence/WI-918-release-v0-2-100.verification.json`; finalization `.ai/decisions/WI-918-release-v0-2-100.finalize.json`; close `.ai/decisions/WI-918-release-v0-2-100.close.json`. |
 | WI-944-release-v0-2-101 — verification snapshot lifecycle の v0.2.101 release candidate | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-944-release-v0-2-101.ja.md); terminal lifecycle は archive `.ai/work-items/archive/WI-944-release-v0-2-101.contract.json`、verification `.ai/evidence/WI-944-release-v0-2-101.verification.json`、finalization `.ai/decisions/WI-944-release-v0-2-101.finalize.json`、close `.ai/decisions/WI-944-release-v0-2-101.close.json` に結び付く。Hosted review、不変 publication、downloaded-artifact acceptance、Sentinel replay は未完了。 |
+| WI-951-release-v0-2-102 — cleanup 完了後の v0.2.102 公開 Runtime リリース | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-951-release-v0-2-102.ja.md); 公開は review 済み merge、不変 tag と公開 Release、downloaded artifact acceptance、正確な provider cleanup に拘束される。terminal lifecycle は archive `.ai/work-items/archive/WI-951-release-v0-2-102.contract.json`、verification `.ai/evidence/WI-951-release-v0-2-102.verification.json`、finalization `.ai/decisions/WI-951-release-v0-2-102.finalize.json`、close `.ai/decisions/WI-951-release-v0-2-102.close.json` に結び付く。 |
 | WI-912-wi911-doc-promotion — WI-911 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-912-wi911-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

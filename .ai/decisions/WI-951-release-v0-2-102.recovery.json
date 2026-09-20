@@ -1,0 +1,23 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit full authorization in this conversation",
+  "decidedAt": "2026-09-20T14:17:25Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-951-release-v0-2-102.verification.json",
+    ".ai/evidence/WI-951-release-v0-2-102.verification-attempt.b4045bfcfec00ae34ee532f5d9bf05a99953e886aef5e3af4777f34df2aca40c.json",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35514714632"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+  "predecessorSummaryDigest": "sha256:d3c7542ddc264f2239ca1a3bf809e48f9f35cd39537626232399f4a588497265",
+  "predecessorWorkItemId": "WI-951-release-v0-2-102",
+  "reason": "The verification Runtime executable shared CARGO_TARGET_DIR with cargo test and was rebuilt during verification, changing its digest. Preserve all attempt evidence and retry one replacement workspace verification with a separately built stable Runtime.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run one replacement cargo test --locked --workspace verification with the separately built stable Runtime and the shared verification target.",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "workItemId": "WI-951-release-v0-2-102"
+}
