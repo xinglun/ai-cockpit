@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json",
-    ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json",
+    ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json",
+    ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json",
     "crates/cockpit-repository/tests/repository_context.rs"
   ],
   "checkpointAt": "2026-09-20T01:44:59Z",

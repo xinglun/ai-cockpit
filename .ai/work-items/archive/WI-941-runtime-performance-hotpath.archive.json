@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T02:18:33Z",
+  "files": {
+    "contractDigest": "sha256:0b4946d514556d02f5fcc33aa814bdba49382613cb0dea76026e32cb1a73c940",
+    "contractPath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json",
+    "eventsDigest": "sha256:6049eff3fbb6aa5fbd57af0eded60bf59a30c4761079e3624f94586f2e9dd0b8",
+    "eventsPath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.events.jsonl",
+    "outcomeDigest": "sha256:4a0630de116d7746dbd55172518de997f1db6c0258a99e5127b5286852fad71f",
+    "outcomePath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.outcome.json",
+    "summaryDigest": "sha256:342ce447cd96b700dca9e141a0b135bb2368e71c262eda2b1f06388d204d88c1",
+    "summaryPath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json",
+    "taskReportDigest": "sha256:715119cdecfda29ecae2eb45c735bde63858952d9d3a492de17eafd6b8db9678",
+    "taskReportMarkdownDigest": "sha256:7732262614a7e2adaf3c68d446adcd0adea4f2c1914ad64448cfaa00693db210",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-941-runtime-performance-hotpath.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-941-runtime-performance-hotpath"
+}

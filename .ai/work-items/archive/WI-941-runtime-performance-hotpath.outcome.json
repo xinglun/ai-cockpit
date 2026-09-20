@@ -45,28 +45,28 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/repository_context.rs"
@@ -125,7 +125,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
           ],
           "inference": false,
           "text": "Produce same-machine baseline and candidate evidence with at least 100 valid warm samples for a selected target; adopt only a bounded optimization whose improvement exceeds measured noise, otherwise retain the diagnosis and report no speed-up."
@@ -134,7 +134,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json"
+            ".ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -144,8 +144,8 @@
     "status": "verified",
     "workItemId": "WI-941-runtime-performance-hotpath"
   },
-  "taskReportDigest": "sha256:b7c70d64cc32091fd4111f41001749803a8a7de87c0a65cce3945ca68dd50507",
-  "taskReportMarkdownDigest": "sha256:63d8bfc281e1523fab8accff43db28050b7faaf0ab0ca07e6f3b8aa0fdeb1bca",
+  "taskReportDigest": "sha256:715119cdecfda29ecae2eb45c735bde63858952d9d3a492de17eafd6b8db9678",
+  "taskReportMarkdownDigest": "sha256:7732262614a7e2adaf3c68d446adcd0adea4f2c1914ad64448cfaa00693db210",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

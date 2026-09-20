@@ -15,8 +15,8 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-941-runtime-performance-hotpath.contract.json
-- Changed path: .ai/work-items/active/WI-941-runtime-performance-hotpath.summary.json
+- Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.contract.json
+- Changed path: .ai/work-items/archive/WI-941-runtime-performance-hotpath.summary.json
 - Changed path: crates/cockpit-repository/tests/repository_context.rs
 
 ## Findings
