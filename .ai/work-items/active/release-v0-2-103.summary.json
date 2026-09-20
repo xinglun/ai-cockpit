@@ -1,39 +1,7 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.close.json",
-    ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.finalize.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/release-v0-2-103.verification-attempt.1ec44c914bce815115728a53c16c208dad8dc1912672bc489ae5f67a13f971e5.json",
-    ".ai/evidence/release-v0-2-103.verification-attempt.b32e1a29271facd2e3d2481bc027375858d3505c7dddaece8606e97524446684.json",
-    ".ai/work-items/active/release-v0-2-103.contract.json",
-    ".ai/work-items/active/release-v0-2-103.summary.json",
-    "Cargo.lock",
-    "Cargo.toml",
-    "docs/architecture/release-distribution.ja.md",
-    "docs/architecture/release-distribution.md",
-    "docs/architecture/release-distribution.zh-CN.md",
-    "docs/architecture/versioning.ja.md",
-    "docs/architecture/versioning.md",
-    "docs/architecture/versioning.zh-CN.md",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/reference/reference-comparison-metadata.json",
-    "docs/reference/reference-file-comparison.ja.md",
-    "docs/reference/reference-file-comparison.md",
-    "docs/reference/reference-file-comparison.zh-CN.md",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md",
-    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.ja.md",
-    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.md",
-    "docs/work-items/WI-902-verification-receipt-snapshot-boundary.zh-CN.md",
-    "docs/work-items/release-v0-2-103.ja.md",
-    "docs/work-items/release-v0-2-103.md",
-    "docs/work-items/release-v0-2-103.zh-CN.md"
+    ".ai/work-items/active/release-v0-2-103.summary.json"
   ],
   "checkpointAt": "2026-09-20T19:10:50Z",
   "checkpointContractDigest": "sha256:23d24cd67577e474c532d7b8b8ad5bc563c2a8e5aba55ad86e5dd75d22e7c17b",
@@ -192,19 +160,39 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "release-v0-2-103"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:dd47318db96cae5539f1a7d817112f05bf7600b9b7322e012fc98293fc1f70fa",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:af3c46bc2311c0b752392d67a819676981d7d2b1b688a6068100689ba2499d49",
+      "previousContractHash": "sha256:23d24cd67577e474c532d7b8b8ad5bc563c2a8e5aba55ad86e5dd75d22e7c17b",
+      "reason": "Archive currently evaluates post-archive provider evidence at the archive boundary, which blocks this release before its reviewed provider action can create that evidence. Add the minimal Runtime lifecycle fix and regression test to this release Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T20:12:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "release-v0-2-103"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:d4bb23c9d3a6af68248fe23bf899367f46c8eefa8fadfd47a0cc2f0cc7b10ce1",
+  "checkpointRepositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
   "createdAt": "2026-09-20T19:10:49Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-20T19:57:26Z",
+  "preflightAt": "2026-09-20T20:05:45Z",
   "preflightContractDigest": "sha256:23d24cd67577e474c532d7b8b8ad5bc563c2a8e5aba55ad86e5dd75d22e7c17b",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
-  "preflightRepositorySnapshotDigest": "sha256:d4bb23c9d3a6af68248fe23bf899367f46c8eefa8fadfd47a0cc2f0cc7b10ce1",
-  "preflightState": "green",
+  "preflightRepositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "finish_ready",
+  "state": "checkpointed",
   "updatedAt": "2026-09-20T19:57:57Z",
   "verification": [
     {
@@ -256,5 +244,10 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:dd47318db96cae5539f1a7d817112f05bf7600b9b7322e012fc98293fc1f70fa",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-20T20:12:58Z"
+  },
   "workItemId": "release-v0-2-103"
 }

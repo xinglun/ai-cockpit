@@ -4,7 +4,7 @@
       ".ai/evidence/release-v0-2-103.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:d4bb23c9d3a6af68248fe23bf899367f46c8eefa8fadfd47a0cc2f0cc7b10ce1",
+    "repositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
     "workItemId": "release-v0-2-103"
   },
   "format": "ai-cockpit.task-outcome",

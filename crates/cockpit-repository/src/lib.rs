@@ -5456,7 +5456,13 @@ fn require_green_governance_internal(
     operation: &str,
     current_runtime: Option<&RuntimeContext>,
 ) -> Result<(), ObserverError> {
-    if operation == "finish" {
+    if matches!(operation, "finish" | "archive") {
+        // Finish and archive establish the locally verified delivery boundary.
+        // Provider, publication, adopter, and cleanup evidence is intentionally
+        // collected later, so requiring those classes here would make a
+        // resource-bound Work Item impossible to archive before its reviewed
+        // provider action. Terminal operations still use the complete decision
+        // below and therefore remain fail-closed on those requirements.
         let decision = governance_decision_for_pre_execution_boundary(
             root,
             contract,

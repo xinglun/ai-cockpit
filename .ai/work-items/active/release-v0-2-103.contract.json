@@ -8,7 +8,8 @@
     "Reference comparison metadata records the candidate Runtime version without changing reference-parity semantics.",
     "All six canonical reference pages project the exact candidate Runtime identity from the metadata sidecar.",
     "The release branch carries Runtime-generated historical WI-902 finalization and close records with the retained-resource unknown preserved.",
-    "Three release Work Item projections and parity rows exist in English, Simplified Chinese, and Japanese before archive."
+    "Three release Work Item projections and parity rows exist in English, Simplified Chinese, and Japanese before archive.",
+    "Archive defers declared external or delegated evidence that can only exist after the reviewed provider action, while terminal close still fails closed until those requirements are satisfied."
   ],
   "authority": "explicit-user-authorization",
   "baseRevision": "1086c03e5142f8b4e2be7f8f791a32d74d06aeba",
@@ -61,7 +62,9 @@
     "docs/work-items/WI-902-verification-receipt-snapshot-boundary.ja.md",
     "docs/reference/commands.md",
     "docs/reference/commands.zh-CN.md",
-    "docs/reference/commands.ja.md"
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/issues/902",

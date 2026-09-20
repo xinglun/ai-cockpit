@@ -12,7 +12,7 @@
   ],
   "createdAt": "2026-09-20T19:57:57Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:60f32066a90ec1269ce72d3e3db37c809a69d34f3b764d2b56c74f0f74815811",
+  "evidenceDigest": "sha256:febb7cdef88662860c64951e41207929a486570075a7ff543c3deca17516c1a2",
   "evidenceRefs": [
     ".ai/evidence/release-v0-2-103.verification.json"
   ],
@@ -38,7 +38,7 @@
         ".ai/evidence/release-v0-2-103.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:d4bb23c9d3a6af68248fe23bf899367f46c8eefa8fadfd47a0cc2f0cc7b10ce1",
+      "repositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
       "workItemId": "release-v0-2-103"
     },
     "format": "ai-cockpit.task-outcome",
@@ -358,7 +358,7 @@
     "status": "verified",
     "workItemId": "release-v0-2-103"
   },
-  "taskReportDigest": "sha256:42ab9f15885457dbb96c9ae82b9f61e7ca453ac2aaf3ea88aaea8502281f0719",
+  "taskReportDigest": "sha256:7bd134fc54f97e62348c887cd6fa5bf52dfaada0ee3be5171325f636dcb1f2a1",
   "taskReportMarkdownDigest": "sha256:8398504fa2dff572bba1eee77f9896027cb141b529b6edc6963a5b0025fc7a3f",
   "unknowns": [
     "user_visible_benefit_not_declared"
