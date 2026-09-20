@@ -8,11 +8,11 @@
     "Reference comparison metadata records the candidate Runtime version without changing reference-parity semantics.",
     "All six canonical reference pages project the exact candidate Runtime identity from the metadata sidecar.",
     "The release branch carries Runtime-generated historical WI-902 finalization and close records with the retained-resource unknown preserved.",
-    "Three release Work Item projections and parity rows exist in English, Simplified Chinese, and Japanese before archive."
+    "Three release Work Item projections and parity rows exist in English, Simplified Chinese, and Japanese before archive.",
+    "Archive defers declared external or delegated evidence that can only exist after the reviewed provider action, while terminal close still fails closed until those requirements are satisfied."
   ],
-  "createdAt": "2026-09-20T19:57:57Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:febb7cdef88662860c64951e41207929a486570075a7ff543c3deca17516c1a2",
+  "evidenceDigest": "sha256:24635d7de74dbe136281a4f380c45bba7e73157d3df47bf06086f7c2709da4b6",
   "evidenceRefs": [
     ".ai/evidence/release-v0-2-103.verification.json"
   ],
@@ -30,15 +30,15 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "state": "checkpointed",
+  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/release-v0-2-103.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:159d6e2579b74935dcf230ba204082b502caed493ba9c23523651656365cefed",
+      "repositorySnapshotDigest": "sha256:0a482eaf9e518401215a7a83ee425be3b0af86ea9609fa0548bb2d349571dcc8",
       "workItemId": "release-v0-2-103"
     },
     "format": "ai-cockpit.task-outcome",
@@ -52,20 +52,6 @@
             ".ai/work-items/active/release-v0-2-103.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.close.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/decisions/WI-902-verification-receipt-snapshot-boundary.finalize.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -73,217 +59,7 @@
             ".ai/work-items/active/release-v0-2-103.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/release-v0-2-103.verification-attempt.1ec44c914bce815115728a53c16c208dad8dc1912672bc489ae5f67a13f971e5.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/release-v0-2-103.verification-attempt.b32e1a29271facd2e3d2481bc027375858d3505c7dddaece8606e97524446684.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/release-v0-2-103.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
           "text": "Changed path: .ai/work-items/active/release-v0-2-103.summary.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: Cargo.lock"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: Cargo.toml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/commands.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/commands.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/commands.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-comparison-metadata.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-file-comparison.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-file-comparison.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-file-comparison.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-902-verification-receipt-snapshot-boundary.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-902-verification-receipt-snapshot-boundary.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/WI-902-verification-receipt-snapshot-boundary.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/release-v0-2-103.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/release-v0-2-103.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/work-items/release-v0-2-103.zh-CN.md"
         }
       ],
       "evidence": [
@@ -313,7 +89,7 @@
             ".ai/evidence/release-v0-2-103.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
         }
       ],
       "recurrencePrevention": [],
@@ -358,8 +134,8 @@
     "status": "verified",
     "workItemId": "release-v0-2-103"
   },
-  "taskReportDigest": "sha256:7bd134fc54f97e62348c887cd6fa5bf52dfaada0ee3be5171325f636dcb1f2a1",
-  "taskReportMarkdownDigest": "sha256:8398504fa2dff572bba1eee77f9896027cb141b529b6edc6963a5b0025fc7a3f",
+  "taskReportDigest": "sha256:8dba2529a98252b0cd19a6189800385576036c01babe30e0a238fddcd58fbf78",
+  "taskReportMarkdownDigest": "sha256:8522dbc42dd30e0fde9912e557fd6d42b32fcc1033305c1073936fa5b18cbbdf",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
