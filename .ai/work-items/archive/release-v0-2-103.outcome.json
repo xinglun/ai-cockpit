@@ -11,8 +11,9 @@
     "Three release Work Item projections and parity rows exist in English, Simplified Chinese, and Japanese before archive.",
     "Archive defers declared external or delegated evidence that can only exist after the reviewed provider action, while terminal close still fails closed until those requirements are satisfied."
   ],
+  "createdAt": "2026-09-20T20:31:50Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:24635d7de74dbe136281a4f380c45bba7e73157d3df47bf06086f7c2709da4b6",
+  "evidenceDigest": "sha256:f9345d0627b4b6c56db6136c6b250251e3411340644ae5c3384413d9ac9ffe86",
   "evidenceRefs": [
     ".ai/evidence/release-v0-2-103.verification.json"
   ],
@@ -30,8 +31,8 @@
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "schemaVersion": 2,
-  "state": "checkpointed",
-  "summary": "Verification evidence is valid; user-visible benefit remains explicitly unknown.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
@@ -49,17 +50,17 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
+            ".ai/work-items/archive/release-v0-2-103.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.summary.json"
+            ".ai/work-items/archive/release-v0-2-103.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/release-v0-2-103.summary.json"
+          "text": "Changed path: .ai/work-items/archive/release-v0-2-103.summary.json"
         }
       ],
       "evidence": [
@@ -89,7 +90,7 @@
             ".ai/evidence/release-v0-2-103.verification.json"
           ],
           "inference": false,
-          "text": "Verification evidence is valid; user-visible benefit remains explicitly unknown."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -115,7 +116,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.contract.json"
+            ".ai/work-items/archive/release-v0-2-103.contract.json"
           ],
           "inference": false,
           "text": "将 Runtime 从 v0.2.102 升至 v0.2.103，完成受控发布、公开产物验收与精确资源清理；发布后才通知 Sentinel #902。"
@@ -124,7 +125,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/release-v0-2-103.contract.json"
+            ".ai/work-items/archive/release-v0-2-103.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -134,8 +135,8 @@
     "status": "verified",
     "workItemId": "release-v0-2-103"
   },
-  "taskReportDigest": "sha256:8dba2529a98252b0cd19a6189800385576036c01babe30e0a238fddcd58fbf78",
-  "taskReportMarkdownDigest": "sha256:8522dbc42dd30e0fde9912e557fd6d42b32fcc1033305c1073936fa5b18cbbdf",
+  "taskReportDigest": "sha256:176c387f6f09c9c4b1f48fa6ec2f79ab59a4dd7d563273b839db0e1acd349053",
+  "taskReportMarkdownDigest": "sha256:273194d782ffdee5dcb946d99dc76bfb78dca1d3be01e4a4a52e399fa322e06a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

@@ -1,10 +1,16 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/release-v0-2-103.summary.json"
+    ".ai/evidence/release-v0-2-103.verification-attempt.5ed4d16dadd67115f8ca428533dad8d4fcfd5dd43f0b1d3043aeeeff8e4a5d59.json",
+    ".ai/evidence/release-v0-2-103.verification.json",
+    ".ai/work-items/archive/release-v0-2-103.events.jsonl",
+    ".ai/work-items/archive/release-v0-2-103.outcome.json",
+    ".ai/work-items/archive/release-v0-2-103.summary.json",
+    ".ai/work-items/archive/release-v0-2-103.task-report.json",
+    ".ai/work-items/archive/release-v0-2-103.task-report.md"
   ],
   "checkpointAt": "2026-09-20T19:10:50Z",
-  "checkpointContractDigest": "sha256:f8649b0d2970e8cd416a10a4619e99bde685e95714b6fa9aae8a81412ae2f0a7",
+  "checkpointContractDigest": "sha256:6397eb0cf5cffc98c1ec72f17168abe734d6d30b7d8cae3bb4c197699a39b46f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -205,19 +211,15 @@
   "checkpointRepositorySnapshotDigest": "sha256:0a482eaf9e518401215a7a83ee425be3b0af86ea9609fa0548bb2d349571dcc8",
   "createdAt": "2026-09-20T19:10:49Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-20T20:24:45Z",
-  "preflightContractDigest": "sha256:f8649b0d2970e8cd416a10a4619e99bde685e95714b6fa9aae8a81412ae2f0a7",
+  "preflightAt": "2026-09-20T20:38:33Z",
+  "preflightContractDigest": "sha256:6397eb0cf5cffc98c1ec72f17168abe734d6d30b7d8cae3bb4c197699a39b46f",
   "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:0a482eaf9e518401215a7a83ee425be3b0af86ea9609fa0548bb2d349571dcc8",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryRetryContractDigest": "sha256:6397eb0cf5cffc98c1ec72f17168abe734d6d30b7d8cae3bb4c197699a39b46f",
-  "recoveryRetryDecisionDigest": "sha256:0e30e7b9aaa6a25ad446ccd372effa76f8ee93128029944cb2aad94117412be0",
-  "recoveryRetryDecisionPath": ".ai/decisions/release-v0-2-103.recovery.json",
-  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-20T19:57:57Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T20:31:50Z",
   "verification": [
     {
       "check": "project-command-0-package-cockpit-agent",
@@ -268,6 +270,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:24635d7de74dbe136281a4f380c45bba7e73157d3df47bf06086f7c2709da4b6",
   "workItemId": "release-v0-2-103"
 }

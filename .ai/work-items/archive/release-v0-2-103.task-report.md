@@ -6,7 +6,7 @@
 
 ## Outcome summary
 
-- Verification evidence is valid; user-visible benefit remains explicitly unknown.
+- Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.
 
 ## Task overview
 
@@ -15,7 +15,7 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/release-v0-2-103.summary.json
+- Changed path: .ai/work-items/archive/release-v0-2-103.summary.json
 
 ## Findings
 
