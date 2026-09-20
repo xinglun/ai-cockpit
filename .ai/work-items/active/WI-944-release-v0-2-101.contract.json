@@ -1,0 +1,106 @@
+{
+  "acceptanceCriteria": [
+    "Cargo.toml, Cargo.lock, and current release/version documentation identify 0.2.101 consistently; historical release facts remain unchanged.",
+    "The v0.2.101 annotated immutable tag, stable GitHub Release, source identity, manifest, checksums, SBOM, archives, and attestation bind to the reviewed merge commit.",
+    "A public downloaded x86_64 artifact passes checksum, isolated fresh install, v0.2.100 to v0.2.101 upgrade, and exact temporary-root cleanup without any object-repository write.",
+    "Issue #902 receives exact public-release evidence only after the published artifact acceptance succeeds; Sentinel is then notified to run its own acceptance replay.",
+    "The Chinese human Outcome explicitly separates completed facts, verification scope, remaining unknowns, and next actions; no performance gain or real host display confirmation is inferred.",
+    "The protocol-owned generated work-item-outcome regions in the three command references identify Runtime 0.2.101 and match the deterministic projection; surrounding human-authored explanation remains unchanged.",
+    "A successor Contract bound to an exact append-only recovery receipt preserves the full authorized predecessor lineage during preflight, even when an older canonical recovery receipt exists; unrelated successors remain blocked.",
+    "Malformed or incomplete historical recovery scaffolds continue through the established fail-closed recovery path rather than failing early from strict successor Contract parsing; the existing lifecycle-entry regressions remain covered.",
+    "The live reference-comparison metadata and its six current-Runtime projections identify the 0.2.101 candidate consistently, while retained reference baseline facts remain unchanged.",
+    "Before archive, the current release Work Item has regular three-language in-progress projections and exactly one matching row in each reference-parity ledger; the projections make no terminal or publication claim."
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "4290afcf094288379e396c51026a7c08c747d806",
+  "createdAt": "2026-09-20T04:29:09Z",
+  "goal": "从最新 main 创建 v0.2.101 候选；只更新版本及当前三语发布投影；经审查 PR、Hosted CI、不可变 tag、稳定 GitHub Release、供应链资产和公开下载验收闭环 #902。Outcome 以当前对话语言完整交付；不宣称性能提速、真实宿主展示或外部对象仓库验收。",
+  "intent": "发布包含 Issue #902 Runtime snapshot lifecycle 修复的 v0.2.101，并以公开下载产物完成安装与升级验收后再通知 Sentinel",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime feature behavior",
+    " verification semantics",
+    " Outcome delivery protocol",
+    " performance claims",
+    " object-repository source branches",
+    " existing tags and releases",
+    " global Agent or MCP configuration",
+    " and reference-command documentation not needed for the version projection."
+  ],
+  "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-903-precheckpoint-contract-scope.recovery.0150ac929c6f14580a36e2bc7cf0bb8128ab6b23edee591d5eb58b84063902a2.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:0bf4a8a1a099780803d55ff4e8c760f8a9062f5f74e5b862b8bbae38f106d817",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence",
+    "delegated:github"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-944-release-v0-2-101",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/919",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi944-release-v0-2-101/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.101 annotated tag, stable public GitHub Release, source identity, manifest, checksums, SBOM, archives, and attestation bind to the reviewed merge commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed PR merges, execute the repository release workflow and inspect the immutable tag, stable Release, signed supply-chain assets, and source identity."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded x86_64 v0.2.101 artifact passes checksum, isolated fresh install, v0.2.100-to-v0.2.101 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the public immutable Release asset with isolated TMPDIR and CARGO_HOME; collect fresh-install, upgrade, checksum, and cleanup receipts."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/versioning.**",
+    "docs/architecture/release-distribution.**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/status_projection.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-944-release-v0-2-101.md",
+    "docs/work-items/WI-944-release-v0-2-101.zh-CN.md",
+    "docs/work-items/WI-944-release-v0-2-101.ja.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/issues/902",
+    "https://github.com/xinglun/ai-cockpit/pull/904",
+    "https://github.com/xinglun/ai-cockpit/pull/905"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace",
+    "cargo test --locked --package cockpit-protocol --test interface_description",
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "cargo test --locked --package cockpit-repository --test status_projection"
+  ],
+  "workItemId": "WI-944-release-v0-2-101"
+}

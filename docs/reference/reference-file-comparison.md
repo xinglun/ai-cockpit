@@ -272,8 +272,8 @@ final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.100 with binary digest
-`sha256:b44eb2ad5038e5a8cd9b4d0e6de75f5d41acb6c31e846a057de45d07be457350`.
+The reviewed Runtime is v0.2.101 with binary digest
+`sha256:8168d407b306a466b8eb822b7b1a3da187241740dddc3fefad634e0d401a5915`.
 
 | Metric | Count |
 | --- | ---: |

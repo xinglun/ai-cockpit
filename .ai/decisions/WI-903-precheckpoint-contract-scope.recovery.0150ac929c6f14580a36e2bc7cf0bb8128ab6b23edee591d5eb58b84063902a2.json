@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "user-standing-authorization",
+  "decidedAt": "2026-09-20T04:28:26Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.archive.json",
+    ".ai/evidence/WI-903-precheckpoint-contract-scope.verification.json",
+    ".ai/decisions/WI-903-precheckpoint-contract-scope.close.json",
+    "https://github.com/xinglun/ai-cockpit/issues/902"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "predecessorEventsDigest": "sha256:1e7d13e9426081a5216823b9e58017bd4deff4b3f37980019526c6b8b620b586",
+  "predecessorOutcomeDigest": "sha256:e40c9776a6fff8747166eaea464f6662d5f8003fa9f02e039fbac7f15352d14d",
+  "predecessorSummaryDigest": "sha256:f8756c083ca3eced8e77c381b1af600bc9a67d5756feb119ee280239494df22f",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "Continue the already-selected WI-902 to WI-903 lineage with the final Runtime release that supplies Issue 902 public-artifact acceptance. Preserve prior evidence and do not create a competing successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-944 from synchronized main, publish v0.2.101 through reviewed release workflow, validate the public artifact, and record Issue 902 release evidence without modifying Sentinel.",
+  "runtimeDigest": "sha256:53e63908f1744ead2f36fc1a81dcb890fe630d9c14eb7811126af565c90b0078",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-944-release-v0-2-101",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

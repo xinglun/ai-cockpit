@@ -1565,6 +1565,63 @@ fn only_the_explicitly_named_recovery_successor_may_overlap_archived_scope() {
 }
 
 #[test]
+fn successor_contract_uses_its_exact_append_only_recovery_path_for_scope_lineage() {
+    let (directory, predecessor, successor, _) = historical_recovery_fixture(false);
+    let decisions = directory.path().join(".ai/decisions");
+    let canonical = decisions.join(format!("{predecessor}.recovery.json"));
+    let selected: Value = serde_json::from_slice(&fs::read(&canonical).expect("selected receipt"))
+        .expect("selected receipt JSON");
+    let selected_digest = cockpit_protocol::digest_json(&selected).expect("selected digest");
+    let selected_relative = format!(
+        ".ai/decisions/{predecessor}.recovery.{}.json",
+        selected_digest.to_string().trim_start_matches("sha256:")
+    );
+    fs::write(
+        directory.path().join(&selected_relative),
+        serde_json::to_vec_pretty(&selected).expect("selected receipt bytes"),
+    )
+    .expect("append selected receipt");
+
+    let mut older_retry = selected.clone();
+    older_retry["decision"] = json!("retry");
+    older_retry
+        .as_object_mut()
+        .expect("receipt object")
+        .remove("successorWorkItemId");
+    fs::write(
+        &canonical,
+        serde_json::to_vec_pretty(&older_retry).expect("older retry bytes"),
+    )
+    .expect("preserve an older canonical retry");
+
+    let successor_contract = directory
+        .path()
+        .join(format!(".ai/work-items/active/{successor}.contract.json"));
+    let mut contract: Value =
+        serde_json::from_slice(&fs::read(&successor_contract).expect("successor contract"))
+            .expect("successor contract JSON");
+    contract["recoveryDecisionPath"] = json!(selected_relative);
+    fs::write(
+        &successor_contract,
+        serde_json::to_vec_pretty(&contract).expect("successor contract bytes"),
+    )
+    .expect("bind successor to appended receipt");
+
+    let decision = preflight_work_item(directory.path(), &successor_contract)
+        .expect("exact successor receipt remains readable");
+    assert_ne!(
+        decision.state,
+        cockpit_core::DecisionState::Red,
+        "the exact successor binding must authorize its archived predecessor: {decision:#?}"
+    );
+    assert!(
+        decision.blockers.iter().all(|blocker| {
+            blocker != &format!("archived_work_item_scope_conflict:{predecessor}")
+        })
+    );
+}
+
+#[test]
 fn recovery_successor_can_skip_a_proven_disjoint_unknown_historical_scope() {
     let (directory, _predecessor, successor, _) =
         historical_recovery_fixture_with_options(false, Some(&["**/*.md"]), &["src/**/*.rs"]);
