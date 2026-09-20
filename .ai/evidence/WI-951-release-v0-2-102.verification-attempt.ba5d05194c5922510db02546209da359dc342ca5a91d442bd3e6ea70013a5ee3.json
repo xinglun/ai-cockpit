@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:ba5d05194c5922510db02546209da359dc342ca5a91d442bd3e6ea70013a5ee3",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "847a69ef2f8342c8474d056c7b65dfdda7220c71",
+      "commandDigest": "sha256:65005c92a50d662e11b99d193599cd1099acc02163f502d12a32404defc57683",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+  "contractExecutionScopeDigest": "sha256:5013d733e627b18b24ffaf1805e8cac8ac291efaec1cdd163f16edd06b488ca7",
+  "createdAt": "2026-09-20T14:10:22Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-951-release-v0-2-102/ai-cockpit/.ai/work-items/active/WI-951-release-v0-2-102.contract.json: verification requires a recorded non-red preflight result"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ae02474a0a54edb961c07fbca14da4ba04fa02200db2a72ce2aa5fda73c0f2eb",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-951-release-v0-2-102"
+}

@@ -1,30 +1,11 @@
 {
   "changedPaths": [
+    ".ai/decisions/WI-951-release-v0-2-102.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-951-release-v0-2-102.contract.json",
-    ".ai/work-items/active/WI-951-release-v0-2-102.summary.json",
-    ".github/workflows/ci.yml",
-    ".github/workflows/release.yml",
-    "Cargo.lock",
-    "Cargo.toml",
-    "docs/architecture/release-distribution.ja.md",
-    "docs/architecture/release-distribution.md",
-    "docs/architecture/release-distribution.zh-CN.md",
-    "docs/architecture/versioning.ja.md",
-    "docs/architecture/versioning.md",
-    "docs/architecture/versioning.zh-CN.md",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md",
-    "docs/work-items/WI-951-release-v0-2-102.ja.md",
-    "docs/work-items/WI-951-release-v0-2-102.md",
-    "docs/work-items/WI-951-release-v0-2-102.zh-CN.md"
+    ".ai/evidence/WI-951-release-v0-2-102.verification-attempt.b4045bfcfec00ae34ee532f5d9bf05a99953e886aef5e3af4777f34df2aca40c.json",
+    ".ai/evidence/WI-951-release-v0-2-102.verification-attempt.ba5d05194c5922510db02546209da359dc342ca5a91d442bd3e6ea70013a5ee3.json",
+    ".ai/evidence/WI-951-release-v0-2-102.verification.json",
+    ".ai/work-items/active/WI-951-release-v0-2-102.summary.json"
   ],
   "checkpointAt": "2026-09-20T13:19:30Z",
   "checkpointContractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
@@ -65,7 +46,7 @@
       "workItemId": "WI-951-release-v0-2-102"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:758615921ec07a1187123e3df7574f70c4aba55457f68790f0fbd312a5639c47",
+  "checkpointRepositorySnapshotDigest": "sha256:ae02474a0a54edb961c07fbca14da4ba04fa02200db2a72ce2aa5fda73c0f2eb",
   "createdAt": "2026-09-20T13:09:09Z",
   "intentAlignment": {
     "evidence": [
@@ -76,10 +57,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-20T13:38:24Z",
+  "preflightAt": "2026-09-20T14:23:46Z",
   "preflightContractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:758615921ec07a1187123e3df7574f70c4aba55457f68790f0fbd312a5639c47",
+  "preflightRepositorySnapshotDigest": "sha256:ae02474a0a54edb961c07fbca14da4ba04fa02200db2a72ce2aa5fda73c0f2eb",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -163,8 +144,12 @@
     {
       "check": "project-command-0-package-cockpit-verification",
       "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:4b685934952152c6fd11c1b7991ec4b3721fcc139a89b8a263970dcc429723de",
+  "verificationRecoveryReconciled": "sha256:0e85153dbaee3443790fe123195c2d13d0dc616ee852680cee0125b4a2478c10",
   "workItemId": "WI-951-release-v0-2-102"
 }
