@@ -29,7 +29,7 @@ are independent identities.
 
 ```text
 ai-cockpit --version
-0.2.102
+0.2.103
 
 repository:
 protocol_version = 1
@@ -50,7 +50,7 @@ failed `v0.2.49` tag is retained as unpublished history and is not reused;
 `v0.2.77` is retained as failed unpublished history and is not the package identity;
 `v0.2.93` remains the preceding public patch history; `v0.2.94` is the previous
 candidate/release identity, `v0.2.95` is the previous runtime identity, and
-`v0.2.98` and `v0.2.99` are previous package identities, `v0.2.100` is the current public package identity, `v0.2.101` is an unpublished immutable candidate tag, and `v0.2.102` is the current unpublished candidate package identity. The immutable failed `v0.2.96`
+`v0.2.98` and `v0.2.99` are previous package identities, `v0.2.102` is the current public package identity, `v0.2.101` is an unpublished immutable candidate tag, and `v0.2.103` is the current unpublished candidate package identity. The immutable failed `v0.2.96`
 candidate is retained as publication-failure history.
 The failed `v0.2.56` tag is immutable unpublished history from a source-quality
 failure and is never reused as an installation identity.

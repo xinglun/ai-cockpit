@@ -3,7 +3,9 @@
     "版本、tag、GitHub Release、校验和与发布产物绑定同一不可变提交。",
     "公开产物在隔离环境完成规定的全新安装与升级验收，并保存身份和清理证据。",
     "本轮 release Work Item 的资源、分支和 worktree 按资源绑定路径收尾，遗留无效 release Contract 被明确替代而不伪称完成。",
-    "发布完成后才在 GitHub 上向 Sentinel Issue #902 发送只含事实和确认请求的通知，且不代替 Sentinel 的验收或关闭。"
+    "发布完成后才在 GitHub 上向 Sentinel Issue #902 发送只含事实和确认请求的通知，且不代替 Sentinel 的验收或关闭。",
+    "已关闭且未合并的候选 PR #936 的归档、验证尝试与恢复决定必须由 GitHub PR head ref 保留；仅在确认该不可变 ref 后删除其精确分支和 worktree，不得把该候选表述为已发布、已验证关闭或本次发布的来源。",
+    "版本身份的三语架构与发布说明必须同步：v0.2.102 保持当前公开安装基线，v0.2.103 在公开 Release 与发布后验收完成前仅为候选。"
   ],
   "authority": "authorized",
   "baseRevision": "da7d5125fce56f5d6ca371836b5250c4a1080ec9",
@@ -20,7 +22,8 @@
   "repositorySnapshotDigest": "sha256:551961859601e87d4c246be60f7ef9bf6c2de98501d4ed4f56a564e9f63db471",
   "requiredEvidenceClasses": [
     "verification",
-    "delegated:github"
+    "delegated:github",
+    "closed_candidate_retention_and_cleanup"
   ],
   "risk": "normal",
   "scope": [
@@ -30,7 +33,8 @@
     "docs/reference/**",
     "docs/work-items/WI-958-v0-2-103-release.*",
     ".github/workflows/**",
-    ".ai/**"
+    ".ai/**",
+    "docs/architecture/**"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/actions/runs/35541911604",
