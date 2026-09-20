@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-954 — documentation projection recovery"
 description: "Restore the post-release documentation-projection recovery without repeating release verification."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-954-start-verification-declaration
 lastVerifiedBy: WI-954-start-verification-declaration
+terminalArchive: .ai/work-items/archive/WI-954-start-verification-declaration.contract.json
+terminalVerification: .ai/evidence/WI-954-start-verification-declaration.verification.json
+terminalDecision: .ai/decisions/WI-954-start-verification-declaration.close.json
 ---
 
 [简体中文](WI-954-start-verification-declaration.zh-CN.md) · [日本語](WI-954-start-verification-declaration.ja.md)

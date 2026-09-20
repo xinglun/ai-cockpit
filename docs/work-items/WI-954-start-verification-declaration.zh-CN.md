@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-954——文档投影恢复"
 description: "恢复发布后文档投影路径，且不重复执行发布验证。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-954-start-verification-declaration
 lastVerifiedBy: WI-954-start-verification-declaration
+terminalArchive: .ai/work-items/archive/WI-954-start-verification-declaration.contract.json
+terminalVerification: .ai/evidence/WI-954-start-verification-declaration.verification.json
+terminalDecision: .ai/decisions/WI-954-start-verification-declaration.close.json
 ---
 
 [English](WI-954-start-verification-declaration.md) · [日本語](WI-954-start-verification-declaration.ja.md)

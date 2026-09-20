@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-954 — ドキュメント投影の復旧"
 description: "リリース検証を繰り返さずに、リリース後のドキュメント投影経路を復旧する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 workItemId: WI-954-start-verification-declaration
 lastVerifiedBy: WI-954-start-verification-declaration
+terminalArchive: .ai/work-items/archive/WI-954-start-verification-declaration.contract.json
+terminalVerification: .ai/evidence/WI-954-start-verification-declaration.verification.json
+terminalDecision: .ai/decisions/WI-954-start-verification-declaration.close.json
 ---
 
 [English](WI-954-start-verification-declaration.md) · [简体中文](WI-954-start-verification-declaration.zh-CN.md)
