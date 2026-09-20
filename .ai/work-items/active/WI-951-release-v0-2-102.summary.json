@@ -1,0 +1,170 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-951-release-v0-2-102.contract.json",
+    ".ai/work-items/active/WI-951-release-v0-2-102.summary.json",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/work-items/WI-951-release-v0-2-102.ja.md",
+    "docs/work-items/WI-951-release-v0-2-102.md",
+    "docs/work-items/WI-951-release-v0-2-102.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-20T13:19:30Z",
+  "checkpointContractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:6c7890ad0f536e08219ef1dd2a73cfd1ac99b41e6eb9e3f3e8215956904122b4",
+      "recorded": true,
+      "recordedAt": "2026-09-20T13:19:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b6efad733d2dc66b03fd11db4d41ef0cadc16ea4f32fe580e4b0368f570b80eb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-951-release-v0-2-102"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6c7890ad0f536e08219ef1dd2a73cfd1ac99b41e6eb9e3f3e8215956904122b4",
+      "previousContractHash": "sha256:6c7890ad0f536e08219ef1dd2a73cfd1ac99b41e6eb9e3f3e8215956904122b4",
+      "reason": "Release readiness audit found that declared Rust 1.98.1 and hosted CI/release toolchains diverged; align the existing workflows within this release Work Item.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T13:27:47Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c580e08df6387b55e29d67c1a8a479815479cc83c084a60fcef009164ad5cd5c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-951-release-v0-2-102"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:758615921ec07a1187123e3df7574f70c4aba55457f68790f0fbd312a5639c47",
+  "createdAt": "2026-09-20T13:09:09Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-951-release-v0-2-102.md",
+      "docs/work-items/WI-951-release-v0-2-102.zh-CN.md",
+      "docs/work-items/WI-951-release-v0-2-102.ja.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-20T13:38:24Z",
+  "preflightContractDigest": "sha256:546f8e074cfd9543c122c082560c45dbba477b89dda4a70062469281e0251243",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:758615921ec07a1187123e3df7574f70c4aba55457f68790f0fbd312a5639c47",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified"
+    },
+    {
+      "evidence": [
+        "tests/docs/parity_status_check.sh",
+        "tests/docs/work_item_status_consistency_test.sh",
+        "tests/release/version_consistency.sh"
+      ],
+      "required": true,
+      "scenario": "multilingual-release-projection",
+      "status": "verified"
+    },
+    {
+      "evidence": [],
+      "required": true,
+      "scenario": "downstream-notification-order",
+      "status": "unverified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-20T13:47:37.837009+00:00",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:4b685934952152c6fd11c1b7991ec4b3721fcc139a89b8a263970dcc429723de",
+  "workItemId": "WI-951-release-v0-2-102"
+}

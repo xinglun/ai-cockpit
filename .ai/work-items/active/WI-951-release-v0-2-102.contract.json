@@ -1,0 +1,82 @@
+{
+  "acceptanceCriteria": [
+    "Cargo workspace package version、Cargo.lock 与当前三语发布/版本文档一致为 0.2.102，既有历史版本记录保持不变。",
+    "v0.2.102 使用未占用的不可变 annotated tag，并绑定经审查合并后的 main 源提交。",
+    "公开 provider Release、manifest、checksums、SBOM、archive、attestation 与 source identity 相互绑定。",
+    "从公开不可变 Release 下载的 x86_64 产物通过 checksum、隔离 fresh-install、v0.2.100 到 v0.2.102 升级与精确临时目录清理；不写入对象仓库。",
+    "发布 Outcome 以中文完整说明完成内容、验证范围、剩余未知和下一步；性能收益保持未知，第三方宿主展示确认保持未知。",
+    "实际 GitHub provider、PR、分支与 worktree 资源上下文在 archive 前通过 finalize-plan 绑定，并在合并后执行精确清理、finalize-verify 和 close。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "847a69ef2f8342c8474d056c7b65dfdda7220c71",
+  "createdAt": "2026-09-20T13:09:09Z",
+  "goal": "发布不可变公开 Runtime v0.2.102，并完成公开产物、安装升级、资源清理和发布证据验收；最后才通知 Sentinel 的 Issue #902。",
+  "intent": "在全部现有工作、精确资源清理和发布前核验完成后，发布包含 WI-902 verification snapshot lifecycle 修复及本轮收敛成果的新 Runtime。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改 Sentinel 或任何对象仓库；不处理历史 finalization 迁移；不实现新的 Outcome 宿主 API；不把性能噪声范围内的结果表述为提速。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:07edec6d39796f62920bea1e2886e7759e52d62bfcb8153413d2cac5c8c2cc50",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The immutable v0.2.102 tag, stable public GitHub Release, source identity, manifest, checksums, SBOM, archives, and attestation bind to the reviewed merge commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After reviewed merge, execute the existing release workflow and validate every published identity and supply-chain asset against the tag."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded x86_64 v0.2.102 artifact passes checksum, isolated fresh install, v0.2.100-to-v0.2.102 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the public immutable Release asset with isolated TMPDIR and CARGO_HOME, then collect checksum, install, upgrade, and cleanup receipts."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese release and reference projections retain consistent current version facts.",
+      "required": true,
+      "scenario": "multilingual-release-projection",
+      "status": "unverified",
+      "verificationPlan": "Run the deterministic documentation and reference-parity checks before merge and after release closure."
+    },
+    {
+      "evidence": [],
+      "expected": "The Sentinel Issue #902 notification is sent only after public release acceptance and Runtime closure are complete.",
+      "required": true,
+      "scenario": "downstream-notification-order",
+      "status": "unverified",
+      "verificationPlan": "Inspect the terminal release records and public Release before posting the final GitHub Issue comment."
+    }
+  ],
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/reference/**",
+    ".github/workflows/release.yml",
+    ".ai/work-items/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "docs/work-items/WI-951-release-v0-2-102.**",
+    "docs/architecture/versioning.**",
+    "docs/architecture/release-distribution.**",
+    ".github/workflows/ci.yml",
+    "rust-toolchain.toml"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-951-release-v0-2-102"
+}
