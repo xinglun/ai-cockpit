@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:d2265e84135bd60f89c3e91fc3f556219f1f35cc887e90d5dec999ab5082d38e",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "447a8da54f4fb2aaa2d648a07f00224eee39118d",
+      "commandDigest": "sha256:c6f019d1c90c985877853189d0169b9366fe35a2f60d4501ca08ac414f96283f",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+      "scope": [
+        "**"
+      ],
+      "stage": "release",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:81c4181f0f69a39a2e2737b7984194ac4e082d1b7b209916b3c2206f31ee0080",
+  "contractExecutionScopeDigest": "sha256:29903aa8d50f0bc18a7a24edd5786cfae7da223ee0e40a8622df785ef3bc5dde",
+  "createdAt": "2026-09-20T14:56:33Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-952-release-finalization/ai-cockpit/.ai/work-items/active/WI-952-release-finalization.summary.json: verification requires exactly one completed checkpoint and an active lifecycle state"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a320f1b2fc827bc7a3ef9fc9f58d6573377e44a9a01ace5435a7c18eae58373b",
+  "runtimeDigest": "sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-952-release-finalization"
+}

@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "Before source verification, bind this Work Item to one reviewed GitHub PR, its exact branch, worktree, base revision, and provider identity.",
+    "After reviewed merge, publish the still-unreleased v0.2.102 annotated immutable tag and public artifact evidence, then validate downloaded x86_64 fresh installation and v0.2.100-to-v0.2.102 upgrade in isolation.",
+    "Remove only this successor exact branch and worktree after finalization records cleanup; notify Sentinel Issue #902 only after public release and acceptance complete.",
+    "Chinese Outcome distinguishes completed facts, verification scope, remaining unknowns, and next action without claiming performance improvement or third-party host display confirmation."
+  ],
+  "authority": "authorized",
+  "baseRevision": "447a8da54f4fb2aaa2d648a07f00224eee39118d",
+  "createdAt": "2026-09-20T14:53:53Z",
+  "goal": "仅完成 WI-951 遗漏的 provider finalization 资源绑定、不可变发布、下载产物验收、精确清理与最终下游通知；不修改 Runtime 功能、对象工程或版本语义。",
+  "intent": "在已合并的 v0.2.102 源码基础上，以资源上下文完整的受审查 release governance 交付公开 Runtime，并在发布验收后通知 Sentinel #902。",
+  "mode": "implementation",
+  "outOfScope": [
+    "Runtime feature behavior",
+    "Sentinel or any object repository changes",
+    "performance claims"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:924d7be5fced187d987f8a667058019167ea9c073ad73ce10880b90aebeca145",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence",
+    "delegated:github"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-952-release-finalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/930",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-952-release-finalization/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "docs/work-items/WI-952-release-finalization.**",
+    "docs/reference/reference-parity.**",
+    "docs/release/**"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/929",
+    "https://github.com/xinglun/sentinel/issues/902"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "WI-952-release-finalization"
+}
