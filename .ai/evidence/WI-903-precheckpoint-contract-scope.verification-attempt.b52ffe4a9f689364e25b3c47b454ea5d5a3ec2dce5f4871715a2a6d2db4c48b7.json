@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:b52ffe4a9f689364e25b3c47b454ea5d5a3ec2dce5f4871715a2a6d2db4c48b7",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency_test.sh"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:3988cb9c67bc8c787f7634d6375bff59866dab7fbf7d42757518b17383a79ae0",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:d66d92d9c5409f31c17445c16a027a1c2f0ccb184fe195b3556b169de13e4a43",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b830bc2c34ba1fdcf742cd3f0205db684a491a3b951b4c0f24cbc65af630663e",
+  "contractExecutionScopeDigest": "sha256:167d60bd90c54447ac159ff417384033b8869b8025471ede267c25e6e57fbd6c",
+  "createdAt": "2026-09-20T00:03:33Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi940-recovery-receipt/ai-cockpit/.ai/work-items/active/WI-903-precheckpoint-contract-scope.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:63b3b5b6f486f4a84dc25bddd76360c5fd171d84a94a063efb34833a345bbfa5",
+  "runtimeDigest": "sha256:d66d92d9c5409f31c17445c16a027a1c2f0ccb184fe195b3556b169de13e4a43",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

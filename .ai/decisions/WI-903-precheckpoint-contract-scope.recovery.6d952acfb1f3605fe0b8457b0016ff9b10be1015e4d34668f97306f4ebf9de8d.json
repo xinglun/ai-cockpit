@@ -1,0 +1,21 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "standing-user-authorization",
+  "decidedAt": "2026-09-20T00:20:06Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:510fce3705623ba57fa449769ef2c59f36dc124cd0e015c0790c1a0d66dba3ee",
+  "predecessorEventsDigest": "sha256:cd30a13d12fda0d5c734ec3c9290c04936b8bf2229588408be79323067926fcf",
+  "predecessorOutcomeDigest": "sha256:ba7a5d0e49bd798a88ed2eb4bebe300ba7a03d204c3971f2a561b35e461849eb",
+  "predecessorSummaryDigest": "sha256:67fc30ccfe35176555d19ba8ad665e16244cadff822744e63a52384ccdeb2541",
+  "predecessorWorkItemId": "WI-903-precheckpoint-contract-scope",
+  "reason": "The bounded WI-903 verification-planning repair amended the active Contract after the earlier retry receipt became stale. Retry only the current declared verification; preserve prior evidence and do not create a successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run the current declared verification once against the amended Contract, then continue the existing WI-903 lifecycle.",
+  "runtimeDigest": "sha256:13230f39929bbfaba28212615bde004d1ff93d4962b34b6ab2d9c6b6bc8e23af",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

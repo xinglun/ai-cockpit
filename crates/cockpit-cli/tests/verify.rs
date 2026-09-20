@@ -327,6 +327,186 @@ fn verify_plan_only_does_not_spawn_project_commands() {
 }
 
 #[test]
+fn work_item_plan_includes_each_declared_verification_command() {
+    let directory = std::env::temp_dir().join(format!(
+        "cockpit-verify-declared-commands-{}-{}",
+        std::process::id(),
+        NEXT_REPOSITORY_ID.fetch_add(1, Ordering::Relaxed)
+    ));
+    fs::create_dir_all(directory.join("src")).expect("directory");
+    fs::write(
+        directory.join("Cargo.toml"),
+        "[package]\nname = \"verify-declared-commands-fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("manifest");
+    fs::write(directory.join("src/lib.rs"), "pub fn fixture() {}\n").expect("source");
+    fs::write(directory.join("docs-gate.sh"), "#!/bin/sh\nexit 0\n").expect("gate");
+    Command::new("git")
+        .args(["init", "-q"])
+        .current_dir(&directory)
+        .status()
+        .expect("git init");
+    assert!(
+        Command::new("git")
+            .args(["add", "Cargo.toml", "docs-gate.sh", "src/lib.rs"])
+            .current_dir(&directory)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("cargo")
+            .arg("generate-lockfile")
+            .current_dir(&directory)
+            .status()
+            .expect("generate lockfile")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args(["add", "Cargo.lock"])
+            .current_dir(&directory)
+            .status()
+            .expect("add lockfile")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=AI Cockpit Test",
+                "-c",
+                "user.email=ai-cockpit@example.invalid",
+                "commit",
+                "-qm",
+                "fixture",
+            ])
+            .current_dir(&directory)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+    let binary = env!("CARGO_BIN_EXE_ai-cockpit");
+    assert!(
+        Command::new(binary)
+            .args(["attach", "--repo"])
+            .arg(&directory)
+            .status()
+            .expect("attach")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["profile", "confirm", "--repo"])
+            .arg(&directory)
+            .args(["--program", "cargo", "--args", "test,--locked,--workspace",])
+            .status()
+            .expect("confirm Cargo profile")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["start", "--repo"])
+            .arg(&directory)
+            .args([
+                "--id",
+                "WI-DECLARED-VERIFY",
+                "--intent",
+                "plan declared verification commands",
+                "--goal",
+                "avoid silently dropping a required documentation gate",
+                "--scope",
+                "docs-gate.sh",
+                "--authority",
+                "authorized",
+            ])
+            .status()
+            .expect("start")
+            .success()
+    );
+    let contract_path = directory.join(".ai/work-items/active/WI-DECLARED-VERIFY.contract.json");
+    let mut contract: serde_json::Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("contract"))
+            .expect("contract JSON");
+    contract["verification"] =
+        serde_json::json!(["cargo test --locked --workspace", "bash docs-gate.sh"]);
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("contract bytes"),
+    )
+    .expect("update fixture Contract");
+    assert!(
+        Command::new(binary)
+            .args(["preflight", "--repo"])
+            .arg(&directory)
+            .args(["--contract"])
+            .arg(&contract_path)
+            .status()
+            .expect("preflight")
+            .success()
+    );
+    assert!(
+        Command::new(binary)
+            .args(["checkpoint", "--repo"])
+            .arg(&directory)
+            .args(["--id", "WI-DECLARED-VERIFY"])
+            .status()
+            .expect("checkpoint")
+            .success()
+    );
+    let output = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-DECLARED-VERIFY", "--plan-only"])
+        .output()
+        .expect("plan declared verification");
+    assert!(
+        output.status.success(),
+        "stderr: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let plan: serde_json::Value = serde_json::from_slice(&output.stdout).expect("plan JSON");
+    let requests = plan["requests"].as_array().expect("planned requests");
+    assert!(
+        requests.iter().any(|request| {
+            request["program"] == "cargo"
+                && request["args"]
+                    .as_array()
+                    .is_some_and(|args| args.iter().any(|argument| argument == "--package"))
+        }),
+        "Cargo workspace declaration should remain package-partitioned: {plan:#}"
+    );
+    assert!(
+        requests.iter().any(|request| {
+            request["program"] == "bash" && request["args"] == serde_json::json!(["docs-gate.sh"])
+        }),
+        "declared shell gate must not be dropped: {plan:#}"
+    );
+    assert_eq!(plan["processesSpawned"], 0);
+    let verification = Command::new(binary)
+        .args(["verify", "--repo"])
+        .arg(&directory)
+        .args(["--work-item", "WI-DECLARED-VERIFY"])
+        .output()
+        .expect("verify declared commands");
+    assert!(
+        verification.status.success(),
+        "stdout={}, stderr={}",
+        String::from_utf8_lossy(&verification.stdout),
+        String::from_utf8_lossy(&verification.stderr)
+    );
+    let receipt: serde_json::Value =
+        serde_json::from_slice(&verification.stdout).expect("verification JSON");
+    assert_eq!(receipt["nodesPlanned"], 2);
+    assert!(
+        directory
+            .join(".ai/evidence/WI-DECLARED-VERIFY.verification.json")
+            .is_file()
+    );
+    fs::remove_dir_all(directory).expect("cleanup");
+}
+
+#[test]
 fn verify_returns_nonzero_and_structured_receipt_when_command_fails() {
     let directory = std::env::temp_dir().join(format!(
         "cockpit-verify-failure-{}-{}",

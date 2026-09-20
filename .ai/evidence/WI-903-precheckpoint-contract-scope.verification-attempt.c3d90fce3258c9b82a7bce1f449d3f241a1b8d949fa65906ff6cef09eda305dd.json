@@ -1,0 +1,171 @@
+{
+  "attemptId": "sha256:c3d90fce3258c9b82a7bce1f449d3f241a1b8d949fa65906ff6cef09eda305dd",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:a36a8444242ccdcfc5954a56b713b7e8e71caece62e28da896372946df62d670",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry",
+        "verification_preconditions_accept_bound_retry_after_snapshot_drift"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:b6702140bf6de2001a5cef1a417c8c22ca812f5d30626a15099da4cb4a0bded3",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "recovery_decision",
+        "existing_active_successor"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:1267d733112fa9591691d6664b2b8c8182427c06ddb0dd68c0724c0fd2dbe127",
+      "nodeId": "project-command-2",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "recovery_decision",
+        "existing_active_successor_accepts_same_version_candidate_rebuild"
+      ],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:4235e4615bf3356090f155a6ec6b338002c6865ee3c1e450d1d95421aa4e6d63",
+      "nodeId": "project-command-3",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:631f3e77d0bf2b28e431a37e75676199026dd8bc188baabe95d7faf593e80f41",
+      "nodeId": "project-command-4",
+      "program": "tests/docs/work_item_status_consistency_test.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:18e3c2af2c0ff883467cc3f0fa63a621815dc518ebee62ae8e17ef879256637b",
+      "nodeId": "project-command-5",
+      "program": "tests/docs/documentation_acceptance.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:aed3be0922a6adb0cf662ec88614f1d873b3b4c98a2352f0a4961a96ed8408c0",
+      "nodeId": "project-command-6",
+      "program": "tests/docs/parity_status_check.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [],
+      "baseCommit": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
+      "commandDigest": "sha256:5c139c6c94f9bf4638f0ed8c4c5ee7338816b46be2fd62477b7902bbcb8b6bae",
+      "nodeId": "project-command-7",
+      "program": "tests/ci/repository_gate_manifest_test.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e4a07cd12d621df6c55a50f3a131865a60293164ff8280db07fbbe57652015e0",
+  "contractExecutionScopeDigest": "sha256:904b99304689b88990d6b4deb7d48dc61c08187e474201e8c93604cd53e1cf8a",
+  "createdAt": "2026-09-20T00:27:49Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi940-recovery-receipt/ai-cockpit/.ai/work-items/active/WI-903-precheckpoint-contract-scope.contract.json: verification preconditions are blocked: evidence_classes_stale"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a737f4760bd4346aee1962e626820f0c54869afe156ff992999b758801a6e748",
+  "runtimeDigest": "sha256:f0e2207b0e185080081c5465ea5c8839006b1615c9730b3b07a170eb67ed8685",
+  "runtimeVersion": "0.2.100",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

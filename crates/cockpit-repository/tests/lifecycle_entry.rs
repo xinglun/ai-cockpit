@@ -805,6 +805,62 @@ fn scenario_coverage_can_be_declared_before_the_first_checkpoint() {
 }
 
 #[test]
+fn scenario_coverage_plan_can_fill_only_a_missing_plan() {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        "WI-SCENARIO-PLAN",
+        "complete a legacy scenario plan",
+        "permit a bounded plan-only amendment without replacing scenario facts",
+        &["src/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    amend_work_item_contract(
+        directory.path(),
+        "WI-SCENARIO-PLAN",
+        &json!({"scenarioCoverageAppend": [{
+            "scenario": "legacy scenario",
+            "required": true,
+            "status": "unverified",
+            "evidence": [],
+            "expected": "a bounded plan can be added"
+        }]}),
+        "preserve a historical scenario that lacks only its plan",
+    )
+    .expect("declare legacy scenario");
+    let contract_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-SCENARIO-PLAN.contract.json");
+    preflight_work_item(directory.path(), &contract_path).expect("preflight legacy scenario");
+    checkpoint_work_item(directory.path(), "WI-SCENARIO-PLAN").expect("checkpoint legacy scenario");
+    amend_work_item_contract(
+        directory.path(),
+        "WI-SCENARIO-PLAN",
+        &json!({"scenarioCoveragePlanAppend": [{
+            "scenario": "legacy scenario",
+            "verificationPlan": "run the focused regression"
+        }]}),
+        "add only the missing deterministic verification plan",
+    )
+    .expect("complete missing plan");
+    let contract: serde_json::Value = serde_json::from_slice(
+        &fs::read(
+            directory
+                .path()
+                .join(".ai/work-items/active/WI-SCENARIO-PLAN.contract.json"),
+        )
+        .expect("contract"),
+    )
+    .expect("contract JSON");
+    let entry = &contract["scenarioCoverage"][0];
+    assert_eq!(entry["status"], "unverified");
+    assert_eq!(entry["evidence"], json!([]));
+    assert_eq!(entry["expected"], "a bounded plan can be added");
+    assert_eq!(entry["verificationPlan"], "run the focused regression");
+}
+
+#[test]
 fn scope_can_be_appended_before_the_first_checkpoint() {
     let directory = repository();
     let work_item_id = "WI-PRECHECKPOINT-SCOPE";

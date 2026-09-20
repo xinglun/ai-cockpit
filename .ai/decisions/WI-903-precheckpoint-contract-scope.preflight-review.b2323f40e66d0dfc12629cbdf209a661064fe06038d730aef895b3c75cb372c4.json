@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:510fce3705623ba57fa449769ef2c59f36dc124cd0e015c0790c1a0d66dba3ee",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:36ff2aa8fe9d43731c16eee5c3c4ff3f865ef4c25162b6d898f07303cf6a2062",
+  "reason": "Standing authorization confirms the bounded WI-903 verification-planning repair, its current Contract amendment, and only the declared deterministic verification.",
+  "recordedAt": "2026-09-20T00:20:06Z",
+  "recordedBy": "human:xinglun",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c1e444493889fd1c6c449b2b86c905742c6341a3e53f0b14c4a9eb2e103ad1c4",
+  "schemaVersion": 1,
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

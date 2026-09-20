@@ -1516,6 +1516,7 @@ pub fn amend_work_item_contract(
                 | "acceptanceAppend"
                 | "requiredEvidenceClassesAppend"
                 | "scenarioCoverageAppend"
+                | "scenarioCoveragePlanAppend"
         ) {
             return Err(ObserverError::State {
                 path: path.clone(),
@@ -1684,6 +1685,81 @@ pub fn amend_work_item_contract(
             return Err(ObserverError::State {
                 path: path.clone(),
                 message: format!("scenarioCoverageAppend is invalid: {}", errors.join(", ")),
+            });
+        }
+    }
+    if let Some(values) = input.get("scenarioCoveragePlanAppend") {
+        let values = values.as_array().ok_or_else(|| ObserverError::State {
+            path: path.clone(),
+            message: "scenarioCoveragePlanAppend must be an array".into(),
+        })?;
+        let coverage =
+            contract["scenarioCoverage"]
+                .as_array_mut()
+                .ok_or_else(|| ObserverError::State {
+                    path: path.clone(),
+                    message:
+                        "scenarioCoveragePlanAppend requires an existing scenarioCoverage array"
+                            .into(),
+                })?;
+        for value in values {
+            let Some(name) = value.get("scenario").and_then(serde_json::Value::as_str) else {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "scenarioCoveragePlanAppend entries must contain a scenario string"
+                        .into(),
+                });
+            };
+            let Some(plan) = value
+                .get("verificationPlan")
+                .and_then(serde_json::Value::as_str)
+            else {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message:
+                        "scenarioCoveragePlanAppend entries must contain a verificationPlan string"
+                            .into(),
+                });
+            };
+            if plan.trim().is_empty() {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: "scenarioCoveragePlanAppend verificationPlan must be non-empty".into(),
+                });
+            }
+            let Some(existing) = coverage.iter_mut().find(|entry| {
+                entry.get("scenario").and_then(serde_json::Value::as_str) == Some(name)
+            }) else {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!(
+                        "scenarioCoveragePlanAppend names no existing scenario {name:?}"
+                    ),
+                });
+            };
+            if existing
+                .get("verificationPlan")
+                .and_then(serde_json::Value::as_str)
+                .is_some()
+            {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!(
+                        "scenarioCoveragePlanAppend cannot replace an existing verificationPlan for {name:?}"
+                    ),
+                });
+            }
+            existing["verificationPlan"] = serde_json::json!(plan);
+        }
+        if let Err(errors) =
+            cockpit_protocol::validate_scenario_coverage_projection(&contract["scenarioCoverage"])
+        {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!(
+                    "scenarioCoveragePlanAppend is invalid: {}",
+                    errors.join(", ")
+                ),
             });
         }
     }

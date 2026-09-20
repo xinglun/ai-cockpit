@@ -8,7 +8,8 @@
     "The explicit existing_active_successor decision remains portable across same-version candidate binary rebuilds without relaxing runtime identity checks for retry, verification, authorization, or any other recovery mode.",
     "The Runtime-generated WI-902 recovery decision binds the immutable archived predecessor to WI-903 without rewriting any WI-902 archive artifact.",
     "The documentation status gate accepts the identity-continuous WI-902 to WI-936 to WI-937 recovery lineage only when its terminal successor has valid archive, verification, and close evidence.",
-    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error."
+    "A missing, malformed, cyclic, foreign, stale, or unclosed recovery lineage remains a fail-closed conditional-parity error.",
+    "For a Work Item with declared executable verification commands, default verification plans every declared command deterministically, preserves Cargo workspace partitioning, and reports an unparseable declaration before any project process is launched."
   ],
   "authority": "human:xinglun",
   "baseRevision": "bd8d39cb7cc3b55675e7270be5778d13db739d05",
@@ -74,21 +75,32 @@
       "expected": "The Runtime records one identity-bound decision and binds both successor projections; mismatched or already-bound candidates fail closed.",
       "required": true,
       "scenario": "An archived predecessor needs to bind a currently active recovery Work Item that was created on the same base before the predecessor route was selected.",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "Run the focused recovery_decision regression that records and validates the bound active successor."
     },
     {
       "evidence": [],
       "expected": "The bounded successor decision remains valid despite executable hash variance; a different Runtime version still fails closed.",
       "required": true,
       "scenario": "A same-version candidate Runtime records the explicit existing_active_successor decision, then a separately built same-version candidate validates it.",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "Build the candidate Runtime and run the focused same-version recovery_decision regression."
     },
     {
       "evidence": [],
       "expected": "One append-only recovery receipt and both WI-903 projections carry the exact predecessor binding; no archived WI-902 artifact changes.",
       "required": true,
       "scenario": "The candidate Runtime records the explicit existing_active_successor recovery from archived WI-902 to active WI-903.",
-      "status": "unverified"
+      "status": "unverified",
+      "verificationPlan": "Run the focused recovery_decision regression and retain the append-only WI-902 to WI-903 recovery receipt."
+    },
+    {
+      "evidence": [],
+      "expected": "The plan contains Cargo package nodes and the declared shell node; malformed executable declarations fail closed before project process launch.",
+      "required": true,
+      "scenario": "Default Work Item verification plans a Cargo workspace declaration together with a declared shell documentation gate instead of silently dropping the latter.",
+      "status": "unverified",
+      "verificationPlan": "Exercise the CLI plan-only route against a repository-shaped active Work Item with cargo and bash verification declarations."
     }
   ],
   "scope": [
@@ -107,7 +119,9 @@
     "crates/cockpit-repository/src/lib.rs",
     ".ai/decisions/WI-902-verification-receipt-snapshot-boundary.*",
     "tests/docs/work_item_status_consistency.py",
-    "tests/docs/work_item_status_consistency_test.sh"
+    "tests/docs/work_item_status_consistency_test.sh",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**"
   ],
   "sources": [
     "tests/docs/work_item_status_consistency.py",
