@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "版本、tag、GitHub Release、校验和与发布产物绑定同一不可变提交。",
+    "公开产物在隔离环境完成规定的全新安装与升级验收，并保存身份和清理证据。",
+    "本轮 release Work Item 的资源、分支和 worktree 按资源绑定路径收尾；#936 只保留关闭 PR head ref 的候选证据，不伪称成功。",
+    "发布完成后才在 GitHub 上向 Sentinel Issue #902 发送只含事实和确认请求的通知，且不代替 Sentinel 的验收或关闭。",
+    "版本身份的三语架构、发布说明和生成命令事实同步：v0.2.102 是当前公开基线，v0.2.103 在发布后验收前仅为候选。"
+  ],
+  "createdAt": "2026-09-20T23:38:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a29035b888379aae0532d198f3ae406d1e2fddb08eee242a43dd38b781030c0f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "发布 v0.2.103，并仅在公开产物验收与精确资源清理完成后向 Sentinel #902 发送事实通知。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-959-v0-2-103-release-recovery"
+  },
+  "taskReportDigest": "sha256:52bc7ba419786fd297b981e1f601b2f26261aae199546846e888fc94c16dae87",
+  "taskReportMarkdownDigest": "sha256:cd5bad2a0a14a0305985787c71040c577e79713a977016c1cdcda40a63309cd2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-959-v0-2-103-release-recovery"
+}
