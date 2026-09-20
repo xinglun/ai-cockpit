@@ -4,9 +4,12 @@ workItemId: WI-903-precheckpoint-contract-scope
 title: checkpoint 前的 Contract scope 增补
 description: 当遗漏必须的初始投影路径时，允许尚未 checkpoint 或验证的 active Work Item 通过 Runtime 追加 scope。
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-903-precheckpoint-contract-scope
+terminalArchive: .ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json
+terminalVerification: .ai/evidence/WI-903-precheckpoint-contract-scope.verification.json
+terminalDecision: .ai/decisions/WI-903-precheckpoint-contract-scope.close.json
 ---
 
 # WI-903 — checkpoint 前的 Contract scope 增补

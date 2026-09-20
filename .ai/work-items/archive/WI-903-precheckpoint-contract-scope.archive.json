@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-20T01:11:26Z",
+  "files": {
+    "contractDigest": "sha256:edbf4a42fe9a93a3dc58159114e5627ef11eed93b27e803961f83165d02e35d6",
+    "contractPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json",
+    "eventsDigest": "sha256:1e7d13e9426081a5216823b9e58017bd4deff4b3f37980019526c6b8b620b586",
+    "eventsPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.events.jsonl",
+    "outcomeDigest": "sha256:8d087ccb601922d64c3720617f4fb561c4f8d60308e0594b86eb0a94e3ac7c49",
+    "outcomePath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.outcome.json",
+    "summaryDigest": "sha256:52e9d04da33876cf85c4a5b2d475d41168ec76e978c4de9ff1226b39c8ba0c6b",
+    "summaryPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.summary.json",
+    "taskReportDigest": "sha256:dadd49ae38c5d5f11dc9ec32eed8c829864ccc08847eaf3b7f8ff2be2bca7094",
+    "taskReportMarkdownDigest": "sha256:c23f79220e2e2700dc825992ad90c1f3c5e7ff68c7b9eee2ce2b09d276caf501",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-903-precheckpoint-contract-scope.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-903-precheckpoint-contract-scope"
+}

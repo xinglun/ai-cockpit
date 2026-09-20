@@ -4,9 +4,12 @@ workItemId: WI-903-precheckpoint-contract-scope
 title: Pre-checkpoint Contract scope amendment
 description: Allow an active Work Item with no checkpoint or verification to append scope through the Runtime when a required initial projection was omitted.
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:xinglun
 lastVerifiedBy: WI-903-precheckpoint-contract-scope
+terminalArchive: .ai/work-items/archive/WI-903-precheckpoint-contract-scope.contract.json
+terminalVerification: .ai/evidence/WI-903-precheckpoint-contract-scope.verification.json
+terminalDecision: .ai/decisions/WI-903-precheckpoint-contract-scope.close.json
 ---
 
 # WI-903 — Pre-checkpoint Contract scope amendment
