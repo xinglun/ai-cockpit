@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-947-interface-ssot-completion.verification-attempt.43b9408be49b04c505bb96a14a0094a3bd0c513f40527357da3a72c9625544f3.json",
+    ".ai/work-items/active/WI-947-interface-ssot-completion.approach.json",
+    ".ai/work-items/active/WI-947-interface-ssot-completion.contract.json",
+    ".ai/work-items/active/WI-947-interface-ssot-completion.intelligence.json",
+    ".ai/work-items/active/WI-947-interface-ssot-completion.summary.json",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-20T09:46:31Z",
+  "checkpointContractDigest": "sha256:8d8cb6ad24766b2a965e8f3a754185f2a043d38931f9e23430067a08271feaf9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:4963f4aa55f1c83c1ecd784912573a5c8758cc9665ed832024820ebb7b7e88d5",
+  "createdAt": "2026-09-20T09:42:08Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-protocol/src/interface_description.rs",
+      "crates/cockpit-protocol/tests/interface_description.rs",
+      "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+      "crates/cockpit-mcp/tests/rpc.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-20T09:55:29Z",
+  "preflightContractDigest": "sha256:8d8cb6ad24766b2a965e8f3a754185f2a043d38931f9e23430067a08271feaf9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4963f4aa55f1c83c1ecd784912573a5c8758cc9665ed832024820ebb7b7e88d5",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T09:56:19Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-947-interface-ssot-completion"
+}
