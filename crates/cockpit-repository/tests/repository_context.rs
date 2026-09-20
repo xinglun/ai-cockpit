@@ -296,7 +296,7 @@ fn execution_context_captures_one_snapshot_and_memoizes_observation() {
     fs::write(root.join("src.rs"), "fn value() -> u8 { 1 }\n").expect("source");
     attach(&root).expect("attach");
     let context = RepositoryExecutionContext::capture(&root).expect("capture");
-    assert_eq!(context.snapshot().git_calls, 4);
+    assert_eq!(context.snapshot().git_calls, 3);
     let original_tree = context.snapshot().tree_digest.clone();
     let first = context.observe().expect("observe");
     let second = context.observe().expect("observe again");

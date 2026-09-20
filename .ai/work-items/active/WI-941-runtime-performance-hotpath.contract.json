@@ -27,7 +27,8 @@
   "scope": [
     "tests/performance/**; crates/cockpit-cli/tests/performance.rs; selected Runtime hot-path implementation discovered by measurement; docs/reference/performance-diagnosis.md; docs/work-items/WI-941-runtime-performance-hotpath*.md; docs/reference/reference-parity*.md",
     "crates/cockpit-git/src/lib.rs",
-    "crates/cockpit-git/tests/repository.rs"
+    "crates/cockpit-git/tests/repository.rs",
+    "crates/cockpit-repository/tests/repository_context.rs"
   ],
   "sources": [
     "tests/performance/README.md",
@@ -37,7 +38,8 @@
   "state": "implementation_active",
   "verification": [
     "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-git --test repository",
-    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test intelligence"
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test intelligence",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository --test repository_context"
   ],
   "workItemId": "WI-941-runtime-performance-hotpath"
 }
