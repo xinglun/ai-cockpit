@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-20T23:36:42Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/pull/939"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:02060d93fe46cc9e997eff3a85ab483ec6b340b9026edaffb163b7b5d82e6c74",
+  "predecessorSummaryDigest": "sha256:04b4542ebcdc9c982921ae288de124bf0deef5b3b956abf54d29263824fda14a",
+  "predecessorWorkItemId": "WI-959-v0-2-103-release-recovery",
+  "reason": "The reviewed PR now exists. Bind its exact resource context before the fresh verification cycle; preserve the earlier passing receipt as predecessor evidence instead of treating it as proof for the changed Contract.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #939 with finalize-plan, run fresh preflight and the declared release verification once for that current Contract, then finish only if the evidence is green. Do not publish until the reviewed PR is merged and hosted checks pass.",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "workItemId": "WI-959-v0-2-103-release-recovery"
+}
