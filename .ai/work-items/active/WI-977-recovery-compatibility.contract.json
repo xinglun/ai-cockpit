@@ -1,0 +1,70 @@
+{
+  "acceptanceCriteria": [
+    "recovery decision 的候选发现、记录读取、身份/摘要/Runtime 绑定校验与历史 stale 例外均位于 historical_compatibility 模块，并通过显式导入或稳定 re-export 使用",
+    "现有 active/archive recovery 语义、fail-closed 错误优先级、append-only 选择和 pending retry 行为保持不变",
+    "历史 receipt 和当前 receipt 均不会因模块抽取而被重写、放宽或删除；旧 Runtime 兼容路径仍明确可审计",
+    "cockpit-repository 单元及 recovery/status/lifecycle 集成测试通过，Runtime 验证证据绑定当前 WI"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d98a74e3bfffd6b8f46f13b9376c544f342aa4ab",
+  "createdAt": "2026-09-21T20:01:00Z",
+  "goal": "将 recovery decision 候选路径、读取校验、旧绑定容错和加载选择集中到 historical_compatibility 模块，保留现有函数签名语义与所有调用方接口",
+  "intent": "按用户授权隔离历史恢复绑定与候选选择逻辑，保持 append-only 读取和 fail-closed 行为不变",
+  "mode": "implementation",
+  "outOfScope": [
+    "不改变 recovery receipt schema、候选排序、stale/foreign/tamper 判定或恢复写入行为；不删除历史 receipt/fixture；不迁移 schema migration、resource finalization recovery、CLI/MCP；不拆 crate、不做性能重写"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "active/archive candidate 只接受 repository-local 的 canonical 或 digest-versioned recovery 文件；缺失、foreign、symlink、目录、超大、重复键和 malformed candidate 继续 fail closed。",
+      "required": true,
+      "scenario": "历史 recovery candidate 发现与文件边界",
+      "status": "unverified",
+      "verificationPlan": "运行 recovery_decision 集成测试并检查 historical_compatibility 的候选路径与读取校验实现及调用方边界。"
+    },
+    {
+      "evidence": [],
+      "expected": "current candidate 继续严格校验 predecessor/runtime binding；archived stale predecessor 或窄 successor 兼容仍只读保留；较新的有效 candidate、排序和 pending retry 语义不变。",
+      "required": true,
+      "scenario": "stale binding 与 append-only selection",
+      "status": "unverified",
+      "verificationPlan": "串行运行 recovery_decision、status_projection 和 lifecycle_entry 测试，并审查抽取前后的候选排序及错误优先级。"
+    },
+    {
+      "evidence": [],
+      "expected": "lib、lifecycle、status_projection 通过 historical_compatibility 的显式接口调用；不删除、重写 recovery receipt、fixture、schema 或历史字节。",
+      "required": true,
+      "scenario": "调用方与历史证据保留",
+      "status": "unverified",
+      "verificationPlan": "检查 git diff/stat、模块 re-export 和调用方导入，运行 fmt、repository lib 与 recovery/status/lifecycle 测试。"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/historical_compatibility.rs; crates/cockpit-repository/src/lib.rs; crates/cockpit-repository/src/lifecycle.rs; crates/cockpit-repository/src/status_projection.rs; crates/cockpit-repository/tests/recovery_decision.rs; crates/cockpit-repository/tests/lifecycle_entry.rs; crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "sources": [
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/status_projection.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-repository --test recovery_decision -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --test status_projection -- --test-threads=1",
+    "cargo test --locked -p cockpit-repository --test lifecycle_entry -- --test-threads=1"
+  ],
+  "workItemId": "WI-977-recovery-compatibility"
+}

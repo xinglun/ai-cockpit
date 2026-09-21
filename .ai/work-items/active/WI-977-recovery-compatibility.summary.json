@@ -1,0 +1,125 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-977-recovery-compatibility.verification-attempt.43928ba6bf01f984050314efba6d8be0a8d40274849c39613925f96ed2c686c0.json",
+    ".ai/evidence/WI-977-recovery-compatibility.verification-attempt.9697f004da46b93f07e65398802249ebf6b5ab8ecbd8ded92832f6f3c066fff4.json",
+    ".ai/evidence/WI-977-recovery-compatibility.verification-attempt.bca7c98196aad2010378b6ce6fdec1badf1d90cdd5c3c234a8878d4f6d10449d.json",
+    ".ai/evidence/WI-977-recovery-compatibility.verification-attempt.fcb9fed7d63d59049b9e8d440fbf3b5065a9df9c3518de1f0754e32bce3cbe91.json",
+    ".ai/evidence/WI-977-recovery-compatibility.verification.json",
+    ".ai/work-items/active/WI-977-recovery-compatibility.contract.json",
+    ".ai/work-items/active/WI-977-recovery-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T20:04:37Z",
+  "checkpointContractDigest": "sha256:e25862f144fde5e028240f08f55a1b75d3c17f7d77db31ccf9b1a461cb0cf11e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d300ee2580b8649bf7b635d6c31db292fec9abeb15a9bf1d9a1f3ec7e309784b",
+      "recorded": true,
+      "recordedAt": "2026-09-21T20:04:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-977-recovery-compatibility"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e25862f144fde5e028240f08f55a1b75d3c17f7d77db31ccf9b1a461cb0cf11e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d300ee2580b8649bf7b635d6c31db292fec9abeb15a9bf1d9a1f3ec7e309784b",
+      "previousContractHash": "sha256:d300ee2580b8649bf7b635d6c31db292fec9abeb15a9bf1d9a1f3ec7e309784b",
+      "reason": "将已纳入 scope 的 lifecycle_entry 串行集成测试加入正式验证命令，覆盖 recovery 调用方边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T20:09:51Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-977-recovery-compatibility"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+  "createdAt": "2026-09-21T20:01:00Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/src/historical_compatibility.rs",
+      ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+    ],
+    "reason": "本 WI 只将已确认的 recovery candidate 发现、读取校验、历史 stale 例外和选择逻辑集中到同一 crate 的 historical_compatibility 模块；保持 append-only 字节、receipt schema、排序、错误优先级和调用方接口不变，其他 recovery/schema/provider 领域留在后续边界。",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T20:14:21Z",
+  "preflightContractDigest": "sha256:e25862f144fde5e028240f08f55a1b75d3c17f7d77db31ccf9b1a461cb0cf11e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+      ],
+      "expected": "active/archive candidate 只接受 repository-local 的 canonical 或 digest-versioned recovery 文件；缺失、foreign、symlink、目录、超大、重复键和 malformed candidate 继续 fail closed。",
+      "required": true,
+      "scenario": "历史 recovery candidate 发现与文件边界",
+      "status": "verified",
+      "verificationPlan": "运行 recovery_decision 集成测试并检查 historical_compatibility 的候选路径与读取校验实现及调用方边界。"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+      ],
+      "expected": "current candidate 继续严格校验 predecessor/runtime binding；archived stale predecessor 或窄 successor 兼容仍只读保留；较新的有效 candidate、排序和 pending retry 语义不变。",
+      "required": true,
+      "scenario": "stale binding 与 append-only selection",
+      "status": "verified",
+      "verificationPlan": "串行运行 recovery_decision、status_projection 和 lifecycle_entry 测试，并审查抽取前后的候选排序及错误优先级。"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+      ],
+      "expected": "lib、lifecycle、status_projection 通过 historical_compatibility 的显式接口调用；不删除、重写 recovery receipt、fixture、schema 或历史字节。",
+      "required": true,
+      "scenario": "调用方与历史证据保留",
+      "status": "verified",
+      "verificationPlan": "检查 git diff/stat、模块 re-export 和调用方导入，运行 fmt、repository lib 与 recovery/status/lifecycle 测试。"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T20:15:11Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-977-recovery-compatibility"
+}
