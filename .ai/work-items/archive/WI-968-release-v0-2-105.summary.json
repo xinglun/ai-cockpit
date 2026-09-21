@@ -5,12 +5,12 @@
     ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.36d45dc99482564602120c564cce10a7fafb6082eb5bdb3acc7b7104595f6456.json",
     ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.7892968f3bf6d7816fc5c2ecd32f9954b3cc64f5c7bdaa83753957280beb53fe.json",
     ".ai/evidence/WI-968-release-v0-2-105.verification.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.contract.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.outcome.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.summary.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.task-report.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.task-report.md",
-    ".ai/work-items/active/WI-968-release-v0-2-105.windows-shell-amend.json",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.contract.json",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.outcome.json",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.task-report.json",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.task-report.md",
+    ".ai/work-items/archive/WI-968-release-v0-2-105.windows-shell-amend.json",
     ".github/workflows/release.yml",
     "tests/release/workflow_policy.sh"
   ],
@@ -181,14 +181,13 @@
       "verificationPlan": "Run the workflow policy gates, then rerun the same v0.2.105 release workflow after the repair and inspect the Windows build job."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T10:38:38Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T13:15:45Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:414e2267a1175cb93d1a46dfc2baa4cf35b205bbd78e146f5e579c9855bf7993",
   "workItemId": "WI-968-release-v0-2-105"
 }

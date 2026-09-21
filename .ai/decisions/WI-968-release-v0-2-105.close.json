@@ -1,0 +1,220 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+      "workItemId": "WI-968-release-v0-2-105"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.110804bc0976b793a3029d312e49152fdffd26f9d45efaa8e8729252a71347fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.36d45dc99482564602120c564cce10a7fafb6082eb5bdb3acc7b7104595f6456.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.7892968f3bf6d7816fc5c2ecd32f9954b3cc64f5c7bdaa83753957280beb53fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-968-release-v0-2-105.windows-shell-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.105",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/35598352463",
+            ".ai/evidence/external/github-release-close-v0-2-105.json",
+            ".ai/decisions/WI-968-release-v0-2-105.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-21T13:17:20Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.contract.json"
+          ],
+          "inference": false,
+          "text": "发布 v0.2.105，并取得不可变 tag、GitHub Release、候选与公开安装/升级验收、artifact manifest/checksums/SBOM/provenance 与清理证据；完成发布 WI 的最终 Outcome。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-968-release-v0-2-105.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-968-release-v0-2-105"
+  },
+  "finalReportDigest": "sha256:362ade9e6f2ae3841f9a1b25a267eebca138176bd6639f4814401d9ccc26c342",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:d6287c866eb573383d9a98334e92515a6b05374807c079236f8b2758745b6004",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-968-release-v0-2-105.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T13:17:20Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.105",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/35598352463",
+      ".ai/evidence/external/github-release-close-v0-2-105.json",
+      ".ai/decisions/WI-968-release-v0-2-105.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "用户已授权：v0.2.105 发布、公开安装/升级、精确资源清理和真实 GitHub release-close 证据均已核实；接受当前验证证据，用户收益保持未知。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T13:17:12Z",
+  "workItemId": "WI-968-release-v0-2-105"
+}
