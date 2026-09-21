@@ -2,6 +2,7 @@
 resolver = "2"
 members = [
     "crates/cockpit-core",
+    "crates/cockpit-interface",
     "crates/cockpit-protocol",
     "crates/cockpit-agent",
     "crates/cockpit-git",

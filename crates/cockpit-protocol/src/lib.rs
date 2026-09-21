@@ -4,7 +4,7 @@ use std::collections::BTreeMap;
 use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
-pub mod interface_description;
+pub use cockpit_interface as interface_description;
 pub mod release_plan;
 
 pub use interface_description::{

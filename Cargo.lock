@@ -290,6 +290,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "cockpit-interface"
+version = "0.2.105"
+dependencies = [
+ "clap",
+ "serde",
+]
+
+[[package]]
 name = "cockpit-isolation"
 version = "0.2.105"
 dependencies = [
@@ -333,8 +341,8 @@ dependencies = [
 name = "cockpit-protocol"
 version = "0.2.105"
 dependencies = [
- "clap",
  "cockpit-core",
+ "cockpit-interface",
  "serde",
  "serde_json",
  "sha2",

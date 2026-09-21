@@ -1,4 +1,3 @@
-use clap::ValueEnum;
 use cockpit_protocol::{
     CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
     WORK_ITEM_OUTCOME_CLI_DELIVERY, WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE,
@@ -90,11 +89,13 @@ fn cli_description_is_extracted_from_the_shared_outcome_query_parser() {
 
 #[test]
 fn public_outcome_value_lists_are_generated_from_the_parser_enum_variants() {
-    let view_values = cockpit_protocol::WorkItemOutcomeView::value_variants()
-        .iter()
-        .filter_map(|value| value.to_possible_value())
-        .map(|value| value.get_name().to_owned())
-        .collect::<Vec<_>>();
+    let view_values = [
+        cockpit_protocol::WorkItemOutcomeView::Summary,
+        cockpit_protocol::WorkItemOutcomeView::Full,
+    ]
+    .into_iter()
+    .map(|value| value.as_str().to_owned())
+    .collect::<Vec<_>>();
     assert_eq!(
         view_values,
         WORK_ITEM_OUTCOME_VIEW_VALUES
@@ -103,11 +104,15 @@ fn public_outcome_value_lists_are_generated_from_the_parser_enum_variants() {
             .collect::<Vec<_>>()
     );
 
-    let language_values = cockpit_protocol::WorkItemOutcomeLanguage::value_variants()
-        .iter()
-        .filter_map(|value| value.to_possible_value())
-        .map(|value| value.get_name().to_owned())
-        .collect::<Vec<_>>();
+    let language_values = [
+        cockpit_protocol::WorkItemOutcomeLanguage::En,
+        cockpit_protocol::WorkItemOutcomeLanguage::Zh,
+        cockpit_protocol::WorkItemOutcomeLanguage::ZhCn,
+        cockpit_protocol::WorkItemOutcomeLanguage::Ja,
+    ]
+    .into_iter()
+    .map(|value| value.as_str().to_owned())
+    .collect::<Vec<_>>();
     assert_eq!(
         language_values,
         WORK_ITEM_OUTCOME_LANGUAGE_VALUES

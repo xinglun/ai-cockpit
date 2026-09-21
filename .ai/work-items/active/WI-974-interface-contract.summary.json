@@ -1,0 +1,144 @@
+{
+  "acceptanceEvidence": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.abf171692211a3bc97d40820e8a47d3b8d202865b4607344cd9fe32da6866b0a.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.c745f8680112576b4271b7b530fdc1df80fe251fd05997ca1fa865e9db5601c4.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.eae5c442eafe65bcd8dbc0451a1033c575ed3643b6792190ae4f74b18a851217.json",
+    ".ai/evidence/WI-974-interface-contract.verification.json",
+    ".ai/work-items/active/WI-974-interface-contract.contract.json",
+    ".ai/work-items/active/WI-974-interface-contract.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/cockpit-interface/Cargo.toml",
+    "crates/cockpit-interface/src/interface_description.rs",
+    "crates/cockpit-interface/src/lib.rs",
+    "crates/cockpit-protocol/Cargo.toml",
+    "crates/cockpit-protocol/src/interface_description.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/interface_description.rs"
+  ],
+  "checkpointAt": "2026-09-21T19:03:31Z",
+  "checkpointContractDigest": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:7909f45fe5b0ffaac8a125bae05fd527463d086efe1e27283530a9c67bdafb1c",
+      "recorded": true,
+      "recordedAt": "2026-09-21T19:03:31Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e5f929509d26e92f263f5f28c74be68d641dc5346f3155977c14496fffaeb2f0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-974-interface-contract"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7909f45fe5b0ffaac8a125bae05fd527463d086efe1e27283530a9c67bdafb1c",
+      "previousContractHash": "sha256:7909f45fe5b0ffaac8a125bae05fd527463d086efe1e27283530a9c67bdafb1c",
+      "reason": "将新增 crate、workspace lockfile 与 protocol 测试的 scope 从分号连接字符串规范化为 Runtime 可逐路径匹配的边界；不扩大已声明行为范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T19:08:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a03f746aa7e3a8d4d5f48af532aa3d444646c56a1c751e05120f83a1949dd3c9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-974-interface-contract"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:a03f746aa7e3a8d4d5f48af532aa3d444646c56a1c751e05120f83a1949dd3c9",
+  "createdAt": "2026-09-21T19:02:51Z",
+  "evidenceClasses": [],
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "crates/cockpit-interface/src/interface_description.rs",
+      "crates/cockpit-protocol/src/lib.rs",
+      "crates/cockpit-protocol/tests/interface_description.rs"
+    ],
+    "reason": "The transport-facing interface contract and Clap parser now live in cockpit-interface; cockpit-protocol preserves the prior public re-export surface and downstream behavior.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T19:09:49Z",
+  "preflightContractDigest": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a03f746aa7e3a8d4d5f48af532aa3d444646c56a1c751e05120f83a1949dd3c9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "Cargo.toml",
+        "crates/cockpit-interface/Cargo.toml",
+        "crates/cockpit-interface/src/interface_description.rs",
+        "crates/cockpit-protocol/Cargo.toml",
+        "crates/cockpit-protocol/src/lib.rs"
+      ],
+      "expected": "cockpit-protocol has no direct Clap dependency; Clap is owned by the new interface contract crate.",
+      "required": true,
+      "scenario": "protocol dependency boundary",
+      "status": "verified",
+      "verificationPlan": "Inspect workspace and crate manifests, run protocol tests, and verify the new crate builds under the locked dependency graph."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/interface_description.rs",
+        "crates/cockpit-cli/tests/mcp.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "Existing cockpit-protocol exports for Outcome query arguments, enums, constants, discovery, and Markdown rendering remain available with unchanged facts.",
+      "required": true,
+      "scenario": "public compatibility re-export",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-protocol interface tests and compile downstream CLI/MCP consumers through the existing cockpit-protocol paths."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-interface/src/interface_description.rs",
+        "crates/cockpit-interface/src/lib.rs",
+        "crates/cockpit-protocol/tests/interface_description.rs"
+      ],
+      "expected": "CLI parser-derived defaults, enum values, names, and descriptions remain generated from one interface contract; no duplicate parameter registry is introduced.",
+      "required": true,
+      "scenario": "single interface fact source",
+      "status": "verified",
+      "verificationPlan": "Run interface description tests and inspect the moved source and re-export boundary."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/mcp.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "CLI and MCP Outcome wire names and response behavior remain unchanged, with no Outcome or serialization semantic changes.",
+      "required": true,
+      "scenario": "adapter behavior preservation",
+      "status": "verified",
+      "verificationPlan": "Run affected cockpit-cli and cockpit-mcp tests, including Outcome handoff and RPC suites."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T19:07:32.197198+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:d2290f42e9ef5ca93004e4fcc08f9f8f5679ef50781262dfb5c9479070a52cf8",
+  "workItemId": "WI-974-interface-contract"
+}

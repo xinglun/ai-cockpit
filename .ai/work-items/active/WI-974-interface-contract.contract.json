@@ -1,0 +1,81 @@
+{
+  "acceptanceCriteria": [
+    "新增 cockpit-interface crate 承担 Clap 与 interface discovery；cockpit-protocol 不再直接声明 Clap 依赖。",
+    "cockpit-protocol 继续 re-export WorkItemOutcomeQueryArgs、description/spec functions、enums/constants，现有调用方签名和序列化事实不变。",
+    "CLI/MCP and protocol interface tests pass; parser-derived facts remain identical.",
+    "change is dependency/maintenance boundary only, no runtime acceleration claim."
+  ],
+  "authority": "authorized",
+  "baseRevision": "530bba1409d7b1a929430ac6779f2c2898658277",
+  "createdAt": "2026-09-21T19:02:51Z",
+  "goal": "把 interface_description.rs 迁入新的 cockpit-interface crate；cockpit-interface 承担 Clap parser 与接口发现，cockpit-protocol 保留领域协议并 re-export 既有符号；CLI、MCP、文档与测试继续消费同一事实源。",
+  "intent": "将传输相关的 Outcome interface contract 从 cockpit-protocol 的直接 Clap 依赖中隔离到轻量共享 crate，同时保持 cockpit-protocol 对现有公开接口的兼容 re-export。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不改变 CLI/MCP wire names、Outcome semantics、序列化 schema、release scripts、历史兼容行为；不复制第二套参数定义；不作性能收益声明。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e5f929509d26e92f263f5f28c74be68d641dc5346f3155977c14496fffaeb2f0",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "cockpit-protocol has no direct Clap dependency; Clap is owned by the new interface contract crate.",
+      "required": true,
+      "scenario": "protocol dependency boundary",
+      "status": "unverified",
+      "verificationPlan": "Inspect workspace and crate manifests, run protocol tests, and verify the new crate builds under the locked dependency graph."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing cockpit-protocol exports for Outcome query arguments, enums, constants, discovery, and Markdown rendering remain available with unchanged facts.",
+      "required": true,
+      "scenario": "public compatibility re-export",
+      "status": "unverified",
+      "verificationPlan": "Run cockpit-protocol interface tests and compile downstream CLI/MCP consumers through the existing cockpit-protocol paths."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI parser-derived defaults, enum values, names, and descriptions remain generated from one interface contract; no duplicate parameter registry is introduced.",
+      "required": true,
+      "scenario": "single interface fact source",
+      "status": "unverified",
+      "verificationPlan": "Run interface description tests and inspect the moved source and re-export boundary."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP Outcome wire names and response behavior remain unchanged, with no Outcome or serialization semantic changes.",
+      "required": true,
+      "scenario": "adapter behavior preservation",
+      "status": "unverified",
+      "verificationPlan": "Run affected cockpit-cli and cockpit-mcp tests, including Outcome handoff and RPC suites."
+    }
+  ],
+  "scope": [
+    "Cargo.toml;Cargo.lock;crates/cockpit-interface/**;crates/cockpit-protocol/Cargo.toml;crates/cockpit-protocol/src/**;crates/cockpit-protocol/tests/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/cockpit-interface/**",
+    "crates/cockpit-protocol/Cargo.toml",
+    "crates/cockpit-protocol/src/**",
+    "crates/cockpit-protocol/tests/**"
+  ],
+  "sources": [
+    "Source review: cockpit-protocol interface_description.rs and current CLI/MCP consumers",
+    "User authorization: implement all recommendations through WI workflow"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-protocol --tests",
+    "cargo test --locked -p cockpit-cli --test mcp --test outcome_handoff",
+    "cargo test --locked -p cockpit-mcp --test rpc"
+  ],
+  "workItemId": "WI-974-interface-contract"
+}
