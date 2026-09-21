@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:b4d6f9bd2f39626ba636e79db98130d9c63e6be9416f54c066e1167e1b469352",
+  "branchRef": "refs/heads/codex/wi-974-interface-contract",
+  "contractDigest": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
+  "headRevision": "cfdebcb29be910d46ca06a2bb8d916d6895b1fbd",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T19:13:03Z",
+  "operationId": "sha256:7d3c1517dbb5090630b654b5bb8a5f1d20c882b221a98b16d02bcec8b962e7da",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-974-interface-contract",
+  "worktreeId": "sha256:f204db81534b8624eaeb94b11f304f7dffdba3439f9e1f8e474153842c7bd282"
+}
