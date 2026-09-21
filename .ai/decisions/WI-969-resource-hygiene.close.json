@@ -1,0 +1,196 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-969-resource-hygiene.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+      "workItemId": "WI-969-resource-hygiene"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-969-resource-hygiene.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-969-resource-hygiene.verification-attempt.c3afc134976a230fac2a31d6bb58d1db8702eda740880c995b4155ea90b2bb18.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-969-resource-hygiene.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-969-resource-hygiene.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-969-resource-hygiene.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-969-resource-hygiene.scenario-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-969-resource-hygiene.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-969-resource-hygiene.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-969-resource-hygiene.verification.json",
+            ".ai/work-items/archive/WI-969-resource-hygiene.archive.json",
+            "35508220"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-22T02:15:21+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-969-resource-hygiene.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-969-resource-hygiene.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-969-resource-hygiene.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.contract.json"
+          ],
+          "inference": false,
+          "text": "Inventory and reconcile only explicitly classified stale governance resources and residual failed-attempt artifacts; leave unresolved or unmerged resources intact with reasons."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-969-resource-hygiene.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-969-resource-hygiene"
+  },
+  "finalReportDigest": "sha256:e07d5f36dfab1c6e888b38ea95c0ee30eadec8ece261e911f19d5f6095dbca62",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:dce23c4cf5edcdf410529af52393bdd0289ccf103b968159108e502aa8746ce9",
+    "branch": "codex/wi-969-resource-hygiene",
+    "branchRef": "refs/heads/codex/wi-969-resource-hygiene",
+    "capturedAt": "2026-09-21T17:15:54Z",
+    "contractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+    "headRevision": "35508220a9b1bcd459e20f0c9b642abcea2db8ef",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-969-resource-hygiene",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:4787d238138f920b37b72ca1c9770dabc89b96d78cba6bd59a2f462f37eb3e40",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-969-resource-hygiene/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:ae36ee05e2da8e7f74edfc4a372dde1b511bbe4ac7ede9107a1b0ead673fb20c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-22T02:15:21+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-969-resource-hygiene.verification.json",
+      ".ai/work-items/archive/WI-969-resource-hygiene.archive.json",
+      "35508220"
+    ],
+    "policyRefs": [
+      "AGENTS.md: no-resource Work Item route"
+    ],
+    "reason": "User explicitly authorized implementation through the complete Work Item lifecycle; resource hygiene inventory and evidence-preserving classification are accepted for closure.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T17:15:54Z",
+  "workItemId": "WI-969-resource-hygiene"
+}
