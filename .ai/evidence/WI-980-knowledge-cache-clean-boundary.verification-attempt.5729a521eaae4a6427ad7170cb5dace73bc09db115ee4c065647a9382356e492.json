@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:5729a521eaae4a6427ad7170cb5dace73bc09db115ee4c065647a9382356e492",
+  "commands": [
+    {
+      "args": [
+        "test --locked -p cockpit-repository --test knowledge_cache"
+      ],
+      "baseCommit": "bf988ba2dbffaad56c3da911a4c30b05d68f104d",
+      "commandDigest": "sha256:402b9109e3bb11506a672a73ceb7690278bf0efb0a06227f4ce197a4bbb3546f",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:afa90837be7d1428cd320aaed138244445c40547c34b67b5d49485ced9d811bf",
+  "contractExecutionScopeDigest": "sha256:299d9bd0f07fc1691a90d4eb1a2147d3252c72481682832ad5448bea973d3cd5",
+  "createdAt": "2026-09-21T21:52:35Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-980-knowledge-cache-clean-boundary/ai-cockpit/.ai/work-items/active/WI-980-knowledge-cache-clean-boundary.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}

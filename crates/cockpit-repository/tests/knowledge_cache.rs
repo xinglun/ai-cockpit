@@ -185,3 +185,52 @@ fn knowledge_index_records_source_revision_for_clean_fast_path() {
     assert_eq!(cached, index);
     fs::remove_dir_all(path).expect("cleanup");
 }
+
+#[test]
+fn dirty_cache_cannot_be_reused_after_archived_input_is_restored_clean() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-DIRTY-CLEAN");
+    commit_repository(&path, "archive knowledge baseline");
+    let contract_path = path.join(".ai/work-items/archive/WI-CACHE-DIRTY-CLEAN.contract.json");
+    let baseline_contract = fs::read(&contract_path).expect("baseline contract");
+    let baseline_revision = String::from_utf8(
+        Command::new("git")
+            .args(["rev-parse", "HEAD"])
+            .current_dir(&path)
+            .output()
+            .expect("revision")
+            .stdout,
+    )
+    .expect("revision UTF-8")
+    .trim()
+    .to_owned();
+
+    let mut dirty_contract: serde_json::Value =
+        serde_json::from_slice(&baseline_contract).expect("baseline JSON");
+    dirty_contract["intent"] = serde_json::Value::String("release dirty cache".into());
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&dirty_contract).expect("dirty JSON"),
+    )
+    .expect("write dirty contract");
+    let dirty = generate_knowledge(&path).expect("dirty projection");
+    assert_eq!(dirty.source_revision, None);
+    assert_eq!(dirty.records[0].topic, "release");
+    let dirty_source_digest = dirty.source_digest.clone();
+
+    fs::write(&contract_path, &baseline_contract).expect("restore baseline contract");
+    let restored = generate_knowledge(&path).expect("restored projection");
+    assert_eq!(restored.records[0].topic, "cache");
+    assert_ne!(restored.source_digest, dirty_source_digest);
+    assert_eq!(
+        restored.source_revision.as_deref(),
+        Some(baseline_revision.as_str())
+    );
+    let persisted: serde_json::Value = serde_json::from_slice(
+        &fs::read(path.join(".ai/knowledge/index.json")).expect("persisted index"),
+    )
+    .expect("persisted JSON");
+    assert_eq!(persisted["sourceDigest"], restored.source_digest);
+    assert_eq!(persisted["records"][0]["topic"], "cache");
+    fs::remove_dir_all(path).expect("cleanup");
+}
