@@ -1,0 +1,66 @@
+{
+  "acceptanceCriteria": [
+    "兼容判定实现位于 cockpit-repository/src/historical_compatibility.rs，调用方通过显式导入或稳定 re-export 使用",
+    "canonical close vocabulary、legacy close receipt 严格绑定和 legacy verification evidence 判定行为与当前主线一致",
+    "当前 schema/receipt 不会因兼容层抽取而被误判为历史兼容；历史证据仍只读且不被删除或重写",
+    "cockpit-repository 既有测试和新增边界测试通过，且格式、编译与验证证据绑定到本 WI"
+  ],
+  "authority": "authorized",
+  "baseRevision": "f50259f272d0b68ed0f150665e30c8e9f3496b4f",
+  "createdAt": "2026-09-21T19:38:52Z",
+  "goal": "将 legacy verification evidence、close receipt 兼容判定及 canonical close vocabulary 集中到同一 crate 的 historical_compatibility 模块，建立清晰的兼容边界而不删除历史证据或改变协议行为",
+  "intent": "按用户授权隔离历史兼容判定代码，保持现有行为和公开接口不变",
+  "mode": "implementation",
+  "outOfScope": [
+    "不删除历史 receipt、fixture 或旧 schema；不改变 close 决策词汇、legacy 判定条件、协议 schema 或公开函数签名；不迁移 resource finalization/recovery、schema migration 或其他 crate；不进行性能重写或新 crate 拆分"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "只有缺少 v2 discriminator 且文件为普通可读 JSON 的旧记录进入 historical projection；symlink、目录、损坏 JSON 或带 v2 discriminator 的记录继续 fail closed。",
+      "required": true,
+      "scenario": "历史 verification evidence 判定",
+      "status": "unverified",
+      "verificationPlan": "增加模块边界测试并运行 cockpit-repository 全量测试。"
+    },
+    {
+      "evidence": [],
+      "expected": "canonical close decision 继续直接接受；非 canonical 只在 legacy-cli/explicit-cli、绿色完整 finalReport、digest、身份和时间戳全部匹配时接受；当前 receipt 不走兼容路径。",
+      "required": true,
+      "scenario": "历史 close receipt 判定",
+      "status": "unverified",
+      "verificationPlan": "保留既有 close/status 生命周期测试并新增针对关键绑定缺失和 digest 篡改的边界测试。"
+    },
+    {
+      "evidence": [],
+      "expected": "status、lifecycle、outcome_render 通过显式模块接口调用；不删除、不重写历史 receipt、fixture 或协议字段。",
+      "required": true,
+      "scenario": "调用方边界与历史证据保留",
+      "status": "unverified",
+      "verificationPlan": "检查模块 diff 与调用方导入，运行格式检查和 cockpit-repository lib/tests。"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/historical_compatibility.rs; crates/cockpit-repository/src/lib.rs; crates/cockpit-repository/src/status_projection.rs; crates/cockpit-repository/src/lifecycle.rs; crates/cockpit-repository/src/outcome_render.rs; crates/cockpit-repository/tests/"
+  ],
+  "sources": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-repository --tests"
+  ],
+  "workItemId": "WI-976-historical-compatibility"
+}

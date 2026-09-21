@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-976-historical-compatibility.contract.json",
+    ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T19:41:00Z",
+  "checkpointContractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "createdAt": "2026-09-21T19:38:52Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/src/lifecycle.rs",
+      "crates/cockpit-repository/src/outcome_render.rs"
+    ],
+    "reason": "本 WI 只把已确认的历史兼容判定集中到同一 crate 内的显式模块，保留公开接口、旧记录和当前判定行为；resource finalization/recovery 与 schema migration 留在后续边界。",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T19:40:55Z",
+  "preflightContractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T19:41:00Z",
+  "workItemId": "WI-976-historical-compatibility"
+}

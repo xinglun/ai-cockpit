@@ -52,6 +52,7 @@ use thiserror::Error;
 mod evidence_store;
 mod execution_context;
 mod governance_controls;
+mod historical_compatibility;
 mod knowledge_projection;
 mod lifecycle;
 mod observation_ledger;
@@ -82,6 +83,11 @@ use execution_context::{
     effective_verification_environment, execution_environment_digest_from_values,
 };
 pub use governance_controls::*;
+pub(crate) use historical_compatibility::{
+    canonical_close_decisions, close_decision_is_valid_for_status,
+    infer_legacy_shared_worktree_retained, is_canonical_close_decision,
+    legacy_verification_evidence,
+};
 pub use knowledge_projection::{
     generate_knowledge, generate_knowledge_v2, implementation_approach,
     implementation_approach_read_only,
@@ -8614,69 +8620,6 @@ fn validate_historical_finalization(
     Ok(())
 }
 
-/// Infer the narrow compatibility classification for a legacy receipt that
-/// predates the explicit `historical` field.  This is deliberately stricter
-/// than merely seeing `disposition=retained`: the receipt must prove that the
-/// provider was the repository-local/shared mode, both the Contract and the
-/// receipt point at the canonical primary checkout, and the branch/worktree
-/// remained present and unchanged.  A linked worktree or an external provider
-/// is never accepted by this projection.
-fn infer_legacy_shared_worktree_retained(
-    root: &Path,
-    receipt: &ResourceFinalizationReceipt,
-    contract: &Contract,
-) -> bool {
-    if receipt.historical.is_some()
-        || !matches!(
-            receipt.result.disposition,
-            ResourceFinalizationDisposition::Retained
-        )
-        || receipt.provider != "local"
-        || !matches!(
-            receipt.before.pull_request,
-            cockpit_protocol::ResourceFinalizationPullRequestState::Merged
-        )
-        || !matches!(
-            receipt.after.pull_request,
-            cockpit_protocol::ResourceFinalizationPullRequestState::Merged
-        )
-        || receipt.before.branch != receipt.after.branch
-        || receipt.before.worktree != receipt.after.worktree
-        || !matches!(
-            receipt.after.branch,
-            cockpit_protocol::ResourceFinalizationBranchState::Present
-        )
-        || !matches!(
-            receipt.after.worktree,
-            cockpit_protocol::ResourceFinalizationWorktreeState::Clean
-        )
-        || receipt.branch.name != receipt.worktree.branch
-    {
-        return false;
-    }
-    let Some(context) = receipt.resource_context.as_ref() else {
-        return false;
-    };
-    if context.provider != "local"
-        || contract.resource_context.as_ref() != Some(context)
-        || context.branch != receipt.branch.name
-        || context.worktree != receipt.worktree.path
-    {
-        return false;
-    }
-    let Ok(root) = fs::canonicalize(root) else {
-        return false;
-    };
-    let Ok(layout) = discover_worktree_layout(&root) else {
-        return false;
-    };
-    if layout.primary != root {
-        return false;
-    }
-    fs::canonicalize(&context.worktree).ok().as_ref() == Some(&root)
-        && fs::canonicalize(&receipt.worktree.path).ok().as_ref() == Some(&root)
-}
-
 fn historical_finalization_recovery_path(root: &Path, work_item_id: &str) -> PathBuf {
     root.join(".ai/decisions")
         .join(format!("{work_item_id}.finalize-recovery.json"))
@@ -11555,174 +11498,6 @@ pub fn outcome_v2_with_runtime(
     outcome_v2_internal(root, work_item_id, Some(runtime))
 }
 
-/// Validate the close receipt before exposing a terminal `closed` status.
-/// Merely finding a decision file is not enough: the record must be a regular
-/// repository-local file with the same Work Item identity, a confirmed closed
-/// state, and a strict structured human decision whose summary agrees with
-/// the structured value. Invalid records remain visible as unknowns and can
-/// never promote an archived Work Item to `closed`.
-pub(crate) fn close_decision_is_valid_for_status(
-    root: &Path,
-    work_item_id: &str,
-    repository_id: &str,
-) -> bool {
-    let path = root
-        .join(".ai/decisions")
-        .join(format!("{work_item_id}.close.json"));
-    let Ok(metadata) = fs::symlink_metadata(&path) else {
-        return false;
-    };
-    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
-        return false;
-    }
-    let Ok(value) = read_json(&path) else {
-        return false;
-    };
-    if value.get("workItemId").and_then(serde_json::Value::as_str) != Some(work_item_id)
-        || value
-            .get("repositoryId")
-            .and_then(serde_json::Value::as_str)
-            != Some(repository_id)
-        || value.get("state").and_then(serde_json::Value::as_str) != Some("closed")
-        || value
-            .get("decisionState")
-            .and_then(serde_json::Value::as_str)
-            != Some("confirmed")
-    {
-        return false;
-    }
-    let Some(structured) = value.get("structuredDecision").cloned() else {
-        return false;
-    };
-    let Ok(decision) = serde_json::from_value::<HumanDecision>(structured) else {
-        return false;
-    };
-    if [
-        decision.decision.as_str(),
-        decision.actor.as_str(),
-        decision.authority_source.as_str(),
-        decision.reason.as_str(),
-        decision.decided_at.as_str(),
-    ]
-    .iter()
-    .any(|value| value.trim().is_empty())
-    {
-        return false;
-    }
-    if value
-        .get("humanDecision")
-        .and_then(serde_json::Value::as_str)
-        != Some(decision.decision.as_str())
-    {
-        return false;
-    }
-    if is_canonical_close_decision(&decision.decision) {
-        return true;
-    }
-
-    historical_legacy_close_decision_is_valid(root, &value, work_item_id, repository_id)
-}
-
-/// 旧 Runtime の close receipt を、完全な Outcome binding が残る場合だけ
-/// historical compatibility として受理する。現在の close は引き続き
-/// canonical vocabulary を要求し、自由形式の短絡入力は受理しない。
-fn historical_legacy_close_decision_is_valid(
-    root: &Path,
-    value: &serde_json::Value,
-    work_item_id: &str,
-    repository_id: &str,
-) -> bool {
-    let Some(structured) = value.get("structuredDecision") else {
-        return false;
-    };
-    // A complete report proves the contents were not tampered with, but it
-    // does not prove that a non-canonical decision came from an older
-    // Runtime.  Restrict compatibility to the explicit marker emitted by the
-    // legacy CLI; current human decisions with a changed token must remain
-    // invalid even when their report digest still matches.
-    if structured.get("actor").and_then(serde_json::Value::as_str) != Some("legacy-cli")
-        || structured
-            .get("authoritySource")
-            .and_then(serde_json::Value::as_str)
-            != Some("explicit-cli")
-    {
-        return false;
-    }
-    let Some(final_report) = value.get("finalReport") else {
-        return false;
-    };
-    if final_report
-        .get("status")
-        .and_then(serde_json::Value::as_str)
-        != Some("verified")
-        || final_report
-            .get("workItemId")
-            .and_then(serde_json::Value::as_str)
-            != Some(work_item_id)
-        || final_report
-            .get("humanStatusColor")
-            .and_then(serde_json::Value::as_str)
-            != Some("green")
-        || final_report
-            .get("bindings")
-            .and_then(|bindings| bindings.get("workItemId"))
-            .and_then(serde_json::Value::as_str)
-            != Some(work_item_id)
-        || final_report
-            .get("bindings")
-            .and_then(|bindings| bindings.get("repositoryId"))
-            .and_then(serde_json::Value::as_str)
-            != Some(repository_id)
-    {
-        return false;
-    }
-    let Some(expected_digest) = value
-        .get("finalReportDigest")
-        .and_then(serde_json::Value::as_str)
-    else {
-        return false;
-    };
-    let Ok(actual_digest) = cockpit_protocol::digest_json(final_report) else {
-        return false;
-    };
-    if expected_digest != actual_digest.to_string() {
-        return false;
-    }
-    if (value.get("ordinaryCleanupBinding").is_some()
-        || value.get("ordinaryCleanupBindingDigest").is_some())
-        && ordinary_cleanup_binding_from_decision(root, work_item_id, repository_id, value).is_err()
-    {
-        return false;
-    }
-    value
-        .get("timestamp")
-        .and_then(serde_json::Value::as_str)
-        .is_some_and(|timestamp| DateTime::parse_from_rfc3339(timestamp).is_ok())
-}
-
-/// Return the finite vocabulary accepted by the close lifecycle boundary.
-///
-/// `approved` and `confirmed` are positive human decisions, `rejected` is an
-/// explicit negative decision, `superseded` closes an immutable predecessor,
-/// and `superseded_failed_delivery` records the narrow abandoned-delivery
-/// cleanup case.  Free-form prose must remain in `reason`; accepting it as a
-/// decision token makes current lifecycle writes ambiguous.  The read-only
-/// status projection has a separate, evidence-bound compatibility path for
-/// complete older receipts.
-pub(crate) fn canonical_close_decisions() -> &'static [&'static str] {
-    &[
-        "approved",
-        "confirmed",
-        "rejected",
-        "superseded",
-        "superseded_failed_delivery",
-    ]
-}
-
-pub(crate) fn is_canonical_close_decision(decision: &str) -> bool {
-    canonical_close_decisions().contains(&decision.trim())
-}
-
 fn outcome_state_name(state: &OutcomeState) -> &'static str {
     match state {
         OutcomeState::Verified => "verified",
@@ -13487,32 +13262,6 @@ fn load_recovery_decision(
     }
     candidates.sort_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(&right.1)));
     Ok(candidates.pop().map(|(_, _, receipt)| receipt))
-}
-
-/// Return true only for a readable, regular legacy evidence file.  Malformed
-/// v2 JSON, symlinks, and v2 records with missing nested identity remain
-/// contradictory/red; this predicate is intentionally narrow so current
-/// corruption cannot hide behind the historical projection.
-fn legacy_verification_evidence(root: &Path, work_item_id: &str) -> bool {
-    let path = root
-        .join(".ai/evidence")
-        .join(format!("{work_item_id}.verification.json"));
-    let Ok(metadata) = fs::symlink_metadata(&path) else {
-        return false;
-    };
-    if metadata.file_type().is_symlink() || !metadata.file_type().is_file() {
-        return false;
-    }
-    let Ok(value) = read_json(&path) else {
-        return false;
-    };
-    let Some(object) = value.as_object() else {
-        return false;
-    };
-    // A schema-2 envelope with a deleted repositoryId is current corruption,
-    // not historical evidence.  Only the absence of the v2 discriminator
-    // qualifies for the legacy projection.
-    object.get("evidenceSchemaVersion").is_none()
 }
 
 /// Derive a repository-local capability truth registry from Observer facts and
