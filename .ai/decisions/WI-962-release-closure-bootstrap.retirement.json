@@ -1,0 +1,34 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:56fa2f15dc006c7a6103b46e31ecc5af18c32ab826ca2a42d022ed9b58eef37b",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:a5f028f5be72ce50336b5d848e4489368ee997f6f2d915c789228f9383ea6f0c",
+      "path": ".ai/work-items/archive/WI-962-release-closure-bootstrap.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:46b0ca0d95bfeb5a7a184707d1bdbf58b83d62fdfc38db6e270e2f118528f6bc",
+      "path": ".ai/work-items/archive/WI-962-release-closure-bootstrap.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:548942e068d90810373260dd87134a1bce77115f788bb78175998850d6df714c",
+      "path": ".ai/work-items/archive/WI-962-release-closure-bootstrap.summary.json"
+    }
+  },
+  "authoritySource": "用户已明确授予全权授权，并要求找到根因后修复，避免反复发布卡点。",
+  "contractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-962 缺少 Runtime 支持的高风险 scenarioCoverage 初始声明入口，未建立 checkpoint、未执行验证；由范围更窄的 WI-963 接替入口顺序修复。",
+  "recordedAt": "2026-09-21T01:52:14Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ee75f961aef77f6f91c248c5f3e581d7c068cb1844ccf76728a0cd058c4d848",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-963-release-closure-entrypoint",
+  "summaryDigest": "sha256:6abb1ca0e2db08a04563a1c80e1a9f871e69da8a8b832271661817903f524bdb",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-962-release-closure-bootstrap"
+}

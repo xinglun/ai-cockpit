@@ -1,0 +1,26 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "329f3dbbff821d808556cf9bb945a8138a7aefe9",
+  "createdAt": "2026-09-21T01:52:13Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "predecessorWorkItemId": "WI-962-release-closure-bootstrap",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-962-release-closure-bootstrap.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ee75f961aef77f6f91c248c5f3e581d7c068cb1844ccf76728a0cd058c4d848",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

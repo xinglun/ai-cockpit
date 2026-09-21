@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "缺少当前 Work Item 的三语 reader 文档和 parity 行时，start --prepare 仍可建立一次有效 checkpoint。",
+    "后续 archive 或治理门禁仍对缺失的文档投影失败关闭，并给出明确补救路径。",
+    "已归档 recovery 决策在三语 parity 行中保持可追溯；不把计划或 capability 当作已完成事实。",
+    "定向 Rust 与 Python 回归通过，且不创建新 Runtime release。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "createdAt": "2026-09-21T01:42:16Z",
+  "goal": "允许受治理 Work Item 在不预先手工创建其文档投影的情况下建立可信 checkpoint，同时保留后续文档完整性和 recovery 决策可追溯性。",
+  "intent": "修复资源型发布收尾中 Work Item 在 checkpoint 前被文档投影门禁阻断、并造成 recovery/PR 循环的 Runtime 设计缺陷。",
+  "mode": "code",
+  "outOfScope": [
+    "发布新版本",
+    "修改 WI-959/WI-960/WI-961 archive 字节",
+    "改写历史 release evidence",
+    "Sentinel/**",
+    "全仓文档迁移"
+  ],
+  "predecessorContractDigest": "sha256:41ab3fcced119ef606df08f3ac537d9304b1730b98f37e004a607ede724d843f",
+  "predecessorWorkItemId": "WI-961-v0-2-103-parity-projection",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-961-v0-2-103-parity-projection.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2046dad14653d226a93c30c2e5a5cec7a3247617cd56b86d4e6286e77e3328b1",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "high",
+  "scope": [
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/docs/promote_closed_work_item.py",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-962-release-closure-bootstrap.md",
+    "docs/work-items/WI-962-release-closure-bootstrap.zh-CN.md",
+    "docs/work-items/WI-962-release-closure-bootstrap.ja.md",
+    ".ai/**"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/repository-workflow.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-repository --test lifecycle_entry --test recovery_decision",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi962-governance-integrity.json",
+    "git diff --check origin/main...HEAD"
+  ],
+  "workItemId": "WI-962-release-closure-bootstrap"
+}
