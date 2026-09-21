@@ -20,8 +20,8 @@
 - Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.bca7c98196aad2010378b6ce6fdec1badf1d90cdd5c3c234a8878d4f6d10449d.json
 - Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.fcb9fed7d63d59049b9e8d440fbf3b5065a9df9c3518de1f0754e32bce3cbe91.json
 - Changed path: .ai/evidence/WI-977-recovery-compatibility.verification.json
-- Changed path: .ai/work-items/active/WI-977-recovery-compatibility.contract.json
-- Changed path: .ai/work-items/active/WI-977-recovery-compatibility.summary.json
+- Changed path: .ai/work-items/archive/WI-977-recovery-compatibility.contract.json
+- Changed path: .ai/work-items/archive/WI-977-recovery-compatibility.summary.json
 
 ## Findings
 
