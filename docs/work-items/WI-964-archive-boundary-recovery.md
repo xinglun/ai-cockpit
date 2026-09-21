@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-964 — immutable archive boundary recovery"
 description: "Repair archive formatting at its source and keep mutable whitespace validation separate from immutable archive integrity."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-964-archive-boundary-recovery
 lastVerifiedBy: WI-964-archive-boundary-recovery
+terminalArchive: .ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json
+terminalVerification: .ai/evidence/WI-964-archive-boundary-recovery.verification.json
+terminalDecision: .ai/decisions/WI-964-archive-boundary-recovery.close.json
 ---
 
 [简体中文](WI-964-archive-boundary-recovery.zh-CN.md) · [日本語](WI-964-archive-boundary-recovery.ja.md)

@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-964 — 不可变归档边界恢复"
 description: "在源头修复归档格式，并把可修改路径的 whitespace 校验与不可变归档完整性分开。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-964-archive-boundary-recovery
 lastVerifiedBy: WI-964-archive-boundary-recovery
+terminalArchive: .ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json
+terminalVerification: .ai/evidence/WI-964-archive-boundary-recovery.verification.json
+terminalDecision: .ai/decisions/WI-964-archive-boundary-recovery.close.json
 ---
 
 [English](WI-964-archive-boundary-recovery.md) · [日本語](WI-964-archive-boundary-recovery.ja.md)
