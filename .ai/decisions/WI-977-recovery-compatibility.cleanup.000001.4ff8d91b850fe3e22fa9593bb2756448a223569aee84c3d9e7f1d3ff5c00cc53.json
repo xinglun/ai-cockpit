@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:2b8262a7198ed613697099f7243b04213a0b82baf26eb9c4e128424477b39802",
+  "branchRef": "refs/heads/codex/wi-977-recovery-compatibility",
+  "contractDigest": "sha256:e25862f144fde5e028240f08f55a1b75d3c17f7d77db31ccf9b1a461cb0cf11e",
+  "headRevision": "9dcd0b088fe897f539ae5cf456ac484bcd4ec93c",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T20:17:19Z",
+  "operationId": "sha256:198237ad998ca1f6dc72e90cc0a7c2568e605a4ab27e3577b9b645f8a2b19cce",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-977-recovery-compatibility",
+  "worktreeId": "sha256:51ec11da110bd921cc5f3b97871b463d8838c73d37da495165e7336d62eb9b2f"
+}
