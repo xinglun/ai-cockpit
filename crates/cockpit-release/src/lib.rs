@@ -10,5 +10,6 @@ pub mod provider;
 pub mod recovery;
 pub mod resume;
 pub mod sbom;
+pub mod version_consistency;
 
 pub use error::ReleaseError;

@@ -25,6 +25,7 @@ fn help_lists_all_release_boundary_commands() {
         "validate-handoff",
         "acceptance-plan",
         "acceptance-record",
+        "version-consistency",
     ] {
         assert!(
             stdout.contains(command),

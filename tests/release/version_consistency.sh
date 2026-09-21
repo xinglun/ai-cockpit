@@ -60,14 +60,14 @@ cd "$repo"
 command -v cargo >/dev/null 2>&1 || die 'cargo is unavailable'
 command -v jq >/dev/null 2>&1 || die 'jq is unavailable'
 
-metadata="$(cargo metadata --locked --format-version 1)"
-version="$(printf '%s' "$metadata" | jq -er '[.packages[] | select(.name == "cockpit-cli" and .source == null) | .version] | if length == 1 then .[0] else error("cockpit-cli workspace package is ambiguous") end')"
-release_tag="v${version}"
-printf '%s\n' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' || die "invalid workspace version: $version"
-
-if ! printf '%s' "$metadata" | jq -e --arg version "$version" '[.packages[] | select(.source == null) | .version == $version] | all' >/dev/null; then
-  die 'workspace package versions are not aligned with cockpit-cli'
+if [[ -n "${COCKPIT_RELEASE_BIN:-}" ]]; then
+  [[ -x "$COCKPIT_RELEASE_BIN" ]] || die "COCKPIT_RELEASE_BIN is not executable: $COCKPIT_RELEASE_BIN"
+  release_identity="$($COCKPIT_RELEASE_BIN version-consistency --repo "$repo")" || die 'cockpit-release source version consistency failed'
+else
+  release_identity="$(cargo run --quiet --locked --package cockpit-release -- version-consistency --repo "$repo")" || die 'cockpit-release source version consistency failed'
 fi
+version="$(printf '%s' "$release_identity" | jq -er '.version')" || die 'cockpit-release did not return a typed source version'
+release_tag="v${version}"
 
 require_text() {
   local file=$1
@@ -75,50 +75,6 @@ require_text() {
   [[ -f "$file" ]] || die "required current-version document is missing: $file"
   grep -Fq -- "$text" "$file" || die "$file does not contain current value: $text"
 }
-
-for file in \
-  docs/release/distribution.md \
-  docs/release/distribution.ja.md \
-  docs/release/distribution.zh-CN.md; do
-  require_text "$file" "$release_tag"
-  require_text "$file" "ai-cockpit-${release_tag}-"
-done
-
-for file in \
-  docs/architecture/release-distribution.md \
-  docs/architecture/release-distribution.ja.md \
-  docs/architecture/release-distribution.zh-CN.md; do
-  require_text "$file" "$release_tag"
-  if ! grep -Eiq 'baseline|基线|ベースライン' "$file"; then
-    die "$file does not declare a release baseline"
-  fi
-done
-
-for file in \
-  docs/architecture/versioning.md \
-  docs/architecture/versioning.ja.md \
-  docs/architecture/versioning.zh-CN.md; do
-  require_text "$file" "$version"
-done
-
-# Operations pages describe the current baseline target without pinning a
-# release number. The version is resolved from Cargo metadata above so a
-# Runtime release cannot silently leave an old version in the operator route.
-for file in \
-  docs/operations/README.md \
-  docs/operations/README.ja.md \
-  docs/operations/README.zh-CN.md; do
-  require_text "$file" 'x86_64-unknown-linux-gnu'
-  if grep -Eq 'v[0-9]+\.[0-9]+\.[0-9]+' "$file"; then
-    die "$file hard-codes a release version in the current operations baseline"
-  fi
-done
-
-# A current-baseline line must never name a different semantic version. This
-# deliberately ignores historical N-1/migration prose elsewhere in the docs.
-while IFS= read -r line; do
-  [[ "$line" == *"$release_tag"* ]] || die "current baseline is stale: $line"
-done < <(grep -HinE 'current installation baseline|current immutable public baseline|現在の installation baseline|現在の immutable public baseline|当前安装基线|当前不可变公开基线' docs/release/distribution.* docs/architecture/release-distribution.* || true)
 
 require_text .github/workflows/release.yml 'cargo metadata --locked'
 require_text .github/workflows/release.yml 'tests/release/version_consistency.sh'

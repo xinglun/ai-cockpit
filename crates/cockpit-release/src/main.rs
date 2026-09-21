@@ -10,6 +10,7 @@ use cockpit_release::{
     provider::verify_existing_release,
     resume::{PhaseReceiptStore, plan_for_phase},
     sbom::{bind_sbom_file, validate_sbom_binding},
+    version_consistency::validate_source,
 };
 
 #[derive(Debug, Parser)]
@@ -174,6 +175,10 @@ enum Command {
         release_json: PathBuf,
         #[arg(long)]
         tag_commit: String,
+    },
+    VersionConsistency {
+        #[arg(long)]
+        repo: PathBuf,
     },
 }
 
@@ -406,6 +411,10 @@ fn run() -> Result<(), Box<dyn std::error::Error>> {
         } => {
             let receipt = verify_existing_release(&manifest, &dist, &release_json, &tag_commit)?;
             println!("{}", serde_json::to_string(&receipt)?);
+        }
+        Command::VersionConsistency { repo } => {
+            let report = validate_source(&repo)?;
+            println!("{}", serde_json::to_string(&report)?);
         }
     }
     Ok(())

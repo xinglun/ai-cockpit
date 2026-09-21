@@ -2,14 +2,18 @@
 set -euo pipefail
 
 script=tests/release/version_consistency.sh
+rust_module=crates/cockpit-release/src/version_consistency.rs
 workflow=.github/workflows/release.yml
 
 test -x "$script"
-grep -Fq 'cargo metadata --locked --format-version 1' "$script"
-grep -Fq 'docs/release/distribution.ja.md' "$script"
-grep -Fq 'docs/release/distribution.zh-CN.md' "$script"
-grep -Fq 'docs/architecture/release-distribution.ja.md' "$script"
-grep -Fq 'docs/architecture/release-distribution.zh-CN.md' "$script"
+test -f "$rust_module"
+grep -Fq 'version-consistency' "$script"
+grep -Fq 'COCKPIT_RELEASE_BIN' "$script"
+! grep -Fq 'cargo metadata --locked --format-version 1' "$script"
+grep -Fq 'docs/release/distribution.ja.md' "$rust_module"
+grep -Fq 'docs/release/distribution.zh-CN.md' "$rust_module"
+grep -Fq 'docs/architecture/release-distribution.ja.md' "$rust_module"
+grep -Fq 'docs/architecture/release-distribution.zh-CN.md' "$rust_module"
 grep -Fq -- '--post-release' "$script"
 grep -Fq '"tests/release/version_consistency.sh", "--repo", "."' tests/ci/repository_gate_manifest.json
 grep -Fq 'release_version_consistency_policy' tests/ci/repository_gate_manifest.json
