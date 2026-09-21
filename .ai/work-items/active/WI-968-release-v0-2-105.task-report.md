@@ -14,23 +14,24 @@
 
 ## Delivered changes
 
-- Changed path: .ai/decisions/WI-968-release-v0-2-105.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.09dbffa634c5f8c99c139786eebb10884c1c974202178fd78f160e395a281361.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.203d0a3441b2004bbe461f4e20be4ceb659e96f6cc4b86ad835b0f094d77571f.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.498b3d7e966cda4dacc87bf97ecedeec1f4af6095b0345e4367d38f99f9a16f6.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.8b2dc5dce64a1f25996b502877d195639142b9dc5ee15ffe96ae215a00297298.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.937be00481f2885053a920c0d21ed287262cbe29d23178af2c2f0750a89a3afa.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.bb80c9586736b531d9a376b3db3ebc12b0d56c0ff95fcf17c02801b7e7c413b7.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.0326dcce5d664c4f50f319f428ef5c0bae15c4da459273f2fb27711070e91211.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.150bfc5ac810d51128d1e6f211dc95e254c090539c0fbef3a8cce84010ee69f0.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.1a9252ec774348c5c4883c9ce174e1c047eb3c426df063b6e4bd461f83a6dde4.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.52e86f0bfda3cf7d07048e5a5bcd2f4057a524ed1d5a50def6ef944a0f053309.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.55155d284cd015371f371f7aa160d7acb60d104f11a017bc2cd3069f4ea818c7.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.d6acffbd8904d02e9e7756dd2841ddc92e3dae347f2b65cd996486691da7f616.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.dd0746846a9c6e443ec26d5b906131239fcfe613e6b4f0e6959c4c5cd9829533.json
 - Changed path: .ai/evidence/WI-968-release-v0-2-105.verification.json
-- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.context-amend.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json
-- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.finalize-plan.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.interface-amend.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.outcome.json
-- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.retry.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.md
+- Changed path: docs/reference/commands.ja.md
+- Changed path: docs/reference/commands.md
+- Changed path: docs/reference/commands.zh-CN.md
 
 ## Findings
 

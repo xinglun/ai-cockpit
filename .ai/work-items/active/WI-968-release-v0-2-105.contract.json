@@ -7,7 +7,8 @@
     "最终仅向 Sentinel Issue #902 发送包含 tag、commit、Release URL、workflow 和 Runtime digest 的通知，不关闭该 Issue。",
     "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
     "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
-    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish."
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
+    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate."
   ],
   "authority": "authorized",
   "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
@@ -53,10 +54,15 @@
     "docs/release/distribution.ja.md",
     ".ai/decisions/**",
     ".ai/work-items/active/WI-968-release-v0-2-105.**",
-    "docs/reference/reference-comparison-metadata.json"
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
   ],
   "sources": [
-    "https://github.com/xinglun/ai-cockpit/pull/949"
+    "https://github.com/xinglun/ai-cockpit/pull/949",
+    "scripts/generate_interface_references.py",
+    "crates/cockpit-protocol/src/interface_description.rs"
   ],
   "state": "implementation_active",
   "verification": [
