@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:110804bc0976b793a3029d312e49152fdffd26f9d45efaa8e8729252a71347fe",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:682a1edca21cc3e67a0d5ac55f611f2092623454f93dae9d53d57f93c1ef9303",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b77cacc4b664deafaeea195687c4994cbd77c119f82ec1e6d5de2f52bcd7078f",
+  "contractExecutionScopeDigest": "sha256:72540345695bc0d5f66a07e729c5738c947ffd615a55e2223fde327421e825f4",
+  "createdAt": "2026-09-21T11:35:26Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-control-v0-2-105/.ai/work-items/active/WI-968-release-v0-2-105.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-968-release-v0-2-105"
+}

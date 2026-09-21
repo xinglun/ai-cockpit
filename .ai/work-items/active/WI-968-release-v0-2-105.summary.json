@@ -1,19 +1,21 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.51aedb4ac64772817c81b759c5924cd317b089b752e6186e6e6856ec2b808423.json",
+    ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.110804bc0976b793a3029d312e49152fdffd26f9d45efaa8e8729252a71347fe.json",
+    ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.36d45dc99482564602120c564cce10a7fafb6082eb5bdb3acc7b7104595f6456.json",
+    ".ai/evidence/WI-968-release-v0-2-105.verification-attempt.7892968f3bf6d7816fc5c2ecd32f9954b3cc64f5c7bdaa83753957280beb53fe.json",
     ".ai/evidence/WI-968-release-v0-2-105.verification.json",
     ".ai/work-items/active/WI-968-release-v0-2-105.contract.json",
-    ".ai/work-items/active/WI-968-release-v0-2-105.flow-repair-amend.json",
     ".ai/work-items/active/WI-968-release-v0-2-105.outcome.json",
     ".ai/work-items/active/WI-968-release-v0-2-105.summary.json",
     ".ai/work-items/active/WI-968-release-v0-2-105.task-report.json",
     ".ai/work-items/active/WI-968-release-v0-2-105.task-report.md",
+    ".ai/work-items/active/WI-968-release-v0-2-105.windows-shell-amend.json",
     ".github/workflows/release.yml",
     "tests/release/workflow_policy.sh"
   ],
   "checkpointAt": "2026-09-21T09:47:36Z",
-  "checkpointContractDigest": "sha256:68151eba260c6a34e36c2d43ffd4b3e388787e1f4b5149938d5af7d9ace1616c",
+  "checkpointContractDigest": "sha256:b77cacc4b664deafaeea195687c4994cbd77c119f82ec1e6d5de2f52bcd7078f",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -129,15 +131,35 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-968-release-v0-2-105"
+    },
+    {
+      "acceptanceCount": 11,
+      "contractHash": "sha256:b77cacc4b664deafaeea195687c4994cbd77c119f82ec1e6d5de2f52bcd7078f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:082b19e298846050ca77e4aaafd745c28be7983df96f992400e1c0712b62c6aa",
+      "previousContractHash": "sha256:68151eba260c6a34e36c2d43ffd4b3e388787e1f4b5149938d5af7d9ace1616c",
+      "reason": "The v0.2.105 release run reached the build matrix but Windows PowerShell rejected the Unix inline CARGO_INCREMENTAL assignment before compilation; repair the current release workflow contract and add a deterministic regression gate without changing the immutable tag or product scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T11:33:21Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ffd205c55736363db51259cc475b0e482e507a3f52fc5d0cbb0ef7b243996ee3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-968-release-v0-2-105"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:ffd205c55736363db51259cc475b0e482e507a3f52fc5d0cbb0ef7b243996ee3",
+  "checkpointRepositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
   "createdAt": "2026-09-21T09:47:35Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-21T11:02:28Z",
-  "preflightContractDigest": "sha256:68151eba260c6a34e36c2d43ffd4b3e388787e1f4b5149938d5af7d9ace1616c",
+  "preflightAt": "2026-09-21T11:36:21Z",
+  "preflightContractDigest": "sha256:b77cacc4b664deafaeea195687c4994cbd77c119f82ec1e6d5de2f52bcd7078f",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:ffd205c55736363db51259cc475b0e482e507a3f52fc5d0cbb0ef7b243996ee3",
+  "preflightRepositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -149,6 +171,14 @@
       "scenario": "normal release consumes canonical ReleasePlan envelope",
       "status": "unverified",
       "verificationPlan": "Run the workflow policy gates and the hosted v0.2.105 release workflow through release_preflight."
+    },
+    {
+      "evidence": [],
+      "expected": "The PowerShell runner invokes cargo build instead of treating CARGO_INCREMENTAL=0 as a command name",
+      "required": true,
+      "scenario": "Windows release build executes the target compile step",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow policy gates, then rerun the same v0.2.105 release workflow after the repair and inspect the Windows build job."
     }
   ],
   "state": "checkpointed",
@@ -159,6 +189,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ef83a8a3d14946db55810da38d53ec032ab1a7be14443c198cf8757d71a71693",
+  "verificationRecoveryReconciled": "sha256:414e2267a1175cb93d1a46dfc2baa4cf35b205bbd78e146f5e579c9855bf7993",
   "workItemId": "WI-968-release-v0-2-105"
 }

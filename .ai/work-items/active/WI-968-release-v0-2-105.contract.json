@@ -9,7 +9,8 @@
     "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
     "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
     "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate.",
-    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection."
+    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection.",
+    "The Windows release build sets CARGO_INCREMENTAL through the workflow environment or PowerShell-compatible syntax; it must not use a Unix inline assignment in a PowerShell run step, while Unix targets retain the no-incremental policy."
   ],
   "authority": "authorized",
   "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
@@ -48,6 +49,14 @@
       "scenario": "normal release consumes canonical ReleasePlan envelope",
       "status": "unverified",
       "verificationPlan": "Run the workflow policy gates and the hosted v0.2.105 release workflow through release_preflight."
+    },
+    {
+      "evidence": [],
+      "expected": "The PowerShell runner invokes cargo build instead of treating CARGO_INCREMENTAL=0 as a command name",
+      "required": true,
+      "scenario": "Windows release build executes the target compile step",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow policy gates, then rerun the same v0.2.105 release workflow after the repair and inspect the Windows build job."
     }
   ],
   "scope": [
@@ -77,7 +86,9 @@
     "scripts/generate_interface_references.py",
     "crates/cockpit-protocol/src/interface_description.rs",
     ".github/workflows/release.yml release_preflight and source-quality canonical ReleasePlan envelope consumers",
-    "tests/release/workflow_policy.sh release identity projection regression checks"
+    "tests/release/workflow_policy.sh release identity projection regression checks",
+    ".github/workflows/release.yml build matrix shell semantics for Windows",
+    "tests/release/workflow_policy.sh cross-shell environment assignment regression checks"
   ],
   "state": "implementation_active",
   "verification": [

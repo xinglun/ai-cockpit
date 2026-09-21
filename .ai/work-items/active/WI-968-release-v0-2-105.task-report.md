@@ -15,9 +15,11 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.110804bc0976b793a3029d312e49152fdffd26f9d45efaa8e8729252a71347fe.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.7892968f3bf6d7816fc5c2ecd32f9954b3cc64f5c7bdaa83753957280beb53fe.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json
-- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.flow-repair-amend.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.windows-shell-amend.json
 - Changed path: .github/workflows/release.yml
 - Changed path: tests/release/workflow_policy.sh
 

@@ -1,0 +1,27 @@
+{
+  "scopeAppend": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sourcesAppend": [
+    ".github/workflows/release.yml build matrix shell semantics for Windows",
+    "tests/release/workflow_policy.sh cross-shell environment assignment regression checks"
+  ],
+  "verificationAppend": [
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "acceptanceAppend": [
+    "The Windows release build sets CARGO_INCREMENTAL through the workflow environment or PowerShell-compatible syntax; it must not use a Unix inline assignment in a PowerShell run step, while Unix targets retain the no-incremental policy."
+  ],
+  "scenarioCoverageAppend": [
+    {
+      "required": true,
+      "evidence": [],
+      "scenario": "Windows release build executes the target compile step",
+      "expected": "The PowerShell runner invokes cargo build instead of treating CARGO_INCREMENTAL=0 as a command name",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow policy gates, then rerun the same v0.2.105 release workflow after the repair and inspect the Windows build job."
+    }
+  ]
+}
