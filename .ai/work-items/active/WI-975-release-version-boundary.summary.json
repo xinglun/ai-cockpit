@@ -104,14 +104,13 @@
       "verificationPlan": "Review the diff boundary and run the existing release script static checks without invoking a public Release mutation."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T19:30:42.516102+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T19:32:20Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3fa4161111acdca84ee4c617df6ba408e62686991a37b4fe1b50b95f08a74399",
   "workItemId": "WI-975-release-version-boundary"
 }
