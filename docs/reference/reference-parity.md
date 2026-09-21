@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ mapping, see [Contract and Summary fields](contract-fields.md).
 Current comparison metadata is maintained in the
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json)
 sidecar shared with the file-level comparison route. It binds the pinned
-source commit, reviewed Rust baseline, published Runtime identity, and current
+source commit, reviewed Rust baseline, candidate Runtime identity, and current
 ledger counts; the tri-language pages are checked together so a release or
 comparison update cannot leave a stale presentation header.
 
@@ -42,8 +42,8 @@ for the rebaseline receipt and procedure.
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 The current snapshot uses Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b`
-and the reviewed Runtime `ai-cockpit v0.2.102` with binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`.
+and the reviewed Runtime `ai-cockpit v0.2.103` with binary digest
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`.
 It contains all 5,175 current paths and no deferred paths. The final
 rebaseline delta is now classified; `reference-only` preserves source/provider
 history without importing it, while `implemented-different-by-design` records
@@ -1074,6 +1074,8 @@ See the [WI-640 file-level record](reference-file-comparison.md#wi-640--referenc
 | WI-953-post-release-doc-promotion — v0.2.102 post-release documentation promotion | Implemented · Replaced before verification | [Work Item](../work-items/WI-953-post-release-doc-promotion.md); immutable archive `.ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json`; verification reference `.ai/evidence/WI-953-post-release-doc-promotion.verification.json` is deliberately absent because no verification is claimed; retirement `.ai/decisions/WI-953-post-release-doc-promotion.retirement.json` preserves the route and binds successor WI-954. |
 | WI-954-start-verification-declaration — documentation projection recovery | Implemented | [Work Item](../work-items/WI-954-start-verification-declaration.md); terminal lifecycle: archive `.ai/work-items/archive/WI-954-start-verification-declaration.contract.json`; verification `.ai/evidence/WI-954-start-verification-declaration.verification.json`; close `.ai/decisions/WI-954-start-verification-declaration.close.json`. |
 | WI-957-start-authority-recovery — start authority and typed verification validation | Implemented | [Work Item](../work-items/WI-957-start-authority-recovery.md); terminal lifecycle: archive `.ai/work-items/archive/WI-957-start-authority-recovery.contract.json`; verification `.ai/evidence/WI-957-start-authority-recovery.verification.json`; close `.ai/decisions/WI-957-start-authority-recovery.close.json`. |
+| WI-958-v0-2-103-release — v0.2.103 Runtime release | In progress → Implemented after verified close | [Work Item](../work-items/WI-958-v0-2-103-release.md); planned archive `.ai/work-items/archive/WI-958-v0-2-103-release.contract.json`; verification `.ai/evidence/WI-958-v0-2-103-release.verification.json`; finalization `.ai/decisions/WI-958-v0-2-103-release.finalize.json`; close `.ai/decisions/WI-958-v0-2-103-release.close.json`. Publication remains last and is gated on immutable release identity, public artifact acceptance, exact cleanup, and the post-release Sentinel #902 notice. |
+| WI-959-v0-2-103-release-recovery — v0.2.103 release verification recovery | In progress → Implemented after verified close | [Work Item](../work-items/WI-959-v0-2-103-release-recovery.md); successor of WI-958 after its Contract made post-publication evidence a verification precondition. Planned archive `.ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json`; verification `.ai/evidence/WI-959-v0-2-103-release-recovery.verification.json`; finalization `.ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json`; close `.ai/decisions/WI-959-v0-2-103-release-recovery.close.json`. |
 | WI-912-wi911-doc-promotion — WI-911 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-912-wi911-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

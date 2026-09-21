@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "发布版本包含 current main 的已合入修复并保持发布前 Contract、验证和授权约束。",
+    "仅在 reviewed PR 与 Hosted CI 成功后创建不可变 v0.2.103 tag 和公开 Release。",
+    "使用下载的公开制品完成声明平台的安装或升级验收，并记录版本、commit、Runtime digest、Hosted CI 与清理状态。",
+    "在 tag、Release、下载制品验收与精确资源清理均完成前，不向 Sentinel Issue #902 宣称其下游验收已可闭环。"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "bde14a8062563cc12c071f41d60e6ba524d214b3",
+  "createdAt": "2026-09-20T21:23:14Z",
+  "goal": "发布经过审查、Hosted CI、不可变 tag、公开 Release、下载制品验收与精确清理验证的 v0.2.103；发布完成后才向 Sentinel Issue #902 说明可开始下游 acceptance replay。",
+  "intent": "在所有已合入修复、验证与精确资源清理完成后，发布包含当前 main 的 AI Cockpit Runtime v0.2.103；旧候选 PR #936 因归档快照绑定旧基线而保留为失败证据，不得作为发布依据。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不得修改 Sentinel；不得将 third-party/Codex 对话展示未知表述为已确认；不得发布前通知或关闭 Sentinel Issue #902；不得重写或篡改旧 PR #936 的归档证据。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+  "requiredEvidenceClasses": [
+    "verification",
+    "delegated:github",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scope": [
+    "Cargo.toml",
+    " Cargo.lock",
+    " docs/architecture/**",
+    " docs/reference/**",
+    " docs/release/**",
+    " docs/work-items/release-v0-2-103-final.*",
+    " release metadata and generated Runtime governance evidence required by the declared release route"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/936",
+    "https://github.com/xinglun/ai-cockpit/issues/902"
+  ],
+  "state": "implementation_active",
+  "verification": [],
+  "workItemId": "release-v0-2-103-final"
+}

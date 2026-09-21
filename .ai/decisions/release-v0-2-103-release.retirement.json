@@ -1,0 +1,33 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:654e5469f0822ea8f0a6d94fb22526bac98f88dcb46b88330501096125af6eea",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:54febf6b68367894d02d1d88986f57e019796518a4cd3c47b8d81131c6980ad9",
+      "path": ".ai/work-items/archive/release-v0-2-103-release.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:d92746207cd7ac1f762c0c0c99d8b6de6cd48544088e49ee5d6ca044433df34c",
+      "path": ".ai/work-items/archive/release-v0-2-103-release.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:c1bbe08d32a132fb54ae2df56c957d22d94a9873eb529c11cacb8a0fc092f0cd",
+      "path": ".ai/work-items/archive/release-v0-2-103-release.summary.json"
+    }
+  },
+  "authoritySource": "standing user authorization in this conversation",
+  "contractDigest": "sha256:0f3a888ad3f766c8e0d605907d0c0902855b17e00e52912f3a9600f818f54d63",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "This active setup made no scoped repository change, verification claim, or publication. Its empty setup has no outstanding delivery; the governed v0.2.103 release is planned separately by WI-958-v0-2-103-release on verified main.",
+  "recordedAt": "2026-09-20T22:50:19Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b2b45281e33a9fc6a2a55db9ac8f833bc9618bac0823f4fae0f733e5d7f724ef",
+  "runtimeDigest": "sha256:35467944e18f0e8c02a3a149e806d9aa2650c695a1f331ff725aec2924593d70",
+  "runtimeVersion": "0.2.102",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:ec8e659b1a1ba5e8120b7542d6f884518b5ce9ca0b038a73ef264180622c33e7",
+  "verificationClaim": "not_verified",
+  "workItemId": "release-v0-2-103-release"
+}

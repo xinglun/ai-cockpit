@@ -1,0 +1,123 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-20T23:20:05Z",
+  "checkpointContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:20:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "previousContractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "reason": "Hosted docs_acceptance rejected the live comparison metadata because its Runtime identity remained v0.2.102 while this v0.2.103 candidate is under review. Add only the metadata and three generated-projection pages needed to correct that current candidate identity.",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:48:38Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "createdAt": "2026-09-20T23:14:21Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "predecessorWorkItemId": "WI-958-v0-2-103-release",
+  "preflightAt": "2026-09-20T23:57:33Z",
+  "preflightContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-958-v0-2-103-release.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-20T23:58:01Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-959-v0-2-103-release-recovery"
+}

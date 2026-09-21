@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-958-v0-2-103-release.contract.json",
+    ".ai/work-items/active/WI-958-v0-2-103-release.summary.json"
+  ],
+  "checkpointAt": "2026-09-20T22:44:46Z",
+  "checkpointContractDigest": "sha256:81ac7c839e37b549003c17d606d5535ea1aa1c5eb92475062a4672654f8ce45c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:81ac7c839e37b549003c17d606d5535ea1aa1c5eb92475062a4672654f8ce45c",
+      "recorded": true,
+      "recordedAt": "2026-09-20T22:44:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f8b01e4a5934738d75e616cc06e4d4a134c2a726c9e4331043314164445b114",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-958-v0-2-103-release"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:fc08e398ed47b5c113d974211454b8ac598c4652d2edb6aec446085168e6300f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:81ac7c839e37b549003c17d606d5535ea1aa1c5eb92475062a4672654f8ce45c",
+      "previousContractHash": "sha256:81ac7c839e37b549003c17d606d5535ea1aa1c5eb92475062a4672654f8ce45c",
+      "reason": "已关闭的 PR #936 仍保留候选归档证据；将其精确资源清理及不得伪称成功纳入本次发布边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:05:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c469e44ad3e135b729704b1fcd5247290df185bd670f5d72bdd62dd0229dfb1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-958-v0-2-103-release"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:81ac7c839e37b549003c17d606d5535ea1aa1c5eb92475062a4672654f8ce45c",
+      "previousContractHash": "sha256:fc08e398ed47b5c113d974211454b8ac598c4652d2edb6aec446085168e6300f",
+      "reason": "当前 release identity 同时由 architecture 与 release 三语页面表达；将这些页面纳入同一候选版本同步范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-20T23:07:57Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8c469e44ad3e135b729704b1fcd5247290df185bd670f5d72bdd62dd0229dfb1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-958-v0-2-103-release"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:8f8b01e4a5934738d75e616cc06e4d4a134c2a726c9e4331043314164445b114",
+  "createdAt": "2026-09-20T22:39:46Z",
+  "mode": "code",
+  "preflightAt": "2026-09-20T23:11:36Z",
+  "preflightContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:2a2ef547656c3d85deb3dd53061011d709d1802459849f707540a30d15621063",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-20T22:44:46Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-20T23:07:57Z"
+  },
+  "workItemId": "WI-958-v0-2-103-release"
+}

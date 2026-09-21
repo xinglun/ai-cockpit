@@ -1,0 +1,34 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:d22046c27d6da96f82469cddbfbf89aacfe1d1cdd72a13a63492f7e46e20d665",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:4ed4dd66301725ef48b1161ce5b858dba5611708fedb9e9d62a32414278ad1bd",
+      "path": ".ai/work-items/archive/WI-958-v0-2-103-release.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:f4b44a6d488ad613718400f1fcec0ce6ec6111ddea4fb9d92b3279503cd2c377",
+      "path": ".ai/work-items/archive/WI-958-v0-2-103-release.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:06e6d5234a8ad435ae1138470fa0132321af777ff190691b8bbef7953b38e40f",
+      "path": ".ai/work-items/archive/WI-958-v0-2-103-release.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The immutable WI-958 Contract required post-publication evidence before verification, creating a stage cycle. WI-959 preserves the rejected zero-process attempts and supplies the corrected release route.",
+  "recordedAt": "2026-09-20T23:32:45Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f3347b6f84b6eb2c786671b65d4aeed9e22a1155b84f31a61add7e10c1a35536",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-959-v0-2-103-release-recovery",
+  "summaryDigest": "sha256:87b519bffa1154e1f36f3022a3e6053ec779052999085fc279c412a60d1c0556",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-958-v0-2-103-release"
+}

@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -23,7 +23,7 @@ and behavior corpus; it is not a directory to copy into the Rust Runtime.
 The live metadata for this route is maintained in the
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json)
 sidecar. The sidecar is the single source for the current reference commit,
-reviewed Rust baseline, published Runtime identity, and ledger counts; this
+reviewed Rust baseline, candidate Runtime identity, and ledger counts; this
 check is executable and fails closed when any translated page drifts.
 
 - Current reference checkout: the local Git checkout supplied through
@@ -272,8 +272,8 @@ final 54 changed paths one by one:
 
 This comparison uses the Rust baseline recorded above; the ledger's historical
 target commit remains recorded separately in the machine inventory.
-The reviewed Runtime is v0.2.102 with binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`.
+The reviewed Runtime is v0.2.103 with binary digest
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`.
 
 | Metric | Count |
 | --- | ---: |

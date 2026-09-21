@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -22,7 +22,7 @@ capabilityClaims:
 
 当前比对元数据由与逐文件比对入口共用的
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) 旁车文件
-维护。它绑定固定源提交、经过评审的 Rust 基线、已发布 Runtime identity 和当前台账
+维护。它绑定固定源提交、经过评审的 Rust 基线、候选 Runtime identity 和当前台账
 计数；三语页面会一起检查，避免发布或比对更新后只留下过期的页面表头。
 
 维护中的语义参考源是由 `AI_COCKPIT_REFERENCE_ROOT` 选择的本地 checkout，当前固定在提交
@@ -35,8 +35,8 @@ capabilityClaims:
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 当前快照使用 Rust 基线 `47a47a1d4025d92afcefdfb669f7922d0e70974b`，以及经审查的
-`ai-cockpit v0.2.102` Runtime（二进制摘要
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）。
+`ai-cockpit v0.2.103` Runtime（二进制摘要
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`）。
 当前参考源的 5,175 条路径已全部完成分类，不再有 deferred 或 migrate-gap。reference-only
 保留源/provider 历史边界而不导入源文件；implemented-different-by-design 记录 Rust-native
 对应能力和边界。
@@ -913,6 +913,8 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-953-post-release-doc-promotion——v0.2.102 发布后文档投影晋级 | 已实现 · 验证前已替换 | [Work Item](../work-items/WI-953-post-release-doc-promotion.zh-CN.md)；不可变 archive `.ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json`；验证引用 `.ai/evidence/WI-953-post-release-doc-promotion.verification.json` 因不宣称验证而刻意不存在；retirement `.ai/decisions/WI-953-post-release-doc-promotion.retirement.json` 保留该路径并绑定后继 WI-954。 |
 | WI-954-start-verification-declaration——文档投影恢复 | 已实现 | [Work Item](../work-items/WI-954-start-verification-declaration.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-954-start-verification-declaration.contract.json`; verification `.ai/evidence/WI-954-start-verification-declaration.verification.json`; close `.ai/decisions/WI-954-start-verification-declaration.close.json`. |
 | WI-957-start-authority-recovery——start 授权值与 typed 验证校验 | 已实现 | [Work Item](../work-items/WI-957-start-authority-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-957-start-authority-recovery.contract.json`; verification `.ai/evidence/WI-957-start-authority-recovery.verification.json`; close `.ai/decisions/WI-957-start-authority-recovery.close.json`. |
+| WI-958-v0-2-103-release——v0.2.103 Runtime 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-958-v0-2-103-release.zh-CN.md)；计划 archive `.ai/work-items/archive/WI-958-v0-2-103-release.contract.json`、verification `.ai/evidence/WI-958-v0-2-103-release.verification.json`、finalization `.ai/decisions/WI-958-v0-2-103-release.finalize.json`、close `.ai/decisions/WI-958-v0-2-103-release.close.json`。发布为最后一步，受不可变发布身份、公开产物验收、精确清理及发布后 Sentinel #902 通知的约束。 |
+| WI-959-v0-2-103-release-recovery——v0.2.103 发布验证恢复 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-959-v0-2-103-release-recovery.zh-CN.md)；作为 WI-958 的后继，修复其把发布后证据设为验证前置的循环。计划 archive `.ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json`、verification `.ai/evidence/WI-959-v0-2-103-release-recovery.verification.json`、finalization `.ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json`、close `.ai/decisions/WI-959-v0-2-103-release-recovery.close.json`。 |
 | WI-912-wi911-doc-promotion——WI-911 终态文档投影修复 | 已实现 | [Work Item](../work-items/WI-912-wi911-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion——WI-899 终态文档投影修复 | 已实现 | [Work Item](../work-items/WI-903-wi899-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | 已实现 | [Work Item](../work-items/WI-904-interface-description-ssot.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

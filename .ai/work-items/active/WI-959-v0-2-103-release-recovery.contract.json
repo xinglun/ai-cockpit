@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "版本、tag、GitHub Release、校验和与发布产物绑定同一不可变提交。",
+    "公开产物在隔离环境完成规定的全新安装与升级验收，并保存身份和清理证据。",
+    "本轮 release Work Item 的资源、分支和 worktree 按资源绑定路径收尾；#936 只保留关闭 PR head ref 的候选证据，不伪称成功。",
+    "发布完成后才在 GitHub 上向 Sentinel Issue #902 发送只含事实和确认请求的通知，且不代替 Sentinel 的验收或关闭。",
+    "版本身份的三语架构、发布说明和生成命令事实同步：v0.2.102 是当前公开基线，v0.2.103 在发布后验收前仅为候选。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "da7d5125fce56f5d6ca371836b5250c4a1080ec9",
+  "createdAt": "2026-09-20T23:14:21Z",
+  "goal": "发布 v0.2.103，并仅在公开产物验收与精确资源清理完成后向 Sentinel #902 发送事实通知。",
+  "intent": "在不改变已完成的四方向、Outcome 与 #902 能力边界的前提下，完成 v0.2.103 的受控发布；修正 WI-958 将发布后证据误设为验证前置的循环。",
+  "mode": "code",
+  "outOfScope": [
+    "不得修改 Sentinel 源码或其治理状态；不得重写历史归档证据；不得把宿主对话展示未知表述为已确认；不得在所需验证和资源清理完成前发布；不得在公开发布前通知 Sentinel Issue #902。"
+  ],
+  "predecessorContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
+  "predecessorWorkItemId": "WI-958-v0-2-103-release",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-958-v0-2-103-release.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2a2ef547656c3d85deb3dd53061011d709d1802459849f707540a30d15621063",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-103-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/939",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-103-recovery/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/release/**",
+    "docs/architecture/**",
+    "docs/reference/commands*",
+    "docs/work-items/WI-95*",
+    ".github/workflows/**",
+    ".ai/**",
+    "docs/reference/reference-parity*",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/reference-file-comparison.md",
+    "docs/reference/reference-file-comparison.zh-CN.md",
+    "docs/reference/reference-file-comparison.ja.md"
+  ],
+  "sources": [
+    "docs/release/distribution.md",
+    "docs/architecture/versioning.md",
+    "docs/reference/commands.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "tests/docs/interface_reference_generator_test.sh",
+    "tests/release/version_consistency.sh --repo .",
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-959-v0-2-103-release-recovery"
+}

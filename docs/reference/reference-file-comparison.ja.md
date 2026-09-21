@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -26,7 +26,7 @@ Reference は specification と behavior corpus であり、Rust Runtime にコ�
 この route の current metadata は
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) の
 sidecar を single source とします。reference commit、review 済み Rust baseline、
-published Runtime identity、ledger count を一元管理し、実行可能な check は三言語
+candidate Runtime identity、ledger count を一元管理し、実行可能な check は三言語
 ページの drift を fail-closed で拒否します。
 
 - 現在の reference checkout: `AI_COCKPIT_REFERENCE_ROOT` で指定する local Git checkout。今回の比較では `tests/conformance/reference-source.lock` の commit `a9224aed77b5c317b53c4551a9eec306d91ee330` に固定します。
@@ -359,8 +359,8 @@ WI-539 は pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` の維持対
 
 この比較は上記の Rust baseline を使用します。ledger の historical target commit は
 machine inventory に別途保持しています。
-review に使用した Runtime は v0.2.102、binary digest は
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece` です。
+review に使用した Runtime は v0.2.103、binary digest は
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8` です。
 
 下の machine-checked table を current snapshot の唯一の source とし、三言語ページで同じ canonical
 key を使います。現在の reference set と append-only ledger はともに 5,175 path/record です。今回の

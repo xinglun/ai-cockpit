@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -23,7 +23,7 @@ mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照�
 
 Current comparison metadata は file-level comparison route と共有する
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) の sidecar
-で管理します。pinned source commit、review 済み Rust baseline、published Runtime
+で管理します。pinned source commit、review 済み Rust baseline、candidate Runtime
 identity、current ledger count を束縛し、三言語 page を同時に検査して release または
 comparison 更新後の stale header を防ぎます。
 
@@ -38,8 +38,8 @@ parity check に network source や source content の copy は必要ありま�
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 Current snapshot は Rust baseline `47a47a1d4025d92afcefdfb669f7922d0e70974b` と、
-review 済み `ai-cockpit v0.2.102`（binary digest
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`）を使用します。
+review 済み `ai-cockpit v0.2.103`（binary digest
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`）を使用します。
 現在の reference 5,175 path はすべて classification 済みで、deferred/migrate-gap はありません。
 reference-only は source/provider history の境界を保持し、source file を import しません。
 implemented-different-by-design は Rust-native counterpart と boundary を記録します。
@@ -939,6 +939,8 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-953-post-release-doc-promotion — v0.2.102 リリース後の文書投影昇格 | Implemented · Replaced before verification | [Work Item](../work-items/WI-953-post-release-doc-promotion.ja.md); immutable archive `.ai/work-items/archive/WI-953-post-release-doc-promotion.contract.json`; verification reference `.ai/evidence/WI-953-post-release-doc-promotion.verification.json` は verification を主張しないため意図的に存在しない。retirement `.ai/decisions/WI-953-post-release-doc-promotion.retirement.json` は経路を保持し successor WI-954 を束縛する。 |
 | WI-954-start-verification-declaration — ドキュメント投影の復旧 | Implemented | [Work Item](../work-items/WI-954-start-verification-declaration.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-954-start-verification-declaration.contract.json`; verification `.ai/evidence/WI-954-start-verification-declaration.verification.json`; close `.ai/decisions/WI-954-start-verification-declaration.close.json`. |
 | WI-957-start-authority-recovery — start authority と typed 検証の検証 | Implemented | [Work Item](../work-items/WI-957-start-authority-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-957-start-authority-recovery.contract.json`; verification `.ai/evidence/WI-957-start-authority-recovery.verification.json`; close `.ai/decisions/WI-957-start-authority-recovery.close.json`. |
+| WI-958-v0-2-103-release — v0.2.103 Runtime リリース | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-958-v0-2-103-release.ja.md); planned archive `.ai/work-items/archive/WI-958-v0-2-103-release.contract.json`、verification `.ai/evidence/WI-958-v0-2-103-release.verification.json`、finalization `.ai/decisions/WI-958-v0-2-103-release.finalize.json`、close `.ai/decisions/WI-958-v0-2-103-release.close.json`。公開は最後に行い、immutable release identity、public artifact acceptance、正確な cleanup、release 後の Sentinel #902 通知に拘束される。 |
+| WI-959-v0-2-103-release-recovery — v0.2.103 release verification recovery | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-959-v0-2-103-release-recovery.ja.md); post-publication evidence を verification precondition にした WI-958 の successor。planned archive `.ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json`、verification `.ai/evidence/WI-959-v0-2-103-release-recovery.verification.json`、finalization `.ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json`、close `.ai/decisions/WI-959-v0-2-103-release-recovery.close.json`。 |
 | WI-912-wi911-doc-promotion — WI-911 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-912-wi911-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

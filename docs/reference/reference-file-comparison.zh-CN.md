@@ -7,7 +7,7 @@ audience:
   - reviewer
 status: current
 authority: canonical
-lastVerifiedBy: WI-951-release-v0-2-102
+lastVerifiedBy: WI-959-v0-2-103-release-recovery
 capabilityClaims:
   - reference_parity
 ---
@@ -25,7 +25,7 @@ WI-642 在固定本地参考提交 `a9224aed77b5c317b53c4551a9eec306d91ee330` �
 
 本入口的当前元数据由
 [`reference-comparison-metadata.json`](reference-comparison-metadata.json) 单一
-旁车文件维护。它统一记录当前参考提交、经过评审的 Rust 基线、已发布 Runtime
+旁车文件维护。它统一记录当前参考提交、经过评审的 Rust 基线、候选 Runtime
 identity 和台账计数；可执行检查会在任一译文漂移时 fail-closed。
 
 - 当前参考 checkout：通过 `AI_COCKPIT_REFERENCE_ROOT` 提供的本地 Git checkout；本轮比较固定为 `tests/conformance/reference-source.lock` 中的提交 `a9224aed77b5c317b53c4551a9eec306d91ee330`。
@@ -341,8 +341,8 @@ WI-539 在 pinned commit `fde3380f81fea5fd2e288f7a8849f737dc074060` 上逐个重
 <!-- reference-inventory-counts: total=5175 generated-history=4262 implemented-different-by-design=729 implemented-equivalent=1 not-applicable=8 reference-only=175 deferred-next-batch=0 migrate-gap=0 -->
 
 本次比较使用上方记录的 Rust 基线；清单中的历史 target 提交仍单独记录。
-审查使用的 Runtime 为 v0.2.102，二进制摘要为
-`sha256:ef2cc0e7be3d246cf40b40d2c3fa286a662ba5125959614a95f754f4ec8e1ece`。
+审查使用的 Runtime 为 v0.2.103，二进制摘要为
+`sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8`。
 
 下面的机器校验表是当前快照的唯一来源；三个语言页面使用相同的规范 key。
 当前参考源集合有 5,175 条路径，追加式台账当前也有 5,175 条记录；本次重绑定没有退休路径。
