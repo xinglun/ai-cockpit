@@ -1,0 +1,83 @@
+{
+  "attemptId": "sha256:542fd3fa61939d4637ce4a28a6cc8e4094ece7843988e77c8d28a43a1531e9ee",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "lifecycle_entry"
+      ],
+      "baseCommit": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+      "commandDigest": "sha256:0e6c286322b2eadef0e2777a6f7ff969cecc3120eabb47d313057a69454313cf",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate.py",
+        "--repo",
+        ".",
+        "--report",
+        "target/wi963-governance-integrity.json"
+      ],
+      "baseCommit": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+      "commandDigest": "sha256:28a247e4d08ac5fc5e9b0bd3719277e56a1f0d3c52a2901c5daa535f8774c3ed",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "diff",
+        "--check",
+        "origin/main...HEAD"
+      ],
+      "baseCommit": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+      "commandDigest": "sha256:630f0cd4780964183b1136a81a2b0ab4b0623b3197b5a73076280a8e39887084",
+      "nodeId": "project-command-2",
+      "program": "git",
+      "runner": "local",
+      "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:c09dc6846a7975f7099767bdd3deee1b92d68b7746a9a57cda310a12811cc306",
+  "contractExecutionScopeDigest": "sha256:d1770438537289b2e5389af6e978a83bc9f467399f1c7fa58d95e681878400ce",
+  "createdAt": "2026-09-21T02:08:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi962-release-closure-bootstrap/ai-cockpit/.ai/work-items/active/WI-963-release-closure-entrypoint.contract.json: verification requires a recorded non-red preflight result"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a18d1eabcc6a8ad5f0eeb3e9c3a22107898e48e22891d8100f3ebcd3b0eaf7db",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

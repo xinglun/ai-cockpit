@@ -15263,6 +15263,8 @@ fn documentation_projection_findings(
     if !documentation_projection_is_required(root, contract, &policy)? {
         return Ok(Vec::new());
     }
+    let defer_unstarted_projection =
+        documentation_projection_is_deferred_for_first_checkpoint(root, contract)?;
     let work_item_docs = root.join("docs/work-items");
     let work_item_docs_is_directory = fs::symlink_metadata(&work_item_docs)
         .map(|metadata| metadata.is_dir() && !metadata.file_type().is_symlink())
@@ -15388,7 +15390,69 @@ fn documentation_projection_findings(
             ));
         }
     }
+    if defer_unstarted_projection && documentation_projection_is_unstarted(&findings) {
+        return Ok(Vec::new());
+    }
     Ok(findings)
+}
+
+/// Reader-facing Work Item pages describe an implementation that has not yet
+/// begun. Requiring them before the initial checkpoint creates a bootstrap
+/// cycle: the scoped documentation change cannot be made until the checkpoint
+/// exists, while the checkpoint cannot exist until that change is made.
+///
+/// Defer only the current active Work Item's projection until its one required
+/// checkpoint has been recorded. Verification, archive, and close invoke the
+/// same projection check after that point and therefore remain fail-closed.
+fn documentation_projection_is_deferred_for_first_checkpoint(
+    root: &Path,
+    contract: &Contract,
+) -> Result<bool, ObserverError> {
+    let summary_path = root
+        .join(".ai/work-items/active")
+        .join(format!("{}.summary.json", contract.work_item_id));
+    let metadata = match fs::symlink_metadata(&summary_path) {
+        Ok(metadata) if metadata.is_file() && !metadata.file_type().is_symlink() => metadata,
+        Ok(_) => return Ok(false),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(source) => {
+            return Err(ObserverError::Read {
+                path: summary_path,
+                source,
+            });
+        }
+    };
+    if metadata.len() > 1024 * 1024 {
+        return Ok(false);
+    }
+    let summary = read_json(&summary_path)?;
+    Ok(
+        summary["state"] == serde_json::json!("implementation_active")
+            && summary["checkpointCount"] == serde_json::json!(0),
+    )
+}
+
+/// Only a wholly absent projection is an entrypoint bootstrap case. A partial
+/// or malformed projection is evidence that a projection was attempted and
+/// remains an immediate fail-closed error.
+fn documentation_projection_is_unstarted(findings: &[String]) -> bool {
+    if findings.len() != 6 {
+        return false;
+    }
+    let missing_pages = findings
+        .iter()
+        .filter(|finding| finding.starts_with("documentation_projection_missing:docs/work-items/"))
+        .count();
+    let unregistered_parity_rows = findings
+        .iter()
+        .filter(|finding| {
+            finding.contains("docs/reference/reference-parity")
+                && (finding.starts_with("documentation_projection_missing:")
+                    || finding.contains("expected exactly one parity row for ")
+                        && finding.ends_with("found 0"))
+        })
+        .count();
+    missing_pages == 3 && unregistered_parity_rows == 3
 }
 
 fn markdown_frontmatter_values<'a>(contents: &'a str, field: &str) -> Vec<&'a str> {

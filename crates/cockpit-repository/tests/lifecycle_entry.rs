@@ -2121,7 +2121,7 @@ fn verification_preconditions_accept_complete_repository_bound_custom_evidence()
 }
 
 #[test]
-fn preflight_rejects_missing_own_projection_before_verification() {
+fn first_checkpoint_defers_missing_own_projection_but_subsequent_preflight_rejects_it() {
     let directory = repository();
     let work_item_id = "WI-PROJECTION-MISSING";
     start_work_item_with_options(
@@ -2139,11 +2139,68 @@ fn preflight_rejects_missing_own_projection_before_verification() {
         ".ai/work-items/active/{work_item_id}.contract.json"
     ));
     let decision = preflight_work_item(directory.path(), &contract).expect("preflight decision");
-    assert_eq!(decision.state, DecisionState::Red);
-    assert!(decision.blockers.iter().any(|blocker| {
+    assert_ne!(decision.state, DecisionState::Red, "{decision:#?}");
+    checkpoint_work_item(directory.path(), work_item_id).expect("first checkpoint");
+    let blocked = preflight_work_item(directory.path(), &contract).expect("second preflight");
+    assert_eq!(blocked.state, DecisionState::Red, "{blocked:#?}");
+    assert!(blocked.blockers.iter().any(|blocker| {
         blocker.contains("documentation_projection_missing")
             && blocker.contains("docs/work-items/WI-PROJECTION-MISSING.md")
     }));
+}
+
+#[test]
+fn first_checkpoint_defers_missing_own_projection_but_verification_still_rejects_it() {
+    let directory = repository();
+    let work_item_id = "WI-PROJECTION-ENTRYPOINT";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "defer the current Work Item reader projection until after its first checkpoint",
+        "allow entry without weakening the verification projection gate",
+        &["docs/**".into()],
+        &start_options(),
+    )
+    .expect("start");
+    enable_tri_language_projection_convention(directory.path());
+
+    let contract = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    let decision = preflight_work_item(directory.path(), &contract).expect("preflight");
+    assert_ne!(decision.state, DecisionState::Red);
+    assert!(
+        !decision
+            .blockers
+            .iter()
+            .any(|blocker| blocker.starts_with("documentation_projection_"))
+    );
+    checkpoint_work_item(directory.path(), work_item_id).expect("first checkpoint");
+
+    let snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("snapshot");
+    let runtime = RuntimeContext {
+        runtime_version: "test-runtime".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"test-runtime"),
+    };
+    let error =
+        require_verification_preconditions(directory.path(), work_item_id, &runtime, &snapshot)
+            .expect_err(
+                "missing projection must still block verification before the project process",
+            );
+    assert!(
+        error
+            .to_string()
+            .contains("verification preconditions are blocked")
+    );
+    assert!(
+        error
+            .to_string()
+            .contains("documentation_projection_missing")
+    );
 }
 
 #[test]
@@ -2480,8 +2537,11 @@ fn explicit_documentation_mode_requires_projection_without_repository_shape() {
     .expect("declared documentation route");
 
     let decision = preflight_work_item(directory.path(), &contract_path).expect("preflight");
-    assert_eq!(decision.state, DecisionState::Red);
-    assert!(decision.blockers.iter().any(|blocker| {
+    assert_ne!(decision.state, DecisionState::Red, "{decision:#?}");
+    checkpoint_work_item(directory.path(), work_item_id).expect("first checkpoint");
+    let blocked = preflight_work_item(directory.path(), &contract_path).expect("second preflight");
+    assert_eq!(blocked.state, DecisionState::Red, "{blocked:#?}");
+    assert!(blocked.blockers.iter().any(|blocker| {
         blocker.contains("documentation_projection_missing")
             && blocker.contains(&format!("docs/work-items/{work_item_id}.md"))
     }));
@@ -2517,8 +2577,11 @@ fn release_publish_operation_requires_projection_without_repository_shape() {
     .expect("declared release operation");
 
     let decision = preflight_work_item(directory.path(), &contract_path).expect("preflight");
-    assert_eq!(decision.state, DecisionState::Red);
-    assert!(decision.blockers.iter().any(|blocker| {
+    assert_ne!(decision.state, DecisionState::Red, "{decision:#?}");
+    checkpoint_work_item(directory.path(), work_item_id).expect("first checkpoint");
+    let blocked = preflight_work_item(directory.path(), &contract_path).expect("second preflight");
+    assert_eq!(blocked.state, DecisionState::Red, "{blocked:#?}");
+    assert!(blocked.blockers.iter().any(|blocker| {
         blocker.contains("documentation_projection_missing")
             && blocker.contains(&format!("docs/work-items/{work_item_id}.md"))
     }));
@@ -2579,14 +2642,18 @@ fn requested_release_operation_requires_projection_and_conflicts_fail_closed() {
             );
         } else {
             let decision = result.expect("preflight");
-            assert_eq!(decision.state, DecisionState::Red, "{decision:#?}");
+            assert_ne!(decision.state, DecisionState::Red, "{decision:#?}");
+            checkpoint_work_item(directory.path(), work_item_id).expect("first checkpoint");
+            let blocked =
+                preflight_work_item(directory.path(), &contract_path).expect("second preflight");
+            assert_eq!(blocked.state, DecisionState::Red, "{blocked:#?}");
             assert!(
-                decision
+                blocked
                     .blockers
                     .iter()
                     .any(|blocker| blocker.contains(expected_blocker)),
                 "expected {expected_blocker:?} in {:#?}",
-                decision.blockers
+                blocked.blockers
             );
         }
     }
