@@ -1,0 +1,24 @@
+{
+  "bindingDigest": "sha256:2eada9f8340248f5c71d8fd689febdbea0f9748e3797a3bd18f6e00f972ff3ed",
+  "branchRef": "refs/heads/codex/release-plan-ssot",
+  "contractDigest": "sha256:409a98a3b4d621099e49f3cf4a3d7acc1f6626dcba9cb428ccda64203feda1b3",
+  "headRevision": "2fa4726e3f71e4aeb46ae9cfc5e583cec9ebff34",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T09:16:21Z",
+  "operationId": "sha256:b71ce293323fc37caa40101212e17b580c62831d6529877c75b766725d3f6efe",
+  "predecessorReceiptDigest": "sha256:3576cf050e6fb531154c557b5249cecaf10e9035ae2855fd4f07e63f7a79e9c5",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "sequence": 2,
+  "workItemId": "WI-967-release-plan-ssot",
+  "worktreeId": "sha256:3994e150b61aa010a6970bc6391a1f4ad81efd8847d500d5ab0caa32e3ac0859"
+}
