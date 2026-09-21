@@ -1,0 +1,53 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-959 parity 行均包含同一既有 recovery 决策路径。",
+    "governance_integrity_gate 在本分支通过。",
+    "不改写 WI-959 或 WI-960 的归档内容，不创建新 release。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "createdAt": "2026-09-21T01:24:48Z",
+  "goal": "仅补齐三语台账中的既有 recovery 决策引用，恢复 PR #940 的治理完整性门禁。",
+  "intent": "修复 WI-959 的三语 reference-parity 投影，使已存在的 recovery 决策在 CI 门禁中可追溯。",
+  "mode": "code",
+  "outOfScope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/**",
+    ".github/workflows/**",
+    "发布新版本",
+    "修改 WI-959/WI-960 archive 字节",
+    "Sentinel/**"
+  ],
+  "predecessorContractDigest": "sha256:3ed8082ba07c5346430297a37f5b6945eebd7ad8609ad9e78ef717bc670083f0",
+  "predecessorWorkItemId": "WI-960-v0-2-103-archive-closure",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-960-v0-2-103-archive-closure.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/**",
+    "docs/work-items/WI-961-v0-2-103-parity-projection.md",
+    "docs/work-items/WI-961-v0-2-103-parity-projection.zh-CN.md",
+    "docs/work-items/WI-961-v0-2-103-parity-projection.ja.md"
+  ],
+  "sources": [
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/reference-parity.md",
+    "docs/work-items/WI-959-v0-2-103-release-recovery.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi961-governance-integrity.json",
+    "git diff --check origin/main...HEAD"
+  ],
+  "workItemId": "WI-961-v0-2-103-parity-projection"
+}

@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-21T02:20:51Z",
+  "files": {
+    "contractDigest": "sha256:bc3094daee05a70318080a60dc196a98bd11c9c1eb8135573146b4387cea91f9",
+    "contractPath": ".ai/work-items/archive/WI-963-release-closure-entrypoint.contract.json",
+    "outcomeDigest": "sha256:49abd7b6b252c6998afc141a4bc790e6d4fa95e640c31cc4b95cd8abc3c06e65",
+    "outcomePath": ".ai/work-items/archive/WI-963-release-closure-entrypoint.outcome.json",
+    "summaryDigest": "sha256:1a315bc46fade8d4e6b103d72c960114343fbf82daae2ca74bfdc54bb65682bd",
+    "summaryPath": ".ai/work-items/archive/WI-963-release-closure-entrypoint.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-963-release-closure-entrypoint.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-964-archive-boundary-recovery",
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

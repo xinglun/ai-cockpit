@@ -59,7 +59,8 @@
     "cargo fmt --all -- --check",
     "tests/docs/interface_reference_generator_test.sh",
     "tests/release/version_consistency.sh --repo .",
-    "cargo test --locked --workspace"
+    "cargo test --locked --workspace",
+    "gh workflow run release.yml --repo xinglun/ai-cockpit --ref main -f from_tag=v0.2.102 -f to_tag=v0.2.103 -f publish_existing_tag=true -f work_item_id=WI-959-v0-2-103-release-recovery -f source_work_item_id=WI-959-v0-2-103-release-recovery"
   ],
   "workItemId": "WI-959-v0-2-103-release-recovery"
 }

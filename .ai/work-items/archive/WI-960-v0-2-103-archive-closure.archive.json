@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T01:15:32Z",
+  "files": {
+    "contractDigest": "sha256:678cbd2d9abd09bf18595c05b26fc83834a8ef5bb68206c33b6d8a379a1a8335",
+    "contractPath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json",
+    "eventsDigest": "sha256:7945d14e2c4ffcd999d0120f4c928ad37bc6077f7d41332d0a287d2a7cb34ded",
+    "eventsPath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.events.jsonl",
+    "outcomeDigest": "sha256:41cca1fd73ded41234bdf285bd18fc02902f8c76be1f90b3bd344bc1f61e77e2",
+    "outcomePath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.outcome.json",
+    "summaryDigest": "sha256:9b4f16f310d919ca5d56df3a7087afbacf643f879fa166d41b844c19ac039576",
+    "summaryPath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json",
+    "taskReportDigest": "sha256:d3817c00781a84326b9e44afb8273c21e637327c71a2f84aa5f0b728942b6258",
+    "taskReportMarkdownDigest": "sha256:9f94b92196bdadfb3e6a206385015888e8e716a3565d49a91fc385569845f9ba",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-960-v0-2-103-archive-closure"
+}

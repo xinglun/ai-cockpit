@@ -15,7 +15,10 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json
+- Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json
+- Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.events.jsonl
+- Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.outcome.json
+- Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json
 
 ## Findings
 

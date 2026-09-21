@@ -1,0 +1,62 @@
+{
+  "acceptanceCriteria": [
+    "当前 Work Item 缺少 reader 文档或 parity 行时，start --prepare 可建立一次有效 checkpoint。",
+    "同一缺失在 archive 前仍被明确识别，不能产生 archive 或 close 成功。",
+    "既有 recovery 决策的三语 parity 引用仍要求精确且可验证。",
+    "定向 Rust 与 Python 回归通过，不创建 Runtime release。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "createdAt": "2026-09-21T01:52:13Z",
+  "goal": "使当前 Work Item 可先建立可信 checkpoint；文档投影仍在后续生命周期边界和 CI 中失败关闭。",
+  "intent": "修复资源型发布收尾中当前 Work Item 的文档投影在第一个 checkpoint 前被强制要求、造成无法启动恢复修复的循环。",
+  "mode": "code",
+  "outOfScope": [
+    "发布新版本",
+    "修改 WI-959/WI-960/WI-961/WI-962 archive 字节",
+    "改写历史 release evidence",
+    "授权或证据语义变更",
+    "finalization 或 close 语义变更",
+    "Sentinel/**",
+    "全仓文档迁移"
+  ],
+  "predecessorContractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "predecessorWorkItemId": "WI-962-release-closure-bootstrap",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-962-release-closure-bootstrap.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9ee75f961aef77f6f91c248c5f3e581d7c068cb1844ccf76728a0cd058c4d848",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/tests/lifecycle_entry.rs",
+    "tests/ci/governance_integrity_gate.py",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.zh-CN.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.ja.md",
+    ".ai/**",
+    "docs/work-items/WI-962-release-closure-bootstrap.md",
+    "docs/work-items/WI-962-release-closure-bootstrap.zh-CN.md",
+    "docs/work-items/WI-962-release-closure-bootstrap.ja.md"
+  ],
+  "sources": [
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "tests/ci/governance_integrity_gate.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-repository --test lifecycle_entry",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi963-governance-integrity.json",
+    "git diff --check origin/main...HEAD"
+  ],
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

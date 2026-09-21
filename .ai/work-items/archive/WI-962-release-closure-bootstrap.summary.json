@@ -1,0 +1,19 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-21T01:42:16Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:41ab3fcced119ef606df08f3ac537d9304b1730b98f37e004a607ede724d843f",
+  "predecessorWorkItemId": "WI-961-v0-2-103-parity-projection",
+  "preflightAt": "2026-09-21T01:47:08Z",
+  "preflightContractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+  "preflightRepositorySnapshotDigest": "sha256:2046dad14653d226a93c30c2e5a5cec7a3247617cd56b86d4e6286e77e3328b1",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-961-v0-2-103-parity-projection.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-21T01:47:07Z",
+  "workItemId": "WI-962-release-closure-bootstrap"
+}

@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-21T01:42:16Z",
+  "files": {
+    "contractDigest": "sha256:d4fe26d530c8b05e0cfcc7506746f026e67eae1294c1031d7ac50fd77852e0f0",
+    "contractPath": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.contract.json",
+    "outcomeDigest": "sha256:52cfc2e5e7c37e7d3279a829e692e16715a49889ca109e1c9e7f20cbf2244d24",
+    "outcomePath": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.outcome.json",
+    "summaryDigest": "sha256:a8f8796057e5a2897edca26654574fe645d87a8b55293c7ed9c1cd71f0b733ce",
+    "summaryPath": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-961-v0-2-103-parity-projection.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-962-release-closure-bootstrap",
+  "workItemId": "WI-961-v0-2-103-parity-projection"
+}

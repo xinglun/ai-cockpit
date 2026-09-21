@@ -6,9 +6,9 @@
     "发布完成后才在 GitHub 上向 Sentinel Issue #902 发送只含事实和确认请求的通知，且不代替 Sentinel 的验收或关闭。",
     "版本身份的三语架构、发布说明和生成命令事实同步：v0.2.102 是当前公开基线，v0.2.103 在发布后验收前仅为候选。"
   ],
-  "createdAt": "2026-09-20T23:58:01Z",
+  "createdAt": "2026-09-21T00:35:20Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:f8cb222674c1c93aefaaba526cfee0331f0e61c6eb6efb333067f66964d4a9eb",
+  "evidenceDigest": "sha256:071e103da3c9b7a7ef0f3f032d2015c22513e3e16130b7fbbe467edad382b8b4",
   "evidenceRefs": [
     ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
   ],
@@ -45,17 +45,38 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
         }
       ],
       "evidence": [
@@ -111,7 +132,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
           ],
           "inference": false,
           "text": "发布 v0.2.103，并仅在公开产物验收与精确资源清理完成后向 Sentinel #902 发送事实通知。"
@@ -120,7 +141,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+            ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -130,8 +151,8 @@
     "status": "verified",
     "workItemId": "WI-959-v0-2-103-release-recovery"
   },
-  "taskReportDigest": "sha256:146514c904bc307e495638fa2d1a8ed735a0748222ef1ec071f37d59318f75d2",
-  "taskReportMarkdownDigest": "sha256:cd5bad2a0a14a0305985787c71040c577e79713a977016c1cdcda40a63309cd2",
+  "taskReportDigest": "sha256:63e4b281a61a457b2f74b258f0ffd14b75b7fe2999919e38777fc6143b7bcd39",
+  "taskReportMarkdownDigest": "sha256:c74b866ca482ec809785999896a286631ca68fb6d8a09023ecff54f535bab7a0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

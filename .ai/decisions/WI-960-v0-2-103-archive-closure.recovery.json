@@ -1,0 +1,30 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "standing-full-authorization",
+  "decidedAt": "2026-09-21T01:22:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35550365686",
+    ".ai/decisions/WI-959-v0-2-103-release-recovery.recovery.2a777429b36c483a3498d292380276b289cd942727600bb52af7d865a7447501.json",
+    ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.archive.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:3ed8082ba07c5346430297a37f5b6945eebd7ad8609ad9e78ef717bc670083f0",
+  "predecessorEventsDigest": "sha256:7945d14e2c4ffcd999d0120f4c928ad37bc6077f7d41332d0a287d2a7cb34ded",
+  "predecessorOutcomeDigest": "sha256:3cc1d219c279a62d09f8f0a5083a66b1a8a17d540218ad0f7ce240eb98ed34d3",
+  "predecessorSummaryDigest": "sha256:a723e7367831f89459c8325bfb93aac3e2fb4287cca4e26a719d4c75149fe96a",
+  "predecessorWorkItemId": "WI-960-v0-2-103-archive-closure",
+  "reason": "PR #940 的 hosted governance gate 发现 WI-959 已归档后，其三语 reference-parity 行尚未引用当前有效 recovery decision。该缺口是归档投影的必需文档事实；创建唯一 successor 只补齐三语台账引用，不修改任何 archived 字节，不重跑发布。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor 在同一受审阅 PR 中为 WI-959 的三语 parity 行补充实际 recovery-decision 路径，并通过对应 docs governance 检查；随后继续原定 resource finalization/close。",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-961-v0-2-103-parity-projection",
+  "workItemId": "WI-960-v0-2-103-archive-closure"
+}

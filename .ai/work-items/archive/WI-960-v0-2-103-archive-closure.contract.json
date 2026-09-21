@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "WI-959 archive、Contract、Summary、Outcome、events 与 verification evidence 的既有字节及身份保持可追溯。",
+    "归档投影通过受审阅 PR 持久化，且不直接写入 main、不重新执行 release workflow 或公开产物验收。",
+    "在 WI-959 的 archive 已可从受控历史读取后，执行其精确分支/worktree cleanup、finalize、finalize-verify 与 close；失败时保留可恢复现场。",
+    "本 successor 自身的验证只覆盖归档/恢复/资源收尾边界，不以重跑 v0.2.103 发布证明作为完成条件。",
+    "仅在全部 closure 证据有效后，准备对 Sentinel #902 的事实通知；本 WI 不代替 Sentinel 验收或关闭。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "createdAt": "2026-09-21T01:09:35Z",
+  "goal": "在不重新发布、不修改历史 archive、不直接写入 main 的前提下，合并 archive/recovery 投影，完成 WI-959 的精确资源清理、finalization、close 和后续 #902 事实通知前置条件。",
+  "intent": "将已归档的 WI-959 v0.2.103 发布恢复记录持久化到受审阅路径，并完成其资源收尾；修复已发布后归档无法安全进入控制历史的流程缺口。",
+  "mode": "code",
+  "outOfScope": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/**",
+    ".github/workflows/**",
+    "Sentinel/**",
+    "发布新版本",
+    "修改 WI-959 archive 字节",
+    "向 Sentinel #902 发送通知"
+  ],
+  "predecessorContractDigest": "sha256:31ac52d47a258961d6ec382f057dd3dd110cf541029844924bd23b565e694445",
+  "predecessorWorkItemId": "WI-959-v0-2-103-release-recovery",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-959-v0-2-103-release-recovery.recovery.2a777429b36c483a3498d292380276b289cd942727600bb52af7d865a7447501.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi960-release-archive-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/940",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi960-release-archive-closure/ai-cockpit"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**"
+  ],
+  "sources": [
+    "docs/reference/agent-workflow.md",
+    ".ai/README.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test -p cockpit-repository --test recovery_decision",
+    "cargo test -p cockpit-repository --test resource_finalization_transition",
+    "git diff --check origin/main...HEAD"
+  ],
+  "workItemId": "WI-960-v0-2-103-archive-closure"
+}

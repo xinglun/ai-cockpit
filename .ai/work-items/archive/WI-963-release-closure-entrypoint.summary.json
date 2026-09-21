@@ -1,0 +1,63 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-21T01:53:10Z",
+  "checkpointContractDigest": "sha256:c09dc6846a7975f7099767bdd3deee1b92d68b7746a9a57cda310a12811cc306",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:c09dc6846a7975f7099767bdd3deee1b92d68b7746a9a57cda310a12811cc306",
+      "recorded": true,
+      "recordedAt": "2026-09-21T01:53:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9ee75f961aef77f6f91c248c5f3e581d7c068cb1844ccf76728a0cd058c4d848",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-963-release-closure-entrypoint"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c09dc6846a7975f7099767bdd3deee1b92d68b7746a9a57cda310a12811cc306",
+      "previousContractHash": "sha256:c09dc6846a7975f7099767bdd3deee1b92d68b7746a9a57cda310a12811cc306",
+      "reason": "Remove the retired WI-962 prearchive projection that incorrectly triggers ordinary verification-evidence requirements; its valid retirement receipt remains immutable and is the authority for historical state.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T02:09:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a18d1eabcc6a8ad5f0eeb3e9c3a22107898e48e22891d8100f3ebcd3b0eaf7db",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-963-release-closure-entrypoint"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9ee75f961aef77f6f91c248c5f3e581d7c068cb1844ccf76728a0cd058c4d848",
+  "createdAt": "2026-09-21T01:52:13Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "predecessorWorkItemId": "WI-962-release-closure-bootstrap",
+  "preflightAt": "2026-09-21T02:09:29Z",
+  "preflightContractDigest": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:a18d1eabcc6a8ad5f0eeb3e9c3a22107898e48e22891d8100f3ebcd3b0eaf7db",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-962-release-closure-bootstrap.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T01:53:10Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-21T02:09:17Z"
+  },
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

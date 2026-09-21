@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "用户已明确授予全权授权，并要求找到根因后修复，避免反复发布卡点。",
+  "decidedAt": "2026-09-21T01:55:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35550365686",
+    ".ai/work-items/active/WI-962-release-closure-bootstrap.contract.json",
+    ".ai/work-items/active/WI-962-release-closure-bootstrap.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:f850d6cf6730baaea1b9f6b3b4e1056b550e105d9e9778a2824ac0051e1fcf12",
+  "predecessorSummaryDigest": "sha256:6abb1ca0e2db08a04563a1c80e1a9f871e69da8a8b832271661817903f524bdb",
+  "predecessorWorkItemId": "WI-962-release-closure-bootstrap",
+  "reason": "WI-962 正确标为 high-risk，但 Runtime start 缺少 scenarioCoverage 声明入口，而 amendment 又要求 checkpoint，形成自举死锁。该 successor 限定为不改变授权、证据、finalization、archive 或 close 语义的 fail-closed 入口修复。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-963 仅以确定性回归修复首次 checkpoint 的文档投影顺序；高风险 scenario 声明入口作为同一根因的后续设计缺口保留，不得被隐瞒。",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-963-release-closure-entrypoint",
+  "workItemId": "WI-962-release-closure-bootstrap"
+}

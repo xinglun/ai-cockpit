@@ -1,0 +1,31 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "standing-full-authorization",
+  "decidedAt": "2026-09-21T01:06:43Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.archive.json",
+    ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.103",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35546853595"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:31ac52d47a258961d6ec382f057dd3dd110cf541029844924bd23b565e694445",
+  "predecessorEventsDigest": "sha256:3c64b85b9f4391ecadf65ed9b39aca308d3667676164989c82513fbe75a11203",
+  "predecessorOutcomeDigest": "sha256:3319a8cb29cbd529e5ddd0b515ae5039dabbefac75d4820e5bf4c81eaa7d5cbe",
+  "predecessorSummaryDigest": "sha256:208ab92713b7590bd4d6bbe8c7322159451c9b97735120b1e5f8f0f99c7dbf12",
+  "predecessorWorkItemId": "WI-959-v0-2-103-release-recovery",
+  "reason": "WI-959 已在其资源分支生成并提交不可变 archive，但原 PR 已先行合并，无法在不丢失 archive 或直接写入 main 的情况下执行精确资源清理。创建唯一 successor 仅持久化并绑定既有 archive、完成资源 finalization/close；不重新发布，不重跑已通过的发布验收，也不改写历史证据。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Successor 从已提交 archive 建立受审阅的 closure 路径，验证 archive 与 v0.2.103 公开发布事实的绑定，完成精确分支/worktree cleanup、finalize、finalize-verify、close 和文档投影检查后，才通知 Sentinel #902。",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-960-v0-2-103-archive-closure",
+  "workItemId": "WI-959-v0-2-103-release-recovery"
+}

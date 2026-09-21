@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T02:26:37Z",
+  "files": {
+    "contractDigest": "sha256:02f80c80d01b617bd18669b5a19fa93b853b641c2ea531eb9f0b66e4087aca2e",
+    "contractPath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json",
+    "eventsDigest": "sha256:6fb31a91f2c95be9c2e1dada233fb675d56c1c689aa9ae1045ce614d9d1ee7c3",
+    "eventsPath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.events.jsonl",
+    "outcomeDigest": "sha256:1c0cb8c492dbd0a03f1eca481da07ce7e1deffdf16fd18dbc61324816fa4a41c",
+    "outcomePath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.outcome.json",
+    "summaryDigest": "sha256:7b2377382cad444509651c61772a087696070850fe8610589b4eeaf74cdd7034",
+    "summaryPath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.summary.json",
+    "taskReportDigest": "sha256:04c4c7ccc850642f69517e07323752706bf6e0860752f258474fdbebad51c867",
+    "taskReportMarkdownDigest": "sha256:da1e9d720e608b6e46c72e44b67f75ea82c7afd1a470b90fc216c901827e73a8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-964-archive-boundary-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-964-archive-boundary-recovery"
+}

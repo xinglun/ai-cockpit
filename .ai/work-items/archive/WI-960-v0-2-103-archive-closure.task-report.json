@@ -1,11 +1,11 @@
 {
   "bindings": {
     "evidenceRefs": [
-      ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+      ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
-    "workItemId": "WI-959-v0-2-103-release-recovery"
+    "workItemId": "WI-960-v0-2-103-archive-closure"
   },
   "format": "ai-cockpit.task-outcome",
   "humanStatusColor": "green",
@@ -15,26 +15,33 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
       }
     ],
     "evidence": [
       {
         "evidenceRefs": [
-          ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
         ],
         "inference": false,
-        "text": ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+        "text": ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
       }
     ],
     "findings": [],
@@ -52,7 +59,7 @@
     "outcomeSummary": [
       {
         "evidenceRefs": [
-          ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
         ],
         "inference": false,
         "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
@@ -62,7 +69,7 @@
     "residualRisks": [
       {
         "evidenceRefs": [
-          ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
         ],
         "inference": false,
         "text": "Remaining unknown: user_visible_benefit_not_declared"
@@ -71,7 +78,7 @@
     "resolutions": [
       {
         "evidenceRefs": [
-          ".ai/evidence/WI-959-v0-2-103-release-recovery.verification.json"
+          ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
         ],
         "inference": false,
         "text": "The current verification evidence is valid for this repository and Work Item."
@@ -81,16 +88,16 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
         ],
         "inference": false,
-        "text": "发布 v0.2.103，并仅在公开产物验收与精确资源清理完成后向 Sentinel #902 发送事实通知。"
+        "text": "在不重新发布、不修改历史 archive、不直接写入 main 的前提下，合并 archive/recovery 投影，完成 WI-959 的精确资源清理、finalization、close 和后续 #902 事实通知前置条件。"
       }
     ],
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
@@ -98,5 +105,5 @@
     ]
   },
   "status": "verified",
-  "workItemId": "WI-959-v0-2-103-release-recovery"
+  "workItemId": "WI-960-v0-2-103-archive-closure"
 }

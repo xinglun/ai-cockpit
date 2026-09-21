@@ -1,0 +1,26 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "用户已明确授予全权授权；同根因缺陷应在当前恢复链内修复，且不可变历史不得手改。",
+  "decidedAt": "2026-09-21T02:16:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-963-release-closure-entrypoint.verification-attempt.f3f8309a31a14f8d8f0a91ca821a84f3ff640668d426e50145a554a2566815ed.json",
+    ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.task-report.md"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+  "predecessorSummaryDigest": "sha256:6adf9862646d3b997a503ed1627bd448961741e8b2c2807b36acd909daf9c33e",
+  "predecessorWorkItemId": "WI-963-release-closure-entrypoint",
+  "reason": "WI-963 的已声明全分支 whitespace 检查可靠复现了 WI-960 不可变 archive task-report 的 EOF 空行；历史字节不能重写。WI-964 将修复生成器并把可修改候选路径检查与 archive digest 完整性分离。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-964 only with its pre-registered three-language projection; preserve WI-963 and WI-960 bytes, then verify mutable whitespace and immutable archive integrity separately.",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-964-archive-boundary-recovery",
+  "workItemId": "WI-963-release-closure-entrypoint"
+}
