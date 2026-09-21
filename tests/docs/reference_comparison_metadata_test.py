@@ -114,6 +114,7 @@ def main() -> None:
         "rustBaselineCommit",
         "runtimeVersion",
         "runtimeBinaryDigest",
+        "workspaceCandidateVersion",
         "currentPathCount",
         "classifiedPathCount",
         "semanticDecisionCount",
@@ -123,13 +124,18 @@ def main() -> None:
     }
     if set(metadata) != required:
         fail(f"metadata keys differ: expected {sorted(required)}, got {sorted(metadata)}")
-    if metadata["schemaVersion"] != 1:
+    if metadata["schemaVersion"] != 2:
         fail("unsupported metadata schema")
-    if metadata["runtimeVersion"] != workspace_version():
+    # The reviewed comparison Runtime is immutable evidence and may predate an
+    # unpublished workspace candidate.  Only the candidate projection tracks
+    # Cargo directly; replacing the reviewed digest before a public artifact
+    # exists would make the reader-facing comparison claim false.
+    if metadata["workspaceCandidateVersion"] != workspace_version():
         fail(
-            "runtimeVersion must match the single Cargo workspace version; "
-            "update comparison metadata when the Runtime is released"
+            "workspaceCandidateVersion must match the single Cargo workspace version"
         )
+    if not re.fullmatch(r"\d+\.\d+\.\d+", metadata["runtimeVersion"]):
+        fail("runtimeVersion is not a semantic version")
     reference_commit = parse_lock_commit()
     if metadata["referenceCommit"] != reference_commit:
         fail("metadata referenceCommit differs from reference-source.lock")
@@ -224,10 +230,10 @@ def main() -> None:
     print("reference comparison metadata check passed")
 
 
-def test_runtime_identity_tracks_workspace_version() -> None:
-    """The live comparison metadata must not silently lag the Rust release."""
+def test_workspace_candidate_identity_tracks_workspace_version() -> None:
+    """An unpublished candidate must track Cargo without rewriting review evidence."""
     metadata = json.loads(METADATA_PATH.read_text(encoding="utf-8"))
-    assert metadata["runtimeVersion"] == workspace_version()
+    assert metadata["workspaceCandidateVersion"] == workspace_version()
 
 
 def test_current_runtime_projection_rejects_stale_version() -> None:
