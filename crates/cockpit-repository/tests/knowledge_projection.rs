@@ -38,14 +38,11 @@ fn repository(name: &str) -> PathBuf {
 }
 
 fn archive_one(path: &Path, id: &str) {
-    start_work_item(
-        path,
-        id,
-        "projection topic",
-        "projection goal",
-        &[".ai/**".into()],
-    )
-    .expect("start");
+    archive_one_with_context(path, id, "projection topic", &[".ai/**".into()]);
+}
+
+fn archive_one_with_context(path: &Path, id: &str, intent: &str, scope: &[String]) {
+    start_work_item(path, id, intent, "projection goal", scope).expect("start");
     let contract_path = path
         .join(".ai/work-items/active")
         .join(format!("{id}.contract.json"));
@@ -160,4 +157,23 @@ fn knowledge_v2_projection_is_repository_isolated() {
     assert!(!right.join(".ai/knowledge/WI-LEFT.v2.json").exists());
     fs::remove_dir_all(left).expect("left cleanup");
     fs::remove_dir_all(right).expect("right cleanup");
+}
+
+#[test]
+fn projections_derive_topic_and_component_from_contract_context() {
+    let path = repository("context");
+    archive_one_with_context(
+        &path,
+        "WI-CONTEXT",
+        "Improve knowledge cache correctness",
+        &["crates/cockpit-repository/src/lib.rs".into()],
+    );
+    let v1 = generate_knowledge(&path).expect("legacy projection");
+    assert_eq!(v1.records[0].topic, "knowledge");
+    assert_eq!(v1.records[0].component, "cockpit-repository");
+    let v2 = generate_knowledge_v2(&path).expect("v2 projection");
+    assert_eq!(v2[0].topic, v1.records[0].topic);
+    assert_eq!(v2[0].component, v1.records[0].component);
+    assert!(v2[0].unknowns.is_empty());
+    fs::remove_dir_all(path).expect("cleanup");
 }

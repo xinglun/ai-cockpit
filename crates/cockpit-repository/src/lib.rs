@@ -11539,18 +11539,46 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     let archive = root.join(".ai/work-items/archive");
     let knowledge = root.join(".ai/knowledge");
     let index_path = knowledge.join("index.json");
-    let source_digest = knowledge_source_digest(&archive)?;
+    let current_source_revision = git_text(&root, &["rev-parse", "--verify", "HEAD^{commit}"]);
     if index_path.is_file() {
         // A derived cache is disposable.  An unreadable, malformed, or
         // schema-incompatible index is treated as stale and rebuilt through
         // this explicit query path; authority remains in the archive.
         if let Ok(cached) = read_json(&index_path)
             && let Ok(index) = serde_json::from_value::<cockpit_knowledge::KnowledgeIndex>(cached)
-            && index.source_digest == source_digest
+            && !index.source_digest.is_empty()
+            && index.is_structurally_valid()
         {
-            return Ok(index);
+            if let (Some(cached_revision), Some(current_revision)) = (
+                index.source_revision.as_deref(),
+                current_source_revision.as_deref(),
+            ) && cached_revision == current_revision
+                && knowledge_archive_is_clean(&root).is_some_and(|clean| clean)
+            {
+                return Ok(index);
+            }
+            // A dirty or uncertain source boundary cannot be trusted from
+            // metadata alone. Recompute the content digest before reuse;
+            // this preserves archive tamper detection for uncommitted and
+            // non-Git repositories.
+            let source_digest = knowledge_source_digest(&archive)?;
+            if index.source_digest == source_digest {
+                if index.source_revision != current_source_revision {
+                    let mut refreshed = index;
+                    refreshed.source_revision = current_source_revision.clone();
+                    let encoded =
+                        serde_json::to_value(&refreshed).map_err(|error| ObserverError::State {
+                            path: index_path.clone(),
+                            message: error.to_string(),
+                        })?;
+                    atomic_json(&index_path, &encoded)?;
+                    return Ok(refreshed);
+                }
+                return Ok(index);
+            }
         }
     }
+    let source_digest = knowledge_source_digest(&archive)?;
     let mut records = Vec::new();
     for entry in fs::read_dir(&archive).map_err(|source| ObserverError::Read {
         path: archive.clone(),
@@ -11567,15 +11595,20 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
         let contract_path = archive.join(format!("{work_item_id}.contract.json"));
         let contract = read_json(&contract_path)?;
         let intent = contract["intent"].as_str().unwrap_or("unknown");
-        records.push(cockpit_knowledge::project_record(
+        let scope = contract_scope(&contract);
+        records.push(cockpit_knowledge::project_record_with_context(
             work_item_id,
             intent,
+            &scope,
             "archived",
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
         ));
     }
-    let index =
-        cockpit_knowledge::KnowledgeIndex::from_records_with_source_digest(records, source_digest);
+    let index = cockpit_knowledge::KnowledgeIndex::with_source_metadata(
+        records,
+        source_digest,
+        current_source_revision,
+    );
     fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
         path: knowledge.clone(),
         source,
@@ -11776,10 +11809,12 @@ pub fn generate_knowledge_v2(
         let contract: serde_json::Value =
             read_json(&archive.join(format!("{work_item_id}.contract.json")))?;
         let intent = contract["intent"].as_str().unwrap_or("unknown");
-        records.push(cockpit_knowledge::project_record_v2(
+        let scope = contract_scope(&contract);
+        records.push(cockpit_knowledge::project_record_v2_with_context(
             &repository_id,
             work_item_id,
             intent,
+            &scope,
             "archived",
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
             digest.clone(),
@@ -11795,6 +11830,35 @@ pub fn generate_knowledge_v2(
         })?,
     )?;
     Ok(records)
+}
+
+fn contract_scope(contract: &serde_json::Value) -> Vec<String> {
+    contract["scope"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(serde_json::Value::as_str)
+        .map(str::to_owned)
+        .collect()
+}
+
+fn knowledge_archive_is_clean(root: &Path) -> Option<bool> {
+    let status = Command::new("git")
+        .arg("-C")
+        .arg(root)
+        .args([
+            "status",
+            "--porcelain=v1",
+            "--untracked-files=all",
+            "--",
+            ".ai/work-items/archive",
+        ])
+        .output()
+        .ok()?;
+    status
+        .status
+        .success()
+        .then(|| String::from_utf8_lossy(&status.stdout).trim().is_empty())
 }
 
 /// Build a human-benefit-aware outcome while preserving the distinction

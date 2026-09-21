@@ -57,6 +57,33 @@ fn archive_one(path: &std::path::Path, id: &str) {
     close_work_item_with_decision(path, id, "approved").expect("close");
 }
 
+fn commit_repository(path: &std::path::Path, message: &str) {
+    assert!(
+        Command::new("git")
+            .args(["add", "."])
+            .current_dir(path)
+            .status()
+            .expect("git add")
+            .success()
+    );
+    assert!(
+        Command::new("git")
+            .args([
+                "-c",
+                "user.name=knowledge-test",
+                "-c",
+                "user.email=knowledge-test@example.invalid",
+                "commit",
+                "-qm",
+                message,
+            ])
+            .current_dir(path)
+            .status()
+            .expect("git commit")
+            .success()
+    );
+}
+
 #[test]
 fn knowledge_index_is_reused_and_invalidated_by_new_archive() {
     let path = repository();
@@ -88,5 +115,73 @@ fn knowledge_index_cache_is_rebuilt_when_an_archived_input_changes() {
     let persisted: serde_json::Value =
         serde_json::from_slice(&fs::read(index_path).expect("index")).expect("index JSON");
     assert_eq!(persisted["sourceDigest"], rebuilt.source_digest);
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn knowledge_index_cache_rejects_tampered_record_even_when_source_is_unchanged() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-RECORD-TAMPER");
+    let first = generate_knowledge(&path).expect("first projection");
+    let index_path = path.join(".ai/knowledge/index.json");
+    let mut index: serde_json::Value =
+        serde_json::from_slice(&fs::read(&index_path).expect("index")).expect("index JSON");
+    index["records"][0]["topic"] = serde_json::Value::String("tampered".into());
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&index).expect("tampered index"),
+    )
+    .expect("write tampered index");
+
+    let rebuilt = generate_knowledge(&path).expect("rebuild tampered index");
+    assert_eq!(rebuilt, first);
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(index_path).expect("rebuilt index")).expect("JSON");
+    assert_ne!(persisted["records"][0]["topic"], "tampered");
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn legacy_index_shape_is_rebuilt_before_reuse() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-LEGACY");
+    let expected = generate_knowledge(&path).expect("first projection");
+    let index_path = path.join(".ai/knowledge/index.json");
+    let mut legacy: serde_json::Value =
+        serde_json::from_slice(&fs::read(&index_path).expect("index")).expect("index JSON");
+    legacy
+        .as_object_mut()
+        .expect("index object")
+        .remove("recordDigest");
+    legacy
+        .as_object_mut()
+        .expect("index object")
+        .remove("recordPositions");
+    legacy
+        .as_object_mut()
+        .expect("index object")
+        .remove("sourceRevision");
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&legacy).expect("legacy index"),
+    )
+    .expect("write legacy index");
+
+    let rebuilt = generate_knowledge(&path).expect("rebuild legacy index");
+    assert_eq!(rebuilt, expected);
+    assert!(!rebuilt.record_digest.is_empty());
+    assert!(!rebuilt.record_positions.is_empty());
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
+fn knowledge_index_records_source_revision_for_clean_fast_path() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-CLEAN");
+    commit_repository(&path, "archive knowledge fixture");
+    let index = generate_knowledge(&path).expect("first projection");
+    assert!(index.source_revision.is_some());
+    let cached = generate_knowledge(&path).expect("clean cache hit");
+    assert_eq!(cached, index);
     fs::remove_dir_all(path).expect("cleanup");
 }

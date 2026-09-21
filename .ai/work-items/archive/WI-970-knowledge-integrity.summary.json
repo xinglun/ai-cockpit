@@ -1,0 +1,143 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-970-knowledge-integrity.preflight-review.6499a025b83626674f426959b29032a19db5abc3009ac9cbb261d09522afa833.json",
+    ".ai/decisions/WI-970-knowledge-integrity.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.5f847fe8cb19b0d7526abc67959fb2bd26bb4205130fcdf163a7ea42f217b82f.json",
+    ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json",
+    ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.d9aa0647f071c544f53b3c8708b316aea0f4435be8adc15217ad878b6fb14382.json",
+    ".ai/evidence/WI-970-knowledge-integrity.verification.json",
+    ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json",
+    ".ai/work-items/archive/WI-970-knowledge-integrity.controls.json",
+    ".ai/work-items/archive/WI-970-knowledge-integrity.scope-amend.json",
+    ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json",
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-knowledge/tests/query.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs"
+  ],
+  "checkpointAt": "2026-09-21T17:28:43Z",
+  "checkpointContractDigest": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b4f54d319eaa6b4ae4096fb97899cc654cd71777635b0f6ce477fdc317c5dae7",
+      "recorded": true,
+      "recordedAt": "2026-09-21T17:28:43Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-970-knowledge-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b4f54d319eaa6b4ae4096fb97899cc654cd71777635b0f6ce477fdc317c5dae7",
+      "previousContractHash": "sha256:b4f54d319eaa6b4ae4096fb97899cc654cd71777635b0f6ce477fdc317c5dae7",
+      "reason": "The implementation touched the exact knowledge crate, repository projection tests, and Runtime-generated evidence paths; make these paths explicit before revalidating the checkpoint-bound Contract.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T17:38:12Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-970-knowledge-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+  "createdAt": "2026-09-21T17:25:50Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The user explicitly authorized implementation of the bounded P0 knowledge Work Item. This receipt authorizes lifecycle execution and verification only; it does not assert that implementation or tests have passed.",
+    "recordedAt": "2026-09-22T02:39:14+09:00",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+    "schemaVersion": 1,
+    "workItemId": "WI-970-knowledge-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "User authorization in current task",
+      "P0 knowledge correctness recommendation in current task",
+      "AGENTS.md and .ai/README.md current Runtime lifecycle and evidence discipline"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T17:43:58Z",
+  "preflightContractDigest": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.5f847fe8cb19b0d7526abc67959fb2bd26bb4205130fcdf163a7ea42f217b82f.json",
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json"
+      ],
+      "expected": "Malformed, internally tampered, or source-changed knowledge cache inputs are rejected and rebuilt from authoritative archive data.",
+      "required": true,
+      "scenario": "cache_integrity_and_source_tamper",
+      "status": "verified",
+      "verificationPlan": "Run focused cache tests that tamper with the index and an archived contract, then compare rebuilt records and digests."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json"
+      ],
+      "expected": "A validated cache at the same clean Git revision is reused without rereading every archive file; dirty or uncertain state uses content validation.",
+      "required": true,
+      "scenario": "clean_cache_fast_path",
+      "status": "verified",
+      "verificationPlan": "Run the cache fast-path regression with a tracked clean archive and verify the source digest remains content-bound while the cache path avoids archive rescanning."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.5f847fe8cb19b0d7526abc67959fb2bd26bb4205130fcdf163a7ea42f217b82f.json"
+      ],
+      "expected": "Conjunctive topic/component/state/work-item filters retrieve only indexed candidate records in deterministic order without a full records scan.",
+      "required": true,
+      "scenario": "indexed_candidate_direct_lookup",
+      "status": "verified",
+      "verificationPlan": "Run query metrics regressions with large unrelated indexes and exact multi-filter matches."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json",
+        ".ai/evidence/WI-970-knowledge-integrity.verification-attempt.67f4761a59b14dcff1d744e9e156ed632d397e48a288ab985d55faa80ab218ce.json"
+      ],
+      "expected": "v1 and v2 knowledge projections derive stable topic and component fields from intent and contract scope, retaining explicit unknowns only when context is absent.",
+      "required": true,
+      "scenario": "bounded_context_projection",
+      "status": "verified",
+      "verificationPlan": "Run projection tests for meaningful intent terms, crate scope, missing scope, and v1/v2 parity."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T17:44:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-970-knowledge-integrity"
+}

@@ -1,0 +1,242 @@
+{
+  "acceptanceResults": [
+    "A cached index is reused only after its own record/index integrity is validated and the authoritative archive boundary is proven unchanged; malformed or tampered cache and changed archive inputs rebuild deterministically.",
+    "A valid clean-repository cache hit does not read the archive file contents to recompute sourceDigest; dirty or uncertain source state falls back to content validation, never file time alone.",
+    "Indexed filters resolve candidates through direct record positions without a second full records scan; query results remain exact, conjunctive, deterministic, and backward-compatible for legacy indexes after rebuild.",
+    "Topic and component are derived by deterministic bounded rules from intent and scope; unknown remains explicit only when context is absent; v1 and v2 projections agree.",
+    "Focused regression tests cover cache tampering, source tampering, fast-path reuse, direct lookup metrics, topic derivation, component derivation, and v2 unknown handling."
+  ],
+  "createdAt": "2026-09-21T17:44:04Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e6c0bd54654de9b3e26ef30ebec31d32b430a905d30139ce87f30412992b3e3f",
+  "evidenceRefs": [
+    ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+      "workItemId": "WI-970-knowledge-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-970-knowledge-integrity.preflight-review.6499a025b83626674f426959b29032a19db5abc3009ac9cbb261d09522afa833.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-970-knowledge-integrity.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.5f847fe8cb19b0d7526abc67959fb2bd26bb4205130fcdf163a7ea42f217b82f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.d9aa0647f071c544f53b3c8708b316aea0f4435be8adc15217ad878b6fb14382.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.scope-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-knowledge/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-knowledge/tests/query.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_projection.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "Make knowledge cache reuse verify the cache and source boundary, avoid reading every archive file on a valid clean cache hit, locate indexed candidates directly, and derive bounded topic/component fields from contract context."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-970-knowledge-integrity"
+  },
+  "taskReportDigest": "sha256:1a09c67219dab9275ed28a889c3ade2cce96923d71705a48d33e9883d68ff574",
+  "taskReportMarkdownDigest": "sha256:d14ffcb740de1430b0092085d43c11ba20d67c53f4bf379c5464786c8e167ffe",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-970-knowledge-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-970-knowledge-integrity"
+}

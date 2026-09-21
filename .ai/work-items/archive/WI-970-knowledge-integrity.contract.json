@@ -1,0 +1,88 @@
+{
+  "acceptanceCriteria": [
+    "A cached index is reused only after its own record/index integrity is validated and the authoritative archive boundary is proven unchanged; malformed or tampered cache and changed archive inputs rebuild deterministically.",
+    "A valid clean-repository cache hit does not read the archive file contents to recompute sourceDigest; dirty or uncertain source state falls back to content validation, never file time alone.",
+    "Indexed filters resolve candidates through direct record positions without a second full records scan; query results remain exact, conjunctive, deterministic, and backward-compatible for legacy indexes after rebuild.",
+    "Topic and component are derived by deterministic bounded rules from intent and scope; unknown remains explicit only when context is absent; v1 and v2 projections agree.",
+    "Focused regression tests cover cache tampering, source tampering, fast-path reuse, direct lookup metrics, topic derivation, component derivation, and v2 unknown handling."
+  ],
+  "authority": "authorized",
+  "baseRevision": "957e135410a3354a82b7b583dcadc6fa8ded0ab0",
+  "createdAt": "2026-09-21T17:25:50Z",
+  "goal": "Make knowledge cache reuse verify the cache and source boundary, avoid reading every archive file on a valid clean cache hit, locate indexed candidates directly, and derive bounded topic/component fields from contract context.",
+  "intent": "Repair knowledge projection cache integrity and query indexing without changing governance authority.",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI/MCP Outcome delivery orchestration; repository module split; protocol dependency changes; release script migration; historical compatibility deletion; unrelated governance behavior"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Malformed, internally tampered, or source-changed knowledge cache inputs are rejected and rebuilt from authoritative archive data.",
+      "required": true,
+      "scenario": "cache_integrity_and_source_tamper",
+      "status": "unverified",
+      "verificationPlan": "Run focused cache tests that tamper with the index and an archived contract, then compare rebuilt records and digests."
+    },
+    {
+      "evidence": [],
+      "expected": "A validated cache at the same clean Git revision is reused without rereading every archive file; dirty or uncertain state uses content validation.",
+      "required": true,
+      "scenario": "clean_cache_fast_path",
+      "status": "unverified",
+      "verificationPlan": "Run the cache fast-path regression with a tracked clean archive and verify the source digest remains content-bound while the cache path avoids archive rescanning."
+    },
+    {
+      "evidence": [],
+      "expected": "Conjunctive topic/component/state/work-item filters retrieve only indexed candidate records in deterministic order without a full records scan.",
+      "required": true,
+      "scenario": "indexed_candidate_direct_lookup",
+      "status": "unverified",
+      "verificationPlan": "Run query metrics regressions with large unrelated indexes and exact multi-filter matches."
+    },
+    {
+      "evidence": [],
+      "expected": "v1 and v2 knowledge projections derive stable topic and component fields from intent and contract scope, retaining explicit unknowns only when context is absent.",
+      "required": true,
+      "scenario": "bounded_context_projection",
+      "status": "unverified",
+      "verificationPlan": "Run projection tests for meaningful intent terms, crate scope, missing scope, and v1/v2 parity."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-knowledge/src/lib.rs; crates/cockpit-knowledge/tests/query.rs; crates/cockpit-repository/src/lib.rs knowledge projection; crates/cockpit-repository/tests/knowledge_cache.rs; crates/cockpit-repository/tests/knowledge_projection.rs; crates/cockpit-cli/tests/knowledge.rs",
+    "knowledge cache source validation",
+    " direct candidate lookup",
+    " topic/component derivation",
+    " and focused regressions",
+    "crates/cockpit-knowledge/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/knowledge_projection.rs",
+    "crates/cockpit-cli/tests/knowledge.rs",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/WI-970-knowledge-integrity.*",
+    ".ai/evidence/WI-970-knowledge-integrity.*",
+    ".ai/work-items/active/WI-970-knowledge-integrity.*"
+  ],
+  "sources": [
+    "User-authorized architecture recommendation in current task: knowledge correctness precedes optimization.",
+    "AGENTS.md and .ai/README.md current Runtime lifecycle and evidence discipline."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-knowledge",
+    "cargo test --locked -p cockpit-repository --test knowledge_cache --test knowledge_projection",
+    "cargo test --locked -p cockpit-cli --test knowledge"
+  ],
+  "workItemId": "WI-970-knowledge-integrity"
+}

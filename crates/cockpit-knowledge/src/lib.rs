@@ -1,3 +1,4 @@
+use cockpit_core::Digest;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use thiserror::Error;
@@ -21,11 +22,25 @@ pub struct KnowledgeIndex {
     /// truth and the index is always reconstructible.
     #[serde(default, rename = "sourceDigest")]
     pub source_digest: String,
+    /// Digest of the serialized records.  This protects the derived cache
+    /// from accepting a record mutation that leaves the source boundary
+    /// unchanged.
+    #[serde(default, rename = "recordDigest")]
+    pub record_digest: String,
+    /// Git revision at which the archive source was content-validated.  A
+    /// clean revision allows a cache hit without rereading every archive
+    /// file; dirty or unknown source state falls back to content hashing.
+    #[serde(default, rename = "sourceRevision")]
+    pub source_revision: Option<String>,
     pub dependencies: BTreeMap<String, Vec<String>>,
     pub by_topic: BTreeMap<String, Vec<String>>,
     pub by_component: BTreeMap<String, Vec<String>>,
     pub by_state: BTreeMap<String, Vec<String>>,
     pub by_work_item: BTreeMap<String, String>,
+    /// Direct record positions avoid scanning `records` after index
+    /// intersection has produced candidate IDs.
+    #[serde(default, rename = "recordPositions")]
+    pub record_positions: BTreeMap<String, usize>,
 }
 
 impl KnowledgeIndex {
@@ -36,7 +51,8 @@ impl KnowledgeIndex {
         let mut by_component = BTreeMap::new();
         let mut by_state = BTreeMap::new();
         let mut by_work_item = BTreeMap::new();
-        for record in &records {
+        let mut record_positions = BTreeMap::new();
+        for (position, record) in records.iter().enumerate() {
             for evidence_ref in &record.evidence_refs {
                 dependencies
                     .entry(evidence_ref.clone())
@@ -56,15 +72,19 @@ impl KnowledgeIndex {
                 .or_insert_with(Vec::new)
                 .push(record.work_item_id.clone());
             by_work_item.insert(record.work_item_id.clone(), record.work_item_id.clone());
+            record_positions.insert(record.work_item_id.clone(), position);
         }
         Self {
+            record_digest: records_digest(&records),
             records,
             source_digest: String::new(),
+            source_revision: None,
             dependencies,
             by_topic,
             by_component,
             by_state,
             by_work_item,
+            record_positions,
         }
     }
 
@@ -76,6 +96,43 @@ impl KnowledgeIndex {
         index.source_digest = source_digest.into();
         index
     }
+
+    pub fn with_source_metadata(
+        records: Vec<KnowledgeRecord>,
+        source_digest: impl Into<String>,
+        source_revision: Option<String>,
+    ) -> Self {
+        let mut index = Self::from_records_with_source_digest(records, source_digest);
+        index.source_revision = source_revision;
+        index
+    }
+
+    pub fn is_structurally_valid(&self) -> bool {
+        if self.record_digest.is_empty() || self.record_positions.len() != self.records.len() {
+            return false;
+        }
+        let mut ids = std::collections::BTreeSet::new();
+        if self
+            .records
+            .iter()
+            .any(|record| !ids.insert(record.work_item_id.clone()))
+        {
+            return false;
+        }
+        let expected = Self::from_records(self.records.clone());
+        self.record_digest == expected.record_digest
+            && self.dependencies == expected.dependencies
+            && self.by_topic == expected.by_topic
+            && self.by_component == expected.by_component
+            && self.by_state == expected.by_state
+            && self.by_work_item == expected.by_work_item
+            && self.record_positions == expected.record_positions
+    }
+}
+
+fn records_digest(records: &[KnowledgeRecord]) -> String {
+    let bytes = serde_json::to_vec(records).expect("KnowledgeRecord serialization is infallible");
+    Digest::sha256_bytes(&bytes).to_string()
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
@@ -138,36 +195,45 @@ pub fn query_with_metrics(index: &KnowledgeIndex, filter: &Query) -> (Vec<Knowle
         }
     });
     let accessed = candidates.len();
-    let results = index
-        .records
-        .iter()
-        .filter(|record| candidates.contains(&record.work_item_id))
-        .filter(|record| {
-            filter
-                .topic
-                .as_ref()
-                .is_none_or(|value| &record.topic == value)
-        })
-        .filter(|record| {
-            filter
-                .component
-                .as_ref()
-                .is_none_or(|value| &record.component == value)
-        })
-        .filter(|record| {
-            filter
-                .state
-                .as_ref()
-                .is_none_or(|value| &record.state == value)
-        })
-        .filter(|record| {
-            filter
-                .work_item_id
-                .as_ref()
-                .is_none_or(|value| &record.work_item_id == value)
-        })
-        .cloned()
-        .collect::<Vec<_>>();
+    let results = if has_filter {
+        candidates
+            .iter()
+            .filter_map(|work_item_id| {
+                let position = index
+                    .record_positions
+                    .get(work_item_id)
+                    .copied()
+                    .or_else(|| {
+                        // A legacy in-memory index may predate recordPositions;
+                        // the repository cache path rebuilds it before reuse.
+                        index
+                            .records
+                            .iter()
+                            .position(|record| &record.work_item_id == work_item_id)
+                    })?;
+                let record = index.records.get(position)?;
+                (filter
+                    .topic
+                    .as_ref()
+                    .is_none_or(|value| &record.topic == value)
+                    && filter
+                        .component
+                        .as_ref()
+                        .is_none_or(|value| &record.component == value)
+                    && filter
+                        .state
+                        .as_ref()
+                        .is_none_or(|value| &record.state == value)
+                    && filter
+                        .work_item_id
+                        .as_ref()
+                        .is_none_or(|value| &record.work_item_id == value))
+                .then(|| record.clone())
+            })
+            .collect::<Vec<_>>()
+    } else {
+        index.records.clone()
+    };
     (results, accessed)
 }
 
@@ -183,20 +249,107 @@ pub fn project_record(
     state: &str,
     evidence_ref: &str,
 ) -> KnowledgeRecord {
-    let topic = intent
-        .split_whitespace()
-        .next()
-        .unwrap_or("unknown")
-        .trim_matches(':')
-        .to_lowercase();
+    project_record_with_context(work_item_id, intent, &[], state, evidence_ref)
+}
+
+pub fn project_record_with_context(
+    work_item_id: &str,
+    intent: &str,
+    scope: &[String],
+    state: &str,
+    evidence_ref: &str,
+) -> KnowledgeRecord {
     KnowledgeRecord {
         work_item_id: work_item_id.into(),
-        topic,
-        component: "unknown".into(),
+        topic: derive_topic(intent),
+        component: derive_component(scope),
         state: state.into(),
         knowledge_path: format!(".ai/knowledge/{work_item_id}.json"),
         evidence_refs: vec![evidence_ref.into()],
     }
+}
+
+pub fn derive_topic(intent: &str) -> String {
+    let tokens = intent_tokens(intent);
+    const TOPICS: &[&str] = &[
+        "knowledge",
+        "outcome",
+        "release",
+        "verification",
+        "lifecycle",
+        "repository",
+        "protocol",
+        "governance",
+        "performance",
+        "cleanup",
+        "documentation",
+        "compatibility",
+        "recovery",
+        "security",
+    ];
+    tokens
+        .iter()
+        .find(|token| TOPICS.contains(&token.as_str()))
+        .cloned()
+        .or_else(|| tokens.into_iter().next())
+        .unwrap_or_else(|| "unknown".into())
+}
+
+pub fn derive_component(scope: &[String]) -> String {
+    for raw_scope in scope {
+        for candidate in raw_scope.split(';') {
+            let mut components = candidate
+                .split(['/', '\\'])
+                .filter(|part| !part.is_empty() && *part != "**" && *part != "*");
+            if components.next() == Some("crates")
+                && let Some(crate_name) = components.next()
+                && !crate_name.is_empty()
+            {
+                return crate_name.to_owned();
+            }
+        }
+    }
+    "unknown".into()
+}
+
+fn intent_tokens(intent: &str) -> Vec<String> {
+    const STOP_WORDS: &[&str] = &[
+        "a",
+        "an",
+        "and",
+        "for",
+        "from",
+        "in",
+        "of",
+        "on",
+        "the",
+        "to",
+        "with",
+        "without",
+        "repair",
+        "fix",
+        "improve",
+        "add",
+        "update",
+        "implement",
+        "ensure",
+        "preserve",
+        "make",
+        "support",
+        "introduce",
+        "refactor",
+        "separate",
+        "derive",
+        "build",
+        "project",
+        "clean",
+    ];
+    intent
+        .split(|character: char| !character.is_ascii_alphanumeric())
+        .filter(|token| !token.is_empty())
+        .map(str::to_ascii_lowercase)
+        .filter(|token| !STOP_WORDS.contains(&token.as_str()))
+        .collect()
 }
 
 /// Project the same archive record into the provenance-aware v2 shape.  The
@@ -210,24 +363,43 @@ pub fn project_record_v2(
     evidence_ref: &str,
     snapshot_digest: cockpit_core::Digest,
 ) -> cockpit_protocol::KnowledgeV2Record {
-    let topic = intent
-        .split_whitespace()
-        .next()
-        .unwrap_or("unknown")
-        .trim_matches(':')
-        .to_lowercase();
+    project_record_v2_with_context(
+        repository_id,
+        work_item_id,
+        intent,
+        &[],
+        state,
+        evidence_ref,
+        snapshot_digest,
+    )
+}
+
+pub fn project_record_v2_with_context(
+    repository_id: &str,
+    work_item_id: &str,
+    intent: &str,
+    scope: &[String],
+    state: &str,
+    evidence_ref: &str,
+    snapshot_digest: cockpit_core::Digest,
+) -> cockpit_protocol::KnowledgeV2Record {
+    let component = derive_component(scope);
     cockpit_protocol::KnowledgeV2Record {
         schema_version: 2,
         repository_id: repository_id.into(),
         work_item_id: work_item_id.into(),
-        topic,
-        component: "unknown".into(),
+        topic: derive_topic(intent),
+        component: component.clone(),
         state: state.into(),
         truth_state: cockpit_protocol::TruthState::Derived,
         confidence: "medium".into(),
         knowledge_path: format!(".ai/knowledge/{work_item_id}.v2.json"),
         evidence_refs: vec![evidence_ref.into()],
-        unknowns: vec!["component_not_observed_from_contract".into()],
+        unknowns: if component == "unknown" {
+            vec!["component_not_observed_from_contract".into()]
+        } else {
+            Vec::new()
+        },
         source_snapshot_digest: snapshot_digest,
     }
 }

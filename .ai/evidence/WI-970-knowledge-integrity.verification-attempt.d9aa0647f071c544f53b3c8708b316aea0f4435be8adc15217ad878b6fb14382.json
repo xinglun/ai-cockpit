@@ -1,0 +1,44 @@
+{
+  "attemptId": "sha256:d9aa0647f071c544f53b3c8708b316aea0f4435be8adc15217ad878b6fb14382",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-knowledge"
+      ],
+      "baseCommit": "957e135410a3354a82b7b583dcadc6fa8ded0ab0",
+      "commandDigest": "sha256:f2694c0bd5ba4441a484d74df422859c4a2baa3bc5f2ed697376f7b5a127f4a3",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b4f54d319eaa6b4ae4096fb97899cc654cd71777635b0f6ce477fdc317c5dae7",
+  "contractExecutionScopeDigest": "sha256:aef5dd32374041abe67273b0dabe899dd4dae61040dbb4905433a93794e3e897",
+  "createdAt": "2026-09-21T17:37:16Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-970-knowledge-integrity/ai-cockpit/.ai/work-items/active/WI-970-knowledge-integrity.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-970-knowledge-integrity"
+}

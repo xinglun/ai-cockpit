@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T17:46:22Z",
+  "files": {
+    "contractDigest": "sha256:1951f65f44268edc7b9ee3581a63e99136a1ff0c8d54a6a25d7d478127636afb",
+    "contractPath": ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json",
+    "eventsDigest": "sha256:121319f9231216a7a8d1e292ff9c248589b01a933834a01b586432f604c6c711",
+    "eventsPath": ".ai/work-items/archive/WI-970-knowledge-integrity.events.jsonl",
+    "outcomeDigest": "sha256:dc8a308a03afabdebe6ea73fa77f3e737f0d8cde15f8d91f16d69fe8a7141c56",
+    "outcomePath": ".ai/work-items/archive/WI-970-knowledge-integrity.outcome.json",
+    "summaryDigest": "sha256:9b6e2164f38e545e40c9fa91c8f666e2c29741996305f72bf0926bdb456d6db4",
+    "summaryPath": ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json",
+    "taskReportDigest": "sha256:1a09c67219dab9275ed28a889c3ade2cce96923d71705a48d33e9883d68ff574",
+    "taskReportMarkdownDigest": "sha256:d14ffcb740de1430b0092085d43c11ba20d67c53f4bf379c5464786c8e167ffe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-970-knowledge-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-970-knowledge-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-970-knowledge-integrity"
+}

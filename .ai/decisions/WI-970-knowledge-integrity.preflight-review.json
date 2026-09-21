@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b4f54d319eaa6b4ae4096fb97899cc654cd71777635b0f6ce477fdc317c5dae7",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The user explicitly authorized implementation of the bounded P0 knowledge Work Item. This receipt authorizes lifecycle execution and verification only; it does not assert that implementation or tests have passed.",
+  "recordedAt": "2026-09-22T02:26:30+09:00",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "schemaVersion": 1,
+  "workItemId": "WI-970-knowledge-integrity"
+}
