@@ -1,0 +1,65 @@
+{
+  "acceptanceCriteria": [
+    "Dirty or uncertain archive state produces a cache with no fast-path-eligible sourceRevision.",
+    "A four-step dirty-modify, cache-generate, restore-clean, query sequence rebuilds from the restored archive and returns its record and sourceDigest.",
+    "Clean archive caches at the same HEAD retain the existing revision fast path.",
+    "Focused repository tests and the declared Runtime verification pass without changing unrelated behavior."
+  ],
+  "authority": "authorized",
+  "baseRevision": "bf988ba2dbffaad56c3da911a4c30b05d68f104d",
+  "createdAt": "2026-09-21T21:46:00Z",
+  "goal": "Ensure a knowledge index generated from a dirty or uncertain archive never records a fast-path-eligible sourceRevision, and add a four-step dirty-to-clean regression proving records and sourceDigest follow the restored archive.",
+  "intent": "Repair the knowledge cache sourceRevision trust boundary identified by acceptance review so dirty or uncertain archive state cannot qualify a cache for the clean-revision fast path.",
+  "mode": "implementation",
+  "outOfScope": [
+    "performance measurement and candidate-filter optimization",
+    "Outcome wording and unrelated architecture tracks"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e9998ea26123f2d23392f46e49881d022ab26af54ea87b78efaa13b3145b7fa3",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A cache generated while a tracked archived contract is dirty cannot be reused after the contract is restored clean at the same HEAD; the next query rebuilds and returns the restored record and sourceDigest.",
+      "required": true,
+      "scenario": "dirty_to_clean_cache_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run a four-step repository regression: commit baseline H, modify tracked archived contract, generate dirty cache, restore baseline bytes, generate again, and assert restored record plus digest."
+    },
+    {
+      "evidence": [],
+      "expected": "A cache generated from a clean archive at HEAD retains sourceRevision and remains reusable without archive content validation.",
+      "required": true,
+      "scenario": "clean_revision_fast_path_preserved",
+      "status": "unverified",
+      "verificationPlan": "Run the existing clean-cache regression and assert sourceRevision remains bound to HEAD across consecutive queries."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/knowledge_projection.rs; crates/cockpit-repository/tests/knowledge_cache.rs; .ai/decisions/WI-980-knowledge-cache-clean-boundary.*; .ai/evidence/WI-980-knowledge-cache-clean-boundary.*; .ai/work-items/active/WI-980-knowledge-cache-clean-boundary.*",
+    "knowledge cache sourceRevision eligibility and dirty-to-clean regression",
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    ".ai/decisions/WI-980-knowledge-cache-clean-boundary.*",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.*",
+    ".ai/work-items/active/WI-980-knowledge-cache-clean-boundary.*"
+  ],
+  "sources": [
+    "Current acceptance review for main bf988ba2 identified the dirty-to-clean knowledge cache sourceRevision correctness gap.",
+    "AGENTS.md, .ai/README.md, and .ai/glossary.md current Runtime lifecycle and evidence rules."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-repository --test knowledge_cache",
+    "cargo test --locked -p cockpit-repository --lib"
+  ],
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}

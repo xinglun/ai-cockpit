@@ -1,0 +1,142 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.b03b649eeb81ddfb718977d9728956c272ea1e7fea1156bdd9a39a1deed5bd62.json",
+    ".ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.d1b5ed8fe72552966ab85a48cb4f9ca7247d301369feba640f8072fd058e59e9.json",
+    ".ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.440f3e69bcbe51e9917efe12834d7d4f61aacad7f1efaaae0aa679db29972056.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5729a521eaae4a6427ad7170cb5dace73bc09db115ee4c065647a9382356e492.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5d11aaaa11a6a1dc59544d75aacff82aa8027d69362b2b40aaa1228bf8532600.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.a7831b23d2f535589ef3bc461daa4eccbbc66b467b9578adaf185636b92bf32c.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.b5c03dcab125cd9e4d10dee8bc905ab1a55521004887a225a6c5373963624aec.json",
+    ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json",
+    ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json",
+    ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json",
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs"
+  ],
+  "checkpointAt": "2026-09-21T21:50:08Z",
+  "checkpointContractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:afa90837be7d1428cd320aaed138244445c40547c34b67b5d49485ced9d811bf",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:50:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e9998ea26123f2d23392f46e49881d022ab26af54ea87b78efaa13b3145b7fa3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-980-knowledge-cache-clean-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:29d9afc405afffde4e250e57290a03ab826a3c5aace82bd4472df61f7872f496",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:afa90837be7d1428cd320aaed138244445c40547c34b67b5d49485ced9d811bf",
+      "previousContractHash": "sha256:afa90837be7d1428cd320aaed138244445c40547c34b67b5d49485ced9d811bf",
+      "reason": "Runtime verification and preflight bind the generated observer snapshot, which must be explicitly included in the Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:53:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-980-knowledge-cache-clean-boundary"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:afa90837be7d1428cd320aaed138244445c40547c34b67b5d49485ced9d811bf",
+      "previousContractHash": "sha256:29d9afc405afffde4e250e57290a03ab826a3c5aace82bd4472df61f7872f496",
+      "reason": "The Runtime evaluates Contract scope entries as explicit path declarations; add the implementation, regression, and generated evidence paths individually so the source changes are bound exactly.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:54:20Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-980-knowledge-cache-clean-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "createdAt": "2026-09-21T21:46:00Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The user explicitly directed the acceptance-blocking dirty-to-clean knowledge cache defect to be fixed and the declared regression has now produced Runtime-bound verification evidence. This decision remains limited to WI-980 implementation and verification; it does not assert hosted CI, merge, release, or cleanup until those stages are separately evidenced.",
+    "recordedAt": "2026-09-21T21:58:35Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+    "schemaVersion": 1,
+    "workItemId": "WI-980-knowledge-cache-clean-boundary"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "Current acceptance review for main bf988ba2",
+      "WI-980 Contract scope and acceptance criteria"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T21:59:17Z",
+  "preflightContractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5d11aaaa11a6a1dc59544d75aacff82aa8027d69362b2b40aaa1228bf8532600.json"
+      ],
+      "expected": "A cache generated while a tracked archived contract is dirty cannot be reused after the contract is restored clean at the same HEAD; the next query rebuilds and returns the restored record and sourceDigest.",
+      "required": true,
+      "scenario": "dirty_to_clean_cache_boundary",
+      "status": "verified",
+      "verificationPlan": "Run a four-step repository regression: commit baseline H, modify tracked archived contract, generate dirty cache, restore baseline bytes, generate again, and assert restored record plus digest."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5d11aaaa11a6a1dc59544d75aacff82aa8027d69362b2b40aaa1228bf8532600.json"
+      ],
+      "expected": "A cache generated from a clean archive at HEAD retains sourceRevision and remains reusable without archive content validation.",
+      "required": true,
+      "scenario": "clean_revision_fast_path_preserved",
+      "status": "verified",
+      "verificationPlan": "Run the existing clean-cache regression and assert sourceRevision remains bound to HEAD across consecutive queries."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T21:59:26Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}

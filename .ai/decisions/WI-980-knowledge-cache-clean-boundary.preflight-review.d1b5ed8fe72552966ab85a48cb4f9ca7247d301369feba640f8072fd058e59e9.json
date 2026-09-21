@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The user explicitly directed the acceptance-blocking dirty-to-clean knowledge cache defect to be fixed and the declared regression has now produced Runtime-bound verification evidence. This decision remains limited to WI-980 implementation and verification; it does not assert hosted CI, merge, release, or cleanup until those stages are separately evidenced.",
+  "recordedAt": "2026-09-21T21:58:35Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "schemaVersion": 1,
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}

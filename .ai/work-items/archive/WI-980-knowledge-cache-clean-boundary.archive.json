@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T22:01:39Z",
+  "files": {
+    "contractDigest": "sha256:6f31017312cdfc8b4750cf3262a8c6f3a4a75e536048dd736b805485a6236cf1",
+    "contractPath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json",
+    "eventsDigest": "sha256:01a61804823dd8ac8153a95f171179454564d10b222b01614c21ed58b9c9dfee",
+    "eventsPath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.events.jsonl",
+    "outcomeDigest": "sha256:b3f78b71df18ff43f5d726f3973703797c003938496e39a6391309f843c58ae6",
+    "outcomePath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.outcome.json",
+    "summaryDigest": "sha256:316f979ef0789f3ecd2c047f9e20bdad71a39f36a9c334c82797e1ff5e382c89",
+    "summaryPath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json",
+    "taskReportDigest": "sha256:5a4217eb5b2faf60ee43ab3d0db9219bf6544a83861935a7b87044a0b7199ea7",
+    "taskReportMarkdownDigest": "sha256:13d58359cb4b1056545e83f786baf5e73f9e95d1c24b30deb3828933ccaa8165",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}

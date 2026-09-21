@@ -80,10 +80,14 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
         ));
     }
+    let source_revision = match (current_source_revision, knowledge_archive_is_clean(&root)) {
+        (Some(revision), Some(true)) => Some(revision),
+        _ => None,
+    };
     let index = cockpit_knowledge::KnowledgeIndex::with_source_metadata(
         records,
         source_digest,
-        current_source_revision,
+        source_revision,
     );
     fs::create_dir_all(&knowledge).map_err(|source| ObserverError::Read {
         path: knowledge.clone(),
