@@ -1,0 +1,45 @@
+{
+  "attemptId": "sha256:856877e7dfdf005f4fca10da88ae8e1aa687755fffec6032cab76613a643df04",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib"
+      ],
+      "baseCommit": "0faefdd020cbd3773193eb1c09ecb24e5ce81e96",
+      "commandDigest": "sha256:aed5fc502c369b261de657acbfd8f70aa2201388f4201ec0482cd58c744ec557",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:014fae90bc296ada23e058f62922d4b922ba61b15054a2b7e80581b3b6e955b8",
+  "contractExecutionScopeDigest": "sha256:89bbc47f61a471a75c258e98507887c307e27501eab57a97e11ef216f2b8d5a8",
+  "createdAt": "2026-09-21T18:25:24Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-972-repository-modularization/ai-cockpit/.ai/work-items/active/WI-972-repository-modularization.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1fd6fc161d835aac6510814bafb85f1ca6472d6c8d10335b24a767d033722588",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-972-repository-modularization"
+}

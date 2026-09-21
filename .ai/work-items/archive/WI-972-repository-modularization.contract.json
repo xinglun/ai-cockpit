@@ -1,0 +1,80 @@
+{
+  "acceptanceCriteria": [
+    "知识投影、状态/Outcome 投影和生命周期职责在现有 cockpit-repository crate 内形成清晰模块边界，公开 re-export 与调用方保持兼容。",
+    "lifecycle.rs 不再使用 use super::*，改为显式依赖；编译器与静态检查证明没有通过通配导入隐藏的模块耦合。",
+    "现有 repository 单元/集成测试及受影响 CLI/MCP 兼容测试通过，治理 receipt 与投影行为没有语义改写。",
+    "变更只改善维护边界；验证报告不宣称性能收益，未完成的职责迁移保留为明确后续范围。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0faefdd020cbd3773193eb1c09ecb24e5ce81e96",
+  "createdAt": "2026-09-21T18:13:40Z",
+  "goal": "将 repository 根模块中可独立验证的知识投影、状态/Outcome 投影与生命周期编排边界整理为同 crate 模块，逐步替换 lifecycle.rs 的通配导入；不改变公开签名、协议行为、receipt 语义或性能结论。",
+  "intent": "在 cockpit-repository 现有 crate 内按用例拆分职责，并以显式模块依赖保持公开接口与治理行为稳定。",
+  "mode": "code",
+  "outOfScope": [
+    "不拆分新 crate；不改变公开函数签名或序列化协议；不修改 cockpit-cli、cockpit-mcp、cockpit-protocol、发布脚本或历史兼容语义；不以模块拆分宣称运行加速。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b0278765c3a6d99d3f969e48f35edbc712da61115d808f2d1a5d2827a7c00310",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Existing cockpit-repository exports and downstream CLI/MCP callers compile without signature or serialization changes.",
+      "required": true,
+      "scenario": "public API compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run repository library/tests and focused CLI/MCP compatibility tests; compare public re-export surface and receipt fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "lifecycle.rs uses explicit root/module imports and no use super::* wildcard; behavior remains unchanged.",
+      "required": true,
+      "scenario": "explicit lifecycle dependency boundary",
+      "status": "unverified",
+      "verificationPlan": "Run cargo fmt/check/tests and static rg assertion for wildcard imports, then inspect the resulting module imports."
+    },
+    {
+      "evidence": [],
+      "expected": "Knowledge, status, Outcome, and lifecycle projections preserve existing JSON facts, identity bindings, and failure boundaries.",
+      "required": true,
+      "scenario": "projection behavior preservation",
+      "status": "unverified",
+      "verificationPlan": "Run knowledge, status, outcome, lifecycle, archive, and recovery repository integration tests."
+    },
+    {
+      "evidence": [],
+      "expected": "The change creates use-case modules inside cockpit-repository only; no new crate, protocol, CLI/MCP, release, or compatibility behavior is introduced.",
+      "required": true,
+      "scenario": "same-crate responsibility split",
+      "status": "unverified",
+      "verificationPlan": "Inspect the diff and run package tests with the Contract scope bound to cockpit-repository source."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-repository/src/status_outcome.rs",
+    ".ai/**"
+  ],
+  "sources": [
+    "源码审查：cockpit-repository/src/lib.rs、lifecycle.rs 当前职责与 use super::*",
+    "用户授权：按 WI 流程实施全部架构建议"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-repository --tests",
+    "cargo test --locked -p cockpit-cli --test mcp --test outcome_handoff"
+  ],
+  "workItemId": "WI-972-repository-modularization"
+}

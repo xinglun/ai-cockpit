@@ -1,0 +1,100 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.07c62203bb103273ee3eea10e0c9ea39795562d6ba73ac04c41a3a139d23fff7.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.0d053b24efb692362957e802d749b4b4113fd535ce8b967bd065b36ddb45ac57.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.0ea7d29a7e99377c010193bed4c05f52f03306f46f66c1887ac279e712bc31f1.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.22f778918439f43b222b081ae6f93faa3d8729baa088feb2a3f638cdb4cd8d48.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.717b82b9f1a2be8c8458fbd330ba6bcbcab49b04d4463d9b47584a26ea5d71e6.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.856877e7dfdf005f4fca10da88ae8e1aa687755fffec6032cab76613a643df04.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.b9b933ddc0e1e83f949065440feadafee73d5f6d4ba5335a160ee7cc4647eebd.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.c50928fbb8d53ee538d6ebdb8a81809f5b2c345c7d8fc70b0ef06b825741811c.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.d1f32c5e9a329b57530635e95aad0e59680e162db399fd62c51c080416ae7a2d.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.e1a9069931aa1a4dd62edc1eef910c1cb509c9ef252142d668c035b506120fe9.json",
+    ".ai/evidence/WI-972-repository-modularization.verification-attempt.e375c17538b74bb85a685940ba37ec78097de99270e5abe2f4ab67421c83a64a.json",
+    ".ai/evidence/WI-972-repository-modularization.verification.json",
+    ".ai/work-items/archive/WI-972-repository-modularization.contract.json",
+    ".ai/work-items/archive/WI-972-repository-modularization.summary.json",
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs"
+  ],
+  "checkpointAt": "2026-09-21T18:16:42Z",
+  "checkpointContractDigest": "sha256:014fae90bc296ada23e058f62922d4b922ba61b15054a2b7e80581b3b6e955b8",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:1fd6fc161d835aac6510814bafb85f1ca6472d6c8d10335b24a767d033722588",
+  "createdAt": "2026-09-21T18:13:40Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/knowledge_projection.rs",
+      "crates/cockpit-repository/src/lifecycle.rs"
+    ],
+    "reason": "The bounded change extracts knowledge and implementation-approach projections into a same-crate module and makes lifecycle dependencies explicit without changing public re-exports or behavior.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T18:29:57Z",
+  "preflightContractDigest": "sha256:014fae90bc296ada23e058f62922d4b922ba61b15054a2b7e80581b3b6e955b8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:1fd6fc161d835aac6510814bafb85f1ca6472d6c8d10335b24a767d033722588",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/knowledge_projection.rs",
+        "crates/cockpit-cli/tests/mcp.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "required": true,
+      "scenario": "public API compatibility",
+      "status": "verified",
+      "verificationPlan": "Run repository library/tests and focused CLI/MCP compatibility tests; compare public re-export surface and receipt fixtures."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lifecycle.rs"
+      ],
+      "required": true,
+      "scenario": "explicit lifecycle dependency boundary",
+      "status": "verified",
+      "verificationPlan": "Run cargo fmt/check/tests and static rg assertion for wildcard imports, then inspect the resulting module imports."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/knowledge_projection.rs",
+        "crates/cockpit-repository/tests/knowledge_cache.rs",
+        "crates/cockpit-repository/tests/knowledge_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "required": true,
+      "scenario": "projection behavior preservation",
+      "status": "verified",
+      "verificationPlan": "Run knowledge, status, outcome, lifecycle, archive, and recovery repository integration tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/knowledge_projection.rs",
+        "crates/cockpit-repository/src/lifecycle.rs"
+      ],
+      "required": true,
+      "scenario": "same-crate responsibility split",
+      "status": "verified",
+      "verificationPlan": "Inspect the diff and run package tests with the Contract scope bound to cockpit-repository source."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T18:31:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-972-repository-modularization"
+}
