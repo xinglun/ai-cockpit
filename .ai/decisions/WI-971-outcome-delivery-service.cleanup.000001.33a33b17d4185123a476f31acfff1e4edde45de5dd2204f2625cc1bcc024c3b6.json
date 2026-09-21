@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:247ffe1c286bdb3c3132db967ac387826b71faf1640ad530e809ebe2c899df46",
+  "branchRef": "refs/heads/codex/wi-971-outcome-delivery-service",
+  "contractDigest": "sha256:bb1cbaf052019e02a4c4ef054fae6dab3c72cbd56fe699353a0a106122407f84",
+  "headRevision": "3e754dee2007c298034aada290d3d66ed7d88f10",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T18:08:57Z",
+  "operationId": "sha256:2822f8a64aae0b4b01221fb1439b4ecd97e29e6ab95ce71941f46a49ac179d00",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-971-outcome-delivery-service",
+  "worktreeId": "sha256:81fd53100c9886b282e7af1e3f734f8e9a0f46a06e856091fe476c6838e4f745"
+}
