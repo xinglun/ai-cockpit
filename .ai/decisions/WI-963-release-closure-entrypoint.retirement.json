@@ -1,0 +1,34 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:89d872ebfd91ff2002d46dcf435e01444169c36ed9b45767b24c1e0bfceee141",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:bc3094daee05a70318080a60dc196a98bd11c9c1eb8135573146b4387cea91f9",
+      "path": ".ai/work-items/archive/WI-963-release-closure-entrypoint.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:49abd7b6b252c6998afc141a4bc790e6d4fa95e640c31cc4b95cd8abc3c06e65",
+      "path": ".ai/work-items/archive/WI-963-release-closure-entrypoint.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:1a315bc46fade8d4e6b103d72c960114343fbf82daae2ca74bfdc54bb65682bd",
+      "path": ".ai/work-items/archive/WI-963-release-closure-entrypoint.summary.json"
+    }
+  },
+  "authoritySource": "用户已明确授予全权授权；同根因缺陷应在当前恢复链内修复，且不可变历史不得手改。",
+  "contractDigest": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-963 已记录两项通过验证和一项由不可变 WI-960 archive EOF 字节必然失败的 Contract 验证；不作验证或完成声明，由绑定的 WI-964 接替可修改边界与生成器修复。",
+  "recordedAt": "2026-09-21T02:20:51Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a958f4b6382a18cadbd9b940a8b693e1959fb2f758c22c3fcc657e4b45684e56",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-964-archive-boundary-recovery",
+  "summaryDigest": "sha256:6adf9862646d3b997a503ed1627bd448961741e8b2c2807b36acd909daf9c33e",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-963-release-closure-entrypoint"
+}

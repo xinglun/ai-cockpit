@@ -1,0 +1,60 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-963-release-closure-entrypoint.recovery.json",
+    ".ai/decisions/WI-963-release-closure-entrypoint.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-963-release-closure-entrypoint.contract.json",
+    ".ai/work-items/active/WI-963-release-closure-entrypoint.summary.json",
+    ".ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json",
+    ".ai/work-items/archive/WI-964-archive-boundary-recovery.summary.json",
+    ".ai/work-items/archive/WI-963-release-closure-entrypoint.archive.json",
+    ".ai/work-items/archive/WI-963-release-closure-entrypoint.contract.json",
+    ".ai/work-items/archive/WI-963-release-closure-entrypoint.outcome.json",
+    ".ai/work-items/archive/WI-963-release-closure-entrypoint.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.ja.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.md",
+    "docs/work-items/WI-963-release-closure-entrypoint.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-21T02:22:44Z",
+  "checkpointContractDigest": "sha256:71854c322724d3fe15ab0e61f970de702d6e9f37d141778bd4185921fcc178b1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:7407ba95b01caf980ddbe7c9af7be928593abf924d283330505cbf7219c9ebf6",
+  "createdAt": "2026-09-21T02:20:29Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+  "predecessorWorkItemId": "WI-963-release-closure-entrypoint",
+  "preflightAt": "2026-09-21T02:26:07Z",
+  "preflightContractDigest": "sha256:71854c322724d3fe15ab0e61f970de702d6e9f37d141778bd4185921fcc178b1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7407ba95b01caf980ddbe7c9af7be928593abf924d283330505cbf7219c9ebf6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-963-release-closure-entrypoint.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T02:26:35Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-964-archive-boundary-recovery"
+}

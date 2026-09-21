@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "Generated task-report Markdown ends with exactly one newline and never emits a blank EOF line.",
+    "The focused whitespace verification inspects mutable candidate changes without requiring immutable archive bytes to be rewritten.",
+    "Archive digest integrity remains fail-closed and existing immutable archive bytes are not changed.",
+    "No release, close, or completion claim is made by this corrective Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "createdAt": "2026-09-21T02:20:29Z",
+  "goal": "Generate task-report Markdown without trailing blank EOF lines and verify mutable candidate whitespace independently from immutable archive digest integrity.",
+  "intent": "Repair the immutable archive boundary exposed by release closure without rewriting historical artifacts.",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:8480942a3871eb3241118a7fbbbbcf193db93c1db8e38d8af1f0d32f2205fc33",
+  "predecessorWorkItemId": "WI-963-release-closure-entrypoint",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-963-release-closure-entrypoint.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a958f4b6382a18cadbd9b940a8b693e1959fb2f758c22c3fcc657e4b45684e56",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/archive_integrity.rs",
+    "docs/reference/**",
+    "docs/work-items/**"
+  ],
+  "sources": [
+    ".ai/decisions/WI-963-release-closure-entrypoint.recovery.json",
+    ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.task-report.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-repository --test outcome_report",
+    "cargo test -p cockpit-repository --test archive_integrity",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report target/wi964-governance-integrity.json",
+    "git diff --check"
+  ],
+  "workItemId": "WI-964-archive-boundary-recovery"
+}

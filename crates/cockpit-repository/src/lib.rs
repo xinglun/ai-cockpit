@@ -13601,6 +13601,13 @@ fn task_outcome_markdown(report: &TaskOutcomeReport) -> String {
     if let Some(recovery) = &report.recovery_condition {
         output.push_str(&format!("## Recovery condition\n\n- {recovery}\n\n"));
     }
+    // Markdown sections deliberately end in a blank line for readability,
+    // but a generated artifact must not carry that blank line through to EOF:
+    // `git diff --check` treats it as a whitespace error after archive.
+    while output.ends_with('\n') {
+        output.pop();
+    }
+    output.push('\n');
     output
 }
 

@@ -845,6 +845,35 @@ fn finish_writes_event_stream_and_archive_binds_it() {
 }
 
 #[test]
+fn task_report_markdown_has_one_terminal_newline_in_active_and_archive() {
+    let directory = repository();
+    let work_item_id = "WI-136-REPORT-EOF";
+    ready(&directory, work_item_id);
+    finish_work_item(directory.path(), work_item_id).expect("finish");
+
+    let active = fs::read_to_string(directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.task-report.md"
+    )))
+    .expect("active task report");
+    assert!(active.ends_with('\n'));
+    assert!(
+        !active.ends_with("\n\n"),
+        "active task report must not end with a blank line"
+    );
+
+    archive_work_item(directory.path(), work_item_id).expect("archive");
+    let archived = fs::read_to_string(directory.path().join(format!(
+        ".ai/work-items/archive/{work_item_id}.task-report.md"
+    )))
+    .expect("archived task report");
+    assert!(archived.ends_with('\n'));
+    assert!(
+        !archived.ends_with("\n\n"),
+        "archived task report must not end with a blank line"
+    );
+}
+
+#[test]
 fn malformed_or_foreign_event_stream_fails_archive_closed() {
     let directory = repository();
     ready(&directory, "WI-136-TAMPER");
