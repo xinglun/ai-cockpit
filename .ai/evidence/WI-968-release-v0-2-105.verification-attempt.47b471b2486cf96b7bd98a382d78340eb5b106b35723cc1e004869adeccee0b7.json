@@ -1,9 +1,46 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:47b471b2486cf96b7bd98a382d78340eb5b106b35723cc1e004869adeccee0b7",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:682a1edca21cc3e67a0d5ac55f611f2092623454f93dae9d53d57f93c1ef9303",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:68151eba260c6a34e36c2d43ffd4b3e388787e1f4b5149938d5af7d9ace1616c",
-  "createdAt": "2026-09-21T11:02:28Z",
-  "evidenceSchemaVersion": 2,
+  "contractExecutionScopeDigest": "sha256:72540345695bc0d5f66a07e729c5738c947ffd615a55e2223fde327421e825f4",
+  "createdAt": "2026-09-21T11:02:27Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:682a1edca21cc3e67a0d5ac55f611f2092623454f93dae9d53d57f93c1ef9303",
+      "deadlineMs": 1789988847447,
+      "elapsedMs": 318,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "72656c65617365206761746520706f6c696379207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -114,10 +151,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-968-release-v0-2-105"
   },
-  "receiptDigest": "sha256:394c5a958793247fc047746329640a2c28f13c564b38b1ecfc338ce93785a116",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ffd205c55736363db51259cc475b0e482e507a3f52fc5d0cbb0ef7b243996ee3",
   "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
   "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-968-release-v0-2-105"
 }

@@ -8,7 +8,8 @@
     "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
     "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
     "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
-    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate."
+    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate.",
+    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection."
   ],
   "authority": "authorized",
   "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
@@ -39,6 +40,16 @@
     "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-105"
   },
   "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "release_preflight binds the immutable source identity from .plan.request and does not require duplicated top-level fields",
+      "required": true,
+      "scenario": "normal release consumes canonical ReleasePlan envelope",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow policy gates and the hosted v0.2.105 release workflow through release_preflight."
+    }
+  ],
   "scope": [
     "仅修改 v0.2.104 到 v0.2.105 的 workspace/package 版本、Cargo.lock 绑定版本、现有三语发布/版本事实与本 WI 的 Runtime 记录；执行既有 release workflow、公开产物验收、精确分支/worktree/provider 清理以及 Issue #902 的最终通知。",
     "Cargo.toml",
@@ -57,12 +68,16 @@
     "docs/reference/reference-comparison-metadata.json",
     "docs/reference/commands.md",
     "docs/reference/commands.zh-CN.md",
-    "docs/reference/commands.ja.md"
+    "docs/reference/commands.ja.md",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
   ],
   "sources": [
     "https://github.com/xinglun/ai-cockpit/pull/949",
     "scripts/generate_interface_references.py",
-    "crates/cockpit-protocol/src/interface_description.rs"
+    "crates/cockpit-protocol/src/interface_description.rs",
+    ".github/workflows/release.yml release_preflight and source-quality canonical ReleasePlan envelope consumers",
+    "tests/release/workflow_policy.sh release identity projection regression checks"
   ],
   "state": "implementation_active",
   "verification": [

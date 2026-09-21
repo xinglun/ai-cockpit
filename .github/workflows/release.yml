@@ -518,9 +518,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          source_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
-          source_base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .releaseSourceRevision' target/release-input-preflight.json)"
-          source_contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
+          # release-input-preflight.json is the canonical ReleasePlan envelope;
+          # keep the source binding on the typed plan request instead of
+          # reintroducing a second, top-level field projection here.
+          source_revision="$(jq -er '.plan.request.sourceRevision' target/release-input-preflight.json)"
+          source_base_revision="$(jq -er '.plan.request.baseRevision' target/release-input-preflight.json)"
+          source_contract_path="$(jq -r '.plan.request.sourceContractPath // .plan.request.contractPath // empty' target/release-input-preflight.json)"
           [[ "$source_revision" =~ ^[0-9a-f]{40}$ ]] || {
             echo 'release source identity must be a full immutable commit SHA' >&2
             exit 1
@@ -556,9 +559,9 @@ jobs:
         run: |
           set -euo pipefail
           source_repo="$GITHUB_WORKSPACE/release-source"
-          head_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
-          base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .headRevision' target/release-input-preflight.json)"
-          contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
+          head_revision="$(jq -er '.plan.request.sourceRevision' target/release-input-preflight.json)"
+          base_revision="$(jq -er '.plan.request.baseRevision' target/release-input-preflight.json)"
+          contract_path="$(jq -r '.plan.request.sourceContractPath // .plan.request.contractPath // empty' target/release-input-preflight.json)"
           test "$(git -C "$source_repo" rev-parse HEAD)" = "$head_revision"
           route_args=(
             --repo "$source_repo"
