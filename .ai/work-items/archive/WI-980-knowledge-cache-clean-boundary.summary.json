@@ -10,8 +10,8 @@
     ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.a7831b23d2f535589ef3bc461daa4eccbbc66b467b9578adaf185636b92bf32c.json",
     ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.b5c03dcab125cd9e4d10dee8bc905ab1a55521004887a225a6c5373963624aec.json",
     ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json",
-    ".ai/work-items/active/WI-980-knowledge-cache-clean-boundary.contract.json",
-    ".ai/work-items/active/WI-980-knowledge-cache-clean-boundary.summary.json",
+    ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json",
+    ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json",
     "crates/cockpit-repository/src/knowledge_projection.rs",
     "crates/cockpit-repository/tests/knowledge_cache.rs"
   ],

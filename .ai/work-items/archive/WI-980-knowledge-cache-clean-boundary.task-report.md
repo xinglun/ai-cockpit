@@ -24,8 +24,8 @@
 - Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.a7831b23d2f535589ef3bc461daa4eccbbc66b467b9578adaf185636b92bf32c.json
 - Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.b5c03dcab125cd9e4d10dee8bc905ab1a55521004887a225a6c5373963624aec.json
 - Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json
-- Changed path: .ai/work-items/active/WI-980-knowledge-cache-clean-boundary.contract.json
-- Changed path: .ai/work-items/active/WI-980-knowledge-cache-clean-boundary.summary.json
+- Changed path: .ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json
+- Changed path: .ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json
 - Changed path: crates/cockpit-repository/src/knowledge_projection.rs
 - Changed path: crates/cockpit-repository/tests/knowledge_cache.rs
 
