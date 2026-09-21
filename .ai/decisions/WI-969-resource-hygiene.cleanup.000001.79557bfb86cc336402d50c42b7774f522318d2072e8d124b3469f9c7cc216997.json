@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:ae36ee05e2da8e7f74edfc4a372dde1b511bbe4ac7ede9107a1b0ead673fb20c",
+  "branchRef": "refs/heads/codex/wi-969-resource-hygiene",
+  "contractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+  "headRevision": "35508220a9b1bcd459e20f0c9b642abcea2db8ef",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T17:17:25Z",
+  "operationId": "sha256:f840849dc13369ceb9e5960efa0a6f5849c7067b4dc9ea8f711ad3f4d55463cd",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-969-resource-hygiene",
+  "worktreeId": "sha256:4787d238138f920b37b72ca1c9770dabc89b96d78cba6bd59a2f462f37eb3e40"
+}
