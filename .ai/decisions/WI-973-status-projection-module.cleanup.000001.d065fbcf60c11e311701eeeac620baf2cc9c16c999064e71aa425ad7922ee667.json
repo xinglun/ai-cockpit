@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:4b7895ca28225faa523e070b08a896d6cba59aa9ef2af2d68f881012d5859936",
+  "branchRef": "refs/heads/codex/wi-973-status-projection-module",
+  "contractDigest": "sha256:e81230a4aca667d458fcc5fd985cd26bd6961437522ae3f6970cc1bba245ae75",
+  "headRevision": "7ff6f98a23613f438c02b6ac669c7dc113387600",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T18:59:24Z",
+  "operationId": "sha256:79d3aa010c5e55fba319d15ee90c134b8a248e008f424d8a0fb75ea41832e05e",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-973-status-projection-module",
+  "worktreeId": "sha256:3985f2c878fcc1916ff1ae8c98eda0d7130e941d992eb63340bd32346f800bf8"
+}
