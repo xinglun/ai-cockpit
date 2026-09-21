@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:3d30723125a9884d36737d6bfcb8836979ef9c9afa74018d1dfc2597291108cc",
+  "branchRef": "refs/heads/codex/wi-975-release-version-boundary",
+  "contractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+  "headRevision": "1b79bca9a9df02ebe6c4862977b4e9dc7edf0354",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T19:34:50Z",
+  "operationId": "sha256:7cf0d26d4b49f70c7bcc41881c45a2a4b371e697a5d1e9b7cfc442883cfb1410",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-975-release-version-boundary",
+  "worktreeId": "sha256:07d9a91f81a57c898f79fdc8d80e3e3743c3d381978e1faf551208d2cda75807"
+}
