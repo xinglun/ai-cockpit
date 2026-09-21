@@ -1,0 +1,185 @@
+{
+  "acceptanceResults": [
+    "新增 cockpit-interface crate 承担 Clap 与 interface discovery；cockpit-protocol 不再直接声明 Clap 依赖。",
+    "cockpit-protocol 继续 re-export WorkItemOutcomeQueryArgs、description/spec functions、enums/constants，现有调用方签名和序列化事实不变。",
+    "CLI/MCP and protocol interface tests pass; parser-derived facts remain identical.",
+    "change is dependency/maintenance boundary only, no runtime acceleration claim."
+  ],
+  "createdAt": "2026-09-21T19:11:14Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4e381c6c42f814ff40ed291cc6d1330a23a00c6cbdc901b6bf01c5adede54c0d",
+  "evidenceRefs": [
+    ".ai/evidence/WI-974-interface-contract.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-974-interface-contract.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-974-interface-contract.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d79b7640b9461f28272b1d532473b2fbae861f9aa10a4377958dcbc76024603",
+      "workItemId": "WI-974-interface-contract"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-974-interface-contract.verification-attempt.042db12997ade619048c9a16f3e434d1d99c57ab0343b8221518ec9bb20a146c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-974-interface-contract.verification-attempt.17745c1d8570e7608c4f29068eb8cd86fd0417c3c0f5c4da9fd5a07f2a606220.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-974-interface-contract.verification-attempt.4edc0b0a8ecb43a2c83a0dc777dfe2d5078b02ce0364c7fb5f44e056a5bb6627.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-974-interface-contract.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-974-interface-contract.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-974-interface-contract.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-974-interface-contract.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-974-interface-contract.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-974-interface-contract.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-974-interface-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-974-interface-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-974-interface-contract.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "把 interface_description.rs 迁入新的 cockpit-interface crate；cockpit-interface 承担 Clap parser 与接口发现，cockpit-protocol 保留领域协议并 re-export 既有符号；CLI、MCP、文档与测试继续消费同一事实源。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-974-interface-contract.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-974-interface-contract"
+  },
+  "taskReportDigest": "sha256:921c6d72a2754948bd7d50d88d3fe68c4b49e8b3da5488f91e532395c0b446cb",
+  "taskReportMarkdownDigest": "sha256:9d235d585068bde9c861e8da15e82e2d8088feb9f5ba235b06d7702fcb93c99b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-974-interface-contract.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-974-interface-contract"
+}

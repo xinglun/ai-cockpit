@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T19:11:22Z",
+  "files": {
+    "contractDigest": "sha256:6b1eb7d5e02b8c8ae3e6d74af07fba3977b85f237ed3f8bbdcc03c6496e2956b",
+    "contractPath": ".ai/work-items/archive/WI-974-interface-contract.contract.json",
+    "eventsDigest": "sha256:dd155240f18b6bfadec056dfc6e285e382fbd9838d01f9ed3d97c9929c24909c",
+    "eventsPath": ".ai/work-items/archive/WI-974-interface-contract.events.jsonl",
+    "outcomeDigest": "sha256:e82c90fe24e7732481d59cca042001cb1b42bfe14666fa7b0a62b21618618404",
+    "outcomePath": ".ai/work-items/archive/WI-974-interface-contract.outcome.json",
+    "summaryDigest": "sha256:ec9cda38ee1e3d5bc527cab43f4c6d0828079058c669fa5ac2edbdee91d4a597",
+    "summaryPath": ".ai/work-items/archive/WI-974-interface-contract.summary.json",
+    "taskReportDigest": "sha256:921c6d72a2754948bd7d50d88d3fe68c4b49e8b3da5488f91e532395c0b446cb",
+    "taskReportMarkdownDigest": "sha256:9d235d585068bde9c861e8da15e82e2d8088feb9f5ba235b06d7702fcb93c99b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-974-interface-contract.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-974-interface-contract.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-974-interface-contract"
+}

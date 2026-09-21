@@ -2,21 +2,13 @@
   "acceptanceEvidence": [],
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-974-interface-contract.verification-attempt.abf171692211a3bc97d40820e8a47d3b8d202865b4607344cd9fe32da6866b0a.json",
-    ".ai/evidence/WI-974-interface-contract.verification-attempt.c745f8680112576b4271b7b530fdc1df80fe251fd05997ca1fa865e9db5601c4.json",
-    ".ai/evidence/WI-974-interface-contract.verification-attempt.eae5c442eafe65bcd8dbc0451a1033c575ed3643b6792190ae4f74b18a851217.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.042db12997ade619048c9a16f3e434d1d99c57ab0343b8221518ec9bb20a146c.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.17745c1d8570e7608c4f29068eb8cd86fd0417c3c0f5c4da9fd5a07f2a606220.json",
+    ".ai/evidence/WI-974-interface-contract.verification-attempt.4edc0b0a8ecb43a2c83a0dc777dfe2d5078b02ce0364c7fb5f44e056a5bb6627.json",
     ".ai/evidence/WI-974-interface-contract.verification.json",
-    ".ai/work-items/active/WI-974-interface-contract.contract.json",
-    ".ai/work-items/active/WI-974-interface-contract.summary.json",
-    "Cargo.lock",
-    "Cargo.toml",
-    "crates/cockpit-interface/Cargo.toml",
-    "crates/cockpit-interface/src/interface_description.rs",
-    "crates/cockpit-interface/src/lib.rs",
-    "crates/cockpit-protocol/Cargo.toml",
-    "crates/cockpit-protocol/src/interface_description.rs",
-    "crates/cockpit-protocol/src/lib.rs",
-    "crates/cockpit-protocol/tests/interface_description.rs"
+    ".ai/work-items/archive/WI-974-interface-contract.events.jsonl",
+    ".ai/work-items/archive/WI-974-interface-contract.outcome.json",
+    ".ai/work-items/archive/WI-974-interface-contract.summary.json"
   ],
   "checkpointAt": "2026-09-21T19:03:31Z",
   "checkpointContractDigest": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
@@ -57,7 +49,7 @@
       "workItemId": "WI-974-interface-contract"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:a03f746aa7e3a8d4d5f48af532aa3d444646c56a1c751e05120f83a1949dd3c9",
+  "checkpointRepositorySnapshotDigest": "sha256:7d79b7640b9461f28272b1d532473b2fbae861f9aa10a4377958dcbc76024603",
   "createdAt": "2026-09-21T19:02:51Z",
   "evidenceClasses": [],
   "intentAlignment": {
@@ -71,10 +63,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-21T19:09:49Z",
+  "preflightAt": "2026-09-21T19:11:08Z",
   "preflightContractDigest": "sha256:888b7157e8f9bfcfd751fdd25350c452c6b99fa7ddafb547953acbb62d37484c",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:a03f746aa7e3a8d4d5f48af532aa3d444646c56a1c751e05120f83a1949dd3c9",
+  "preflightRepositorySnapshotDigest": "sha256:7d79b7640b9461f28272b1d532473b2fbae861f9aa10a4377958dcbc76024603",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -131,14 +123,13 @@
       "verificationPlan": "Run affected cockpit-cli and cockpit-mcp tests, including Outcome handoff and RPC suites."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T19:07:32.197198+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T19:11:14Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d2290f42e9ef5ca93004e4fcc08f9f8f5679ef50781262dfb5c9479070a52cf8",
   "workItemId": "WI-974-interface-contract"
 }
