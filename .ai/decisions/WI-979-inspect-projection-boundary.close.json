@@ -1,0 +1,162 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f77663ff2a232c79d37d06452bd59666538cacf4d2d8dd2421b20ca57a9877ff",
+      "workItemId": "WI-979-inspect-projection-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-979-inspect-projection-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/inspect_projection_boundary_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-21T21:07:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "让 inspect projection boundary gate 检查实际的 knowledge_projection.rs 实现位置，保持只读 API 边界与行为不变。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-979-inspect-projection-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-979-inspect-projection-boundary"
+  },
+  "finalReportDigest": "sha256:ff65b78bc2e89d29b3a0de8b4e4258418f4333fff77fc82603c6337c875b53f7",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:18733142fe13b6f9c2715e82fcd1927ae6063c7ce98897bd986bfd712f6b1ff2",
+    "branch": "codex/wi-979-inspect-projection-boundary",
+    "branchRef": "refs/heads/codex/wi-979-inspect-projection-boundary",
+    "capturedAt": "2026-09-21T21:06:55Z",
+    "contractDigest": "sha256:9b810c698d989cec15e89faadfc52410fae9472b7b95d49d07d760151089ee6e",
+    "headRevision": "dfd7327ec29b045ffc0a50b82339ab133d48bf05",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-979-inspect-projection-boundary",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit1",
+    "worktreeId": "sha256:c81a909e39ef29052051d42b714d6113f2c701118d1b87ab696eb474cb4dc869",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-979-inspect-projection-boundary/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:096b719a06a8d19d62120367e788e6abde7a6f8ecd419e6529f5ae724cc976d3",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T21:07:30Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-979-inspect-projection-boundary.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户已授权按 WI 流程实施架构建议；WI-979 的 inspect projection boundary 路径绑定修复已通过 Contract 声明的 Runtime 验证。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-21T21:06:55Z",
+  "workItemId": "WI-979-inspect-projection-boundary"
+}

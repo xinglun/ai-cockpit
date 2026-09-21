@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-979-inspect-projection-boundary.contract.json",
+    ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json",
+    "tests/ci/inspect_projection_boundary_test.sh"
+  ],
+  "checkpointAt": "2026-09-21T21:02:06Z",
+  "checkpointContractDigest": "sha256:9b810c698d989cec15e89faadfc52410fae9472b7b95d49d07d760151089ee6e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:c755e7fadbf73d900d778a9a13298c721493909b2d0be071391d59dc14d5bf63",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:02:06Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-979-inspect-projection-boundary"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:9b810c698d989cec15e89faadfc52410fae9472b7b95d49d07d760151089ee6e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c755e7fadbf73d900d778a9a13298c721493909b2d0be071391d59dc14d5bf63",
+      "previousContractHash": "sha256:c755e7fadbf73d900d778a9a13298c721493909b2d0be071391d59dc14d5bf63",
+      "reason": "Runtime regenerated the observer projection when starting the successor; include this generated binding explicitly in the successor scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:02:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f77663ff2a232c79d37d06452bd59666538cacf4d2d8dd2421b20ca57a9877ff",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-979-inspect-projection-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f77663ff2a232c79d37d06452bd59666538cacf4d2d8dd2421b20ca57a9877ff",
+  "createdAt": "2026-09-21T21:02:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T21:05:57Z",
+  "preflightContractDigest": "sha256:9b810c698d989cec15e89faadfc52410fae9472b7b95d49d07d760151089ee6e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f77663ff2a232c79d37d06452bd59666538cacf4d2d8dd2421b20ca57a9877ff",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T21:06:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-979-inspect-projection-boundary"
+}
