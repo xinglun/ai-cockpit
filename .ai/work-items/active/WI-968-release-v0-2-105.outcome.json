@@ -6,11 +6,12 @@
     "发布失败或阻塞时保留不可变证据，不重复执行验证或归档；成功时完成精确资源清理、finalize-verify、close 和 check-all。",
     "最终仅向 Sentinel Issue #902 发送包含 tag、commit、Release URL、workflow 和 Runtime digest 的通知，不关闭该 Issue。",
     "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
-    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work."
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish."
   ],
-  "createdAt": "2026-09-21T10:04:34Z",
+  "createdAt": "2026-09-21T10:20:31Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:2c5bee8e010fb75f5260eb5a9bdf888a05c6010ee16e29565d66718006be0772",
+  "evidenceDigest": "sha256:812194c36f95087d0ec0279149e61b568753de1227aea8acf04428db64e4a502",
   "evidenceRefs": [
     ".ai/evidence/WI-968-release-v0-2-105.verification.json"
   ],
@@ -36,7 +37,7 @@
         ".ai/evidence/WI-968-release-v0-2-105.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:bb87c4276c717805a8eb92a5dbd3632090fc098292cd494c54f861da939dad24",
+      "repositorySnapshotDigest": "sha256:8d5b5575f6d7cd80e403ab5e56fc06d971f130267e107a274a0be5676ceaa69d",
       "workItemId": "WI-968-release-v0-2-105"
     },
     "format": "ai-cockpit.task-outcome",
@@ -50,6 +51,13 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/decisions/WI-968-release-v0-2-105.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
@@ -57,70 +65,42 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.0df1bde5f807a9cc985655574804805af02888deb20d7caacfe87e6d93cca118.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.09dbffa634c5f8c99c139786eebb10884c1c974202178fd78f160e395a281361.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.28a47223a41e422e2914c42e138ad1aa997862fd14ae6b93edadd17dde6e3ad2.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.203d0a3441b2004bbe461f4e20be4ceb659e96f6cc4b86ad835b0f094d77571f.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.33054622da8c88641dd527a779d2f6d27c7b7da9eadedd46b2a92f9425db28d2.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.498b3d7e966cda4dacc87bf97ecedeec1f4af6095b0345e4367d38f99f9a16f6.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.35657eb511c238cb4f412b0ee0bd84ee58ae1236b7659a1e8f5913c95f8704b1.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.8b2dc5dce64a1f25996b502877d195639142b9dc5ee15ffe96ae215a00297298.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.5330ce163ef98b619189e68c4b3a10029f5d58773fb1e67bf777f8b47918a787.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.937be00481f2885053a920c0d21ed287262cbe29d23178af2c2f0750a89a3afa.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.84c8fb4ac6a7adc246a22e1cee2539f2993393ffc7274d72fa0efee2161e39e5.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.9605c4a1fe1eec6530faa7ec2b786360579b71964b7410700a1558630970c138.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.c6adf10a852fc02a2e0aabfa873d6a8e2b69d2b802c3c6aad557861d1890e08e.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.c98645c914476c2039aaad726bd59518cad1dfc9d6fb6f87fb61c3d131664a31.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.ee7123cbed99b543a93a731deb7dcf196d5963158ded4cadc53921ddbddb8b8a.json"
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.bb80c9586736b531d9a376b3db3ebc12b0d56c0ff95fcf17c02801b7e7c413b7.json"
         },
         {
           "evidenceRefs": [
@@ -134,6 +114,13 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.context-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json"
         },
         {
@@ -141,7 +128,21 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.scope-amend.json"
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.finalize-plan.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.retry.json"
         },
         {
           "evidenceRefs": [
@@ -155,84 +156,14 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: Cargo.lock"
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: Cargo.toml"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/release-distribution.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/architecture/versioning.zh-CN.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/reference/reference-comparison-metadata.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.ja.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.md"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: docs/release/distribution.zh-CN.md"
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.md"
         }
       ],
       "evidence": [
@@ -307,8 +238,8 @@
     "status": "verified",
     "workItemId": "WI-968-release-v0-2-105"
   },
-  "taskReportDigest": "sha256:a3e64e9a5731f1ce2d2e2f87dfd6020bbaf2bbc3dd3fc32fc82c1b5b9271a500",
-  "taskReportMarkdownDigest": "sha256:43631ad48e7f13594bd80c499101fadb33705240c0c2ef5e0ded4fe606ad5b00",
+  "taskReportDigest": "sha256:c80d4c8663072f65e28e8dc1134e1eaa42fac11ff23e14dd090bb9ad0491f147",
+  "taskReportMarkdownDigest": "sha256:f07552033b84584e4eaef72b90d2e58be995c24beaf17a884958e952965d8c60",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

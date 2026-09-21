@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-968-release-v0-2-105",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-968-release-v0-2-105",
+  "predecessorContractDigest": "sha256:36bc80395bbc07f5b439adc8aaf91c3ab06ba54e1e6ad736a2f0c0a934b0f1cc",
+  "predecessorSummaryDigest": "sha256:12306539f0156fb243953f3cd36675eb3e7279670c2bb606ee8f1310ca735e73",
+  "predecessorOutcomeDigest": "sha256:687fc3a7525256c7555f8a452db911876c89a89b429103675286c5944cffa043",
+  "predecessorEventsDigest": "sha256:3d351f08f82e5ba446562d74f5a0ab13746c835f11f569afb8fe456216fa8951",
+  "runtimeVersion": "0.2.104",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "The first focused verification was recorded before the exact GitHub PR resource context existed. Preserve that evidence and retry the same WI after binding PR #949, without repeating unrelated workspace verification or dispatching another release.",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/949",
+    ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "decidedAt": "2026-09-21T10:10:00Z",
+  "resumeCondition": "Bind the real PR #949 resource context with finalize-plan, run fresh preflight and focused verification, then finish and continue hosted review; do not repeat unrelated checks or create a successor."
+}

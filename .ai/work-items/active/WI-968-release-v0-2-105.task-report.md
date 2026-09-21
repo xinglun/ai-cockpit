@@ -14,33 +14,23 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-968-release-v0-2-105.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.0df1bde5f807a9cc985655574804805af02888deb20d7caacfe87e6d93cca118.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.28a47223a41e422e2914c42e138ad1aa997862fd14ae6b93edadd17dde6e3ad2.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.33054622da8c88641dd527a779d2f6d27c7b7da9eadedd46b2a92f9425db28d2.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.35657eb511c238cb4f412b0ee0bd84ee58ae1236b7659a1e8f5913c95f8704b1.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.5330ce163ef98b619189e68c4b3a10029f5d58773fb1e67bf777f8b47918a787.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.84c8fb4ac6a7adc246a22e1cee2539f2993393ffc7274d72fa0efee2161e39e5.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.9605c4a1fe1eec6530faa7ec2b786360579b71964b7410700a1558630970c138.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.c6adf10a852fc02a2e0aabfa873d6a8e2b69d2b802c3c6aad557861d1890e08e.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.c98645c914476c2039aaad726bd59518cad1dfc9d6fb6f87fb61c3d131664a31.json
-- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.ee7123cbed99b543a93a731deb7dcf196d5963158ded4cadc53921ddbddb8b8a.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.09dbffa634c5f8c99c139786eebb10884c1c974202178fd78f160e395a281361.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.203d0a3441b2004bbe461f4e20be4ceb659e96f6cc4b86ad835b0f094d77571f.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.498b3d7e966cda4dacc87bf97ecedeec1f4af6095b0345e4367d38f99f9a16f6.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.8b2dc5dce64a1f25996b502877d195639142b9dc5ee15ffe96ae215a00297298.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.937be00481f2885053a920c0d21ed287262cbe29d23178af2c2f0750a89a3afa.json
+- Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.bb80c9586736b531d9a376b3db3ebc12b0d56c0ff95fcf17c02801b7e7c413b7.json
 - Changed path: .ai/evidence/WI-968-release-v0-2-105.verification.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.context-amend.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json
-- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.scope-amend.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.finalize-plan.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.outcome.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.retry.json
 - Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json
-- Changed path: Cargo.lock
-- Changed path: Cargo.toml
-- Changed path: docs/architecture/release-distribution.ja.md
-- Changed path: docs/architecture/release-distribution.md
-- Changed path: docs/architecture/release-distribution.zh-CN.md
-- Changed path: docs/architecture/versioning.ja.md
-- Changed path: docs/architecture/versioning.md
-- Changed path: docs/architecture/versioning.zh-CN.md
-- Changed path: docs/reference/reference-comparison-metadata.json
-- Changed path: docs/release/distribution.ja.md
-- Changed path: docs/release/distribution.md
-- Changed path: docs/release/distribution.zh-CN.md
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.json
+- Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.md
 
 ## Findings
 

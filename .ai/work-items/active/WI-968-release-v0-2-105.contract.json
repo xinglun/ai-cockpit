@@ -6,7 +6,8 @@
     "发布失败或阻塞时保留不可变证据，不重复执行验证或归档；成功时完成精确资源清理、finalize-verify、close 和 check-all。",
     "最终仅向 Sentinel Issue #902 发送包含 tag、commit、Release URL、workflow 和 Runtime digest 的通知，不关闭该 Issue。",
     "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
-    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work."
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish."
   ],
   "authority": "authorized",
   "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
@@ -28,6 +29,14 @@
     "delegated_evidence",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-105",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/949",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-105"
+  },
   "risk": "normal",
   "scope": [
     "仅修改 v0.2.104 到 v0.2.105 的 workspace/package 版本、Cargo.lock 绑定版本、现有三语发布/版本事实与本 WI 的 Runtime 记录；执行既有 release workflow、公开产物验收、精确分支/worktree/provider 清理以及 Issue #902 的最终通知。",
@@ -46,7 +55,9 @@
     ".ai/work-items/active/WI-968-release-v0-2-105.**",
     "docs/reference/reference-comparison-metadata.json"
   ],
-  "sources": [],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/949"
+  ],
   "state": "implementation_active",
   "verification": [
     "bash tests/ci/release_gate_policy_test.sh",
