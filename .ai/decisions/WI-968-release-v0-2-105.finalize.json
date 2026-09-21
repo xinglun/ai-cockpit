@@ -1,0 +1,59 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit user authorization in current conversation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "6e0521ff1257ba30350727766f3845e5d2873c32",
+    "name": "codex/release-v0-2-105",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+  "contractDigest": "sha256:f5582859a880cb6f1d3d8bd3892a736b342e019fa8d42e35042f35a5ef623023",
+  "operationId": "WI-968-release-v0-2-105-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+    "headRevision": "6e0521ff1257ba30350727766f3845e5d2873c32",
+    "mergeCommit": "4f04974ef9c3a36b52ad913140c6cf8ceeb01e68",
+    "number": 949,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/949"
+  },
+  "reason": "Reviewed PR #949 merged as 4f04974ef9c3a36b52ad913140c6cf8ceeb01e68; v0.2.105 public release, artifact, install, upgrade, and release-close evidence passed in workflow run 35598352463. After archive, the exact PR #949 branch and linked worktree were deleted. The same WI also contained the reviewed workflow repair PR #951; its separate branch remains under the current control context until this WI closure commit is merged, then will be deleted separately.",
+  "receiptId": "WI-968-release-v0-2-105-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-105",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/949",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-105"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-21T12:49:48Z",
+  "workItemId": "WI-968-release-v0-2-105",
+  "worktree": {
+    "branch": "codex/release-v0-2-105",
+    "headRevision": "6e0521ff1257ba30350727766f3845e5d2873c32",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-105",
+    "worktreeId": "release-v0-2-105"
+  }
+}
