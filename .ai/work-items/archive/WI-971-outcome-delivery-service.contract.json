@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "CLI and MCP both call one shared typed Outcome delivery application service; no duplicate host/progress orchestration remains in either adapter.",
+    "Configured host behavior, explicit MCP progress precedence, persisted resume progress, successful cleanup, and failure persistence remain identity-bound and fail closed.",
+    "Transport adapters retain their existing responsibilities: CLI prints or emits JSON, MCP returns protocol JSON, and neither invents host acceptance or display confirmation.",
+    "Focused regression tests cover return-only delivery, configured-host success, interrupted delivery persistence, retry progress, and CLI/MCP parity."
+  ],
+  "authority": "authorized",
+  "baseRevision": "1cd639484d9831871306b4dc175c2ae1a3ffd1d6",
+  "createdAt": "2026-09-21T17:50:44Z",
+  "goal": "Extract typed application-service orchestration for configured host setup, explicit or persisted progress, delivery, progress persistence/removal, and typed failure results; keep CLI stdout/stderr and MCP JSON as adapter responsibilities.",
+  "intent": "Share the Outcome delivery orchestration used by CLI and MCP while preserving their transport-specific output contracts.",
+  "mode": "implementation",
+  "outOfScope": [
+    "Do not change the protocol-owned interface definition",
+    " repository Outcome assembly/rendering",
+    " host adapter wire protocol",
+    " release scripts",
+    " historical compatibility behavior",
+    " or public CLI/MCP command names."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "CLI and MCP use the shared service with the return-only host, preserve full Outcome segments, and keep host acceptance/display unknown.",
+      "required": true,
+      "scenario": "return-only handoff",
+      "status": "unverified",
+      "verificationPlan": "Run cockpit-agent delivery tests plus CLI and MCP Outcome delivery tests with no external host configured."
+    },
+    {
+      "evidence": [],
+      "expected": "A configured host receives each segment, accepted progress is identity-bound, and a complete delivery removes persisted progress.",
+      "required": true,
+      "scenario": "configured host success and progress cleanup",
+      "status": "unverified",
+      "verificationPlan": "Run the host-command and application-service regression tests with a controlled receipt-producing adapter."
+    },
+    {
+      "evidence": [],
+      "expected": "A partial or failed delivery persists the accepted receipt chain and a retry resumes only from that chain without skipping segments.",
+      "required": true,
+      "scenario": "interrupted delivery and retry",
+      "status": "unverified",
+      "verificationPlan": "Run interrupted-host tests and the CLI/MCP parity test with persisted and explicitly supplied progress."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI remains responsible for stdout/stderr or machine JSON and MCP remains responsible for protocol JSON; neither adapter reimplements host/progress orchestration or invents confirmation.",
+      "required": true,
+      "scenario": "transport adapter boundary",
+      "status": "unverified",
+      "verificationPlan": "Run focused CLI/MCP Outcome tests and inspect that both adapters call the shared typed service."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-agent/**; crates/cockpit-cli/src/main.rs; crates/cockpit-cli/tests/**; crates/cockpit-mcp/src/lib.rs; crates/cockpit-mcp/tests/**; .ai/**",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/outcome_delivery.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**",
+    "crates/cockpit-mcp/src/lib.rs",
+    "crates/cockpit-mcp/tests/**",
+    ".ai/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-agent --tests",
+    "cargo test --locked -p cockpit-cli --test mcp --test outcome_handoff --test cli_mcp_outcome_parity",
+    "cargo test --locked -p cockpit-mcp --test rpc"
+  ],
+  "workItemId": "WI-971-outcome-delivery-service"
+}

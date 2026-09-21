@@ -2411,14 +2411,20 @@ fn run() -> Result<()> {
                         output_language(language.as_deref()),
                     )
                     .context("prepare archived Outcome delivery")?;
-                    let result = deliver_prepared_outcome(&repo, &query.id, prepared)?;
+                    let result = cockpit_agent::deliver_prepared_outcome(
+                        cockpit_agent::OutcomeDeliveryApplicationRequest {
+                            repository: &repo,
+                            work_item_id: &query.id,
+                            delivery: prepared,
+                            supplied_progress: None,
+                        },
+                    )
+                    .map_err(|error| anyhow::anyhow!(error))?;
                     let mut output = serde_json::to_value(&result.delivery)?;
                     output["assistantMessageEvents"] = serde_json::to_value(
                         cockpit_agent::assistant_message_events(&result.delivery),
                     )?;
-                    output["deliveryReport"] = result
-                        .delivery_report
-                        .unwrap_or_else(|| json!({"deliveryState": "unknown"}));
+                    output["deliveryReport"] = result.delivery_report_json()?;
                     output["hostDeliveryMode"] = json!(result.host_delivery_mode);
                     output["hostDisplayConfirmation"] = json!(result.host_display_confirmation);
                     if let Some(count) = result.returned_segment_events {
@@ -3310,128 +3316,6 @@ fn parse_persistence(value: &str) -> Result<EvidencePersistence> {
     }
 }
 
-struct PreparedOutcomeDeliveryResult {
-    delivery: cockpit_protocol::OutcomeDelivery,
-    delivery_report: Option<serde_json::Value>,
-    host_delivery_mode: &'static str,
-    host_display_confirmation: String,
-    returned_segment_events: Option<usize>,
-    handoff: String,
-}
-
-fn outcome_delivery_progress_path(repo: &Path, work_item_id: &str) -> PathBuf {
-    repo.join(".ai/outcome-delivery")
-        .join(format!("{work_item_id}.progress.json"))
-}
-
-fn deliver_prepared_outcome(
-    repo: &Path,
-    work_item_id: &str,
-    mut delivery: cockpit_protocol::OutcomeDelivery,
-) -> Result<PreparedOutcomeDeliveryResult> {
-    let progress_path = outcome_delivery_progress_path(repo, work_item_id);
-    let mut host =
-        cockpit_agent::configured_outcome_host().map_err(|error| anyhow::anyhow!(error))?;
-    let progress = if host.is_return_only() {
-        None
-    } else {
-        cockpit_agent::load_outcome_delivery_progress(&progress_path)
-            .map_err(|error| anyhow::anyhow!(error))?
-    };
-    let mode = host.mode();
-    match cockpit_agent::deliver_outcome(&delivery, &mut host, progress.as_ref()) {
-        Ok(report) => {
-            if host.is_return_only() {
-                delivery.delivery_state = "returned_to_consumer".into();
-                delivery.host_confirmation = "unknown".into();
-            } else {
-                delivery.delivery_state = report.delivery_state.clone();
-                delivery.host_confirmation = report.host_confirmation.clone();
-            }
-            if !host.is_return_only() {
-                if report.complete && report.progress.confirmed.len() == report.total_parts {
-                    cockpit_agent::remove_outcome_delivery_progress(&progress_path)
-                        .map_err(|error| anyhow::anyhow!(error))?;
-                } else if !report.progress.confirmed.is_empty() || report.complete {
-                    cockpit_agent::persist_outcome_delivery_progress(
-                        &progress_path,
-                        &report.progress,
-                    )
-                    .map_err(|error| anyhow::anyhow!(error))?;
-                }
-            }
-            let host_display_confirmation = report.host_confirmation.clone();
-            let returned_segment_events = host.returned_segment_count();
-            Ok(PreparedOutcomeDeliveryResult {
-                handoff: delivery.body.clone(),
-                delivery,
-                delivery_report: Some(serde_json::to_value(report)?),
-                host_delivery_mode: mode,
-                host_display_confirmation,
-                returned_segment_events,
-            })
-        }
-        Err(cockpit_agent::AgentError::DeliveryFailed {
-            sent_parts,
-            progress,
-            message,
-        }) => {
-            cockpit_agent::persist_outcome_delivery_progress(&progress_path, &progress)
-                .map_err(|error| anyhow::anyhow!(error))?;
-            delivery.delivery_state = "delivery_failed".into();
-            delivery.host_confirmation = "unknown".into();
-            delivery.error = Some(message.clone());
-            delivery.next_action =
-                "Retry delivery with the same archived Outcome; do not archive again.".into();
-            let report = json!({
-                "deliveryId": delivery.delivery_id,
-                "workItemId": work_item_id,
-                "sentParts": sent_parts,
-                "totalParts": delivery.segments.len(),
-                "complete": false,
-                "deliveryState": "delivery_failed",
-                "hostConfirmation": "unknown",
-                "progress": progress,
-                "error": message,
-                "nextAction": delivery.next_action,
-            });
-            Ok(PreparedOutcomeDeliveryResult {
-                handoff: format!(
-                    "{}\n\nDelivery status: interrupted after {sent_parts} part(s); retry the same full Outcome.",
-                    delivery.body
-                ),
-                delivery,
-                delivery_report: Some(report),
-                host_delivery_mode: mode,
-                host_display_confirmation: "unknown".into(),
-                returned_segment_events: host.returned_segment_count(),
-            })
-        }
-        Err(error) => {
-            delivery.delivery_state = "delivery_failed".into();
-            delivery.host_confirmation = "unknown".into();
-            delivery.error = Some(error.to_string());
-            delivery.next_action =
-                "Inspect the host adapter error and retry delivery without archiving again.".into();
-            Ok(PreparedOutcomeDeliveryResult {
-                handoff: format!(
-                    "{}\n\nDelivery status: host adapter failed; retry the same full Outcome.",
-                    delivery.body
-                ),
-                delivery,
-                delivery_report: Some(json!({
-                    "deliveryState": "delivery_failed",
-                    "hostConfirmation": "unknown",
-                    "error": error.to_string(),
-                })),
-                host_delivery_mode: mode,
-                host_display_confirmation: "unknown".into(),
-                returned_segment_events: host.returned_segment_count(),
-            })
-        }
-    }
-}
-
 fn print_lifecycle_result(
     repo: &std::path::Path,
     work_item_id: &str,
@@ -3454,7 +3338,15 @@ fn print_lifecycle_result(
             output_language(requested_language),
         ) {
             Ok(delivery) => {
-                let result = deliver_prepared_outcome(repo, work_item_id, delivery)?;
+                let result = cockpit_agent::deliver_prepared_outcome(
+                    cockpit_agent::OutcomeDeliveryApplicationRequest {
+                        repository: repo,
+                        work_item_id,
+                        delivery,
+                        supplied_progress: None,
+                    },
+                )
+                .map_err(|error| anyhow::anyhow!(error))?;
                 if output.get("outcome").is_none() {
                     if let Some(outcome) = result.delivery.legacy_outcome.as_ref() {
                         output["outcome"] = outcome.clone();
@@ -3473,9 +3365,7 @@ fn print_lifecycle_result(
                 output["assistantMessageEvents"] = serde_json::to_value(
                     cockpit_agent::assistant_message_events(&result.delivery),
                 )?;
-                if let Some(report) = result.delivery_report {
-                    output["deliveryReport"] = report;
-                }
+                output["deliveryReport"] = result.delivery_report_json()?;
                 output["hostDeliveryMode"] = json!(result.host_delivery_mode);
                 output["hostDisplayConfirmation"] = json!(result.host_display_confirmation);
                 if let Some(count) = result.returned_segment_events {

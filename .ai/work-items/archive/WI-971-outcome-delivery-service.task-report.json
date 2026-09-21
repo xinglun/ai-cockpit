@@ -1,0 +1,179 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b0278765c3a6d99d3f969e48f35edbc712da61115d808f2d1a5d2827a7c00310",
+    "workItemId": "WI-971-outcome-delivery-service"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-971-outcome-delivery-service.verification-attempt.3bb777611c1bb3c29b8acd7dea34bec8aca2cb3f530e3ce8e43dbebc91fd3e85.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-971-outcome-delivery-service.verification-attempt.a57e43e482d29606cb42ff4b65852c7015b2528ffca76e8033b9072f2fb2cc32.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-971-outcome-delivery-service.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-971-outcome-delivery-service.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-971-outcome-delivery-service.controls.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-971-outcome-delivery-service.scenario-amend.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-971-outcome-delivery-service.scope-amend.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-agent/tests/outcome_delivery.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-mcp/src/lib.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-971-outcome-delivery-service.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.contract.json"
+        ],
+        "inference": false,
+        "text": "Extract typed application-service orchestration for configured host setup, explicit or persisted progress, delivery, progress persistence/removal, and typed failure results; keep CLI stdout/stderr and MCP JSON as adapter responsibilities."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-971-outcome-delivery-service.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-971-outcome-delivery-service"
+}

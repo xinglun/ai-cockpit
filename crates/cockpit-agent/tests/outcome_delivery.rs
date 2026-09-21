@@ -1,9 +1,12 @@
 use cockpit_agent::{
-    AgentError, HostDeliveryCapabilities, OutcomeDeliveryProgress, OutcomeMessageHost,
-    OutcomeMessageReceipt, assistant_message_events, deliver_outcome, ensure_same_outcome_delivery,
+    AgentError, HostDeliveryCapabilities, OutcomeDeliveryApplicationHost,
+    OutcomeDeliveryApplicationRequest, OutcomeDeliveryProgress, OutcomeMessageHost,
+    OutcomeMessageReceipt, assistant_message_events, deliver_outcome, deliver_prepared_outcome,
+    deliver_prepared_outcome_with_host, ensure_same_outcome_delivery,
 };
 use cockpit_core::Digest;
 use cockpit_protocol::{OutcomeDelivery, OutcomeDeliverySegment};
+use std::fs;
 
 fn delivery() -> OutcomeDelivery {
     delivery_named("WI-DELIVERY")
@@ -89,6 +92,20 @@ impl OutcomeMessageHost for Host {
             self.accepted,
             self.displayed,
         ))
+    }
+}
+
+impl OutcomeDeliveryApplicationHost for Host {
+    fn delivery_mode(&self) -> &'static str {
+        "test_host"
+    }
+
+    fn is_return_only(&self) -> bool {
+        false
+    }
+
+    fn returned_segment_count(&self) -> Option<usize> {
+        None
     }
 }
 
@@ -268,4 +285,110 @@ fn assistant_message_events_preserve_each_segment_without_reconstruction() {
         assert_eq!(event.event, "assistant_message");
         assert_eq!(&event.segment, segment);
     }
+}
+
+#[test]
+fn application_service_preserves_return_only_handoff_and_unknown_host_facts() {
+    let directory = tempfile::tempdir().expect("repository");
+    let payload = delivery_named("WI-APPLICATION-SERVICE");
+    let body = payload.body.clone();
+    let result = deliver_prepared_outcome(OutcomeDeliveryApplicationRequest {
+        repository: directory.path(),
+        work_item_id: "WI-APPLICATION-SERVICE",
+        delivery: payload,
+        supplied_progress: None,
+    })
+    .expect("shared application delivery");
+
+    assert_eq!(result.host_delivery_mode, "full_handoff_only");
+    assert_eq!(result.host_display_confirmation, "unknown");
+    assert_eq!(result.returned_segment_events, Some(2));
+    assert_eq!(result.delivery.delivery_state, "returned_to_consumer");
+    assert_eq!(result.handoff, body);
+    let report = result.report.as_ref().expect("typed delivery report");
+    assert_eq!(report.delivery_state, "unknown");
+    assert_eq!(
+        result.delivery_report_json().expect("report projection")["hostConfirmation"],
+        "unknown"
+    );
+}
+
+#[test]
+fn application_service_persists_interruption_and_retries_from_accepted_progress() {
+    let directory = tempfile::tempdir().expect("repository");
+    let payload = delivery_named("WI-APPLICATION-RETRY");
+    let progress_path = directory
+        .path()
+        .join(".ai/outcome-delivery/WI-APPLICATION-RETRY.progress.json");
+    let mut host = Host {
+        capabilities: HostDeliveryCapabilities::default(),
+        messages: Vec::new(),
+        fail_after: Some(1),
+        accepted: Some(true),
+        displayed: Some(true),
+    };
+    let interrupted = deliver_prepared_outcome_with_host(
+        OutcomeDeliveryApplicationRequest {
+            repository: directory.path(),
+            work_item_id: "WI-APPLICATION-RETRY",
+            delivery: payload.clone(),
+            supplied_progress: None,
+        },
+        &mut host,
+    )
+    .expect("application service returns typed interruption");
+    assert!(matches!(
+        interrupted.report,
+        Err(cockpit_agent::OutcomeDeliveryApplicationFailure::Interrupted { .. })
+    ));
+    assert!(progress_path.is_file());
+
+    host.fail_after = None;
+    let retried = deliver_prepared_outcome_with_host(
+        OutcomeDeliveryApplicationRequest {
+            repository: directory.path(),
+            work_item_id: "WI-APPLICATION-RETRY",
+            delivery: payload,
+            supplied_progress: None,
+        },
+        &mut host,
+    )
+    .expect("retry from persisted progress");
+    assert!(retried.report.is_ok());
+    assert_eq!(host.messages.len(), 2);
+    assert!(!progress_path.exists());
+}
+
+#[test]
+fn application_service_prefers_explicit_progress_over_stale_persisted_bytes() {
+    let directory = tempfile::tempdir().expect("repository");
+    let payload = delivery_named("WI-APPLICATION-EXPLICIT");
+    let progress_path = directory
+        .path()
+        .join(".ai/outcome-delivery/WI-APPLICATION-EXPLICIT.progress.json");
+    fs::create_dir_all(progress_path.parent().expect("progress parent")).expect("progress dir");
+    fs::write(&progress_path, b"not-json").expect("stale progress");
+    let mut host = Host {
+        capabilities: HostDeliveryCapabilities {
+            acceptance_confirmation: true,
+            display_confirmation: true,
+            idempotency: true,
+        },
+        messages: Vec::new(),
+        fail_after: None,
+        accepted: Some(true),
+        displayed: Some(true),
+    };
+    let result = deliver_prepared_outcome_with_host(
+        OutcomeDeliveryApplicationRequest {
+            repository: directory.path(),
+            work_item_id: "WI-APPLICATION-EXPLICIT",
+            supplied_progress: Some(OutcomeDeliveryProgress::new(&payload)),
+            delivery: payload,
+        },
+        &mut host,
+    )
+    .expect("explicit progress takes precedence");
+    assert!(result.report.is_ok());
+    assert!(!progress_path.exists());
 }

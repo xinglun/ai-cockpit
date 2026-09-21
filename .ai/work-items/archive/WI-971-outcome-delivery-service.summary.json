@@ -1,0 +1,168 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "shared typed Outcome delivery application service",
+          "path": "crates/cockpit-agent/src/lib.rs",
+          "type": "source",
+          "verification": "cargo test --locked -p cockpit-agent --tests"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "CLI adapter output and delivery parity",
+          "path": "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity --test outcome_handoff"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "MCP explicit progress and protocol response",
+          "path": "crates/cockpit-mcp/tests/rpc.rs",
+          "type": "test",
+          "verification": "cargo test --locked -p cockpit-mcp --test rpc"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-971-outcome-delivery-service.verification-attempt.3bb777611c1bb3c29b8acd7dea34bec8aca2cb3f530e3ce8e43dbebc91fd3e85.json",
+    ".ai/evidence/WI-971-outcome-delivery-service.verification-attempt.a57e43e482d29606cb42ff4b65852c7015b2528ffca76e8033b9072f2fb2cc32.json",
+    ".ai/evidence/WI-971-outcome-delivery-service.verification.json",
+    ".ai/work-items/archive/WI-971-outcome-delivery-service.contract.json",
+    ".ai/work-items/archive/WI-971-outcome-delivery-service.controls.json",
+    ".ai/work-items/archive/WI-971-outcome-delivery-service.scenario-amend.json",
+    ".ai/work-items/archive/WI-971-outcome-delivery-service.scope-amend.json",
+    ".ai/work-items/archive/WI-971-outcome-delivery-service.summary.json",
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-agent/tests/outcome_delivery.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs"
+  ],
+  "checkpointAt": "2026-09-21T17:53:35Z",
+  "checkpointContractDigest": "sha256:bb1cbaf052019e02a4c4ef054fae6dab3c72cbd56fe699353a0a106122407f84",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:3b4b8408e312ee323745d149d728aa8cfb4dd4050ac54ae72ad5a56edb4bb4eb",
+      "recorded": true,
+      "recordedAt": "2026-09-21T17:53:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-971-outcome-delivery-service"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bb1cbaf052019e02a4c4ef054fae6dab3c72cbd56fe699353a0a106122407f84",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3b4b8408e312ee323745d149d728aa8cfb4dd4050ac54ae72ad5a56edb4bb4eb",
+      "previousContractHash": "sha256:3b4b8408e312ee323745d149d728aa8cfb4dd4050ac54ae72ad5a56edb4bb4eb",
+      "reason": "The initial scope was recorded as one prose value and did not bind path globs. Append the exact source, test, and governance path patterns required by the implemented bounded change; no new functional scope is added.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T18:05:37Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b0278765c3a6d99d3f969e48f35edbc712da61115d808f2d1a5d2827a7c00310",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-971-outcome-delivery-service"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b0278765c3a6d99d3f969e48f35edbc712da61115d808f2d1a5d2827a7c00310",
+  "createdAt": "2026-09-21T17:50:44Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-agent/src/lib.rs",
+      "crates/cockpit-cli/src/main.rs",
+      "crates/cockpit-mcp/src/lib.rs"
+    ],
+    "reason": "The existing duplication is limited to adapter-side host and progress orchestration around the shared low-level delivery primitive; the bounded change centralizes that orchestration without changing protocol or host semantics.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T18:07:11Z",
+  "preflightContractDigest": "sha256:bb1cbaf052019e02a4c4ef054fae6dab3c72cbd56fe699353a0a106122407f84",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b0278765c3a6d99d3f969e48f35edbc712da61115d808f2d1a5d2827a7c00310",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "CLI and MCP use the shared service with the return-only host, preserve full Outcome segments, and keep host acceptance/display unknown.",
+      "required": true,
+      "scenario": "return-only handoff",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-agent delivery tests plus CLI and MCP Outcome delivery tests with no external host configured."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_host_command.rs",
+        "crates/cockpit-agent/tests/outcome_delivery.rs"
+      ],
+      "expected": "A configured host receives each segment, accepted progress is identity-bound, and a complete delivery removes persisted progress.",
+      "required": true,
+      "scenario": "configured host success and progress cleanup",
+      "status": "verified",
+      "verificationPlan": "Run the host-command and application-service regression tests with a controlled receipt-producing adapter."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "expected": "A partial or failed delivery persists the accepted receipt chain and a retry resumes only from that chain without skipping segments.",
+      "required": true,
+      "scenario": "interrupted delivery and retry",
+      "status": "verified",
+      "verificationPlan": "Run interrupted-host tests and the CLI/MCP parity test with persisted and explicitly supplied progress."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "crates/cockpit-mcp/src/lib.rs",
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs"
+      ],
+      "expected": "CLI remains responsible for stdout/stderr or machine JSON and MCP remains responsible for protocol JSON; neither adapter reimplements host/progress orchestration or invents confirmation.",
+      "required": true,
+      "scenario": "transport adapter boundary",
+      "status": "verified",
+      "verificationPlan": "Run focused CLI/MCP Outcome tests and inspect that both adapters call the shared typed service."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T18:07:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-971-outcome-delivery-service"
+}

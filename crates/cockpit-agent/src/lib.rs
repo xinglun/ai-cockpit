@@ -4,6 +4,7 @@ use cockpit_protocol::{
     RepositoryConfig, validate_agent_interface_version, validate_protocol_version,
 };
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
+use serde_json::{Value, json};
 use sha2::{Digest as ShaDigest, Sha256};
 use std::ffi::OsString;
 use std::fs::{self, File};
@@ -637,6 +638,218 @@ pub struct OutcomeDeliveryReport {
     pub duplicate_risk: bool,
     pub progress: OutcomeDeliveryProgress,
     pub next_action: String,
+}
+
+/// The typed failure boundary for the application-level delivery orchestration.
+/// A delivery interruption carries the exact accepted receipt chain so adapters
+/// can expose or persist the same retry state without rebuilding it.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum OutcomeDeliveryApplicationFailure {
+    Interrupted {
+        sent_parts: usize,
+        progress: OutcomeDeliveryProgress,
+        message: String,
+    },
+    HostAdapter {
+        message: String,
+    },
+}
+
+/// One adapter-independent prepared Outcome delivery result. CLI and MCP own
+/// only their transport projection; host selection, progress precedence,
+/// persistence, and retry semantics are centralized here.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct OutcomeDeliveryApplicationResult {
+    pub delivery: OutcomeDelivery,
+    pub report: Result<OutcomeDeliveryReport, OutcomeDeliveryApplicationFailure>,
+    pub host_delivery_mode: String,
+    pub host_display_confirmation: String,
+    pub returned_segment_events: Option<usize>,
+    pub handoff: String,
+}
+
+impl OutcomeDeliveryApplicationResult {
+    /// Project the typed service result into the stable delivery-report JSON
+    /// consumed by both existing adapters. This is a projection, not a second
+    /// delivery path, and never upgrades unknown host facts.
+    pub fn delivery_report_json(&self) -> Result<Value, serde_json::Error> {
+        match &self.report {
+            Ok(report) => serde_json::to_value(report),
+            Err(OutcomeDeliveryApplicationFailure::Interrupted {
+                sent_parts,
+                progress,
+                message,
+            }) => Ok(json!({
+                "deliveryId": self.delivery.delivery_id,
+                "workItemId": self.delivery.work_item_id,
+                "sentParts": sent_parts,
+                "totalParts": self.delivery.segments.len(),
+                "complete": false,
+                "deliveryState": "delivery_failed",
+                "hostConfirmation": "unknown",
+                "progress": progress,
+                "error": message,
+                "nextAction": self.delivery.next_action,
+            })),
+            Err(OutcomeDeliveryApplicationFailure::HostAdapter { message }) => Ok(json!({
+                "deliveryState": "delivery_failed",
+                "hostConfirmation": "unknown",
+                "error": message,
+            })),
+        }
+    }
+}
+
+/// Inputs to the shared prepared-Outcome delivery application service.
+/// `supplied_progress` is intentionally explicit for MCP, while CLI passes
+/// `None` and uses the persisted repository progress when an external host is
+/// configured.
+pub struct OutcomeDeliveryApplicationRequest<'a> {
+    pub repository: &'a Path,
+    pub work_item_id: &'a str,
+    pub delivery: OutcomeDelivery,
+    pub supplied_progress: Option<OutcomeDeliveryProgress>,
+}
+
+/// Host metadata needed by the application service. The low-level
+/// `OutcomeMessageHost` remains responsible only for one message receipt;
+/// this trait adds adapter-independent route facts for orchestration and
+/// deterministic tests.
+pub trait OutcomeDeliveryApplicationHost: OutcomeMessageHost {
+    fn delivery_mode(&self) -> &'static str;
+    fn is_return_only(&self) -> bool;
+    fn returned_segment_count(&self) -> Option<usize>;
+}
+
+impl OutcomeDeliveryApplicationHost for ConfiguredOutcomeMessageHost {
+    fn delivery_mode(&self) -> &'static str {
+        ConfiguredOutcomeMessageHost::mode(self)
+    }
+
+    fn is_return_only(&self) -> bool {
+        ConfiguredOutcomeMessageHost::is_return_only(self)
+    }
+
+    fn returned_segment_count(&self) -> Option<usize> {
+        ConfiguredOutcomeMessageHost::returned_segment_count(self)
+    }
+}
+
+fn outcome_delivery_progress_path(repository: &Path, work_item_id: &str) -> PathBuf {
+    repository
+        .join(".ai/outcome-delivery")
+        .join(format!("{work_item_id}.progress.json"))
+}
+
+/// Deliver one already-prepared full Outcome through the configured host.
+/// This is the application service shared by CLI and MCP. It owns only
+/// delivery orchestration and local resume state; it does not assemble or
+/// mutate lifecycle Outcome facts.
+pub fn deliver_prepared_outcome(
+    request: OutcomeDeliveryApplicationRequest<'_>,
+) -> Result<OutcomeDeliveryApplicationResult, AgentError> {
+    let mut host = configured_outcome_host()?;
+    deliver_prepared_outcome_with_host(request, &mut host)
+}
+
+/// Testable core of the prepared-Outcome application service. Production
+/// adapters use `deliver_prepared_outcome`, while deterministic tests can
+/// supply a controlled host without changing process-global environment.
+pub fn deliver_prepared_outcome_with_host<S: OutcomeDeliveryApplicationHost>(
+    request: OutcomeDeliveryApplicationRequest<'_>,
+    host: &mut S,
+) -> Result<OutcomeDeliveryApplicationResult, AgentError> {
+    let OutcomeDeliveryApplicationRequest {
+        repository,
+        work_item_id,
+        mut delivery,
+        supplied_progress,
+    } = request;
+    if delivery.work_item_id != work_item_id {
+        return Err(AgentError::State {
+            path: PathBuf::from("<outcome-delivery>"),
+            message: "prepared Outcome work item identity does not match delivery request".into(),
+        });
+    }
+
+    let progress_path = outcome_delivery_progress_path(repository, work_item_id);
+    let progress = if supplied_progress.is_some() {
+        supplied_progress
+    } else if host.is_return_only() {
+        None
+    } else {
+        load_outcome_delivery_progress(&progress_path)?
+    };
+    let host_delivery_mode = host.delivery_mode().to_owned();
+
+    let report = match deliver_outcome(&delivery, host, progress.as_ref()) {
+        Ok(report) => {
+            if host.is_return_only() {
+                delivery.delivery_state = "returned_to_consumer".into();
+                delivery.host_confirmation = "unknown".into();
+            } else {
+                delivery.delivery_state = report.delivery_state.clone();
+                delivery.host_confirmation = report.host_confirmation.clone();
+                if report.complete && report.progress.confirmed.len() == report.total_parts {
+                    remove_outcome_delivery_progress(&progress_path)?;
+                } else if report.complete || !report.progress.confirmed.is_empty() {
+                    persist_outcome_delivery_progress(&progress_path, &report.progress)?;
+                }
+            }
+            Ok(report)
+        }
+        Err(AgentError::DeliveryFailed {
+            sent_parts,
+            progress,
+            message,
+        }) => {
+            persist_outcome_delivery_progress(&progress_path, &progress)?;
+            delivery.delivery_state = "delivery_failed".into();
+            delivery.host_confirmation = "unknown".into();
+            delivery.error = Some(message.clone());
+            delivery.next_action =
+                "Retry delivery with the same archived Outcome; do not archive again.".into();
+            Err(OutcomeDeliveryApplicationFailure::Interrupted {
+                sent_parts,
+                progress: *progress,
+                message,
+            })
+        }
+        Err(error) => {
+            delivery.delivery_state = "delivery_failed".into();
+            delivery.host_confirmation = "unknown".into();
+            delivery.error = Some(error.to_string());
+            delivery.next_action =
+                "Inspect the host adapter error and retry delivery without archiving again.".into();
+            Err(OutcomeDeliveryApplicationFailure::HostAdapter {
+                message: error.to_string(),
+            })
+        }
+    };
+    let host_display_confirmation = match &report {
+        Ok(report) => report.host_confirmation.clone(),
+        Err(_) => "unknown".into(),
+    };
+    let handoff = match &report {
+        Ok(_) => delivery.body.clone(),
+        Err(OutcomeDeliveryApplicationFailure::Interrupted { sent_parts, .. }) => format!(
+            "{}\n\nDelivery status: interrupted after {sent_parts} part(s); retry the same full Outcome.",
+            delivery.body
+        ),
+        Err(OutcomeDeliveryApplicationFailure::HostAdapter { .. }) => format!(
+            "{}\n\nDelivery status: host adapter failed; retry the same full Outcome.",
+            delivery.body
+        ),
+    };
+    let returned_segment_events = host.returned_segment_count();
+    Ok(OutcomeDeliveryApplicationResult {
+        delivery,
+        report,
+        host_delivery_mode,
+        host_display_confirmation,
+        returned_segment_events,
+        handoff,
+    })
 }
 
 impl AgentExitCode {
