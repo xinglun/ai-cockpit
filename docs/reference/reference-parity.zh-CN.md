@@ -18,6 +18,13 @@ capabilityClaims:
 一致、部分实现、延期能力和外部责任。普通用户应从[当前读者路线](../current/README.zh-CN.md)开始；
 字段级映射参见[Contract 与 Summary 字段](contract-fields.zh-CN.md)。
 
+## Cleanup Outcome 读者契约
+
+当存在经过验证的 resource-finalization receipt 时，共用的人类 Outcome renderer
+会报告已删除、保留和未知对象的数量，并列出 pull request、branch、worktree 的准确
+identity 及观察到的状态。同时保留 receipt 绑定的原因、证据引用和结构化下一步动作。
+缺失或无效的 receipt 事实继续保持未知；这个读者投影不宣称宿主展示确认，也不增加授权。
+
 ## 当前参考源
 
 当前比对元数据由与逐文件比对入口共用的
@@ -916,6 +923,7 @@ migrate-gap。6 条 reference-only 是源端技术栈/wizard fixture 或历史 k
 | WI-958-v0-2-103-release——v0.2.103 Runtime 发布 | 进行中 → 验证关闭后已实现 | [Work Item](../work-items/WI-958-v0-2-103-release.zh-CN.md)；计划 archive `.ai/work-items/archive/WI-958-v0-2-103-release.contract.json`、verification `.ai/evidence/WI-958-v0-2-103-release.verification.json`、finalization `.ai/decisions/WI-958-v0-2-103-release.finalize.json`、close `.ai/decisions/WI-958-v0-2-103-release.close.json`。发布为最后一步，受不可变发布身份、公开产物验收、精确清理及发布后 Sentinel #902 通知的约束。 |
 | WI-959-v0-2-103-release-recovery——v0.2.103 发布验证恢复 | 已实现 | [Work Item](../work-items/WI-959-v0-2-103-release-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json`; verification `.ai/evidence/WI-959-v0-2-103-release-recovery.verification.json`; finalization `.ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json`; close `.ai/decisions/WI-959-v0-2-103-release-recovery.close.json`. |
 | WI-964-archive-boundary-recovery——不可变归档边界恢复 | 已实现 | [Work Item](../work-items/WI-964-archive-boundary-recovery.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json`; verification `.ai/evidence/WI-964-archive-boundary-recovery.verification.json`; close `.ai/decisions/WI-964-archive-boundary-recovery.close.json`. |
+| WI-982-outcome-cleanup-summary——共享人类 Outcome 中的已验证清理事实 | 进行中 | [Work Item](../work-items/WI-982-outcome-cleanup-summary.zh-CN.md)；verification 和 close 前先记录三语 reader contract 的 prearchive 投影。 |
 | WI-912-wi911-doc-promotion——WI-911 终态文档投影修复 | 已实现 | [Work Item](../work-items/WI-912-wi911-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion——WI-899 终态文档投影修复 | 已实现 | [Work Item](../work-items/WI-903-wi899-doc-promotion.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | 已实现 | [Work Item](../work-items/WI-904-interface-description-ssot.zh-CN.md); 终态 lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

@@ -1,0 +1,107 @@
+{
+  "acceptanceCriteria": [
+    "For a validated cleanup receipt, the human Summary states deleted and retained object counts and names/identities for the branch, worktree, and pull request without requiring an evidence-file lookup.",
+    "The Summary states the evidence-bound retention reason and the executable next action; it never upgrades unknown or missing cleanup facts into a claim.",
+    "CLI and MCP continue to consume the same complete human body and preserve the existing display-confirmation unknown boundary.",
+    "English, Simplified Chinese, and Japanese preserve the same facts, counts, identities, retention reason, and next action while localizing presentation only.",
+    "Legacy Outcome/finalization JSON remains readable through additive optional fields with defaults.",
+    "No authorization, verification, release, or provider-display semantics are changed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+  "createdAt": "2026-09-21T22:36:19Z",
+  "goal": "Render evidence-bound cleanup counts, exact resource identities, retention reasons, and executable next actions through the shared Outcome renderer.",
+  "intent": "Make cleanup Outcomes understandable without requiring the reader to open evidence files.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-agent/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "lifecycle-authorization",
+    "release-publication",
+    "provider-display-confirmation",
+    "generic-chat-platform"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A validated cleanup receipt renders deleted and retained counts plus exact branch, worktree, and PR identities in the human Summary.",
+      "required": true,
+      "scenario": "validated_cleanup_receipt_summary",
+      "status": "unverified",
+      "verificationPlan": "Add renderer and handoff regressions using a validated typed receipt and run the declared repository and CLI tests."
+    },
+    {
+      "evidence": [],
+      "expected": "The Summary renders the receipt-bound retention reason and executable next action without upgrading unknown facts.",
+      "required": true,
+      "scenario": "retention_reason_and_next_action_bound",
+      "status": "unverified",
+      "verificationPlan": "Add retained, missing, and invalid receipt cases and assert fail-closed wording and next-action output."
+    },
+    {
+      "evidence": [],
+      "expected": "CLI and MCP consume the same complete human body while provider display confirmation remains unknown unless separately evidenced.",
+      "required": true,
+      "scenario": "cli_mcp_shared_body_and_display_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the CLI/MCP parity regression and existing outcome handoff tests."
+    },
+    {
+      "evidence": [],
+      "expected": "English, Simplified Chinese, and Japanese preserve identical facts, counts, identities, reason, and next action with localized presentation.",
+      "required": true,
+      "scenario": "tri_language_fact_parity",
+      "status": "unverified",
+      "verificationPlan": "Add or extend multilingual renderer assertions and run the outcome report tests."
+    },
+    {
+      "evidence": [],
+      "expected": "Legacy finalization JSON remains readable through additive optional fields with defaults.",
+      "required": true,
+      "scenario": "legacy_projection_compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run the protocol library compatibility tests and deserialize legacy fixtures."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/tests/outcome_report.rs",
+    "crates/cockpit-repository/tests/task_outcome_events.rs",
+    "crates/cockpit-cli/tests/outcome_handoff.rs",
+    "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "docs/work-items/WI-982-outcome-cleanup-summary.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.ja.md"
+  ],
+  "sources": [
+    "docs/work-items/WI-929-outcome-hci-public-handoff.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.zh-CN.md",
+    "docs/work-items/WI-929-outcome-hci-public-handoff.ja.md",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-protocol/src/lib.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol --lib",
+    "cargo test --locked -p cockpit-repository --test outcome_report",
+    "cargo test --locked -p cockpit-cli --test outcome_handoff",
+    "cargo test --locked -p cockpit-cli --test cli_mcp_outcome_parity",
+    "cargo fmt --all -- --check"
+  ],
+  "workItemId": "WI-982-outcome-cleanup-summary"
+}

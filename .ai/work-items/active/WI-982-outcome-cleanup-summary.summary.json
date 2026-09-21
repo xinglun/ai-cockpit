@@ -1,0 +1,175 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.3213609505a828e455db677f8edde68e728b610aa9b4c4acf2951c20121dd19f.json",
+    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.b418882b55e9df9b3b01de257cba05c1fa37da3a6be6891b492526ae6f76d54c.json",
+    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-982-outcome-cleanup-summary.verification-attempt.831d69e38752046e76d645e640c2333ff3a3a7fdf9b3a821d5003e77b88791e6.json",
+    ".ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json",
+    ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.ja.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-21T22:43:54Z",
+  "checkpointContractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:23d773c42d16fea3fedcff65656ce7c4878ed40984ccdf60947ae4f47ed8136a",
+      "recorded": true,
+      "recordedAt": "2026-09-21T22:43:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-982-outcome-cleanup-summary"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:23d773c42d16fea3fedcff65656ce7c4878ed40984ccdf60947ae4f47ed8136a",
+      "previousContractHash": "sha256:23d773c42d16fea3fedcff65656ce7c4878ed40984ccdf60947ae4f47ed8136a",
+      "reason": "Declare the typed protocol regression and required tri-language prearchive reader projection in the existing authorized Contract before verification.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T23:21:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-982-outcome-cleanup-summary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+  "createdAt": "2026-09-21T22:36:19Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "User explicitly authorized reopening and continuing this bounded Work Item. This fresh receipt confirms the current preflight review for lifecycle execution and verification only; it does not assert implementation, tests, hosted checks, merge, release, or Outcome quality.",
+    "recordedAt": "2026-09-21T23:52:00Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+    "schemaVersion": 1,
+    "workItemId": "WI-982-outcome-cleanup-summary"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-982-outcome-cleanup-summary.md",
+      "crates/cockpit-repository/src/outcome_render.rs",
+      "crates/cockpit-protocol/src/lib.rs"
+    ],
+    "reason": "The implementation remains bounded to the shared human Outcome projection, additive protocol compatibility, and tri-language reader evidence; authorization, verification, release, and provider-display semantics remain out of scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T23:52:49Z",
+  "preflightContractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "expected": "A validated cleanup receipt renders deleted and retained counts plus exact branch, worktree, and PR identities in the human Summary.",
+      "required": true,
+      "scenario": "validated_cleanup_receipt_summary",
+      "status": "verified",
+      "verificationPlan": "Add renderer and handoff regressions using a validated typed receipt and run the declared repository and CLI tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs"
+      ],
+      "expected": "The Summary renders the receipt-bound retention reason and executable next action without upgrading unknown facts.",
+      "required": true,
+      "scenario": "retention_reason_and_next_action_bound",
+      "status": "verified",
+      "verificationPlan": "Add retained, missing, and invalid receipt cases and assert fail-closed wording and next-action output."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/tests/cli_mcp_outcome_parity.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "CLI and MCP consume the same complete human body while provider display confirmation remains unknown unless separately evidenced.",
+      "required": true,
+      "scenario": "cli_mcp_shared_body_and_display_boundary",
+      "status": "verified",
+      "verificationPlan": "Run the CLI/MCP parity regression and existing outcome handoff tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/outcome_render.rs",
+        "docs/reference/reference-parity.md",
+        "docs/reference/reference-parity.zh-CN.md",
+        "docs/reference/reference-parity.ja.md"
+      ],
+      "expected": "English, Simplified Chinese, and Japanese preserve identical facts, counts, identities, reason, and next action with localized presentation.",
+      "required": true,
+      "scenario": "tri_language_fact_parity",
+      "status": "verified",
+      "verificationPlan": "Add or extend multilingual renderer assertions and run the outcome report tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-protocol/tests/resource_finalization.rs"
+      ],
+      "expected": "Legacy finalization JSON remains readable through additive optional fields with defaults.",
+      "required": true,
+      "scenario": "legacy_projection_compatibility",
+      "status": "verified",
+      "verificationPlan": "Run the protocol library compatibility tests and deserialize legacy fixtures."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T23:52:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-982-outcome-cleanup-summary"
+}
