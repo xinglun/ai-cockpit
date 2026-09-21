@@ -1,12 +1,16 @@
 use super::{
-    ordinary_cleanup_binding_from_decision, read_json, status_projection::discover_worktree_layout,
+    MAX_EXTERNAL_EVIDENCE_BYTES, is_regular_non_symlink, ordinary_cleanup_binding_from_decision,
+    read_json, recovery_decision_error, reject_duplicate_json_keys,
+    status_projection::discover_worktree_layout, validate_recovery_predecessor_bindings,
+    validate_recovery_successor_binding, work_item_artifact_path,
 };
-use chrono::DateTime;
+use chrono::{DateTime, Utc};
 use cockpit_protocol::{
-    Contract, HumanDecision, ResourceFinalizationDisposition, ResourceFinalizationReceipt,
+    Contract, HumanDecision, RecoveryDecisionReceipt, ResourceFinalizationDisposition,
+    ResourceFinalizationReceipt, RuntimeContext,
 };
 use std::fs;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 /// Validate the close receipt before exposing a terminal `closed` status.
 /// Merely finding a decision file is not enough: the record must be a regular
@@ -247,6 +251,297 @@ pub(crate) fn infer_legacy_shared_worktree_retained(
     }
     fs::canonicalize(&context.worktree).ok().as_ref() == Some(&root)
         && fs::canonicalize(&receipt.worktree.path).ok().as_ref() == Some(&root)
+}
+
+pub(crate) fn recovery_decision_candidate_paths(
+    root: &Path,
+    work_item_id: &str,
+    archived: bool,
+) -> Result<(Vec<PathBuf>, bool), super::ObserverError> {
+    if archived {
+        let archive_manifest_path = root
+            .join(".ai/work-items/archive")
+            .join(format!("{work_item_id}.archive.json"));
+        let manifest = read_json(&archive_manifest_path)?;
+        if manifest["state"] == serde_json::json!("superseded") {
+            let relative = manifest["supersessionDecisionPath"]
+                .as_str()
+                .ok_or_else(|| {
+                    recovery_decision_error(
+                        &archive_manifest_path,
+                        "historical_binding_missing",
+                        "superseded archive manifest has no recovery decision path",
+                    )
+                })?;
+            let relative_path = Path::new(relative);
+            let file_name = relative_path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .unwrap_or_default();
+            let canonical = format!("{work_item_id}.recovery.json");
+            let versioned_prefix = format!("{work_item_id}.recovery.");
+            if relative_path.parent() != Some(Path::new(".ai/decisions"))
+                || (file_name != canonical
+                    && !(file_name.starts_with(&versioned_prefix) && file_name.ends_with(".json")))
+            {
+                return Err(recovery_decision_error(
+                    archive_manifest_path,
+                    "historical_binding_mismatch",
+                    "superseded archive references a foreign recovery decision path",
+                ));
+            }
+            return Ok((vec![root.join(relative)], true));
+        }
+    }
+
+    let decisions_dir = root.join(".ai/decisions");
+    let entries = match fs::read_dir(&decisions_dir) {
+        Ok(entries) => entries,
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            return Ok((Vec::new(), !archived));
+        }
+        Err(source) => {
+            return Err(super::ObserverError::Read {
+                path: decisions_dir,
+                source,
+            });
+        }
+    };
+    let canonical = format!("{work_item_id}.recovery.json");
+    let versioned_prefix = format!("{work_item_id}.recovery.");
+    let mut paths = Vec::new();
+    for entry in entries {
+        let entry = entry.map_err(|source| super::ObserverError::Read {
+            path: decisions_dir.clone(),
+            source,
+        })?;
+        let name = entry.file_name().to_string_lossy().into_owned();
+        if name == canonical || (name.starts_with(&versioned_prefix) && name.ends_with(".json")) {
+            paths.push(entry.path());
+        }
+    }
+    paths.sort();
+    Ok((paths, !archived))
+}
+
+pub(crate) fn read_and_validate_recovery_decision(
+    root: &Path,
+    work_item_id: &str,
+    path: &Path,
+    current_runtime: Option<&RuntimeContext>,
+    contract_path: &Path,
+    summary_path: &Path,
+) -> Result<RecoveryDecisionReceipt, super::ObserverError> {
+    if !is_regular_non_symlink(path)? {
+        return Err(recovery_decision_error(
+            path,
+            "candidate_not_regular",
+            "recovery decision must be a regular non-symlink file",
+        ));
+    }
+    let bytes = fs::read(path).map_err(|source| super::ObserverError::Read {
+        path: path.into(),
+        source,
+    })?;
+    if bytes.len() > MAX_EXTERNAL_EVIDENCE_BYTES {
+        return Err(recovery_decision_error(
+            path,
+            "candidate_too_large",
+            "recovery decision exceeds the bounded size limit",
+        ));
+    }
+    reject_duplicate_json_keys(&bytes)
+        .map_err(|detail| recovery_decision_error(path, "candidate_json_invalid", detail))?;
+    let value: serde_json::Value = serde_json::from_slice(&bytes)
+        .map_err(|error| recovery_decision_error(path, "candidate_json_invalid", error))?;
+    let receipt: RecoveryDecisionReceipt = serde_json::from_value(value.clone())
+        .map_err(|error| recovery_decision_error(path, "candidate_schema_invalid", error))?;
+
+    let canonical = format!("{work_item_id}.recovery.json");
+    let name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .unwrap_or_default();
+    if name != canonical {
+        let digest = cockpit_protocol::digest_json(&value)
+            .map_err(|error| recovery_decision_error(path, "candidate_digest_invalid", error))?;
+        let digest = digest.to_string();
+        let expected = format!(
+            "{work_item_id}.recovery.{}.json",
+            digest.strip_prefix("sha256:").unwrap_or(&digest)
+        );
+        if name != expected {
+            return Err(recovery_decision_error(
+                path,
+                "candidate_digest_mismatch",
+                "versioned recovery decision filename does not match its content digest",
+            ));
+        }
+    }
+
+    validate_recovery_predecessor_bindings(
+        root,
+        work_item_id,
+        &receipt,
+        current_runtime,
+        contract_path,
+        summary_path,
+        Some(path),
+    )?;
+    let _ = validate_recovery_successor_binding(root, work_item_id, &receipt)?;
+    Ok(receipt)
+}
+
+pub(crate) fn is_stale_recovery_binding_error(error: &super::ObserverError) -> bool {
+    [
+        "predecessor_contract_mismatch",
+        "predecessor_summary_mismatch",
+        "predecessor_outcome_mismatch",
+        "predecessor_outcome_presence_mismatch",
+        "predecessor_events_mismatch",
+        "runtime_mismatch",
+    ]
+    .iter()
+    .any(|code| error.to_string().contains(code))
+}
+
+/// An archived append-only chain may contain an older successor receipt whose
+/// target was never bound (for example, a failed recovery attempt from an
+/// older Runtime).  Once a newer, valid `supersede` receipt exists, that
+/// historical binding failure must not prevent the predecessor from being
+/// projected as superseded.  This exception is intentionally narrow: it only
+/// applies to archived records and only when a later valid candidate wins;
+/// malformed, foreign, or otherwise untrusted receipts still fail closed.
+pub(crate) fn is_historical_successor_binding_error(error: &super::ObserverError) -> bool {
+    let message = error.to_string();
+    ["successor_binding_missing", "successor_binding_mismatch"]
+        .iter()
+        .any(|code| message.contains(code))
+        // A pre-strict Runtime could persist the legacy marker even after a
+        // successor Contract had gained the mandatory predecessor binding.
+        // Treat only this exact, deterministic compatibility error as stale;
+        // other successor-binding errors remain fail-closed.
+        || message.contains(
+            "successor_binding_mode_invalid: legacy successorBindingMode cannot be used by a strictly bound successor",
+        )
+}
+
+pub(crate) fn load_recovery_decision(
+    root: &Path,
+    work_item_id: &str,
+    current_runtime: Option<&RuntimeContext>,
+) -> Result<Option<RecoveryDecisionReceipt>, super::ObserverError> {
+    let contract_path = work_item_artifact_path(root, work_item_id, "contract.json")?;
+    let summary_path = work_item_artifact_path(root, work_item_id, "summary.json")?;
+    let archived = contract_path
+        .parent()
+        .is_some_and(|parent| parent.ends_with("archive"));
+    let (paths, strict) = recovery_decision_candidate_paths(root, work_item_id, archived)?;
+    let mut candidates = Vec::new();
+    let mut stale_candidates = Vec::new();
+    for path in paths {
+        let receipt = match read_and_validate_recovery_decision(
+            root,
+            work_item_id,
+            &path,
+            if archived { None } else { current_runtime },
+            &contract_path,
+            &summary_path,
+        ) {
+            Ok(receipt) => receipt,
+            Err(error) if !strict => {
+                // Archived recovery records are historical inputs, but they
+                // are still repository-local evidence.  Do not silently
+                // ignore malformed, foreign, or tampered candidates: a
+                // caller must see the stable invalid-recovery boundary rather
+                // than falling through to a weaker finalization path.
+                if archived {
+                    if !is_stale_recovery_binding_error(&error)
+                        && !is_historical_successor_binding_error(&error)
+                    {
+                        return Err(error);
+                    }
+                    let retry = read_json(&path).ok().and_then(|value| {
+                        serde_json::from_value::<RecoveryDecisionReceipt>(value).ok()
+                    });
+                    let Some(retry) = retry.filter(|receipt| {
+                        matches!(
+                            receipt.decision.as_str(),
+                            "retry" | "successor" | "supersede"
+                        )
+                    }) else {
+                        return Err(error);
+                    };
+                    let decided_at = DateTime::parse_from_rfc3339(&retry.decided_at)
+                        .expect("recovery validator accepted RFC3339")
+                        .timestamp_millis();
+                    stale_candidates.push((Some(decided_at), Some(retry.decision), error));
+                    continue;
+                }
+                continue;
+            }
+            Err(error) => {
+                // An append-only recovery chain may contain an older retry
+                // receipt whose predecessor bindings became stale after a
+                // Contract amendment or Runtime upgrade.  Preserve that
+                // historical byte, but allow a newer valid receipt to become
+                // the current projection.  Malformed, misnamed, foreign, or
+                // otherwise untrusted candidates still fail closed.
+                if !is_stale_recovery_binding_error(&error) {
+                    return Err(error);
+                }
+                let parsed = read_json(&path).ok().map(|value| {
+                    let decision = value["decision"].as_str().map(str::to_owned);
+                    let timestamp = value["decidedAt"]
+                        .as_str()
+                        .and_then(|value| DateTime::parse_from_rfc3339(value).ok())
+                        .map(|value| value.timestamp_millis());
+                    (timestamp, decision)
+                });
+                let (timestamp, decision) = parsed.unwrap_or((None, None));
+                stale_candidates.push((timestamp, decision, error));
+                continue;
+            }
+        };
+        let decided_at = DateTime::parse_from_rfc3339(&receipt.decided_at)
+            .expect("recovery validator accepted RFC3339")
+            .timestamp_millis();
+        candidates.push((decided_at, path, receipt));
+    }
+    if let Some(latest_valid) = candidates.iter().map(|item| item.0).max() {
+        let now = Utc::now().timestamp_millis();
+        if let Some((_, _, error)) = stale_candidates.into_iter().find(|(timestamp, _, _)| {
+            // A stale receipt with a future timestamp can be left by a
+            // clock-skewed or interrupted retry. It remains immutable
+            // evidence, but must not outrank a valid current-runtime
+            // receipt and strand the recovery path indefinitely. A
+            // non-future stale receipt still dominates conservatively.
+            timestamp.is_none_or(|value| value >= latest_valid && value <= now)
+        }) {
+            return Err(error);
+        }
+    } else if stale_candidates
+        .iter()
+        .all(|(_, decision, _)| decision.as_deref() == Some("retry"))
+    {
+        // Retry receipts bind the pre-retry Summary by design. Once fresh
+        // verification advances that Summary, retain the bytes as history
+        // without projecting them as a current recovery decision. A pending
+        // marker, however, still requires a matching current receipt.
+        let summary = read_json(&summary_path)?;
+        if summary["recoveryRetryPending"] == serde_json::json!(true) {
+            return Err(recovery_decision_error(
+                summary_path,
+                "retry_binding_missing",
+                "pending retry marker has no valid current recovery receipt",
+            ));
+        }
+        return Ok(None);
+    } else if let Some((_, _, error)) = stale_candidates.into_iter().next() {
+        return Err(error);
+    }
+    candidates.sort_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(&right.1)));
+    Ok(candidates.pop().map(|(_, _, receipt)| receipt))
 }
 
 #[cfg(test)]
