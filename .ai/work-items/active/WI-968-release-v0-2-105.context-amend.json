@@ -1,0 +1,8 @@
+{
+  "acceptanceAppend": [
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish."
+  ],
+  "sourcesAppend": [
+    "https://github.com/xinglun/ai-cockpit/pull/949"
+  ]
+}

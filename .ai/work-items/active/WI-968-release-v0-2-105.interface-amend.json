@@ -1,0 +1,14 @@
+{
+  "acceptanceAppend": [
+    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate."
+  ],
+  "scopeAppend": [
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sourcesAppend": [
+    "scripts/generate_interface_references.py",
+    "crates/cockpit-protocol/src/interface_description.rs"
+  ]
+}

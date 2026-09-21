@@ -1,0 +1,115 @@
+{
+  "attemptId": "sha256:33054622da8c88641dd527a779d2f6d27c7b7da9eadedd46b2a92f9425db28d2",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:7fcc78f8f2c926e574f184b177544246808da7553087a70d87f3f89cfa4ae0a8",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:1ce9278310a036ed9c350b6f91789c8b6e53863b6da4fbd857af262fa97b423e",
+      "nodeId": "project-command-1",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        ".",
+        "--tag",
+        "v0.2.105"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:df9029e97ec3ff6fb59c6e4aa7b360695ab0c06106a483ebca692047b9c9c455",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:ca3e297bb1de85cff157cef3da67e0c037b41d7734628c8448c399644460c718",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--check-all"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:6d595d159179957b5ce95b7d87b63a03962d6d9589826360b03a3fc5701864d6",
+      "nodeId": "project-command-4",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:082b19e298846050ca77e4aaafd745c28be7983df96f992400e1c0712b62c6aa",
+  "contractExecutionScopeDigest": "sha256:294044df115b6dc70ba09aaf660598197da663ba39dfc3c3b36a90bc373b5088",
+  "createdAt": "2026-09-21T09:56:59Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-105/.ai/work-items/active/WI-968-release-v0-2-105.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ec9b99a7b3ed6602d8a105e61e899a0d6be5c02ddb6b3b234e3f5d8edce7c6ac",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-968-release-v0-2-105"
+}

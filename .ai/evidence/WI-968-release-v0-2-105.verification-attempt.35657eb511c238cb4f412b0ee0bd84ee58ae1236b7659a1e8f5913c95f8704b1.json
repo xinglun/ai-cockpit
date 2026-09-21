@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:35657eb511c238cb4f412b0ee0bd84ee58ae1236b7659a1e8f5913c95f8704b1",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+      "commandDigest": "sha256:7fcc78f8f2c926e574f184b177544246808da7553087a70d87f3f89cfa4ae0a8",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6f27280eadabd97916bd7c4ff75acb9bfe1c8f341cd88931cebdb29ab7931aa7",
+  "contractExecutionScopeDigest": "sha256:ff1b920d46373745f6d02979c55f1e48743dff3467233093275b1cfbb43a4d5e",
+  "createdAt": "2026-09-21T09:59:39Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-105/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ec9b99a7b3ed6602d8a105e61e899a0d6be5c02ddb6b3b234e3f5d8edce7c6ac",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-968-release-v0-2-105"
+}

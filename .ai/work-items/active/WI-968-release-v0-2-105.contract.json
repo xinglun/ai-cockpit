@@ -1,0 +1,76 @@
+{
+  "acceptanceCriteria": [
+    "候选版本、public baseline 与三语发布事实一致，且 version consistency 与文档门禁通过。",
+    "发布前 Contract、base revision、ReleasePlan mode/digest 与发布 tag identity 绑定；Hosted PR checks 通过后才从同步 main 进行发布。",
+    "发布 workflow 完成公开 Release、artifact manifest/checksums/SBOM/provenance、公开安装与 v0.2.104 到 v0.2.105 升级验收；Intel macOS Homebrew 不作为本次要求。",
+    "发布失败或阻塞时保留不可变证据，不重复执行验证或归档；成功时完成精确资源清理、finalize-verify、close 和 check-all。",
+    "最终仅向 Sentinel Issue #902 发送包含 tag、commit、Release URL、workflow 和 Runtime digest 的通知，不关闭该 Issue。",
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
+    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate."
+  ],
+  "authority": "authorized",
+  "baseRevision": "17d41425c9a4590e82c17cc4cc50347f7e204046",
+  "createdAt": "2026-09-21T09:47:35Z",
+  "goal": "发布 v0.2.105，并取得不可变 tag、GitHub Release、候选与公开安装/升级验收、artifact manifest/checksums/SBOM/provenance 与清理证据；完成发布 WI 的最终 Outcome。",
+  "intent": "按 Terra 收口计划，在全部已授权 Work Item 完成、主线同步且 Hosted checks 通过后，完成本轮最后的 Runtime 发布；本次执行基于用户已授予的全权授权，发布后只向 Sentinel Issue #902 通知，不修改或关闭对象工程 Issue。",
+  "mode": "implementation",
+  "outOfScope": [
+    "功能或生命周期行为变更；新增协议或治理层；Sentinel 或其他对象仓库代码；关闭或修改 Issue #902；Intel macOS Homebrew 产物；重跑已经完成且与发布无关的 Work Item。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:402d88612193fc66937d9f51d931671509acedda40b50961d83a9336625fe0ca",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-105",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/949",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-105"
+  },
+  "risk": "normal",
+  "scope": [
+    "仅修改 v0.2.104 到 v0.2.105 的 workspace/package 版本、Cargo.lock 绑定版本、现有三语发布/版本事实与本 WI 的 Runtime 记录；执行既有 release workflow、公开产物验收、精确分支/worktree/provider 清理以及 Issue #902 的最终通知。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    ".ai/decisions/**",
+    ".ai/work-items/active/WI-968-release-v0-2-105.**",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md"
+  ],
+  "sources": [
+    "https://github.com/xinglun/ai-cockpit/pull/949",
+    "scripts/generate_interface_references.py",
+    "crates/cockpit-protocol/src/interface_description.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/release_gate_policy_test.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/release/version_consistency.sh --repo . --tag v0.2.105",
+    "bash tests/docs/documentation_acceptance.sh --repo .",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-968-release-v0-2-105"
+}

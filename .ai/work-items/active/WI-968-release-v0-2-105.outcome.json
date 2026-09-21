@@ -1,0 +1,260 @@
+{
+  "acceptanceResults": [
+    "候选版本、public baseline 与三语发布事实一致，且 version consistency 与文档门禁通过。",
+    "发布前 Contract、base revision、ReleasePlan mode/digest 与发布 tag identity 绑定；Hosted PR checks 通过后才从同步 main 进行发布。",
+    "发布 workflow 完成公开 Release、artifact manifest/checksums/SBOM/provenance、公开安装与 v0.2.104 到 v0.2.105 升级验收；Intel macOS Homebrew 不作为本次要求。",
+    "发布失败或阻塞时保留不可变证据，不重复执行验证或归档；成功时完成精确资源清理、finalize-verify、close 和 check-all。",
+    "最终仅向 Sentinel Issue #902 发送包含 tag、commit、Release URL、workflow 和 Runtime digest 的通知，不关闭该 Issue。",
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
+    "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
+    "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate."
+  ],
+  "createdAt": "2026-09-21T10:38:38Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:242aa19e3ad3ac541e749aee68a34bad5b27280cc566394ad68e5e6e2b20f2eb",
+  "evidenceRefs": [
+    ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:40c86c2ea702171755f239a811a1680b1f69446aed19af7c97da9cf1d97849e7",
+      "workItemId": "WI-968-release-v0-2-105"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.0326dcce5d664c4f50f319f428ef5c0bae15c4da459273f2fb27711070e91211.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.150bfc5ac810d51128d1e6f211dc95e254c090539c0fbef3a8cce84010ee69f0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.1a9252ec774348c5c4883c9ce174e1c047eb3c426df063b6e4bd461f83a6dde4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.52e86f0bfda3cf7d07048e5a5bcd2f4057a524ed1d5a50def6ef944a0f053309.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.55155d284cd015371f371f7aa160d7acb60d104f11a017bc2cd3069f4ea818c7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.d6acffbd8904d02e9e7756dd2841ddc92e3dae347f2b65cd996486691da7f616.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.dd0746846a9c6e443ec26d5b906131239fcfe613e6b4f0e6959c4c5cd9829533.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.interface-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/commands.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-968-release-v0-2-105.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.contract.json"
+          ],
+          "inference": false,
+          "text": "发布 v0.2.105，并取得不可变 tag、GitHub Release、候选与公开安装/升级验收、artifact manifest/checksums/SBOM/provenance 与清理证据；完成发布 WI 的最终 Outcome。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-968-release-v0-2-105"
+  },
+  "taskReportDigest": "sha256:c6b54e5217c3e736342e26fa9e369447c901062d45acf0e65fd4adf4ea9f48f8",
+  "taskReportMarkdownDigest": "sha256:9209bec016805371d48ade2b0e3885b7bfe0921043ecd5c7a389daa04532a8e5",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-968-release-v0-2-105.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-968-release-v0-2-105"
+}
