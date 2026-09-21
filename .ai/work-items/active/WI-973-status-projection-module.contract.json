@@ -1,0 +1,75 @@
+{
+  "acceptanceCriteria": [
+    "状态快照和索引函数在现有 status_projection 模块中实现，root 对外 re-export 保持调用方兼容。",
+    "当前 snapshot、repository identity、governance/readiness/status digest 和 unknown/failure semantics unchanged.",
+    "repository tests and affected CLI/MCP compile/tests pass; no protocol or release behavior.",
+    "change is maintenance boundary only, no runtime acceleration claim."
+  ],
+  "authority": "authorized",
+  "baseRevision": "efaf3e51aa9dfb2c98339090ae15bc5c6ea9b7b4",
+  "createdAt": "2026-09-21T18:36:02Z",
+  "goal": "把 work_item_status_snapshot_with_runtime、work_item_status_index_with_runtime 及其 request-scoped aggregation 从 lib.rs 迁入现有 status_projection.rs；保留 root re-export、私有 helper 访问和 JSON/identity 语义，不宣称性能收益。",
+  "intent": "在 cockpit-repository 现有 crate 内将 Work Item 状态读模型归入 status_projection 模块，保持公开接口与治理事实稳定。",
+  "mode": "code",
+  "outOfScope": [
+    "不拆新 crate；不改 public signatures/serialization/protocol/CLI/MCP/release/compatibility；不作性能收益声明。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:1fd6fc161d835aac6510814bafb85f1ca6472d6c8d10335b24a767d033722588",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Existing exported status snapshot/index functions and their CLI/MCP callers compile and retain their current signatures and serialized behavior.",
+      "required": true,
+      "scenario": "status API compatibility",
+      "status": "unverified",
+      "verificationPlan": "Run cockpit-repository library/tests and affected cockpit-cli MCP and Outcome handoff tests; inspect root re-exports."
+    },
+    {
+      "evidence": [],
+      "expected": "Repository identity, snapshot digest, readiness/governance facts, unknowns, and failure semantics remain unchanged after the module move.",
+      "required": true,
+      "scenario": "snapshot identity and facts",
+      "status": "unverified",
+      "verificationPlan": "Run repository status projection and integration tests and review the extracted implementation against the pre-change block."
+    },
+    {
+      "evidence": [],
+      "expected": "Active/archive aggregation, stable index digest, and failed-member unknown entries retain their existing behavior.",
+      "required": true,
+      "scenario": "aggregate status behavior",
+      "status": "unverified",
+      "verificationPlan": "Run the full cockpit-repository test target and status-focused tests."
+    },
+    {
+      "evidence": [],
+      "expected": "Only the existing status_projection module boundary changes; no new crate or protocol, CLI, MCP, release, or compatibility behavior is introduced.",
+      "required": true,
+      "scenario": "same-crate responsibility split",
+      "status": "unverified",
+      "verificationPlan": "Inspect the diff and run formatting plus affected repository and CLI tests."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/**"
+  ],
+  "sources": [
+    "Source review: root status read-model block and existing status_projection.rs",
+    "User authorization: implement all recommendations through WI workflow"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-repository --tests",
+    "cargo test --locked -p cockpit-cli --test mcp --test outcome_handoff"
+  ],
+  "workItemId": "WI-973-status-projection-module"
+}

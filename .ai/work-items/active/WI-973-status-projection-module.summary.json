@@ -1,0 +1,99 @@
+{
+  "acceptanceEvidence": [],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-973-status-projection-module.verification-attempt.36b75a5ec40bd6b49dcfed63038a24748a3e11003704220311e8931570b2bb72.json",
+    ".ai/evidence/WI-973-status-projection-module.verification-attempt.92ab6ec3917c705dd6ce9092e300d56fe01febaae1d47c3f53544e26fea7e17d.json",
+    ".ai/evidence/WI-973-status-projection-module.verification-attempt.99092ee9332e51d3d9386bb41b92f8c6fd99c5c996c7184d1c0b18b6340e14fb.json",
+    ".ai/evidence/WI-973-status-projection-module.verification-attempt.9efa0312129d090e40312d3e4fa509ceb195641969c11b3b2b84055979d1b513.json",
+    ".ai/evidence/WI-973-status-projection-module.verification.json",
+    ".ai/work-items/active/WI-973-status-projection-module.contract.json",
+    ".ai/work-items/active/WI-973-status-projection-module.summary.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs"
+  ],
+  "checkpointAt": "2026-09-21T18:40:35Z",
+  "checkpointContractDigest": "sha256:e81230a4aca667d458fcc5fd985cd26bd6961437522ae3f6970cc1bba245ae75",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e5f929509d26e92f263f5f28c74be68d641dc5346f3155977c14496fffaeb2f0",
+  "createdAt": "2026-09-21T18:36:02Z",
+  "evidenceClasses": [],
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-repository/src/lib.rs",
+      "crates/cockpit-repository/src/status_projection.rs",
+      "crates/cockpit-repository/tests/status_projection.rs"
+    ],
+    "reason": "The status snapshot and index read models now live in the existing status_projection module, while root re-exports and repository/CLI compatibility behavior remain unchanged.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T18:56:03Z",
+  "preflightContractDigest": "sha256:e81230a4aca667d458fcc5fd985cd26bd6961437522ae3f6970cc1bba245ae75",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e5f929509d26e92f263f5f28c74be68d641dc5346f3155977c14496fffaeb2f0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-cli/tests/mcp.rs",
+        "crates/cockpit-cli/tests/outcome_handoff.rs"
+      ],
+      "expected": "Existing exported status snapshot/index functions and their CLI/MCP callers compile and retain their current signatures and serialized behavior.",
+      "required": true,
+      "scenario": "status API compatibility",
+      "status": "verified",
+      "verificationPlan": "Run cockpit-repository library/tests and affected cockpit-cli MCP and Outcome handoff tests; inspect root re-exports."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "Repository identity, snapshot digest, readiness/governance facts, unknowns, and failure semantics remain unchanged after the module move.",
+      "required": true,
+      "scenario": "snapshot identity and facts",
+      "status": "verified",
+      "verificationPlan": "Run repository status projection and integration tests and review the extracted implementation against the pre-change block."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "expected": "Active/archive aggregation, stable index digest, and failed-member unknown entries retain their existing behavior.",
+      "required": true,
+      "scenario": "aggregate status behavior",
+      "status": "verified",
+      "verificationPlan": "Run the full cockpit-repository test target and status-focused tests."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs"
+      ],
+      "expected": "Only the existing status_projection module boundary changes; no new crate or protocol, CLI, MCP, release, or compatibility behavior is introduced.",
+      "required": true,
+      "scenario": "same-crate responsibility split",
+      "status": "verified",
+      "verificationPlan": "Inspect the diff and run formatting plus affected repository and CLI tests."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T18:50:30.508497+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:7b1ea54b2719d69b44a991ba9600ee779b4e973781632b93ccde5ad0ec14c0a9",
+  "workItemId": "WI-973-status-projection-module"
+}
