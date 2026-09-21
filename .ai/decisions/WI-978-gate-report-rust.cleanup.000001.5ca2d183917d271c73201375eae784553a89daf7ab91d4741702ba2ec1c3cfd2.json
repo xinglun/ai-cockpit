@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:fa06e191d949c026bf0457e21e92e2920180ccbb05ae19320b89d6e9bac17d3e",
+  "branchRef": "refs/heads/codex/wi-978-gate-report-rust",
+  "contractDigest": "sha256:97768ba9b6f42a65d0314c07454c53cd5396a84ddd30170a0c8e16b8e20a9987",
+  "headRevision": "519fead29b12295ce7e89a2267dd6354f1ba40b8",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T21:26:45Z",
+  "operationId": "sha256:b4fd1183f2b939cc22c277f370f98306566476e94ab493c388de4f2901ca40e5",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-978-gate-report-rust",
+  "worktreeId": "sha256:9a79f02bed4deea4cedc39aef77e3070c18d9ccbfa2e2b086a5f59402b37edfb"
+}

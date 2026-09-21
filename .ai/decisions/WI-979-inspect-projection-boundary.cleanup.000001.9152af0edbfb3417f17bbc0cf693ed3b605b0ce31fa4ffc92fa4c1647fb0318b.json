@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:096b719a06a8d19d62120367e788e6abde7a6f8ecd419e6529f5ae724cc976d3",
+  "branchRef": "refs/heads/codex/wi-979-inspect-projection-boundary",
+  "contractDigest": "sha256:9b810c698d989cec15e89faadfc52410fae9472b7b95d49d07d760151089ee6e",
+  "headRevision": "dfd7327ec29b045ffc0a50b82339ab133d48bf05",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T21:27:40Z",
+  "operationId": "sha256:df1fc0ed5abcf310c1a9fa92f2c83e23e822ab98be21b8a04f8dc6122bf10579",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-979-inspect-projection-boundary",
+  "worktreeId": "sha256:c81a909e39ef29052051d42b714d6113f2c701118d1b87ab696eb474cb4dc869"
+}
