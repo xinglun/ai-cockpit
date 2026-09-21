@@ -6,11 +6,11 @@ usage() {
 usage: resolve_work_item.sh --repo ROOT --event EVENT --head SHA --output FILE
   [--pr-head-ref REF] [--pr-url URL] [--work-item-id ID]
   [--contract-path PATH] [--from-tag TAG] [--to-tag TAG]
-  [--publish-existing-tag true|false] [--post-release-acceptance true|false]
+  [--publish-existing-tag true|false] [--publish-candidate true|false]
+  [--post-release-acceptance true|false]
   [--close-only true|false] [--reuse-run-id ID] [--reuse-acceptance-run-id ID]
   [--handoff-run-id ID]
   [--source-work-item-id ID] [--source-contract-path PATH]
-  [--temporary-release-exception ID]
   [--github-repository OWNER/REPO] [--release-source-revision SHA]
 EOF
   exit 64
@@ -26,10 +26,10 @@ work_item_id=''
 contract_path_arg=''
 source_work_item_id=''
 source_contract_path_arg=''
-temporary_release_exception=''
 from_tag=''
 to_tag=''
 publish_existing_tag=false
+publish_candidate=false
 post_release_acceptance=false
 close_only=false
 reuse_run_id=''
@@ -51,10 +51,10 @@ while (($# > 0)); do
     --contract-path) contract_path_arg=${2:?missing value for --contract-path}; shift 2 ;;
     --source-work-item-id) source_work_item_id=${2:?missing value for --source-work-item-id}; shift 2 ;;
     --source-contract-path) source_contract_path_arg=${2:?missing value for --source-contract-path}; shift 2 ;;
-    --temporary-release-exception) temporary_release_exception=${2:?missing value for --temporary-release-exception}; shift 2 ;;
     --from-tag) from_tag=${2:?missing value for --from-tag}; shift 2 ;;
     --to-tag) to_tag=${2:?missing value for --to-tag}; shift 2 ;;
     --publish-existing-tag) publish_existing_tag=${2:?missing value for --publish-existing-tag}; shift 2 ;;
+    --publish-candidate) publish_candidate=${2:?missing value for --publish-candidate}; shift 2 ;;
     --post-release-acceptance) post_release_acceptance=${2:?missing value for --post-release-acceptance}; shift 2 ;;
     --close-only) close_only=${2:?missing value for --close-only}; shift 2 ;;
     --reuse-run-id) reuse_run_id=${2:?missing value for --reuse-run-id}; shift 2 ;;
@@ -148,42 +148,20 @@ if [[ "$event" == workflow_dispatch ]]; then
   fi
   [[ "$publish_existing_tag" == true || "$publish_existing_tag" == false ]] || \
     fail invalid_publish_mode 'publish_existing_tag must be true or false'
+  [[ "$publish_candidate" == true || "$publish_candidate" == false ]] || \
+    fail invalid_publish_candidate_mode 'publish_candidate must be true or false'
   [[ "$post_release_acceptance" == true || "$post_release_acceptance" == false ]] || \
     fail invalid_post_release_mode 'post_release_acceptance must be true or false'
   [[ "$close_only" == true || "$close_only" == false ]] || \
     fail invalid_close_only_mode 'close_only must be true or false'
   [[ ! ( "$publish_existing_tag" == true && "$post_release_acceptance" == true ) ]] || \
     fail conflicting_release_modes 'publish_existing_tag and post_release_acceptance cannot both be true'
+  [[ ! ( "$publish_existing_tag" == true && "$publish_candidate" == true ) ]] || \
+    fail conflicting_release_modes 'publish_existing_tag and publish_candidate cannot both be true'
+  [[ ! ( "$publish_candidate" == true && "$post_release_acceptance" == true ) ]] || \
+    fail conflicting_release_modes 'publish_candidate and post_release_acceptance cannot both be true'
   [[ ! ( "$close_only" == true && "$publish_existing_tag" == true ) ]] || \
     fail conflicting_release_modes 'close-only recovery cannot publish or recover publication'
-fi
-
-# This is a single, reviewed escape hatch for the v0.2.104 closure-recovery
-# release.  Its prior release Work Items are immutable archived evidence, while
-# an active Work Item cannot be created until this release breaks the same
-# archived-scope conflict.  Keep the exception bounded to this tag pair and
-# preserve every normal publication and post-release acceptance check.
-if [[ -n "$temporary_release_exception" ]]; then
-  [[ "$temporary_release_exception" == v0.2.104-closure-recovery ]] || \
-    fail invalid_temporary_release_exception 'temporary release exception is not recognized'
-  [[ "$event" == workflow_dispatch && "$publish_existing_tag" == true && "$post_release_acceptance" == false && "$close_only" == false ]] || \
-    fail invalid_temporary_release_exception 'temporary release exception only permits direct publication dispatch'
-  [[ "$from_tag" == v0.2.103 && "$to_tag" == v0.2.104 ]] || \
-    fail invalid_temporary_release_exception 'temporary release exception is bound to v0.2.103 to v0.2.104'
-  [[ -z "$work_item_id" && -z "$contract_path_arg" && -z "$source_work_item_id" && -z "$source_contract_path_arg" ]] || \
-    fail invalid_temporary_release_exception 'temporary release exception cannot be combined with Work Item selection'
-  release_source_revision=${release_source_revision_arg:-}
-  if [[ -z "$release_source_revision" ]]; then
-    release_source_revision=$(git -C "$repo_root" ls-remote origin "refs/tags/$to_tag^{}" | awk 'NR == 1 {print $1}')
-  fi
-  [[ "$release_source_revision" =~ ^[0-9a-f]{40}$ ]] || \
-    fail release_tag_missing 'temporary release exception requires the immutable release tag'
-  jq -n \
-    --arg event "$event" --arg head "$head" --arg source "$release_source_revision" \
-    --arg from "$from_tag" --arg to "$to_tag" --arg exception "$temporary_release_exception" \
-    '{schemaVersion:1,kind:"work_item_selection",state:"ready",event:$event,mode:"temporary_direct_release_exception",headRevision:$head,releaseSourceRevision:$source,workItemId:null,contractPath:null,contractDigest:null,baseRevision:null,sourceWorkItemId:null,sourceContractPath:null,sourceContractDigest:null,sourceBaseRevision:null,sourceSelectionMethod:"not_applicable",selectionMethod:"explicit_temporary_release_exception",temporaryReleaseException:$exception,recoveryLineage:null,reuseRunId:null,reuseAcceptanceRunId:null,closeOnly:false,fromTag:$from,toTag:$to}' \
-    > "$output_path"
-  exit 0
 fi
 
 if [[ "$event" == workflow_dispatch && "$close_only" == true ]]; then
@@ -200,7 +178,7 @@ elif [[ "$event" == workflow_dispatch && "$post_release_acceptance" == true ]]; 
     fail reuse_run_id_required 'post-release-only acceptance requires an explicit successful helper run'
   [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
     fail work_item_id_required 'post-release-only acceptance requires an explicit Work Item identity'
-elif [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true ]]; then
+elif [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true && "$publish_candidate" != true ]]; then
   [[ -n "$handoff_run_id" && "$handoff_run_id" =~ ^[1-9][0-9]*$ ]] || \
     fail handoff_run_id_required 'independent public acceptance requires a completed handoff_run_id'
   jq -n \
@@ -215,11 +193,11 @@ elif [[ "$event" == workflow_dispatch && "$publish_existing_tag" != true ]]; the
   exit 0
 fi
 
-if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$publish_candidate" == true || "$post_release_acceptance" == true ) ]]; then
   [[ -n "$work_item_id" || -n "$contract_path_arg" ]] || \
     fail work_item_id_required 'recovery requires an explicit work_item_id or contract path'
   [[ -n "$to_tag" ]] || fail invalid_to_tag 'recovery requires to_tag'
-  if [[ "$publish_existing_tag" == true || "$close_only" != true ]]; then
+  if [[ "$publish_existing_tag" == true || "$publish_candidate" == true || "$close_only" != true ]]; then
     [[ -n "$source_work_item_id" || -n "$source_contract_path_arg" ]] || \
       fail source_identity_required 'publication and post-release acceptance require an explicit source Work Item or Contract identity'
   fi
@@ -495,7 +473,7 @@ if [[ -n "$source_work_item_id" || -n "$source_contract_path_arg" ]]; then
   source_contract_digest=$validated_contract_digest
 fi
 
-if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$publish_candidate" == true || "$post_release_acceptance" == true ) ]]; then
   predecessor_id=$(jq -r '.predecessorWorkItemId // empty' "$contract_path")
   predecessor_digest=$(jq -r '.predecessorContractDigest // empty' "$contract_path")
   decision_relative=$(jq -r '.recoveryDecisionPath // empty' "$contract_path")
@@ -536,7 +514,7 @@ if [[ "$event" == workflow_dispatch ]] || is_release_tag_push; then
   [[ "$release_source_revision" =~ ^[0-9a-f]{40}$ ]] || fail release_tag_missing 'immutable release tag does not resolve to a commit'
 fi
 
-if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$post_release_acceptance" == true ) ]]; then
+if [[ "$event" == workflow_dispatch && ( "$publish_existing_tag" == true || "$publish_candidate" == true || "$post_release_acceptance" == true ) ]]; then
   mode=release_recovery
   if [[ "$close_only" == true ]]; then
     mode=close_only

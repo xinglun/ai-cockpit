@@ -5,8 +5,9 @@ use cockpit_git::GitRepository;
 use cockpit_knowledge::{Query, query};
 use cockpit_protocol::{
     AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
-    EvidencePersistence, EvidenceRetention, HumanDecision, RepositoryConfig, RuntimeContext,
-    VerificationDeclaration, VerificationStage, VerificationTier, validate_protocol_version,
+    EvidencePersistence, EvidenceRetention, HumanDecision, ReleasePlan, ReleasePlanEnvelope,
+    ReleaseRequestInput, RepositoryConfig, RuntimeContext, VerificationDeclaration,
+    VerificationStage, VerificationTier, validate_protocol_version,
 };
 use cockpit_repository::{
     RepositoryVerificationPolicy, RepositoryVerificationRequest, WorkItemStartOptions,
@@ -328,6 +329,15 @@ enum CommandKind {
         /// Validate an existing receipt against the same current facts.
         #[arg(long)]
         validate_receipt: bool,
+    },
+    /// Resolve a typed, identity-bound release request into one canonical
+    /// ReleasePlan envelope. This command performs no build, verification, or
+    /// publication work.
+    ReleasePlan {
+        #[arg(long)]
+        input: PathBuf,
+        #[arg(long)]
+        output: Option<PathBuf>,
     },
     Evidence {
         #[command(subcommand)]
@@ -943,6 +953,23 @@ fn run_gate_plan(options: GatePlanOptions<'_>) -> Result<()> {
     Ok(())
 }
 
+fn run_release_plan(input: &Path, output: Option<&Path>) -> Result<()> {
+    let request_bytes = fs::read(input).context("read ReleaseRequest")?;
+    let request: ReleaseRequestInput =
+        serde_json::from_slice(&request_bytes).context("parse ReleaseRequestInput JSON")?;
+    let plan = ReleasePlan::resolve_input(request).map_err(|error| anyhow::anyhow!(error))?;
+    let envelope = ReleasePlanEnvelope::new(plan).map_err(|error| anyhow::anyhow!(error))?;
+    let serialized = serde_json::to_string_pretty(&envelope)?;
+    if let Some(output) = output {
+        if let Some(parent) = output.parent() {
+            fs::create_dir_all(parent).context("create ReleasePlan output parent")?;
+        }
+        fs::write(output, format!("{serialized}\n")).context("write ReleasePlan envelope")?;
+    }
+    println!("{serialized}");
+    Ok(())
+}
+
 struct ContractFact {
     relative_path: String,
     digest: String,
@@ -1184,6 +1211,9 @@ fn run() -> Result<()> {
         })
         .map_err(|error| anyhow::Error::new(GatePlanCliFailure::from_error(error)));
     }
+    if let CommandKind::ReleasePlan { input, output } = &cli.command {
+        return run_release_plan(input, output.as_deref());
+    }
     let runtime_context = runtime_identity::load_current().context("load runtime identity")?;
     match cli.command {
         CommandKind::Inspect { repo, json: _ } => {
@@ -1250,6 +1280,9 @@ fn run() -> Result<()> {
             unreachable!("handled before runtime identity load")
         }
         CommandKind::GatePlan { .. } => {
+            unreachable!("handled before runtime identity load")
+        }
+        CommandKind::ReleasePlan { .. } => {
             unreachable!("handled before runtime identity load")
         }
         CommandKind::Attach { repo } => {

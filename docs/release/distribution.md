@@ -120,6 +120,23 @@ Windows. `gh attestation verify` is an optional additional provenance check.
 
 ## Publishing a candidate
 
+### Typed ReleasePlan boundary
+
+Every release dispatch is first resolved into one versioned, identity-bound
+`ReleasePlan` by `tests/ci/resolve_release_plan.sh`, which delegates semantic
+resolution to `ai-cockpit release-plan`. The resulting envelope contains the
+mode, source and governance identities, allowed stages, transitions, and a
+`planDigest`; later jobs consume its projected mode and never re-infer a route
+from raw dispatch flags. The supported modes are `normal_release`,
+`historical_tag_recovery`, `post_release_acceptance`, `close_only`, and
+`independent_public_acceptance`.
+
+Historical recovery requires an archived recovery evidence file bound by digest.
+Post-release and close-only recovery bind the prior run identity in the same
+plan. There is no version-specific or temporary release exception. If a
+workflow needs a new recovery route, add a reviewed mode or schema migration
+to the typed plan first; do not bypass the plan with an ad-hoc input.
+
 Publication is started by an explicit workflow dispatch after the reviewed
 Work Item is merged and the default branch is synchronized. Create the
 annotated tag, push it as an immutable input, then dispatch the workflow with
@@ -136,7 +153,7 @@ git push origin v0.2.94
 gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
   -f from_tag=v0.2.93 \
   -f to_tag=v0.2.94 \
-  -f publish_existing_tag=true \
+  -f publish_candidate=true \
   -f work_item_id=WI-883-release-v0-2-94-current-main
 ```
 

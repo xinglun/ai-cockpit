@@ -1,0 +1,46 @@
+{
+  "attemptId": "sha256:91fff97398e0295b281a2aba1551f2ad234d9fa2cdfbf61af916f851746bfd62",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--test",
+        "release_plan"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:247c30bea8965b8fe6219eacfcb41056be91987b104f1f20df8eaee1f6c79b8d",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fa58dd1848828500d1a6467ca850b853ae5223cede334690efe1a003559aa96a",
+  "contractExecutionScopeDigest": "sha256:ccbead681e0cd304b8ab687a334dfb7d821ae53854407fe2fee1eacb72f732a9",
+  "createdAt": "2026-09-21T07:05:24Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-plan-ssot/ai-cockpit/.ai/work-items/active/WI-967-release-plan-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:a77acc31be0a205773961dbac41615bf2b116a312130305a82c952c943a93be5",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-967-release-plan-ssot"
+}

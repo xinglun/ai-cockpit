@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "$0")/../.." && pwd -P)"
 workflow="$repo_root/.github/workflows/release.yml"
 manifest="$repo_root/tests/ci/repository_gate_manifest.json"
-resolver="$repo_root/tests/ci/resolve_work_item.sh"
+resolver="$repo_root/tests/ci/resolve_release_plan.sh"
 receipt_validator="$repo_root/tests/release/validate_adopter_acceptance_receipt.sh"
 
 [[ -f "$workflow" ]] || { printf 'release workflow is missing\n' >&2; exit 1; }
@@ -43,7 +43,13 @@ require 'release_input_preflight:' 'cheap release input preflight must run befor
 require 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
 require 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'
 require 'source_contract_path:' 'recovery must expose a separate source-verification Contract path'
-require 'resolve_work_item.sh' 'release selection must use the shared explicit identity resolver'
+require 'resolve_release_plan.sh' 'release selection must use the typed ReleasePlan adapter'
+grep -Fq 'release-plan --input' "$repo_root/tests/ci/resolve_release_plan.sh" || {
+  printf 'release gate policy failure: adapter must invoke the shared Rust ReleasePlan implementation\n' >&2
+  exit 1
+}
+require 'planDigest' 'release must persist the canonical ReleasePlan digest'
+require 'plan_mode' 'release stages must consume the resolved ReleasePlan mode'
 require 'if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then' 'optional Work Item input must be appended only when present'
 require 'if [[ -n "$INPUT_CONTRACT_PATH" ]]; then' 'optional Contract input must be appended only when present'
 require 'if [[ -n "$INPUT_SOURCE_WORK_ITEM_ID" ]]; then' 'optional source Work Item input must be appended only when present'
@@ -57,12 +63,12 @@ grep -Fq 'work_item_id_required' "$resolver" || {
   printf 'release gate policy failure: recovery without an explicit Work Item identity must fail early\n' >&2
   exit 1
 }
-grep -Fq 'all_contracts=()' "$resolver" || {
-  printf 'release gate policy failure: the shared resolver must inspect active Contracts\n' >&2
+grep -Fq 'contract_not_regular' "$resolver" || {
+  printf 'release gate policy failure: the typed adapter must reject non-regular Contracts\n' >&2
   exit 1
 }
-grep -Fq 'work_item_contract_ambiguous' "$resolver" || {
-  printf 'release gate policy failure: ambiguous active Contracts must fail closed\n' >&2
+grep -Fq 'source_contract_repository_mismatch' "$resolver" || {
+  printf 'release gate policy failure: source identity must remain repository-bound\n' >&2
   exit 1
 }
 grep -Fq -- '--source-work-item-id' "$resolver" || {
@@ -73,8 +79,8 @@ grep -Fq 'source_work_item_id_mismatch' "$resolver" || {
   printf 'release gate policy failure: mismatched source identity must fail closed\n' >&2
   exit 1
 }
-grep -Fq 'source_identity_required' "$resolver" || {
-  printf 'release gate policy failure: publication and post-release acceptance must require an explicit source identity\n' >&2
+grep -Fq 'source_contract_not_regular' "$resolver" || {
+  printf 'release gate policy failure: publication and post-release acceptance must bind a regular source Contract\n' >&2
   exit 1
 }
 require 'sourceBaseRevision' 'release route must bind the source-verification baseline'
@@ -107,8 +113,7 @@ require 'post_release_acceptance' 'release must expose an explicit post-release-
 require 'close_only' 'release must expose an explicit close-only recovery mode'
 require 'reuse_run_id' 'post-release-only acceptance must identify reusable prior-run evidence'
 require 'reuse_acceptance_run_id' 'close-only recovery must identify the prior acceptance run'
-require "github.event.inputs.close_only != 'true'" 'close-only recovery must skip all acceptance and publication producers'
-require "github.event.inputs.close_only == 'true'" 'close-only recovery must explicitly enable the close barrier'
+require "plan_mode == 'close_only'" 'close-only recovery must explicitly enable the close barrier'
 require 'reusedAcceptanceRunId' 'close-only close evidence must record its source acceptance run'
 require 'reused_acceptance_run_invalid' 'invalid close-only evidence must fail closed with a structured reason'
 require 'post_release_helper' 'post-release-only acceptance must restore a prebuilt helper without rebuilding'
@@ -129,19 +134,20 @@ require 'buildCount' 'helper-only repair result must record its build count'
 require 'productPackagesRebuilt:false' 'helper-only repair must not rebuild product packages'
 require 'verify-provider-release' 'post-release-only acceptance must verify the public Release identity'
 require 'releases/download/$TAG/' 'post-release-only acceptance must download immutable public Release assets'
-require "github.event.inputs.post_release_acceptance == 'true'" 'post-release-only acceptance must be explicit'
-require "github.event.inputs.post_release_acceptance != 'true'" 'publication jobs must be skipped for post-release-only acceptance'
+require "plan_mode == 'post_release_acceptance'" 'post-release-only acceptance must be explicit in the resolved plan'
+require "plan_mode != 'post_release_acceptance'" 'publication jobs must be skipped for post-release-only acceptance'
 require 'needs: [publish, release_input_preflight]' 'version consistency must run without publish in post-release-only mode'
-require 'needs: [publish_handoff, release_tools, post_release_helper]' 'install must use the mode-specific helper dependency'
-require 'needs: [publish, publish_handoff, release_tools, post_release_helper]' 'upgrade must use the mode-specific helper dependency'
+require 'needs: [publish_handoff, release_tools, post_release_helper, release_input_preflight]' 'install must use the mode-specific helper dependency'
+require 'needs: [publish, publish_handoff, release_tools, post_release_helper, release_input_preflight]' 'upgrade must use the mode-specific helper dependency'
 require 'needs.post_release_helper.result' 'public acceptance must wait for helper restoration'
-require 'if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then' 'publication must use the explicit dispatch identity guard'
+require 'if [[ "$EVENT_NAME" == workflow_dispatch && ( "$PUBLISH_EXISTING_TAG" == true || "$PUBLISH_CANDIDATE" == true ) ]]; then' 'publication must use the explicit dispatch identity guard'
+require 'publish_candidate' 'normal publication must have a distinct typed dispatch input'
 require 'publication tag must match the remote immutable peeled commit' 'publication must bind the local tag to the remote immutable tag identity before compilation'
 require 'test "$manifest_commit" = "$tag_commit"' 'publication must bind the manifest to the remote tag commit'
-require "(github.event_name == 'workflow_dispatch' &&" 'release close must use a valid dispatch expression'
-require "(github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true'))" 'release close expression must have balanced parentheses'
-if grep -Fq "github.event.inputs.close_only == 'true')))" "$workflow"; then
-  printf 'release gate policy failure: malformed release close expression has an extra closing parenthesis\n' >&2
+require "plan_mode == 'historical_tag_recovery'" 'historical recovery must be selected by the resolved plan'
+require "plan_mode == 'normal_release'" 'normal publication must be selected by the resolved plan'
+if grep -Fq 'temporary_release_exception' "$workflow" || grep -Fq 'temporaryReleaseException' "$workflow"; then
+  echo 'release gate policy failure: version-specific temporary release exception remains in workflow' >&2
   exit 1
 fi
 if grep -Fq "github.event_name == 'push'" "$workflow" ||

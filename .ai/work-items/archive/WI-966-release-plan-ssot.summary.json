@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-965-release-plan-ssot.recovery.json",
+    ".ai/decisions/WI-965-release-plan-ssot.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-966-release-plan-ssot.contract.json",
+    ".ai/work-items/active/WI-966-release-plan-ssot.summary.json",
+    ".ai/work-items/archive/WI-965-release-plan-ssot.archive.json",
+    ".ai/work-items/archive/WI-965-release-plan-ssot.contract.json",
+    ".ai/work-items/archive/WI-965-release-plan-ssot.outcome.json",
+    ".ai/work-items/archive/WI-965-release-plan-ssot.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-21T05:41:56Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:6aa618bf72e7b091c1d6a68955aec472f11757b0a59f50e876406cd9db700813",
+  "predecessorWorkItemId": "WI-965-release-plan-ssot",
+  "preflightAt": "2026-09-21T05:51:01Z",
+  "preflightContractDigest": "sha256:c65599e06b38a1d873483bd96461e99a911c5c3d148683ba65ba6ddfdb9348e6",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:366ca606a0adf6d3c89ebfc0873f3c159a594858c3a8d5301a45083172b2cfa8",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-965-release-plan-ssot.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-21T05:42:43Z",
+  "workItemId": "WI-966-release-plan-ssot"
+}

@@ -1,0 +1,113 @@
+{
+  "changedPaths": [],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-21T05:28:36Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:91b51b7378f7619a55210305237b940f50bc9efe4d250068de5f57cc55e6442d",
+    "items": [
+      {
+        "class": "delegated:github-ci",
+        "evidence": [
+          {
+            "digest": "sha256:cd872d30f0b240a8a93fbedceefcfe335465edb259f24ea3a7aab97ef36d1781",
+            "locator": "release jobs and artifact handoff",
+            "path": ".github/workflows/release.yml",
+            "type": "workflow",
+            "verification": "hosted workflow evidence required"
+          }
+        ]
+      },
+      {
+        "class": "delegated:public-artifact",
+        "evidence": [
+          {
+            "digest": "sha256:6efb4aaccb719990c713c667481a1e8f72c077f9e987921f1a84d7d3b5a63b1a",
+            "locator": "public artifact installation and acceptance contract",
+            "path": "docs/release/distribution.md",
+            "type": "document",
+            "verification": "immutable release artifact evidence required"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/ci/resolve_work_item.sh",
+      "crates/cockpit-repository/src/lib.rs",
+      "docs/release/distribution.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T05:39:34Z",
+  "preflightContractDigest": "sha256:6aa618bf72e7b091c1d6a68955aec472f11757b0a59f50e876406cd9db700813",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:366ca606a0adf6d3c89ebfc0873f3c159a594858c3a8d5301a45083172b2cfa8",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "All release stages consume one plan digest and source identity.",
+      "required": true,
+      "scenario": "normal release uses one immutable typed plan",
+      "status": "unverified",
+      "verificationPlan": "Run Rust resolver, workflow policy, and hosted release checks."
+    },
+    {
+      "evidence": [],
+      "expected": "Historical recovery is accepted only with tag/source and archived recovery bindings.",
+      "required": true,
+      "scenario": "historical tag recovery requires bound archived evidence",
+      "status": "unverified",
+      "verificationPlan": "Run resolver fixtures for valid, missing, foreign, stale, and contradictory recovery evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Post-release acceptance cannot rebuild or publish and consumes the plan artifact.",
+      "required": true,
+      "scenario": "post release acceptance reuses published identity",
+      "status": "unverified",
+      "verificationPlan": "Run post-release workflow policy and receipt reuse fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "Close-only validates prior acceptance receipts and cannot publish or create a new prerequisite.",
+      "required": true,
+      "scenario": "close only is receipt bounded",
+      "status": "unverified",
+      "verificationPlan": "Run close-only transition and fixed-point fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "Downstream jobs reject a missing, stale, or mismatched plan digest instead of re-inferring mode.",
+      "required": true,
+      "scenario": "raw workflow inputs cannot diverge after plan generation",
+      "status": "unverified",
+      "verificationPlan": "Run workflow static policy and plan digest tamper fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "The existing tag, release, and archived evidence are not rewritten.",
+      "required": true,
+      "scenario": "v0.2.104 historical evidence remains immutable",
+      "status": "unverified",
+      "verificationPlan": "Compare immutable release and archive digests before and after focused verification."
+    },
+    {
+      "evidence": [],
+      "expected": "NormalRelease, HistoricalTagRecovery, PostReleaseAcceptance, CloseOnly, and IndependentPublicAcceptance have explicit allowed transitions.",
+      "required": true,
+      "scenario": "release plan state graph",
+      "status": "unverified",
+      "verificationPlan": "Exercise the typed plan transition matrix before any publication run."
+    }
+  ],
+  "state": "implementation_active",
+  "updatedAt": "2026-09-21T05:33:24.874945+00:00",
+  "workItemId": "WI-965-release-plan-ssot"
+}

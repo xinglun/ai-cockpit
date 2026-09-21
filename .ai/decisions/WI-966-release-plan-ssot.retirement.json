@@ -1,0 +1,34 @@
+{
+  "actor": "xinglun",
+  "archiveManifestDigest": "sha256:5ad918e7b8cc93ab3b345412abfcdc512c7f5e37b3834333d94f2b0bf0a2b0a2",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:bf3ea6188f03b0b4a0bf5ce199625d7e4da7f1afdf9e1ceb27f616aaae2def1b",
+      "path": ".ai/work-items/archive/WI-966-release-plan-ssot.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:a9088b1cf6d04e7849010752526f5ccf2146fae7bffaabbebbd6a62b1de5358d",
+      "path": ".ai/work-items/archive/WI-966-release-plan-ssot.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:2423331e06bf377970dd0ac4d679c8b16b6566a7daa162da39cf135baef8a20e",
+      "path": ".ai/work-items/archive/WI-966-release-plan-ssot.summary.json"
+    }
+  },
+  "authoritySource": "authorized user instruction in current conversation",
+  "contractDigest": "sha256:c65599e06b38a1d873483bd96461e99a911c5c3d148683ba65ba6ddfdb9348e6",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The predecessor Contract required verification_receipt before implementation. The Runtime correctly refuses to treat missing generated verification evidence as preflight green; replacing the Contract preserves its evidence and removes the entry self-lock while keeping the same typed ReleasePlan scope.",
+  "recordedAt": "2026-09-21T05:54:55Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:366ca606a0adf6d3c89ebfc0873f3c159a594858c3a8d5301a45083172b2cfa8",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-967-release-plan-ssot",
+  "summaryDigest": "sha256:1aef791ccebb263892be63004bda6133df3145b65f9f6b04a78e8fd7d0603009",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-966-release-plan-ssot"
+}

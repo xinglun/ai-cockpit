@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+      "workItemId": "WI-960-v0-2-103-archive-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/WI-960-v0-2-103-archive-closure.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:sei-rinn via standing-full-authorization at 2026-09-21T06:22:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "在不重新发布、不修改历史 archive、不直接写入 main 的前提下，合并 archive/recovery 投影，完成 WI-959 的精确资源清理、finalization、close 和后续 #902 事实通知前置条件。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-960-v0-2-103-archive-closure"
+  },
+  "finalReportDigest": "sha256:841953e4307abfd204ebfd2a91a5762430221ff8124ddb59bbf164f75d337720",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:cdab6e5ee310405817e6846b7d7b5c5b8130492903f1a2f99c984f45e0950a55",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-960-v0-2-103-archive-closure.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:sei-rinn",
+    "authoritySource": "standing-full-authorization",
+    "decidedAt": "2026-09-21T06:22:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/WI-960-v0-2-103-archive-closure.finalize.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "Historical PR merge and exact branch/worktree cleanup have been verified; accept preserved evidence and close without rewriting history.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T08:02:10Z",
+  "workItemId": "WI-960-v0-2-103-archive-closure"
+}

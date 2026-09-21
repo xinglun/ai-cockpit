@@ -5,6 +5,7 @@ use std::{path::PathBuf, str::FromStr};
 use thiserror::Error;
 
 pub mod interface_description;
+pub mod release_plan;
 
 pub use interface_description::{
     CAPABILITY_SHOW_DEFAULT_FORMAT, CAPABILITY_SHOW_DEFAULT_LANGUAGE,
@@ -35,6 +36,12 @@ pub use interface_description::{
     work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec,
     work_item_outcome_parameter_spec_by_canonical, work_item_outcome_query_command,
     work_item_outcome_view_is_valid,
+};
+
+pub use release_plan::{
+    RELEASE_PLAN_SCHEMA_VERSION, ReleaseEvidenceBinding, ReleaseMode, ReleasePlan,
+    ReleasePlanEnvelope, ReleasePlanError, ReleaseRequest, ReleaseRequestInput, ReleaseStage,
+    ReleaseStageTransition,
 };
 
 pub const PROTOCOL_VERSION: u32 = 1;

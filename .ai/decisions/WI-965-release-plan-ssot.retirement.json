@@ -1,0 +1,34 @@
+{
+  "actor": "xinglun",
+  "archiveManifestDigest": "sha256:5a6237f32bdc02994be55aefd1e110d0e494fc376ff78edc771113fca5337ed3",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:91b51b7378f7619a55210305237b940f50bc9efe4d250068de5f57cc55e6442d",
+      "path": ".ai/work-items/archive/WI-965-release-plan-ssot.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:1d458a045a8288cead9823154c9a8c1e7c9a6650ce786868fc10504b222824ad",
+      "path": ".ai/work-items/archive/WI-965-release-plan-ssot.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:d8fc0c23ba6192f2a25c64de6932feb861b7cb4debf6a47427c990d1d18972bb",
+      "path": ".ai/work-items/archive/WI-965-release-plan-ssot.summary.json"
+    }
+  },
+  "authoritySource": "authorized user instruction in current conversation",
+  "contractDigest": "sha256:6aa618bf72e7b091c1d6a68955aec472f11757b0a59f50e876406cd9db700813",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The initial Contract incorrectly required delegated GitHub CI and public-artifact evidence before implementation. Those evidence classes are produced only after the reviewed merge and release; retiring this preflight-blocked Contract preserves its evidence and replaces it with the same scope using verification evidence at entry and deferred delegated evidence at the release boundary.",
+  "recordedAt": "2026-09-21T05:42:09Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:366ca606a0adf6d3c89ebfc0873f3c159a594858c3a8d5301a45083172b2cfa8",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-966-release-plan-ssot",
+  "summaryDigest": "sha256:efc569560f8510d49882e092d063c4207e2f2ea6e8d3d8484836b5a50df5825c",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-965-release-plan-ssot"
+}
