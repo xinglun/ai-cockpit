@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T17:12:25Z",
+  "files": {
+    "approachDigest": "sha256:e09cd39611f6d6863ecbe93c9b25c06196183c85bf4a507767efbfec3a6010f5",
+    "approachPath": ".ai/work-items/archive/WI-969-resource-hygiene.approach.json",
+    "contractDigest": "sha256:e45a60fbf06c316a9ab75234ce13ba7848b571beb445100243cc7034b32bc8be",
+    "contractPath": ".ai/work-items/archive/WI-969-resource-hygiene.contract.json",
+    "eventsDigest": "sha256:5faa439c102539232483ee3bb02fcd7f353fa4b3b8789b75c6c5f45358af9a02",
+    "eventsPath": ".ai/work-items/archive/WI-969-resource-hygiene.events.jsonl",
+    "outcomeDigest": "sha256:d6a2ec12085bb4c685c9df149f74d86e58ea2c9d0bea904d6df59a315cb67033",
+    "outcomePath": ".ai/work-items/archive/WI-969-resource-hygiene.outcome.json",
+    "summaryDigest": "sha256:77cace460feba8298ca248de86f1a9d320a531f97bcf18586ea6d967de8eb8c7",
+    "summaryPath": ".ai/work-items/archive/WI-969-resource-hygiene.summary.json",
+    "taskReportDigest": "sha256:20da0fc7344de36e133b82982a2cebd28e98beffc1b3267a09bcb50046afe026",
+    "taskReportMarkdownDigest": "sha256:3a8ff01d45a5e3cd8ce035d359958ba0ffe2649a5483d1b57742495dbeca7324",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-969-resource-hygiene.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-969-resource-hygiene.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-969-resource-hygiene"
+}

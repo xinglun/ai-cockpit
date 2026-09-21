@@ -1,0 +1,107 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-969-resource-hygiene.preflight-review.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-969-resource-hygiene.verification-attempt.c3afc134976a230fac2a31d6bb58d1db8702eda740880c995b4155ea90b2bb18.json",
+    ".ai/work-items/archive/WI-969-resource-hygiene.approach.json",
+    ".ai/work-items/archive/WI-969-resource-hygiene.contract.json",
+    ".ai/work-items/archive/WI-969-resource-hygiene.controls.json",
+    ".ai/work-items/archive/WI-969-resource-hygiene.scenario-amend.json",
+    ".ai/work-items/archive/WI-969-resource-hygiene.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T17:01:47Z",
+  "checkpointContractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "createdAt": "2026-09-21T16:53:57Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The user explicitly authorized execution of the bounded Work Item plan. This receipt authorizes entering the lifecycle and verification phase only; it does not assert that any resource cleanup, test, hosted check, merge, or release has passed.",
+    "recordedAt": "2026-09-21T16:58:15Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+    "schemaVersion": 1,
+    "workItemId": "WI-969-resource-hygiene"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "User authorization in current task",
+      "AGENTS.md repository Work Item lifecycle and evidence-preserving cleanup rules",
+      ".ai/README.md current Runtime lifecycle and evidence discipline"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T17:11:37Z",
+  "preflightContractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/WI-969-resource-hygiene.verification.json",
+        "git worktree list --porcelain",
+        "git ls-remote --heads origin",
+        "gh pr list --state open --limit 100"
+      ],
+      "expected": "Each proposed branch, worktree, pull request, and residual artifact is recorded with exact identity and a terminal or unresolved classification before cleanup.",
+      "required": true,
+      "scenario": "resource_inventory_has_identity_and_terminal_classification",
+      "status": "verified",
+      "verificationPlan": "Run the repository and provider inventory checks declared by this Contract and retain the resulting evidence in the Work Item Summary."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-969-resource-hygiene.verification.json",
+        ".ai/work-items/archive/WI-968-release-v0-2-105.archive.json",
+        "ai-cockpit work-item reconcile-artifacts --repo <worktree> --id WI-968-release-v0-2-105 returned state=already_clean"
+      ],
+      "expected": "Runtime reconciliation moves only failed-attempt leftovers into the immutable archive and does not rewrite or delete historical evidence.",
+      "required": true,
+      "scenario": "runtime_reconciliation_preserves_immutable_governance_evidence",
+      "status": "verified",
+      "verificationPlan": "Run the Runtime reconciliation command and verify archive manifest, receipt, and source artifact digests after the command."
+    },
+    {
+      "evidence": [
+        "git ls-remote --heads origin returned only refs/heads/main",
+        "gh pr list --state open --limit 100 returned []",
+        ".ai/work-items/active/WI-968-release-v0-2-105.* retained because Runtime does not classify these filenames as movable failed-attempt projections"
+      ],
+      "expected": "Resources that are unmerged, unresolved, or not proven safe remain present and are reported with a reason; no guessed deletion occurs.",
+      "required": true,
+      "scenario": "unmerged_or_unknown_resources_remain_recoverable",
+      "status": "verified",
+      "verificationPlan": "Compare pre- and post-cleanup branch, worktree, pull request, tag, and artifact inventories and inspect the Work Item Summary."
+    },
+    {
+      "evidence": [
+        ".ai/evidence/WI-969-resource-hygiene.verification.json",
+        "git status --short --branch",
+        "ai-cockpit inspect --repo <worktree>",
+        "ai-cockpit status --repo <worktree> --json"
+      ],
+      "expected": "No source, test, documentation, semantic-version tag, or unrelated Work Item resource changes occur.",
+      "required": true,
+      "scenario": "cleanup_scope_does_not_modify_product_paths",
+      "status": "verified",
+      "verificationPlan": "Run git status, exact diff checks, and Runtime inspect/status/doctor after reconciliation."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T17:12:02Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-969-resource-hygiene"
+}

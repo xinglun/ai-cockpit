@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:835d6e6fac705583cd4968e87f38840bc5eacb654ebb2a09d892d8f7b676c843",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "The user explicitly authorized execution of the bounded Work Item plan. This receipt authorizes entering the lifecycle and verification phase only; it does not assert that any resource cleanup, test, hosted check, merge, or release has passed.",
+  "recordedAt": "2026-09-21T16:58:15Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "schemaVersion": 1,
+  "workItemId": "WI-969-resource-hygiene"
+}

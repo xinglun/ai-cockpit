@@ -1,0 +1,90 @@
+{
+  "acceptanceCriteria": [
+    "Runtime classifies residual WI-968 active artifacts and reconciles them without deleting immutable evidence.",
+    "Every proposed branch, worktree, pull request, or artifact is inventoried with identity and terminal classification before any cleanup.",
+    "Only exact resources proven merged, closed, stale, and safe to remove are cleaned; unresolved or unmerged resources remain and are reported with reasons.",
+    "No source, test, documentation, semantic-version tag, or unrelated Work Item changes.",
+    "The Work Item retains a visible Outcome with evidence, unknowns, decision, and next action."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c5c0b37a890c17e54ed3f8a8c3d71a154cd209cd",
+  "createdAt": "2026-09-21T16:53:57Z",
+  "goal": "Inventory and reconcile only explicitly classified stale governance resources and residual failed-attempt artifacts; leave unresolved or unmerged resources intact with reasons.",
+  "intent": "Cleanly reconcile residual failed-attempt governance artifacts from closed Work Items before starting new implementation work, preserving immutable evidence and recoverability.",
+  "mode": "code",
+  "outOfScope": [
+    "Source code",
+    " tests",
+    " documentation",
+    " semantic-version tags",
+    " unrelated active Work Items",
+    " unmerged pull requests",
+    " unknown-resource deletion",
+    " and any provider or filesystem deletion without an exact inventory and terminal-state proof."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high: governance evidence and provider resources are identity-bound; cleanup must preserve recoverability.",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Each proposed branch, worktree, pull request, and residual artifact is recorded with exact identity and a terminal or unresolved classification before cleanup.",
+      "required": true,
+      "scenario": "resource_inventory_has_identity_and_terminal_classification",
+      "status": "unverified",
+      "verificationPlan": "Run the repository and provider inventory checks declared by this Contract and retain the resulting evidence in the Work Item Summary."
+    },
+    {
+      "evidence": [],
+      "expected": "Runtime reconciliation moves only failed-attempt leftovers into the immutable archive and does not rewrite or delete historical evidence.",
+      "required": true,
+      "scenario": "runtime_reconciliation_preserves_immutable_governance_evidence",
+      "status": "unverified",
+      "verificationPlan": "Run the Runtime reconciliation command and verify archive manifest, receipt, and source artifact digests after the command."
+    },
+    {
+      "evidence": [],
+      "expected": "Resources that are unmerged, unresolved, or not proven safe remain present and are reported with a reason; no guessed deletion occurs.",
+      "required": true,
+      "scenario": "unmerged_or_unknown_resources_remain_recoverable",
+      "status": "unverified",
+      "verificationPlan": "Compare pre- and post-cleanup branch, worktree, pull request, tag, and artifact inventories and inspect the Work Item Summary."
+    },
+    {
+      "evidence": [],
+      "expected": "No source, test, documentation, semantic-version tag, or unrelated Work Item resource changes occur.",
+      "required": true,
+      "scenario": "cleanup_scope_does_not_modify_product_paths",
+      "status": "unverified",
+      "verificationPlan": "Run git status, exact diff checks, and Runtime inspect/status/doctor after reconciliation."
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/WI-968-release-v0-2-105.* residual attempt artifacts; Runtime-generated archive/reconciliation evidence for WI-968; read-only inventory of archived resource obligations",
+    " branches",
+    " worktrees",
+    " and pull requests needed to classify exact cleanup targets."
+  ],
+  "sources": [
+    "AGENTS.md repository Work Item lifecycle and evidence-preserving cleanup rules",
+    ".ai/README.md current Runtime lifecycle and evidence discipline",
+    "current Runtime archived resource obligation inventory",
+    "closed WI-968 residual artifacts identified by current Runtime status"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "ai-cockpit work-item status --repo <repo> --id WI-969-resource-hygiene --json",
+    "ai-cockpit inspect --repo <repo>",
+    "git status --short --branch",
+    "git worktree list --porcelain",
+    "git branch --all --no-color",
+    "git diff --exit-code -- .ai/work-items/active/WI-968-release-v0-2-105.*"
+  ],
+  "workItemId": "WI-969-resource-hygiene"
+}
