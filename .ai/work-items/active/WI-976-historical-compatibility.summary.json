@@ -1,12 +1,18 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-976-historical-compatibility.contract.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-976-historical-compatibility.verification-attempt.306db0f8e16cb2b7f13fe7b3a3958f76af4713d1a1af0016771bc916f6a2a761.json",
+    ".ai/evidence/WI-976-historical-compatibility.verification-attempt.4168415658d33c072dd3faed0cf497d3988e032d93632b89533606ca073fff51.json",
+    ".ai/evidence/WI-976-historical-compatibility.verification-attempt.582f01ffe26c10f2cf6a293a28f025b480d4da9f44f3df6b37f8a08309675fdd.json",
+    ".ai/evidence/WI-976-historical-compatibility.verification-attempt.72284fb1f31e17bdf5c926c07834a152991a46236d6c53486803e8efc69b2411.json",
+    ".ai/evidence/WI-976-historical-compatibility.verification.json",
+    ".ai/wi976-controls.json",
     ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-21T19:41:00Z",
   "checkpointContractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "checkpointRepositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
   "createdAt": "2026-09-21T19:38:52Z",
   "intentAlignment": {
     "evidence": [
@@ -19,14 +25,62 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-21T19:40:55Z",
+  "preflightAt": "2026-09-21T19:55:32Z",
   "preflightContractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/tests/evidence_assurance.rs",
+        ".ai/evidence/WI-976-historical-compatibility.verification.json"
+      ],
+      "expected": "只有缺少 v2 discriminator 且文件为普通可读 JSON 的旧记录进入 historical projection；symlink、目录、损坏 JSON 或带 v2 discriminator 的记录继续 fail closed。",
+      "required": true,
+      "scenario": "历史 verification evidence 判定",
+      "status": "verified",
+      "verificationPlan": "增加模块边界测试并运行 cockpit-repository 全量测试。"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/historical_compatibility.rs",
+        "crates/cockpit-repository/tests/status_projection.rs",
+        "crates/cockpit-repository/tests/outcome_report.rs",
+        ".ai/evidence/WI-976-historical-compatibility.verification.json"
+      ],
+      "expected": "canonical close decision 继续直接接受；非 canonical 只在 legacy-cli/explicit-cli、绿色完整 finalReport、digest、身份和时间戳全部匹配时接受；当前 receipt 不走兼容路径。",
+      "required": true,
+      "scenario": "历史 close receipt 判定",
+      "status": "verified",
+      "verificationPlan": "保留既有 close/status 生命周期测试并新增针对关键绑定缺失和 digest 篡改的边界测试。"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/src/status_projection.rs",
+        "crates/cockpit-repository/src/lifecycle.rs",
+        "crates/cockpit-repository/src/outcome_render.rs",
+        ".ai/evidence/WI-976-historical-compatibility.verification.json"
+      ],
+      "expected": "status、lifecycle、outcome_render 通过显式模块接口调用；不删除、不重写历史 receipt、fixture 或协议字段。",
+      "required": true,
+      "scenario": "调用方边界与历史证据保留",
+      "status": "verified",
+      "verificationPlan": "检查模块 diff 与调用方导入，运行格式检查和 cockpit-repository lib/tests。"
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-21T19:41:00Z",
+  "updatedAt": "2026-09-21T19:56:08.678006+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ab604f6b081328dcf12a2d5fa7be483f10bf67198c52ef36cbbe7c3346472aef",
   "workItemId": "WI-976-historical-compatibility"
 }

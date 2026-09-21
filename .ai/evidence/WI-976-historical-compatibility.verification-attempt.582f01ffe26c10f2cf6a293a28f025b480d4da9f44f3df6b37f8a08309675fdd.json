@@ -1,0 +1,44 @@
+{
+  "attemptId": "sha256:582f01ffe26c10f2cf6a293a28f025b480d4da9f44f3df6b37f8a08309675fdd",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "f50259f272d0b68ed0f150665e30c8e9f3496b4f",
+      "commandDigest": "sha256:5323600fa8c660ef24d893a3788a9e64f69571d03606104e3857ef063ed0b154",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",
+  "contractExecutionScopeDigest": "sha256:b24584065b9cb22e6d6e73864607e07ff5bfbc069b8423e556120a91a538c053",
+  "createdAt": "2026-09-21T19:52:07Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-976-historical-compatibility/ai-cockpit/.ai/work-items/active/WI-976-historical-compatibility.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-976-historical-compatibility"
+}
