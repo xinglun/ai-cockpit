@@ -1,0 +1,25 @@
+{
+  "bindingDigest": "sha256:2eada9f8340248f5c71d8fd689febdbea0f9748e3797a3bd18f6e00f972ff3ed",
+  "branchRef": "refs/heads/codex/release-plan-ssot",
+  "contractDigest": "sha256:409a98a3b4d621099e49f3cf4a3d7acc1f6626dcba9cb428ccda64203feda1b3",
+  "headRevision": "2fa4726e3f71e4aeb46ae9cfc5e583cec9ebff34",
+  "observation": {
+    "branch": "identity_conflict",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T09:15:42Z",
+  "operationId": "sha256:1f55f3cde7affe049e1c1947bc6bb20344e5d51e04cb3eff4c32bb8b1c7ecbd6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [
+      "local_branch_identity_conflict"
+    ],
+    "state": "failed"
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-967-release-plan-ssot",
+  "worktreeId": "sha256:3994e150b61aa010a6970bc6391a1f4ad81efd8847d500d5ab0caa32e3ac0859"
+}
