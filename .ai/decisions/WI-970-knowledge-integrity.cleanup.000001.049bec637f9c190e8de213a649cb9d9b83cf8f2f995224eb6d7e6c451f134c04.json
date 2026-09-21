@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:f9473f43a49cb79ca13617e9b1c152d2d6a6da812efc1e09f9b141406c9c89bc",
+  "branchRef": "refs/heads/codex/wi-970-knowledge-integrity",
+  "contractDigest": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+  "headRevision": "69aeb0e865248d1b3120ad10583a86468da2878b",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T17:47:39Z",
+  "operationId": "sha256:413b584b37ca1604d7f652eece7cc1858d2e4eb947964d5d9cfec574dd433596",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-970-knowledge-integrity",
+  "worktreeId": "sha256:8c48211bab08b7277c99667f21a60e281a55500efc88b989100749ab39ef91a6"
+}
