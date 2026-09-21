@@ -21,7 +21,7 @@
 - Changed path: .ai/evidence/WI-976-historical-compatibility.verification-attempt.72284fb1f31e17bdf5c926c07834a152991a46236d6c53486803e8efc69b2411.json
 - Changed path: .ai/evidence/WI-976-historical-compatibility.verification.json
 - Changed path: .ai/wi976-controls.json
-- Changed path: .ai/work-items/active/WI-976-historical-compatibility.summary.json
+- Changed path: .ai/work-items/archive/WI-976-historical-compatibility.summary.json
 
 ## Findings
 

@@ -7,7 +7,7 @@
     ".ai/evidence/WI-976-historical-compatibility.verification-attempt.72284fb1f31e17bdf5c926c07834a152991a46236d6c53486803e8efc69b2411.json",
     ".ai/evidence/WI-976-historical-compatibility.verification.json",
     ".ai/wi976-controls.json",
-    ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+    ".ai/work-items/archive/WI-976-historical-compatibility.summary.json"
   ],
   "checkpointAt": "2026-09-21T19:41:00Z",
   "checkpointContractDigest": "sha256:1447d83e53c639fdeb22596ae70c72c5687c4cb95a8d0ae2e1b6dc5b46e6bf6c",

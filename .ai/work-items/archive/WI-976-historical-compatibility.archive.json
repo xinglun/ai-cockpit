@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T19:57:22Z",
+  "files": {
+    "contractDigest": "sha256:c5117040ed3d965d420f190e5749d39f8c0f390b979a443d70a6405b22c67de2",
+    "contractPath": ".ai/work-items/archive/WI-976-historical-compatibility.contract.json",
+    "eventsDigest": "sha256:265b748f0357eb834b33530ac373ccca87a3324daf6b9efaa1497b45da442c4a",
+    "eventsPath": ".ai/work-items/archive/WI-976-historical-compatibility.events.jsonl",
+    "outcomeDigest": "sha256:0b225812a6fe12e14fc67438434b4305f3be7ff56604dae499d97a8d644d7ad1",
+    "outcomePath": ".ai/work-items/archive/WI-976-historical-compatibility.outcome.json",
+    "summaryDigest": "sha256:8ba05b2b7964bf6b083b94532f59492f4e3d60ddfef388b5e751d95f77c98809",
+    "summaryPath": ".ai/work-items/archive/WI-976-historical-compatibility.summary.json",
+    "taskReportDigest": "sha256:96c5ac969847a4103a0c49bd40f70cf1ec9b437e1d908b58ddc9a866de708855",
+    "taskReportMarkdownDigest": "sha256:944c5172d442ed6e6b557eebeb16f1e3f42747ea01c71e9898ed11cfc2584955",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-976-historical-compatibility.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-976-historical-compatibility.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-976-historical-compatibility"
+}
