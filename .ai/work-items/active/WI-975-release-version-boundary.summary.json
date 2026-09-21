@@ -1,21 +1,11 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.49f36bde1d6c403744ac798dd5ae65a6dfe3a005630ec1f39c42112de8289c6f.json",
-    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.e5a2039ddca3926f809d051d1f37d3bdba7b99dc3d9e1402e9a3af75e71429ae.json",
-    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.eb11d702af81b43572c3cc5602fec4a6accad6fe3f8a1cf111978650e48525d9.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.239985527d732558b359601d1919350dafe32bd6be4d288f06bf7bc5ce880965.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.b2823373d0638ee6f8473d724ad7701af236e1bd2987d0103cf09a2afae9fd15.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.f8b78442051d9a83e1d25ab3a953c5fb63f9ccfd3c0b828cf1e1722ca21d351b.json",
     ".ai/evidence/WI-975-release-version-boundary.verification.json",
-    ".ai/work-items/active/WI-975-release-version-boundary.approach.json",
-    ".ai/work-items/active/WI-975-release-version-boundary.contract.json",
-    ".ai/work-items/active/WI-975-release-version-boundary.intelligence.json",
-    ".ai/work-items/active/WI-975-release-version-boundary.summary.json",
-    "crates/cockpit-release/src/lib.rs",
-    "crates/cockpit-release/src/main.rs",
-    "crates/cockpit-release/src/version_consistency.rs",
-    "crates/cockpit-release/tests/cli.rs",
-    "crates/cockpit-release/tests/version_consistency.rs",
-    "tests/release/version_consistency.sh",
-    "tests/release/version_consistency_test.sh"
+    ".ai/work-items/active/WI-975-release-version-boundary.summary.json"
   ],
   "checkpointAt": "2026-09-21T19:23:30Z",
   "checkpointContractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
@@ -69,7 +59,7 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-21T19:31:19Z",
+  "preflightAt": "2026-09-21T19:31:56Z",
   "preflightContractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",

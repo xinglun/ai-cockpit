@@ -1,9 +1,32 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:38bed460069de79a11118bcf49942d2a24188a1407ff2c337f845fbc2175d001",
+  "commands": [
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "64bf6d4ce38d4c6e6374db40dcbc03453c2d1644",
+      "commandDigest": "sha256:3881211184942dec18bc64d2e09f21d72391487c379563cd5182ffe85ac2562b",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+  "contractExecutionScopeDigest": "sha256:ed81cbab1a7b80190f60102fea5fe876ccc40b403ecd0f7b3fc8f0a7e98fb477",
   "createdAt": "2026-09-21T19:31:56Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -96,10 +119,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-975-release-version-boundary"
   },
-  "receiptDigest": "sha256:70541b9003c762eefd108e173379608bae46da78e8bdd3928762fb79c50c8535",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
   "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
   "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-975-release-version-boundary"
 }

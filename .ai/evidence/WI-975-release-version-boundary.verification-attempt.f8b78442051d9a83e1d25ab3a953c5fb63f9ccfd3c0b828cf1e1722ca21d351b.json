@@ -1,9 +1,34 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:f8b78442051d9a83e1d25ab3a953c5fb63f9ccfd3c0b828cf1e1722ca21d351b",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-release",
+        "--tests"
+      ],
+      "baseCommit": "64bf6d4ce38d4c6e6374db40dcbc03453c2d1644",
+      "commandDigest": "sha256:fcba76baf80defc42b49aacf91dfc046e6f8ff37ab5ee47d2e58a066e356e5eb",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
-  "createdAt": "2026-09-21T19:31:56Z",
-  "evidenceSchemaVersion": 2,
+  "contractExecutionScopeDigest": "sha256:ed81cbab1a7b80190f60102fea5fe876ccc40b403ecd0f7b3fc8f0a7e98fb477",
+  "createdAt": "2026-09-21T19:31:55Z",
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -79,7 +104,7 @@
       {
         "action": "reuse",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:beb14589a326e3c5a39248481242ff2f103cbac35385094238c1584153686740",
+        "outputDigest": "sha256:4faf00dee1351c35afcf21801b2c063a4fc7a1d3a4ff487defa00e1cf12fe3a2",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -96,10 +121,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-975-release-version-boundary"
   },
-  "receiptDigest": "sha256:70541b9003c762eefd108e173379608bae46da78e8bdd3928762fb79c50c8535",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
   "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
   "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-975-release-version-boundary"
 }
