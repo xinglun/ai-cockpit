@@ -32,6 +32,14 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi960-release-archive-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/940",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi960-release-archive-closure/ai-cockpit"
+  },
   "risk": "normal",
   "scope": [
     ".ai/**"

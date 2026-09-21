@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "WI-959 archive、Contract、Summary、Outcome、events 与 verification evidence 的既有字节及身份保持可追溯。",
+    "归档投影通过受审阅 PR 持久化，且不直接写入 main、不重新执行 release workflow 或公开产物验收。",
+    "在 WI-959 的 archive 已可从受控历史读取后，执行其精确分支/worktree cleanup、finalize、finalize-verify 与 close；失败时保留可恢复现场。",
+    "本 successor 自身的验证只覆盖归档/恢复/资源收尾边界，不以重跑 v0.2.103 发布证明作为完成条件。",
+    "仅在全部 closure 证据有效后，准备对 Sentinel #902 的事实通知；本 WI 不代替 Sentinel 验收或关闭。"
+  ],
+  "createdAt": "2026-09-21T01:15:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bd149a9329c0fb58afcdf4c21f6e2f5ab363889ae96a48bb487977cebc31ffb4",
+  "evidenceRefs": [
+    ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+      "workItemId": "WI-960-v0-2-103-archive-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-960-v0-2-103-archive-closure.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "在不重新发布、不修改历史 archive、不直接写入 main 的前提下，合并 archive/recovery 投影，完成 WI-959 的精确资源清理、finalization、close 和后续 #902 事实通知前置条件。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-960-v0-2-103-archive-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-960-v0-2-103-archive-closure"
+  },
+  "taskReportDigest": "sha256:d3817c00781a84326b9e44afb8273c21e637327c71a2f84aa5f0b728942b6258",
+  "taskReportMarkdownDigest": "sha256:9f94b92196bdadfb3e6a206385015888e8e716a3565d49a91fc385569845f9ba",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-960-v0-2-103-archive-closure.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-960-v0-2-103-archive-closure"
+}
