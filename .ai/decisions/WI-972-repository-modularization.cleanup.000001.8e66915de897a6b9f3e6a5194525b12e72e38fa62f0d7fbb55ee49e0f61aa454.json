@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:d651784cee744c70b26af5f4c3cb16726250aea4abdbbc90cd09c3765fe5a286",
+  "branchRef": "refs/heads/codex/wi-972-repository-modularization",
+  "contractDigest": "sha256:014fae90bc296ada23e058f62922d4b922ba61b15054a2b7e80581b3b6e955b8",
+  "headRevision": "1519290a175a36a370d2d4302a076e0ceefb78c5",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T18:34:32Z",
+  "operationId": "sha256:3a948952ba2e59f4e42a0a65e2d1701a8412384c3ffb7042ee0d52c837a6090c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-972-repository-modularization",
+  "worktreeId": "sha256:727275a190b5f65b64638a8981b1371c9ce63a88065938bc6756e379f3f70beb"
+}
