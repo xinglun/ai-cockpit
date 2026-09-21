@@ -1,10 +1,13 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+    ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json",
+    ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.events.jsonl",
+    ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.outcome.json",
+    ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-20T23:20:05Z",
-  "checkpointContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+  "checkpointContractDigest": "sha256:31ac52d47a258961d6ec382f057dd3dd110cf541029844924bd23b565e694445",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -40,6 +43,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-959-v0-2-103-release-recovery"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:31ac52d47a258961d6ec382f057dd3dd110cf541029844924bd23b565e694445",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:04e4339f7ad59d3f3374cdc836f159ee817337ed06dcf36b3319b47958f9feb5",
+      "previousContractHash": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+      "reason": "Release input preflight rejected the dispatch because the explicit source Work Item identity was omitted. Record the required same-WI source binding in the declared publication command before retrying.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T00:09:15Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-959-v0-2-103-release-recovery"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
@@ -47,8 +70,8 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:6907a40a13941febdacd8b01cb6ec015fedc1bdc38958452ef3e6492704c1372",
   "predecessorWorkItemId": "WI-958-v0-2-103-release",
-  "preflightAt": "2026-09-20T23:57:33Z",
-  "preflightContractDigest": "sha256:48fe456545f5bd32c213e996c0f4fe0a01374c09f7be203b21d194c6d792fb0a",
+  "preflightAt": "2026-09-21T00:35:03Z",
+  "preflightContractDigest": "sha256:31ac52d47a258961d6ec382f057dd3dd110cf541029844924bd23b565e694445",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
   "preflightState": "green",
@@ -56,7 +79,7 @@
   "recoveryDecisionPath": ".ai/decisions/WI-958-v0-2-103-release.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "state": "finish_ready",
-  "updatedAt": "2026-09-20T23:58:01Z",
+  "updatedAt": "2026-09-21T00:35:20Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -116,6 +139,10 @@
     },
     {
       "check": "project-command-3-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
       "result": "passed"
     }
   ],

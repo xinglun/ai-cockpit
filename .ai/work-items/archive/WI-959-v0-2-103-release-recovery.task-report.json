@@ -15,17 +15,38 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-959-v0-2-103-release-recovery.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.summary.json"
       }
     ],
     "evidence": [
@@ -81,7 +102,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
         ],
         "inference": false,
         "text": "发布 v0.2.103，并仅在公开产物验收与精确资源清理完成后向 Sentinel #902 发送事实通知。"
@@ -90,7 +111,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-959-v0-2-103-release-recovery.contract.json"
+          ".ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
