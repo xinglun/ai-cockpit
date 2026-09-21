@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "inspect projection boundary regression 在当前模块布局上通过。",
+    "测试仍拒绝 inspect 调用持久化 implementation approach API，并保持三语言文档断言。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a6b9b3077b2482acd9e11a36c081987cc196d26a",
+  "createdAt": "2026-09-21T21:02:04Z",
+  "goal": "让 inspect projection boundary gate 检查实际的 knowledge_projection.rs 实现位置，保持只读 API 边界与行为不变。",
+  "intent": "修复 inspect projection boundary 回归测试对已模块化 knowledge projection 实现的陈旧路径绑定。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不改变 implementation approach 行为、CLI 逻辑、knowledge projection 实现或其他 CI/release gate；不拆 crate、不引入新依赖。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/ci/inspect_projection_boundary_test.sh",
+    ".ai/decisions/observer-snapshot.json"
+  ],
+  "sources": [
+    "tests/ci/inspect_projection_boundary_test.sh",
+    "crates/cockpit-repository/src/knowledge_projection.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/inspect_projection_boundary_test.sh",
+    "cargo test --locked -p cockpit-repository --lib"
+  ],
+  "workItemId": "WI-979-inspect-projection-boundary"
+}

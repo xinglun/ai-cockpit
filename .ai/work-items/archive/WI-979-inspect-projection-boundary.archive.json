@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T21:06:16Z",
+  "files": {
+    "contractDigest": "sha256:7b0b1cfb61b2f3858a18792aa97a8a46cb54a1bec1418635da1f098ed789e480",
+    "contractPath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.contract.json",
+    "eventsDigest": "sha256:4ceabe2040c97afa40e6301353ab9b897812884bbfac34faae86efcfc42733d9",
+    "eventsPath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.events.jsonl",
+    "outcomeDigest": "sha256:7b6d8ac2719b08ac0b9e4b1efc24b94700a404c93df393248877000de4e61e3d",
+    "outcomePath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.outcome.json",
+    "summaryDigest": "sha256:4ed6082cef06cf6b7de41cc357458bdcc0fbc82e97df02f9ea32b29582a360b5",
+    "summaryPath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.summary.json",
+    "taskReportDigest": "sha256:b7a044f305a5c4d7429636452787a2366df1a19a07c431667e9d959d4263fa30",
+    "taskReportMarkdownDigest": "sha256:f3b36fcff9930ccc29cc5760776c550afd42461098712dab0190ea36929a315a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-979-inspect-projection-boundary.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-979-inspect-projection-boundary"
+}
