@@ -294,6 +294,16 @@ job_block() {
     job == wanted { print }
   ' "$workflow"
 }
+build_block="$(job_block build)"
+require_match 'name: Build the target binary' 'release build must retain the target binary step'
+if ! grep -Fq 'CARGO_INCREMENTAL:' <<<"$build_block" || ! grep -Fq 'CARGO_INCREMENTAL: 0' <<<"$build_block"; then
+  printf 'policy failure: release build must configure no-incremental compilation through the step environment for every shell\n' >&2
+  exit 1
+fi
+if grep -Fq 'run: CARGO_INCREMENTAL=0 cargo build' <<<"$build_block"; then
+  printf 'policy failure: release build must not use Unix inline environment assignment because Windows uses PowerShell\n' >&2
+  exit 1
+fi
 for source_job in build aggregate; do
   block="$(job_block "$source_job")"
   if ! grep -Fq -- "$recovery_source_ref" <<<"$block"; then

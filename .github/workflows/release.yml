@@ -665,7 +665,9 @@ jobs:
           fi
           test -n "$expected" && test "$expected" = "$actual"
       - name: Build the target binary
-        run: CARGO_INCREMENTAL=0 cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
+        env:
+          CARGO_INCREMENTAL: 0
+        run: cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
       - name: Package the exact archive layout
         shell: bash
         env:

@@ -9,10 +9,11 @@
     "Runtime scope matching accepts the exact release version, three-language release/version facts, the current reference-comparison candidate identity, and generated current-WI records without broadening into unrelated feature or historical cleanup work.",
     "PR #949 is the reviewed provider context; finalize-plan must bind branch, worktree, base, provider, and PR before fresh verification and before finish.",
     "The generated work-item-outcome interface-facts regions in docs/reference/commands.md, docs/reference/commands.zh-CN.md, and docs/reference/commands.ja.md are regenerated from the 0.2.105 protocol-owned description and pass the interface reference generation gate.",
-    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection."
+    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection.",
+    "The Windows release build sets CARGO_INCREMENTAL through the workflow environment or PowerShell-compatible syntax; it must not use a Unix inline assignment in a PowerShell run step, while Unix targets retain the no-incremental policy."
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:ef83a8a3d14946db55810da38d53ec032ab1a7be14443c198cf8757d71a71693",
+  "evidenceDigest": "sha256:414e2267a1175cb93d1a46dfc2baa4cf35b205bbd78e146f5e579c9855bf7993",
   "evidenceRefs": [
     ".ai/evidence/WI-968-release-v0-2-105.verification.json"
   ],
@@ -38,7 +39,7 @@
         ".ai/evidence/WI-968-release-v0-2-105.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:ffd205c55736363db51259cc475b0e482e507a3f52fc5d0cbb0ef7b243996ee3",
+      "repositorySnapshotDigest": "sha256:64ee9681e939f7b5661018d55b6fafd5e5eded28a9d8ef1315de89ebd79cc39e",
       "workItemId": "WI-968-release-v0-2-105"
     },
     "format": "ai-cockpit.task-outcome",
@@ -59,6 +60,20 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.110804bc0976b793a3029d312e49152fdffd26f9d45efaa8e8729252a71347fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-968-release-v0-2-105.verification-attempt.7892968f3bf6d7816fc5c2ecd32f9954b3cc64f5c7bdaa83753957280beb53fe.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          ],
+          "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.contract.json"
         },
         {
@@ -66,14 +81,14 @@
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.flow-repair-amend.json"
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json"
         },
         {
           "evidenceRefs": [
             ".ai/work-items/active/WI-968-release-v0-2-105.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.summary.json"
+          "text": "Changed path: .ai/work-items/active/WI-968-release-v0-2-105.windows-shell-amend.json"
         },
         {
           "evidenceRefs": [
@@ -162,8 +177,8 @@
     "status": "verified",
     "workItemId": "WI-968-release-v0-2-105"
   },
-  "taskReportDigest": "sha256:efee426ec47121c7e9532dc3c2c4b3b92236664266ea024819b0a7672e1a4990",
-  "taskReportMarkdownDigest": "sha256:6a72924bb54e1596dc81b6c878467464dc0cd82a0c3436a1d462c04e3e1ee9e5",
+  "taskReportDigest": "sha256:5abaf33fff3dbb065761a2664b477b3dd6cf2558e12992b78722a52e21a4a6f6",
+  "taskReportMarkdownDigest": "sha256:e7c0c8c65c8b88f35956f67707dfe782183e1b3784d2aab781198966d1b05579",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
