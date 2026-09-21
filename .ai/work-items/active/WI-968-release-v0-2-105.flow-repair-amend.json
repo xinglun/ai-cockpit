@@ -1,0 +1,27 @@
+{
+  "scopeAppend": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh"
+  ],
+  "sourcesAppend": [
+    ".github/workflows/release.yml release_preflight and source-quality canonical ReleasePlan envelope consumers",
+    "tests/release/workflow_policy.sh release identity projection regression checks"
+  ],
+  "verificationAppend": [
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "acceptanceAppend": [
+    "The release preflight and source-quality jobs read source revision, baseline, and Contract path from the canonical .plan.request ReleasePlan envelope; a normal release dispatch with explicit governance and source identities reaches source-quality planning instead of failing on a missing top-level projection."
+  ],
+  "scenarioCoverageAppend": [
+    {
+      "required": true,
+      "evidence": [],
+      "scenario": "normal release consumes canonical ReleasePlan envelope",
+      "expected": "release_preflight binds the immutable source identity from .plan.request and does not require duplicated top-level fields",
+      "status": "unverified",
+      "verificationPlan": "Run the workflow policy gates and the hosted v0.2.105 release workflow through release_preflight."
+    }
+  ]
+}
