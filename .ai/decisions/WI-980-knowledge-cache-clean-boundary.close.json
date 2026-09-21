@@ -1,0 +1,234 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+      "workItemId": "WI-980-knowledge-cache-clean-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.b03b649eeb81ddfb718977d9728956c272ea1e7fea1156bdd9a39a1deed5bd62.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.d1b5ed8fe72552966ab85a48cb4f9ca7247d301369feba640f8072fd058e59e9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-980-knowledge-cache-clean-boundary.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.440f3e69bcbe51e9917efe12834d7d4f61aacad7f1efaaae0aa679db29972056.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5729a521eaae4a6427ad7170cb5dace73bc09db115ee4c065647a9382356e492.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.5d11aaaa11a6a1dc59544d75aacff82aa8027d69362b2b40aaa1228bf8532600.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.a7831b23d2f535589ef3bc461daa4eccbbc66b467b9578adaf185636b92bf32c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification-attempt.b5c03dcab125cd9e4d10dee8bc905ab1a55521004887a225a6c5373963624aec.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/knowledge_projection.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:user via User authorization in the current acceptance review and original WI execution authorization at 2026-09-21T22:02:47Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-980-knowledge-cache-clean-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Ensure a knowledge index generated from a dirty or uncertain archive never records a fast-path-eligible sourceRevision, and add a four-step dirty-to-clean regression proving records and sourceDigest follow the restored archive."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-980-knowledge-cache-clean-boundary"
+  },
+  "finalReportDigest": "sha256:96e2057b9ef98f742f08eec1c1911f876f90affe777da06b7aaee6e001c5b1af",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:b48991ef56ca73b1290de6cf10ba21459ca257919763689f766f14ffd9d73a39",
+    "branch": "codex/wi-980-knowledge-cache-clean-boundary",
+    "branchRef": "refs/heads/codex/wi-980-knowledge-cache-clean-boundary",
+    "capturedAt": "2026-09-21T22:02:59Z",
+    "contractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+    "headRevision": "56d6c5ec1a6aa88067ab63a78681afab17e01c01",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-980-knowledge-cache-clean-boundary",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:371c68697c92992b850ed6701d7ced108e75a29305ed28ba8b2a6a353b06be36",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-980-knowledge-cache-clean-boundary/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:ad1b8f63c87d582fd7f710ddd54391c0aadee2182a2ae65e21ffbb55ea316bc7",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "User authorization in the current acceptance review and original WI execution authorization",
+    "decidedAt": "2026-09-21T22:02:47Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/WI-980-knowledge-cache-clean-boundary.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md; .ai/README.md"
+    ],
+    "reason": "The dirty-to-clean knowledge cache correctness defect was fixed and the declared Runtime verification evidence passed; this closes the bounded Work Item while preserving the explicit unknown that no release or hosted merge has yet been claimed.",
+    "resumeCondition": "If hosted review or mainline integration exposes a new defect, open a new scoped Work Item from the current remote default branch."
+  },
+  "timestamp": "2026-09-21T22:02:59Z",
+  "workItemId": "WI-980-knowledge-cache-clean-boundary"
+}
