@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:ad1b8f63c87d582fd7f710ddd54391c0aadee2182a2ae65e21ffbb55ea316bc7",
+  "branchRef": "refs/heads/codex/wi-980-knowledge-cache-clean-boundary",
+  "contractDigest": "sha256:9baa4898d31d17cc71627bfe9d6e62e6b68103d82d9b188819fb58cf5f04ff64",
+  "headRevision": "56d6c5ec1a6aa88067ab63a78681afab17e01c01",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T22:14:00Z",
+  "operationId": "sha256:eea8fb07626e4ef348930a675f02b9a0589324229704c7968566a04b93f3f5e2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-980-knowledge-cache-clean-boundary",
+  "worktreeId": "sha256:371c68697c92992b850ed6701d7ced108e75a29305ed28ba8b2a6a353b06be36"
+}
