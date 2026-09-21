@@ -1,0 +1,190 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+      "workItemId": "WI-977-recovery-compatibility"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.43928ba6bf01f984050314efba6d8be0a8d40274849c39613925f96ed2c686c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.9697f004da46b93f07e65398802249ebf6b5ab8ecbd8ded92832f6f3c066fff4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.bca7c98196aad2010378b6ce6fdec1badf1d90cdd5c3c234a8878d4f6d10449d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-977-recovery-compatibility.verification-attempt.fcb9fed7d63d59049b9e8d440fbf3b5065a9df9c3518de1f0754e32bce3cbe91.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-977-recovery-compatibility.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-977-recovery-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-977-recovery-compatibility.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-21T20:15:57Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "将 recovery decision 候选路径、读取校验、旧绑定容错和加载选择集中到 historical_compatibility 模块，保留现有函数签名语义与所有调用方接口"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-977-recovery-compatibility.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-977-recovery-compatibility"
+  },
+  "finalReportDigest": "sha256:94902d108116da94b5e3ca702d6ea5322f1ba6934473166c08f8acadd38759d1",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:019f6fb98d23b0cb9d66d38f6f6e98afc83ba5a8428f52c09e721a064262995a",
+    "branch": "codex/wi-977-recovery-compatibility",
+    "branchRef": "refs/heads/codex/wi-977-recovery-compatibility",
+    "capturedAt": "2026-09-21T20:15:57Z",
+    "contractDigest": "sha256:e25862f144fde5e028240f08f55a1b75d3c17f7d77db31ccf9b1a461cb0cf11e",
+    "headRevision": "9dcd0b088fe897f539ae5cf456ac484bcd4ec93c",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-977-recovery-compatibility",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:51ec11da110bd921cc5f3b97871b463d8838c73d37da495165e7336d62eb9b2f",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-977-recovery-compatibility/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:2b8262a7198ed613697099f7243b04213a0b82baf26eb9c4e128424477b39802",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T20:15:57Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-977-recovery-compatibility.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户已授权按 WI 流程实施架构建议；WI-977 的恢复兼容边界抽取已通过 Contract 声明的 Runtime 验证。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-21T20:15:57Z",
+  "workItemId": "WI-977-recovery-compatibility"
+}
