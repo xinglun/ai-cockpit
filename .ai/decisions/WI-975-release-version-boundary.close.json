@@ -1,0 +1,176 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-975-release-version-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+      "workItemId": "WI-975-release-version-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-975-release-version-boundary.verification-attempt.239985527d732558b359601d1919350dafe32bd6be4d288f06bf7bc5ce880965.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-975-release-version-boundary.verification-attempt.b2823373d0638ee6f8473d724ad7701af236e1bd2987d0103cf09a2afae9fd15.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-975-release-version-boundary.verification-attempt.f8b78442051d9a83e1d25ab3a953c5fb63f9ccfd3c0b828cf1e1722ca21d351b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-975-release-version-boundary.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-975-release-version-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-975-release-version-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-975-release-version-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via explicit-user-authorization at 2026-09-21T19:33:44Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-975-release-version-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-975-release-version-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-975-release-version-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "减少 Rust、Shell、jq 之间的版本身份规则重复，使版本一致性失败在单一类型化实现中可诊断、可测试、可复用。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-975-release-version-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-975-release-version-boundary"
+  },
+  "finalReportDigest": "sha256:ee757df0a56d9a04060d66704e54ba4877a51b3041bfa4e39253905a274bf36c",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:79966c5ac6ca76cd3bb456f7a70834a371a87b49e29a440d8111a3d0a9344f35",
+    "branch": "codex/wi-975-release-version-boundary",
+    "branchRef": "refs/heads/codex/wi-975-release-version-boundary",
+    "capturedAt": "2026-09-21T19:33:44Z",
+    "contractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+    "headRevision": "1b79bca9a9df02ebe6c4862977b4e9dc7edf0354",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-975-release-version-boundary",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:07d9a91f81a57c898f79fdc8d80e3e3743c3d381978e1faf551208d2cda75807",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-975-release-version-boundary/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:3d30723125a9884d36737d6bfcb8836979ef9c9afa74018d1dfc2597291108cc",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T19:33:44Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-975-release-version-boundary.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户已明确授权按 WI 流程实施这组架构建议；当前 Work Item 的源版本身份迁移已完成并由当前 Runtime evidence 验证。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-21T19:33:44Z",
+  "workItemId": "WI-975-release-version-boundary"
+}
