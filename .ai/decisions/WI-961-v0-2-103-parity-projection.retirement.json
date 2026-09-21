@@ -1,0 +1,34 @@
+{
+  "actor": "human:sei-rinn",
+  "archiveManifestDigest": "sha256:a4d416051ad6fb1e31114721f0ebe68f032ecd2cf815d53c8a6327f0509cc479",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:d4fe26d530c8b05e0cfcc7506746f026e67eae1294c1031d7ac50fd77852e0f0",
+      "path": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:52cfc2e5e7c37e7d3279a829e692e16715a49889ca109e1c9e7f20cbf2244d24",
+      "path": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:a8f8796057e5a2897edca26654574fe645d87a8b55293c7ed9c1cd71f0b733ce",
+      "path": ".ai/work-items/archive/WI-961-v0-2-103-parity-projection.summary.json"
+    }
+  },
+  "authoritySource": "用户已明确授予全权授权，并要求找到根因后修复，避免反复发布卡点。",
+  "contractDigest": "sha256:41ab3fcced119ef606df08f3ac537d9304b1730b98f37e004a607ede724d843f",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-961 在 checkpoint 前遭遇确定性文档投影 bootstrap 阻断，未产生验证或完成结论；由显式 successor WI-962 接替根因修复。",
+  "recordedAt": "2026-09-21T01:42:16Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75d5b08d05986c3e39d9c6b2c1b171dd44cac6c2a8a535d1ce030ca95e744a4c",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-962-release-closure-bootstrap",
+  "summaryDigest": "sha256:f834afc8cfacaa549188d8e7c1c53af39a3baf6c75635ed59733e055a0b7573c",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-961-v0-2-103-parity-projection"
+}

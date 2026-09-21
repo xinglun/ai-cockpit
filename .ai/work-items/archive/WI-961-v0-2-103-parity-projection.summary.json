@@ -1,0 +1,23 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-960-v0-2-103-archive-closure.recovery.json",
+    ".ai/work-items/active/WI-961-v0-2-103-parity-projection.contract.json",
+    ".ai/work-items/active/WI-961-v0-2-103-parity-projection.summary.json"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-21T01:24:48Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:3ed8082ba07c5346430297a37f5b6945eebd7ad8609ad9e78ef717bc670083f0",
+  "predecessorWorkItemId": "WI-960-v0-2-103-archive-closure",
+  "preflightAt": "2026-09-21T01:28:54Z",
+  "preflightContractDigest": "sha256:494c53dca3307fb1f300a20b6181c80260fab36dbcb029ef1a741bc8d542e3ca",
+  "preflightDecisionDigest": "sha256:0ea8d52eea366af2a5e80e50ab634c586925f4fd91c996a21a620e360e396bfd",
+  "preflightRepositorySnapshotDigest": "sha256:962ecb0d72144268f8e56938b9877f1c383a5ff6b881988519133449a318e9b9",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-960-v0-2-103-archive-closure.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "implementation_active",
+  "updatedAt": "2026-09-21T01:28:54Z",
+  "workItemId": "WI-961-v0-2-103-parity-projection"
+}

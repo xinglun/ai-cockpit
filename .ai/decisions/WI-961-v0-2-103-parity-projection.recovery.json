@@ -1,0 +1,27 @@
+{
+  "actor": "human:sei-rinn",
+  "authoritySource": "用户已明确授予全权授权，并要求找到根因后修复，避免反复发布卡点。",
+  "decidedAt": "2026-09-21T01:35:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35550365686",
+    ".ai/work-items/active/WI-961-v0-2-103-parity-projection.contract.json",
+    ".ai/work-items/active/WI-961-v0-2-103-parity-projection.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:41ab3fcced119ef606df08f3ac537d9304b1730b98f37e004a607ede724d843f",
+  "predecessorSummaryDigest": "sha256:f834afc8cfacaa549188d8e7c1c53af39a3baf6c75635ed59733e055a0b7573c",
+  "predecessorWorkItemId": "WI-961-v0-2-103-parity-projection",
+  "reason": "WI-961 在 Runtime 建立 checkpoint 前被文档投影 bootstrap 前置条件阻断，无法作为可信当前实现继续；创建同一根因的 successor，修复 release closure 与文档投影的顺序循环。",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "新 successor 必须从可验证的 recovery scaffold 完成最小流程修复，并以定向回归证明不再需要先手工创建 WI 文档投影。",
+  "runtimeDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
+  "runtimeVersion": "0.2.103",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-962-release-closure-bootstrap",
+  "workItemId": "WI-961-v0-2-103-parity-projection"
+}

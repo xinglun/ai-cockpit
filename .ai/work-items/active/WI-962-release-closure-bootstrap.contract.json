@@ -1,0 +1,26 @@
+{
+  "acceptanceCriteria": [],
+  "authority": "unknown",
+  "baseRevision": "f5728063d384cd4633e039dfa28a4e8c2d76dc74",
+  "createdAt": "2026-09-21T01:42:16Z",
+  "goal": "",
+  "intent": "",
+  "mode": "code",
+  "outOfScope": [],
+  "predecessorContractDigest": "sha256:41ab3fcced119ef606df08f3ac537d9304b1730b98f37e004a607ede724d843f",
+  "predecessorWorkItemId": "WI-961-v0-2-103-parity-projection",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-961-v0-2-103-parity-projection.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:75d5b08d05986c3e39d9c6b2c1b171dd44cac6c2a8a535d1ce030ca95e744a4c",
+  "requiredEvidenceClasses": [],
+  "risk": "unknown",
+  "scope": [],
+  "sources": [],
+  "state": "not_ready",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-962-release-closure-bootstrap"
+}
