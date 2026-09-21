@@ -1,0 +1,28 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "authorized user instruction in current conversation",
+  "decidedAt": "2026-09-21T05:55:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-966-release-plan-ssot.contract.json",
+    ".ai/work-items/active/WI-966-release-plan-ssot.summary.json",
+    ".ai/decisions/WI-965-release-plan-ssot.recovery.json",
+    ".ai/decisions/WI-965-release-plan-ssot.retirement.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:c65599e06b38a1d873483bd96461e99a911c5c3d148683ba65ba6ddfdb9348e6",
+  "predecessorSummaryDigest": "sha256:1aef791ccebb263892be63004bda6133df3145b65f9f6b04a78e8fd7d0603009",
+  "predecessorWorkItemId": "WI-966-release-plan-ssot",
+  "reason": "The successor keeps the same release-plan scope, but the predecessor Contract incorrectly required verification_receipt before implementation. The Runtime entry gate correctly blocks missing verification evidence; this cannot be solved by inventing a receipt or bypassing preflight. The successor defers generated verification evidence to the verification/finish boundary while preserving the same acceptance criteria and scenario coverage.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-967 without pre-execution verification evidence classes; require and bind verification receipts at the verification/finish boundary, then continue the typed ReleasePlan implementation.",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-967-release-plan-ssot",
+  "workItemId": "WI-966-release-plan-ssot"
+}

@@ -1,0 +1,136 @@
+{
+  "acceptanceCriteria": [
+    "A single versioned ReleasePlan is generated from a ReleaseRequest and its digest is consumed by every release stage.",
+    "Normal release, historical-tag recovery, post-release acceptance, close-only recovery, and independent public acceptance have disjoint validated modes and explicit allowed stage transitions.",
+    "The historical recovery mode requires immutable tag/source binding and archived recovery evidence; no unbounded temporary exception remains.",
+    "Workflow jobs no longer re-infer release semantics from raw boolean inputs after plan generation.",
+    "Malformed, contradictory, stale, foreign, or insufficient plan evidence fails before platform compilation or publication.",
+    "Repeated plan generation for the same request and repository observation is deterministic, and close is a fixed point that does not create a new close prerequisite.",
+    "Existing v0.2.104 release evidence remains byte-for-byte untouched."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+  "createdAt": "2026-09-21T05:53:35Z",
+  "goal": "Implement and verify a typed ReleasePlan flow so normal release, historical-tag recovery, post-release acceptance, and close-only recovery cannot diverge across shell routing, GitHub workflow jobs, and Runtime gates.",
+  "intent": "Prevent release workflow self-locking by making one versioned, identity-bound release plan the authoritative source for mode selection, source binding, recovery eligibility, and stage transitions.",
+  "mode": "implementation",
+  "outOfScope": [
+    "v0.2.104 tag/release/history",
+    "Outcome rendering and assistant-message delivery",
+    "platform packaging implementation",
+    "unrelated lifecycle or verification refactors",
+    "arbitrary bypasses of source",
+    " CI",
+    " authorization",
+    " or artifact evidence"
+  ],
+  "predecessorContractDigest": "sha256:c65599e06b38a1d873483bd96461e99a911c5c3d148683ba65ba6ddfdb9348e6",
+  "predecessorWorkItemId": "WI-966-release-plan-ssot",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-966-release-plan-ssot.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:366ca606a0adf6d3c89ebfc0873f3c159a594858c3a8d5301a45083172b2cfa8",
+  "requiredEvidenceClasses": [],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A normal release request resolves to one canonical ReleasePlan and all stages consume its digest.",
+      "required": true,
+      "scenario": "normal_release_typed_plan",
+      "status": "unverified",
+      "verificationPlan": "Rust resolver test plus workflow policy fixture using a normal release request."
+    },
+    {
+      "evidence": [],
+      "expected": "Historical recovery requires immutable tag/source binding and archived recovery evidence.",
+      "required": true,
+      "scenario": "historical_tag_recovery_bound_evidence",
+      "status": "unverified",
+      "verificationPlan": "Negative and positive resolver fixtures using the preserved v0.2.104 recovery evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Post-release acceptance reuses the same plan identity and cannot publish again.",
+      "required": true,
+      "scenario": "post_release_acceptance_reuses_plan",
+      "status": "unverified",
+      "verificationPlan": "Mode transition tests and workflow policy fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "Close-only recovery records closure without starting build, verification, or publication.",
+      "required": true,
+      "scenario": "close_only_recovery",
+      "status": "unverified",
+      "verificationPlan": "Allowed-stage matrix test and workflow job guard fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "Contradictory raw inputs, stale plans, foreign plans, and digest changes fail before expensive execution.",
+      "required": true,
+      "scenario": "raw_input_divergence_rejected",
+      "status": "unverified",
+      "verificationPlan": "Canonicalization, tamper, and stale-identity tests."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing v0.2.104 release evidence remains unchanged and is only consumed as historical input.",
+      "required": true,
+      "scenario": "preserve_v0_2_104_history",
+      "status": "unverified",
+      "verificationPlan": "Before/after digest comparison of the immutable release evidence fixtures."
+    },
+    {
+      "evidence": [],
+      "expected": "A completed close does not create a new close prerequisite or plan mutation.",
+      "required": true,
+      "scenario": "close_is_fixed_point",
+      "status": "unverified",
+      "verificationPlan": "Repeated close-plan evaluation fixture and Runtime lifecycle regression."
+    }
+  ],
+  "scope": [
+    "cockpit-protocol release plan schema",
+    "cockpit-repository/CLI plan resolution",
+    "release input adapter and workflow artifact consumption",
+    "release policy and fixture tests",
+    "three-language release documentation and a design spec",
+    "bounded historical-tag recovery mode with immutable evidence binding",
+    "crates/cockpit-protocol/src/release_plan.rs",
+    "crates/cockpit-protocol/tests/release_plan.rs",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/release_plan.rs",
+    "tests/ci/resolve_release_plan.sh",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "tests/ci/resolve_work_item.sh"
+  ],
+  "sources": [
+    "Current release workflow: .github/workflows/release.yml",
+    "Current release resolver: tests/ci/resolve_work_item.sh",
+    "Current release policy tests: tests/ci/release_gate_policy_test.sh and tests/release/workflow_policy.sh",
+    "Current Runtime release and recovery evidence: v0.2.104 and release workflow run 35559310242",
+    "Predecessor correction: WI-965-release-plan-ssot.recovery.json, WI-965 retirement, and WI-966 successor recovery",
+    "Typed release resolver: tests/ci/resolve_release_plan.sh and cockpit-protocol::ReleasePlan"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-protocol",
+    "cargo test --locked -p cockpit-repository",
+    "cargo test --locked -p cockpit-cli",
+    "bash tests/ci/release_gate_policy_test.sh .github/workflows/release.yml",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-protocol",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-cli",
+    "CARGO_INCREMENTAL=0 CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target cargo test --locked -p cockpit-repository",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "workItemId": "WI-967-release-plan-ssot"
+}

@@ -1,0 +1,198 @@
+{
+  "attemptId": "sha256:64abf36495f9fc8d03db7653fb4128a059f6bb47cb171b0ac09ff99c91b368c9",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:48475b7b2975b5e683fb5a408ba5b0bcda133dcc07f0ad589fe80e0d1f8ca35a",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:16582942ebf2cd704739ed0e06e15454b45fda92d94d657f293b19b41c3eee91",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:6cedc8c2d1cf5744618b0f4a183de3f138d5701a2e130f260a8b623ba2d546d5",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:58ef58a4831afc07c3cdc17fb8f6e987b23e0d311e20d96bae40a5cb9fbf5ae7",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:04ea430d9a269ba8d2df84381039efa4c969ea7200479bd1ca32528745d39040",
+      "nodeId": "project-command-4",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:2b4f16d56afa9e23fc256c561036bdd903a95f7026103c9630593e0ec5ee72a9",
+      "nodeId": "project-command-5",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:07bd1df494629c218b8f0ad2ad8a34fc57e7cad66e9dfc13f24a707cfa5fae1c",
+      "nodeId": "project-command-6",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "CARGO_INCREMENTAL=0",
+        "CARGO_TARGET_DIR=/Users/sei-rinn/.cache/ai-cockpit-verify-target",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:8c30f6b0a95152e03a798d575c9f0b82a9c5715ab3ff957ceba82ec5d00d739e",
+      "nodeId": "project-command-7",
+      "program": "env",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "5f0e6340077447583a9fe098b8890ce00c841cf3",
+      "commandDigest": "sha256:45e95173c74282b97ad2a41f587190ceeebbac10e492f34f3c24ec94d70009f8",
+      "nodeId": "project-command-8",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:409a98a3b4d621099e49f3cf4a3d7acc1f6626dcba9cb428ccda64203feda1b3",
+  "contractExecutionScopeDigest": "sha256:c122a092ad73463d205fda421b1d65939c409254e0dbc6049a3c572b1968485d",
+  "createdAt": "2026-09-21T08:11:39Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-plan-ssot/ai-cockpit/.ai/work-items/active/WI-967-release-plan-ssot.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8e9f7b7d71b392882c8a9f0379c1254453c25bdae02bb4bb772304f44d8dbe16",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-967-release-plan-ssot"
+}

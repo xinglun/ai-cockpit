@@ -1,0 +1,377 @@
+{
+  "acceptanceResults": [
+    "A single versioned ReleasePlan is generated from a ReleaseRequest and its digest is consumed by every release stage.",
+    "Normal release, historical-tag recovery, post-release acceptance, close-only recovery, and independent public acceptance have disjoint validated modes and explicit allowed stage transitions.",
+    "The historical recovery mode requires immutable tag/source binding and archived recovery evidence; no unbounded temporary exception remains.",
+    "Workflow jobs no longer re-infer release semantics from raw boolean inputs after plan generation.",
+    "Malformed, contradictory, stale, foreign, or insufficient plan evidence fails before platform compilation or publication.",
+    "Repeated plan generation for the same request and repository observation is deterministic, and close is a fixed point that does not create a new close prerequisite.",
+    "Existing v0.2.104 release evidence remains byte-for-byte untouched."
+  ],
+  "createdAt": "2026-09-21T08:24:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:dd97068a9964a2f241801897d6c463bef430da0fcab19916a38ba3403fefd3f8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8e9f7b7d71b392882c8a9f0379c1254453c25bdae02bb4bb772304f44d8dbe16",
+      "workItemId": "WI-967-release-plan-ssot"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-959-v0-2-103-release-recovery.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-960-v0-2-103-archive-closure.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-960-v0-2-103-archive-closure.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-965-release-plan-ssot.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-965-release-plan-ssot.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-966-release-plan-ssot.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-966-release-plan-ssot.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-967-release-plan-ssot.verification-attempt.64abf36495f9fc8d03db7653fb4128a059f6bb47cb171b0ac09ff99c91b368c9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-967-release-plan-ssot.verification-attempt.7e1477df49b1df1aee16ac62b228f327be3cc73e28bb157da74298a5f45d4fd1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-967-release-plan-ssot.verification-attempt.91fff97398e0295b281a2aba1551f2ad234d9fa2cdfbf61af916f851746bfd62.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-967-release-plan-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-965-release-plan-ssot.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-965-release-plan-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-965-release-plan-ssot.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-965-release-plan-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-966-release-plan-ssot.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-966-release-plan-ssot.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-966-release-plan-ssot.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-966-release-plan-ssot.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/release.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/tests/release_plan.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/release_plan.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/tests/release_plan.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/release/distribution.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/release_gate_policy_test.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_release_plan.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/resolve_work_item.sh"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/release/workflow_policy.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-967-release-plan-ssot.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "Implement and verify a typed ReleasePlan flow so normal release, historical-tag recovery, post-release acceptance, and close-only recovery cannot diverge across shell routing, GitHub workflow jobs, and Runtime gates."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-967-release-plan-ssot.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-967-release-plan-ssot"
+  },
+  "taskReportDigest": "sha256:7213c44910e0e277627fe1e30302ebc77689f4334b8cf43c309ba0a739e77122",
+  "taskReportMarkdownDigest": "sha256:f5796f5bc2bdb4ca9dfb4bf0ebbeafbdd27a8ac54a212ab06b716767d0eeab93",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-967-release-plan-ssot.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-967-release-plan-ssot"
+}

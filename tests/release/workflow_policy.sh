@@ -4,7 +4,7 @@ set -euo pipefail
 workflow=${1:?usage: workflow_policy.sh <workflow>}
 repo_root="$(cd "$(dirname "$workflow")/../.." && pwd -P)"
 gate_manifest="$repo_root/tests/ci/repository_gate_manifest.json"
-work_item_resolver="$repo_root/tests/ci/resolve_work_item.sh"
+release_plan_adapter="$repo_root/tests/ci/resolve_release_plan.sh"
 
 if command -v rg >/dev/null 2>&1; then
   search() { rg -n --pcre2 -- "$1" "$2"; }
@@ -68,8 +68,8 @@ fail_if_match '^\s*push:\s*$' 'implicit tag triggers are not allowed; publicatio
 fail_if_match "github\\.event_name == 'push'|startsWith\\(github\\.ref, 'refs/tags/'\\)" 'release jobs must not retain an implicit tag-event publication route'
 require_match 'cockpit-release' 'canonical release tooling must run in the workflow'
 require_match '^  release_tools:' 'shared release acceptance tooling must be built once'
-require_match '^    needs: \[release_preflight, source_quality\]$' 'expensive release helper compilation must wait for source quality'
-require_match '^    needs: \[release_preflight, source_quality, release_tools\]$' 'build must wait for source quality and release_tools before expensive compilation'
+require_match '^    needs: \[release_input_preflight, release_preflight, source_quality\]$' 'expensive release helper compilation must wait for typed preflight and source quality'
+require_match '^    needs: \[release_input_preflight, release_preflight, source_quality, release_tools\]$' 'build must wait for typed preflight, source quality, and release_tools before expensive compilation'
 require_match 'cockpit-release-tool-ubuntu-x86_64' 'Linux release jobs must consume the prebuilt release helper'
 require_match 'artifact:[[:space:]]*macos-arm64' 'macOS ARM release jobs must consume a prebuilt platform helper'
 require_match 'artifact:[[:space:]]*windows-x86_64' 'Windows release jobs must consume a prebuilt platform helper'
@@ -84,38 +84,31 @@ require_match 'work_item_id:' 'recovery must expose an explicit Work Item identi
 require_match 'contract_path:' 'recovery must accept an explicit Contract path'
 require_match 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'
 require_match 'source_contract_path:' 'recovery must accept a separate source-verification Contract path'
-require_match 'resolve_work_item\.sh' 'release routing must use the shared explicit identity resolver'
+require_match 'resolve_release_plan\.sh' 'release routing must use the typed ReleasePlan adapter'
+grep -Fq 'release-plan --input' "$release_plan_adapter" || {
+  printf 'policy failure: typed adapter must invoke the shared Rust ReleasePlan implementation\n' >&2
+  exit 1
+}
+require_match 'planDigest' 'release routing must persist the canonical plan digest'
 require_match 'name: Upload release input preflight evidence' 'identity failures must persist a structured preflight result'
-grep -Fq 'all_contracts=()' "$work_item_resolver" || {
-  printf 'policy failure: shared resolver must inspect active Contracts\n' >&2
+grep -Fq 'contract_not_regular' "$release_plan_adapter" || {
+  printf 'policy failure: typed adapter must reject non-regular Contracts\n' >&2
   exit 1
 }
-grep -Fq 'work_item_contract_ambiguous' "$work_item_resolver" || {
-  printf 'policy failure: shared resolver must fail closed on ambiguous identity\n' >&2
-  exit 1
-}
-grep -Fq 'work_item_id_required' "$work_item_resolver" || {
+grep -Fq 'work_item_id_required' "$release_plan_adapter" || {
   printf 'policy failure: recovery must fail without an explicit Work Item identity\n' >&2
   exit 1
 }
-grep -Fq 'standalone_retry' "$work_item_resolver" || {
-  printf 'policy failure: recovery must distinguish a same-Work-Item technical retry\n' >&2
-  exit 1
-}
-grep -Fq 'recovery_binding_missing' "$work_item_resolver" || {
-  printf 'policy failure: partial successor bindings must fail closed\n' >&2
-  exit 1
-}
-grep -Fq -- '--source-work-item-id' "$work_item_resolver" || {
+grep -Fq -- '--source-work-item-id' "$release_plan_adapter" || {
   printf 'policy failure: resolver must accept an explicit source-verification Work Item identity\n' >&2
   exit 1
 }
-grep -Fq 'source_work_item_id_mismatch' "$work_item_resolver" || {
+grep -Fq 'source_work_item_id_mismatch' "$release_plan_adapter" || {
   printf 'policy failure: source and governance identities must not be conflated\n' >&2
   exit 1
 }
-grep -Fq 'source_identity_required' "$work_item_resolver" || {
-  printf 'policy failure: publication and post-release acceptance must require an explicit source identity\n' >&2
+grep -Fq 'source_contract_repository_mismatch' "$release_plan_adapter" || {
+  printf 'policy failure: source identity must remain repository-bound\n' >&2
   exit 1
 }
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
@@ -152,7 +145,10 @@ require_match '^  adopter_acceptance:' 'post-release adopter acceptance job must
 require_match '^  adopter_upgrade_acceptance:' 'post-release N-1 upgrade acceptance job must be present'
 require_match '^  release_close:' 'release close barrier job must be present'
 require_match 'publish_existing_tag' 'immutable tag recovery must have an explicit workflow input'
-require_match 'github\.event\.inputs\.publish_existing_tag == '\''true'\''' 'immutable tag recovery must be explicitly enabled'
+require_match '^      publish_candidate:' 'normal publication must have an explicit workflow input'
+require_match "plan_mode == 'historical_tag_recovery'" 'immutable tag recovery must be explicitly enabled by the resolved plan'
+require_match "plan_mode == 'normal_release'" 'normal publication must be explicitly enabled by the resolved plan'
+fail_if_match 'temporary_release_exception|temporaryReleaseException|temporary-direct-release' 'version-specific temporary release exception must be absent'
 require_match '^  staged_adopter_acceptance:' 'pre-publication staged adopter acceptance job must be present'
 require_match '^  staged_adopter_upgrade_acceptance:' 'pre-publication staged N-1 acceptance job must be present'
 require_match 'tests/ci/run_repository_gates\.py' 'source quality must run the canonical repository gate manifest'
@@ -207,8 +203,8 @@ require_match 'cargoLockSha256' 'release identity must bind Cargo.lock'
 require_match 'publication dispatch requires an annotated immutable tag' 'publication must reject lightweight tags before compilation'
 require_match 'publication tag must match the remote immutable peeled commit' 'publication must bind the local tag to the remote immutable tag identity before compilation'
 require_match 'test "\$manifest_commit" = "\$tag_commit"' 'release identity must remain bound to the remote tag commit'
-require_match "github.event.inputs.close_only == 'true'\\)\\)" 'release close expression must have balanced parentheses'
-fail_if_match "github.event.inputs.close_only == 'true'\\)\\)\\)" 'release close expression must not have an extra closing parenthesis'
+require_match "plan_mode == 'close_only'" 'release close expression must consume the resolved plan mode'
+fail_if_match 'github\\.event\\.inputs\\.(publish_existing_tag|post_release_acceptance|close_only).*needs\\.' 'downstream release jobs must not re-infer mode from raw dispatch flags'
 require_match 'gh api .*releases/tags' 'release policy must inspect an existing provider Release'
 require_match 'verify-provider-release' 'existing provider Releases must be checked by the shared Rust identity verifier'
 require_match 'provider-release-state' 'provider Release identity must be persisted for publish recovery'
@@ -218,15 +214,15 @@ require_match '--provider-release-id' 'handoff must bind the provider Release id
 require_match 'actions/attest-build-provenance@' 'final candidate/handoff attestation must be defined'
 require_match 'dist/release-manifest\.json' 'published assets must include the canonical manifest'
 require_match 'dist/Formula/ai-cockpit\.rb' 'published assets must include the Formula'
-require_match 'needs: \[build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest\]' 'publish must depend on every final gate, including staged adopter acceptance'
+require_match 'needs: \[build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest, release_input_preflight\]' 'publish must depend on every final gate, including typed preflight'
 require_match '^  publish_handoff:' 'handoff must be a separate post-publication job'
 require_match 'publish_handoff:[[:space:]]*$' 'post-publication handoff job must be addressable'
 require_match 'adopter_acceptance:[[:space:]]*$' 'post-release adopter acceptance job must be addressable'
 require_match 'tests/release/adopter_acceptance\.sh' 'post-release job must invoke the adopter acceptance harness'
 require_match '--candidate-dir' 'staged adopter acceptance must consume the candidate artifact'
 require_match '--to-candidate-dir' 'staged N-1 acceptance must consume the candidate artifact'
-require_match 'needs: \[publish_handoff, release_tools, post_release_helper\]' 'adopter acceptance must run after publication handoff and mode-specific release tooling'
-require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper\]' 'N-1 acceptance must run after publication and mode-specific handoff'
+require_match 'needs: \[publish_handoff, release_tools, post_release_helper, release_input_preflight\]' 'adopter acceptance must run after publication handoff, mode-specific tooling, and typed preflight'
+require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper, release_input_preflight\]' 'N-1 acceptance must run after publication, mode-specific handoff, and typed preflight'
 require_match 'Fail when the close receipt is not passed' 'close must fail when its persisted receipt is not passed'
 require_match '\.state == "passed"' 'close must distinguish a passed receipt from a green summary step'
 
@@ -255,11 +251,11 @@ require_match 'post-release-helper-repair' 'helper-only repair result must be pe
 require_match 'buildCount' 'helper-only repair result must record its build count'
 require_match 'productPackagesRebuilt:false' 'helper-only repair must not rebuild product packages'
 require_match 'releases/download/\$TAG/' 'post-release-only mode must consume immutable public asset URLs'
-require_match 'github\.event\.inputs\.post_release_acceptance == '\''true'\''' 'post-release-only mode must be explicit in job conditions'
-require_match 'github\.event\.inputs\.post_release_acceptance != '\''true'\''' 'expensive publication jobs must be excluded from post-release-only mode'
+require_match "plan_mode == 'post_release_acceptance'" 'post-release-only mode must be explicit in job conditions'
+require_match "plan_mode != 'post_release_acceptance'" 'expensive publication jobs must be excluded from post-release-only mode'
 require_match 'needs: \[publish, release_input_preflight\]' 'public version consistency must support a post-release path without publication'
-require_match 'needs: \[publish_handoff, release_tools, post_release_helper\]' 'public install must select the helper for its execution mode'
-require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper\]' 'public upgrade must select the helper for its execution mode'
+require_match 'needs: \[publish_handoff, release_tools, post_release_helper, release_input_preflight\]' 'public install must select the helper for its execution mode'
+require_match 'needs: \[publish, publish_handoff, release_tools, post_release_helper, release_input_preflight\]' 'public upgrade must select the helper for its execution mode'
 require_match 'needs\.post_release_helper\.result' 'post-release acceptance must gate on helper restoration'
 require_match 'post-release-only recovery' 'workflow must document the non-publishing recovery boundary'
 require_match 'tests/release/version_consistency\.sh' 'release workflow must run the version consistency gate'
@@ -279,11 +275,11 @@ require_match 'adopterAcceptance:"not_applicable"' 'first-release N-1 boundary m
 require_match 'name: Upload N-1 upgrade acceptance evidence' 'N-1 evidence must be uploaded independently'
 require_match 'release close recorded failure; dependent acceptance was not executed' 'release close must record dependency failure without becoming a second failure'
 require_match 'Fail when the close receipt is not passed' 'release close must fail when its persisted receipt is not passed'
-require_match 'needs: \[publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance\]' 'release close must wait for public acceptance and consistency receipts'
+require_match 'needs: \[publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance, release_input_preflight\]' 'release close must wait for public acceptance, consistency receipts, and typed preflight'
 require_match '^    needs: \[publish, release_input_preflight\]$' 'public version consistency must run in parallel with post-release acceptance'
 require_match 'refs/tags/\$\{tag\}\^\{\}' 'publish must compare the peeled tag commit'
 require_match 'chmod \+x target/release/ai-cockpit' 'source quality must restore executable permissions after artifact download'
-recovery_source_ref='ref: ${{ (github.event_name == '\''workflow_dispatch'\'' && (github.event.inputs.publish_existing_tag == '\''true'\'' || github.event.inputs.post_release_acceptance == '\''true'\'') && github.event.inputs.to_tag) || github.ref }}'
+recovery_source_ref='ref: ${{ ((needs.release_input_preflight.outputs.plan_mode == '\''normal_release'\'' || needs.release_input_preflight.outputs.plan_mode == '\''historical_tag_recovery'\'' || needs.release_input_preflight.outputs.plan_mode == '\''post_release_acceptance'\'') && github.event.inputs.to_tag) || github.ref }}'
 job_block() {
   local wanted=$1
   awk -v wanted="$wanted" '
@@ -345,9 +341,9 @@ for source_job in staged_adopter_acceptance staged_adopter_upgrade_acceptance ad
     exit 1
   }
 done
-if ! grep -Fq 'release_source_revision=' "$work_item_resolver" ||
-   ! grep -Fq 'head_revision' "$work_item_resolver" ||
-   ! grep -Fq 'mode=release_recovery' "$work_item_resolver"; then
+if ! grep -Fq 'release_source_revision=' "$release_plan_adapter" ||
+   ! grep -Fq 'head_revision' "$release_plan_adapter" ||
+   ! grep -Fq 'recovery_evidence_required' "$release_plan_adapter"; then
   printf 'policy failure: immutable-tag recovery must validate the tag separately and plan governance against the current orchestration revision\n' >&2
   exit 1
 fi
@@ -397,6 +393,6 @@ if [[ "$handoff_jobs" != "publish_handoff" ]]; then
 fi
 
 fail_if_match 'github\.event_name == '\''push'\''|startsWith\(github\.ref, '\''refs/tags/'\''\)' 'publish must not retain an implicit tag-triggered path'
-require_match 'github\.event_name == '\''workflow_dispatch'\'' && github\.event\.inputs\.publish_existing_tag == '\''true'\''' 'publish recovery must require explicit immutable-tag mode'
+require_match "plan_mode == 'historical_tag_recovery'" 'publish recovery must require the resolved historical-tag mode'
 
 printf 'workflow policy passed: %s\n' "$workflow"

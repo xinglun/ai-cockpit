@@ -77,6 +77,22 @@ generic CLI `verify --command` semantics は WI-224 の non-`crates/**` scope �
 
 ## Candidate の公開
 
+### 型付き ReleasePlan の境界
+
+すべての release dispatch は、まず `tests/ci/resolve_release_plan.sh` が
+`ai-cockpit release-plan` に委譲して、versioned かつ identity-bound な
+`ReleasePlan` に解決します。envelope には mode、source/governance identity、許可された
+stage、transition、`planDigest` が含まれます。後続 job はその plan の mode projection だけを
+使い、raw dispatch flag から route を再推論しません。対応する mode は
+`normal_release`、`historical_tag_recovery`、`post_release_acceptance`、`close_only`、
+`independent_public_acceptance` です。
+
+historical tag recovery には digest で束縛された archived recovery evidence が必要です。
+post-release acceptance と close-only recovery は同じ plan に prior workflow run identity を
+束縛します。version 固有の temporary release exception はありません。新しい recovery route
+が必要になった場合は、先に型付き plan に reviewed mode または schema migration を追加し、
+ad-hoc input で plan を bypass しないでください。
+
 レビュー済み Work Item を merge し default branch を同期した後、明示的な workflow dispatch で公開を開始します。
 annotated Git tag を不変の入力として先に push し、dispatch に governance Work Item identity を指定します。
 workflow の検証前に provider Release と lightweight tag を作成する可能性があるため、`gh release create` は使わず、次のように実行します。
@@ -90,7 +106,7 @@ git push origin v0.2.94
 gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
   -f from_tag=v0.2.93 \
   -f to_tag=v0.2.94 \
-  -f publish_existing_tag=true \
+  -f publish_candidate=true \
   -f work_item_id=WI-883-release-v0-2-94-current-main
 ```
 

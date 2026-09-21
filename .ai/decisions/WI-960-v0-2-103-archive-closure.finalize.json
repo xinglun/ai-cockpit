@@ -1,0 +1,59 @@
+{
+  "actor": "human:sei-rinn",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "standing-full-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f5728063d384cd4633e039dfa28a4e8c2d76dc74",
+    "name": "codex/wi960-release-archive-closure",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+  "contractDigest": "sha256:678cbd2d9abd09bf18595c05b26fc83834a8ef5bb68206c33b6d8a379a1a8335",
+  "operationId": "github-pr-940-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+    "headRevision": "f5728063d384cd4633e039dfa28a4e8c2d76dc74",
+    "mergeCommit": "f5728063d384cd4633e039dfa28a4e8c2d76dc74",
+    "number": 940,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/940"
+  },
+  "reason": "PR #940 is merged; GitHub confirms its exact branch is absent and the recorded worktree path is absent. Record the delegated cleanup facts without rewriting the immutable archive.",
+  "receiptId": "wi960-pr940-finalization-20260921",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi960-release-archive-closure",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/940",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi960-release-archive-closure/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-21T06:20:30Z",
+  "workItemId": "WI-960-v0-2-103-archive-closure",
+  "worktree": {
+    "branch": "codex/wi960-release-archive-closure",
+    "headRevision": "f5728063d384cd4633e039dfa28a4e8c2d76dc74",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi960-release-archive-closure/ai-cockpit",
+    "worktreeId": "historical-wi960-pr940"
+  }
+}

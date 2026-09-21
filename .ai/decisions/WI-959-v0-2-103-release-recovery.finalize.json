@@ -1,0 +1,59 @@
+{
+  "actor": "human:sei-rinn",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "standing-full-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d095dba28d8743eb235f723085b22f1c5cd0065a",
+    "name": "codex/release-v0-2-103-recovery",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "da7d5125fce56f5d6ca371836b5250c4a1080ec9",
+  "contractDigest": "sha256:9252e684b15e507ebb1f9d7130f69bccd0c88d7ef1ac4eacc816995c56576fda",
+  "operationId": "github-pr-939-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "da7d5125fce56f5d6ca371836b5250c4a1080ec9",
+    "headRevision": "d095dba28d8743eb235f723085b22f1c5cd0065a",
+    "mergeCommit": "4f206af002d57e2b71034ed69aa09d6e8b3da188",
+    "number": 939,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/939"
+  },
+  "reason": "PR #939 is merged; GitHub confirms its exact branch is absent and the recorded worktree path is absent. Record the delegated cleanup facts without rewriting the immutable archive.",
+  "receiptId": "wi959-pr939-finalization-20260921",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-103-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/939",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-103-recovery/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-21T06:20:00Z",
+  "workItemId": "WI-959-v0-2-103-release-recovery",
+  "worktree": {
+    "branch": "codex/release-v0-2-103-recovery",
+    "headRevision": "d095dba28d8743eb235f723085b22f1c5cd0065a",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-103-recovery/ai-cockpit",
+    "worktreeId": "historical-wi959-pr939"
+  }
+}

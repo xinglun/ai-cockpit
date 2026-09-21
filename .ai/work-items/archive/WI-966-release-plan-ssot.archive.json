@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-21T05:54:55Z",
+  "files": {
+    "contractDigest": "sha256:bf3ea6188f03b0b4a0bf5ce199625d7e4da7f1afdf9e1ceb27f616aaae2def1b",
+    "contractPath": ".ai/work-items/archive/WI-966-release-plan-ssot.contract.json",
+    "outcomeDigest": "sha256:a9088b1cf6d04e7849010752526f5ccf2146fae7bffaabbebbd6a62b1de5358d",
+    "outcomePath": ".ai/work-items/archive/WI-966-release-plan-ssot.outcome.json",
+    "summaryDigest": "sha256:2423331e06bf377970dd0ac4d679c8b16b6566a7daa162da39cf135baef8a20e",
+    "summaryPath": ".ai/work-items/archive/WI-966-release-plan-ssot.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-966-release-plan-ssot.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-967-release-plan-ssot",
+  "workItemId": "WI-966-release-plan-ssot"
+}

@@ -1,0 +1,26 @@
+{
+  "actor": "xinglun",
+  "authoritySource": "authorized user instruction in current conversation",
+  "decidedAt": "2026-09-21T05:40:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-965-release-plan-ssot.contract.json",
+    ".ai/work-items/active/WI-965-release-plan-ssot.summary.json"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:6aa618bf72e7b091c1d6a68955aec472f11757b0a59f50e876406cd9db700813",
+  "predecessorSummaryDigest": "sha256:efc569560f8510d49882e092d063c4207e2f2ea6e8d3d8484836b5a50df5825c",
+  "predecessorWorkItemId": "WI-965-release-plan-ssot",
+  "reason": "The predecessor Contract required delegated GitHub CI and public-artifact evidence before implementation, which is only produced after merge and release. Replace it with the same scope using verification evidence at entry and defer delegated evidence to the release boundary.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Start WI-966 with verification and verification_receipt entry evidence; add delegated hosted/public-artifact evidence only at the reviewed release boundary.",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-966-release-plan-ssot",
+  "workItemId": "WI-965-release-plan-ssot"
+}

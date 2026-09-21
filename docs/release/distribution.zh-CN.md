@@ -79,6 +79,19 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 
 ## 发布候选版本
 
+### 类型化 ReleasePlan 边界
+
+每次发布 dispatch 首先由 `tests/ci/resolve_release_plan.sh` 调用
+`ai-cockpit release-plan`，解析为一个带版本、绑定身份的 `ReleasePlan`。
+该 envelope 包含模式、源码与治理身份、允许的阶段、阶段转移和
+`planDigest`；后续 job 只消费它投影出的模式，不再从原始 dispatch 布尔值重新推断路由。
+支持的模式为 `normal_release`、`historical_tag_recovery`、
+`post_release_acceptance`、`close_only` 和 `independent_public_acceptance`。
+
+历史 tag 恢复必须提供按 digest 绑定的归档恢复证据；发布后验收和仅收尾恢复则在同一份 plan
+中绑定既有 workflow run 身份。不存在按版本编写的临时发布例外。若以后需要新恢复路径，
+先为类型化 plan 增加经审查的模式或 schema migration，不能用临时输入绕过 plan。
+
 审查合并 Work Item 且同步默认分支后，通过显式 workflow dispatch 启动发布。先创建并推送
 annotated Git tag 作为不可变输入，再在 dispatch 中携带治理 Work Item identity。不要使用
 `gh release create`，因为它可能在 workflow 验证候选版本之前创建 provider Release 和 lightweight tag：
@@ -92,7 +105,7 @@ git push origin v0.2.94
 gh workflow run release.yml --repo xinglun/ai-cockpit --ref main \
   -f from_tag=v0.2.93 \
   -f to_tag=v0.2.94 \
-  -f publish_existing_tag=true \
+  -f publish_candidate=true \
   -f work_item_id=WI-883-release-v0-2-94-current-main
 ```
 

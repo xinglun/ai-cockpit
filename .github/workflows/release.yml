@@ -25,6 +25,11 @@ on:
         required: false
         default: false
         type: boolean
+      publish_candidate:
+        description: 'Run the normal build, candidate acceptance, publication, and public acceptance route'
+        required: false
+        default: false
+        type: boolean
       post_release_acceptance:
         description: 'Run post-release handoff, public install, upgrade, and close only; never rebuild or publish'
         required: false
@@ -59,8 +64,8 @@ on:
         description: 'Required source-verification Contract path alternative for publication and post-release acceptance'
         required: false
         type: string
-      temporary_release_exception:
-        description: 'One-time, reviewed release exception identifier; only v0.2.104 closure recovery is accepted'
+      recovery_evidence_path:
+        description: 'Archived recovery decision/evidence path required for historical tag recovery'
         required: false
         type: string
 env:
@@ -68,10 +73,9 @@ env:
 
 jobs:
   release_input_preflight:
-    # This job is intentionally shell/jq-only. It rejects malformed release
-    # input and unresolved Work Item identity before the Rust route tool or any
-    # platform compiler is built. The formal Rust gate still owns governance
-    # authorization after this cheap identity check succeeds.
+    # This job performs cheap syntax/identity checks and then invokes the
+    # shared Rust ReleasePlan resolver. It emits one canonical plan artifact;
+    # later jobs must consume that artifact instead of re-inferencing modes.
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -91,11 +95,15 @@ jobs:
       source_contract_path: ${{ steps.resolve.outputs.source_contract_path }}
       source_contract_digest: ${{ steps.resolve.outputs.source_contract_digest }}
       source_base_revision: ${{ steps.resolve.outputs.source_base_revision }}
+      plan_digest: ${{ steps.resolve.outputs.plan_digest }}
+      plan_mode: ${{ steps.resolve.outputs.plan_mode }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Build the shared Rust ReleasePlan resolver
+        run: CARGO_INCREMENTAL=0 cargo build --locked --release --package cockpit-cli
       - name: Resolve release identity before compilation
         id: resolve
         shell: bash
@@ -109,9 +117,10 @@ jobs:
           INPUT_CONTRACT_PATH: ${{ github.event.inputs.contract_path }}
           INPUT_SOURCE_WORK_ITEM_ID: ${{ github.event.inputs.source_work_item_id }}
           INPUT_SOURCE_CONTRACT_PATH: ${{ github.event.inputs.source_contract_path }}
-          INPUT_TEMPORARY_RELEASE_EXCEPTION: ${{ github.event.inputs.temporary_release_exception }}
+          INPUT_RECOVERY_EVIDENCE_PATH: ${{ github.event.inputs.recovery_evidence_path }}
           INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
           PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          PUBLISH_CANDIDATE: ${{ github.event.inputs.publish_candidate || 'false' }}
           INPUT_POST_RELEASE_ACCEPTANCE: ${{ github.event.inputs.post_release_acceptance || 'false' }}
           INPUT_CLOSE_ONLY: ${{ github.event.inputs.close_only || 'false' }}
           INPUT_REUSE_RUN_ID: ${{ github.event.inputs.reuse_run_id }}
@@ -119,7 +128,7 @@ jobs:
         run: |
           set -euo pipefail
           head_revision="$(git rev-parse "${GITHUB_SHA}^{commit}")"
-          if [[ "$EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+          if [[ "$EVENT_NAME" == workflow_dispatch && ( "$PUBLISH_EXISTING_TAG" == true || "$PUBLISH_CANDIDATE" == true ) ]]; then
             [[ "$INPUT_TO_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
               echo 'publication dispatch requires a semantic to_tag' >&2
               exit 1
@@ -142,9 +151,11 @@ jobs:
             --from-tag "$INPUT_FROM_TAG"
             --to-tag "$INPUT_TO_TAG"
             --publish-existing-tag "$PUBLISH_EXISTING_TAG"
+            --publish-candidate "$PUBLISH_CANDIDATE"
             --post-release-acceptance "$INPUT_POST_RELEASE_ACCEPTANCE"
             --close-only "$INPUT_CLOSE_ONLY"
             --output target/release-input-preflight.json
+            --plan-bin target/release/ai-cockpit
           )
           if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then
             selector_args+=(--work-item-id "$INPUT_WORK_ITEM_ID")
@@ -158,8 +169,8 @@ jobs:
           if [[ -n "$INPUT_SOURCE_CONTRACT_PATH" ]]; then
             selector_args+=(--source-contract-path "$INPUT_SOURCE_CONTRACT_PATH")
           fi
-          if [[ -n "$INPUT_TEMPORARY_RELEASE_EXCEPTION" ]]; then
-            selector_args+=(--temporary-release-exception "$INPUT_TEMPORARY_RELEASE_EXCEPTION")
+          if [[ -n "$INPUT_RECOVERY_EVIDENCE_PATH" ]]; then
+            selector_args+=(--recovery-evidence "$INPUT_RECOVERY_EVIDENCE_PATH")
           fi
           if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
             selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
@@ -173,21 +184,23 @@ jobs:
           if [[ "$EVENT_NAME" == push ]]; then
             selector_args+=(--github-repository "$GITHUB_REPOSITORY")
           fi
-          tests/ci/resolve_work_item.sh "${selector_args[@]}"
-          echo "mode=$(jq -er '.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "contract_path=$(jq -r '.contractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "base_revision=$(jq -r '.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "head_revision=$(jq -er '.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "release_source_revision=$(jq -r '.releaseSourceRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "reuse_run_id=$(jq -r '.reuseRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "reuse_acceptance_run_id=$(jq -r '.reuseAcceptanceRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "close_only=$(jq -r '.closeOnly // false' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "work_item_id=$(jq -r '.workItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "contract_digest=$(jq -r '.contractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "source_work_item_id=$(jq -r '.sourceWorkItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "source_contract_path=$(jq -r '.sourceContractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "source_contract_digest=$(jq -r '.sourceContractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
-          echo "source_base_revision=$(jq -r '.sourceBaseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          tests/ci/resolve_release_plan.sh "${selector_args[@]}"
+          echo "mode=$(jq -er '.plan.request.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "plan_mode=$(jq -er '.plan.request.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "plan_digest=$(jq -er '.planDigest' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "contract_path=$(jq -r '.plan.request.contractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "base_revision=$(jq -r '.plan.request.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "head_revision=$(jq -er '.plan.request.headRevision' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "release_source_revision=$(jq -r '.plan.request.sourceRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "reuse_run_id=$(jq -r '.plan.request.reuseRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "reuse_acceptance_run_id=$(jq -r '.plan.request.reuseAcceptanceRunId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "close_only=$(jq -r '.plan.request.mode == \"close_only\"' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "work_item_id=$(jq -r '.plan.request.workItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "contract_digest=$(jq -r '.plan.request.contractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_work_item_id=$(jq -r '.plan.request.sourceWorkItemId // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_contract_path=$(jq -r '.plan.request.sourceContractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_contract_digest=$(jq -r '.plan.request.sourceContractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+          echo "source_base_revision=$(jq -r '.plan.request.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
       - name: Upload release input preflight evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -200,7 +213,7 @@ jobs:
   post_release_helper:
     # post-release-only recovery reuses a helper from a known successful run;
     # only a protocol-incompatible helper may trigger one helper-only rebuild.
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true'
+    if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
     needs: [release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -382,10 +395,10 @@ jobs:
           retention-days: 30
 
   release_tools:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
     # Helper compilation is an expensive prerequisite; do not start it until
     # route preparation and the canonical source-quality gates have passed.
-    needs: [release_preflight, source_quality]
+    needs: [release_input_preflight, release_preflight, source_quality]
     strategy:
       fail-fast: false
       matrix:
@@ -440,7 +453,7 @@ jobs:
           retention-days: 7
 
   release_preflight:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
     needs: release_input_preflight
     runs-on: ubuntu-24.04
     permissions:
@@ -466,7 +479,6 @@ jobs:
           source_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
           source_base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .releaseSourceRevision' target/release-input-preflight.json)"
           source_contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
-          temporary_exception="$(jq -r '.temporaryReleaseException // empty' target/release-input-preflight.json)"
           [[ "$source_revision" =~ ^[0-9a-f]{40}$ ]] || {
             echo 'release source identity must be a full immutable commit SHA' >&2
             exit 1
@@ -475,12 +487,10 @@ jobs:
             echo 'release source baseline must be a full commit SHA' >&2
             exit 1
           }
-          if [[ "$temporary_exception" != v0.2.104-closure-recovery ]]; then
-            [[ -n "$source_contract_path" ]] || {
+          [[ -n "$source_contract_path" ]] || {
             echo 'release source identity must include a Contract path' >&2
             exit 1
-            }
-          fi
+          }
           echo "source_revision=$source_revision" >> "$GITHUB_OUTPUT"
           echo "source_base_revision=$source_base_revision" >> "$GITHUB_OUTPUT"
           echo "source_contract_path=$source_contract_path" >> "$GITHUB_OUTPUT"
@@ -498,12 +508,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          cargo build --locked --release --package cockpit-cli
+          CARGO_INCREMENTAL=0 cargo build --locked --release --package cockpit-cli
       - name: Plan the strict release quality route
         shell: bash
-        env:
-          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
-          INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
           source_repo="$GITHUB_WORKSPACE/release-source"
@@ -550,8 +557,8 @@ jobs:
           retention-days: 7
 
   build:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [release_preflight, source_quality, release_tools]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [release_input_preflight, release_preflight, source_quality, release_tools]
     strategy:
       fail-fast: false
       matrix:
@@ -587,7 +594,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' || needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' || needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -613,7 +620,7 @@ jobs:
           fi
           test -n "$expected" && test "$expected" = "$actual"
       - name: Build the target binary
-        run: cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
+        run: CARGO_INCREMENTAL=0 cargo build --locked --release --package cockpit-cli --target ${{ matrix.target }}
       - name: Package the exact archive layout
         shell: bash
         env:
@@ -671,8 +678,8 @@ jobs:
           retention-days: 7
 
   source_quality:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: release_preflight
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [release_input_preflight, release_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -788,15 +795,15 @@ jobs:
           retention-days: 7
 
   aggregate:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [build, release_tools]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [build, release_tools, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ (github.event_name == 'workflow_dispatch' && (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true') && github.event.inputs.to_tag) || github.ref }}
+          ref: ${{ ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' || needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' || needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance') && github.event.inputs.to_tag) || github.ref }}
           fetch-depth: 0
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@6c977a6ca4077a0ceb28ffbe03f59d46e9ac8772
@@ -814,7 +821,7 @@ jobs:
       - name: Aggregate and bind the candidate
         shell: bash
         env:
-          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          PLAN_MODE: ${{ needs.release_input_preflight.outputs.plan_mode }}
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
@@ -829,10 +836,15 @@ jobs:
             echo "tag $GITHUB_REF_NAME does not match workspace version $version" >&2
             exit 1
           fi
-          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+          if [[ "$PLAN_MODE" == historical_tag_recovery ]]; then
             test "$INPUT_TO_TAG" = "$tag"
             commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
             test -n "$commit"
+          elif [[ "$PLAN_MODE" == normal_release ]]; then
+            test "$INPUT_TO_TAG" = "$tag"
+            tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
+            test "$tag_commit" = "$GITHUB_SHA"
+            commit="$GITHUB_SHA"
           else
             commit="$(git rev-parse "${GITHUB_SHA}^{commit}")"
             test "$commit" = "$GITHUB_SHA"
@@ -863,9 +875,9 @@ jobs:
           retention-days: 7
 
   release_policy:
-    needs: [aggregate, source_quality, release_tools]
+    needs: [aggregate, source_quality, release_tools, release_input_preflight]
     if: >-
-      github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance != 'true'
+      needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -887,7 +899,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
+          PLAN_MODE: ${{ needs.release_input_preflight.outputs.plan_mode }}
           INPUT_TO_TAG: ${{ github.event.inputs.to_tag }}
         run: |
           set -euo pipefail
@@ -900,7 +912,7 @@ jobs:
           manifest_commit="$(jq -er '.commit' dist/release-manifest.json)"
           tag_commit="$(git ls-remote origin "refs/tags/${tag}^{}" | awk '{print $1}')"
           test -n "$tag_commit"
-          if [[ "$GITHUB_EVENT_NAME" == workflow_dispatch && "$PUBLISH_EXISTING_TAG" == true ]]; then
+          if [[ "$PLAN_MODE" == historical_tag_recovery ]]; then
             test "$INPUT_TO_TAG" = "$tag"
             test "$manifest_commit" = "$tag_commit"
             release_json="$RUNNER_TEMP/provider-release.json"
@@ -925,6 +937,10 @@ jobs:
               echo 'unable to determine provider Release state; refusing to publish' >&2
               exit 1
             fi
+          elif [[ "$PLAN_MODE" == normal_release ]]; then
+            jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
+              '{schemaVersion:1,state:"new",tag:$tag,commit:$commit}' \
+              > "$RUNNER_TEMP/provider-release-state.json"
           else
             jq -n --arg tag "$tag" --arg commit "$manifest_commit" \
               '{schemaVersion:1,state:"not_applicable",tag:$tag,commit:$commit}' \
@@ -941,8 +957,8 @@ jobs:
           retention-days: 7
 
   verify:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, source_quality, release_policy, release_tools]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, source_quality, release_policy, release_tools, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -976,8 +992,8 @@ jobs:
           done
 
   smoke_homebrew:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, verify]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, verify, release_input_preflight]
     strategy:
       fail-fast: false
       matrix:
@@ -1051,8 +1067,8 @@ jobs:
           ! brew list --formula | grep -Fx ai-cockpit
 
   smoke_linux:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, verify]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, verify, release_input_preflight]
     strategy:
       fail-fast: false
       matrix:
@@ -1087,8 +1103,8 @@ jobs:
           ./extracted/ai-cockpit --help >/dev/null
 
   smoke_windows:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, verify]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, verify, release_input_preflight]
     runs-on: windows-2025
     permissions:
       contents: read
@@ -1110,8 +1126,8 @@ jobs:
           ./extracted/ai-cockpit.exe --help | Out-Null
 
   staged_adopter_acceptance:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, source_quality, release_policy, verify, release_tools]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, source_quality, release_policy, verify, release_tools, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1184,8 +1200,8 @@ jobs:
           retention-days: 30
 
   staged_adopter_upgrade_acceptance:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [aggregate, source_quality, release_policy, verify, release_tools]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [aggregate, source_quality, release_policy, verify, release_tools, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1310,8 +1326,8 @@ jobs:
           retention-days: 30
 
   attest:
-    if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
-    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance]
+    if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1335,10 +1351,9 @@ jobs:
 
   publish:
     if: >-
-      github.event_name == 'workflow_dispatch' &&
-      github.event.inputs.publish_existing_tag == 'true' &&
-      github.event.inputs.post_release_acceptance != 'true'
-    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest]
+      needs.release_input_preflight.outputs.plan_mode == 'normal_release' ||
+      needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery'
+    needs: [build, aggregate, source_quality, release_policy, verify, smoke_homebrew, smoke_linux, smoke_windows, staged_adopter_acceptance, staged_adopter_upgrade_acceptance, attest, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: write
@@ -1414,8 +1429,9 @@ jobs:
   publish_handoff:
     if: >-
       always() &&
-      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.post_release_helper.result == 'success' && needs.release_input_preflight.result == 'success'))
+      ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' && needs.publish.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' && needs.publish.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance' && needs.post_release_helper.result == 'success'))
     needs: [publish, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -1428,24 +1444,24 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+        if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
         with:
           name: ai-cockpit-candidate
           path: dist
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+        if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
         with:
           name: post-release-helper
           path: tools
       - name: Download and verify the immutable public Release for recovery
         # post-release-only recovery has no candidate artifact and no publish
         # job; this is the public identity boundary for the existing Release.
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -1526,8 +1542,9 @@ jobs:
     # version or the current trilingual installation docs.
     if: >-
       always() &&
-      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.release_input_preflight.result == 'success'))
+      ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' && needs.publish.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' && needs.publish.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance' && needs.release_input_preflight.result == 'success'))
     needs: [publish, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
@@ -1590,9 +1607,10 @@ jobs:
   adopter_acceptance:
     if: >-
       always() &&
-      ((github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true' && github.event.inputs.close_only != 'true' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
-    needs: [publish_handoff, release_tools, post_release_helper]
+      ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' && needs.publish_handoff.result == 'success' && needs.release_tools.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance' && needs.publish_handoff.result == 'success' && needs.post_release_helper.result == 'success'))
+    needs: [publish_handoff, release_tools, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1613,12 +1631,12 @@ jobs:
         with:
           toolchain: 1.98.1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+        if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
         with:
           name: post-release-helper
           path: tools
@@ -1692,22 +1710,17 @@ jobs:
     # explicitly named public Releases.
     if: >-
       always() &&
-      ((github.event_name == 'workflow_dispatch' &&
-        github.event.inputs.publish_existing_tag == 'true' &&
+      ((needs.release_input_preflight.outputs.plan_mode == 'normal_release' &&
         needs.publish.result == 'success' &&
         needs.publish_handoff.result == 'success') ||
-       (github.event_name == 'workflow_dispatch' &&
-        github.event.inputs.publish_existing_tag != 'true' &&
-        github.event.inputs.post_release_acceptance != 'true' &&
-        github.event.inputs.from_tag != '' &&
-        github.event.inputs.to_tag != '' &&
-        github.event.inputs.handoff_run_id != '') ||
-       (github.event_name == 'workflow_dispatch' &&
-        github.event.inputs.post_release_acceptance == 'true' &&
-        github.event.inputs.close_only != 'true' &&
+       (needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' &&
+        needs.publish.result == 'success' &&
+        needs.publish_handoff.result == 'success') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'independent_public_acceptance') ||
+       (needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance' &&
         needs.publish_handoff.result == 'success' &&
         needs.post_release_helper.result == 'success'))
-    needs: [publish, publish_handoff, release_tools, post_release_helper]
+    needs: [publish, publish_handoff, release_tools, post_release_helper, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1726,29 +1739,29 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name != 'workflow_dispatch' || github.event.inputs.post_release_acceptance != 'true'
+        if: needs.release_input_preflight.outputs.plan_mode != 'post_release_acceptance'
         with:
           name: cockpit-release-tool-ubuntu-x86_64
           path: tools
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
         with:
           name: post-release-helper
           path: tools
       - name: Download publication handoff for tag recovery
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'normal_release' || needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
       - name: Download publication handoff for post-release-only recovery
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.post_release_acceptance == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: ai-cockpit-publish-handoff-${{ github.run_id }}-${{ github.run_attempt }}
           path: handoff
       - name: Download handoff from the requested publication run
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.publish_existing_tag != 'true' && github.event.inputs.post_release_acceptance != 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'independent_public_acceptance'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -1899,9 +1912,11 @@ jobs:
     # rewrites a Release, moves a tag, or deletes historical evidence.
     if: >-
       always() &&
-      (github.event_name == 'workflow_dispatch' &&
-        (github.event.inputs.publish_existing_tag == 'true' || github.event.inputs.post_release_acceptance == 'true' || github.event.inputs.close_only == 'true'))
-    needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance]
+      (needs.release_input_preflight.outputs.plan_mode == 'normal_release' ||
+       needs.release_input_preflight.outputs.plan_mode == 'historical_tag_recovery' ||
+       needs.release_input_preflight.outputs.plan_mode == 'post_release_acceptance' ||
+       needs.release_input_preflight.outputs.plan_mode == 'close_only')
+    needs: [publish_handoff, post_release_version_consistency, adopter_acceptance, adopter_upgrade_acceptance, release_input_preflight]
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -1912,7 +1927,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
       - name: Restore close inputs from a completed acceptance run
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.close_only == 'true'
+        if: needs.release_input_preflight.outputs.plan_mode == 'close_only'
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -2031,11 +2046,12 @@ jobs:
           VERSION_CONSISTENCY: ${{ needs.post_release_version_consistency.result }}
           INSTALL: ${{ needs.adopter_acceptance.result }}
           UPGRADE: ${{ needs.adopter_upgrade_acceptance.result }}
-          CLOSE_ONLY: ${{ github.event.inputs.close_only == 'true' }}
-          SOURCE_RUN_ID: ${{ github.event.inputs.reuse_acceptance_run_id || '' }}
+          PLAN_MODE: ${{ needs.release_input_preflight.outputs.plan_mode }}
+          PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          SOURCE_RUN_ID: ${{ needs.release_input_preflight.outputs.reuse_acceptance_run_id || '' }}
         run: |
           set -euo pipefail
-          if [[ "$CLOSE_ONLY" == true ]]; then
+          if [[ "$PLAN_MODE" == close_only ]]; then
             HANDOFF=success
             VERSION_CONSISTENCY=success
             INSTALL=success
@@ -2140,7 +2156,8 @@ jobs:
             --arg versionState "$VERSION_CONSISTENCY" \
             --arg installState "$INSTALL" \
             --arg upgradeState "$UPGRADE" \
-            --arg closeOnly "$CLOSE_ONLY" \
+            --arg closeOnly "$PLAN_MODE" \
+            --arg planDigest "$PLAN_DIGEST" \
             --arg sourceRunId "$SOURCE_RUN_ID" \
             --argjson reasons "$reason_json" \
             --argjson handoffDigest "$handoff_digest" \
@@ -2149,7 +2166,7 @@ jobs:
             --argjson installPhaseDigest "$install_phase_digest" \
             --argjson upgradeDigest "$upgrade_digest" \
             --argjson upgradePhaseDigest "$upgrade_phase_digest" \
-            '{schemaVersion:2,phase:"close",tag:$tag,commit:$commit,state:$state,reusedAcceptanceRunId:(if $sourceRunId == "" then null else ($sourceRunId|tonumber) end),closeOnly:($closeOnly == "true"),providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
+            '{schemaVersion:2,phase:"close",releasePlanDigest:$planDigest,releasePlanMode:$closeOnly,tag:$tag,commit:$commit,state:$state,reusedAcceptanceRunId:(if $sourceRunId == "" then null else ($sourceRunId|tonumber) end),closeOnly:($closeOnly == "close_only"),providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
             > "$output/release-close.json"
           sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
           if [[ "$state" != passed ]]; then
