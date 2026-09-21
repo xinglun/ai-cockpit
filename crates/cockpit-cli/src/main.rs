@@ -304,6 +304,16 @@ enum CommandKind {
         #[arg(long)]
         report: Option<PathBuf>,
     },
+    /// Validate an existing Contract quality-gate report against its
+    /// repository-bound route receipt without executing any gates.
+    GateReport {
+        #[arg(long)]
+        repo: PathBuf,
+        #[arg(long)]
+        report: PathBuf,
+        #[arg(long)]
+        route_receipt: PathBuf,
+    },
     /// Build or validate the shared Rust CI gate plan.  The compatibility
     /// Python route may delegate here so production and regression paths use
     /// one manifest/rule implementation.
@@ -2210,6 +2220,20 @@ fn run() -> Result<()> {
                     quality.decision_state
                 );
             }
+        }
+        CommandKind::GateReport {
+            repo,
+            report,
+            route_receipt,
+        } => {
+            require_compatible(&repo, &runtime_context)?;
+            let report = cockpit_repository::validate_contract_quality_gate_report(
+                &repo,
+                &report,
+                &route_receipt,
+            )
+            .context("validate Contract quality-gate report")?;
+            println!("{}", serde_json::to_string_pretty(&report)?);
         }
         CommandKind::Evidence { command } => match command {
             EvidenceCommand::Import {

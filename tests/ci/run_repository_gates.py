@@ -222,6 +222,56 @@ def validate_route_with_rust(
         raise ValueError(detail)
 
 
+def validate_contract_gate_report_with_rust(
+    binary: str,
+    *,
+    repository: Path,
+    report_path: Path,
+    route_receipt_path: Path,
+) -> dict[str, Any]:
+    """Use Rust for the repository-bound Contract gate report boundary.
+
+    Python continues to own gate process orchestration, timeout cleanup,
+    diagnostics, and report persistence. The no-binary path below remains
+    intentionally available for offline compatibility fixtures.
+    """
+    command = [
+        binary,
+        "gate-report",
+        "--repo",
+        str(repository),
+        "--report",
+        str(report_path.resolve()),
+        "--route-receipt",
+        str(route_receipt_path.resolve()),
+    ]
+    completed = subprocess.run(command, check=False, capture_output=True, text=True)
+    if completed.returncode != 0:
+        detail = (
+            completed.stderr.strip()
+            or completed.stdout.strip()
+            or "Rust Contract gate report validation failed"
+        )
+        structured = parse_structured_failure(completed.stderr + "\n" + completed.stdout)
+        if structured is not None:
+            code, remediation = structured
+            raise RouteValidationError(
+                code,
+                "Rust Contract gate report validation failed",
+                remediation,
+            )
+        raise ValueError(detail)
+    try:
+        report = json.loads(completed.stdout)
+    except json.JSONDecodeError as error:
+        raise ValueError(
+            f"Rust Contract gate report validator returned invalid JSON: {error}"
+        ) from error
+    if not isinstance(report, dict):
+        raise ValueError("Rust Contract gate report validator returned a non-object")
+    return report
+
+
 def failure_code(gate_id: str, *, launch_error: bool = False, detail: str = "") -> str:
     """Return one deterministic root code for a failed repository gate."""
     normalized = detail.lower()
@@ -320,12 +370,13 @@ def raise_keyboard_interrupt(signum: int, frame: Any) -> None:
     raise KeyboardInterrupt
 
 
-def load_contract_gate_report(
+def load_contract_gate_report_compat(
     path: Path,
     *,
     repository: Path,
     route: dict[str, Any],
 ) -> dict[str, Any]:
+    """Compatibility validator for offline fixtures without the Rust binary."""
     report = load_receipt(path)
     required = {
         "schemaVersion",
@@ -476,13 +527,22 @@ def main() -> int:
                 "selectedProfile": selected_profile,
             }
             if args.contract_gate_report:
-                gate_report = load_contract_gate_report(
-                    Path(args.contract_gate_report),
-                    repository=repository,
-                    route=receipt,
-                )
+                contract_gate_report_path = Path(args.contract_gate_report)
+                if args.gate_plan_bin:
+                    gate_report = validate_contract_gate_report_with_rust(
+                        args.gate_plan_bin,
+                        repository=repository,
+                        report_path=contract_gate_report_path,
+                        route_receipt_path=Path(args.route_receipt),
+                    )
+                else:
+                    gate_report = load_contract_gate_report_compat(
+                        contract_gate_report_path,
+                        repository=repository,
+                        route=receipt,
+                    )
                 route_binding["contractGateReportDigest"] = file_digest(
-                    Path(args.contract_gate_report)
+                    contract_gate_report_path
                 )
                 route_binding["contractGateState"] = gate_report["state"]
             elif receipt.get("contractPath"):
