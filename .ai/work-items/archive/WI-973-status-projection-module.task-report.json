@@ -1,0 +1,158 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-973-status-projection-module.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:e5f929509d26e92f263f5f28c74be68d641dc5346f3155977c14496fffaeb2f0",
+    "workItemId": "WI-973-status-projection-module"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-973-status-projection-module.verification-attempt.36b75a5ec40bd6b49dcfed63038a24748a3e11003704220311e8931570b2bb72.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-973-status-projection-module.verification-attempt.92ab6ec3917c705dd6ce9092e300d56fe01febaae1d47c3f53544e26fea7e17d.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-973-status-projection-module.verification-attempt.99092ee9332e51d3d9386bb41b92f8c6fd99c5c996c7184d1c0b18b6340e14fb.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-973-status-projection-module.verification-attempt.9efa0312129d090e40312d3e4fa509ceb195641969c11b3b2b84055979d1b513.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-973-status-projection-module.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-973-status-projection-module.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-973-status-projection-module.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/status_projection.rs"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-973-status-projection-module.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-973-status-projection-module.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-973-status-projection-module.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-973-status-projection-module.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-973-status-projection-module.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.contract.json"
+        ],
+        "inference": false,
+        "text": "把 work_item_status_snapshot_with_runtime、work_item_status_index_with_runtime 及其 request-scoped aggregation 从 lib.rs 迁入现有 status_projection.rs；保留 root re-export、私有 helper 访问和 JSON/identity 语义，不宣称性能收益。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-973-status-projection-module.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-973-status-projection-module"
+}

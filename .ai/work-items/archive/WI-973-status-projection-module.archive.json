@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T18:56:54Z",
+  "files": {
+    "contractDigest": "sha256:50363103c9845a767d2cfe1621cea6a911c0f92b39c1ba3aef3c1a4c29b49546",
+    "contractPath": ".ai/work-items/archive/WI-973-status-projection-module.contract.json",
+    "eventsDigest": "sha256:4462004d2ba5d529855b509c5cfae1f12d7e164eea126a0949d867f0f3a1e9b8",
+    "eventsPath": ".ai/work-items/archive/WI-973-status-projection-module.events.jsonl",
+    "outcomeDigest": "sha256:aaf1122d96c98108372830c1466fc56d58b62fb35f81943a1c104b6cf9810d36",
+    "outcomePath": ".ai/work-items/archive/WI-973-status-projection-module.outcome.json",
+    "summaryDigest": "sha256:567c7f15b29a838028106eeafef7d6f588b36bd6e9124a239c7308d6b1faff8f",
+    "summaryPath": ".ai/work-items/archive/WI-973-status-projection-module.summary.json",
+    "taskReportDigest": "sha256:bb5d7eb4c6f01336f8bf6c1bb2ea4bb8cadd2215fe5dadb8d6604375b48cbb80",
+    "taskReportMarkdownDigest": "sha256:4abda456a5537e8f17ea2cdc70ede8a26b8fcbae9bf9c62a3f4bb5acf2c70ade",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-973-status-projection-module.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-973-status-projection-module.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-973-status-projection-module"
+}

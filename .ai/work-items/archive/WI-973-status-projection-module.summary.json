@@ -7,8 +7,8 @@
     ".ai/evidence/WI-973-status-projection-module.verification-attempt.99092ee9332e51d3d9386bb41b92f8c6fd99c5c996c7184d1c0b18b6340e14fb.json",
     ".ai/evidence/WI-973-status-projection-module.verification-attempt.9efa0312129d090e40312d3e4fa509ceb195641969c11b3b2b84055979d1b513.json",
     ".ai/evidence/WI-973-status-projection-module.verification.json",
-    ".ai/work-items/active/WI-973-status-projection-module.contract.json",
-    ".ai/work-items/active/WI-973-status-projection-module.summary.json",
+    ".ai/work-items/archive/WI-973-status-projection-module.contract.json",
+    ".ai/work-items/archive/WI-973-status-projection-module.summary.json",
     "crates/cockpit-repository/src/lib.rs",
     "crates/cockpit-repository/src/status_projection.rs"
   ],
@@ -86,14 +86,13 @@
       "verificationPlan": "Inspect the diff and run formatting plus affected repository and CLI tests."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T18:50:30.508497+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T18:56:43Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:7b1ea54b2719d69b44a991ba9600ee779b4e973781632b93ccde5ad0ec14c0a9",
   "workItemId": "WI-973-status-projection-module"
 }
