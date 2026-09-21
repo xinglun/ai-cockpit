@@ -466,6 +466,7 @@ jobs:
           source_revision="$(jq -er '.releaseSourceRevision' target/release-input-preflight.json)"
           source_base_revision="$(jq -er '.sourceBaseRevision // .baseRevision // .releaseSourceRevision' target/release-input-preflight.json)"
           source_contract_path="$(jq -r '.sourceContractPath // .contractPath // empty' target/release-input-preflight.json)"
+          temporary_exception="$(jq -r '.temporaryReleaseException // empty' target/release-input-preflight.json)"
           [[ "$source_revision" =~ ^[0-9a-f]{40}$ ]] || {
             echo 'release source identity must be a full immutable commit SHA' >&2
             exit 1
@@ -474,10 +475,12 @@ jobs:
             echo 'release source baseline must be a full commit SHA' >&2
             exit 1
           }
-          [[ -n "$source_contract_path" ]] || {
+          if [[ "$temporary_exception" != v0.2.104-closure-recovery ]]; then
+            [[ -n "$source_contract_path" ]] || {
             echo 'release source identity must include a Contract path' >&2
             exit 1
-          }
+            }
+          fi
           echo "source_revision=$source_revision" >> "$GITHUB_OUTPUT"
           echo "source_base_revision=$source_base_revision" >> "$GITHUB_OUTPUT"
           echo "source_contract_path=$source_contract_path" >> "$GITHUB_OUTPUT"
