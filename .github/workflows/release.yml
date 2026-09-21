@@ -59,6 +59,10 @@ on:
         description: 'Required source-verification Contract path alternative for publication and post-release acceptance'
         required: false
         type: string
+      temporary_release_exception:
+        description: 'One-time, reviewed release exception identifier; only v0.2.104 closure recovery is accepted'
+        required: false
+        type: string
 env:
   CARGO_TERM_COLOR: never
 
@@ -105,6 +109,7 @@ jobs:
           INPUT_CONTRACT_PATH: ${{ github.event.inputs.contract_path }}
           INPUT_SOURCE_WORK_ITEM_ID: ${{ github.event.inputs.source_work_item_id }}
           INPUT_SOURCE_CONTRACT_PATH: ${{ github.event.inputs.source_contract_path }}
+          INPUT_TEMPORARY_RELEASE_EXCEPTION: ${{ github.event.inputs.temporary_release_exception }}
           INPUT_HANDOFF_RUN_ID: ${{ github.event.inputs.handoff_run_id }}
           PUBLISH_EXISTING_TAG: ${{ github.event.inputs.publish_existing_tag || 'false' }}
           INPUT_POST_RELEASE_ACCEPTANCE: ${{ github.event.inputs.post_release_acceptance || 'false' }}
@@ -152,6 +157,9 @@ jobs:
           fi
           if [[ -n "$INPUT_SOURCE_CONTRACT_PATH" ]]; then
             selector_args+=(--source-contract-path "$INPUT_SOURCE_CONTRACT_PATH")
+          fi
+          if [[ -n "$INPUT_TEMPORARY_RELEASE_EXCEPTION" ]]; then
+            selector_args+=(--temporary-release-exception "$INPUT_TEMPORARY_RELEASE_EXCEPTION")
           fi
           if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
             selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
