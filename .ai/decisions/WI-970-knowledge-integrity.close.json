@@ -1,0 +1,252 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:bf0d7377540077cf5cb00f1c039738f65897130560bbce8fb19338ad1a7920d1",
+      "workItemId": "WI-970-knowledge-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-970-knowledge-integrity.preflight-review.6499a025b83626674f426959b29032a19db5abc3009ac9cbb261d09522afa833.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-970-knowledge-integrity.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.5f847fe8cb19b0d7526abc67959fb2bd26bb4205130fcdf163a7ea42f217b82f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.6c02fafa842ccafb742a44b0b0db5c4241fe0d3e88652b69b68a1505be54c1c7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification-attempt.d9aa0647f071c544f53b3c8708b316aea0f4435be8adc15217ad878b6fb14382.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-970-knowledge-integrity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.scope-amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-knowledge/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-knowledge/tests/query.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_cache.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/knowledge_projection.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json",
+            ".ai/work-items/archive/WI-970-knowledge-integrity.archive.json",
+            "69aeb0e8"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization at 2026-09-22T02:46:34+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-970-knowledge-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "Make knowledge cache reuse verify the cache and source boundary, avoid reading every archive file on a valid clean cache hit, locate indexed candidates directly, and derive bounded topic/component fields from contract context."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-970-knowledge-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-970-knowledge-integrity"
+  },
+  "finalReportDigest": "sha256:07105c250ad57bba5d94b4a2198a909953615e345cb672d93f46d73b226da6bd",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:a7e235b23bdf6a513e9ddee6e79d5f245801fb342bd76a4ea4c0825d352e6e72",
+    "branch": "codex/wi-970-knowledge-integrity",
+    "branchRef": "refs/heads/codex/wi-970-knowledge-integrity",
+    "capturedAt": "2026-09-21T17:46:42Z",
+    "contractDigest": "sha256:f3208c5a1e47e045b572bf3da4776a3ebc7d23a29df114b4fb97a5f18cdc6331",
+    "headRevision": "69aeb0e865248d1b3120ad10583a86468da2878b",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-970-knowledge-integrity",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:8c48211bab08b7277c99667f21a60e281a55500efc88b989100749ab39ef91a6",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-970-knowledge-integrity/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:f9473f43a49cb79ca13617e9b1c152d2d6a6da812efc1e09f9b141406c9c89bc",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-22T02:46:34+09:00",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-970-knowledge-integrity.verification.json",
+      ".ai/work-items/archive/WI-970-knowledge-integrity.archive.json",
+      "69aeb0e8"
+    ],
+    "policyRefs": [
+      "AGENTS.md: no-resource Work Item route"
+    ],
+    "reason": "User explicitly authorized implementation through the complete Work Item lifecycle; P0 knowledge integrity implementation passed declared verification.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T17:46:42Z",
+  "workItemId": "WI-970-knowledge-integrity"
+}
