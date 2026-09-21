@@ -1,0 +1,116 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.239985527d732558b359601d1919350dafe32bd6be4d288f06bf7bc5ce880965.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.b2823373d0638ee6f8473d724ad7701af236e1bd2987d0103cf09a2afae9fd15.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification-attempt.f8b78442051d9a83e1d25ab3a953c5fb63f9ccfd3c0b828cf1e1722ca21d351b.json",
+    ".ai/evidence/WI-975-release-version-boundary.verification.json",
+    ".ai/work-items/archive/WI-975-release-version-boundary.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T19:23:30Z",
+  "checkpointContractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:12a28e137175ea5adf08e0855acbce042219239f0d53037f5db2a7cd5eb1cc63",
+      "recorded": true,
+      "recordedAt": "2026-09-21T19:23:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7d79b7640b9461f28272b1d532473b2fbae861f9aa10a4377958dcbc76024603",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-975-release-version-boundary"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:12a28e137175ea5adf08e0855acbce042219239f0d53037f5db2a7cd5eb1cc63",
+      "previousContractHash": "sha256:12a28e137175ea5adf08e0855acbce042219239f0d53037f5db2a7cd5eb1cc63",
+      "reason": "把实现边界补充为逐路径 Contract，消除原始范围描述的分号歧义；不扩大行为范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T19:29:08Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-975-release-version-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "createdAt": "2026-09-21T19:17:33Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-release/src/manifest.rs",
+      "crates/cockpit-release/src/acceptance.rs",
+      "tests/release/version_consistency.sh",
+      "tests/release/adopter_acceptance.sh"
+    ],
+    "reason": "The scoped change directly implements the user's release-logic recommendation: source identity checks move to the existing cockpit-release Rust boundary, while external release and black-box acceptance responsibilities remain independent.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T19:31:56Z",
+  "preflightContractDigest": "sha256:15c8fc583895fe07e7f81bf6d9ba58debaa0e9ce15da280246cc6b77c3d27fbe",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f4c25ab6161494ea769246e235bd4ed28b9aee3d4c1fcdc417a10695522a3080",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-release/src/version_consistency.rs",
+        "crates/cockpit-release/tests/version_consistency.rs",
+        ".ai/evidence/WI-975-release-version-boundary.verification.json"
+      ],
+      "expected": "The Rust command detects an ambiguous cockpit-cli package, a local workspace version mismatch, a malformed semantic version, or a stale required document with a rule-specific failure.",
+      "required": true,
+      "scenario": "Rust source identity rules",
+      "status": "verified",
+      "verificationPlan": "Run focused cockpit-release tests with temporary repositories and execute the current repository version-consistency command."
+    },
+    {
+      "evidence": [
+        "tests/release/version_consistency.sh",
+        "tests/release/version_consistency_test.sh",
+        "crates/cockpit-release/src/main.rs"
+      ],
+      "expected": "version_consistency.sh delegates source identity checks to cockpit-release while retaining only command-line/environment setup and post-release gh/jq checks.",
+      "required": true,
+      "scenario": "Shell and Rust boundary",
+      "status": "verified",
+      "verificationPlan": "Inspect the wrapper, run its static policy test, and run the source-only path against the current repository."
+    },
+    {
+      "evidence": [
+        "tests/release/adopter_acceptance.sh",
+        "tests/release/adopter_upgrade_acceptance.sh",
+        "tests/release/version_consistency_test.sh"
+      ],
+      "expected": "The change does not alter adopter black-box installation, isolated roots, release downloads, or phase receipt recovery.",
+      "required": true,
+      "scenario": "Independent public acceptance boundary",
+      "status": "verified",
+      "verificationPlan": "Review the diff boundary and run the existing release script static checks without invoking a public Release mutation."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T19:32:20Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-975-release-version-boundary"
+}
