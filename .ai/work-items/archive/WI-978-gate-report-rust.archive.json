@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T20:41:13Z",
+  "files": {
+    "contractDigest": "sha256:6727bc15ebad4e3c5b252c955fdf57eb5970c3fbba672cc623d23f9dc75f62da",
+    "contractPath": ".ai/work-items/archive/WI-978-gate-report-rust.contract.json",
+    "eventsDigest": "sha256:37417dc2682c650e5dd7de416c4f3e794b9d7ffe4a5dc11baa97191bb3f6c1f3",
+    "eventsPath": ".ai/work-items/archive/WI-978-gate-report-rust.events.jsonl",
+    "outcomeDigest": "sha256:6ec2cd46b63d59e6e75854e103835b9e8b403480be1bbfd2bcb76b6d2acbe9d9",
+    "outcomePath": ".ai/work-items/archive/WI-978-gate-report-rust.outcome.json",
+    "summaryDigest": "sha256:3e571a2d4ca83ee52c4b1ac9b3b24d453a2e4106f3b6cb1977c3fc0a845039e5",
+    "summaryPath": ".ai/work-items/archive/WI-978-gate-report-rust.summary.json",
+    "taskReportDigest": "sha256:ace68f70b34ba0c097e0a48511150dab83ac75867858e94bee8970a02e8d43d3",
+    "taskReportMarkdownDigest": "sha256:20178d9cf48e7b75a8134f043b1762a3254e71836962ba2bb6fcc32489dfa5f7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-978-gate-report-rust.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-978-gate-report-rust.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-978-gate-report-rust"
+}

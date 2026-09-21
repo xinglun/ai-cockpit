@@ -123,3 +123,104 @@ fn gate_cli_stops_when_required_evidence_is_missing() {
     assert_eq!(report["decisionState"], "yellow");
     assert_eq!(report["unknowns"][0], "required_evidence_missing");
 }
+
+fn route_receipt(root: &tempfile::TempDir, report: &serde_json::Value) -> std::path::PathBuf {
+    let path = root.path().join("target/route-receipt.json");
+    let route = serde_json::json!({
+        "schemaVersion": 1,
+        "kind": "repository_quality_route",
+        "baseRevision": report["comparisonBaseRevision"],
+        "stage": "pull_request",
+        "contractPath": ".ai/work-items/active/WI-CLI-GATE.contract.json",
+        "contractDigest": report["contractFileDigest"],
+    });
+    fs::write(
+        &path,
+        format!("{}\n", serde_json::to_string_pretty(&route).unwrap()),
+    )
+    .expect("route receipt");
+    path
+}
+
+#[test]
+fn gate_report_cli_validates_repository_bound_report() {
+    let root = repository("cockpit-cli-gate-report-");
+    start(&root, None);
+    let report_path = root.path().join("target/ci-gate.json");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate", "--repo"])
+        .arg(root.path())
+        .args(["--contract"])
+        .arg(contract(&root))
+        .args(["--stage", "pull_request", "--runner", "hosted", "--report"])
+        .arg(&report_path)
+        .output()
+        .expect("gate");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).unwrap()).unwrap();
+    let route_path = route_receipt(&root, &report);
+    let validated = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate-report", "--repo"])
+        .arg(root.path())
+        .args(["--report"])
+        .arg(&report_path)
+        .args(["--route-receipt"])
+        .arg(&route_path)
+        .output()
+        .expect("gate report");
+    assert!(
+        validated.status.success(),
+        "{}",
+        String::from_utf8_lossy(&validated.stderr)
+    );
+    let validated_report: serde_json::Value =
+        serde_json::from_slice(&validated.stdout).expect("validated report");
+    assert_eq!(validated_report["state"], "passed");
+    assert_eq!(validated_report["decisionState"], "green");
+}
+
+#[test]
+fn gate_report_cli_rejects_tampered_repository_identity() {
+    let root = repository("cockpit-cli-gate-report-tamper-");
+    start(&root, None);
+    let report_path = root.path().join("target/ci-gate.json");
+    let output = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate", "--repo"])
+        .arg(root.path())
+        .args(["--contract"])
+        .arg(contract(&root))
+        .args(["--stage", "pull_request", "--runner", "hosted", "--report"])
+        .arg(&report_path)
+        .output()
+        .expect("gate");
+    assert!(output.status.success());
+    let mut report: serde_json::Value =
+        serde_json::from_slice(&fs::read(&report_path).unwrap()).unwrap();
+    report["repositoryId"] = serde_json::Value::String(format!("sha256:{}", "0".repeat(64)));
+    fs::write(
+        &report_path,
+        format!("{}\n", serde_json::to_string_pretty(&report).unwrap()),
+    )
+    .expect("tampered report");
+    let route_path = route_receipt(&root, &report);
+    let validated = Command::new(env!("CARGO_BIN_EXE_ai-cockpit"))
+        .args(["gate-report", "--repo"])
+        .arg(root.path())
+        .args(["--report"])
+        .arg(&report_path)
+        .args(["--route-receipt"])
+        .arg(&route_path)
+        .output()
+        .expect("gate report");
+    assert!(!validated.status.success());
+    assert!(
+        String::from_utf8_lossy(&validated.stderr).contains("repositoryId"),
+        "{}",
+        String::from_utf8_lossy(&validated.stderr)
+    );
+}

@@ -1,0 +1,78 @@
+{
+  "acceptanceCriteria": [
+    "Rust validator 以 repository-bound、route-bound 方式验证 Contract gate report 的 schema、identity、Contract digest/base、stage/runner、Work Item 和 green 状态，并输出可供 Python 解析的稳定结果。",
+    "run_repository_gates.py 在提供 gate-plan Rust binary 时调用共同 Rust validator，不再复制上述身份/receipt 校验；无 binary 的离线兼容路径保持明确且只用于旧 fixture/调用方。",
+    "gate runner 的 gate 执行、依赖阻塞、超时清理、诊断持久化和独立 repository gate 验收行为保持不变；Python/Rust 边界失败仍映射为现有 preflight failure。",
+    "cockpit-repository、cockpit-cli CI gate 测试和 Python gate manifest/route regression tests 通过，验证证据绑定当前 WI。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a6b9b3077b2482acd9e11a36c081987cc196d26a",
+  "createdAt": "2026-09-21T20:21:08Z",
+  "goal": "新增 repository-bound Rust gate report validator，替换 run_repository_gates.py 中重复的报告 schema、repository、Contract、route 绑定校验；保持失败代码、stdout/stderr 接口、独立 gate 执行和历史兼容行为不变。",
+  "intent": "按用户授权将 CI/release 入口的 Contract gate report 身份校验与 receipt 解析集中到 Rust，保留 Python 的命令编排和独立门禁验收。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不迁移 gate 进程编排、超时/诊断持久化、quality_route.py 兼容计划、adopter_acceptance.sh 黑盒安装验收或 version_consistency.sh 的 post-release gh 检查；不改变 Contract gate report schema、失败优先级、CI workflow 结构、历史 fixture 或 release 行为；不拆 crate、不做性能重写。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8ea1e21c2af3ce4da412ec4c44307ff734f7b6c028278ce241850bcadda34c55",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "有效报告仅在 schema/kind/state/decisionState、repositoryId、Contract 文件 digest/base、route comparison base、stage/runner 和 Work Item identity 全部匹配时通过；输出稳定 JSON 或既有 preflight failure。",
+      "required": true,
+      "scenario": "Rust Contract gate report identity validation",
+      "status": "unverified",
+      "verificationPlan": "运行 cockpit-repository 与 cockpit-cli CI gate 测试，并通过 Python gate manifest regression 验证 Rust validator 的命令边界。"
+    },
+    {
+      "evidence": [],
+      "expected": "未知字段、错误 schema、digest/base/route/identity 不匹配、blocker/unknown 或非 green 状态继续 fail closed；未提供 Rust binary 的旧 fixture 路径仍保持原有 Python 兼容校验。",
+      "required": true,
+      "scenario": "篡改、非绿报告与离线兼容路径",
+      "status": "unverified",
+      "verificationPlan": "运行 ci_gate、repository_gate_manifest_test.py 和 quality_route_test.py，覆盖失败边界及 fallback 调用路径。"
+    },
+    {
+      "evidence": [],
+      "expected": "gate 依赖顺序、阻塞传播、超时进程组清理、诊断/receipt 持久化和独立 gate 命令仍由 Python/manifest 验收；Rust 只接管报告身份与 receipt 解析。",
+      "required": true,
+      "scenario": "gate runner 编排与独立验收保持不变",
+      "status": "unverified",
+      "verificationPlan": "检查 run_repository_gates.py 的 diff 只改变 validator adapter，运行 repository_gate_manifest_test.py 并审查 workflow/manifest 断言。"
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/lib.rs; crates/cockpit-cli/src/main.rs; crates/cockpit-cli/tests/ci_gate.rs; tests/ci/run_repository_gates.py; tests/ci/repository_gate_manifest_test.py; tests/ci/quality_route_test.py",
+    ".ai/decisions/observer-snapshot.json",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/ci_gate.rs",
+    "tests/ci/run_repository_gates.py",
+    "tests/ci/repository_gate_manifest_test.py",
+    "tests/ci/quality_route_test.py"
+  ],
+  "sources": [
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "tests/ci/run_repository_gates.py",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-cli --test ci_gate -- --test-threads=1",
+    "python3 tests/ci/repository_gate_manifest_test.py",
+    "python3 tests/ci/quality_route_test.py"
+  ],
+  "workItemId": "WI-978-gate-report-rust"
+}

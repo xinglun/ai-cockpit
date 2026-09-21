@@ -4145,6 +4145,233 @@ pub fn evaluate_contract_quality_gate(
     Ok(report)
 }
 
+/// Validate a previously emitted Contract quality-gate report against the
+/// repository and the route receipt that selected its Contract.
+///
+/// This is deliberately separate from evaluate_contract_quality_gate: the
+/// evaluator creates a fresh read-only projection, while this function only
+/// validates an externally supplied receipt. CI can therefore keep its
+/// process orchestration in Python without maintaining a second copy of the
+/// report identity rules there.
+pub fn validate_contract_quality_gate_report(
+    root: &Path,
+    report_path: &Path,
+    route_receipt_path: &Path,
+) -> Result<ContractQualityGateReport, ObserverError> {
+    let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
+        path: root.into(),
+        source,
+    })?;
+    let report_path = quality_gate_bound_file(&root, report_path, "Contract gate report")?;
+    let route_receipt_path =
+        quality_gate_bound_file(&root, route_receipt_path, "Contract route receipt")?;
+    let report_value = read_json(&report_path)?;
+    let report: ContractQualityGateReport =
+        serde_json::from_value(report_value).map_err(|error| ObserverError::State {
+            path: report_path.clone(),
+            message: format!("invalid Contract gate report: {error}"),
+        })?;
+
+    if report.schema_version != 1 {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate report schemaVersion is invalid".into(),
+        });
+    }
+    if report.kind != "repository_contract_quality_gate" {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate report kind is invalid".into(),
+        });
+    }
+    if report.state != "passed" || report.decision_state != "green" {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate did not produce a green passing decision".into(),
+        });
+    }
+    for (label, digest) in [
+        ("repositoryId", &report.repository_id),
+        ("receiptDigest", &report.receipt_digest),
+    ] {
+        if digest.as_str().parse::<Digest>().is_err() {
+            return Err(ObserverError::State {
+                path: report_path.clone(),
+                message: format!("Contract gate {label} is invalid"),
+            });
+        }
+    }
+    let expected_repository_id =
+        stored_repository_id(&root).ok_or_else(|| ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: "Contract gate repositoryId requires an attached repository config".into(),
+        })?;
+    if report.repository_id != expected_repository_id {
+        return Err(ObserverError::State {
+            path: root.join(".ai/cockpit.toml"),
+            message: "Contract gate repositoryId is not bound to repository config".into(),
+        });
+    }
+
+    let route = read_json(&route_receipt_path)?;
+    if route.get("schemaVersion") != Some(&serde_json::json!(1))
+        || route.get("kind") != Some(&serde_json::json!("repository_quality_route"))
+    {
+        return Err(ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: "Contract route receipt schema or kind is invalid".into(),
+        });
+    }
+    let contract_path_value = route
+        .get("contractPath")
+        .and_then(serde_json::Value::as_str);
+    let Some(contract_path_value) = contract_path_value.filter(|value| !value.is_empty()) else {
+        return Err(ObserverError::State {
+            path: route_receipt_path,
+            message: "Contract gate report requires the route Contract".into(),
+        });
+    };
+    let contract_path =
+        quality_gate_bound_file(&root, Path::new(contract_path_value), "route Contract")?;
+    let contract = read_contract(&contract_path)?;
+    let expected_work_item_id = contract_path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .and_then(|name| name.strip_suffix(".contract.json"))
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| ObserverError::State {
+            path: contract_path.clone(),
+            message: "route Contract filename must end with .contract.json".into(),
+        })?;
+    if contract.work_item_id != expected_work_item_id {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "route Contract workItemId does not match its filename".into(),
+        });
+    }
+    if contract.repository_id != expected_repository_id.to_string() {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "route Contract repositoryId does not match repository config".into(),
+        });
+    }
+    if report.work_item_id != expected_work_item_id {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract gate workItemId does not match route Contract".into(),
+        });
+    }
+    let contract_file_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
+        |source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        },
+    )?);
+    if report.contract_file_digest != contract_file_digest {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract gate file digest does not match route Contract".into(),
+        });
+    }
+    let route_contract_digest = route
+        .get("contractDigest")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: "Contract route receipt contractDigest is required".into(),
+        })?;
+    if route_contract_digest != report.contract_file_digest.as_str() {
+        return Err(ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: "Contract route receipt contractDigest does not match route Contract".into(),
+        });
+    }
+    let expected_contract_digest = contract_digest(&contract_path)?;
+    if report.contract_digest != expected_contract_digest {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract gate contractDigest does not match route Contract".into(),
+        });
+    }
+    if report.base_revision != contract.base_revision {
+        return Err(ObserverError::State {
+            path: contract_path.clone(),
+            message: "Contract gate baseRevision does not match route Contract baseline".into(),
+        });
+    }
+    let route_base_revision = route
+        .get("baseRevision")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: "Contract route receipt baseRevision is required".into(),
+        })?;
+    if report.comparison_base_revision != route_base_revision {
+        return Err(ObserverError::State {
+            path: route_receipt_path.clone(),
+            message: "Contract gate comparisonBaseRevision does not match route receipt".into(),
+        });
+    }
+    let route_stage = route
+        .get("stage")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| ObserverError::State {
+            path: route_receipt_path,
+            message: "Contract route receipt stage is required".into(),
+        })?;
+    let expected_stage = if route_stage == "pull_request" {
+        "pr"
+    } else {
+        route_stage
+    };
+    if report.stage != expected_stage || report.runner != "hosted" {
+        return Err(ObserverError::State {
+            path: report_path.clone(),
+            message: "Contract gate stage or runner does not match CI route".into(),
+        });
+    }
+    if !report.blockers.is_empty() || !report.unknowns.is_empty() {
+        return Err(ObserverError::State {
+            path: report_path,
+            message: "green Contract gate cannot contain blockers or unknowns".into(),
+        });
+    }
+    Ok(report)
+}
+
+fn quality_gate_bound_file(
+    root: &Path,
+    path: &Path,
+    label: &str,
+) -> Result<PathBuf, ObserverError> {
+    let candidate = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        root.join(path)
+    };
+    let metadata = fs::symlink_metadata(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    if !metadata.file_type().is_file() || metadata.file_type().is_symlink() {
+        return Err(ObserverError::State {
+            path: candidate,
+            message: format!("{label} must be a regular non-symlink file"),
+        });
+    }
+    let canonical = fs::canonicalize(&candidate).map_err(|source| ObserverError::Read {
+        path: candidate.clone(),
+        source,
+    })?;
+    if canonical.strip_prefix(root).is_err() {
+        return Err(ObserverError::State {
+            path: canonical,
+            message: format!("{label} escapes repository"),
+        });
+    }
+    Ok(canonical)
+}
+
 fn governance_decision_for_pre_execution_quality_gate(
     root: &Path,
     contract: &cockpit_protocol::Contract,

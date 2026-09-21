@@ -1,0 +1,137 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-978-gate-report-rust.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:4f2bb0bc56618c0b90b5c4af5a10153e64480b184945b012d81a1aec421efe52",
+    "workItemId": "WI-978-gate-report-rust"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-978-gate-report-rust.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/src/main.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-cli/tests/ci_gate.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/ci/run_repository_gates.py"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-978-gate-report-rust.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-978-gate-report-rust.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-978-gate-report-rust.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-978-gate-report-rust.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-978-gate-report-rust.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.contract.json"
+        ],
+        "inference": false,
+        "text": "新增 repository-bound Rust gate report validator，替换 run_repository_gates.py 中重复的报告 schema、repository、Contract、route 绑定校验；保持失败代码、stdout/stderr 接口、独立 gate 执行和历史兼容行为不变。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/WI-978-gate-report-rust.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-978-gate-report-rust"
+}
