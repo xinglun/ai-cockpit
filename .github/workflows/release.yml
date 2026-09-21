@@ -184,6 +184,48 @@ jobs:
           if [[ "$EVENT_NAME" == push ]]; then
             selector_args+=(--github-repository "$GITHUB_REPOSITORY")
           fi
+          # Keep the repository-local Work Item identity resolver as the
+          # cheap compatibility/selection adapter.  ReleasePlan is the
+          # authority for the resulting mode and stage; this invocation only
+          # proves that the selected Contract/resource identity is valid
+          # before the typed plan is consumed downstream.
+          work_item_selector_args=(
+            --repo "$GITHUB_WORKSPACE"
+            --event "$EVENT_NAME"
+            --head "$head_revision"
+            --from-tag "$INPUT_FROM_TAG"
+            --to-tag "$INPUT_TO_TAG"
+            --publish-existing-tag "$PUBLISH_EXISTING_TAG"
+            --publish-candidate "$PUBLISH_CANDIDATE"
+            --post-release-acceptance "$INPUT_POST_RELEASE_ACCEPTANCE"
+            --close-only "$INPUT_CLOSE_ONLY"
+            --output target/release-work-item-selection.json
+          )
+          if [[ -n "$INPUT_WORK_ITEM_ID" ]]; then
+            work_item_selector_args+=(--work-item-id "$INPUT_WORK_ITEM_ID")
+          fi
+          if [[ -n "$INPUT_CONTRACT_PATH" ]]; then
+            work_item_selector_args+=(--contract-path "$INPUT_CONTRACT_PATH")
+          fi
+          if [[ -n "$INPUT_SOURCE_WORK_ITEM_ID" ]]; then
+            work_item_selector_args+=(--source-work-item-id "$INPUT_SOURCE_WORK_ITEM_ID")
+          fi
+          if [[ -n "$INPUT_SOURCE_CONTRACT_PATH" ]]; then
+            work_item_selector_args+=(--source-contract-path "$INPUT_SOURCE_CONTRACT_PATH")
+          fi
+          if [[ -n "$INPUT_HANDOFF_RUN_ID" ]]; then
+            work_item_selector_args+=(--handoff-run-id "$INPUT_HANDOFF_RUN_ID")
+          fi
+          if [[ -n "$INPUT_REUSE_RUN_ID" ]]; then
+            work_item_selector_args+=(--reuse-run-id "$INPUT_REUSE_RUN_ID")
+          fi
+          if [[ -n "$INPUT_REUSE_ACCEPTANCE_RUN_ID" ]]; then
+            work_item_selector_args+=(--reuse-acceptance-run-id "$INPUT_REUSE_ACCEPTANCE_RUN_ID")
+          fi
+          if [[ "$EVENT_NAME" == push ]]; then
+            work_item_selector_args+=(--github-repository "$GITHUB_REPOSITORY")
+          fi
+          tests/ci/resolve_work_item.sh "${work_item_selector_args[@]}"
           tests/ci/resolve_release_plan.sh "${selector_args[@]}"
           echo "mode=$(jq -er '.plan.request.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "plan_mode=$(jq -er '.plan.request.mode' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"

@@ -307,7 +307,7 @@ impl ReleasePlan {
                 "publish_existing_tag and publish_candidate cannot both be true".into(),
             ));
         }
-        let mode = input.requested_mode.unwrap_or_else(|| {
+        let mode = input.requested_mode.unwrap_or({
             if input.close_only {
                 ReleaseMode::CloseOnly
             } else if input.post_release_acceptance {

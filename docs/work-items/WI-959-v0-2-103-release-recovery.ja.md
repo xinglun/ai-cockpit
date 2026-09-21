@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-959 — v0.2.103 release verification recovery"
 description: "post-publication evidence による verification-cycle blocker を持つ release Contract を置き換える。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-959-v0-2-103-release-recovery
 lastVerifiedBy: WI-959-v0-2-103-release-recovery
+terminalArchive: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json
+terminalVerification: .ai/evidence/WI-959-v0-2-103-release-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-959-v0-2-103-release-recovery.close.json
 ---
 
 [English](WI-959-v0-2-103-release-recovery.md) · [简体中文](WI-959-v0-2-103-release-recovery.zh-CN.md)

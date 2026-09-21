@@ -3,10 +3,14 @@ author: AI Cockpit maintainers
 title: "WI-959 — v0.2.103 发布验证恢复"
 description: "替代将发布后证据造成验证循环阻塞的发布 Contract。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:sei-rinn
 workItemId: WI-959-v0-2-103-release-recovery
 lastVerifiedBy: WI-959-v0-2-103-release-recovery
+terminalArchive: .ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json
+terminalVerification: .ai/evidence/WI-959-v0-2-103-release-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-959-v0-2-103-release-recovery.close.json
 ---
 
 [English](WI-959-v0-2-103-release-recovery.md) · [日本語](WI-959-v0-2-103-release-recovery.ja.md)
