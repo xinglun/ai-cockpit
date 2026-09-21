@@ -1,0 +1,144 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-976-historical-compatibility.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:f6c2e07b13d7cbcbbf9633487614d61812e3cf0d2bb884224429f355243001d4",
+    "workItemId": "WI-976-historical-compatibility"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-976-historical-compatibility.verification-attempt.306db0f8e16cb2b7f13fe7b3a3958f76af4713d1a1af0016771bc916f6a2a761.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-976-historical-compatibility.verification-attempt.4168415658d33c072dd3faed0cf497d3988e032d93632b89533606ca073fff51.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-976-historical-compatibility.verification-attempt.582f01ffe26c10f2cf6a293a28f025b480d4da9f44f3df6b37f8a08309675fdd.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-976-historical-compatibility.verification-attempt.72284fb1f31e17bdf5c926c07834a152991a46236d6c53486803e8efc69b2411.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-976-historical-compatibility.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/wi976-controls.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-976-historical-compatibility.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-976-historical-compatibility.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-976-historical-compatibility.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-976-historical-compatibility.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-976-historical-compatibility.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-976-historical-compatibility.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.contract.json"
+        ],
+        "inference": false,
+        "text": "将 legacy verification evidence、close receipt 兼容判定及 canonical close vocabulary 集中到同一 crate 的 historical_compatibility 模块，建立清晰的兼容边界而不删除历史证据或改变协议行为"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-976-historical-compatibility.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-976-historical-compatibility"
+}

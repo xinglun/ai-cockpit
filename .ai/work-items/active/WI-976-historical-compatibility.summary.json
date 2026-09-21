@@ -73,14 +73,13 @@
       "verificationPlan": "检查模块 diff 与调用方导入，运行格式检查和 cockpit-repository lib/tests。"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T19:56:08.678006+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T19:57:05Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ab604f6b081328dcf12a2d5fa7be483f10bf67198c52ef36cbbe7c3346472aef",
   "workItemId": "WI-976-historical-compatibility"
 }
