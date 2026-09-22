@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-982 — Outcome 清理摘要"
 description: "在共享的人类 Outcome 正文中暴露已验证的清理计数、精确资源身份、保留原因、证据引用和下一步动作。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:user
 workItemId: WI-982-outcome-cleanup-summary
 lastVerifiedBy: WI-982-outcome-cleanup-summary
+terminalArchive: .ai/work-items/archive/WI-982-outcome-cleanup-summary.contract.json
+terminalVerification: .ai/evidence/WI-982-outcome-cleanup-summary.verification.json
+terminalDecision: .ai/decisions/WI-982-outcome-cleanup-summary.close.json
 ---
 
 [English](WI-982-outcome-cleanup-summary.md) · [日本語](WI-982-outcome-cleanup-summary.ja.md)

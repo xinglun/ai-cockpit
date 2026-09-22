@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "The repository promotion helper reports no stale projection for WI-982.",
+    "The English, Simplified Chinese, and Japanese WI-982 work-item pages report terminal implemented status after verified close.",
+    "The three reference-parity registries report the same terminal facts without changing governance evidence or source code.",
+    "The WI-984 English, Simplified Chinese, and Japanese pages and parity rows are present and describe this bounded documentation promotion work item consistently."
+  ],
+  "authority": "authorized",
+  "baseRevision": "280c51aab7813c89116d1d70159f1953b6c48dbb",
+  "createdAt": "2026-09-22T00:51:04Z",
+  "goal": "Run the repository promotion helper and update the six WI-982 English, Simplified Chinese, and Japanese documentation projections to terminal verified-close status.",
+  "intent": "Promote closed WI-982 documentation projections",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates",
+    "tests",
+    "release-publication",
+    "source-code",
+    "governance-evidence"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:22564a2bd4a64fd2f2024685931fd40c30c557fff257aa27e8ae0d11e23df5cf",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-982-outcome-cleanup-summary.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-984-doc-promotion.md",
+    "docs/work-items/WI-984-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-984-doc-promotion.ja.md",
+    ".ai/decisions/observer-snapshot.json"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo /Users/sei-rinn/.codex/worktrees/wi-984-doc-promotion/ai-cockpit --work-item WI-982-outcome-cleanup-summary --check",
+    "python3 tests/docs/promote_closed_work_item.py --repo /Users/sei-rinn/.codex/worktrees/wi-984-doc-promotion/ai-cockpit --check-all"
+  ],
+  "workItemId": "WI-984-doc-promotion"
+}
