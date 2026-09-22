@@ -1,0 +1,51 @@
+{
+  "acceptanceCriteria": [
+    "A stale ordinary merged-PR finalization plan declares legacy_runtime and its recovery is accepted append-only.",
+    "Current Runtime finalize-verify accepts the recovered receipt and exact cleanup remains required before close.",
+    "Shared-worktree and direct-merge recovery behavior remains unchanged.",
+    "Foreign, malformed, and contradictory recovery remain fail-closed."
+  ],
+  "authority": "authorized",
+  "baseRevision": "ee74e142808829cf3e8e449ae651b24f20a23af6",
+  "createdAt": "2026-09-22T20:37:53Z",
+  "goal": "Allow supported append-only recovery, finalize-verify, and close without rewriting the valid predecessor receipt.",
+  "intent": "Repair Runtime historical finalization recovery for an ordinary merged PR produced by an older Runtime identity.",
+  "mode": "implementation",
+  "outOfScope": [
+    "No task-progress API or manual ledger.",
+    "No rewrite of WI-1006 or WI-1007 historical records.",
+    "No release",
+    " tag",
+    " publication",
+    " or external review."
+  ],
+  "predecessorContractDigest": "sha256:11e111267c9ff9c36d3b6c054e40c17316ab34d54bc04861cd8f3c1cce295fc9",
+  "predecessorWorkItemId": "WI-1007-archived-recovery-cli-route",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1007-archived-recovery-cli-route.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:2683a7d7997bc868a280c5cfaebc139fd83b8f5de2b123d79b758c397bf65aa0",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-protocol/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+  ],
+  "sources": [
+    "Current finalize-recovery-plan output for WI-1006 has historicalKind=null for a stale ordinary merged-PR receipt.",
+    "Current Runtime already exposes legacy_runtime after close but has no pre-close recovery classification."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test -p cockpit-protocol --locked",
+    "cargo test -p cockpit-repository --locked",
+    "cargo test -p cockpit-cli --locked"
+  ],
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}

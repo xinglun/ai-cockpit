@@ -1,0 +1,48 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1007-archived-recovery-cli-route.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json",
+    ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json",
+    "crates/cockpit-protocol/src/lib.rs",
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+  ],
+  "checkpointAt": "2026-09-22T20:38:17Z",
+  "checkpointContractDigest": "sha256:19b1f13e1e0adc16f84f8f37558ca5d96ba52d213b972e6fa1555ff815eb22f4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+  "createdAt": "2026-09-22T20:37:53Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:11e111267c9ff9c36d3b6c054e40c17316ab34d54bc04861cd8f3c1cce295fc9",
+  "predecessorWorkItemId": "WI-1007-archived-recovery-cli-route",
+  "preflightAt": "2026-09-22T20:50:43Z",
+  "preflightContractDigest": "sha256:19b1f13e1e0adc16f84f8f37558ca5d96ba52d213b972e6fa1555ff815eb22f4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1007-archived-recovery-cli-route.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T20:50:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}
