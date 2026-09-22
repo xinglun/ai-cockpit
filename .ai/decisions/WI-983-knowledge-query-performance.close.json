@@ -1,0 +1,218 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:47fef55b9efddb8e84af20f7c2b65257c966b5cd866ae8dde5c789f2e58646da",
+      "workItemId": "WI-983-knowledge-query-performance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-981-knowledge-query-performance.verification-attempt.fce5172bbe05fce4db4ccde7a2cf3cb6ebb8c3f8f424a1dff6650c6ba266c78c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-983-knowledge-query-performance.verification-attempt.38b61e0566c2fa97739bd5d485b87a2f62d2603cc77ee9fe70e78662f46f58a9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:user via user request to complete the findings and cleanup at 2026-09-22T00:34:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "Short-circuit impossible indexed filters and produce evidence-separated cold/warm CLI query measurements."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-983-knowledge-query-performance"
+  },
+  "finalReportDigest": "sha256:ce16732532a0883303fe76cbd83f48991622e8f806761122a4ae64a76b017678",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:ffccd5e5b530cfb6a9f97d7ea1a4f9709c59c0677b95aa8069c45755c1c3d041",
+    "branch": "codex/wi-983-knowledge-query-performance",
+    "branchRef": "refs/heads/codex/wi-983-knowledge-query-performance",
+    "capturedAt": "2026-09-22T00:34:40Z",
+    "contractDigest": "sha256:11d8bbf287ed1daffa40ab85572959d1b0f1a4dfa9c61a22e1c6161605a4b794",
+    "headRevision": "b1a98b7af154afe7d1cf70b82cf13f4c1c14395f",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-983-knowledge-query-performance",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:43b77039bffad32eed7cbeebb154390b7fb35e75f11f0824b9a375d1b1edc203",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-981-knowledge-query-performance/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:80a8508ec650fe02a2b2444bb7fec677f377379e49e7af9f3bf2656ba703cf9b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "user request to complete the findings and cleanup",
+    "decidedAt": "2026-09-22T00:34:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "The bounded knowledge query performance Work Item was reviewed, its PR was merged with all hosted checks green, and its verified evidence was archived; close the Work Item while retaining the explicit user_visible_benefit_not_declared unknown.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-22T00:34:40Z",
+  "workItemId": "WI-983-knowledge-query-performance"
+}
