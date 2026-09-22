@@ -1,0 +1,115 @@
+{
+  "changedPaths": [],
+  "checkpointAt": "2026-09-21T22:43:54Z",
+  "checkpointContractDigest": "sha256:a4aae3c0bf12fd99a548ac488d502e9f2e722f419659b4fefd2d482a14bff5dd",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a4aae3c0bf12fd99a548ac488d502e9f2e722f419659b4fefd2d482a14bff5dd",
+      "recorded": true,
+      "recordedAt": "2026-09-21T22:43:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-981-knowledge-query-performance"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:fd5213d4268eb4c38800d5c20b66519bdafbba7f00f7a3e09dbc678f61c24f6c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a4aae3c0bf12fd99a548ac488d502e9f2e722f419659b4fefd2d482a14bff5dd",
+      "previousContractHash": "sha256:a4aae3c0bf12fd99a548ac488d502e9f2e722f419659b4fefd2d482a14bff5dd",
+      "reason": "The accepted measurement follow-up requires the real CLI query boundary to expose additive timing and candidate-access facts; extend scope without changing the optimization or cache authority boundary.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T22:47:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4880d369829763b25b36e78c3ab34de663b3069f35f3b9a05e689c21bb18bdbb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-981-knowledge-query-performance"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "createdAt": "2026-09-21T22:36:19Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:a4aae3c0bf12fd99a548ac488d502e9f2e722f419659b4fefd2d482a14bff5dd",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "User explicitly authorized reopening and continuing this bounded Work Item. This confirms the preflight review for lifecycle execution and verification only; it does not assert implementation, tests, hosted checks, merge, release, or performance outcome.",
+    "recordedAt": "2026-09-21T22:42:30Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+    "schemaVersion": 1,
+    "workItemId": "WI-981-knowledge-query-performance"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-21T23:10:56Z",
+  "preflightContractDigest": "sha256:fd5213d4268eb4c38800d5c20b66519bdafbba7f00f7a3e09dbc678f61c24f6c",
+  "preflightDecisionDigest": "sha256:e43d9b17f02a14df6875f8e5d3a83d416a9b048746393a843e9fce3296406600",
+  "preflightRepositorySnapshotDigest": "sha256:47fef55b9efddb8e84af20f7c2b65257c966b5cd866ae8dde5c789f2e58646da",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A missing explicit filter index value returns an empty result with zero candidate record access even when another filter has candidates.",
+      "required": true,
+      "scenario": "missing_index_value_short_circuits",
+      "status": "unverified",
+      "verificationPlan": "Add a focused query regression with one absent filter value and one broad matching filter, then run the cockpit-knowledge query test target."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing conjunctive exact-filter results and stable ordering remain unchanged.",
+      "required": true,
+      "scenario": "conjunctive_filter_ordering_preserved",
+      "status": "unverified",
+      "verificationPlan": "Run the existing query regression suite and compare the indexed candidate materialization assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "The real CLI fixture reports raw cold and warm query samples with honest percentile availability.",
+      "required": true,
+      "scenario": "cold_warm_cli_measurement",
+      "status": "unverified",
+      "verificationPlan": "Run the fixed-fixture knowledge benchmark script and inspect its raw sample and percentile output."
+    },
+    {
+      "evidence": [],
+      "expected": "The benchmark separates cache validation from candidate access and explicitly reports read-byte and RSS availability.",
+      "required": true,
+      "scenario": "validation_and_candidate_costs_separated",
+      "status": "unverified",
+      "verificationPlan": "Run the benchmark on the host and verify the emitted phase metrics and unavailable reasons."
+    },
+    {
+      "evidence": [],
+      "expected": "The query optimization does not weaken cache integrity or source-digest validation.",
+      "required": true,
+      "scenario": "cache_integrity_contract_unchanged",
+      "status": "unverified",
+      "verificationPlan": "Run the repository knowledge cache regressions and review the diff for unchanged integrity checks."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T22:43:54Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:fd5213d4268eb4c38800d5c20b66519bdafbba7f00f7a3e09dbc678f61c24f6c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-21T22:47:03Z"
+  },
+  "workItemId": "WI-981-knowledge-query-performance"
+}

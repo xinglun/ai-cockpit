@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use clap::{ArgAction, Parser, Subcommand};
 use cockpit_agent::AgentExitCode;
 use cockpit_git::GitRepository;
-use cockpit_knowledge::{Query, query};
+use cockpit_knowledge::{Query, query_with_metrics};
 use cockpit_protocol::{
     AgentProvider, ConcurrencyBoundary, DataClassification, DelegatedEvidence, EvidenceAssurance,
     EvidencePersistence, EvidenceRetention, HumanDecision, ReleasePlan, ReleasePlanEnvelope,
@@ -2861,7 +2861,9 @@ fn run() -> Result<()> {
                 }
                 let projection_path = repo.join(".ai/knowledge/index.json");
                 let before = fs::read(&projection_path).ok();
+                let projection_started = std::time::Instant::now();
                 let index = generate_knowledge(&repo).context("project knowledge")?;
+                let projection_ms = projection_started.elapsed().as_secs_f64() * 1_000.0;
                 let after = fs::read(&projection_path).ok();
                 let materialization = if before.is_none() {
                     "created"
@@ -2870,7 +2872,8 @@ fn run() -> Result<()> {
                 } else {
                     "reused"
                 };
-                let results = query(
+                let query_started = std::time::Instant::now();
+                let (results, candidate_record_access_count) = query_with_metrics(
                     &index,
                     &Query {
                         topic,
@@ -2879,6 +2882,7 @@ fn run() -> Result<()> {
                         work_item_id,
                     },
                 );
+                let query_ms = query_started.elapsed().as_secs_f64() * 1_000.0;
                 let output = json!({
                     "schemaVersion": 1,
                     "projection": {
@@ -2887,6 +2891,13 @@ fn run() -> Result<()> {
                         "writeBoundary": "repository-local-derived",
                         "authority": "none",
                         "sourceDigest": index.source_digest
+                    },
+                    "metrics": {
+                        "knowledgeQuery": {
+                            "projectionMs": projection_ms,
+                            "queryMs": query_ms,
+                            "candidateRecordAccessCount": candidate_record_access_count
+                        }
                     },
                     "matchCount": results.len(),
                     "results": results,

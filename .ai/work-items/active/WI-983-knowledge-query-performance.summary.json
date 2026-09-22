@@ -1,0 +1,157 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-981-knowledge-query-performance.preflight-review.json",
+    ".ai/decisions/WI-981-knowledge-query-performance.recovery.json",
+    ".ai/decisions/WI-981-knowledge-query-performance.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-981-knowledge-query-performance.verification-attempt.fce5172bbe05fce4db4ccde7a2cf3cb6ebb8c3f8f424a1dff6650c6ba266c78c.json",
+    ".ai/evidence/WI-983-knowledge-query-performance.verification-attempt.38b61e0566c2fa97739bd5d485b87a2f62d2603cc77ee9fe70e78662f46f58a9.json",
+    ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json",
+    ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json",
+    ".ai/work-items/archive/WI-981-knowledge-query-performance.archive.json",
+    ".ai/work-items/archive/WI-981-knowledge-query-performance.contract.json",
+    ".ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json",
+    ".ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T23:35:02Z",
+  "checkpointContractDigest": "sha256:11d8bbf287ed1daffa40ab85572959d1b0f1a4dfa9c61a22e1c6161605a4b794",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:47fef55b9efddb8e84af20f7c2b65257c966b5cd866ae8dde5c789f2e58646da",
+  "createdAt": "2026-09-21T23:33:06Z",
+  "intentAlignment": {
+    "evidence": [
+      "crates/cockpit-knowledge/src/lib.rs",
+      "crates/cockpit-cli/src/main.rs",
+      "docs/performance/knowledge-query.md"
+    ],
+    "reason": "The successor is bounded to impossible indexed-filter short-circuiting and evidence-separated real CLI measurements; cache trust, release publication, and Outcome wording remain outside scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:fd5213d4268eb4c38800d5c20b66519bdafbba7f00f7a3e09dbc678f61c24f6c",
+  "predecessorWorkItemId": "WI-981-knowledge-query-performance",
+  "preflightAt": "2026-09-21T23:46:48Z",
+  "preflightContractDigest": "sha256:11d8bbf287ed1daffa40ab85572959d1b0f1a4dfa9c61a22e1c6161605a4b794",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:47fef55b9efddb8e84af20f7c2b65257c966b5cd866ae8dde5c789f2e58646da",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-981-knowledge-query-performance.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-knowledge/tests/query.rs"
+      ],
+      "expected": "A missing explicit filter index value returns an empty result with zero candidate record access even when another filter has candidates.",
+      "required": true,
+      "scenario": "missing_index_value_short_circuits",
+      "status": "verified",
+      "verificationPlan": "Run the focused cockpit-knowledge query regression with one absent filter value and one broad matching filter."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-knowledge/tests/query.rs"
+      ],
+      "expected": "Existing conjunctive exact-filter results and stable ordering remain unchanged.",
+      "required": true,
+      "scenario": "conjunctive_filter_ordering_preserved",
+      "status": "verified",
+      "verificationPlan": "Run the existing query regression suite and inspect indexed candidate materialization assertions."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "tests/performance/knowledge_query_benchmark.py",
+        "docs/performance/knowledge-query.md"
+      ],
+      "expected": "The real CLI fixture reports raw cold and warm query samples with honest percentile availability.",
+      "required": true,
+      "scenario": "cold_warm_cli_measurement",
+      "status": "verified",
+      "verificationPlan": "Run the fixed-fixture knowledge benchmark and inspect raw samples and percentile output."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/main.rs",
+        "tests/performance/knowledge_query_benchmark.py",
+        "tests/performance/knowledge_query_benchmark.sh"
+      ],
+      "expected": "The benchmark separates cache validation from candidate access and explicitly reports read-byte and RSS availability.",
+      "required": true,
+      "scenario": "validation_and_candidate_costs_separated",
+      "status": "verified",
+      "verificationPlan": "Run the benchmark on the host and verify emitted phase metrics and unavailable reasons."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-knowledge/src/lib.rs",
+        "crates/cockpit-repository/src/knowledge_projection.rs"
+      ],
+      "expected": "The query optimization does not weaken cache integrity or source-digest validation.",
+      "required": true,
+      "scenario": "cache_integrity_contract_unchanged",
+      "status": "verified",
+      "verificationPlan": "Run the repository knowledge cache regressions and inspect the diff for unchanged integrity checks."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T23:50:41Z",
+  "verification": [
+    {
+      "check": "project-command-0-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-983-knowledge-query-performance"
+}

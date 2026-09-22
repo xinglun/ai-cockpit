@@ -1,0 +1,24 @@
+{
+  "actor": "human:user",
+  "authoritySource": "explicit user authorization in the current conversation",
+  "decidedAt": "2026-09-21T23:31:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-981-knowledge-query-performance.contract.json",
+    ".ai/work-items/active/WI-981-knowledge-query-performance.summary.json",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:fd5213d4268eb4c38800d5c20b66519bdafbba7f00f7a3e09dbc678f61c24f6c",
+  "predecessorSummaryDigest": "sha256:79caf18c7e0bb553463690ae8117b51446d1416dcc764999bbf8d25d135084bc",
+  "predecessorWorkItemId": "WI-981-knowledge-query-performance",
+  "reason": "WI-981 declared crates/cockpit-cli/src/main.rs in both scope and out-of-scope, so its implementation cannot pass the Runtime scope gate. Preserve the predecessor evidence and continue the same bounded query measurement in a corrected successor Contract with the CLI path only in scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "WI-983 must complete fresh preflight, verification, and governed delivery under the corrected scope; WI-981 remains not verified.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-983-knowledge-query-performance",
+  "workItemId": "WI-981-knowledge-query-performance"
+}

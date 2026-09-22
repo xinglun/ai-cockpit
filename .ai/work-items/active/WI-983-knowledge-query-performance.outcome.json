@@ -1,0 +1,215 @@
+{
+  "acceptanceResults": [
+    "Every explicitly supplied filter value absent from its index returns an empty result immediately and reports zero candidate record access, even when another filter has many candidates.",
+    "Existing conjunctive exact-filter behavior and stable ordering remain unchanged.",
+    "A real CLI knowledge query measurement records cold and warm latency on a fixed fixture, with raw samples and honest p50/p95 availability.",
+    "The measurement separates cache validation cost from candidate access and records read-byte and resident-memory metrics when the host exposes them; unavailable metrics carry an explicit reason.",
+    "Cache integrity and source-digest validation remain unchanged; no release or public version claim is made.",
+    "The CLI query output exposes additive projection and query timing/candidate-access metrics used by the real benchmark without changing the existing result contract."
+  ],
+  "createdAt": "2026-09-21T23:50:41Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3915f45d97a38bb77d4309e28c316bf561c5ab03a3f82d6fca8735f554f37b92",
+  "evidenceRefs": [
+    ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:47fef55b9efddb8e84af20f7c2b65257c966b5cd866ae8dde5c789f2e58646da",
+      "workItemId": "WI-983-knowledge-query-performance"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-981-knowledge-query-performance.verification-attempt.fce5172bbe05fce4db4ccde7a2cf3cb6ebb8c3f8f424a1dff6650c6ba266c78c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-983-knowledge-query-performance.verification-attempt.38b61e0566c2fa97739bd5d485b87a2f62d2603cc77ee9fe70e78662f46f58a9.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-983-knowledge-query-performance.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "Short-circuit impossible indexed filters and produce evidence-separated cold/warm CLI query measurements."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-983-knowledge-query-performance"
+  },
+  "taskReportDigest": "sha256:f6f67137c75bd5a10be7d60253ab715e5afa8b6b642c05179982182402cb9a54",
+  "taskReportMarkdownDigest": "sha256:4d5a55b885a75eaaf6b724a03f96320d8d873cb85c77f45274fa0f60e8c90fae",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-983-knowledge-query-performance.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-983-knowledge-query-performance"
+}
