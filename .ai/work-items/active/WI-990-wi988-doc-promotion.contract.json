@@ -20,8 +20,11 @@
     " close records",
     " or unrelated documentation changes."
   ],
+  "predecessorContractDigest": "sha256:666969c9ef7974cde1ab4a9ef82459c98769a1f959896f80b174f8323ff91c75",
+  "predecessorWorkItemId": "WI-989-wi988-doc-promotion",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-989-wi988-doc-promotion.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:ef9566d445f3cd84c77dad6a53e77e423225be3da5f299ea81156cce5c2e781c",
   "requiredEvidenceClasses": [

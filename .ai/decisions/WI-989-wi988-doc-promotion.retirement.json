@@ -1,0 +1,34 @@
+{
+  "actor": "human:user",
+  "archiveManifestDigest": "sha256:3588c3bc5b5641320b75096f91a63ef10904b7f044580135a4de73b12244fecb",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:3b6c8dd35cfb9e004b6f4fa5f463340c175637ec896e0cfe9db9ac33c147ed86",
+      "path": ".ai/work-items/archive/WI-989-wi988-doc-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:8319189f3ec9a7cbd67724666ea7399e71ea4305d1672c6daa9d2a676416bacc",
+      "path": ".ai/work-items/archive/WI-989-wi988-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:e16e81c85695ab3609bf4abbc9913398ddb8fdda797d7f2e25e03b20e526a2ff",
+      "path": ".ai/work-items/archive/WI-989-wi988-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "User authorization in the current acceptance review",
+  "contractDigest": "sha256:666969c9ef7974cde1ab4a9ef82459c98769a1f959896f80b174f8323ff91c75",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-989 was replaced before verification because its initial scope declaration mixed prose with path entries and the Runtime scope gate remained blocked. Its failed precondition and preflight evidence are preserved; WI-990 will repeat the same bounded WI-988 documentation projection with exact path-scoped Contract entries.",
+  "recordedAt": "2026-09-22T04:16:18Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9e0055cd87ef7bd486fde8c7789481388acd984d28d77864c4a0aa4ba080972f",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-990-wi988-doc-promotion",
+  "summaryDigest": "sha256:3d39b2fdf9d3f519c832b84e49c5701cd35882b5c9776378922a06eb72596f87",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-989-wi988-doc-promotion"
+}

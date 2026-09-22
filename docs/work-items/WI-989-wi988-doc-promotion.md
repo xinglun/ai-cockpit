@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-989 — WI-988 terminal documentation projection"
 description: "Promote the bounded WI-988 terminal documentation projection after its verified close."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-989-wi988-doc-promotion
 lastVerifiedBy: WI-989-wi988-doc-promotion
@@ -13,19 +13,25 @@ lastVerifiedBy: WI-989-wi988-doc-promotion
 
 # WI-989 — WI-988 terminal documentation projection
 
-WI-989 is the bounded documentation successor for the terminal WI-988
-projection. It records the immutable WI-988 archive, verification, and close
-facts without reopening source behavior or prior lifecycle records.
+WI-989 is preserved as an immutable failed predecessor. Its first verification
+was rejected because the self-projection pages were missing, and its second
+preflight was rejected because the initial scope declaration mixed prose with
+path entries. The failed-attempt evidence is retained under
+`.ai/evidence/`, the recovery binding is
+`.ai/decisions/WI-989-wi988-doc-promotion.recovery.json`, and the retirement
+receipt is `.ai/decisions/WI-989-wi988-doc-promotion.retirement.json`. WI-990
+owns the exact path-scoped bounded WI-988 projection. No verification or close
+is claimed for WI-989.
 
-## Boundary
+## Historical boundary
 
-Only the three WI-989 pages and their three reference-parity rows are added as
-the required self-projection for this documentation Work Item. The terminal
-WI-988 projection is the only documented subject; source code, release
-behavior, and lifecycle receipts remain out of scope.
+- The failed precondition evidence remains at
+  `.ai/evidence/WI-989-wi988-doc-promotion.verification-attempt.e38e7412919a37f5f803d679cca33e2578dc62fe5928139be10cea9ad83dbe87.json` and
+  `.ai/evidence/WI-989-wi988-doc-promotion.verification-attempt.ac465ae744c4da983183e60a1833fa42909a2178292422830f8e65aee15c5a31.json`.
+- The recovery record explicitly binds WI-990 as the successor.
+- WI-989 does not assert verification, completion, or close.
 
 ## Acceptance
 
-- The WI-988 pages and parity rows are terminally promoted from immutable WI-988 evidence.
-- The three WI-989 pages and parity rows preserve this Work Item's own bounded self-projection.
-- The declared single-item, repository-wide projection, parity, and status checks pass.
+- WI-989's failed attempt and recovery binding remain inspectable.
+- WI-990 owns the corrected terminal projection from immutable WI-988 evidence.

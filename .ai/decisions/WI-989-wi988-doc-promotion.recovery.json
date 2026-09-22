@@ -1,0 +1,26 @@
+{
+  "actor": "human:user",
+  "authoritySource": "User authorization in the current acceptance review",
+  "decidedAt": "2026-09-22T04:12:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-989-wi988-doc-promotion.verification-attempt.e38e7412919a37f5f803d679cca33e2578dc62fe5928139be10cea9ad83dbe87.json",
+    ".ai/evidence/WI-989-wi988-doc-promotion.verification-attempt.ac465ae744c4da983183e60a1833fa42909a2178292422830f8e65aee15c5a31.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:666969c9ef7974cde1ab4a9ef82459c98769a1f959896f80b174f8323ff91c75",
+  "predecessorSummaryDigest": "sha256:3d39b2fdf9d3f519c832b84e49c5701cd35882b5c9776378922a06eb72596f87",
+  "predecessorWorkItemId": "WI-989-wi988-doc-promotion",
+  "reason": "WI-989 cannot pass the Runtime scope gate because its initial scope declaration mixed prose with path entries. Continue the bounded WI-988 documentation projection on the exact path-scoped successor WI-990 and preserve WI-989 as not verified.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the explicitly bound WI-990 successor with exact path-scoped documentation Contract entries, then independently verify and close the bounded projection.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorBindingMode": "existing_active_successor",
+  "successorWorkItemId": "WI-990-wi988-doc-promotion",
+  "workItemId": "WI-989-wi988-doc-promotion"
+}

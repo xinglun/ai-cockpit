@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-989——WI-988 终态文档投影"
 description: "在 WI-988 验证关闭后，完成有边界的终态文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-989-wi988-doc-promotion
 lastVerifiedBy: WI-989-wi988-doc-promotion
@@ -13,16 +13,19 @@ lastVerifiedBy: WI-989-wi988-doc-promotion
 
 # WI-989——WI-988 终态文档投影
 
-WI-989 是针对已验证关闭的 WI-988 投影的有边界文档后继项。它记录 WI-988
-不可变的 archive、verification 和 close 事实，不重新打开源码行为或既有生命周期记录。
+WI-989 保留为不可变的失败前置项。第一次验证因缺少自身投影页面被拒绝，第二次
+preflight 因最初的 scope 声明混入说明文字和路径条目而被拒绝。失败尝试证据仍保存在
+`.ai/evidence/`，recovery 绑定为 `.ai/decisions/WI-989-wi988-doc-promotion.recovery.json`，
+retirement receipt 为 `.ai/decisions/WI-989-wi988-doc-promotion.retirement.json`。
+WI-990 负责使用精确路径范围完成 WI-988 的有边界终态投影。WI-989 不声称验证或关闭。
 
-## 边界
+## 历史边界
 
-仅新增本 Work Item 所需的三语页面及三份 reference-parity 台账行。文档主题仅为
-WI-988 的终态投影；源码、发布行为和生命周期 receipt 均不在范围内。
+- 失败前置条件证据保留在上述两个 `verification-attempt` 文件中。
+- recovery 记录明确将 WI-990 绑定为 successor。
+- WI-989 不声称验证、完成或关闭。
 
 ## 验收
 
-- WI-988 页面和 parity 行依据其不可变证据完成终态投影。
-- 三份 WI-989 页面和 parity 行保留本 Work Item 自身的有边界投影。
-- 单项投影、全仓投影、parity 和状态检查均通过。
+- WI-989 的失败尝试和 recovery 绑定保持可审计。
+- WI-990 负责依据 WI-988 不可变证据完成修正后的终态投影。
