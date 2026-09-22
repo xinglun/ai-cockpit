@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "English, Simplified Chinese, and Japanese WI-988 pages state terminal facts consistent with the immutable WI-988 archive, verification, and close evidence.",
+    "All three WI-988 reference-parity rows state Implemented/已实现 and cite the existing WI-988 archive, verification, and close records.",
+    "The three WI-990 language pages and all three WI-990 parity rows preserve this Work Item self-projection.",
+    "The single-item WI-988 projection and repository-wide --check-all command both pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "aca0b7ad043832dd886ef7879f35c6eece99e8b9",
+  "createdAt": "2026-09-22T04:10:56Z",
+  "goal": "Make the English, Simplified Chinese, and Japanese WI-988 documentation and reference-parity rows agree with the immutable WI-988 archive, verification, and close evidence, then prove the repository-wide closed-Work-Item projection check.",
+  "intent": "Promote the terminal documentation projection for closed WI-988",
+  "mode": "implementation",
+  "outOfScope": [
+    "No source behavior",
+    " tests implementation",
+    " release logic",
+    " Runtime source",
+    " archived lifecycle evidence",
+    " close records",
+    " or unrelated documentation changes."
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ef9566d445f3cd84c77dad6a53e77e423225be3da5f299ea81156cce5c2e781c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-988-wi986-doc-promotion.md",
+    "docs/work-items/WI-988-wi986-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-988-wi986-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.ja.md",
+    ".ai/**"
+  ],
+  "sources": [
+    "WI-988 close record: .ai/decisions/WI-988-wi986-doc-promotion.close.json",
+    "WI-988 archive: .ai/work-items/archive/WI-988-wi986-doc-promotion.contract.json",
+    "PR #963 merged at ded177da; lifecycle close records synchronized to aca0b7ad",
+    "WI-989 replaced before verification; its failed precondition and scope-gate evidence are preserved.",
+    "User authorized continuing this successor during the current acceptance review."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-988-wi986-doc-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/parity_status_check.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo ."
+  ],
+  "workItemId": "WI-990-wi988-doc-promotion"
+}
