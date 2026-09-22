@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-990-wi988-doc-promotion.verification-attempt.6b8d831452f69b545a98f70b40674d195ef229cad48d34d2d39ececaea1b2904.json
-- Changed path: .ai/work-items/active/WI-990-wi988-doc-promotion.contract.json
-- Changed path: .ai/work-items/active/WI-990-wi988-doc-promotion.summary.json
+- Changed path: .ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json
+- Changed path: .ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json
 - Changed path: docs/reference/reference-parity.ja.md
 - Changed path: docs/reference/reference-parity.md
 - Changed path: docs/reference/reference-parity.zh-CN.md

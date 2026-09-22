@@ -2,8 +2,8 @@
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-990-wi988-doc-promotion.verification-attempt.6b8d831452f69b545a98f70b40674d195ef229cad48d34d2d39ececaea1b2904.json",
-    ".ai/work-items/active/WI-990-wi988-doc-promotion.contract.json",
-    ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md",

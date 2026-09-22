@@ -44,70 +44,70 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-990-wi988-doc-promotion.verification-attempt.6b8d831452f69b545a98f70b40674d195ef229cad48d34d2d39ececaea1b2904.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-990-wi988-doc-promotion.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-990-wi988-doc-promotion.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-990-wi988-doc-promotion.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.summary.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-990-wi988-doc-promotion.zh-CN.md"
@@ -166,7 +166,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "Make the English, Simplified Chinese, and Japanese WI-988 documentation and reference-parity rows agree with the immutable WI-988 archive, verification, and close evidence, then prove the repository-wide closed-Work-Item projection check."
@@ -175,7 +175,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-990-wi988-doc-promotion.contract.json"
+            ".ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -185,8 +185,8 @@
     "status": "verified",
     "workItemId": "WI-990-wi988-doc-promotion"
   },
-  "taskReportDigest": "sha256:e1bea632270bfa09f5dd0b84f4b7f6823c17c1a853c6c489e42c289d8ee18312",
-  "taskReportMarkdownDigest": "sha256:9fbae661a8c899dd56024c810dac4809d799192038dfb4b55a32e75e115cd6b1",
+  "taskReportDigest": "sha256:958b744645981766770b744455839fc5771c06b220907c6159aca3a2ef464a4d",
+  "taskReportMarkdownDigest": "sha256:4f1ad93d46a7fbcb179dce7544c6a4d7918cfaead819292839e1796767b6095a",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
