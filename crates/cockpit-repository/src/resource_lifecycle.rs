@@ -2218,9 +2218,9 @@ pub struct OrdinaryCleanupReceipt {
     pub result: OrdinaryCleanupResult,
 }
 
-struct ValidatedOrdinaryCleanupReceipt {
-    receipt: OrdinaryCleanupReceipt,
-    digest: Digest,
+pub(crate) struct ValidatedOrdinaryCleanupReceipt {
+    pub(crate) receipt: OrdinaryCleanupReceipt,
+    pub(crate) digest: Digest,
 }
 
 #[derive(Default)]
@@ -2550,7 +2550,7 @@ pub(crate) fn ordinary_cleanup_binding_from_decision(
     Ok(Some(binding))
 }
 
-fn ordinary_cleanup_receipt_head(
+pub(crate) fn ordinary_cleanup_receipt_head(
     root: &Path,
     work_item_id: &str,
     binding: &OrdinaryCleanupBinding,

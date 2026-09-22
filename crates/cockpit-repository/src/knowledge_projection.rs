@@ -16,6 +16,8 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
     let knowledge = root.join(".ai/knowledge");
     let index_path = knowledge.join("index.json");
     let current_source_revision = git_text(&root, &["rev-parse", "--verify", "HEAD^{commit}"]);
+    let clean_source_revision =
+        knowledge_source_revision_if_clean(&root, current_source_revision.as_deref());
     if index_path.is_file() {
         // A derived cache is disposable.  An unreadable, malformed, or
         // schema-incompatible index is treated as stale and rebuilt through
@@ -29,7 +31,7 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
                 index.source_revision.as_deref(),
                 current_source_revision.as_deref(),
             ) && cached_revision == current_revision
-                && knowledge_archive_is_clean(&root).is_some_and(|clean| clean)
+                && clean_source_revision.as_deref() == Some(current_revision)
             {
                 return Ok(index);
             }
@@ -39,9 +41,9 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
             // non-Git repositories.
             let source_digest = knowledge_source_digest(&archive)?;
             if index.source_digest == source_digest {
-                if index.source_revision != current_source_revision {
+                if index.source_revision != clean_source_revision {
                     let mut refreshed = index;
-                    refreshed.source_revision = current_source_revision.clone();
+                    refreshed.source_revision = clean_source_revision.clone();
                     let encoded =
                         serde_json::to_value(&refreshed).map_err(|error| ObserverError::State {
                             path: index_path.clone(),
@@ -80,10 +82,7 @@ pub fn generate_knowledge(root: &Path) -> Result<cockpit_knowledge::KnowledgeInd
             &format!(".ai/work-items/archive/{work_item_id}.archive.json"),
         ));
     }
-    let source_revision = match (current_source_revision, knowledge_archive_is_clean(&root)) {
-        (Some(revision), Some(true)) => Some(revision),
-        _ => None,
-    };
+    let source_revision = clean_source_revision;
     let index = cockpit_knowledge::KnowledgeIndex::with_source_metadata(
         records,
         source_digest,
@@ -339,4 +338,11 @@ fn knowledge_archive_is_clean(root: &Path) -> Option<bool> {
         .status
         .success()
         .then(|| String::from_utf8_lossy(&status.stdout).trim().is_empty())
+}
+
+fn knowledge_source_revision_if_clean(root: &Path, revision: Option<&str>) -> Option<String> {
+    match (revision, knowledge_archive_is_clean(root)) {
+        (Some(revision), Some(true)) => Some(revision.to_owned()),
+        _ => None,
+    }
 }

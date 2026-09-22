@@ -142,6 +142,32 @@ fn knowledge_index_cache_rejects_tampered_record_even_when_source_is_unchanged()
 }
 
 #[test]
+fn knowledge_index_cache_rejects_tampered_derived_index_even_when_source_is_unchanged() {
+    let path = repository();
+    archive_one(&path, "WI-CACHE-DERIVED-TAMPER");
+    let first = generate_knowledge(&path).expect("first projection");
+    let index_path = path.join(".ai/knowledge/index.json");
+    let mut index: serde_json::Value =
+        serde_json::from_slice(&fs::read(&index_path).expect("index")).expect("index JSON");
+    index["by_topic"]["cache"] = serde_json::json!([]);
+    fs::write(
+        &index_path,
+        serde_json::to_vec_pretty(&index).expect("tampered index"),
+    )
+    .expect("write tampered index");
+
+    let rebuilt = generate_knowledge(&path).expect("rebuild tampered index");
+    assert_eq!(rebuilt, first);
+    let persisted: serde_json::Value =
+        serde_json::from_slice(&fs::read(index_path).expect("rebuilt index")).expect("JSON");
+    assert_eq!(
+        persisted["by_topic"]["cache"],
+        serde_json::json!(["WI-CACHE-DERIVED-TAMPER"])
+    );
+    fs::remove_dir_all(path).expect("cleanup");
+}
+
+#[test]
 fn legacy_index_shape_is_rebuilt_before_reuse() {
     let path = repository();
     archive_one(&path, "WI-CACHE-LEGACY");
@@ -217,6 +243,11 @@ fn dirty_cache_cannot_be_reused_after_archived_input_is_restored_clean() {
     assert_eq!(dirty.source_revision, None);
     assert_eq!(dirty.records[0].topic, "release");
     let dirty_source_digest = dirty.source_digest.clone();
+
+    let dirty_again = generate_knowledge(&path).expect("repeated dirty projection");
+    assert_eq!(dirty_again.source_revision, None);
+    assert_eq!(dirty_again.source_digest, dirty_source_digest);
+    assert_eq!(dirty_again.records[0].topic, "release");
 
     fs::write(&contract_path, &baseline_contract).expect("restore baseline contract");
     let restored = generate_knowledge(&path).expect("restored projection");

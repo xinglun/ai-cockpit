@@ -16,7 +16,8 @@ use std::path::{Path, PathBuf};
 use super::observation_ledger::{CandidateMatcher, ObservationLedger};
 use crate::{
     ObservationPhase, ObserverError, RepositoryExecutionContext,
-    close_decision_is_valid_for_status, read_json, repository_id,
+    close_decision_is_valid_for_status, ordinary_cleanup_binding_from_decision,
+    ordinary_cleanup_receipt_head, read_json, repository_id,
 };
 
 const MAX_OUTCOME_ASSEMBLY_ATTEMPTS: usize = 2;
@@ -295,6 +296,10 @@ fn assembly_observation_ledger(
             format!("{work_item_id}.finalize-recovery"),
         ),
         (
+            "ordinary cleanup receipt candidates",
+            format!("{work_item_id}.cleanup."),
+        ),
+        (
             "preflight review decision candidates",
             format!("{work_item_id}.preflight-review"),
         ),
@@ -346,6 +351,7 @@ fn register_decision_references(
         format!("{work_item_id}.finalize"),
         format!("{work_item_id}.recovery"),
         format!("{work_item_id}.finalize-recovery"),
+        format!("{work_item_id}.cleanup."),
         format!("{work_item_id}.preflight-review"),
         format!("{work_item_id}.close"),
     ];
@@ -474,7 +480,7 @@ fn finalization_projection(
         return finalization_projection_unknown("contract_invalid");
     };
     if contract.resource_context.is_none() {
-        return finalization_projection_from_parts(FinalizationProjectionParts {
+        let mut projection = finalization_projection_from_parts(FinalizationProjectionParts {
             root,
             work_item_id,
             state: "not_required",
@@ -484,6 +490,22 @@ fn finalization_projection(
             reliable: true,
             diagnostic: None,
         });
+        return match ordinary_cleanup_projection(root, work_item_id, &contract.repository_id) {
+            Ok(cleanup) => {
+                projection.cleanup = cleanup;
+                projection
+            }
+            Err(error) => finalization_projection_from_parts(FinalizationProjectionParts {
+                root,
+                work_item_id,
+                state: "record_corrupt",
+                error_code: Some("record_corrupt"),
+                disposition: None,
+                action: "inspect_recovery_conditions_before_action",
+                reliable: false,
+                diagnostic: Some(error.to_string()),
+            }),
+        };
     }
     let receipt_path = root
         .join(".ai/decisions")
@@ -549,6 +571,88 @@ fn finalization_projection(
             })
         }
     }
+}
+
+fn ordinary_cleanup_projection(
+    root: &Path,
+    work_item_id: &str,
+    repository_id: &str,
+) -> Result<Option<OutcomeFinalizationCleanupProjection>, ObserverError> {
+    let close_path = root
+        .join(".ai/decisions")
+        .join(format!("{work_item_id}.close.json"));
+    if !close_path.is_file() {
+        return Ok(None);
+    }
+    let decision = read_json(&close_path)?;
+    let Some(binding) =
+        ordinary_cleanup_binding_from_decision(root, work_item_id, repository_id, &decision)?
+    else {
+        return Ok(None);
+    };
+    let binding_value = serde_json::to_value(&binding).map_err(|error| ObserverError::State {
+        path: close_path.clone(),
+        message: error.to_string(),
+    })?;
+    let binding_digest =
+        cockpit_protocol::digest_json(&binding_value).map_err(|error| ObserverError::State {
+            path: close_path.clone(),
+            message: error.to_string(),
+        })?;
+    let Some(head) = ordinary_cleanup_receipt_head(root, work_item_id, &binding, &binding_digest)?
+    else {
+        return Ok(None);
+    };
+
+    let disposition = |state: &str| match state {
+        "removed" => OutcomeFinalizationResourceDisposition::Deleted,
+        "present" => OutcomeFinalizationResourceDisposition::Retained,
+        _ => OutcomeFinalizationResourceDisposition::Unknown,
+    };
+    let resources = vec![
+        OutcomeFinalizationResource {
+            kind: "branch".into(),
+            identity: head.receipt.branch_ref.clone(),
+            state: head.receipt.observation.branch.clone(),
+            disposition: disposition(&head.receipt.observation.branch),
+        },
+        OutcomeFinalizationResource {
+            kind: "worktree".into(),
+            identity: head.receipt.worktree_id.to_string(),
+            state: head.receipt.observation.worktree.clone(),
+            disposition: disposition(&head.receipt.observation.worktree),
+        },
+    ];
+    let count = |value| {
+        resources
+            .iter()
+            .filter(|resource| resource.disposition == value)
+            .count() as u32
+    };
+    let reason = if head.receipt.result.state == "verified" {
+        "ordinary cleanup receipt verified the bound branch and worktree removal".into()
+    } else if head.receipt.result.failure_codes.is_empty() {
+        "ordinary cleanup receipt recorded a failed cleanup observation".into()
+    } else {
+        format!(
+            "ordinary cleanup receipt recorded failed cleanup: {}",
+            head.receipt.result.failure_codes.join(", ")
+        )
+    };
+    let digest = head.digest.to_string();
+    let digest_suffix = digest.strip_prefix("sha256:").unwrap_or(&digest);
+    let receipt_path = format!(
+        ".ai/decisions/{work_item_id}.cleanup.{:06}.{digest_suffix}.json",
+        head.receipt.sequence
+    );
+    Ok(Some(OutcomeFinalizationCleanupProjection {
+        deleted_count: count(OutcomeFinalizationResourceDisposition::Deleted),
+        retained_count: count(OutcomeFinalizationResourceDisposition::Retained),
+        unknown_count: count(OutcomeFinalizationResourceDisposition::Unknown),
+        resources,
+        reason,
+        evidence_refs: vec![receipt_path, format!("receiptDigest:{digest}")],
+    }))
 }
 
 fn finalization_cleanup_projection(value: &Value) -> Option<OutcomeFinalizationCleanupProjection> {

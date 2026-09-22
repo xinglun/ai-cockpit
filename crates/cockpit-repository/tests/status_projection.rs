@@ -455,6 +455,31 @@ fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_remo
     .expect("record pending exact resources");
     let failed = serde_json::to_value(failed).expect("failed cleanup receipt JSON");
     assert_eq!(failed["result"]["state"], "failed");
+    let outcome_input = outcome_render_input_with_runtime(&linked_path, work_item_id, &runtime())
+        .expect("assemble Outcome from ordinary cleanup receipt");
+    let cleanup = outcome_input
+        .finalization
+        .cleanup
+        .as_ref()
+        .expect("ordinary cleanup receipt should project cleanup facts");
+    assert_eq!(cleanup.deleted_count, 0);
+    assert_eq!(cleanup.retained_count, 2);
+    assert_eq!(cleanup.unknown_count, 0);
+    assert!(
+        cleanup
+            .resources
+            .iter()
+            .any(|resource| resource.identity == "refs/heads/feature/ordinary-cleanup")
+    );
+    assert!(
+        cleanup
+            .evidence_refs
+            .iter()
+            .any(|reference| reference.contains(&format!("{work_item_id}.cleanup.")))
+    );
+    let outcome_text = render_human_outcome(&outcome_input, "en");
+    assert!(outcome_text.contains("refs/heads/feature/ordinary-cleanup"));
+    assert!(outcome_text.contains("ordinary cleanup receipt"));
     let failed_status =
         work_item_status_snapshot_with_runtime(&linked_path, work_item_id, &runtime())
             .expect("failed cleanup status");
