@@ -423,42 +423,6 @@ fn intent_tokens(intent: &str) -> Vec<String> {
         .collect()
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn record(id: &str, topic: &str) -> KnowledgeRecord {
-        KnowledgeRecord {
-            work_item_id: id.into(),
-            topic: topic.into(),
-            component: "component".into(),
-            state: "archived".into(),
-            knowledge_path: format!(".ai/knowledge/{id}.json"),
-            evidence_refs: vec![format!(".ai/work-items/archive/{id}.archive.json")],
-        }
-    }
-
-    #[test]
-    fn structural_validation_does_not_rebuild_the_derived_index() {
-        let index = KnowledgeIndex::from_records(vec![
-            record("WI-2", "release"),
-            record("WI-1", "knowledge"),
-        ]);
-        FROM_RECORDS_CALLS.store(0, Ordering::Relaxed);
-
-        assert!(index.is_structurally_valid());
-        assert_eq!(FROM_RECORDS_CALLS.load(Ordering::Relaxed), 0);
-    }
-
-    #[test]
-    fn structural_validation_rejects_derived_index_tampering() {
-        let mut index = KnowledgeIndex::from_records(vec![record("WI-1", "knowledge")]);
-        index.by_topic.get_mut("knowledge").unwrap().clear();
-
-        assert!(!index.is_structurally_valid());
-    }
-}
-
 /// Project the same archive record into the provenance-aware v2 shape.  The
 /// legacy index remains readable; callers opt into v2 when they need to show
 /// the snapshot binding and unresolved facts.
@@ -508,5 +472,41 @@ pub fn project_record_v2_with_context(
             Vec::new()
         },
         source_snapshot_digest: snapshot_digest,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn record(id: &str, topic: &str) -> KnowledgeRecord {
+        KnowledgeRecord {
+            work_item_id: id.into(),
+            topic: topic.into(),
+            component: "component".into(),
+            state: "archived".into(),
+            knowledge_path: format!(".ai/knowledge/{id}.json"),
+            evidence_refs: vec![format!(".ai/work-items/archive/{id}.archive.json")],
+        }
+    }
+
+    #[test]
+    fn structural_validation_does_not_rebuild_the_derived_index() {
+        let index = KnowledgeIndex::from_records(vec![
+            record("WI-2", "release"),
+            record("WI-1", "knowledge"),
+        ]);
+        FROM_RECORDS_CALLS.store(0, Ordering::Relaxed);
+
+        assert!(index.is_structurally_valid());
+        assert_eq!(FROM_RECORDS_CALLS.load(Ordering::Relaxed), 0);
+    }
+
+    #[test]
+    fn structural_validation_rejects_derived_index_tampering() {
+        let mut index = KnowledgeIndex::from_records(vec![record("WI-1", "knowledge")]);
+        index.by_topic.get_mut("knowledge").unwrap().clear();
+
+        assert!(!index.is_structurally_valid());
     }
 }
