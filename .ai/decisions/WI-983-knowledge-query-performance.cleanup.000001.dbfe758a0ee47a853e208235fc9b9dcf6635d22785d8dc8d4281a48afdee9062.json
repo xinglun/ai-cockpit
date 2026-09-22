@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:80a8508ec650fe02a2b2444bb7fec677f377379e49e7af9f3bf2656ba703cf9b",
+  "branchRef": "refs/heads/codex/wi-983-knowledge-query-performance",
+  "contractDigest": "sha256:11d8bbf287ed1daffa40ab85572959d1b0f1a4dfa9c61a22e1c6161605a4b794",
+  "headRevision": "b1a98b7af154afe7d1cf70b82cf13f4c1c14395f",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-22T01:18:16Z",
+  "operationId": "sha256:4f4da6e70c809d19af3869e1ef81d28e328316dad2de71d60e81e64d458a2d5c",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-983-knowledge-query-performance",
+  "worktreeId": "sha256:43b77039bffad32eed7cbeebb154390b7fb35e75f11f0824b9a375d1b1edc203"
+}

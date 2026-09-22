@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:ca4c0954581ef73be53fb4a0df32baf6511a6f036223f48a6a8bea4668126889",
+  "branchRef": "refs/heads/codex/wi-984-doc-promotion",
+  "contractDigest": "sha256:1769a8c2f064c2ee59ffa904f208e3125c611de19829852ded403491d6f4dbf5",
+  "headRevision": "b94a68c64f949a898784ac5d2be9ab24ef6d5f44",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-22T01:18:16Z",
+  "operationId": "sha256:0d2d13e694b2a4c8e4956ab289b19ede231a0e3207e29fc34e3bf6ad2aeeddf2",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-984-doc-promotion",
+  "worktreeId": "sha256:b23dd5f58e42a063f0dbd4c1169570d3f459bbfdc915ba75baa6ce5898669f21"
+}

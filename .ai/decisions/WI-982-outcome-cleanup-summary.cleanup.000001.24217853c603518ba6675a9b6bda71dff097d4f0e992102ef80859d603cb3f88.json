@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:b56595f6306e91e6fe2270382e1cede8d4d9b544d01ff37bf9fe51673caa56f2",
+  "branchRef": "refs/heads/codex/wi-982-outcome-cleanup-summary",
+  "contractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+  "headRevision": "12d560ff2259b7eec8e9c95cc292735750e3ca03",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-22T01:18:16Z",
+  "operationId": "sha256:31776f356f945b379b2a96f5908f1c554af6f05943ea68659147aa33d917d2c6",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-982-outcome-cleanup-summary",
+  "worktreeId": "sha256:82e26328f47a72a48ef3f76e626f240a669cadc5425f8432dacc5a4d9ca74c33"
+}
