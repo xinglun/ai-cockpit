@@ -103,7 +103,11 @@
     "user instruction approved 2026-09-22: runtime-guide-action-outcome scope",
     "origin/main@74ce5abed00385c92b026d62aa8893d92f78b570",
     "fixed Runtime /Users/sei-rinn/.local/bin/ai-cockpit version 0.2.105 sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
-    "repository release v0.2.106 tag c343c23b is historical context only"
+    "repository release v0.2.106 tag c343c23b is historical context only",
+    {
+      "path": "user instruction approved 2026-09-22: final acceptance mapping and evidence-binding correction",
+      "reason": "Binds the already approved acceptance criteria to this final review; adds no criterion, no historical rewrite, and no new progress interface."
+    }
   ],
   "state": "implementation_active",
   "verification": [

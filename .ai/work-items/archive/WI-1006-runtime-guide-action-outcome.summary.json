@@ -1,0 +1,180 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.0e76e45f9138ebe2a85882e2e1dca61c474aa344d723075cf154e8a51652765d.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.14b8f1c69481f61414b3a612542f9ef648bd25496d477a401e6b022d32bdb419.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.23f920b211432d65b7d704507e30815c4a8f88193843f5bc1a1dbe1c94c2c933.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.2454e9ab8fa30d946c516554de2f3f19256667aa57d33edffe9f53cbe51b9ad4.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.839e6fe0b573fbfdba5a17cb846ec1febfa8b46715942222c8278f0a943fd1a4.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.9a40e1ba7dcf7c0aff4f5a106b9db8c4149862c6da551869660fd9c9db555588.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.9e3f24048582fb8bc8b5e5c18964e1b59dcb340073f8e536a66edbb115fe0393.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.bbd777580a1da9319a54532c1e37104be8274b7961f8869835128ab4672946b6.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.d2749ceea2d8ad40dcd8ac08db71b13b98c9f456230cd33a32aa7fb649f08443.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.e6a409156f2bd2020b61e49c2af0d70e8efdbdbb63f5afb0584bc091e18837b5.json",
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json",
+    ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.contract.json",
+    ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+  ],
+  "checkpointAt": "2026-09-22T12:33:27Z",
+  "checkpointContractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:6a63705f31272c8ed86069ef2305e34a7f96fb8b25279cdf6ed6642c350537d7",
+      "recorded": true,
+      "recordedAt": "2026-09-22T12:33:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4e316c758e49b740e00773b5ed77b9f34a13e8bb97fe47aeb4f19f6365df6b8e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1006-runtime-guide-action-outcome"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6a63705f31272c8ed86069ef2305e34a7f96fb8b25279cdf6ed6642c350537d7",
+      "previousContractHash": "sha256:6a63705f31272c8ed86069ef2305e34a7f96fb8b25279cdf6ed6642c350537d7",
+      "reason": "Bind the already approved acceptance criteria and this review source into the active Contract without adding requirements or rewriting history.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T14:46:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e727200477131c7b49ebc9384b49cd9fa949642f5baed4339647ce3b900abb43",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1006-runtime-guide-action-outcome"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e727200477131c7b49ebc9384b49cd9fa949642f5baed4339647ce3b900abb43",
+  "createdAt": "2026-09-22T12:31:33Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+    "items": [
+      {
+        "class": "governance_cost_baseline",
+        "evidence": [
+          {
+            "digest": "sha256:0c5b3e55b181f7fe7407f0d928a1478906e1a35fc784e403feffd4f992d766d8",
+            "locator": "baseline and post-A byte measurements",
+            "path": "docs/superpowers/specs/2026-09-22-runtime-guide-action-outcome-design.md",
+            "type": "document",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "cli_mcp_action_parity",
+        "evidence": [
+          {
+            "digest": "sha256:d5585674389fd18ae85c281a0b54e3f61affa20c99f52254bc2924ee300d58ad",
+            "locator": "repository_bound_work_item_status_is_read_only_and_repository_scoped",
+            "path": "crates/cockpit-mcp/tests/rpc.rs",
+            "type": "test",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "projection_idempotence",
+        "evidence": [
+          {
+            "digest": "sha256:15fbaa54b5e9a2cb7e93c81642aa6e1902df32b0c6be96b4e8ddbda0923e9ae6",
+            "locator": "repeated promotion has no changes and no successor",
+            "path": "tests/docs/promote_closed_work_item_test.sh",
+            "type": "test",
+            "verification": "passed"
+          }
+        ]
+      },
+      {
+        "class": "outcome_delivery",
+        "evidence": [
+          {
+            "digest": "sha256:b076405ca6e61440bb384d21f5d099b82652fc99259ba8101d10acb6d37e6454",
+            "locator": "success blocked and recovery delivery cases",
+            "path": "crates/cockpit-agent/tests/outcome_delivery.rs",
+            "type": "test",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/specs/2026-09-22-runtime-guide-action-outcome-design.md",
+      "agents/skills/ordinary-work-item.md",
+      "agents/skills/verification-failure-recovery.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-22T14:52:33Z",
+  "preflightContractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e727200477131c7b49ebc9384b49cd9fa949642f5baed4339647ce3b900abb43",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "required": true,
+      "scenario": "ordinary Work Item completion and cleanup",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/status_projection.rs"
+      ],
+      "required": true,
+      "scenario": "verification failure or timeout recovery",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/tests/lifecycle_entry.rs"
+      ],
+      "required": true,
+      "scenario": "stale query after Contract or snapshot change",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-mcp/tests/rpc.rs"
+      ],
+      "required": true,
+      "scenario": "CLI and MCP action projection parity",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-agent/tests/outcome_delivery.rs"
+      ],
+      "required": true,
+      "scenario": "Outcome delivery without host display confirmation",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T17:28:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}

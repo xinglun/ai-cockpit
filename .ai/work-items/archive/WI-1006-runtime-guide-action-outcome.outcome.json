@@ -1,0 +1,230 @@
+{
+  "acceptanceResults": [
+    "普通 WI 默认静态必读文本字节数相对基线减少至少 40%，且减少来自条件性内容迁移而非排版压缩。",
+    "普通成功路径必需命令数和完整验证次数不增加；状态查询不启动验证进程。",
+    "查询与执行共用准入结论，执行在状态变化后重新评估，推荐动作不产生授权。",
+    "CLI 与 MCP 的核心状态、阻塞和动作准入一致；机械 Reference 从权威定义生成并检测失效示例。",
+    "close 后投影输入身份明确、历史证据不变、重复同步无差异且不产生递归 successor。",
+    "成功、阻塞和恢复 Outcome 均保留状态、完成内容、证据、未知/风险、决策和下一步，并保持宿主可见性未知边界。",
+    "Reference drift 的既有差异与本次引入差异分开记录。"
+  ],
+  "createdAt": "2026-09-22T17:28:49Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:db99922fa84e363fbcb8f55a0efa648a2a8378a476c62f789c8b6fefbff73ee7",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e727200477131c7b49ebc9384b49cd9fa949642f5baed4339647ce3b900abb43",
+      "workItemId": "WI-1006-runtime-guide-action-outcome"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.0e76e45f9138ebe2a85882e2e1dca61c474aa344d723075cf154e8a51652765d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.14b8f1c69481f61414b3a612542f9ef648bd25496d477a401e6b022d32bdb419.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.23f920b211432d65b7d704507e30815c4a8f88193843f5bc1a1dbe1c94c2c933.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.2454e9ab8fa30d946c516554de2f3f19256667aa57d33edffe9f53cbe51b9ad4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.839e6fe0b573fbfdba5a17cb846ec1febfa8b46715942222c8278f0a943fd1a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.9a40e1ba7dcf7c0aff4f5a106b9db8c4149862c6da551869660fd9c9db555588.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.9e3f24048582fb8bc8b5e5c18964e1b59dcb340073f8e536a66edbb115fe0393.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.bbd777580a1da9319a54532c1e37104be8274b7961f8869835128ab4672946b6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.d2749ceea2d8ad40dcd8ac08db71b13b98c9f456230cd33a32aa7fb649f08443.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification-attempt.e6a409156f2bd2020b61e49c2af0d70e8efdbdbb63f5afb0584bc091e18837b5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1006-runtime-guide-action-outcome.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.contract.json"
+          ],
+          "inference": false,
+          "text": "按 A→B→C 串行完成基线与职责迁移、任务指南与入口精简、统一行动解释与命令事实来源、有限收敛的文档投影和完整 Outcome 交付。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1006-runtime-guide-action-outcome"
+  },
+  "taskReportDigest": "sha256:7a9c5f9fa9e529e123e0872b87daa58b98bfa429574862ed48fed917db9d4adc",
+  "taskReportMarkdownDigest": "sha256:de37fc4532760d9be3131e83be739aabac39b043081ca391218521a79db63357",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}
