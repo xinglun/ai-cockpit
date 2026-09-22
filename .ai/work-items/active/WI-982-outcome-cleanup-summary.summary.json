@@ -1,21 +1,11 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.3213609505a828e455db677f8edde68e728b610aa9b4c4acf2951c20121dd19f.json",
-    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.b418882b55e9df9b3b01de257cba05c1fa37da3a6be6891b492526ae6f76d54c.json",
-    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.json",
+    ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.d676d8eb8864acc689eccfc966a12babccc92f094476d1ab32e8cce737af46d3.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-982-outcome-cleanup-summary.verification-attempt.831d69e38752046e76d645e640c2333ff3a3a7fdf9b3a821d5003e77b88791e6.json",
-    ".ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json",
     ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json",
-    "crates/cockpit-protocol/src/lib.rs",
-    "crates/cockpit-protocol/tests/resource_finalization.rs",
-    "crates/cockpit-repository/src/outcome_render.rs",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-982-outcome-cleanup-summary.ja.md",
-    "docs/work-items/WI-982-outcome-cleanup-summary.md",
-    "docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md"
+    "docs/reference/reference-parity.zh-CN.md"
   ],
   "checkpointAt": "2026-09-21T22:43:54Z",
   "checkpointContractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
@@ -56,7 +46,7 @@
       "workItemId": "WI-982-outcome-cleanup-summary"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+  "checkpointRepositorySnapshotDigest": "sha256:5215c14132381b46e9a7d1429ecc7e92cc4f2a31d51b6bdc22187898a3819dd4",
   "createdAt": "2026-09-21T22:36:19Z",
   "decisionEvidence": {
     "contractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
@@ -64,10 +54,10 @@
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "User explicitly authorized reopening and continuing this bounded Work Item. This fresh receipt confirms the current preflight review for lifecycle execution and verification only; it does not assert implementation, tests, hosted checks, merge, release, or Outcome quality.",
-    "recordedAt": "2026-09-21T23:52:00Z",
+    "recordedAt": "2026-09-22T00:05:00Z",
     "recordedBy": "human:user",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+    "repositorySnapshotDigest": "sha256:5215c14132381b46e9a7d1429ecc7e92cc4f2a31d51b6bdc22187898a3819dd4",
     "schemaVersion": 1,
     "workItemId": "WI-982-outcome-cleanup-summary"
   },
@@ -81,10 +71,10 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-21T23:52:49Z",
+  "preflightAt": "2026-09-22T00:04:22Z",
   "preflightContractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+  "preflightRepositorySnapshotDigest": "sha256:5215c14132381b46e9a7d1429ecc7e92cc4f2a31d51b6bdc22187898a3819dd4",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -148,7 +138,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-21T23:52:54Z",
+  "updatedAt": "2026-09-22T00:04:21.453822+00:00",
   "verification": [
     {
       "check": "project-command-0",

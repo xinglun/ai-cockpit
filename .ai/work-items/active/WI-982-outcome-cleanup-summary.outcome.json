@@ -9,7 +9,7 @@
   ],
   "createdAt": "2026-09-21T23:52:54Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:61be2076adfad8d3b9d685358199926cc2b85e581e74f4ca4c9f98c08bcf2f92",
+  "evidenceDigest": "sha256:2c9cd082d66b82280c917dd90a52a48d15fb81dcb8714f00b9438d45c00bd3e2",
   "evidenceRefs": [
     ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
   ],
@@ -35,7 +35,7 @@
         ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+      "repositorySnapshotDigest": "sha256:5215c14132381b46e9a7d1429ecc7e92cc4f2a31d51b6bdc22187898a3819dd4",
       "workItemId": "WI-982-outcome-cleanup-summary"
     },
     "format": "ai-cockpit.task-outcome",
@@ -229,7 +229,7 @@
     "status": "verified",
     "workItemId": "WI-982-outcome-cleanup-summary"
   },
-  "taskReportDigest": "sha256:f70bccfe6b81630776592297ba92dde57e71c499b77a027d207cd90d216535b1",
+  "taskReportDigest": "sha256:d45da2e72d145502fcc447f3b1196019c2f81186d95282223c30f75ae7e96c07",
   "taskReportMarkdownDigest": "sha256:07b2b5616464d9bc60cf803038b50ede04e3f76433370b8de726dd737e722dbf",
   "unknowns": [
     "user_visible_benefit_not_declared"
