@@ -4,10 +4,15 @@ use std::collections::BTreeMap;
 use thiserror::Error;
 
 #[cfg(test)]
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::{
+    Mutex,
+    atomic::{AtomicUsize, Ordering},
+};
 
 #[cfg(test)]
 static FROM_RECORDS_CALLS: AtomicUsize = AtomicUsize::new(0);
+#[cfg(test)]
+static FROM_RECORDS_TEST_LOCK: Mutex<()> = Mutex::new(());
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -52,7 +57,10 @@ pub struct KnowledgeIndex {
 impl KnowledgeIndex {
     pub fn from_records(mut records: Vec<KnowledgeRecord>) -> Self {
         #[cfg(test)]
-        FROM_RECORDS_CALLS.fetch_add(1, Ordering::Relaxed);
+        {
+            let _guard = FROM_RECORDS_TEST_LOCK.lock().unwrap();
+            FROM_RECORDS_CALLS.fetch_add(1, Ordering::Relaxed);
+        }
         records.sort_by(|left, right| left.work_item_id.cmp(&right.work_item_id));
         let mut dependencies = BTreeMap::new();
         let mut by_topic = BTreeMap::new();
@@ -496,6 +504,7 @@ mod tests {
             record("WI-2", "release"),
             record("WI-1", "knowledge"),
         ]);
+        let _guard = FROM_RECORDS_TEST_LOCK.lock().unwrap();
         FROM_RECORDS_CALLS.store(0, Ordering::Relaxed);
 
         assert!(index.is_structurally_valid());

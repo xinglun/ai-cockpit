@@ -521,6 +521,38 @@ fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_remo
 }
 
 #[test]
+fn ordinary_cleanup_summary_rejects_an_invalid_close_decision() {
+    let work_item_id = "WI-STATUS-ORDINARY-INVALID-CLOSE";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close ordinary work item");
+    cockpit_repository::record_ordinary_cleanup_with_runtime(
+        directory.path(),
+        work_item_id,
+        &runtime(),
+    )
+    .expect("record pending exact resources");
+
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json")),
+        "{\"workItemId\":\"foreign\"}",
+    )
+    .expect("tamper close decision");
+    let outcome_input =
+        outcome_render_input_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("assemble Outcome from invalid close decision");
+    assert!(outcome_input.finalization.cleanup.is_none());
+    assert!(outcome_input.archived_unclosed);
+}
+
+#[test]
 fn ordinary_cleanup_keeps_unobservable_worktree_unknown_instead_of_verified_removed() {
     let work_item_id = "WI-STATUS-ORDINARY-UNOBSERVABLE";
     let primary = repository();

@@ -581,7 +581,7 @@ fn ordinary_cleanup_projection(
     let close_path = root
         .join(".ai/decisions")
         .join(format!("{work_item_id}.close.json"));
-    if !close_path.is_file() {
+    if !close_decision_is_valid_for_status(root, work_item_id, repository_id) {
         return Ok(None);
     }
     let decision = read_json(&close_path)?;
