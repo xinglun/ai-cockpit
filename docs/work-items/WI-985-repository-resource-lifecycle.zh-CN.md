@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-985——repository resource lifecycle 边界"
 description: "在保持公开 API、receipt、错误与恢复行为不变的前提下，将 resource finalization、ordinary cleanup 和关闭时资源校验提取到同 crate 模块。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:user
 workItemId: WI-985-repository-resource-lifecycle
 lastVerifiedBy: WI-985-repository-resource-lifecycle
+terminalArchive: .ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json
+terminalVerification: .ai/evidence/WI-985-repository-resource-lifecycle.verification.json
+terminalDecision: .ai/decisions/WI-985-repository-resource-lifecycle.close.json
 ---
 
 [English](WI-985-repository-resource-lifecycle.md) · [日本語](WI-985-repository-resource-lifecycle.ja.md)

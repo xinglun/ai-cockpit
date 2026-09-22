@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-985 — repository resource lifecycle boundary"
 description: "Extract resource finalization, ordinary cleanup, and close-time resource validation into a same-crate module while preserving public APIs, receipts, errors, and recovery behavior."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:user
 workItemId: WI-985-repository-resource-lifecycle
 lastVerifiedBy: WI-985-repository-resource-lifecycle
+terminalArchive: .ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json
+terminalVerification: .ai/evidence/WI-985-repository-resource-lifecycle.verification.json
+terminalDecision: .ai/decisions/WI-985-repository-resource-lifecycle.close.json
 ---
 
 [简体中文](WI-985-repository-resource-lifecycle.zh-CN.md) · [日本語](WI-985-repository-resource-lifecycle.ja.md)

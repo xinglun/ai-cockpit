@@ -1,0 +1,64 @@
+{
+  "attemptId": "sha256:b122809d8cdec1ac71a887dfb65fd4814406e5cd528c4f3583393ce73e4d2214",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--work-item",
+        "WI-985-repository-resource-lifecycle"
+      ],
+      "baseCommit": "c975de9f65f4c598add20eace578759e6ac37b4c",
+      "commandDigest": "sha256:5a45d53cef25dc0fdb5d3784158dbb6e92e56323d8ed3831acbbb859fa6b4cb7",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--check-all"
+      ],
+      "baseCommit": "c975de9f65f4c598add20eace578759e6ac37b4c",
+      "commandDigest": "sha256:52be3f9a2cb3c519a4c8e6fc479bf4dccc2280681bc3a161a8f8752bc391ad42",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:598fd12aca6dc5de390eebec637debfb5778919a7f53aca79857506f66951a18",
+  "contractExecutionScopeDigest": "sha256:696fbe710e28c96d19bdca3e59ea7f9d5921f165ab84c8b09cffa1b3af7fcb93",
+  "createdAt": "2026-09-22T03:06:37Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-986-wi985-doc-promotion/ai-cockpit/.ai/work-items/active/WI-986-wi985-doc-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:71965fb6b45a4a1fdf83175b4808a43fc6ee7be726ab980c8727e66f01c6be05",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-986-wi985-doc-promotion"
+}

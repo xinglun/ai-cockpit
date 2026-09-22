@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-985 — repository resource lifecycle 境界"
 description: "公開 API、receipt、エラー、recovery の動作を維持したまま、resource finalization、ordinary cleanup、close 時の resource 検証を同一 crate の module へ抽出する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:user
 workItemId: WI-985-repository-resource-lifecycle
 lastVerifiedBy: WI-985-repository-resource-lifecycle
+terminalArchive: .ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json
+terminalVerification: .ai/evidence/WI-985-repository-resource-lifecycle.verification.json
+terminalDecision: .ai/decisions/WI-985-repository-resource-lifecycle.close.json
 ---
 
 [English](WI-985-repository-resource-lifecycle.md) · [简体中文](WI-985-repository-resource-lifecycle.zh-CN.md)
