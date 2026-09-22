@@ -19,6 +19,14 @@ reference product boundary と一致する部分、partial/deferred の部分、
 を記録します。一般利用者は [Current reader route](../current/README.ja.md) から開始し、field-level
 mapping は [Contract と Summary の fields](contract-fields.ja.md) を参照してください。
 
+## Cleanup Outcome reader contract
+
+検証済みの resource-finalization receipt がある場合、共有 human Outcome renderer は
+削除済み・保持・不明の object count を示し、pull request、branch、worktree の正確な
+identity と観測 state を列挙します。receipt に束縛された理由、evidence reference、
+structured next action も保持します。receipt が欠落または無効な場合、事実は不明のままで、
+この reader projection は host display の確認も権限も追加しません。
+
 ## Current reference source
 
 Current comparison metadata は file-level comparison route と共有する
@@ -942,6 +950,7 @@ context、isolated records、dynamic verification、fail-closed lifecycle、visi
 | WI-958-v0-2-103-release — v0.2.103 Runtime リリース | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-958-v0-2-103-release.ja.md); planned archive `.ai/work-items/archive/WI-958-v0-2-103-release.contract.json`、verification `.ai/evidence/WI-958-v0-2-103-release.verification.json`、finalization `.ai/decisions/WI-958-v0-2-103-release.finalize.json`、close `.ai/decisions/WI-958-v0-2-103-release.close.json`。公開は最後に行い、immutable release identity、public artifact acceptance、正確な cleanup、release 後の Sentinel #902 通知に拘束される。 |
 | WI-959-v0-2-103-release-recovery — v0.2.103 release verification recovery | Implemented | [Work Item](../work-items/WI-959-v0-2-103-release-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-959-v0-2-103-release-recovery.contract.json`; verification `.ai/evidence/WI-959-v0-2-103-release-recovery.verification.json`; finalization `.ai/decisions/WI-959-v0-2-103-release-recovery.finalize.json`; close `.ai/decisions/WI-959-v0-2-103-release-recovery.close.json`. |
 | WI-964-archive-boundary-recovery — immutable archive boundary recovery | Implemented | [Work Item](../work-items/WI-964-archive-boundary-recovery.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-964-archive-boundary-recovery.contract.json`; verification `.ai/evidence/WI-964-archive-boundary-recovery.verification.json`; close `.ai/decisions/WI-964-archive-boundary-recovery.close.json`. |
+| WI-982-outcome-cleanup-summary — 共有 human Outcome における検証済み cleanup facts | In progress → verified close 後 Implemented | [Work Item](../work-items/WI-982-outcome-cleanup-summary.ja.md); planned archive `.ai/work-items/archive/WI-982-outcome-cleanup-summary.contract.json`、verification `.ai/evidence/WI-982-outcome-cleanup-summary.verification.json`、finalization `.ai/decisions/WI-982-outcome-cleanup-summary.finalize.json`、close `.ai/decisions/WI-982-outcome-cleanup-summary.close.json`。 |
 | WI-912-wi911-doc-promotion — WI-911 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-912-wi911-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-912-wi911-doc-promotion.contract.json`; verification `.ai/evidence/WI-912-wi911-doc-promotion.verification.json`; close `.ai/decisions/WI-912-wi911-doc-promotion.close.json`. |
 | WI-903-wi899-doc-promotion — WI-899 terminal documentation projection repair | Implemented | [Work Item](../work-items/WI-903-wi899-doc-promotion.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-903-wi899-doc-promotion.contract.json`; verification `.ai/evidence/WI-903-wi899-doc-promotion.verification.json`; close `.ai/decisions/WI-903-wi899-doc-promotion.close.json`. |
 | WI-904-interface-description-ssot | Implemented | [Work Item](../work-items/WI-904-interface-description-ssot.ja.md); terminal lifecycle: archive `.ai/work-items/archive/WI-904-interface-description-ssot.contract.json`; verification `.ai/evidence/WI-904-interface-description-ssot.verification.json`; close `.ai/decisions/WI-904-interface-description-ssot.close.json`. |

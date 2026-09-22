@@ -117,6 +117,7 @@ fn typed_projection(
         observation_state: Some(state),
         error,
         next_action: Some(action),
+        cleanup: None,
     }
 }
 

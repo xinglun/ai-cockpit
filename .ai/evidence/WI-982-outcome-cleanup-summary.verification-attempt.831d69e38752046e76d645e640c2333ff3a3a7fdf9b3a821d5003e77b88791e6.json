@@ -1,0 +1,127 @@
+{
+  "attemptId": "sha256:831d69e38752046e76d645e640c2333ff3a3a7fdf9b3a821d5003e77b88791e6",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-protocol",
+        "--lib"
+      ],
+      "baseCommit": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+      "commandDigest": "sha256:766d3fa5ae92daa8c10c0c780e2b2099564a12e88e941332a07f8be2ae968b60",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "outcome_report"
+      ],
+      "baseCommit": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+      "commandDigest": "sha256:8f898a7f98e5448542d69922c34c2115426975c68e4e87b4ae911bdf962ae781",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "outcome_handoff"
+      ],
+      "baseCommit": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+      "commandDigest": "sha256:78f567f672d2a75a9743b697566070ff63d81f2bc9dbd14b0ff09f23a2308d95",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "cli_mcp_outcome_parity"
+      ],
+      "baseCommit": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+      "commandDigest": "sha256:3a4cd6e13fa74c6333bd556bb06db8aef4730885a263cdca2994590e10d338fa",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+      "commandDigest": "sha256:5a15aa6cbaaab730fde5076680bf7b1972d135ea581d39f44cf2b99f8c6d701f",
+      "nodeId": "project-command-4",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
+  "contractExecutionScopeDigest": "sha256:f9054413d66fcbc6eff659c838c60bda20436f9965fbb9f01f6e4d541cf8eea6",
+  "createdAt": "2026-09-21T23:22:35Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-982-outcome-cleanup-summary/ai-cockpit/.ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b35bc71974b2ceb0864ed3993485e1f96ea66dba707110e4a3e3e9d628a4fab1",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-982-outcome-cleanup-summary"
+}
