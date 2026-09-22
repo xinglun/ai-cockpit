@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "The user explicitly authorized reopening the corresponding bounded Work Item and continuing. This receipt confirms review of the current parity-registration correction and permits re-verification only; it does not authorize merge, release, or completion.",
+  "recordedAt": "2026-09-22T02:34:18Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
+  "schemaVersion": 1,
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}

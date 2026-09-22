@@ -1,9 +1,96 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:943d90f01115c04f916634d3defbccaf416fd9aca340f0d9bedcf2f5621cfc8d",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "6d4b14eaa5744ec449588d3211970feb66ccd651",
+      "commandDigest": "sha256:03b19136e24b0b25ce019f602082bda4077241b4e7475586f85051781d0df070",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--lib"
+      ],
+      "baseCommit": "6d4b14eaa5744ec449588d3211970feb66ccd651",
+      "commandDigest": "sha256:e0e293959cff7911cb7b26e85ab66319fd034b420d69f2f9d6b2fc44bec4c94b",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--tests"
+      ],
+      "baseCommit": "6d4b14eaa5744ec449588d3211970feb66ccd651",
+      "commandDigest": "sha256:20ced17800bb3ed6ad7e41a7f43f7ae7fe7cc057fd7b07a766389e537eb8d85c",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-cli",
+        "--test",
+        "mcp",
+        "--test",
+        "outcome_handoff"
+      ],
+      "baseCommit": "6d4b14eaa5744ec449588d3211970feb66ccd651",
+      "commandDigest": "sha256:a67e340963d0c9e123cd7a233c6f2921094933c13bed0652c3a27f6f9763aa08",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+  "contractExecutionScopeDigest": "sha256:0e2e1a066adc5639a02b034400323dae2f345b6098c3b28ad803a15b411962a4",
   "createdAt": "2026-09-22T02:45:28Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -141,10 +228,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-985-repository-resource-lifecycle"
   },
-  "receiptDigest": "sha256:d453edd65f14a2cb9853d7a09a5625fbd6761c14289da84b0b2adbbd853ec6d6",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
   "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
   "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-985-repository-resource-lifecycle"
 }

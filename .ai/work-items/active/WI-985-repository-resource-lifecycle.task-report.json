@@ -4,7 +4,7 @@
       ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b463129d8c26be98dee8c594f3eb669541f046cf13475970dd9ff0b71be88aa1",
+    "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
     "workItemId": "WI-985-repository-resource-lifecycle"
   },
   "format": "ai-cockpit.task-outcome",

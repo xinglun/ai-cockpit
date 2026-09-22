@@ -1,29 +1,12 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.3e645dd23744a083a084db0dcf290a61807e0a1b32ce7feb207c8077e790a8ea.json",
-    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.65a605f98a04476872e83b329a2c08d40020406868746a29ed78a3a35ad62f22.json",
-    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.b95f7ea406053c9db715272febe491ae5387a845fadd09deba7513c9c6400a82.json",
-    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.9f778491667bcdd4158d1d1677bacac95f57d19eecfdd4b37bf1aba34c292de0.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.a32bff9d5ca80e0bcd8ca5c1249a67c56ca3bea93b32500ea7f3ee64e6dfbd58.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.ec2e5c39b09764d1cdecf9a56bd5c8c6a983778034400946dd614a8ee8cbe0f9.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.57d6a6db57e41800c7a29f127a5c66128ccf2f93f3f65c96029155ea6fa9ab3a.json",
-    ".ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.ae9cf79befac705b6449555b5963d2f86e7928dbbe8a40da8f5ef1b3b398ae00.json",
-    ".ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json",
-    ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json",
-    "crates/cockpit-repository/src/lib.rs",
-    "crates/cockpit-repository/src/resource_lifecycle.rs",
-    "crates/cockpit-repository/tests/ordinary_cleanup.rs",
-    "crates/cockpit-repository/tests/resource_finalization.rs",
-    "docs/reference/architecture-responsibility-map-2026-09.ja.md",
-    "docs/reference/architecture-responsibility-map-2026-09.md",
-    "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md",
-    "docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.ja.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md"
+    ".ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.d49e6d7235e8e128eefb68a3aabcaa5d6d4c501ae5b2befab066080b3f781ea7.json",
+    ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json",
+    ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
   ],
   "checkpointAt": "2026-09-22T01:40:11Z",
   "checkpointContractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
@@ -104,18 +87,18 @@
       "workItemId": "WI-985-repository-resource-lifecycle"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:b463129d8c26be98dee8c594f3eb669541f046cf13475970dd9ff0b71be88aa1",
+  "checkpointRepositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
   "createdAt": "2026-09-22T01:32:13Z",
   "decisionEvidence": {
     "contractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "The user explicitly authorized reopening the corresponding bounded Work Item and continuing. This post-verification receipt confirms review of the current lifecycle state and permits finish review only; it does not authorize merge, release, or completion.",
-    "recordedAt": "2026-09-22T02:23:06Z",
+    "reason": "The user explicitly authorized reopening the corresponding bounded Work Item and continuing. This fresh receipt confirms review of the current Contract and snapshot after restoring the pre-merge active lifecycle boundary; it permits re-verification and PR review only, and does not authorize merge, release, or completion.",
+    "recordedAt": "2026-09-22T03:00:00Z",
     "recordedBy": "human:user",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:b463129d8c26be98dee8c594f3eb669541f046cf13475970dd9ff0b71be88aa1",
+    "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
     "schemaVersion": 1,
     "workItemId": "WI-985-repository-resource-lifecycle"
   },
@@ -127,14 +110,14 @@
       "crates/cockpit-repository/src/resource_lifecycle.rs",
       "crates/cockpit-repository/src/lib.rs"
     ],
-    "reason": "The implementation directly addresses the authorized repository modularization and resource-lifecycle boundary scope: it reduces change coupling inside the existing crate while preserving public interfaces, governance behavior, recovery compatibility, and documented non-goals. Knowledge caching, Outcome semantics, release publication, and broad performance claims remain out of scope.",
+    "reason": "The implementation remains within the authorized repository modularization and resource-lifecycle boundary; no new code scope or release authority is introduced.",
     "state": "resolved"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-22T02:23:54Z",
+  "preflightAt": "2026-09-22T02:45:28Z",
   "preflightContractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:b463129d8c26be98dee8c594f3eb669541f046cf13475970dd9ff0b71be88aa1",
+  "preflightRepositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -203,7 +186,7 @@
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-22T02:24:01Z",
+  "updatedAt": "2026-09-22T02:45:05.483582+00:00",
   "verification": [
     {
       "check": "project-command-0",
