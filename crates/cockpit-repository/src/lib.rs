@@ -115,7 +115,7 @@ pub use resource_lifecycle::{
 pub(crate) use resource_lifecycle::{
     archived_contract_digest, capture_ordinary_cleanup_binding,
     closed_finalization_projection_kind, ensure_resource_finalization_base_binding,
-    git_worktree_records, ordinary_cleanup_binding_from_decision,
+    git_worktree_records, ordinary_cleanup_binding_from_decision, ordinary_cleanup_receipt_head,
     read_resource_finalization_receipt, read_resource_finalization_transition,
     resolve_resource_finalization_head, resolve_resource_finalization_head_with_index,
     resource_cleanup_completion_state, resource_finalization_decision_path,

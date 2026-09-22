@@ -3,6 +3,17 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use thiserror::Error;
 
+#[cfg(test)]
+use std::sync::{
+    Mutex,
+    atomic::{AtomicUsize, Ordering},
+};
+
+#[cfg(test)]
+static FROM_RECORDS_CALLS: AtomicUsize = AtomicUsize::new(0);
+#[cfg(test)]
+static FROM_RECORDS_TEST_LOCK: Mutex<()> = Mutex::new(());
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct KnowledgeRecord {
@@ -45,6 +56,11 @@ pub struct KnowledgeIndex {
 
 impl KnowledgeIndex {
     pub fn from_records(mut records: Vec<KnowledgeRecord>) -> Self {
+        #[cfg(test)]
+        {
+            let _guard = FROM_RECORDS_TEST_LOCK.lock().unwrap();
+            FROM_RECORDS_CALLS.fetch_add(1, Ordering::Relaxed);
+        }
         records.sort_by(|left, right| left.work_item_id.cmp(&right.work_item_id));
         let mut dependencies = BTreeMap::new();
         let mut by_topic = BTreeMap::new();
@@ -111,23 +127,79 @@ impl KnowledgeIndex {
         if self.record_digest.is_empty() || self.record_positions.len() != self.records.len() {
             return false;
         }
-        let mut ids = std::collections::BTreeSet::new();
-        if self
-            .records
-            .iter()
-            .any(|record| !ids.insert(record.work_item_id.clone()))
-        {
+        if self.record_digest != records_digest(&self.records) {
             return false;
         }
-        let expected = Self::from_records(self.records.clone());
-        self.record_digest == expected.record_digest
-            && self.dependencies == expected.dependencies
-            && self.by_topic == expected.by_topic
-            && self.by_component == expected.by_component
-            && self.by_state == expected.by_state
-            && self.by_work_item == expected.by_work_item
-            && self.record_positions == expected.record_positions
+
+        let mut ids = std::collections::BTreeSet::new();
+        for (position, record) in self.records.iter().enumerate() {
+            if !ids.insert(record.work_item_id.clone())
+                || self.record_positions.get(&record.work_item_id) != Some(&position)
+                || self.by_work_item.get(&record.work_item_id) != Some(&record.work_item_id)
+            {
+                return false;
+            }
+        }
+
+        self.by_work_item.len() == self.records.len()
+            && validate_single_index(&self.by_topic, &self.records, |record| &record.topic)
+            && validate_single_index(&self.by_component, &self.records, |record| {
+                &record.component
+            })
+            && validate_single_index(&self.by_state, &self.records, |record| &record.state)
+            && validate_dependency_index(&self.dependencies, &self.records)
     }
+}
+
+fn validate_single_index<F>(
+    index: &BTreeMap<String, Vec<String>>,
+    records: &[KnowledgeRecord],
+    key_for: F,
+) -> bool
+where
+    F: for<'a> Fn(&'a KnowledgeRecord) -> &'a str,
+{
+    let mut offsets = BTreeMap::<&str, usize>::new();
+    for record in records {
+        let key = key_for(record);
+        let Some(ids) = index.get(key) else {
+            return false;
+        };
+        let offset = offsets.entry(key).or_default();
+        if ids.get(*offset) != Some(&record.work_item_id) {
+            return false;
+        }
+        *offset += 1;
+    }
+
+    index.len() == offsets.len()
+        && index
+            .iter()
+            .all(|(key, ids)| offsets.get(key.as_str()) == Some(&ids.len()))
+}
+
+fn validate_dependency_index(
+    index: &BTreeMap<String, Vec<String>>,
+    records: &[KnowledgeRecord],
+) -> bool {
+    let mut offsets = BTreeMap::<&str, usize>::new();
+    for record in records {
+        for key in &record.evidence_refs {
+            let Some(ids) = index.get(key) else {
+                return false;
+            };
+            let offset = offsets.entry(key.as_str()).or_default();
+            if ids.get(*offset) != Some(&record.work_item_id) {
+                return false;
+            }
+            *offset += 1;
+        }
+    }
+
+    index.len() == offsets.len()
+        && index
+            .iter()
+            .all(|(key, ids)| offsets.get(key.as_str()) == Some(&ids.len()))
 }
 
 fn records_digest(records: &[KnowledgeRecord]) -> String {
@@ -408,5 +480,42 @@ pub fn project_record_v2_with_context(
             Vec::new()
         },
         source_snapshot_digest: snapshot_digest,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn record(id: &str, topic: &str) -> KnowledgeRecord {
+        KnowledgeRecord {
+            work_item_id: id.into(),
+            topic: topic.into(),
+            component: "component".into(),
+            state: "archived".into(),
+            knowledge_path: format!(".ai/knowledge/{id}.json"),
+            evidence_refs: vec![format!(".ai/work-items/archive/{id}.archive.json")],
+        }
+    }
+
+    #[test]
+    fn structural_validation_does_not_rebuild_the_derived_index() {
+        let index = KnowledgeIndex::from_records(vec![
+            record("WI-2", "release"),
+            record("WI-1", "knowledge"),
+        ]);
+        let _guard = FROM_RECORDS_TEST_LOCK.lock().unwrap();
+        FROM_RECORDS_CALLS.store(0, Ordering::Relaxed);
+
+        assert!(index.is_structurally_valid());
+        assert_eq!(FROM_RECORDS_CALLS.load(Ordering::Relaxed), 0);
+    }
+
+    #[test]
+    fn structural_validation_rejects_derived_index_tampering() {
+        let mut index = KnowledgeIndex::from_records(vec![record("WI-1", "knowledge")]);
+        index.by_topic.get_mut("knowledge").unwrap().clear();
+
+        assert!(!index.is_structurally_valid());
     }
 }

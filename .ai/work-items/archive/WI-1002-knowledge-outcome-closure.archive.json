@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-22T07:03:53Z",
+  "files": {
+    "contractDigest": "sha256:9f1a0740b568b3b31f8ca1d56807ef5d8a35c092ad6fafb2cad6a2b9a3d40380",
+    "contractPath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.contract.json",
+    "eventsDigest": "sha256:2b9faa7d41fc783e7b9fc9b0cc0339773dc438ac07a285fe192f19910236ed77",
+    "eventsPath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.events.jsonl",
+    "outcomeDigest": "sha256:7de15111ad9afc9221c2c4b4359e832d608ac141fc253d9e7a59ff7b139fa927",
+    "outcomePath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.outcome.json",
+    "summaryDigest": "sha256:0e3fe5d8c6fbfe7d4ef4df6709cbaef0e0da312571ff77341faca59272a335c4",
+    "summaryPath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json",
+    "taskReportDigest": "sha256:fec6f9b3fe8ddb9952e53651d17ec60fa3b8583876e1f23b2f5275b869447ca7",
+    "taskReportMarkdownDigest": "sha256:cbb8a374828141b9dccd03886ea8ba999b921928672f97f3ef6496318fdceb95",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1002-knowledge-outcome-closure"
+}

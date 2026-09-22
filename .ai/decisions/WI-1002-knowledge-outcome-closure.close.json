@@ -1,0 +1,234 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e828506cf7e486828a20d2704b2b43552353af61a96c78bba00444de8623e111",
+      "workItemId": "WI-1002-knowledge-outcome-closure"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1001-knowledge-cache-validation.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1001-knowledge-cache-validation.verification-attempt.bcb468b91e0d14c5f79d56cd56cff7ae28285bbfe43e902ca715adca20da73e7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1001-knowledge-cache-validation.verification-attempt.cbb698690b1d9dadaa13e37b4afb3043323160936ca34af2fbc8326d71eca801.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1001-knowledge-cache-validation.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1002-knowledge-outcome-closure.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1001-knowledge-cache-validation.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:requesting-user via explicit-user-instruction at 2026-09-22T07:11:23Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "保证 dirty 查询连续复用不会取得不可信 sourceRevision，恢复 clean 后返回正确归档内容，并让普通 cleanup receipt 在 Outcome 中直接呈现删除保留对象计数原因证据"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1002-knowledge-outcome-closure.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1002-knowledge-outcome-closure"
+  },
+  "finalReportDigest": "sha256:bee7f9107a2daf06fb3746fa97238be0d675657f3f7a95ca38a940537d9be6c7",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:11d309d10088db5f0e27cd1e839c7d93beb02c0489116297c74be045be183dbe",
+    "branch": "codex/wi-1001-knowledge-cache-validation",
+    "branchRef": "refs/heads/codex/wi-1001-knowledge-cache-validation",
+    "capturedAt": "2026-09-22T07:11:33Z",
+    "contractDigest": "sha256:d2cabbd0977f1abbe78d7f90bebdb3ee07a5a6aa2d1471c8916f391181bb3345",
+    "headRevision": "e660e0478b9c9c294aa327410eb0b014792d09ba",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-1002-knowledge-outcome-closure",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:1dc11d26f5d5dfff995957b925b0f20862e6011a84cac7c9d830595cf33c7691",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/knowledge-cache-validation/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:aed3e47c77481f57c12e8b49d9f6200bea8648c87d21b9983f7607a2f08ab973",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:requesting-user",
+    "authoritySource": "explicit-user-instruction",
+    "decidedAt": "2026-09-22T07:11:23Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1002-knowledge-outcome-closure.verification.json"
+    ],
+    "policyRefs": [
+      "repository-review-policy"
+    ],
+    "reason": "已查收并批准本轮技术验收：dirty→clean knowledge 缓存正确性已修复并有连续 dirty 查询回归；普通 cleanup receipt 已接入共同 Outcome 摘要并有真实 receipt 集成测试；workspace 测试与 Runtime 验证通过。性能收益未被宣称，主线合并、发布及全仓资源清理不属于本次已完成事实。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-22T07:11:33Z",
+  "workItemId": "WI-1002-knowledge-outcome-closure"
+}

@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "dirty 状态连续两次查询始终保持 sourceRevision=None，恢复 clean 后记录和 sourceDigest 与归档一致",
+    "普通 .cleanup.*.json receipt 经过绑定校验后投影为共享 OutcomeFinalizationCleanupProjection，并在正文包含对象、计数、原因和证据",
+    "保持缓存结构校验和直接索引访问回归通过，不扩大既有架构范围"
+  ],
+  "authority": "authorized",
+  "baseRevision": "5517096549af5f419c2b9c36d10893cb16d35e41",
+  "createdAt": "2026-09-22T06:56:33Z",
+  "goal": "保证 dirty 查询连续复用不会取得不可信 sourceRevision，恢复 clean 后返回正确归档内容，并让普通 cleanup receipt 在 Outcome 中直接呈现删除保留对象计数原因证据",
+  "intent": "修复 knowledge dirty 缓存刷新资格并接通普通清理 Outcome 事实摘要",
+  "mode": "implementation",
+  "outOfScope": [
+    "CLI/MCP Outcome 投递编排",
+    "protocol 与 Clap 依赖边界",
+    "repository 其他架构拆分",
+    "发布与版本变更",
+    "删除历史兼容代码"
+  ],
+  "predecessorContractDigest": "sha256:59b668f7a12a8f038f8415fbded57511c4876e61076209b1e4ae2a888adbec93",
+  "predecessorWorkItemId": "WI-1001-knowledge-cache-validation",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1001-knowledge-cache-validation.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e828506cf7e486828a20d2704b2b43552353af61a96c78bba00444de8623e111",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/outcome_render.rs",
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "WI-1002-knowledge-outcome-closure"
+}

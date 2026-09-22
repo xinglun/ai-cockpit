@@ -455,6 +455,31 @@ fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_remo
     .expect("record pending exact resources");
     let failed = serde_json::to_value(failed).expect("failed cleanup receipt JSON");
     assert_eq!(failed["result"]["state"], "failed");
+    let outcome_input = outcome_render_input_with_runtime(&linked_path, work_item_id, &runtime())
+        .expect("assemble Outcome from ordinary cleanup receipt");
+    let cleanup = outcome_input
+        .finalization
+        .cleanup
+        .as_ref()
+        .expect("ordinary cleanup receipt should project cleanup facts");
+    assert_eq!(cleanup.deleted_count, 0);
+    assert_eq!(cleanup.retained_count, 2);
+    assert_eq!(cleanup.unknown_count, 0);
+    assert!(
+        cleanup
+            .resources
+            .iter()
+            .any(|resource| resource.identity == "refs/heads/feature/ordinary-cleanup")
+    );
+    assert!(
+        cleanup
+            .evidence_refs
+            .iter()
+            .any(|reference| reference.contains(&format!("{work_item_id}.cleanup.")))
+    );
+    let outcome_text = render_human_outcome(&outcome_input, "en");
+    assert!(outcome_text.contains("refs/heads/feature/ordinary-cleanup"));
+    assert!(outcome_text.contains("ordinary cleanup receipt"));
     let failed_status =
         work_item_status_snapshot_with_runtime(&linked_path, work_item_id, &runtime())
             .expect("failed cleanup status");
@@ -493,6 +518,38 @@ fn ordinary_cleanup_receipts_promote_only_cleanup_after_exact_resources_are_remo
     assert_eq!(status.completion_domains["workResult"], "verified");
     assert_eq!(status.completion_domains["resourceCleanup"], "verified");
     assert_eq!(status.completion_domains["closure"], "closed");
+}
+
+#[test]
+fn ordinary_cleanup_summary_rejects_an_invalid_close_decision() {
+    let work_item_id = "WI-STATUS-ORDINARY-INVALID-CLOSE";
+    let directory = prepare_ordinary_archive(work_item_id, true);
+    close_work_item_with_structured_decision_and_runtime(
+        directory.path(),
+        work_item_id,
+        &approved_decision(work_item_id),
+        &runtime(),
+    )
+    .expect("close ordinary work item");
+    cockpit_repository::record_ordinary_cleanup_with_runtime(
+        directory.path(),
+        work_item_id,
+        &runtime(),
+    )
+    .expect("record pending exact resources");
+
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/decisions/{work_item_id}.close.json")),
+        "{\"workItemId\":\"foreign\"}",
+    )
+    .expect("tamper close decision");
+    let outcome_input =
+        outcome_render_input_with_runtime(directory.path(), work_item_id, &runtime())
+            .expect("assemble Outcome from invalid close decision");
+    assert!(outcome_input.finalization.cleanup.is_none());
+    assert!(outcome_input.archived_unclosed);
 }
 
 #[test]
