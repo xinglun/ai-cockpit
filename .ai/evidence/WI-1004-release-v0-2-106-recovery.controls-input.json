@@ -1,0 +1,34 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "abandoned predecessor finalization",
+          "path": ".ai/decisions/WI-1004-release-v0-2-106-recovery.finalize.json",
+          "type": "finalization",
+          "verification": "Runtime finalize-verify returned state=verified and disposition=abandoned"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "verified successor closure",
+          "path": ".ai/decisions/WI-1005-release-v0-2-106-final.close.json",
+          "type": "successor",
+          "verification": "WI-1005 successor closed after public release and exact resource cleanup"
+        }
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "WI-1004 is preserved as immutable failed-delivery history and is superseded by the reviewed, published, verified, and closed WI-1005 successor.",
+    "evidence": [
+      ".ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json",
+      ".ai/decisions/WI-1005-release-v0-2-106-final.close.json"
+    ]
+  }
+}

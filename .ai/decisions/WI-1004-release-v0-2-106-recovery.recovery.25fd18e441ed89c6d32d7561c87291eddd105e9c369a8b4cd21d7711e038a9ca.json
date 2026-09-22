@@ -1,0 +1,35 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "decidedAt": "2026-09-22T11:09:42Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json",
+    ".ai/decisions/WI-1004-release-v0-2-106-recovery.finalize.json",
+    ".ai/decisions/WI-1005-release-v0-2-106-final.close.json",
+    ".ai/decisions/WI-1005-release-v0-2-106-final.finalize.json",
+    ".ai/work-items/archive/WI-1004-release-v0-2-106-recovery.archive.json",
+    "https://github.com/xinglun/ai-cockpit/pull/965",
+    "https://github.com/xinglun/ai-cockpit/pull/966"
+  ],
+  "policyRefs": [
+    "AGENTS.md#Work-Item-change-discipline",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:f39be09b5fcfb39f360afa1eb9720f5278a9e1c56328be59aaf4b48b407e9c54",
+  "predecessorContractDigest": "sha256:da9ac6d65a09350f798c0583951aa929ae5b04e8e56dee2cea78569da9502674",
+  "predecessorEventsDigest": "sha256:8db572156e67548e0728c866316244439d13f02677929f1bbb437f5d9d1a78bd",
+  "predecessorOutcomeDigest": "sha256:8b6ced31ed50d62b29b7652ddf60e6d49debda9a8bc2b3040ff16052554093d3",
+  "predecessorSummaryDigest": "sha256:aacd5177284484290ccca29acfc6c823ee7996d79548f366375e667b046ce6bc",
+  "predecessorWorkItemId": "WI-1004-release-v0-2-106-recovery",
+  "reason": "WI-1005 completed the same v0.2.106 release through the reviewed PR #966, public release, adopter acceptance, finalization, and close. WI-1004 is the abandoned duplicate predecessor whose PR #965 was closed unmerged; its immutable archive is preserved and its exact remote branch and worktree have been removed.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "none; WI-1005 is closed and WI-1004's archived bytes and PR history remain preserved",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1005-release-v0-2-106-final",
+  "workItemId": "WI-1004-release-v0-2-106-recovery"
+}

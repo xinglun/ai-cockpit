@@ -1,0 +1,60 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "unmerged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "unmerged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "51b644bdc639445460178bc0d39925e5faa078fd",
+    "name": "codex/release-v0-2-106",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
+  "contractDigest": "sha256:7b078622a5214222648243318d48f82d5d3b2e32cc0636735ce26ef5e0dd7781",
+  "operationId": "WI-1004-release-v0-2-106-recovery-finalization",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
+    "headRevision": "51b644bdc639445460178bc0d39925e5faa078fd",
+    "number": 965,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/965"
+  },
+  "reason": "PR #965 was closed without merge after the provider identity conflict; its exact remote branch is now deleted, the linked worktree is absent, and the reviewed successor WI-1005 on PR #966 completed v0.2.106 publication and closure. Preserve PR #965 and WI-1004 archive evidence while recording this failed delivery as abandoned.",
+  "receiptId": "WI-1004-release-v0-2-106-recovery-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-106",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/965",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-106"
+  },
+  "result": {
+    "disposition": "abandoned",
+    "failureCodes": [
+      "unmerged_pull_request"
+    ],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-22T10:58:00Z",
+  "workItemId": "WI-1004-release-v0-2-106-recovery",
+  "worktree": {
+    "branch": "codex/release-v0-2-106",
+    "headRevision": "51b644bdc639445460178bc0d39925e5faa078fd",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-106",
+    "worktreeId": "release-v0-2-106"
+  }
+}
