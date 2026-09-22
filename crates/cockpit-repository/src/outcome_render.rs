@@ -3,8 +3,11 @@ use cockpit_protocol::{
     FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
     FinalizationError, FinalizationErrorCode, FinalizationObservationState, FinalizationSafety,
     HumanDecision, OutcomeClaim, OutcomeDelivery, OutcomeDeliverySegment,
-    OutcomeFinalizationProjection, OutcomeReleaseProjection, OutcomeState, OutcomeV2,
-    RuntimeContext, TaskOutcomeReport,
+    OutcomeFinalizationCleanupProjection, OutcomeFinalizationProjection,
+    OutcomeFinalizationResource, OutcomeFinalizationResourceDisposition, OutcomeReleaseProjection,
+    OutcomeState, OutcomeV2, ResourceFinalizationBranchState, ResourceFinalizationPullRequestState,
+    ResourceFinalizationReceipt, ResourceFinalizationWorktreeState, RuntimeContext,
+    TaskOutcomeReport,
 };
 use serde_json::Value;
 use std::fs;
@@ -510,7 +513,7 @@ fn finalization_projection(
                 Some("deleted" | "abandoned") => "record_close_decision_if_required",
                 _ => "inspect_finalization_result",
             };
-            finalization_projection_from_parts(FinalizationProjectionParts {
+            let mut projection = finalization_projection_from_parts(FinalizationProjectionParts {
                 root,
                 work_item_id,
                 state,
@@ -519,7 +522,9 @@ fn finalization_projection(
                 action,
                 reliable: true,
                 diagnostic: None,
-            })
+            });
+            projection.cleanup = finalization_cleanup_projection(&value);
+            projection
         }
         Err(error) => {
             let (code, diagnostic) = match error {
@@ -544,6 +549,105 @@ fn finalization_projection(
             })
         }
     }
+}
+
+fn finalization_cleanup_projection(value: &Value) -> Option<OutcomeFinalizationCleanupProjection> {
+    let receipt =
+        serde_json::from_value::<ResourceFinalizationReceipt>(value.get("receipt")?.clone())
+            .ok()?;
+    if receipt.reason.trim().is_empty() {
+        return None;
+    }
+    let resource =
+        |kind: &str, identity: String, state: String, disposition| OutcomeFinalizationResource {
+            kind: kind.into(),
+            identity,
+            state,
+            disposition,
+        };
+    let pull_request_state = serde_json::to_string(&receipt.after.pull_request)
+        .ok()?
+        .trim_matches('"')
+        .to_owned();
+    let branch_state = serde_json::to_string(&receipt.after.branch)
+        .ok()?
+        .trim_matches('"')
+        .to_owned();
+    let worktree_state = serde_json::to_string(&receipt.after.worktree)
+        .ok()?
+        .trim_matches('"')
+        .to_owned();
+    let pull_request_disposition = match receipt.after.pull_request {
+        ResourceFinalizationPullRequestState::Merged
+        | ResourceFinalizationPullRequestState::Unmerged => {
+            OutcomeFinalizationResourceDisposition::Retained
+        }
+        ResourceFinalizationPullRequestState::Unknown => {
+            OutcomeFinalizationResourceDisposition::Unknown
+        }
+    };
+    let branch_disposition = match receipt.after.branch {
+        ResourceFinalizationBranchState::Deleted => OutcomeFinalizationResourceDisposition::Deleted,
+        ResourceFinalizationBranchState::Present | ResourceFinalizationBranchState::Protected => {
+            OutcomeFinalizationResourceDisposition::Retained
+        }
+        ResourceFinalizationBranchState::Unknown => OutcomeFinalizationResourceDisposition::Unknown,
+    };
+    let worktree_disposition = match receipt.after.worktree {
+        ResourceFinalizationWorktreeState::Removed => {
+            OutcomeFinalizationResourceDisposition::Deleted
+        }
+        ResourceFinalizationWorktreeState::Clean | ResourceFinalizationWorktreeState::Dirty => {
+            OutcomeFinalizationResourceDisposition::Retained
+        }
+        ResourceFinalizationWorktreeState::Unknown => {
+            OutcomeFinalizationResourceDisposition::Unknown
+        }
+    };
+    let resources = vec![
+        resource(
+            "pull_request",
+            format!(
+                "#{} {}",
+                receipt.pull_request.number, receipt.pull_request.url
+            ),
+            pull_request_state,
+            pull_request_disposition,
+        ),
+        resource(
+            "branch",
+            receipt.branch.name,
+            branch_state,
+            branch_disposition,
+        ),
+        resource(
+            "worktree",
+            receipt.worktree.path,
+            worktree_state,
+            worktree_disposition,
+        ),
+    ];
+    let count = |disposition| {
+        resources
+            .iter()
+            .filter(|resource| resource.disposition == disposition)
+            .count() as u32
+    };
+    let mut evidence_refs = Vec::new();
+    if let Some(path) = value.get("headPath").and_then(Value::as_str) {
+        evidence_refs.push(path.into());
+    }
+    if let Some(digest) = value.get("headDigest").and_then(Value::as_str) {
+        evidence_refs.push(format!("receiptDigest:{digest}"));
+    }
+    Some(OutcomeFinalizationCleanupProjection {
+        deleted_count: count(OutcomeFinalizationResourceDisposition::Deleted),
+        retained_count: count(OutcomeFinalizationResourceDisposition::Retained),
+        unknown_count: count(OutcomeFinalizationResourceDisposition::Unknown),
+        resources,
+        reason: receipt.reason,
+        evidence_refs,
+    })
 }
 
 fn finalization_projection_from_outcome(
@@ -638,6 +742,7 @@ fn finalization_projection_from_parts(
         observation_state: Some(observation_state),
         error,
         next_action,
+        cleanup: None,
     }
 }
 
@@ -1169,6 +1274,7 @@ fn archive_outcome_render_input(
             observation_state: Some(FinalizationObservationState::NotObserved),
             error: None,
             next_action: None,
+            cleanup: None,
         });
     let reason_keys = outcome.governance_reasons.clone();
     OutcomeRenderInput {
@@ -1345,6 +1451,13 @@ fn render_summary_outcome(input: &OutcomeRenderInput, language: &str) -> String 
         .unwrap_or_default();
     if let Some(release) = task_report.and_then(|report| report.release.as_ref()) {
         key_change_items.push(localized_release_projection(release, language));
+    }
+    if let Some(cleanup) = input.finalization.cleanup.as_ref() {
+        key_change_items.extend(localized_cleanup_items(
+            cleanup,
+            &input.finalization,
+            language,
+        ));
     }
     let key_change_items = if key_change_items.is_empty() {
         vec![not_recorded.to_string()]
@@ -2183,6 +2296,13 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
             completed_items.push(localized_release_projection(release, language));
         }
     }
+    if let Some(cleanup) = input.finalization.cleanup.as_ref() {
+        completed_items.extend(localized_cleanup_items(
+            cleanup,
+            &input.finalization,
+            language,
+        ));
+    }
     if completed_items.len() == 1 && !acceptance_results.is_empty() {
         completed_items.push(contract_language.to_string());
         completed_items.extend(acceptance_results.clone());
@@ -2292,6 +2412,115 @@ fn render_full_outcome(input: &OutcomeRenderInput, language: &str) -> String {
         bullet_lines(&impact_items, not_recorded),
         bullet_lines(&outcome.evidence_refs, not_recorded),
     )
+}
+
+fn localized_cleanup_items(
+    cleanup: &OutcomeFinalizationCleanupProjection,
+    finalization: &FinalizationProjection,
+    language: &str,
+) -> Vec<String> {
+    let (heading, deleted, retained, unknown, reason, evidence, action, state) = match language {
+        "zh" => (
+            "清理结果",
+            "已删除",
+            "保留",
+            "未知",
+            "receipt 绑定原因",
+            "证据",
+            "下一步动作",
+            "状态",
+        ),
+        "ja" => (
+            "クリーンアップ結果",
+            "削除済み",
+            "保持",
+            "不明",
+            "receipt に紐づく理由",
+            "Evidence",
+            "次のアクション",
+            "状態",
+        ),
+        _ => (
+            "Cleanup result",
+            "Deleted",
+            "Retained",
+            "Unknown",
+            "Receipt-bound reason",
+            "Evidence",
+            "Next action",
+            "State",
+        ),
+    };
+    let mut items = vec![format!(
+        "{heading}: {deleted} {}, {retained} {}, {unknown} {}",
+        cleanup.deleted_count, cleanup.retained_count, cleanup.unknown_count
+    )];
+    items.extend(cleanup.resources.iter().map(|resource| {
+        format!(
+            "{}: {} = {} ({}: {}; {})",
+            cleanup_disposition_label(resource.disposition, language),
+            resource.kind,
+            resource.identity,
+            state,
+            resource.state,
+            cleanup_disposition_name(resource.disposition),
+        )
+    }));
+    items.push(format!("{reason}: {}", cleanup.reason));
+    if !cleanup.evidence_refs.is_empty() {
+        items.push(format!("{evidence}: {}", cleanup.evidence_refs.join(", ")));
+    }
+    if let Some(next_action) = finalization.next_action.as_ref() {
+        let mut action_text = format!(
+            "{action}: {} — {}",
+            finalization_action_id_name(next_action.id),
+            localized_finalization_action(finalization, language),
+        );
+        if let Some(argv) = next_action.argv.as_ref() {
+            action_text.push_str(&format!("; command: {}", argv.join(" ")));
+        }
+        items.push(action_text);
+    }
+    items
+}
+
+fn cleanup_disposition_name(disposition: OutcomeFinalizationResourceDisposition) -> &'static str {
+    match disposition {
+        OutcomeFinalizationResourceDisposition::Deleted => "deleted",
+        OutcomeFinalizationResourceDisposition::Retained => "retained",
+        OutcomeFinalizationResourceDisposition::Unknown => "unknown",
+    }
+}
+
+fn cleanup_disposition_label(
+    disposition: OutcomeFinalizationResourceDisposition,
+    language: &str,
+) -> &'static str {
+    match (language, disposition) {
+        ("zh", OutcomeFinalizationResourceDisposition::Deleted) => "已删除",
+        ("zh", OutcomeFinalizationResourceDisposition::Retained) => "保留",
+        ("zh", OutcomeFinalizationResourceDisposition::Unknown) => "未知",
+        ("ja", OutcomeFinalizationResourceDisposition::Deleted) => "削除済み",
+        ("ja", OutcomeFinalizationResourceDisposition::Retained) => "保持",
+        ("ja", OutcomeFinalizationResourceDisposition::Unknown) => "不明",
+        (_, OutcomeFinalizationResourceDisposition::Deleted) => "Deleted",
+        (_, OutcomeFinalizationResourceDisposition::Retained) => "Retained",
+        (_, OutcomeFinalizationResourceDisposition::Unknown) => "Unknown",
+    }
+}
+
+fn finalization_action_id_name(action: FinalizationActionId) -> &'static str {
+    match action {
+        FinalizationActionId::InspectCurrentObservation => "inspect_current_observation",
+        FinalizationActionId::RecordFinalizationReceipt => "record_finalization_receipt",
+        FinalizationActionId::VerifyFinalizationReceipt => "verify_finalization_receipt",
+        FinalizationActionId::InspectRecoveryConditions => "inspect_recovery_conditions",
+        FinalizationActionId::RecordHistoricalRecovery => "record_historical_recovery",
+        FinalizationActionId::CleanupExternalResource => "cleanup_external_resource",
+        FinalizationActionId::RecordCloseDecision => "record_close_decision",
+        FinalizationActionId::PreserveHistoricalEvidence => "preserve_historical_evidence",
+        FinalizationActionId::StopAndPreserveEvidence => "stop_and_preserve_evidence",
+    }
 }
 
 fn localized_recovery_action(gate: &str, language: &str) -> String {
@@ -2858,8 +3087,10 @@ mod render_tests {
     };
     use cockpit_core::{DecisionState, Digest};
     use cockpit_protocol::{
-        FinalizationActionId, FinalizationObservationState, HumanBenefitReport, HumanDecision,
-        OutcomeState, OutcomeV2,
+        FinalizationActionId, FinalizationActionProjection, FinalizationAuthorization,
+        FinalizationObservationState, FinalizationSafety, HumanBenefitReport, HumanDecision,
+        OutcomeFinalizationCleanupProjection, OutcomeFinalizationResource,
+        OutcomeFinalizationResourceDisposition, OutcomeState, OutcomeV2,
     };
     use std::{fs, path::Path, process::Command};
 
@@ -2912,6 +3143,7 @@ mod render_tests {
                 next_action: Some(finalization_action_projection(
                     "use_current_runtime_observation",
                 )),
+                cleanup: None,
             },
             reason_keys: Vec::new(),
             assembly: None,
@@ -3314,6 +3546,147 @@ mod render_tests {
         assert_eq!(
             retained.authorization,
             cockpit_protocol::FinalizationAuthorization::None
+        );
+    }
+
+    #[test]
+    fn cleanup_summary_lists_evidence_bound_objects_counts_reason_and_action_in_all_languages() {
+        let mut input = input(HumanDecisionProjection::Missing, true);
+        input.finalization.state = "verified".into();
+        input.finalization.disposition = Some("deleted".into());
+        input.finalization.observation_state = Some(FinalizationObservationState::VerifiedDeleted);
+        input.finalization.next_action = Some(FinalizationActionProjection {
+            id: FinalizationActionId::RecordCloseDecision,
+            authorization: FinalizationAuthorization::HumanRequired,
+            safety: FinalizationSafety::HumanDecisionOnly,
+            argv: None,
+            evidence_refs: vec![],
+        });
+        input.finalization.cleanup = Some(OutcomeFinalizationCleanupProjection {
+            deleted_count: 2,
+            retained_count: 1,
+            unknown_count: 0,
+            resources: vec![
+                OutcomeFinalizationResource {
+                    kind: "branch".into(),
+                    identity: "codex/wi-42".into(),
+                    state: "deleted".into(),
+                    disposition: OutcomeFinalizationResourceDisposition::Deleted,
+                },
+                OutcomeFinalizationResource {
+                    kind: "worktree".into(),
+                    identity: "/tmp/wi-42".into(),
+                    state: "removed".into(),
+                    disposition: OutcomeFinalizationResourceDisposition::Deleted,
+                },
+                OutcomeFinalizationResource {
+                    kind: "pull_request".into(),
+                    identity: "#42 https://github.com/example/repo/pull/42".into(),
+                    state: "merged".into(),
+                    disposition: OutcomeFinalizationResourceDisposition::Retained,
+                },
+            ],
+            reason: "provider branch and worktree were cleaned after merge".into(),
+            evidence_refs: vec![
+                ".ai/decisions/WI-42.finalize.json".into(),
+                "sha256:receipt".into(),
+            ],
+        });
+
+        for language in ["en", "zh", "ja"] {
+            let summary = super::render_human_outcome_with_view(
+                &input,
+                language,
+                super::OutcomeRenderView::Summary,
+            );
+            let full = super::render_human_outcome_with_view(
+                &input,
+                language,
+                super::OutcomeRenderView::Full,
+            );
+            for text in [&summary, &full] {
+                assert!(text.contains("codex/wi-42"), "{language}: {text}");
+                assert!(text.contains("/tmp/wi-42"), "{language}: {text}");
+                assert!(text.contains("#42"), "{language}: {text}");
+                assert!(
+                    text.contains("provider branch and worktree were cleaned after merge"),
+                    "{language}: {text}"
+                );
+                assert!(
+                    text.contains("2") && text.contains("1"),
+                    "{language}: {text}"
+                );
+                assert!(text.contains("record_close_decision"), "{language}: {text}");
+            }
+        }
+    }
+
+    #[test]
+    fn validated_receipt_projection_classifies_deleted_retained_and_unknown_without_guessing() {
+        let value = serde_json::json!({
+            "headPath": ".ai/decisions/WI-42.finalize.json",
+            "headDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "receipt": {
+                "schemaVersion": 1,
+                "receiptId": "receipt-42",
+                "operationId": "operation-42",
+                "repositoryId": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "workItemId": "WI-42",
+                "runtimeVersion": "0.2.105",
+                "runtimeDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                "provider": "github",
+                "pullRequest": {
+                    "number": 42,
+                    "url": "https://github.com/example/repo/pull/42",
+                    "headRevision": "abcdef1",
+                    "baseBranch": "main",
+                    "baseRemote": "origin",
+                    "baseRevision": "1234567",
+                    "mergeCommit": "7654321"
+                },
+                "branch": {
+                    "name": "codex/wi-42",
+                    "remote": "origin",
+                    "headRevision": "abcdef1"
+                },
+                "worktree": {
+                    "worktreeId": "wt-42",
+                    "path": "/tmp/wi-42",
+                    "branch": "codex/wi-42",
+                    "headRevision": "abcdef1"
+                },
+                "before": {
+                    "pullRequest": "merged",
+                    "branch": "present",
+                    "worktree": "clean"
+                },
+                "after": {
+                    "pullRequest": "merged",
+                    "branch": "deleted",
+                    "worktree": "unknown"
+                },
+                "result": {
+                    "disposition": "deleted",
+                    "failureCodes": [],
+                    "unknownCodes": []
+                },
+                "actor": "human:test",
+                "authoritySource": "test-policy",
+                "reason": "provider cleanup receipt",
+                "timestamp": "2026-09-22T00:00:00Z"
+            }
+        });
+        let cleanup = super::finalization_cleanup_projection(&value).expect("cleanup projection");
+        assert_eq!(cleanup.deleted_count, 1);
+        assert_eq!(cleanup.retained_count, 1);
+        assert_eq!(cleanup.unknown_count, 1);
+        assert_eq!(cleanup.reason, "provider cleanup receipt");
+        assert_eq!(
+            cleanup.evidence_refs,
+            vec![
+                ".ai/decisions/WI-42.finalize.json",
+                "receiptDigest:sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ]
         );
     }
 

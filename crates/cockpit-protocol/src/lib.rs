@@ -4085,6 +4085,40 @@ pub struct OutcomeFinalizationProjection {
     pub error: Option<FinalizationError>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub next_action: Option<FinalizationActionProjection>,
+    /// Additive, evidence-bound cleanup facts for reader-first Outcomes.
+    /// None preserves legacy projections and means that no validated
+    /// resource receipt was available for this detail.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cleanup: Option<OutcomeFinalizationCleanupProjection>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum OutcomeFinalizationResourceDisposition {
+    Deleted,
+    Retained,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeFinalizationResource {
+    pub kind: String,
+    pub identity: String,
+    pub state: String,
+    pub disposition: OutcomeFinalizationResourceDisposition,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct OutcomeFinalizationCleanupProjection {
+    pub deleted_count: u32,
+    pub retained_count: u32,
+    pub unknown_count: u32,
+    pub resources: Vec<OutcomeFinalizationResource>,
+    pub reason: String,
+    #[serde(default)]
+    pub evidence_refs: Vec<String>,
 }
 
 /// A read-only, evidence-bound Work Item status projection.  Counts are
