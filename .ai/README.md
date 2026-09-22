@@ -1,15 +1,12 @@
 # AI Cockpit repository usage
 
-This repository uses one externally installed `ai-cockpit` Runtime. The
-binary is shared; this `.ai/` directory is private to the repository. Never
-infer a current repository or Work Item from process state, the working
-directory, or Agent prose.
+Use the shared, externally installed `ai-cockpit` Runtime with an explicit
+`--repo <repository>`; this `.ai/` directory is private to the repository.
 
 ## Read-only entry route
 
-Read [`AGENTS.md`](../AGENTS.md), then consult [`glossary.md`](glossary.md) only
-when a term or protocol meaning is unclear. Use the explicit repository path
-for Runtime queries:
+Read [`AGENTS.md`](../AGENTS.md); consult [`glossary.md`](glossary.md) only for
+unclear terms or protocol semantics. Runtime queries use the explicit path:
 
 ```text
 ai-cockpit inspect --repo <repository>
@@ -18,44 +15,24 @@ ai-cockpit doctor --repo <repository>
 ai-cockpit agent doctor --repo <repository> --json
 ```
 
-For ordinary work, load [`ordinary-work-item`](../agents/skills/ordinary-work-item.md).
-Load the recovery, Provider, or release guide only when the Runtime facts and
-Contract match that guide's applicability. Runtime `safeActions`, blockers,
-evidence freshness, and action explanation are authoritative; guides explain
-how to perform an admitted action and never grant one.
+For ordinary work, load [`ordinary-work-item`](../agents/skills/ordinary-work-item.md);
+load recovery, Provider, or release guidance only when Runtime facts and the
+Contract match. Runtime `safeActions`, blockers, evidence freshness, and
+action explanation are authoritative; guides never grant an action.
 
 ## Repository-owned records
 
-- `.ai/agent-interface.json` is the canonical adapter interface.
-- `.ai/project/` contains optional repository declarations consumed as
-  read-only Runtime inputs.
-- `.ai/work-items/` contains Contract, Summary, lifecycle, and archive
-  records. Runtime commands generate these records.
-- `.ai/evidence/` contains identity-bound verification and delegated evidence.
-- `.ai/decisions/` contains Runtime-generated observation and decision records.
-
-Do not hand-edit generated Contract, Summary, receipt, archive, decision, or
-status records; do not edit global Agent or MCP configuration. Keep historical
-records unchanged. If a query reports missing authority, unknowns,
-contradiction, stale evidence, or a required human decision, preserve the
-reason and stop until the Contract or human decision resolves it.
+`.ai/agent-interface.json` is the adapter interface; `.ai/project/` holds
+read-only repository declarations; `.ai/work-items/` holds lifecycle records;
+`.ai/evidence/` holds identity-bound evidence; and `.ai/decisions/` holds
+Runtime-generated decisions. Do not hand-edit these records or global Agent
+and MCP configuration; preserve history and query-reported blockers.
 
 ## Runtime surface discovery
 
-Use `ai-cockpit --help`, the relevant group help, and
-`ai-cockpit capability show --repo <repository>` before guessing arguments.
-The current CLI, protocol schema, and capability metadata are the sources for
-mechanical command facts. Human guidance and design rationale live in
-`docs/reference/`; see the [task guide index](../agents/skills/README.md) for
-the small task-specific entry points.
+Use `ai-cockpit --help`, group help, and `ai-cockpit capability show --repo <repository>`
+before guessing arguments. CLI, schema, and capability metadata
+are mechanical fact sources; human rationale is in `docs/reference/`. See the
+[task guide index](../agents/skills/README.md) for task entry points.
 
-For a resource-bound Work Item, the public boundary order is: archive → synchronize default branch → perform exact provider cleanup under the accepted plan
-→ record finalize receipt → finalize-verify → close. The Provider guide explains the applicable actions; this boundary does not grant provider authorization.
-
-## Outcome boundary
-
-Use the repository-bound `work-item outcome` command or the MCP Outcome
-handoff for the visible human result. The Outcome must preserve current
-status, evidence, unknowns, decision, and next action; a machine lookup,
-log, or file link is not a substitute. Distinguish generated, returned,
-host-accepted, and host-displayed states when display confirmation is absent.
+For a resource-bound Work Item, the public boundary order is: archive → synchronize default branch → perform exact provider cleanup under the accepted plan → record finalize receipt → finalize-verify → close.
