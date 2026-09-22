@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-992 — WI-991 terminal documentation projection"
 description: "WI-991 の attempt が replacement された後、修正済みの terminal documentation projection を完了する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-992-wi991-doc-promotion
 lastVerifiedBy: WI-992-wi991-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-992-wi991-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-992-wi991-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-992-wi991-doc-promotion.close.json
 ---
 
 [English](WI-992-wi991-doc-promotion.md) · [简体中文](WI-992-wi991-doc-promotion.zh-CN.md)

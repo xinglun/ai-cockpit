@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-992——WI-991 终态文档投影"
 description: "在 WI-991 尝试被替代后，完成修正后的终态文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-992-wi991-doc-promotion
 lastVerifiedBy: WI-992-wi991-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-992-wi991-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-992-wi991-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-992-wi991-doc-promotion.close.json
 ---
 
 [English](WI-992-wi991-doc-promotion.md) · [日本語](WI-992-wi991-doc-promotion.ja.md)
