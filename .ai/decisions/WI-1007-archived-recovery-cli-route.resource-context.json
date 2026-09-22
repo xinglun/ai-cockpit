@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:188357cf53c05ae1e7246bbaee0d3be239526a303d0ba2c50845a20b950fcec0",
+  "contractDigest": "sha256:932d10f347852fc78333bd18cba4c47ea03a615cfcc27023e77de5824c852772",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-22T19:55:35Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1007-archived-recovery-cli-route",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/968",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1007-archived-recovery-cli-route/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:5ad57815a0d288fdd2f5bd88525eda738b4b385ea5b26ec60f499d8cb8f5a52c",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}

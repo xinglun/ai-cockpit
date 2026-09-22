@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-22T19:45:26Z",
+  "files": {
+    "contractDigest": "sha256:932d10f347852fc78333bd18cba4c47ea03a615cfcc27023e77de5824c852772",
+    "contractPath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.contract.json",
+    "eventsDigest": "sha256:1c9185bd5e7393ecdca081e11942ee4e54aadddad7e0718a648942226601a8fc",
+    "eventsPath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.events.jsonl",
+    "outcomeDigest": "sha256:f481fbed61a5fb51733cdac028ac59ec142055ea7509778e5b7d1637c6a92355",
+    "outcomePath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.outcome.json",
+    "summaryDigest": "sha256:b1825d1a4c25e95de75e4391b5413cd7e76db73e835dcdf4f3efbd66693a1baf",
+    "summaryPath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json",
+    "taskReportDigest": "sha256:27f14522c28040771af7b2b969ff53e27ed58c2dfe353147fec24117f59ea877",
+    "taskReportMarkdownDigest": "sha256:d4ed38bc6626384c79153b58ca3c4eaf75856a24f09f2b89f4ecb58d8136ddfe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}

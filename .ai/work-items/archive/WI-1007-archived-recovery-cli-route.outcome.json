@@ -1,0 +1,164 @@
+{
+  "acceptanceResults": [
+    "Archived recovery reads verification declarations from the archive Contract when no active Contract exists.",
+    "Workspace verification planning retains its coverage manifest and starts zero processes in plan-only mode.",
+    "A current Runtime recovery receipt can be recorded without replacing predecessor evidence.",
+    "Normal active Work Item verification continues to read the active Contract."
+  ],
+  "createdAt": "2026-09-22T19:45:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c2c734e49a9667299ba3238c465b7a762a238e109c87c5fe368fb638b155bc12",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2683a7d7997bc868a280c5cfaebc139fd83b8f5de2b123d79b758c397bf65aa0",
+      "workItemId": "WI-1007-archived-recovery-cli-route"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1006-runtime-guide-action-outcome.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1007-archived-recovery-cli-route.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-cli/src/main.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the existing archived recovery entrypoint load declared verification commands from the immutable archive Contract, preserve coverage planning, and produce current recovery evidence without rewriting predecessor records."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1007-archived-recovery-cli-route"
+  },
+  "taskReportDigest": "sha256:27f14522c28040771af7b2b969ff53e27ed58c2dfe353147fec24117f59ea877",
+  "taskReportMarkdownDigest": "sha256:d4ed38bc6626384c79153b58ca3c4eaf75856a24f09f2b89f4ecb58d8136ddfe",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}
