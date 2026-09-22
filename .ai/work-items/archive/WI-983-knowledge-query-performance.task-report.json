@@ -15,84 +15,84 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.preflight-review.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.retirement.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-981-knowledge-query-performance.verification-attempt.fce5172bbe05fce4db4ccde7a2cf3cb6ebb8c3f8f424a1dff6650c6ba266c78c.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-983-knowledge-query-performance.verification-attempt.38b61e0566c2fa97739bd5d485b87a2f62d2603cc77ee9fe70e78662f46f58a9.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.archive.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
@@ -151,7 +151,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
         ],
         "inference": false,
         "text": "Short-circuit impossible indexed filters and produce evidence-separated cold/warm CLI query measurements."
@@ -160,7 +160,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+          ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
