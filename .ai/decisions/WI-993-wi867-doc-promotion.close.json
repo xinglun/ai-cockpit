@@ -1,0 +1,231 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:a7b710349336bb6c61bab0762e3f407bd2f74876fcf8dc1ef3cbd5820abc78d6",
+      "workItemId": "WI-993-wi867-doc-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-993-wi867-doc-promotion.verification-attempt.428f355ac882537d8430aeafe213b107d215592ef8bbba9f84545a990786f912.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-993-wi867-doc-promotion.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-993-wi867-doc-promotion.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-993-wi867-doc-promotion.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-993-wi867-doc-promotion.verification.json",
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json",
+            ".ai/decisions/WI-867-closed-work-item-docs-promotion.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:user via User authorization in the current acceptance review at 2026-09-22T05:26:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-993-wi867-doc-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the current closed-work-item documentation check current for WI-867 and leave a verified, self-contained tri-language successor projection."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-993-wi867-doc-promotion"
+  },
+  "finalReportDigest": "sha256:3348ce936508b144b67dd25cbed56d5488f99b462d8d3b9e2387e6d69dc88467",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:ad2c288bd052329d3e87fdedc08a2319b17d6a78824e9faaa825c76c6e5ab401",
+    "branch": "codex/wi-993-wi867-doc-promotion",
+    "branchRef": "refs/heads/codex/wi-993-wi867-doc-promotion",
+    "capturedAt": "2026-09-22T05:26:37Z",
+    "contractDigest": "sha256:4b1736a2bb25fdf16201fa59e0cc6a2548c76aeeb159fddc93b6c840de541d66",
+    "headRevision": "350d17d27cd896eb5a12086c55099dc4957edd94",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "WI-993-wi867-doc-promotion",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:3eef2ec7f665904bd93f4d7ed5d42fdf3890259840b47f7c74b186964cfd969d",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-993-wi867-doc-promotion/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:9a1c957ef47eb6bcbf9f6d1d20d081dd9dad7a8a18915a22d445644dc47a0835",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:user",
+    "authoritySource": "User authorization in the current acceptance review",
+    "decidedAt": "2026-09-22T05:26:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-993-wi867-doc-promotion.verification.json",
+      ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json",
+      ".ai/decisions/WI-867-closed-work-item-docs-promotion.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "WI-993 verification passed all four declared documentation governance checks; WI-867 stale self-terminal projection is corrected without changing historical evidence.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-22T05:26:37Z",
+  "workItemId": "WI-993-wi867-doc-promotion"
+}
