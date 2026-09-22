@@ -1,0 +1,44 @@
+{
+  "attemptId": "sha256:e6a409156f2bd2020b61e49c2af0d70e8efdbdbb63f5afb0584bc091e18837b5",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--workspace",
+        "--all-targets",
+        "--locked"
+      ],
+      "baseCommit": "74ce5abed00385c92b026d62aa8893d92f78b570",
+      "commandDigest": "sha256:f73e9a842a75831772b6d9a16cd9b3a758489c1df843182e940fe50c6c26843b",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "contractExecutionScopeDigest": "sha256:f5e7559cf8e57cd0a0939238a22e085fc588f167ad1d2bb20b4ea29a2e20839a",
+  "createdAt": "2026-09-22T14:47:35Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-runtime-guide-action-outcome/ai-cockpit/.ai/work-items/active/WI-1006-runtime-guide-action-outcome.contract.json: verification preconditions are blocked: evidence_classes_stale"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e727200477131c7b49ebc9384b49cd9fa949642f5baed4339647ce3b900abb43",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}

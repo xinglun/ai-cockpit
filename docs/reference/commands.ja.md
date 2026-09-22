@@ -368,5 +368,11 @@ cleanup failure は acceptance を失敗させますが、公開済み Release t
 Runtime は Work Item が `finish_ready` に到達した後の `finalize-plan` を拒否します。
 verification 前に resource context を bind し、記録済みの verification cycle の無効化を防ぎます。checkpointed の Work Item は、明示的な recovery/setup として verification 前に provisional context を bind できます。`pending:<stable-reference>` sentinel は `unknown` と同じく provisional です。provider に束縛された resource ではないため、`finish` または `archive` の前に実際の context へ置き換えてください。
 
+有効な Work Item が reviewed resource の binding 前に archive された場合、Runtime-aware
+entrypoint は一度だけ bounded repair を実行できます。immutable な Contract と archive manifest
+を検証したうえで digest-bound な `.ai/decisions/<work-item>.resource-context.json` を追加し、
+archive bytes は書き換えません。同じ context の replay は idempotent ですが、この record だけで
+`finalize`、cleanup、`close` は認可されません。
+
 `tests/conformance/final_replacement_acceptance.sh` は source repository の最終置換 boundary です。installed Runtime identity、固定した
 reference oracle、conformance/adversarial/performance gate、コピーなし検査を記録し、`acceptance.json` と `SHA256SUMS` を生成します。

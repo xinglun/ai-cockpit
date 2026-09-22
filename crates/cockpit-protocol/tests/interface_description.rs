@@ -1,3 +1,4 @@
+use cockpit_core::Digest;
 use cockpit_protocol::{
     CAPABILITY_SHOW_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_CANONICAL_WORK_ITEM_ID,
     WORK_ITEM_OUTCOME_CLI_DELIVERY, WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE,
@@ -6,10 +7,13 @@ use cockpit_protocol::{
     WORK_ITEM_OUTCOME_LANGUAGE_VALUES, WORK_ITEM_OUTCOME_MCP_DELIVERY,
     WORK_ITEM_OUTCOME_MCP_DELIVERY_PROGRESS, WORK_ITEM_OUTCOME_MCP_LANGUAGE,
     WORK_ITEM_OUTCOME_MCP_VIEW, WORK_ITEM_OUTCOME_MCP_WORK_ITEM_ID, WORK_ITEM_OUTCOME_VIEW_VALUES,
-    normalize_work_item_outcome_language, render_interface_description_markdown,
-    work_item_outcome_interface_description, work_item_outcome_interface_specs,
-    work_item_outcome_mcp_request_parameter_specs, work_item_outcome_parameter_spec_by_canonical,
+    WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
+    WorkItemAdmissionState, WorkItemStatusSnapshot, normalize_work_item_outcome_language,
+    render_interface_description_markdown, work_item_outcome_interface_description,
+    work_item_outcome_interface_specs, work_item_outcome_mcp_request_parameter_specs,
+    work_item_outcome_parameter_spec_by_canonical,
 };
+use serde_json::json;
 
 fn surface<'a>(
     description: &'a cockpit_protocol::InterfaceDescription,
@@ -384,6 +388,65 @@ fn outcome_description_and_markdown_are_deterministic() {
         assert!(first_markdown.contains("full"));
         assert!(first_markdown.contains("delivery"));
     }
+}
+
+#[test]
+fn action_explanation_is_additive_and_legacy_status_remains_readable() {
+    let explanation = WorkItemActionExplanation {
+        guide_id: "ordinary-work-item".into(),
+        recommended_action: Some("run_preflight".into()),
+        recommendation_reason:
+            "the current Contract is active and the next admitted action is preflight".into(),
+        admission_state: WorkItemAdmissionState::Allowed,
+        issues: vec![WorkItemActionIssue {
+            kind: WorkItemActionIssueKind::Missing,
+            code: "verification_evidence_missing".into(),
+            message: "verification evidence is not present yet".into(),
+        }],
+        human_decision_required: false,
+        missing_inputs: vec!["verification evidence".into()],
+        admission_digest: Digest::sha256_bytes(b"action-admission"),
+    };
+    let serialized = serde_json::to_value(&explanation).expect("serialize explanation");
+    assert_eq!(serialized["guideId"], "ordinary-work-item");
+    assert_eq!(serialized["recommendedAction"], "run_preflight");
+    assert_eq!(serialized["admissionState"], "allowed");
+    assert_eq!(serialized["issues"][0]["kind"], "missing");
+
+    let legacy = json!({
+        "schemaVersion": 1,
+        "repositoryId": "sha256:repository",
+        "workItemId": "WI-LEGACY",
+        "baseCommit": "base",
+        "lifecyclePhase": "implementation_active",
+        "governanceState": "yellow",
+        "activityHealth": "active",
+        "blocking": false,
+        "humanDecisionRequired": false,
+        "progressFacts": {},
+        "blockers": [],
+        "missingEvidence": [],
+        "dependencies": [],
+        "humanDecisions": [],
+        "risks": [],
+        "verification": "not_ready",
+        "completionDomains": {},
+        "governancePermissions": ["read_status"],
+        "sourceDigests": {},
+        "unknowns": [],
+        "diagnostics": [],
+        "snapshotDigest": "sha256:snapshot",
+        "evidenceFreshness": {
+            "state": "missing",
+            "reason": "verification evidence is missing"
+        },
+        "safeActions": ["run_preflight"],
+        "statusDigest": "sha256:status",
+        "historical": false
+    });
+    let snapshot: WorkItemStatusSnapshot =
+        serde_json::from_value(legacy).expect("legacy status remains readable");
+    assert!(snapshot.action_explanation.is_none());
 }
 
 fn generated_region(document: &str) -> &str {

@@ -24,11 +24,12 @@ use cockpit_protocol::{
     ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
     SchemaMigrationStep, SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeEvent,
     TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
-    WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex,
-    WorkItemStatusIndexEntry, WorkItemStatusSnapshot, default_repository_schema_version,
-    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
-    validate_protocol_version, validate_resource_finalization_receipt_for,
-    validate_selected_successor_lineage_recovery,
+    WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
+    WorkItemAdmissionState, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
+    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
+    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
+    validate_evidence_retention, validate_protocol_version,
+    validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -46,6 +47,7 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
+mod action_admission;
 mod evidence_store;
 mod execution_context;
 mod governance_controls;
@@ -58,6 +60,7 @@ mod project_governance;
 mod resource_lifecycle;
 mod status_projection;
 
+pub use action_admission::require_current_action_admission;
 pub use evidence_store::{
     ReceiptStoreBinding, ReceiptStoreLoad, ReceiptStoreWrite, load_reusable_receipt,
     persist_reusable_receipt,
@@ -109,13 +112,15 @@ pub use project_governance::*;
 pub use resource_lifecycle::{
     OrdinaryCleanupObservation, OrdinaryCleanupReceipt, OrdinaryCleanupResult,
     historical_finalization_recovery_plan, plan_resource_finalization,
-    record_historical_finalization_recovery, record_ordinary_cleanup_with_runtime,
-    record_resource_finalization, verify_resource_finalization,
+    plan_resource_finalization_with_runtime, record_historical_finalization_recovery,
+    record_ordinary_cleanup_with_runtime, record_resource_finalization,
+    verify_resource_finalization,
 };
 pub(crate) use resource_lifecycle::{
     archived_contract_digest, capture_ordinary_cleanup_binding,
-    closed_finalization_projection_kind, ensure_resource_finalization_base_binding,
-    git_worktree_records, ordinary_cleanup_binding_from_decision, ordinary_cleanup_receipt_head,
+    closed_finalization_projection_kind, effective_resource_context,
+    ensure_resource_finalization_base_binding, git_worktree_records,
+    ordinary_cleanup_binding_from_decision, ordinary_cleanup_receipt_head,
     read_resource_finalization_receipt, read_resource_finalization_transition,
     resolve_resource_finalization_head, resolve_resource_finalization_head_with_index,
     resource_cleanup_completion_state, resource_finalization_decision_path,
@@ -3983,6 +3988,8 @@ pub fn evaluate_contract_quality_gate(
             message: "Contract path escapes repository".into(),
         })?;
     let contract = read_contract(&contract_path)?;
+    let effective_resource_context =
+        effective_resource_context(&root, &contract.work_item_id, &contract)?;
     if contract.work_item_id.trim().is_empty() {
         return Err(ObserverError::State {
             path: contract_path,
@@ -4006,7 +4013,7 @@ pub fn evaluate_contract_quality_gate(
                     .into(),
             });
         }
-        if contract.resource_context.is_none() {
+        if effective_resource_context.is_none() {
             return Err(ObserverError::State {
                 path: contract_path.clone(),
                 message: "archived Contract quality gate requires an external resource context"
@@ -4619,6 +4626,26 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
+    check_verification_preconditions(root, work_item_id, runtime, snapshot)?;
+    action_admission::require_current_action_admission(
+        root,
+        work_item_id,
+        "run_verification",
+        runtime,
+    )?;
+    Ok(())
+}
+
+/// Read-only verification gates shared by the status projection and the
+/// execution entrypoint. The status projection calls this while constructing
+/// its action list; the execution wrapper applies fresh action admission
+/// after these gates pass.
+pub(crate) fn check_verification_preconditions(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<(), ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -4626,6 +4653,7 @@ pub fn require_verification_preconditions(
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }
+    require_policy_for_verification(&root, work_item_id)?;
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -7409,6 +7437,14 @@ fn archive_work_item_internal(
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
     }
+    if let Some(runtime) = current_runtime {
+        action_admission::require_current_action_admission(
+            &root,
+            work_item_id,
+            "archive_when_reviewed",
+            runtime,
+        )?;
+    }
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let outcome = read_json(&outcome_path)?;
     if outcome["verification"]["status"] != "verified" {
@@ -8044,6 +8080,7 @@ fn close_work_item_with_structured_decision_internal(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
+    let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     if !superseded && !amendment_revalidation_resolved {
         let documentation_findings = documentation_projection_findings(&root, &contract)?;
         if !documentation_findings.is_empty() {
@@ -8061,7 +8098,7 @@ fn close_work_item_with_structured_decision_internal(
         .join(format!("{work_item_id}.summary.json"));
     let summary: serde_json::Value = read_json(&summary_path)?;
     let mut finalization_binding: Option<serde_json::Value> = None;
-    if amendment_revalidation_resolved && contract.resource_context.is_some() {
+    if amendment_revalidation_resolved && effective_resource_context.is_some() {
         let finalization_path = resource_finalization_decision_path(&root, work_item_id);
         finalization_binding = Some(require_resource_finalization_for_close(
             &root,
@@ -8141,7 +8178,25 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
-        if contract.resource_context.is_some() {
+        if let Some(runtime) = current_runtime {
+            let requested_action = if effective_resource_context.is_some() {
+                let status = work_item_status_snapshot_with_runtime(&root, work_item_id, runtime)?;
+                if status.safe_actions.iter().any(|action| action == "close") {
+                    "close"
+                } else {
+                    "close_after_cleanup"
+                }
+            } else {
+                "close_after_review"
+            };
+            action_admission::require_current_action_admission(
+                &root,
+                work_item_id,
+                requested_action,
+                runtime,
+            )?;
+        }
+        if effective_resource_context.is_some() {
             finalization_binding = Some(require_resource_finalization_for_close(
                 &root,
                 work_item_id,
@@ -8160,28 +8215,30 @@ fn close_work_item_with_structured_decision_internal(
             message: "close requires a verified outcome".into(),
         });
     }
-    let ordinary_cleanup_binding =
-        if contract.resource_context.is_none() && !superseded && !amendment_revalidation_resolved {
-            // Historical verification is an assurance about the work result, not
-            // about the current branch/worktree identity.  A no-resource close
-            // must still capture the exact cleanup target whenever the current
-            // checkout can prove it; otherwise a valid historical close loses the
-            // only binding that makes post-close cleanup auditable.
-            current_runtime
-                .map(|runtime| {
-                    capture_ordinary_cleanup_binding(
-                        &root,
-                        work_item_id,
-                        &contract,
-                        &contract_path,
-                        &archive,
-                        runtime,
-                    )
-                })
-                .transpose()?
-        } else {
-            None
-        };
+    let ordinary_cleanup_binding = if effective_resource_context.is_none()
+        && !superseded
+        && !amendment_revalidation_resolved
+    {
+        // Historical verification is an assurance about the work result, not
+        // about the current branch/worktree identity.  A no-resource close
+        // must still capture the exact cleanup target whenever the current
+        // checkout can prove it; otherwise a valid historical close loses the
+        // only binding that makes post-close cleanup auditable.
+        current_runtime
+            .map(|runtime| {
+                capture_ordinary_cleanup_binding(
+                    &root,
+                    work_item_id,
+                    &contract,
+                    &contract_path,
+                    &archive,
+                    runtime,
+                )
+            })
+            .transpose()?
+    } else {
+        None
+    };
     let timestamp = now();
     let receipt = LifecycleReceipt {
         work_item_id: work_item_id.into(),
@@ -9884,6 +9941,7 @@ fn outcome_v2_internal_with_snapshot(
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
+    let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let mut _owned_snapshot = None;
     let snapshot;
     let provided_snapshot_digest = snapshot_override.map(|(_, digest)| digest.clone());
@@ -10096,7 +10154,7 @@ fn outcome_v2_internal_with_snapshot(
     // recovery/compatibility projections below.
     let finalization_pending = archived
         && !historical
-        && contract.resource_context.is_some()
+        && effective_resource_context.is_some()
         && verify_resource_finalization_internal(&root, work_item_id, current_runtime).is_err();
     if finalization_pending && state == OutcomeState::Verified {
         decision_state = DecisionState::Yellow;

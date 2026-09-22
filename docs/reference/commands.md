@@ -583,6 +583,13 @@ may still bind a provisional context before verification, as an explicit
 recovery/setup step. The sentinel form `pending:<stable-reference>` is provisional just like
 `unknown`; it is not a provider-bound resource and must be replaced before `finish` or `archive`.
 
+The Runtime-aware entrypoint also supports one bounded repair when a valid Work
+Item was archived before its reviewed resource was bound. It appends a
+digest-bound `.ai/decisions/<work-item>.resource-context.json` record after
+validating the immutable Contract and archive manifest. The archive bytes are
+not rewritten, replay with the same context is idempotent, and the record does
+not authorize `finalize`, cleanup, or `close` by itself.
+
 The acceptance receipt also records typed before/after manifests for every
 isolated root. `HOME` and `XDG_CONFIG_HOME` have empty `allowedPrefixes` and
 must remain unchanged; `TMPDIR` and `CARGO_HOME` are the only Runtime-write

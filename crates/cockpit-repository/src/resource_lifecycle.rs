@@ -15,27 +15,69 @@ use cockpit_protocol::{
     HistoricalFinalizationRecoveryReceipt, ResourceFinalizationContext,
     ResourceFinalizationDisposition, ResourceFinalizationReceipt,
     ResourceFinalizationTransitionReceipt, RuntimeContext,
-    validate_historical_finalization_recovery, validate_resource_finalization_receipt_for,
-    validate_resource_finalization_replay, validate_resource_finalization_transition,
+    validate_historical_finalization_recovery, validate_resource_finalization_context,
+    validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
+    validate_resource_finalization_transition,
 };
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct ArchivedResourceContextBinding {
+    schema_version: u32,
+    operation: String,
+    work_item_id: String,
+    repository_id: String,
+    contract_digest: Digest,
+    archive_manifest_digest: Digest,
+    resource_context: ResourceFinalizationContext,
+    runtime_version: String,
+    runtime_digest: Digest,
+    recorded_at: String,
+}
+
 pub fn plan_resource_finalization(
     root: &Path,
     work_item_id: &str,
     context: &ResourceFinalizationContext,
+) -> Result<serde_json::Value, ObserverError> {
+    plan_resource_finalization_internal(root, work_item_id, context, None)
+}
+
+/// Runtime-aware variant used by the CLI/MCP entrypoints.  The legacy
+/// three-argument function remains available for existing library callers that
+/// only plan an active Contract; an archived handoff requires the executing
+/// Runtime identity so the append-only binding is auditable.
+pub fn plan_resource_finalization_with_runtime(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+    runtime: &RuntimeContext,
+) -> Result<serde_json::Value, ObserverError> {
+    plan_resource_finalization_internal(root, work_item_id, context, Some(runtime))
+}
+
+fn plan_resource_finalization_internal(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+    runtime: Option<&RuntimeContext>,
 ) -> Result<serde_json::Value, ObserverError> {
     validate_work_item_id(work_item_id)?;
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
     })?;
+    let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
+    if fs::symlink_metadata(&contract_path).is_err() {
+        return plan_archived_resource_finalization(&root, work_item_id, context, runtime);
+    }
     let summary_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.summary.json"));
@@ -125,6 +167,240 @@ pub fn plan_resource_finalization(
         "contractDigest": digest,
         "next": ["archive", "finalize", "finalize-verify", "close"]
     }))
+}
+
+fn plan_archived_resource_finalization(
+    root: &Path,
+    work_item_id: &str,
+    context: &ResourceFinalizationContext,
+    runtime: Option<&RuntimeContext>,
+) -> Result<serde_json::Value, ObserverError> {
+    let binding_path = archived_resource_context_binding_path(root, work_item_id);
+    let runtime = runtime.ok_or_else(|| ObserverError::State {
+        path: binding_path.clone(),
+        message:
+            "archived finalize-plan requires the Runtime-aware entrypoint so the handoff identity can be recorded"
+                .into(),
+    })?;
+    validate_resource_finalization_context(context).map_err(|error| ObserverError::State {
+        path: binding_path.clone(),
+        message: error.to_string(),
+    })?;
+    if context.is_provisional() {
+        return Err(ObserverError::State {
+            path: binding_path,
+            message: "archived finalize-plan requires a non-provisional resource context".into(),
+        });
+    }
+
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    verify_archive_manifest(root, work_item_id, &manifest)?;
+    if manifest["state"] != serde_json::json!("archived") {
+        return Err(ObserverError::State {
+            path: manifest_path,
+            message: "archived resource binding requires an archived archive manifest".into(),
+        });
+    }
+    let (contract, contract_digest) = archived_contract_digest(root, work_item_id)?;
+    if let Some(existing) = contract.resource_context.as_ref() {
+        if existing != context {
+            return Err(ObserverError::State {
+                path: root
+                    .join(".ai/work-items/archive")
+                    .join(format!("{work_item_id}.contract.json")),
+                message: "archived Contract already binds a different resource context".into(),
+            });
+        }
+        return Ok(serde_json::json!({
+            "protocolVersion": 1,
+            "workItemId": work_item_id,
+            "state": "idempotent",
+            "resourceContext": context,
+            "contractDigest": contract_digest,
+            "source": "archivedContract",
+            "next": ["finalize", "finalize-verify", "close"]
+        }));
+    }
+
+    let manifest_digest =
+        Digest::sha256_bytes(
+            &fs::read(&manifest_path).map_err(|source| ObserverError::Read {
+                path: manifest_path.clone(),
+                source,
+            })?,
+        );
+    let binding = ArchivedResourceContextBinding {
+        schema_version: 1,
+        operation: "resource_context_binding".into(),
+        work_item_id: work_item_id.into(),
+        repository_id: contract.repository_id.clone(),
+        contract_digest: contract_digest.clone(),
+        archive_manifest_digest: manifest_digest.clone(),
+        resource_context: context.clone(),
+        runtime_version: runtime.runtime_version.clone(),
+        runtime_digest: runtime.runtime_digest.clone(),
+        recorded_at: now(),
+    };
+    let value = serde_json::to_value(&binding).map_err(|error| ObserverError::State {
+        path: binding_path.clone(),
+        message: error.to_string(),
+    })?;
+    if fs::symlink_metadata(&binding_path).is_ok() {
+        if !is_regular_non_symlink(&binding_path)? {
+            return Err(ObserverError::State {
+                path: binding_path,
+                message: "archived resource context binding must be a regular non-symlink file"
+                    .into(),
+            });
+        }
+        let existing = read_archived_resource_context_binding(root, work_item_id, &contract)?
+            .ok_or_else(|| ObserverError::State {
+                path: binding_path.clone(),
+                message: "archived resource context binding disappeared during replay".into(),
+            })?;
+        if existing.resource_context == *context {
+            return Ok(serde_json::json!({
+                "workItemId": work_item_id,
+                "state": "idempotent",
+                "resourceContext": context,
+                "contractDigest": contract_digest,
+                "archiveManifestDigest": manifest_digest,
+                "path": repository_relative_path(root, &binding_path)
+            }));
+        }
+        return Err(ObserverError::State {
+            path: binding_path,
+            message: "archived resource context binding already exists with different content"
+                .into(),
+        });
+    }
+    atomic_json(&binding_path, &value)?;
+    Ok(serde_json::json!({
+        "protocolVersion": 1,
+        "workItemId": work_item_id,
+        "state": "recorded",
+        "resourceContext": context,
+        "contractDigest": contract_digest,
+        "archiveManifestDigest": manifest_digest,
+        "runtimeVersion": runtime.runtime_version,
+        "runtimeDigest": runtime.runtime_digest,
+        "path": repository_relative_path(root, &binding_path),
+        "next": ["finalize", "finalize-verify", "close"]
+    }))
+}
+
+pub(crate) fn archived_resource_context_binding_path(root: &Path, work_item_id: &str) -> PathBuf {
+    root.join(".ai/decisions")
+        .join(format!("{work_item_id}.resource-context.json"))
+}
+
+pub(crate) fn effective_resource_context(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+) -> Result<Option<ResourceFinalizationContext>, ObserverError> {
+    let binding_path = archived_resource_context_binding_path(root, work_item_id);
+    let binding = read_archived_resource_context_binding(root, work_item_id, contract)?;
+    if let Some(context) = contract.resource_context.as_ref() {
+        if let Some(binding) = binding
+            && binding.resource_context != *context
+        {
+            return Err(ObserverError::State {
+                path: binding_path,
+                message: "archived resource context binding disagrees with the Contract".into(),
+            });
+        }
+        return Ok(Some(context.clone()));
+    }
+    Ok(binding.map(|binding| binding.resource_context))
+}
+
+fn read_archived_resource_context_binding(
+    root: &Path,
+    work_item_id: &str,
+    contract: &Contract,
+) -> Result<Option<ArchivedResourceContextBinding>, ObserverError> {
+    let path = archived_resource_context_binding_path(root, work_item_id);
+    if fs::symlink_metadata(&path).is_err() {
+        return Ok(None);
+    }
+    if !is_regular_non_symlink(&path)? {
+        return Err(ObserverError::State {
+            path,
+            message: "archived resource context binding must be a regular non-symlink file".into(),
+        });
+    }
+    let bytes = fs::read(&path).map_err(|source| ObserverError::Read {
+        path: path.clone(),
+        source,
+    })?;
+    reject_duplicate_json_keys(&bytes).map_err(|message| ObserverError::State {
+        path: path.clone(),
+        message: format!("invalid archived resource context binding JSON: {message}"),
+    })?;
+    let binding: ArchivedResourceContextBinding =
+        serde_json::from_slice(&bytes).map_err(|error| ObserverError::State {
+            path: path.clone(),
+            message: format!("invalid archived resource context binding: {error}"),
+        })?;
+    if binding.schema_version != 1
+        || binding.operation != "resource_context_binding"
+        || binding.work_item_id != work_item_id
+        || binding.repository_id != contract.repository_id
+    {
+        return Err(ObserverError::State {
+            path,
+            message: "archived resource context binding identity is invalid".into(),
+        });
+    }
+    let contract_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.contract.json"));
+    let expected_contract_digest = Digest::sha256_bytes(&fs::read(&contract_path).map_err(
+        |source| ObserverError::Read {
+            path: contract_path.clone(),
+            source,
+        },
+    )?);
+    if binding.contract_digest != expected_contract_digest {
+        return Err(ObserverError::State {
+            path: path.clone(),
+            message: "archived resource context binding contract digest is stale".into(),
+        });
+    }
+    let manifest_path = root
+        .join(".ai/work-items/archive")
+        .join(format!("{work_item_id}.archive.json"));
+    let manifest = read_json(&manifest_path)?;
+    verify_archive_manifest(root, work_item_id, &manifest)?;
+    let expected_manifest_digest = Digest::sha256_bytes(&fs::read(&manifest_path).map_err(
+        |source| ObserverError::Read {
+            path: manifest_path.clone(),
+            source,
+        },
+    )?);
+    if binding.archive_manifest_digest != expected_manifest_digest {
+        return Err(ObserverError::State {
+            path,
+            message: "archived resource context binding archive manifest digest is stale".into(),
+        });
+    }
+    validate_resource_finalization_context(&binding.resource_context).map_err(|error| {
+        ObserverError::State {
+            path: archived_resource_context_binding_path(root, work_item_id),
+            message: format!("archived resource context binding is invalid: {error}"),
+        }
+    })?;
+    if binding.resource_context.is_provisional() {
+        return Err(ObserverError::State {
+            path: archived_resource_context_binding_path(root, work_item_id),
+            message: "archived resource context binding must not be provisional".into(),
+        });
+    }
+    Ok(Some(binding))
 }
 
 pub(crate) fn read_resource_finalization_receipt(
@@ -1236,6 +1512,7 @@ pub fn record_historical_finalization_recovery(
     })?;
     let _lifecycle_lock = acquire_lifecycle_lock(&root, work_item_id)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let predecessor_path = resource_finalization_decision_path(&root, work_item_id);
     if fs::symlink_metadata(&predecessor_path).is_err() {
         // A direct merge without a PR can be the first finalization record:
@@ -1262,7 +1539,7 @@ pub fn record_historical_finalization_recovery(
         &contract.repository_id,
         work_item_id,
         Some(&contract_digest),
-        contract.resource_context.as_ref(),
+        expected_resource_context.as_ref(),
     )
     .map_err(|error| ObserverError::State {
         path: predecessor_path.clone(),
@@ -1633,6 +1910,7 @@ pub fn record_resource_finalization(
     let manifest = read_json(&manifest_path)?;
     verify_archive_manifest(&root, work_item_id, &manifest)?;
     let (contract, contract_digest) = archived_contract_digest(&root, work_item_id)?;
+    let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let input_value = read_json(receipt_path)?;
     let transition = input_value
         .get("receipt")
@@ -1655,7 +1933,7 @@ pub fn record_resource_finalization(
             &contract.repository_id,
             work_item_id,
             Some(&contract_digest),
-            contract.resource_context.as_ref(),
+            expected_resource_context.as_ref(),
         )
         .map_err(|error| ObserverError::State {
             path: receipt_path.into(),
@@ -1952,6 +2230,15 @@ pub(crate) fn verify_resource_finalization_internal(
                 error,
             )
         })?;
+    let expected_resource_context = effective_resource_context(&root, work_item_id, &contract)
+        .map_err(|error| {
+            finalization_observation_error(
+                root.join(".ai/decisions")
+                    .join(format!("{work_item_id}.resource-context.json")),
+                FinalizationErrorCode::RecordCorrupt,
+                error,
+            )
+        })?;
     let current_contract_canonical_digest = contract_digest(
         &root
             .join(".ai/work-items/archive")
@@ -2016,7 +2303,7 @@ pub(crate) fn verify_resource_finalization_internal(
         &contract.repository_id,
         work_item_id,
         (!contract_amendment_revalidation).then_some(&finalization_contract_digest),
-        contract.resource_context.as_ref(),
+        expected_resource_context.as_ref(),
     )
     .map_err(|error| {
         finalization_observation_error(path.clone(), error.finalization_error_code(), error)
@@ -2794,7 +3081,7 @@ pub fn record_ordinary_cleanup_with_runtime(
         .join(".ai/work-items/archive")
         .join(format!("{work_item_id}.contract.json"));
     let contract = read_contract(&contract_path)?;
-    if contract.resource_context.is_some() {
+    if effective_resource_context(&root, work_item_id, &contract)?.is_some() {
         return Err(ObserverError::State {
             path: contract_path,
             message: "ordinary post-close cleanup is not available for provider-bound Work Items"
@@ -2909,7 +3196,12 @@ pub(crate) fn resource_cleanup_completion_state(
     close_decision_valid: bool,
     runtime: &RuntimeContext,
 ) -> String {
-    if contract.resource_context.is_some() {
+    let resource_bound = match effective_resource_context(root, work_item_id, contract) {
+        Ok(Some(_)) => true,
+        Ok(None) => false,
+        Err(_) => return "unknown".into(),
+    };
+    if resource_bound {
         return match verify_resource_finalization_internal(root, work_item_id, Some(runtime)) {
             Ok(value) if matches!(value["disposition"].as_str(), Some("deleted" | "abandoned")) => {
                 "verified".into()

@@ -1382,6 +1382,18 @@ fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
         response["result"]["structuredContent"]["governanceState"],
         "yellow"
     );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["guideId"],
+        "ordinary-work-item"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["admissionState"],
+        "allowed"
+    );
     let all = handle_request_for_repo(
         &serde_json::json!({"jsonrpc":"2.0","id":13,"method":"tools/call","params":{"name":"work_item_status","arguments":{"all":true}}}),
         &directory,
@@ -1392,6 +1404,10 @@ fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
     assert_eq!(
         all["result"]["structuredContent"]["items"][0]["workItemId"],
         "WI-MCP-STATUS"
+    );
+    assert_eq!(
+        all["result"]["structuredContent"]["items"][0]["status"]["actionExplanation"]["guideId"],
+        "ordinary-work-item"
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }
@@ -1820,6 +1836,29 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
     assert_ne!(preflight.state, cockpit_core::DecisionState::Red);
     cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-CUSTOM-EVIDENCE")
         .expect("checkpoint");
+
+    let status_response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":9,
+            "method":"tools/call",
+            "params":{
+                "name":"work_item_status",
+                "arguments":{"workItemId":"WI-MCP-CUSTOM-EVIDENCE"}
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(status_response["result"]["isError"], false);
+    let safe_actions = status_response["result"]["structuredContent"]["safeActions"]
+        .as_array()
+        .expect("status safe actions");
+    assert!(
+        !safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
+    );
 
     let response = cockpit_mcp::handle_request_for_repo(
         &serde_json::json!({

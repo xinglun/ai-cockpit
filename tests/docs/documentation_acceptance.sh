@@ -4,6 +4,8 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 cd "$root"
 
+python3 tests/docs/governance_cost_baseline_test.py
+
 promotion_receipt=""
 while (($# > 0)); do
   case "$1" in
@@ -325,5 +327,7 @@ fi
 python3 tests/docs/reference_comparison_metadata_test.py
 
 bash tests/docs/getting_started_semantic.sh
+
+python3 tests/docs/reference_example_command_test.py
 
 echo 'documentation acceptance passed'

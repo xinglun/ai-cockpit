@@ -338,5 +338,10 @@ verification 之前绑定 resource context，避免晚绑定使已记录的验�
 仍可在 verification 前绑定 provisional context，作为显式恢复/准备步骤。`pending:<stable-reference>` 哨兵值与
 `unknown` 一样属于 provisional；它不是已绑定的 provider 资源，必须在 `finish` 或 `archive` 前替换为真实资源上下文。
 
+如果有效 Work Item 在绑定已评审资源前就完成了归档，Runtime-aware 入口也支持一次有界修复：
+它会先校验不可变 Contract 和 archive manifest，再追加 digest 绑定的
+`.ai/decisions/<work-item>.resource-context.json`。它不会重写归档字节；相同 context 重放是幂等的，
+且该记录本身不会授权 `finalize`、清理或 `close`。
+
 `tests/conformance/final_replacement_acceptance.sh` 是源码仓库的最终替代边界，记录安装的 Runtime identity、锁定的
 reference oracle、conformance/adversarial/performance gate 和无复制检查，并生成 `acceptance.json` 与 `SHA256SUMS`。

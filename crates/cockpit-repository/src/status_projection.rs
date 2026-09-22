@@ -2,16 +2,17 @@ use super::{
     AttachedProfile, DecisionState, Digest, HistoricalDebtItem,
     HistoricalFinalizationInventoryItem, ObserverError, OutcomeState, RepositoryConfig,
     RepositoryReadiness, RepositorySnapshot, RepositoryStatus, ResourceFinalizationReceipt,
-    ResourceFinalizationTransitionReceipt, RuntimeContext, WorkItemEvidenceFreshness,
-    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
-    active_artifact_variants, archived_contract_digest, close_decision_is_valid_for_status,
-    closed_finalization_projection_kind, contract_digest, count_suffix, git_text,
-    infer_legacy_shared_worktree_retained, is_regular_non_symlink, legacy_verification_evidence,
-    load_recovery_decision, orphaned_active_artifact_names, outcome_state_name,
-    outcome_v2_internal_with_snapshot, read_contract, read_json,
-    read_resource_finalization_transition, repository_id, repository_relative_path,
-    resolve_resource_finalization_head_with_index, resource_cleanup_completion_state,
-    resource_finalization_decision_path,
+    ResourceFinalizationTransitionReceipt, RuntimeContext, WorkItemActionExplanation,
+    WorkItemActionIssue, WorkItemActionIssueKind, WorkItemAdmissionState,
+    WorkItemEvidenceFreshness, WorkItemStatusIndex, WorkItemStatusIndexEntry,
+    WorkItemStatusSnapshot, active_artifact_variants, archived_contract_digest,
+    close_decision_is_valid_for_status, closed_finalization_projection_kind, contract_digest,
+    count_suffix, effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
+    is_regular_non_symlink, legacy_verification_evidence, load_recovery_decision,
+    orphaned_active_artifact_names, outcome_state_name, outcome_v2_internal_with_snapshot,
+    read_contract, read_json, read_resource_finalization_transition, repository_id,
+    repository_relative_path, resolve_resource_finalization_head_with_index,
+    resource_cleanup_completion_state, resource_finalization_decision_path,
     selected_successor_lineage_recovery_resolves_pending_close, snapshot_digest,
     validate_protocol_version, validate_work_item_id, verify_archive_manifest,
     verify_resource_finalization_internal,
@@ -849,6 +850,139 @@ fn archive_requires_close(root: &Path, work_item_id: &str) -> bool {
             == Some(true)
 }
 
+fn action_issue_kind(code: &str) -> WorkItemActionIssueKind {
+    let normalized = code.to_ascii_lowercase();
+    if normalized.contains("malformed") || normalized.contains("invalid") {
+        WorkItemActionIssueKind::Malformed
+    } else if normalized.contains("unsupported") {
+        WorkItemActionIssueKind::Unsupported
+    } else if normalized.contains("contradict") {
+        WorkItemActionIssueKind::Contradictory
+    } else if normalized.contains("missing") || normalized.contains("required") {
+        WorkItemActionIssueKind::Missing
+    } else {
+        WorkItemActionIssueKind::Unknown
+    }
+}
+
+fn action_issue(code: &str, message: impl Into<String>) -> WorkItemActionIssue {
+    WorkItemActionIssue {
+        kind: action_issue_kind(code),
+        code: code.to_owned(),
+        message: message.into(),
+    }
+}
+
+// This projection keeps the independently reported Runtime facts explicit;
+// grouping them would obscure which inputs contribute to the admission digest.
+#[allow(clippy::too_many_arguments)]
+fn work_item_action_explanation(
+    repository_id: &str,
+    work_item_id: &str,
+    contract_digest: &Digest,
+    snapshot_digest: &Digest,
+    runtime: &RuntimeContext,
+    operation: Option<&str>,
+    resource_bound: bool,
+    lifecycle_phase: &str,
+    verification: &str,
+    blocking: bool,
+    human_decision_required: bool,
+    blockers: &[String],
+    unknowns: &[String],
+    missing_inputs: &[String],
+    evidence_freshness: &WorkItemEvidenceFreshness,
+    safe_actions: &[String],
+    recommended_action: Option<String>,
+    malformed_evidence: bool,
+) -> Result<WorkItemActionExplanation, ObserverError> {
+    let operation_lower = operation.unwrap_or_default().to_ascii_lowercase();
+    let failed_verification = matches!(verification, "partial" | "unknown")
+        || evidence_freshness.state == "stale_or_invalid"
+        || unknowns.iter().any(|unknown| {
+            let normalized = unknown.to_ascii_lowercase();
+            normalized.contains("evidence_stale")
+                || normalized.contains("evidence_contradictory")
+                || normalized.contains("evidence_unknown")
+                || normalized.contains("lifecycle_gate_failed")
+        })
+        || malformed_evidence;
+    let guide_id = if failed_verification {
+        "verification-failure-recovery"
+    } else if operation_lower.contains("release") || operation_lower.contains("upgrade") {
+        "release-upgrade-acceptance"
+    } else if resource_bound {
+        "provider-resource-finalization"
+    } else {
+        "ordinary-work-item"
+    };
+    let admission_state = if human_decision_required {
+        WorkItemAdmissionState::NeedsHumanDecision
+    } else if blocking {
+        WorkItemAdmissionState::Blocked
+    } else if recommended_action.is_some() {
+        WorkItemAdmissionState::Allowed
+    } else {
+        WorkItemAdmissionState::Unknown
+    };
+    let recommendation_reason = match admission_state {
+        WorkItemAdmissionState::Allowed => {
+            format!("Runtime admits the next safe action for lifecycle phase {lifecycle_phase}")
+        }
+        WorkItemAdmissionState::NeedsHumanDecision => {
+            "Runtime requires a current human decision before continuing".into()
+        }
+        WorkItemAdmissionState::Blocked => format!(
+            "Runtime blocks continuation because current blockers are: {}",
+            blockers.join(", ")
+        ),
+        WorkItemAdmissionState::Unknown => {
+            "Runtime cannot identify an admitted next action from current evidence".into()
+        }
+    };
+    let mut issues = unknowns
+        .iter()
+        .map(|unknown| action_issue(unknown, format!("current projection reports {unknown}")))
+        .collect::<Vec<_>>();
+    if malformed_evidence
+        && !issues
+            .iter()
+            .any(|issue| issue.code == "verification_evidence_malformed")
+    {
+        issues.push(action_issue(
+            "verification_evidence_malformed",
+            "verification evidence is not valid JSON",
+        ));
+    }
+    issues.sort_by(|left, right| left.code.cmp(&right.code));
+    issues.dedup_by(|left, right| left.code == right.code);
+    let admission_digest = cockpit_protocol::digest_json(&serde_json::json!({
+        "repositoryId": repository_id,
+        "workItemId": work_item_id,
+        "contractDigest": contract_digest,
+        "snapshotDigest": snapshot_digest,
+        "runtimeDigest": runtime.runtime_digest,
+        "safeActions": safe_actions,
+        "blockers": blockers,
+        "unknowns": unknowns,
+        "evidenceFreshness": evidence_freshness,
+    }))
+    .map_err(|error| ObserverError::State {
+        path: PathBuf::from(".ai/work-items"),
+        message: format!("action admission digest failed: {error}"),
+    })?;
+    Ok(WorkItemActionExplanation {
+        guide_id: guide_id.into(),
+        recommended_action,
+        recommendation_reason,
+        admission_state,
+        issues,
+        human_decision_required,
+        missing_inputs: missing_inputs.to_vec(),
+        admission_digest,
+    })
+}
+
 /// Derive a request-scoped Work Item status without writing any repository
 /// state.  This is intentionally a projection over the existing Contract,
 /// Summary, Outcome, and evidence records; it is not a second scheduler or
@@ -889,6 +1023,7 @@ fn work_item_status_snapshot_with_snapshot(
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
+    let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let expected_repository_id = repository_id(&root).to_string();
     if contract.repository_id != expected_repository_id {
         return Err(ObserverError::State {
@@ -906,11 +1041,12 @@ fn work_item_status_snapshot_with_snapshot(
     let branch = contract
         .resource_context
         .as_ref()
+        .or(effective_resource_context.as_ref())
         .map(|context| context.branch.clone());
-    let mut _owned_snapshot = None;
-    let snapshot_digest_value;
-    if let Some((_, provided_digest)) = snapshot_override {
-        snapshot_digest_value = provided_digest.clone();
+    let (owned_snapshot, snapshot_digest_value) = if let Some((_, provided_digest)) =
+        snapshot_override
+    {
+        (None, provided_digest.clone())
     } else {
         let git =
             cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
@@ -921,9 +1057,12 @@ fn work_item_status_snapshot_with_snapshot(
             path: root.clone(),
             message: error.to_string(),
         })?;
-        snapshot_digest_value = snapshot_digest(&captured_snapshot)?;
-        _owned_snapshot = Some(captured_snapshot);
-    }
+        let captured_digest = snapshot_digest(&captured_snapshot)?;
+        (Some(captured_snapshot), captured_digest)
+    };
+    let snapshot_ref = snapshot_override
+        .map(|(provided_snapshot, _)| provided_snapshot)
+        .or(owned_snapshot.as_ref());
     let outcome =
         outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
     let summary_path = contract_path
@@ -1038,7 +1177,7 @@ fn work_item_status_snapshot_with_snapshot(
         blockers.push("archived_work_item_pending_close".into());
     }
     let blocking = !blockers.is_empty();
-    let human_decision_required =
+    let preflight_human_decision_required =
         summary["preflightState"] == "yellow" && summary["decisionEvidence"].is_null();
     let missing_evidence = unknowns
         .iter()
@@ -1130,8 +1269,9 @@ fn work_item_status_snapshot_with_snapshot(
     if governance_state == "green" && !historical {
         governance_permissions.push("review_evidence".into());
     }
+    let contract_digest_value = contract_digest(&contract_path)?;
     let mut source_digests = BTreeMap::new();
-    source_digests.insert("contract".into(), contract_digest(&contract_path)?);
+    source_digests.insert("contract".into(), contract_digest_value.clone());
     source_digests.insert("repositorySnapshot".into(), snapshot_digest_value.clone());
     if summary_path.is_file()
         && let Ok(digest) = cockpit_protocol::digest_json(&summary)
@@ -1142,6 +1282,7 @@ fn work_item_status_snapshot_with_snapshot(
         .join(".ai/evidence")
         .join(format!("{work_item_id}.verification.json"));
     let evidence = read_json(&evidence_path).ok();
+    let malformed_evidence = evidence_path.is_file() && evidence.is_none();
     if let Some(evidence) = &evidence
         && let Ok(digest) = cockpit_protocol::digest_json(&evidence)
     {
@@ -1201,7 +1342,7 @@ fn work_item_status_snapshot_with_snapshot(
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
         let mut actions = Vec::new();
-        if contract.resource_context.is_some() {
+        if effective_resource_context.is_some() {
             let finalization_path = resource_finalization_decision_path(&root, work_item_id);
             let finalization_state = if fs::symlink_metadata(&finalization_path).is_err() {
                 "missing"
@@ -1256,6 +1397,11 @@ fn work_item_status_snapshot_with_snapshot(
         match lifecycle_phase.as_str() {
             "implementation_active" => vec!["run_preflight".into()],
             "checkpointed" if verification != "verified" => vec!["run_verification".into()],
+            // A verified checkpoint is ready for finish, while the existing
+            // verification entrypoint still admits an explicit revalidation
+            // or receipt-reuse request. Keep finish first so the projection's
+            // recommendation remains the ordinary success path.
+            "checkpointed" => vec!["finish".into(), "run_verification".into()],
             "finish_ready" => vec!["archive_when_reviewed".into()],
             "archived" => vec!["read_outcome".into()],
             "closed" => Vec::new(),
@@ -1263,9 +1409,63 @@ fn work_item_status_snapshot_with_snapshot(
             _ => vec!["read_outcome".into()],
         }
     };
+    let verification_precondition_error = if safe_actions
+        .iter()
+        .any(|action| action == "run_verification")
+        && !archived
+    {
+        snapshot_ref.and_then(|snapshot| {
+            super::check_verification_preconditions(root.as_path(), work_item_id, runtime, snapshot)
+                .err()
+                .map(|error| error.to_string())
+        })
+    } else {
+        None
+    };
+    if verification_precondition_error.is_some() {
+        safe_actions.retain(|action| action != "run_verification");
+    }
+    if let Some(error) = &verification_precondition_error {
+        unknowns.push("verification_action_preconditions_blocked".into());
+        diagnostics.push(error.clone());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let recommended_action = safe_actions
+        .iter()
+        .find(|action| action.as_str() != "refresh_status")
+        .cloned()
+        .or_else(|| safe_actions.first().cloned());
     safe_actions.push("refresh_status".into());
     safe_actions.sort();
     safe_actions.dedup();
+    // A yellow preflight may still explicitly admit the first typed
+    // verification or its one replacement execution. That action is a
+    // governed evidence collection step, not a human decision boundary.
+    let human_decision_required = preflight_human_decision_required
+        && !safe_actions
+            .iter()
+            .any(|action| action == "run_verification");
+    let action_explanation = work_item_action_explanation(
+        &contract.repository_id,
+        work_item_id,
+        &contract_digest_value,
+        &snapshot_digest_value,
+        runtime,
+        contract.operation.as_deref(),
+        effective_resource_context.is_some(),
+        &lifecycle_phase,
+        &verification,
+        blocking,
+        human_decision_required,
+        &blockers,
+        &unknowns,
+        &missing_evidence,
+        &evidence_freshness,
+        &safe_actions,
+        recommended_action,
+        malformed_evidence,
+    )?;
     let status_digest = cockpit_protocol::digest_json(&serde_json::json!({
         "schemaVersion": 1,
         "repositoryId": contract.repository_id,
@@ -1294,6 +1494,7 @@ fn work_item_status_snapshot_with_snapshot(
         "lastVerificationAt": last_verification_at,
         "updatedAt": updated_at,
         "safeActions": safe_actions,
+        "actionExplanation": action_explanation,
         "historical": historical,
     }))
     .map_err(|error| ObserverError::State {
@@ -1328,6 +1529,7 @@ fn work_item_status_snapshot_with_snapshot(
         last_verification_at,
         updated_at,
         safe_actions,
+        action_explanation: Some(action_explanation),
         status_digest,
         historical,
     })

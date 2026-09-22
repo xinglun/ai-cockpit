@@ -9,11 +9,13 @@
 //! operation; no final Outcome projection is fabricated here.
 
 use cockpit_core::Digest;
-use cockpit_protocol::ResourceFinalizationContext;
+use cockpit_git::GitRepository;
+use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
-    plan_resource_finalization, preflight_work_item, record_verification, scaffold_work_item,
-    start_work_item_with_options,
+    plan_resource_finalization, preflight_work_item, record_verification,
+    require_current_action_admission, require_verification_preconditions, scaffold_work_item,
+    start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -30,6 +32,14 @@ fn repository() -> tempfile::TempDir {
     );
     attach(directory.path()).expect("attach");
     directory
+}
+
+fn runtime() -> RuntimeContext {
+    RuntimeContext {
+        runtime_version: "0.1.0".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"scenario-runtime"),
+    }
 }
 
 fn contract(path: &std::path::Path, id: &str) -> std::path::PathBuf {
@@ -325,6 +335,186 @@ fn scn_016_finish_before_finalize_plan_matches_scenario_matrix_key_message() {
         message,
         expected_key_message("SCN-016"),
         "next-action text must match docs/reference/collaboration-scenario-matrix.json SCN-016 expected.keyMessage exactly"
+    );
+}
+
+#[test]
+fn stale_query_is_not_an_execution_authorization() {
+    let directory = repository();
+    let id = "WI-STALE-ACTION-QUERY";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "fresh action admission",
+        "reject an action from an older status projection",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let before = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("initial status");
+    assert!(before.safe_actions.contains(&"run_preflight".into()));
+
+    preflight_work_item(directory.path(), &contract(directory.path(), id)).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+
+    let error = require_current_action_admission(directory.path(), id, "run_preflight", &runtime())
+        .expect_err("old query must not authorize a changed lifecycle state");
+    let message = state_message(error);
+    assert!(message.contains("run_preflight"));
+    assert!(message.contains("admission"));
+    let after = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("fresh status");
+    assert_ne!(
+        before
+            .action_explanation
+            .as_ref()
+            .expect("initial explanation")
+            .admission_digest,
+        after
+            .action_explanation
+            .as_ref()
+            .expect("fresh explanation")
+            .admission_digest
+    );
+}
+
+#[test]
+fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
+    let directory = repository();
+    let id = "WI-ACTION-VERIFICATION-SHARED-GATES";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "share verification admission gates",
+        "do not recommend verification after snapshot drift or missing evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = contract(directory.path(), id);
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    let before = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("pre-drift status");
+    assert!(before.safe_actions.contains(&"run_verification".into()));
+
+    fs::create_dir_all(directory.path().join("src")).expect("source directory");
+    fs::write(directory.path().join("src/lib.rs"), "// snapshot drift\n").expect("source mutation");
+    let changed_snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("changed snapshot");
+    let after = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("post-drift status");
+    assert!(
+        !after.safe_actions.contains(&"run_verification".into()),
+        "query must not admit verification when its execution preconditions are stale: {after:?}"
+    );
+    let query_error =
+        require_current_action_admission(directory.path(), id, "run_verification", &runtime())
+            .expect_err("the execution admission must agree with the query");
+    assert!(query_error.to_string().contains("run_verification"));
+    let execution_error =
+        require_verification_preconditions(directory.path(), id, &runtime(), &changed_snapshot)
+            .expect_err("stale verification must stop before process start");
+    assert!(
+        execution_error
+            .to_string()
+            .contains("current repository snapshot")
+    );
+
+    let evidence_directory = repository();
+    let evidence_id = "WI-ACTION-EVIDENCE-SHARED-GATES";
+    start_work_item_with_options(
+        evidence_directory.path(),
+        evidence_id,
+        "share evidence admission gates",
+        "do not recommend verification without the required evidence class",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            required_evidence_classes: vec!["custom:measurement".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start evidence work item");
+    let evidence_contract = contract(evidence_directory.path(), evidence_id);
+    preflight_work_item(evidence_directory.path(), &evidence_contract).expect("preflight evidence");
+    checkpoint_work_item(evidence_directory.path(), evidence_id).expect("checkpoint evidence");
+    let evidence_status =
+        work_item_status_snapshot_with_runtime(evidence_directory.path(), evidence_id, &runtime())
+            .expect("evidence status");
+    assert!(
+        !evidence_status
+            .safe_actions
+            .contains(&"run_verification".into()),
+        "query must not admit verification when an evidence class is stale or missing"
+    );
+    let evidence_error = require_verification_preconditions(
+        evidence_directory.path(),
+        evidence_id,
+        &runtime(),
+        &GitRepository::discover(evidence_directory.path())
+            .expect("evidence git repository")
+            .snapshot()
+            .expect("evidence snapshot"),
+    )
+    .expect_err("missing evidence must stop before process start");
+    assert!(
+        evidence_error
+            .to_string()
+            .contains("evidence_classes_missing")
+    );
+}
+
+#[test]
+fn recommendation_is_not_authorization_and_admission_check_is_read_only() {
+    let directory = repository();
+    let id = "WI-RECOMMENDATION-NOT-AUTHORITY";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "separate recommendation from admission",
+        "reject an action that is not currently safe",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let status =
+        work_item_status_snapshot_with_runtime(directory.path(), id, &runtime()).expect("status");
+    let explanation = status.action_explanation.as_ref().expect("explanation");
+    assert_eq!(
+        explanation.recommended_action.as_deref(),
+        Some("run_preflight")
+    );
+    let contract_path = contract(directory.path(), id);
+    let summary_path = contract_path.with_file_name(format!("{id}.summary.json"));
+    let before_contract = fs::read(&contract_path).expect("contract bytes");
+    let before_summary = fs::read(&summary_path).expect("summary bytes");
+
+    let error =
+        require_current_action_admission(directory.path(), id, "run_verification", &runtime())
+            .expect_err("recommendation must not authorize another action");
+    assert!(state_message(error).contains("run_verification"));
+    assert_eq!(
+        fs::read(&contract_path).expect("contract after"),
+        before_contract
+    );
+    assert_eq!(
+        fs::read(&summary_path).expect("summary after"),
+        before_summary
     );
 }
 

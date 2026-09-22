@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-22T17:28:55Z",
+  "files": {
+    "approachDigest": "sha256:cfb4b8841c315c9002df2fc06b57d153710df6e9ce14d85216f02aad0afa8f49",
+    "approachPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.approach.json",
+    "contractDigest": "sha256:2df47f113712c14289a2eabe99f3c935c1fd6dfe09d6f3a9b6c8f4c0ce9ee109",
+    "contractPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.contract.json",
+    "eventsDigest": "sha256:dcaf131de4a8d5ff23a65f2bfb90756244d669181267878db08a1a392421b785",
+    "eventsPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.events.jsonl",
+    "outcomeDigest": "sha256:406808525c0034916f5ae7955533d069d4e56c5002939d9ba817651ebb921890",
+    "outcomePath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.outcome.json",
+    "summaryDigest": "sha256:6104c3057a67a28a71fd5a384ddb8bda1466a88cc4365a56bcad269f9da40ac1",
+    "summaryPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.summary.json",
+    "taskReportDigest": "sha256:7a9c5f9fa9e529e123e0872b87daa58b98bfa429574862ed48fed917db9d4adc",
+    "taskReportMarkdownDigest": "sha256:de37fc4532760d9be3131e83be739aabac39b043081ca391218521a79db63357",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1006-runtime-guide-action-outcome.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}

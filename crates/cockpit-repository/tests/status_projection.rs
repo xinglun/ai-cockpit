@@ -752,6 +752,58 @@ fn plan(directory: &tempfile::TempDir, work_item_id: &str) {
     .expect("finalization plan");
 }
 
+fn complete_resource_archive(work_item_id: &str) -> tempfile::TempDir {
+    let directory = repository();
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "exercise resource finalization action projection",
+        "keep provider cleanup actions ordered by their prerequisites",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start resource work item");
+    plan(&directory, work_item_id);
+    let contract_path = directory.path().join(format!(
+        ".ai/work-items/active/{work_item_id}.contract.json"
+    ));
+    preflight_work_item(directory.path(), &contract_path).expect("preflight resource work item");
+    checkpoint_work_item(directory.path(), work_item_id).expect("checkpoint resource work item");
+    let current_runtime = runtime();
+    let run = run_repository_verification(
+        directory.path(),
+        &RepositoryVerificationRequest {
+            node_id: "resource-action-check".into(),
+            program: "true".into(),
+            args: Vec::new(),
+            scope: vec!["src/**".into()],
+            stage: "task".into(),
+            runner: "local".into(),
+            runtime_digest: current_runtime.runtime_digest.to_string(),
+            base_commit: None,
+            workers: 1,
+            work_item_id: None,
+            timeout_seconds: None,
+            policy: RepositoryVerificationPolicy::NeverReuse,
+        },
+    )
+    .expect("resource verification run");
+    record_verification_with_runtime(
+        directory.path(),
+        work_item_id,
+        &serde_json::to_value(&run.receipt).expect("resource receipt"),
+        &current_runtime,
+        &run.final_snapshot,
+    )
+    .expect("record resource verification");
+    finish_work_item(directory.path(), work_item_id).expect("finish resource work item");
+    archive_work_item(directory.path(), work_item_id).expect("archive resource work item");
+    directory
+}
+
 fn assert_no_resource_context(directory: &tempfile::TempDir, work_item_id: &str) {
     let path = directory.path().join(format!(
         ".ai/work-items/active/{work_item_id}.contract.json"
@@ -1080,6 +1132,229 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
         status
             .governance_permissions
             .contains(&"read_status".into())
+    );
+    let explanation = status
+        .action_explanation
+        .as_ref()
+        .expect("structured action explanation");
+    assert_eq!(explanation.guide_id, "ordinary-work-item");
+    assert_eq!(
+        explanation.recommended_action.as_deref(),
+        Some("run_preflight")
+    );
+    assert_eq!(
+        explanation.admission_state,
+        cockpit_protocol::WorkItemAdmissionState::Allowed
+    );
+    assert!(
+        explanation
+            .issues
+            .iter()
+            .any(|issue| issue.kind == cockpit_protocol::WorkItemActionIssueKind::Missing)
+    );
+    assert!(
+        explanation
+            .missing_inputs
+            .iter()
+            .any(|input| input.contains("verification"))
+    );
+    assert!(explanation.admission_digest.as_str().starts_with("sha256:"));
+}
+
+#[test]
+fn status_projection_selects_recovery_guide_for_invalid_verification_evidence() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-INVALID-EVIDENCE";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "invalid evidence projection",
+        "keep invalid evidence explicit",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/evidence/{work_item_id}.verification.json")),
+        b"{malformed",
+    )
+    .expect("write malformed evidence");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("status");
+    let explanation = status
+        .action_explanation
+        .as_ref()
+        .expect("structured action explanation");
+    assert_eq!(explanation.guide_id, "verification-failure-recovery");
+    assert!(
+        explanation
+            .issues
+            .iter()
+            .any(|issue| { issue.kind == cockpit_protocol::WorkItemActionIssueKind::Malformed })
+    );
+}
+
+#[test]
+fn status_projection_routes_failed_provider_and_release_work_to_recovery_first() {
+    let provider = repository();
+    let provider_id = "WI-STATUS-PROVIDER-FAILED";
+    start_work_item_with_options(
+        provider.path(),
+        provider_id,
+        "provider failure guide",
+        "route invalid provider verification evidence to recovery",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start provider work item");
+    plan(&provider, provider_id);
+    fs::write(
+        provider
+            .path()
+            .join(format!(".ai/evidence/{provider_id}.verification.json")),
+        b"{malformed",
+    )
+    .expect("write provider evidence");
+    let provider_status =
+        work_item_status_snapshot_with_runtime(provider.path(), provider_id, &runtime())
+            .expect("provider status");
+    assert_eq!(
+        provider_status
+            .action_explanation
+            .as_ref()
+            .expect("provider explanation")
+            .guide_id,
+        "verification-failure-recovery"
+    );
+
+    let release = repository();
+    let release_id = "WI-STATUS-RELEASE-FAILED";
+    start_work_item_with_options(
+        release.path(),
+        release_id,
+        "release failure guide",
+        "route invalid release verification evidence to recovery",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..WorkItemStartOptions::default()
+        },
+    )
+    .expect("start release work item");
+    let contract_path = release
+        .path()
+        .join(format!(".ai/work-items/active/{release_id}.contract.json"));
+    let mut contract: Value =
+        serde_json::from_slice(&fs::read(&contract_path).expect("release contract"))
+            .expect("release contract JSON");
+    contract["operation"] = json!("release.publish");
+    fs::write(
+        &contract_path,
+        serde_json::to_vec_pretty(&contract).expect("release contract bytes"),
+    )
+    .expect("write release operation");
+    fs::write(
+        release
+            .path()
+            .join(format!(".ai/evidence/{release_id}.verification.json")),
+        b"{malformed",
+    )
+    .expect("write release evidence");
+    let release_status =
+        work_item_status_snapshot_with_runtime(release.path(), release_id, &runtime())
+            .expect("release status");
+    assert_eq!(
+        release_status
+            .action_explanation
+            .as_ref()
+            .expect("release explanation")
+            .guide_id,
+        "verification-failure-recovery"
+    );
+}
+
+#[test]
+fn status_projection_recommends_resource_actions_in_prerequisite_order() {
+    let missing = complete_resource_archive("WI-STATUS-FINALIZATION-MISSING");
+    let missing_status = work_item_status_snapshot_with_runtime(
+        missing.path(),
+        "WI-STATUS-FINALIZATION-MISSING",
+        &runtime(),
+    )
+    .expect("missing finalization status");
+    assert_eq!(
+        missing_status
+            .action_explanation
+            .as_ref()
+            .expect("missing finalization explanation")
+            .recommended_action
+            .as_deref(),
+        Some("finalize_resources")
+    );
+
+    let invalid = complete_resource_archive("WI-STATUS-FINALIZATION-INVALID");
+    fs::write(
+        invalid
+            .path()
+            .join(".ai/decisions/WI-STATUS-FINALIZATION-INVALID.finalize.json"),
+        b"{malformed",
+    )
+    .expect("write invalid finalization");
+    let invalid_status = work_item_status_snapshot_with_runtime(
+        invalid.path(),
+        "WI-STATUS-FINALIZATION-INVALID",
+        &runtime(),
+    )
+    .expect("invalid finalization status");
+    assert_eq!(
+        invalid_status
+            .action_explanation
+            .as_ref()
+            .expect("invalid finalization explanation")
+            .recommended_action
+            .as_deref(),
+        Some("repair_finalization")
+    );
+
+    let retained = complete_resource_archive("WI-STATUS-FINALIZATION-RETAINED");
+    record_deleted_finalization(&retained, "WI-STATUS-FINALIZATION-RETAINED");
+    let finalization_path = retained
+        .path()
+        .join(".ai/decisions/WI-STATUS-FINALIZATION-RETAINED.finalize.json");
+    let mut receipt: Value =
+        serde_json::from_slice(&fs::read(&finalization_path).expect("finalization receipt"))
+            .expect("finalization receipt JSON");
+    receipt["after"]["branch"] = json!("present");
+    receipt["after"]["worktree"] = json!("clean");
+    receipt["result"]["disposition"] = json!("retained");
+    fs::write(
+        &finalization_path,
+        serde_json::to_vec_pretty(&receipt).expect("retained receipt bytes"),
+    )
+    .expect("write retained finalization");
+    let retained_status = work_item_status_snapshot_with_runtime(
+        retained.path(),
+        "WI-STATUS-FINALIZATION-RETAINED",
+        &runtime(),
+    )
+    .expect("retained finalization status");
+    assert_eq!(
+        retained_status
+            .action_explanation
+            .as_ref()
+            .expect("retained finalization explanation")
+            .recommended_action
+            .as_deref(),
+        Some("cleanup_resources")
     );
 }
 

@@ -179,6 +179,18 @@ fn all_work_item_status_cli_emits_stable_repository_index() {
     assert_eq!(first_json["counts"]["yellow"], 2);
     assert_eq!(first_json["items"][0]["workItemId"], "WI-CLI-A");
     assert_eq!(first_json["items"][1]["workItemId"], "WI-CLI-Z");
+    assert_eq!(
+        first_json["items"][0]["status"]["actionExplanation"]["guideId"],
+        "ordinary-work-item"
+    );
+    assert_eq!(
+        first_json["items"][0]["status"]["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(
+        first_json["items"][0]["status"]["actionExplanation"]["admissionState"],
+        "allowed"
+    );
 }
 
 #[test]

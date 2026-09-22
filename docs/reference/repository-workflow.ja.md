@@ -45,6 +45,13 @@ external resource を宣言する場合は、verification/終端 step の前に�
 `work-item finalize-plan` で束縛します。`pending` と `pending:<stable-reference>` は
 引き続き provisional sentinel であり、`finish` や `archive` を認可できません。
 
+有効な archive が resource binding より先に作成された場合、Runtime-aware
+`finalize-plan` entrypoint は `.ai/decisions/` に、正確な Contract と archive manifest
+digest に束縛した resource handoff を一つだけ追加できます。元の archive Contract と
+manifest は変更せず、同じ context の再実行は idempotent です。これは Contract を置換せず、
+successor を作らず、provider cleanup を認可しません。`finalize`、`finalize-verify`、
+`close` は引き続き独立した gate です。
+
 ## Repository 全体の serial 境界
 
 新しい Contract を書く前に、Runtime は全 linked worktree を確認します。別の non-detached worktree に active Contract/Summary の組がある場合、または組が壊れている場合は新しい Work Item を停止します。replacement が predecessor を暗黙に終了させることはありません。明示的な recovery/supersede decision を記録し、predecessor の bytes を保全します。

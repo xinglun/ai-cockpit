@@ -16,8 +16,9 @@ use std::path::{Path, PathBuf};
 use super::observation_ledger::{CandidateMatcher, ObservationLedger};
 use crate::{
     ObservationPhase, ObserverError, RepositoryExecutionContext,
-    close_decision_is_valid_for_status, ordinary_cleanup_binding_from_decision,
-    ordinary_cleanup_receipt_head, read_json, repository_id,
+    close_decision_is_valid_for_status, effective_resource_context,
+    ordinary_cleanup_binding_from_decision, ordinary_cleanup_receipt_head, read_json,
+    repository_id,
 };
 
 const MAX_OUTCOME_ASSEMBLY_ATTEMPTS: usize = 2;
@@ -479,7 +480,11 @@ fn finalization_projection(
     let Ok(contract) = serde_json::from_slice::<cockpit_protocol::Contract>(contract_bytes) else {
         return finalization_projection_unknown("contract_invalid");
     };
-    if contract.resource_context.is_none() {
+    let effective_context = match effective_resource_context(root, work_item_id, &contract) {
+        Ok(context) => context,
+        Err(error) => return finalization_projection_unknown(&error.to_string()),
+    };
+    if effective_context.is_none() {
         let mut projection = finalization_projection_from_parts(FinalizationProjectionParts {
             root,
             work_item_id,
