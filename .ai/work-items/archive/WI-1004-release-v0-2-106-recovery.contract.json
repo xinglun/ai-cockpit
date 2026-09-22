@@ -3,22 +3,25 @@
     "源代码版本、三语版本事实和 v0.2.106 tag 一致，且 tag 为 annotated immutable tag。",
     "release workflow 的 strict 源质量、候选构建、manifest、checksums、SBOM、provenance 和候选验收全部通过。",
     "GitHub public Release v0.2.106 存在并与 tag、源提交和发布资产身份一致。",
-    "下载后的 public artifact 安装验收与 v0.2.105 到 v0.2.106 的 N-1 升级验收通过，且临时运行根清理成功。",
-    "Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
+    "下载后的 public v0.2.106 artifact 安装验收与 v0.2.105 到 v0.2.106 的 N-1 升级验收通过，且临时运行根清理成功。",
+    "successor Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
   ],
   "authority": "authorized",
   "baseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
-  "createdAt": "2026-09-22T08:37:08Z",
-  "goal": "发布并验收 v0.2.106，保留不可变 tag、GitHub Release、manifest/checksums/SBOM/provenance、公开安装与 N-1 升级证据，并完成 Work Item 关闭与精确资源清理。",
-  "intent": "按用户明确要求，将已验收并同步到 origin/main 的 ai-cockpit 主线发布为下一未保留的补丁版本 v0.2.106；完成公开发布及下载、安装、升级和资源清理验收。",
+  "createdAt": "2026-09-22T09:42:15Z",
+  "goal": "从同一 reviewed PR 完成 v0.2.106 的受控发布、公开验收及 successor Work Item 终结。",
+  "intent": "按用户明确要求，将已准备的 ai-cockpit v0.2.106 发布为公开版本，并完成下载、安装、升级和资源清理验收。",
   "mode": "implementation",
   "outOfScope": [
     "不修改功能或生命周期行为；不修改 Sentinel 或其他对象仓库；不删除历史 tag、兼容逻辑或无关 Work Item；不绕过既有 release workflow、公开验收或 Runtime 生命周期。"
   ],
+  "predecessorContractDigest": "sha256:f91ffe3e265c6f64a150bcc996b0771bbe5a3f2c65a25950fb681742e2d784a4",
+  "predecessorWorkItemId": "WI-1003-release-v0-2-106",
   "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
   "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1003-release-v0-2-106.recovery.183265351e3967914a1e5de9fd009b628641a2ab568ac327999b246648e98122.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "repositorySnapshotDigest": "sha256:d0030b496b6f8987c005e07f50a2a51c6e7e31efb8427999a3711ac65dcd26dc",
+  "repositorySnapshotDigest": "sha256:9bb92e7a41e467becf325a19bee08f7c9b588beba4767c0b2a9c46e5690fba03",
   "requiredEvidenceClasses": [
     "verification",
     "verification_receipt",
@@ -26,6 +29,14 @@
     "delegated_evidence",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-106",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/965",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-106"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
@@ -46,7 +57,7 @@
     }
   ],
   "scope": [
-    "仅涉及 v0.2.106 的版本事实、Cargo 版本绑定、三语发布事实、既有 release.yml 发布流程、生成的发布证据、GitHub Release 资产、公开安装/升级验收及本 Work Item 的精确分支和 worktree 清理。",
+    "仅涉及 v0.2.106 的版本事实、Cargo 版本绑定、三语发布事实、既有 release.yml 发布流程、生成的发布证据、GitHub Release 资产、公开安装/升级验收及本 successor Work Item 的精确分支和 worktree 清理。",
     "Cargo.toml",
     "Cargo.lock",
     "docs/architecture/versioning.**",
@@ -57,27 +68,27 @@
     "docs/reference/commands.ja.md",
     "docs/reference/reference-comparison-metadata.json",
     ".ai/decisions/**",
-    ".ai/work-items/active/WI-1003-release-v0-2-106.**",
+    ".ai/work-items/active/WI-1004-release-v0-2-106-recovery.**",
     ".github/workflows/release.yml",
     "tests/release/workflow_policy.sh",
     "scripts/generate_interface_references.py"
   ],
   "sources": [
-    "origin/main@7329279fb65398069c008efa071e1875ffcc9f04",
-    "PR #964 merged as a7c4d8c6bf0f6a31a9c5584f93426dcf84840011",
-    "docs/release/distribution.md",
-    ".github/workflows/release.yml"
+    "Reviewed release PR: https://github.com/xinglun/ai-cockpit/pull/965",
+    "Predecessor WI-1003 preserved as replaced historical evidence",
+    "Release branch: codex/release-v0-2-106",
+    "Exact release worktree: /Users/sei-rinn/.codex/worktrees/release-v0-2-106"
   ],
   "state": "implementation_active",
   "verification": [
     "cargo fmt --all -- --check",
     "cargo test --locked --workspace",
     "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
-    "bash tests/ci/release_gate_policy_test.sh",
-    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
-    "bash tests/docs/documentation_acceptance.sh",
     "bash tests/release/version_consistency.sh --repo .",
-    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
   ],
-  "workItemId": "WI-1003-release-v0-2-106"
+  "workItemId": "WI-1004-release-v0-2-106-recovery"
 }

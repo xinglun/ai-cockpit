@@ -1,0 +1,34 @@
+{
+  "actor": "human:xinglun",
+  "archiveManifestDigest": "sha256:1915013cdb62a50883d797d4bb45af20274fe7f93b83bedb13b71430282c5f0a",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:b6fa44b746481d4ee3ac7d8cb97be6891d2637ffbc5dcb7b9be67f1f999b3605",
+      "path": ".ai/work-items/archive/WI-1003-release-v0-2-106.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:919dfd72260423a6ff00e4032fa72350e2467ee013c660af7812af447a64cf7f",
+      "path": ".ai/work-items/archive/WI-1003-release-v0-2-106.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:589646e147bdcdc31ae6b2fb8f52e6fe3e070c18ea19b08f5673269ad45881ad",
+      "path": ".ai/work-items/archive/WI-1003-release-v0-2-106.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization",
+  "contractDigest": "sha256:f91ffe3e265c6f64a150bcc996b0771bbe5a3f2c65a25950fb681742e2d784a4",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "Retire WI-1003 as preserved historical release preparation because its Contract contains an invalid prose verification declaration. WI-1004-release-v0-2-106-recovery is the explicitly linked clean successor for the same v0.2.106 release scope and reviewed PR; this retirement does not assert verification or publication.",
+  "recordedAt": "2026-09-22T09:44:03Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9bb92e7a41e467becf325a19bee08f7c9b588beba4767c0b2a9c46e5690fba03",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1004-release-v0-2-106-recovery",
+  "summaryDigest": "sha256:e7b1bb23f33a91598ec66ddda1760c60a92af6d20a5d43f36cb4bda71d963bcb",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1003-release-v0-2-106"
+}

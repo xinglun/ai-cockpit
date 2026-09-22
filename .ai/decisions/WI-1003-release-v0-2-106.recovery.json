@@ -1,0 +1,26 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-22T09:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/965",
+    ".ai/evidence/WI-1003-release-v0-2-106.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:16d367bcc5e9d2943f66b08eae975ddde3abaf5ea714a5a213a39cdd4a860c06",
+  "predecessorSummaryDigest": "sha256:12e86aa42ab39e99f0e30852fc60d5d27aff094145a6b2adeb43d99164fba2ae",
+  "predecessorWorkItemId": "WI-1003-release-v0-2-106",
+  "reason": "The exact GitHub PR resource context became available after the first verification. Preserve that evidence and retry the same release Work Item after binding PR #965, its branch, and exact worktree; do not create a successor or dispatch another release.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #965 with finalize-plan, run fresh preflight and verification against the finalized resource context, then finish and continue the reviewed release lifecycle.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "workItemId": "WI-1003-release-v0-2-106"
+}

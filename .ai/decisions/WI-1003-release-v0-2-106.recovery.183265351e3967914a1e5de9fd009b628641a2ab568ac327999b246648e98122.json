@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-22T09:35:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/965",
+    ".ai/evidence/WI-1003-release-v0-2-106.verification.json",
+    ".ai/evidence/WI-1003-release-v0-2-106.verification-attempt.e71bb7f49256fa020a204e7d10e07367a882c6dd53183e9961b157de4f3d50a2.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:f91ffe3e265c6f64a150bcc996b0771bbe5a3f2c65a25950fb681742e2d784a4",
+  "predecessorSummaryDigest": "sha256:e7b1bb23f33a91598ec66ddda1760c60a92af6d20a5d43f36cb4bda71d963bcb",
+  "predecessorWorkItemId": "WI-1003-release-v0-2-106",
+  "reason": "The predecessor Contract contains an invalid prose verification declaration discovered before release publication. Preserve it unchanged and continue the same v0.2.106 release through a clean successor Contract with explicit verification commands; retain the same reviewed PR and exact worktree context.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the clean successor with the same release scope, bind PR #965 with finalize-plan before verification, complete hosted review, and use the successor Work Item for tag, public release, acceptance, and finalization evidence.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1004-release-v0-2-106-recovery",
+  "workItemId": "WI-1003-release-v0-2-106"
+}
