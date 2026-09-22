@@ -237,7 +237,9 @@ fn cursor_legacy_managed_adapter_is_repaired_in_place() {
     let mut content = fs::read_to_string(&legacy).expect("content");
     content = content.replace("This repository is attached", "This repository was edited");
     fs::write(&legacy, content).expect("edit");
-    assert!(cockpit_agent::repair_adapter(repository.path(), AgentProvider::Cursor).is_err());
+    let repaired = cockpit_agent::repair_adapter(repository.path(), AgentProvider::Cursor)
+        .expect("explicit repair rebinds the reviewed legacy section");
+    assert_eq!(repaired.target, legacy);
     assert!(repository.path().join(".ai/adapters/cursor.json").is_file());
 }
 

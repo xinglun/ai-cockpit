@@ -70,6 +70,66 @@ PY
 
 run_case valid 0 none
 
+# A repository-owned managed adapter section is a governance input. A stale
+# installedDigest must fail the gate with both identities.
+build_fixture "$fixtures/valid.json" "$tmp/adapter-digest-drift"
+python3 - "$tmp/adapter-digest-drift" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+target = root / "AGENTS.md"
+target.write_text(
+    "rules\n"
+    + "<!-- AI_COCKPIT_ADAPTER_BEGIN provider=codex adapterVersion=1 repositoryId=sha256:"
+    + ("a" * 64)
+    + " -->\n\nmanaged\n<!-- AI_COCKPIT_ADAPTER_END -->\n",
+    encoding="utf-8",
+)
+adapters = root / ".ai/adapters"
+adapters.mkdir(parents=True)
+(adapters / "codex.json").write_text(
+    json.dumps(
+        {
+            "provider": "codex",
+            "adapterVersion": 1,
+            "target": "AGENTS.md",
+            "mode": "managed-section",
+            "repositoryId": "sha256:" + ("a" * 64),
+            "installedDigest": "sha256:" + ("b" * 64),
+        },
+        indent=2,
+    )
+    + "\n",
+    encoding="utf-8",
+)
+PY
+set +e
+env -u GITHUB_EVENT_NAME -u GITHUB_REF -u GITHUB_REF_NAME \
+  -u GITHUB_SHA -u GITHUB_EVENT_PATH -u GITHUB_BASE_REF \
+  python3 "$gate" --repo "$tmp/adapter-digest-drift" \
+  --report "$tmp/adapter-digest-drift-report.json" >/dev/null 2>&1
+adapter_drift_code=$?
+set -e
+[[ "$adapter_drift_code" -eq 1 ]] || {
+  printf 'adapter digest drift: expected exit 1, got %s\n' "$adapter_drift_code" >&2
+  exit 1
+}
+python3 - "$tmp/adapter-digest-drift-report.json" <<'PY'
+import json
+import sys
+
+report = json.load(open(sys.argv[1], encoding="utf-8"))
+findings = [item for item in report["findings"] if item["code"] == "adapter_digest_mismatch"]
+assert len(findings) == 1, report["findings"]
+finding = findings[0]
+assert finding["path"] == "AGENTS.md", finding
+assert "expected digest sha256:" in finding["message"], finding
+assert "actual digest sha256:" in finding["message"], finding
+PY
+printf 'adapter digest drift regression passed\n'
+
 # Runtime retirement is an explicit historical-cleanup terminal route.  It
 # must satisfy the gate from its own immutable receipt and archive bindings,
 # without requiring a fabricated close decision or promoting the old Outcome.

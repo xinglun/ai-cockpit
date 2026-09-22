@@ -120,18 +120,92 @@ fn unchanged_section_detaches_only_owned_bytes() {
 }
 
 #[test]
-fn repair_refuses_conflict_without_force() {
-    let repository = repository(false);
+fn repair_rebinds_explicitly_authorized_managed_section_drift() {
+    let repository = repository(true);
+    let target = repository.path().join("AGENTS.md");
+    fs::write(&target, "rules\nkeep this\n").expect("target");
+    cockpit_agent::install_adapter(repository.path(), AgentProvider::Codex).expect("install");
+    let before_record =
+        fs::read(repository.path().join(".ai/adapters/codex.json")).expect("record before drift");
+    let mut content = fs::read_to_string(&target).expect("content");
+    content = content.replace(
+        "This repository is attached",
+        "This repository was migrated by an approved documentation change",
+    );
+    fs::write(&target, content).expect("modify");
+    let before_repair_target = fs::read(&target).expect("target before repair");
+    let receipt =
+        cockpit_agent::repair_adapter(repository.path(), AgentProvider::Codex).expect("repair");
+    let after_record =
+        fs::read(repository.path().join(".ai/adapters/codex.json")).expect("record after repair");
+    assert_ne!(before_record, after_record);
+    assert_eq!(receipt.installed_digest, current_managed_digest(&target));
+    assert_eq!(
+        before_repair_target,
+        fs::read(&target).expect("target after repair")
+    );
+    assert!(
+        fs::read_to_string(&target)
+            .expect("target")
+            .starts_with("rules\nkeep this\n")
+    );
+    assert_eq!(
+        cockpit_agent::doctor(repository.path())
+            .expect("doctor")
+            .state,
+        "VERIFIED"
+    );
+}
+
+#[test]
+fn repair_rejects_managed_section_repository_identity_mismatch() {
+    let repository = repository(true);
+    let target = repository.path().join("AGENTS.md");
+    fs::write(&target, "rules\n").expect("target");
+    cockpit_agent::install_adapter(repository.path(), AgentProvider::Codex).expect("install");
+    let record_path = repository.path().join(".ai/adapters/codex.json");
+    let before_record = fs::read(&record_path).expect("record before mismatch");
+    let mut content = fs::read_to_string(&target).expect("content");
+    content = content.replace(
+        "repositoryId=sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "repositoryId=sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    );
+    fs::write(&target, content).expect("modify identity");
+    assert!(cockpit_agent::repair_adapter(repository.path(), AgentProvider::Codex).is_err());
+    assert_eq!(
+        before_record,
+        fs::read(&record_path).expect("record after rejection")
+    );
+    assert_eq!(
+        cockpit_agent::doctor(repository.path())
+            .expect("doctor")
+            .state,
+        "CONFLICT"
+    );
+}
+
+#[test]
+fn doctor_reports_expected_and_actual_adapter_digests() {
+    let repository = repository(true);
     let target = repository.path().join("AGENTS.md");
     fs::write(&target, "rules\n").expect("target");
     cockpit_agent::install_adapter(repository.path(), AgentProvider::Codex).expect("install");
     let mut content = fs::read_to_string(&target).expect("content");
     content = content.replace(
         "This repository is attached",
-        "This repository was manually edited",
+        "This repository was changed without repair",
     );
     fs::write(&target, content).expect("modify");
-    assert!(cockpit_agent::repair_adapter(repository.path(), AgentProvider::Codex).is_err());
+
+    let report = cockpit_agent::doctor(repository.path()).expect("doctor");
+    assert_eq!(report.state, "CONFLICT");
+    let problem = report
+        .problems
+        .iter()
+        .find(|problem| problem.contains("AGENTS.md has no matching"))
+        .expect("adapter mismatch problem");
+    assert!(problem.contains("expected digest sha256:"), "{problem}");
+    assert!(problem.contains("actual digest sha256:"), "{problem}");
 }
 
 #[test]
@@ -159,4 +233,26 @@ fn doctor_does_not_follow_unknown_surface_symlink() {
 #[allow(dead_code)]
 fn _assert_relative(path: &Path) {
     assert!(path.is_relative());
+}
+
+fn current_managed_digest(path: &Path) -> String {
+    let content = fs::read_to_string(path).expect("managed target");
+    let begin = content
+        .find("<!-- AI_COCKPIT_ADAPTER_BEGIN")
+        .expect("begin marker");
+    let end_marker = "<!-- AI_COCKPIT_ADAPTER_END -->";
+    let end = content[begin..]
+        .find(end_marker)
+        .map(|offset| begin + offset + end_marker.len())
+        .expect("end marker");
+    let end = if content.as_bytes().get(end) == Some(&b'\n') {
+        end + 1
+    } else {
+        end
+    };
+    use sha2::{Digest, Sha256};
+    format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest(&content.as_bytes()[begin..end]))
+    )
 }
