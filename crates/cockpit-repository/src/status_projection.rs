@@ -873,6 +873,9 @@ fn action_issue(code: &str, message: impl Into<String>) -> WorkItemActionIssue {
     }
 }
 
+// This projection keeps the independently reported Runtime facts explicit;
+// grouping them would obscure which inputs contribute to the admission digest.
+#[allow(clippy::too_many_arguments)]
 fn work_item_action_explanation(
     repository_id: &str,
     work_item_id: &str,
@@ -1059,7 +1062,7 @@ fn work_item_status_snapshot_with_snapshot(
     };
     let snapshot_ref = snapshot_override
         .map(|(provided_snapshot, _)| provided_snapshot)
-        .or_else(|| owned_snapshot.as_ref());
+        .or(owned_snapshot.as_ref());
     let outcome =
         outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
     let summary_path = contract_path
