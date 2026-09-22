@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:aed3e47c77481f57c12e8b49d9f6200bea8648c87d21b9983f7607a2f08ab973",
+  "branchRef": "refs/heads/codex/wi-1001-knowledge-cache-validation",
+  "contractDigest": "sha256:d2cabbd0977f1abbe78d7f90bebdb3ee07a5a6aa2d1471c8916f391181bb3345",
+  "headRevision": "e660e0478b9c9c294aa327410eb0b014792d09ba",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-22T08:04:15Z",
+  "operationId": "sha256:ab4c5e59de76841794499e8b67bc1ee39098fe0a16fcfce0fbe5c8fd51eaffe5",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1002-knowledge-outcome-closure",
+  "worktreeId": "sha256:1dc11d26f5d5dfff995957b925b0f20862e6011a84cac7c9d830595cf33c7691"
+}
