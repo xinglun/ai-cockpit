@@ -1,0 +1,45 @@
+{
+  "acceptanceCriteria": [
+    "A valid cache remains reusable without cloning records and rebuilding the complete derived index.",
+    "Record tampering and derived-index tampering are still rejected and rebuilt.",
+    "Existing query/index behavior and missing-filter short-circuit behavior remain unchanged.",
+    "Focused tests, workspace tests, and the declared cache benchmark pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "5517096549af5f419c2b9c36d10893cb16d35e41",
+  "createdAt": "2026-09-22T06:00:23Z",
+  "goal": "Validate cached knowledge indexes without cloning and rebuilding the full derived index on every cache hit.",
+  "intent": "Complete the original knowledge architecture finding by reducing derived-cache validation cost while preserving source and record tamper detection.",
+  "mode": "implementation",
+  "outOfScope": [
+    "archive source-digest semantics; query result semantics; Outcome delivery; repository-wide crate extraction; historical compatibility deletion; release script migration; version publication"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:044d89823566ee3d52e3efe8abb8b80c7850cbbe05e73d675cc4988b285b1d39",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-knowledge/src/lib.rs; crates/cockpit-knowledge/tests/query.rs; crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-knowledge/tests/query.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs"
+  ],
+  "sources": [
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-knowledge/tests/query.rs",
+    "crates/cockpit-repository/tests/knowledge_cache.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-knowledge",
+    "cargo test --locked -p cockpit-repository --test knowledge_cache",
+    "cargo test --locked --workspace",
+    "cargo fmt --all -- --check"
+  ],
+  "workItemId": "WI-1001-knowledge-cache-validation"
+}

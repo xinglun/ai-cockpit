@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-revalidation",
+  "decidedAt": "2026-09-22T07:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1001-knowledge-cache-validation.verification.json",
+    "crates/cockpit-repository/tests/knowledge_cache.rs",
+    "crates/cockpit-repository/tests/status_projection.rs"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:59b668f7a12a8f038f8415fbded57511c4876e61076209b1e4ae2a888adbec93",
+  "predecessorEventsDigest": "sha256:dd35994fe45e4cb8c2064659d7fc38d3bb068dc322b4e93e2efaf3109b18ad93",
+  "predecessorOutcomeDigest": "sha256:2b74c8fd1340598855449fafb91f64bd2df69fc12446e776ff8c155cf17c1954",
+  "predecessorSummaryDigest": "sha256:4e3683ebaf22af0a724679ce2f7e937eff8cce6ba1869d5e6a40a3191a8d4c80",
+  "predecessorWorkItemId": "WI-1001-knowledge-cache-validation",
+  "reason": "归档后复核发现 dirty 缓存刷新分支和普通清理 Outcome 投影仍未收敛；在 successor 中完成修复并重新验收",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "以 successor Contract 完成 fresh preflight、checkpoint、verify、finish、archive、close；保持 WI-1001 历史 bytes 不变",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1002-knowledge-outcome-closure",
+  "workItemId": "WI-1001-knowledge-cache-validation"
+}

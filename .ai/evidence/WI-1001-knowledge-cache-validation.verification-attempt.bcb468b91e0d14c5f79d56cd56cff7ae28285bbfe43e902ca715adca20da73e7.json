@@ -1,0 +1,102 @@
+{
+  "attemptId": "sha256:bcb468b91e0d14c5f79d56cd56cff7ae28285bbfe43e902ca715adca20da73e7",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-knowledge"
+      ],
+      "baseCommit": "5517096549af5f419c2b9c36d10893cb16d35e41",
+      "commandDigest": "sha256:1328a419b81024dac893bc33dd0e92b36cd701a223a6cbb0d3d9158af0f1ce78",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "-p",
+        "cockpit-repository",
+        "--test",
+        "knowledge_cache"
+      ],
+      "baseCommit": "5517096549af5f419c2b9c36d10893cb16d35e41",
+      "commandDigest": "sha256:83ab6be67ec66d32524392c99931e68c5d68ae7b478e160a9e3ecb310127f960",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "5517096549af5f419c2b9c36d10893cb16d35e41",
+      "commandDigest": "sha256:213292612c894a2eec6dd3cb576580491264616326ab47e8ad82ee7b187f516a",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "5517096549af5f419c2b9c36d10893cb16d35e41",
+      "commandDigest": "sha256:c87cdef385254ba877277dc30b51649c03d91aa9c7960394dd100cd8b32ff651",
+      "nodeId": "project-command-3",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:bd2cc594f9afd2b6c00c4a9f20f74ac2db4359d3f13b0076f94bbe2d26f8d841",
+  "contractExecutionScopeDigest": "sha256:e8ebee918b15465836e56e64602cb160ec6096de501e226c4786837695027993",
+  "createdAt": "2026-09-22T06:21:55Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/knowledge-cache-validation/ai-cockpit/.ai/work-items/active/WI-1001-knowledge-cache-validation.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ceaf3476771e3c98ab8a1dc90a093cedead481d0c8530780da1bbde72412f6e5",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1001-knowledge-cache-validation"
+}
