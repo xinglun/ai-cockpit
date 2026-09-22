@@ -1,0 +1,51 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-993-wi867-doc-promotion.verification-attempt.428f355ac882537d8430aeafe213b107d215592ef8bbba9f84545a990786f912.json",
+    ".ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-993-wi867-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.ja.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-22T05:20:19Z",
+  "checkpointContractDigest": "sha256:4b1736a2bb25fdf16201fa59e0cc6a2548c76aeeb159fddc93b6c840de541d66",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:a7b710349336bb6c61bab0762e3f407bd2f74876fcf8dc1ef3cbd5820abc78d6",
+  "createdAt": "2026-09-22T05:19:27Z",
+  "mode": "documentation",
+  "preflightAt": "2026-09-22T05:25:28Z",
+  "preflightContractDigest": "sha256:4b1736a2bb25fdf16201fa59e0cc6a2548c76aeeb159fddc93b6c840de541d66",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:a7b710349336bb6c61bab0762e3f407bd2f74876fcf8dc1ef3cbd5820abc78d6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T05:25:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-993-wi867-doc-promotion"
+}

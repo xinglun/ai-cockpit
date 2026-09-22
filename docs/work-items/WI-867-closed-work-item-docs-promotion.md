@@ -4,9 +4,12 @@ workItemId: WI-867-closed-work-item-docs-promotion
 title: Closed WI-864 documentation promotion
 description: Promote the closed WI-864 release records into the required tri-language documentation projection.
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-867-closed-work-item-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-867-closed-work-item-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-867-closed-work-item-docs-promotion.close.json
 ---
 
 # WI-867 — Closed WI-864 documentation promotion

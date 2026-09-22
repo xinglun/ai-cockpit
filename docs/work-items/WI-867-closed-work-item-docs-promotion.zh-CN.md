@@ -4,9 +4,12 @@ workItemId: WI-867-closed-work-item-docs-promotion
 title: 已关闭 WI-864 的文档 promotion
 description: 将已关闭的 WI-864 发布记录投影到所需的三语维护文档中。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-867-closed-work-item-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-867-closed-work-item-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-867-closed-work-item-docs-promotion.close.json
 ---
 
 # WI-867 — 已关闭 WI-864 的文档 promotion

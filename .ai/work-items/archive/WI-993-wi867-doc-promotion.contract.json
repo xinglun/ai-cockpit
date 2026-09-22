@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "WI-867 English, Simplified Chinese, and Japanese terminal projections agree with its archive, verification, and close evidence.",
+    "WI-867 is represented as terminal rather than in_progress, while its historical archive, verification, and close bytes remain unchanged.",
+    "WI-993 has its own tri-language pre-close documentation and parity registration with the required terminal evidence paths.",
+    "The single-item WI-867 promotion, full documentation check, parity check, and status consistency check pass."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2306c555771b8c6293ed46fc7e90e049c104af71",
+  "createdAt": "2026-09-22T05:19:27Z",
+  "goal": "Make the current closed-work-item documentation check current for WI-867 and leave a verified, self-contained tri-language successor projection.",
+  "intent": "Complete the stale terminal documentation projection for WI-867 without changing historical governance bytes or product behavior.",
+  "mode": "documentation",
+  "outOfScope": [
+    "src/**",
+    "crates/**",
+    "tests/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    "release artifacts"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:867808be4ff3446b34a7a3ae799ab2e55c27b66aa1b76d2874e3368acda283c8",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.zh-CN.md",
+    "docs/work-items/WI-867-closed-work-item-docs-promotion.ja.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-993-wi867-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/**"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-867-closed-work-item-docs-promotion.contract.json",
+    ".ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json",
+    ".ai/decisions/WI-867-closed-work-item-docs-promotion.close.json",
+    "tests/docs/promote_closed_work_item.py",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-867-closed-work-item-docs-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/parity_status_check.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo ."
+  ],
+  "workItemId": "WI-993-wi867-doc-promotion"
+}

@@ -4,9 +4,12 @@ workItemId: WI-867-closed-work-item-docs-promotion
 title: close 済み WI-864 のドキュメント promotion
 description: close 済み WI-864 の release record を必要な三言語ドキュメント投影へ反映します。
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-867-closed-work-item-docs-promotion
+terminalArchive: .ai/work-items/archive/WI-867-closed-work-item-docs-promotion.contract.json
+terminalVerification: .ai/evidence/WI-867-closed-work-item-docs-promotion.verification.json
+terminalDecision: .ai/decisions/WI-867-closed-work-item-docs-promotion.close.json
 ---
 
 # WI-867 — close 済み WI-864 のドキュメント promotion
