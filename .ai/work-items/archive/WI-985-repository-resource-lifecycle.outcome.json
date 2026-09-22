@@ -44,168 +44,168 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.3e645dd23744a083a084db0dcf290a61807e0a1b32ce7feb207c8077e790a8ea.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.65a605f98a04476872e83b329a2c08d40020406868746a29ed78a3a35ad62f22.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.b95f7ea406053c9db715272febe491ae5387a845fadd09deba7513c9c6400a82.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.57d6a6db57e41800c7a29f127a5c66128ccf2f93f3f65c96029155ea6fa9ab3a.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.ae9cf79befac705b6449555b5963d2f86e7928dbbe8a40da8f5ef1b3b398ae00.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/lib.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/ordinary_cleanup.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: crates/cockpit-repository/tests/resource_finalization.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.ja.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md"
@@ -264,7 +264,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json"
           ],
           "inference": false,
           "text": "将资源 finalization、ordinary cleanup 及其绑定校验从 cockpit-repository/src/lib.rs 迁入一个显式依赖的同 crate 模块，保持公开 API、receipt/schema、写入顺序、错误语义、历史读取和恢复行为不变。"
@@ -273,7 +273,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+            ".ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -283,8 +283,8 @@
     "status": "verified",
     "workItemId": "WI-985-repository-resource-lifecycle"
   },
-  "taskReportDigest": "sha256:cf40a646463d4f23fb3b54fe2a3a125e67afe6ba54a582c99afcdeaced5ac614",
-  "taskReportMarkdownDigest": "sha256:88b96e54d87a03c897089f3ddbc140cbac486ccc5e1b1ea203c8def04f2a635a",
+  "taskReportDigest": "sha256:5c6018dac5ad241bee2f37a630f8978818e954fbcf86cfc35f6aa6069d692bb8",
+  "taskReportMarkdownDigest": "sha256:3456519f56dcaa692fb123a7687f76d5b79e463c3ef4ddc173b46325a5d0e928",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

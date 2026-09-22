@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-22T02:58:18Z",
+  "files": {
+    "contractDigest": "sha256:be47e926fce3cae42b615008cdfa95e97c9920c6a5a726819c33002ffa9574e8",
+    "contractPath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json",
+    "eventsDigest": "sha256:b163e935627e93b1e961c79efb19561daea25e92c36e7dad2b83015f4232b2a3",
+    "eventsPath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.events.jsonl",
+    "outcomeDigest": "sha256:4179a0f9bdaacd0eadeabb930e23a65bd1a1ac1fb2f9f6bafd34f79a8e9d3801",
+    "outcomePath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.outcome.json",
+    "summaryDigest": "sha256:802ca4819c7ad60a9d8b9eb05566979e10d88d51a7c0b5492c94329952ee7251",
+    "summaryPath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json",
+    "taskReportDigest": "sha256:5c6018dac5ad241bee2f37a630f8978818e954fbcf86cfc35f6aa6069d692bb8",
+    "taskReportMarkdownDigest": "sha256:3456519f56dcaa692fb123a7687f76d5b79e463c3ef4ddc173b46325a5d0e928",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-985-repository-resource-lifecycle.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}

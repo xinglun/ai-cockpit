@@ -6,7 +6,7 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.d49e6d7235e8e128eefb68a3aabcaa5d6d4c501ae5b2befab066080b3f781ea7.json",
     ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json",
-    ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+    ".ai/work-items/archive/WI-985-repository-resource-lifecycle.summary.json"
   ],
   "checkpointAt": "2026-09-22T01:40:11Z",
   "checkpointContractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
