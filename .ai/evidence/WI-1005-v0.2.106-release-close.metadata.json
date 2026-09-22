@@ -1,0 +1,10 @@
+{
+  "assurance": "provider_verified",
+  "collectedAt": "2026-09-22T10:43:06Z",
+  "digest": "sha256:c7cc7f755582287c92f0ec56c452c9d3be0e6668c3d0dd76d0193534137807f7",
+  "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504",
+  "provider": "github",
+  "rawEvidenceRef": ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+  "subject": "workflow:35715366504/release-close",
+  "validity": "valid"
+}

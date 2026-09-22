@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "WI-1005-release-v0-2-106-finalization",
+  "operationId": "WI-1005-release-v0-2-106-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1005-release-v0-2-106-final",
+  "runtimeVersion": "0.2.105",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "provider": "github",
+  "pullRequest": {
+    "number": 966,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/966",
+    "headRevision": "af7f80497c2bfef40d8e5b46c9c210d0c464111c",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
+    "mergeCommit": "c343c23bafea40d99c47e27d840f37b1fdfb539e"
+  },
+  "branch": {
+    "name": "codex/release-v0-2-106-recovery",
+    "remote": "origin",
+    "headRevision": "af7f80497c2bfef40d8e5b46c9c210d0c464111c"
+  },
+  "worktree": {
+    "worktreeId": "release-v0-2-106",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-106",
+    "branch": "codex/release-v0-2-106-recovery",
+    "headRevision": "af7f80497c2bfef40d8e5b46c9c210d0c464111c"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:xinglun",
+  "authoritySource": "explicit user authorization in current conversation",
+  "reason": "Reviewed PR #966 merged as c343c23bafea40d99c47e27d840f37b1fdfb539e; v0.2.106 public release, artifact, install, upgrade, and release-close evidence passed in workflow run 35715366504. After archive, the exact PR #966 branch and linked worktree were deleted. The older PR #965 recovery branch remains preserved outside this Work Item resource identity.",
+  "timestamp": "2026-09-22T10:55:09Z",
+  "contractDigest": "sha256:3aa39761974deb6e14ced928a0eaca64cc63396bd41033726b24cfa5782716a8",
+  "contractBaseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
+  "resourceContext": {
+    "branch": "codex/release-v0-2-106-recovery",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-106",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/966"
+  }
+}

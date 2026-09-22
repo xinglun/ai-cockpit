@@ -16,8 +16,8 @@
 
 - Changed path: .ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json
-- Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json
+- Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json
+- Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json
 
 ## Findings
 

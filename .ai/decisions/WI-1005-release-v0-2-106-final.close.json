@@ -1,34 +1,6 @@
 {
-  "acceptanceResults": [
-    "源代码版本、三语版本事实和 v0.2.106 tag 一致，且 tag 为 annotated immutable tag。",
-    "release workflow 的 strict 源质量、候选构建、manifest、checksums、SBOM、provenance 和候选验收全部通过。",
-    "GitHub public Release v0.2.106 存在并与 tag、源提交和发布资产身份一致。",
-    "下载后的 public v0.2.106 artifact 安装验收与 v0.2.105 到 v0.2.106 的 N-1 升级验收通过，且临时运行根清理成功。",
-    "successor Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
-  ],
-  "createdAt": "2026-09-22T10:09:44Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:0106e0eb33a40c34d1c7f864822a904c54ff28c04ee52cc616007b729de76ad8",
-  "evidenceRefs": [
-    ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
-  ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
@@ -45,31 +17,31 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
         }
       ],
       "evidence": [
@@ -89,7 +61,20 @@
         "user_visible_benefit_invented_from_implementation_facts"
       ],
       "forcedStops": [],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.106",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504",
+            ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+            ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+            ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+            ".ai/decisions/WI-1005-release-v0-2-106-final.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:xinglun via explicit-user-authorization at 2026-09-22T10:55:09Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -125,7 +110,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
           ],
           "inference": false,
           "text": "在新 PR #966 的唯一资源身份下完成 v0.2.106 的受控发布、公开验收及 Work Item 终结。"
@@ -134,7 +119,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -144,15 +129,33 @@
     "status": "verified",
     "workItemId": "WI-1005-release-v0-2-106-final"
   },
-  "taskReportDigest": "sha256:576b3bcf6fd425eef40bfe6f76abe2ec7921e479766dc6d65954602140684e9e",
-  "taskReportMarkdownDigest": "sha256:a92b225cb017d7370c9eb7bac1c95458d55a6032de8cab6c2ddc5ff7ba6c975b",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json",
-    "required": true,
-    "status": "verified"
+  "finalReportDigest": "sha256:8961127d15f0f8ed1e4f07340b03945487117a3fa0201730fd5624e7d1dce070",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:c144f73973dfe6e6b63a8a2cb8395735c7ca96c9adbcf7a2145c43aca34469bf",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1005-release-v0-2-106-final.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:xinglun",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-22T10:55:09Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.106",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504",
+      ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+      ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+      ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+      ".ai/decisions/WI-1005-release-v0-2-106-final.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "用户已授权处理指定临时 worktree 并发布版本；v0.2.106 的公开 Release、安装/升级验收、release-close 和精确资源清理均已核实，保留 user_visible_benefit_not_declared 未知项。",
+    "resumeCondition": null
   },
+  "timestamp": "2026-09-22T10:56:28Z",
   "workItemId": "WI-1005-release-v0-2-106-final"
 }

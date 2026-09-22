@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "phase": "public_version_consistency",
+  "tag": "v0.2.106",
+  "commit": "c343c23bafea40d99c47e27d840f37b1fdfb539e",
+  "state": "passed"
+}

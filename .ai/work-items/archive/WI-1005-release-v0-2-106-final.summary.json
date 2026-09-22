@@ -1,9 +1,44 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "immutable v0.2.106 release close",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+          "type": "release",
+          "verification": "GitHub Actions run 35715366504 release_close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public downloaded install",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35715366504 adopter_acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public v0.2.105 to v0.2.106 upgrade",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35715366504 adopter_upgrade_acceptance"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
     ".ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json",
-    ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+    ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json",
+    ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
   ],
   "checkpointAt": "2026-09-22T10:02:36Z",
   "checkpointContractDigest": "sha256:dd3a407b462153ac128211c227921e441552e1ef742c117de19b089ce4b56832",
@@ -12,13 +47,11 @@
   "createdAt": "2026-09-22T10:00:50Z",
   "intentAlignment": {
     "evidence": [
-      "Cargo.toml",
-      "docs/release/distribution.md",
-      "docs/architecture/versioning.md",
-      ".github/workflows/release.yml"
+      ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json",
+      ".ai/evidence/external/WI-1005-v0.2.106-release-close.json"
     ],
-    "reason": "The version facts and existing release workflow directly bind the requested v0.2.106 publication scope; feature behavior and unrelated historical cleanup remain out of scope.",
-    "state": "resolved"
+    "reason": "发布、下载验收和升级验收均已通过；本 Work Item 未声明单独的用户收益测量。",
+    "state": "unknown"
   },
   "mode": "implementation",
   "predecessorContractDigest": "sha256:da9ac6d65a09350f798c0583951aa929ae5b04e8e56dee2cea78569da9502674",
@@ -33,26 +66,33 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+        ".ai/evidence/external/WI-1005-v0.2.106-version-consistency.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.106",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504"
+      ],
       "expected": "The v0.2.106 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed merge commit.",
-      "reason": "A reviewed PR and public v0.2.106 Release do not exist until the post-merge publication stage; this scenario will be verified there.",
       "required": true,
       "scenario": "release-artifact-integrity",
-      "status": "not_applicable",
-      "verificationPlan": "After the reviewed release Work Item PR merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+      "status": "verified",
+      "verificationPlan": "Release workflow 35715366504 passed source quality, platform builds, publication, public version consistency, attestation, and release close."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+        ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504"
+      ],
       "expected": "The downloaded public v0.2.106 artifact passes checksum, isolated fresh install, v0.2.105-to-v0.2.106 N-1 upgrade, and exact temporary-root cleanup without object-repository writes.",
-      "reason": "An immutable public v0.2.106 asset does not exist until the post-merge publication stage; this scenario will be verified from that asset.",
       "required": true,
       "scenario": "downloaded-adopter-install-upgrade",
-      "status": "not_applicable",
-      "verificationPlan": "Use the immutable public Release asset with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind the receipts to this Work Item."
+      "status": "verified",
+      "verificationPlan": "The hosted public adopter acceptance and N-1 upgrade acceptance both passed with source isolation and run-root cleanup receipts."
     }
   ],
   "state": "finish_ready",
-  "updatedAt": "2026-09-22T10:09:44Z",
+  "updatedAt": "2026-09-22T10:52:15.888680+00:00",
   "verification": [
     {
       "check": "project-command-0",

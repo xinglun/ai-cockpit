@@ -1,0 +1,10 @@
+{
+  "assurance": "provider_verified",
+  "collectedAt": "2026-09-22T10:42:00Z",
+  "digest": "sha256:4010f2160ea81c23ec1118d6e59be2c9f6005b1ab2a05c21e61587a18da6cd75",
+  "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504",
+  "provider": "github",
+  "rawEvidenceRef": ".ai/evidence/external/WI-1005-v0.2.106-version-consistency.json",
+  "subject": "workflow:35715366504/post_release_version_consistency",
+  "validity": "valid"
+}

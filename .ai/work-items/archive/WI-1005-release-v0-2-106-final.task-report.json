@@ -15,31 +15,31 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
       }
     ],
     "evidence": [
@@ -95,7 +95,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
         ],
         "inference": false,
         "text": "在新 PR #966 的唯一资源身份下完成 v0.2.106 的受控发布、公开验收及 Work Item 终结。"
@@ -104,7 +104,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json"
+          ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

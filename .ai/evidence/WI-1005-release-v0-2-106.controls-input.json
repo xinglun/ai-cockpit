@@ -1,0 +1,72 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "verified",
+      "expected": "The v0.2.106 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed merge commit.",
+      "verificationPlan": "Release workflow 35715366504 passed source quality, platform builds, publication, public version consistency, attestation, and release close.",
+      "evidence": [
+        ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+        ".ai/evidence/external/WI-1005-v0.2.106-version-consistency.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.106",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504"
+      ]
+    },
+    {
+      "scenario": "downloaded-adopter-install-upgrade",
+      "required": true,
+      "status": "verified",
+      "expected": "The downloaded public v0.2.106 artifact passes checksum, isolated fresh install, v0.2.105-to-v0.2.106 N-1 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "verificationPlan": "The hosted public adopter acceptance and N-1 upgrade acceptance both passed with source isolation and run-root cleanup receipts.",
+      "evidence": [
+        ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+        ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504"
+      ]
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "immutable v0.2.106 release close",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-release-close.json",
+          "type": "release",
+          "verification": "GitHub Actions run 35715366504 release_close"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "public downloaded install",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35715366504 adopter_acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "public v0.2.105 to v0.2.106 upgrade",
+          "path": ".ai/evidence/external/WI-1005-v0.2.106-adopter-upgrade.json",
+          "type": "test",
+          "verification": "GitHub Actions run 35715366504 adopter_upgrade_acceptance"
+        }
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "发布、下载验收和升级验收均已通过；本 Work Item 未声明单独的用户收益测量。",
+    "evidence": [
+      ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json",
+      ".ai/evidence/external/WI-1005-v0.2.106-release-close.json"
+    ]
+  }
+}

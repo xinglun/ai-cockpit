@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-22T10:50:25Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-22T10:43:06Z",
+    "digest": "sha256:83f8e92d1ba2cabaaf3dfde563ad69a14999d7a3831ed25d3e71b00bdf32f943",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35715366504",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-1005-v0.2.106-adopter-acceptance.json",
+    "subject": "workflow:35715366504/adopter_acceptance",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "workItemId": "WI-1005-release-v0-2-106-final"
+}

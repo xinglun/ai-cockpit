@@ -1,0 +1,158 @@
+{
+  "acceptanceResults": [
+    "源代码版本、三语版本事实和 v0.2.106 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 strict 源质量、候选构建、manifest、checksums、SBOM、provenance 和候选验收全部通过。",
+    "GitHub public Release v0.2.106 存在并与 tag、源提交和发布资产身份一致。",
+    "下载后的 public v0.2.106 artifact 安装验收与 v0.2.105 到 v0.2.106 的 N-1 升级验收通过，且临时运行根清理成功。",
+    "successor Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
+  ],
+  "createdAt": "2026-09-22T10:09:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0106e0eb33a40c34d1c7f864822a904c54ff28c04ee52cc616007b729de76ad8",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9bb92e7a41e467becf325a19bee08f7c9b588beba4767c0b2a9c46e5690fba03",
+      "workItemId": "WI-1005-release-v0-2-106-final"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1005-release-v0-2-106-final.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
+          ],
+          "inference": false,
+          "text": "在新 PR #966 的唯一资源身份下完成 v0.2.106 的受控发布、公开验收及 Work Item 终结。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1005-release-v0-2-106-final"
+  },
+  "taskReportDigest": "sha256:f60b3c07d9160321f8cb71d5b67a71afd3254bb8543460e88637ffea187f0afa",
+  "taskReportMarkdownDigest": "sha256:97398fa9221d9a98b14027c7c3ea94ccfb3fc3816201386c3b77e791083b0ca9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1005-release-v0-2-106-final.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1005-release-v0-2-106-final"
+}
