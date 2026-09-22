@@ -1,0 +1,48 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-985 页面状态与终态生命周期事实一致。",
+    "三语 reference-parity 行将 WI-985 标记为已实现，并引用已存在的 archive、verification 和 close 证据。",
+    "promotion helper 对 WI-985 通过，随后全仓 --check-all 通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c975de9f65f4c598add20eace578759e6ac37b4c",
+  "createdAt": "2026-09-22T03:03:04Z",
+  "goal": "完成 WI-985 的英/简中/日文档终态晋级，并让 closed Work Item promotion helper 与全仓 check-all 均通过。",
+  "intent": "在不改写 WI-985 不可变 archive、verification 或 close 证据的前提下，修正其三语 Work Item 页面与 reference-parity 行，使已关闭状态可被仓库文档投影检查识别。",
+  "mode": "implementation",
+  "outOfScope": [
+    "源码、测试实现、发布逻辑、WI-985 不可变 archive/verification/close bytes、其他 Work Item 文档和 parity 行"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-985-repository-resource-lifecycle.md",
+    "docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md",
+    "docs/work-items/WI-985-repository-resource-lifecycle.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/**",
+    "docs/work-items/WI-986-wi985-doc-promotion.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.ja.md"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-985-repository-resource-lifecycle.contract.json",
+    ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.close.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-985-repository-resource-lifecycle",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-986-wi985-doc-promotion"
+}
