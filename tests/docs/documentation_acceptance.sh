@@ -4,6 +4,8 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/../.." && pwd -P)
 cd "$root"
 
+python3 tests/docs/governance_cost_baseline_test.py
+
 promotion_receipt=""
 while (($# > 0)); do
   case "$1" in

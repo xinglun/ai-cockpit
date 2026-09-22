@@ -34,13 +34,42 @@ The current default static read set is:
 
 This is the pre-change byte baseline. Token counts are intentionally not used. The pilot measurement records command invocations, read-only query invocations, verification process starts, phase durations, exit status, and whether each decision came from Runtime output or Agent inference. The measurement is recorded here and in the final Outcome; it is not a new permanent registry.
 
-After the A entry split, the same four-file default route is 9,713 bytes,
-which is a 56.0% reduction (12,368 bytes) without relying on whitespace
-compression. The ordinary route still uses the existing lifecycle boundaries;
-the new action gate is a fresh in-process query, not another verification
-command. The fixed source build's warm status benchmark currently reports 12
-samples, median 121 ms, and P95 144 ms. This is a current-worktree
-measurement, not a release or hosted-runtime claim.
+After the A entry split and final route wording, the same four-file default
+route is 10,032 bytes, which is a 54.6% reduction (12,049 bytes) without
+relying on whitespace compression. The ordinary route still uses the existing
+lifecycle boundaries; the new action gate is a fresh in-process query, not
+another verification command. The fixed source build's warm status benchmark
+currently reports 12 samples, median 121 ms, and P95 144 ms. This is a
+current-worktree measurement, not a release or hosted-runtime claim.
+
+The pilot cost record is intentionally finite and evidence-based:
+
+| Measurement | Result | Source or limitation |
+| --- | --- | --- |
+| Default static read set | 22,081 -> 10,032 bytes; 12,049 bytes / 54.6% lower | `tests/docs/governance_cost_baseline_test.py`; fixed four-file input |
+| Current Contract verification declarations | 8 | Runtime-owned active Contract; a historical command-count baseline was not recorded, so no stronger no-increase claim is made |
+| Read-only status query | 2 successive queries; 0 verification processes; files unchanged; status digest and safe actions stable | local comparison wrapper against the fixed Runtime; query is not an execution receipt |
+| Plan-only admission check | 1 planned node; 0 verification processes | fixed Runtime plan-only result |
+| Final formal verification | 1 planned/executed node; 1 process; exit 0; 239,654 ms execution / 239,952 ms receipt elapsed | [verification receipt](../../../.ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json) |
+| Preserved negative verification evidence | malformed argv: exit 101 in 89 ms; cold attempt: timed out at 300,279 ms; precondition rejections: 0 processes | Runtime-generated attempt receipts; these remain evidence, not success |
+| Documentation phase | 7 cheap checks, 4.3 s wall time; promotion fixture 3.999 s | measured in the current worktree; checks were independent and run concurrently |
+| Action/Outcome focused phase | repository action/projection 22.365 s; CLI action/Outcome 15.684 s; MCP read-only 0.678 s; Agent delivery 0.336 s | targeted Rust test runs; cargo build/cache state affects elapsed time |
+
+The exact historical count of required commands and full verification runs was
+not captured before implementation. The current Contract retains eight
+declared checks and the final formal receipt proves one bounded full-workspace
+run; this is reported as a limitation rather than inferred as a regression
+comparison. Runtime facts (state, blockers, safe actions, evidence freshness,
+and admission identity) come from the Runtime. Guide selection and human
+Outcome wording come from the Agent/adapter. No manual task ledger or
+independent task-progress API is part of this record.
+
+The fixed 0.2.105 Runtime also exposed a capability mismatch in the existing
+Contract declaration: `verify --plan-only` rejects a declaration containing the
+literal `<repo>` placeholder as a runnable argv command. The final formal run
+therefore used the real explicit `cargo` command/arguments at the Runtime
+boundary and preserved the declaration mismatch as a limitation; no generated
+Contract or hand-written ledger was altered to conceal it.
 
 The pre-change command/reference baseline also has a known independent discrepancy: `python3 scripts/generate_interface_references.py --repo /Users/sei-rinn/.codex/worktrees/wi-runtime-guide-action-outcome/ai-cockpit --check` reports drift for `docs/reference/commands.md`, `docs/reference/commands.zh-CN.md`, and `docs/reference/commands.ja.md`. The implementation must preserve this as a separate baseline fact, inspect the generated region, and repair only mechanically owned content from the fixed authoritative definition.
 

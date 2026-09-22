@@ -4,12 +4,12 @@
 
 Use this guide for ordinary repository implementation, declared verification,
 archive, and local cleanup when the current Runtime projection identifies
-`ordinary-work-item`. It is the default route for a Work Item without an
-external Provider resource or explicit release/upgrade acceptance.
+`ordinary-work-item`. It is the default route when the current Runtime
+projection selects the ordinary path.
 
-Do not use it to interpret a failed, timed-out, stale, or invalid verification,
-to finalize a bound Provider resource, or to perform release/upgrade
-acceptance. Load the corresponding conditional guide instead.
+Do not use it to interpret failed, timed-out, stale, or invalid evidence, or
+when Runtime selects a specialized recovery, external-resource, or
+artifact-acceptance route. Load the selected conditional guide instead.
 
 ## Authoritative inputs
 
