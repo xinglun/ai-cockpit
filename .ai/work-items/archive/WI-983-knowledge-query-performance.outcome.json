@@ -46,84 +46,84 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.preflight-review.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-981-knowledge-query-performance.retirement.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-981-knowledge-query-performance.verification-attempt.fce5172bbe05fce4db4ccde7a2cf3cb6ebb8c3f8f424a1dff6650c6ba266c78c.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-983-knowledge-query-performance.verification-attempt.38b61e0566c2fa97739bd5d485b87a2f62d2603cc77ee9fe70e78662f46f58a9.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.archive.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.summary.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
@@ -182,7 +182,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
           ],
           "inference": false,
           "text": "Short-circuit impossible indexed filters and produce evidence-separated cold/warm CLI query measurements."
@@ -191,7 +191,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-983-knowledge-query-performance.contract.json"
+            ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -201,8 +201,8 @@
     "status": "verified",
     "workItemId": "WI-983-knowledge-query-performance"
   },
-  "taskReportDigest": "sha256:f6f67137c75bd5a10be7d60253ab715e5afa8b6b642c05179982182402cb9a54",
-  "taskReportMarkdownDigest": "sha256:4d5a55b885a75eaaf6b724a03f96320d8d873cb85c77f45274fa0f60e8c90fae",
+  "taskReportDigest": "sha256:bd69a80cf3a9630c125d6d253ef06cdbd0fc4631c5a3136b1f23ce031b683e03",
+  "taskReportMarkdownDigest": "sha256:694fe1e64aa8d9680c70125c68d080a79ed08ae74855ef7b3b6b2c5b8085ced7",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

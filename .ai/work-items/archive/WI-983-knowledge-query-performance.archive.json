@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-22T00:33:11Z",
+  "files": {
+    "contractDigest": "sha256:65d7e82b756fe6ec8bcdf7a3aa2c324820fb93cbe1a3f8629f748bec59d4596e",
+    "contractPath": ".ai/work-items/archive/WI-983-knowledge-query-performance.contract.json",
+    "eventsDigest": "sha256:48bc07d68ef89d3d96cb3f44a75cc0ab73efd9159eb116c4937a244fd83bf5b9",
+    "eventsPath": ".ai/work-items/archive/WI-983-knowledge-query-performance.events.jsonl",
+    "outcomeDigest": "sha256:095158107af6673dfda2d20667e84f05191169a4136e60dbb74ba8ef88310081",
+    "outcomePath": ".ai/work-items/archive/WI-983-knowledge-query-performance.outcome.json",
+    "summaryDigest": "sha256:0fbe7da7494b851cf104c090ba464ab3031663cf031be378421a38c656ac8bb3",
+    "summaryPath": ".ai/work-items/archive/WI-983-knowledge-query-performance.summary.json",
+    "taskReportDigest": "sha256:bd69a80cf3a9630c125d6d253ef06cdbd0fc4631c5a3136b1f23ce031b683e03",
+    "taskReportMarkdownDigest": "sha256:694fe1e64aa8d9680c70125c68d080a79ed08ae74855ef7b3b6b2c5b8085ced7",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-983-knowledge-query-performance.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-983-knowledge-query-performance.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-983-knowledge-query-performance"
+}
