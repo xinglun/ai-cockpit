@@ -1,0 +1,34 @@
+{
+  "actor": "human:user",
+  "archiveManifestDigest": "sha256:69365cced2ea30c0269c1501f8b7a68c022e02a98022326e93e86f8bb003bd23",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:518b7e7e27a8a7741d36e35cd1eb7d63c2f391682b3d2e0dbe91f1f34fbdfe7f",
+      "path": ".ai/work-items/archive/WI-987-wi986-doc-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:53c7fd09bd9b612e72235f1a0e1866d8f9efe45cd919eac76722a660c7a782e3",
+      "path": ".ai/work-items/archive/WI-987-wi986-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:8ea3477ff76903ba1ed5137b48cb69f60cf8bc4ffd118e62bf2dcacf457bfc2a",
+      "path": ".ai/work-items/archive/WI-987-wi986-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "User authorization in the current acceptance review",
+  "contractDigest": "sha256:70c1c3f37d6dca14dc5ceb56e16be56b249b5bf729329f8dde5886e18a94ee7c",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-987's immutable verification declaration targeted the wrong closed Work Item identity; its failed attempt and recovery binding are preserved, and WI-988 owns the corrected delivery.",
+  "recordedAt": "2026-09-22T03:44:04Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:aab2436bb8d07a6e233224318516c7cb9e52eda3aea96f63a4901a4facd2d4fd",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-988-wi986-doc-promotion",
+  "summaryDigest": "sha256:e3cbf318850cc5c5616ae0356b8a84610354ceb5398d72a9dac313d47ad66a4b",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-987-wi986-doc-promotion"
+}
