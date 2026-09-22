@@ -1,0 +1,98 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-984-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-984-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.ja.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.md",
+    "docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md",
+    "docs/work-items/WI-984-doc-promotion.ja.md",
+    "docs/work-items/WI-984-doc-promotion.md",
+    "docs/work-items/WI-984-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-22T00:51:05Z",
+  "checkpointContractDigest": "sha256:1769a8c2f064c2ee59ffa904f208e3125c611de19829852ded403491d6f4dbf5",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a5fdd1d2bb2df4e358988bbfe1a084eb84119c4dba0b277ee1f6fa72666a3bf8",
+      "recorded": true,
+      "recordedAt": "2026-09-22T00:51:05Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:22564a2bd4a64fd2f2024685931fd40c30c557fff257aa27e8ae0d11e23df5cf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-984-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0d71beff96561cf60c9db382f860aec0a69f11f55b920d985c6ee33e6d257e60",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a5fdd1d2bb2df4e358988bbfe1a084eb84119c4dba0b277ee1f6fa72666a3bf8",
+      "previousContractHash": "sha256:a5fdd1d2bb2df4e358988bbfe1a084eb84119c4dba0b277ee1f6fa72666a3bf8",
+      "reason": "The Runtime preflight requires the new documentation-promotion Work Item to have its own three-language pages and parity registration; this additive amendment keeps the scope limited to those governance projections.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T00:53:30Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:83dd7d834f3dae48305fffa5f21645649716b01f72b571a36e2ee0de23faf519",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-984-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:1769a8c2f064c2ee59ffa904f208e3125c611de19829852ded403491d6f4dbf5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:a5fdd1d2bb2df4e358988bbfe1a084eb84119c4dba0b277ee1f6fa72666a3bf8",
+      "previousContractHash": "sha256:0d71beff96561cf60c9db382f860aec0a69f11f55b920d985c6ee33e6d257e60",
+      "reason": "The promotion helper updates the repository observer snapshot as a generated projection; bind that exact generated path without broadening the documentation scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T00:56:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:6567b1465a3c51cd5a025a9de975ad419b1dc9297a710902ac2317e9f8a180e8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-984-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bdd935a5254d79485316e85cde0cf4ade4a57217a3546e0235fb69eacdc45ba9",
+  "createdAt": "2026-09-22T00:51:04Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-22T00:57:12Z",
+  "preflightContractDigest": "sha256:1769a8c2f064c2ee59ffa904f208e3125c611de19829852ded403491d6f4dbf5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bdd935a5254d79485316e85cde0cf4ade4a57217a3546e0235fb69eacdc45ba9",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T00:57:25Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-984-doc-promotion"
+}

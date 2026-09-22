@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-982 — Outcome cleanup summary"
 description: "検証済み cleanup の件数、正確な resource identity、保持理由、evidence 参照、次の action を共有 human Outcome 本文へ投影する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: human:user
 workItemId: WI-982-outcome-cleanup-summary
 lastVerifiedBy: WI-982-outcome-cleanup-summary
+terminalArchive: .ai/work-items/archive/WI-982-outcome-cleanup-summary.contract.json
+terminalVerification: .ai/evidence/WI-982-outcome-cleanup-summary.verification.json
+terminalDecision: .ai/decisions/WI-982-outcome-cleanup-summary.close.json
 ---
 
 [English](WI-982-outcome-cleanup-summary.md) · [简体中文](WI-982-outcome-cleanup-summary.zh-CN.md)
