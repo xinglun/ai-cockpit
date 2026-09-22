@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:c5f9510aa7613431db1cf2abb686c63cb35898459ea966c5f4a4d1aa83e38d92",
+  "branchRef": "refs/heads/codex/wi-985-repository-resource-lifecycle",
+  "contractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+  "headRevision": "50e09d6b838d6d35ca4b25fdf5d820f762e4275d",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-22T03:00:20Z",
+  "operationId": "sha256:576b71f1f87b10310a4b5fddae6063ffacfb9675c01263923fa80b481ddc632b",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-985-repository-resource-lifecycle",
+  "worktreeId": "sha256:bf4a2e5eb015696d8f27bbb5a5535ce9e881084e6b2abd0fc32389468c778d66"
+}
