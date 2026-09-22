@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-993 — WI-867 终态文档投影"
 description: "修正 WI-867 自身终态检查仍为过时状态后的三语终态文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-993-wi867-doc-promotion
 lastVerifiedBy: WI-993-wi867-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-993-wi867-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-993-wi867-doc-promotion.close.json
 ---
 
 [English](WI-993-wi867-doc-promotion.md) · [日本語](WI-993-wi867-doc-promotion.ja.md)

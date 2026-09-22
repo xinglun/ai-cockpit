@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-993 — WI-867 terminal documentation projection"
 description: "Complete the corrected terminal documentation projection for WI-867 after its self-terminal check remained stale."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-993-wi867-doc-promotion
 lastVerifiedBy: WI-993-wi867-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-993-wi867-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-993-wi867-doc-promotion.close.json
 ---
 
 [简体中文](WI-993-wi867-doc-promotion.zh-CN.md) · [日本語](WI-993-wi867-doc-promotion.ja.md)

@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-993 — WI-867 terminal documentation projection"
 description: "self-terminal check に残った古い状態を修正し、WI-867 の三言語 terminal documentation projection を完了します。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-993-wi867-doc-promotion
 lastVerifiedBy: WI-993-wi867-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-993-wi867-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-993-wi867-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-993-wi867-doc-promotion.close.json
 ---
 
 [English](WI-993-wi867-doc-promotion.md) · [简体中文](WI-993-wi867-doc-promotion.zh-CN.md)
