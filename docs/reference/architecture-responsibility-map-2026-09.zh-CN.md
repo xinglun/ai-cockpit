@@ -42,7 +42,7 @@ CLI / MCP
 `RuntimeContext` 和 `RepositoryContext` 位于
 `crates/cockpit-protocol/src/lib.rs:120-131`。repository crate 在
 `crates/cockpit-repository/src/lib.rs:48-92` 已导出 execution_context、evidence_store、
-lifecycle、outcome_render、project_governance、status_projection 等模块。这是同一
+lifecycle、resource_lifecycle、outcome_render、project_governance、status_projection 等模块。这是同一
 crate 内的模块边界，不代表所有职责已经纯化。
 
 ## 职责表
@@ -54,12 +54,12 @@ crate 内的模块边界，不代表所有职责已经纯化。
 | Runtime/仓库身份 | `RuntimeContext`、`RepositoryContext`、`.ai/cockpit.toml`、`.ai/project.json` | status projection 和 attach 的仓库读取 | protocol 类型和身份校验；不推断人工授权 |
 | Contract、policy、项目声明 | protocol 中的 `Contract`、`GovernancePolicyDocument`、`ProjectGovernanceProjection`：`2603-2645,609-627,322-335` | `project_governance.rs:53-127,241-317` 读取声明；policy 解析在 `repository/lib.rs:2742-2990` | 严格解析、identity/snapshot 绑定和 unknown 由 project_governance 返回 |
 | 治理校验与决策 | Contract/Summary 证据、policy、snapshot、Runtime 身份：`repository/lib.rs:3359-3555,4395-4450` | 决策 helper 读取仓库记录；`governance_controls.rs:1038-1184` 校验投影 | `required_verification_checks` 等纯校验器在 `governance_controls.rs:33-72`；preflight/治理入口记录 receipt |
-| 生命周期协调 | Contract、Summary、checkpoint/verification/finalization/close 记录 | `lifecycle.rs:324-467,469-560,883-905,1087-1165`；archive/close 在 `repository/lib.rs:4504-4752,7353-7817` | 顺序和 gate 属于 lifecycle/repository 操作；存储层不能授予授权 |
+| 生命周期协调 | Contract、Summary、checkpoint/verification/finalization/close 记录 | `lifecycle.rs:324-467,469-560,883-905,1087-1165`；resource-bound finalization 与 ordinary cleanup 在 `resource_lifecycle.rs`；archive/close 由 `repository/lib.rs` 协调 | 顺序和 gate 属于 lifecycle/repository 操作；`resource_lifecycle` 校验资源 identity 与 cleanup facts；存储层不能授予授权 |
 | 证据存储与历史 | reusable receipt、repository/profile/node 绑定、delegated evidence 与 validity | nofollow 读写：`evidence_store.rs:36-39,225-280`；protocol 证据类型：`927-960` | receipt 校验属于 evidence/protocol；证据不是治理决策 |
 | 物理执行与调度 | verification graph/plan、`PhysicalExecution`、`ExecutionResult`、Work Item receipt | `cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` 负责进程、worker、资源预算和 single-flight | 执行只报告成功/失败；repository 另行校验证据适用性和授权 |
 | Status/Outcome 投影 | `OutcomeState`、`TaskOutcomeReport`、`WorkItemStatusSnapshot`、历史/新鲜度字段：`protocol/lib.rs:3236-3505` | status 读取 config/profile、一次 Git snapshot 和记录：`status_projection.rs:3-90` | status_projection 组装机器状态；outcome_v2 组装 Outcome；投影不能授予权限 |
 | 人类 Outcome 渲染 | 已校验的 `OutcomeRenderInput` 和语言 | `outcome_render.rs:70-76` 的 `render_human_outcome` 不接收仓库目录，仅格式化输入 | `render_human_outcome` 是展示边界；生产调用者使用 Runtime 绑定的组装路径，`outcome_render_input_from_outcome` 仅供已有捕获事实的 fixture 使用 |
-| 持久化与恢复 | atomic JSON、生命周期锁、archive manifest、finalization/close 记录 | `repository/lib.rs:12033-12081`；finalization `5246-7140`；readiness/recovery `status_projection.rs:464-585` | 明确权威记录和恢复校验；投影只是可重建视图 |
+| 持久化与恢复 | atomic JSON、生命周期锁、archive manifest、finalization/close 记录 | `repository/lib.rs` 的 atomic write/lock；`resource_lifecycle.rs` 的 finalization 与 ordinary-cleanup receipt；readiness/recovery `status_projection.rs:464-585` | 明确权威记录和恢复校验；投影只是可重建视图 |
 
 ## 当前重复与职责混合
 
@@ -78,9 +78,10 @@ crate 内的模块边界，不代表所有职责已经纯化。
    `outcome_render_input_with_runtime`，在渲染前捕获并校验一次有界观察。兼容 helper
    `outcome_render_input_from_outcome` 仍会读取补充事实，因此仅供测试或明确持有已捕获
    Outcome 的调用者使用，不再作为 lifecycle 快捷路径。
-5. repository 子模块通过 `super::*` 使用 root 的 `ObserverError`、`repository_id`、
-   `snapshot_digest`。当前是 crate 内单向依赖，没有理由因为本图新增 crate 或循环 Cargo
-   依赖；后续应先收窄共享 helper 依赖。
+5. 新抽出的 `resource_lifecycle` 使用显式 import 和窄的 `pub(crate)` root helper seam，
+   负责资源 identity、finalization 与 ordinary-cleanup facts，不复制治理校验。其他
+   repository 模块仍可使用 root primitive；本图不因此引入新 crate 或循环 Cargo 依赖，
+   后续拆分应先收窄共享 helper 依赖。
 
 status 路径已经为完整 status projection 复用一次 Git snapshot，并避免 readiness 再取
 第二次 snapshot (`status_projection.rs:50-90`)。这是一项可复用机制，但不应把 snapshot
@@ -123,7 +124,8 @@ digest 语义。验证应包括请求内读取调用计数，以及文件、配�
 
 ### P2-A：生命周期、证据、执行、投影归属
 
-问题是模块虽已存在，但 scaffold/preflight/archive/close 仍在完整用例中混合读取、治理
+WI-985 已将 resource-bound finalization、ordinary cleanup 和 close 时资源校验放入
+`resource_lifecycle.rs`，并保持 root 的公开导出不变。剩余问题是 scaffold/preflight/archive/close 仍在完整用例中混合读取、治理
 检查和写入。目标是每次迁移一个完整用例：Observation 取事实，Governance 决策，Lifecycle
 编排，Evidence 存储，Execution 执行，Projection 组装；Port 只在真实替换/故障注入边界
 引入。风险是破坏公共 API、`.ai/` 布局、错误和历史读取。验证使用现有集成测试并增加

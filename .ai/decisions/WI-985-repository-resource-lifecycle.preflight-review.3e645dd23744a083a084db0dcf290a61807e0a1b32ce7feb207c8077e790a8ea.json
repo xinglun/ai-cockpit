@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6d970abccf4567dce2c0038d7d3723dcf6f958f9c69940e4e869f07f3b174080",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "The user explicitly authorized reopening the corresponding bounded Work Item and continuing. This fresh receipt confirms review of the current Contract and yellow preflight for implementation and verification only; it does not assert implementation, tests, hosted checks, merge, release, or completion.",
+  "recordedAt": "2026-09-22T01:46:30Z",
+  "recordedBy": "human:user",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b0de44234384b76a7d1a3c3797324ae55880c09c306de2a8040c6e9a703c8192",
+  "schemaVersion": 1,
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}

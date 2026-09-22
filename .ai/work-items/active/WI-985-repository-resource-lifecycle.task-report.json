@@ -1,0 +1,256 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:b463129d8c26be98dee8c594f3eb669541f046cf13475970dd9ff0b71be88aa1",
+    "workItemId": "WI-985-repository-resource-lifecycle"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.3e645dd23744a083a084db0dcf290a61807e0a1b32ce7feb207c8077e790a8ea.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.65a605f98a04476872e83b329a2c08d40020406868746a29ed78a3a35ad62f22.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.b95f7ea406053c9db715272febe491ae5387a845fadd09deba7513c9c6400a82.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.57d6a6db57e41800c7a29f127a5c66128ccf2f93f3f65c96029155ea6fa9ab3a.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.ae9cf79befac705b6449555b5963d2f86e7928dbbe8a40da8f5ef1b3b398ae00.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/ordinary_cleanup.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/tests/resource_finalization.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/architecture-responsibility-map-2026-09.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+        ],
+        "inference": false,
+        "text": "将资源 finalization、ordinary cleanup 及其绑定校验从 cockpit-repository/src/lib.rs 迁入一个显式依赖的同 crate 模块，保持公开 API、receipt/schema、写入顺序、错误语义、历史读取和恢复行为不变。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-985-repository-resource-lifecycle.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}

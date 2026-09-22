@@ -1,0 +1,112 @@
+{
+  "acceptanceCriteria": [
+    "资源 finalization、ordinary cleanup 与关闭前资源绑定校验的实现位于新的同 crate 模块，lib.rs 仅保留稳定公开入口/re-export；模块依赖显式且不使用 super::*。",
+    "现有公共 API、JSON/receipt/schema、错误语义、写入顺序、历史读取与 recovery 行为保持兼容；不新增第二套治理或证据校验。",
+    "新增或调整聚焦回归，证明成功、重复、无效绑定和资源缺失路径仍 fail closed，并保持 cleanup receipt 的身份绑定。",
+    "三语架构职责文档和本 Work Item 文档准确描述新边界，不声称性能收益。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6d4b14eaa5744ec449588d3211970feb66ccd651",
+  "createdAt": "2026-09-22T01:32:13Z",
+  "goal": "将资源 finalization、ordinary cleanup 及其绑定校验从 cockpit-repository/src/lib.rs 迁入一个显式依赖的同 crate 模块，保持公开 API、receipt/schema、写入顺序、错误语义、历史读取和恢复行为不变。",
+  "intent": "在 cockpit-repository 现有 crate 内继续按用例收敛职责，降低根模块对资源 finalization、ordinary cleanup 与关闭前资源校验的集中度，同时保持治理事实和公开接口稳定。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不拆分新 crate，不改变 cockpit-protocol wire/schema 或公开函数签名。",
+    "不修改 cockpit-cli、cockpit-mcp、发布脚本，不删除历史兼容逻辑，不宣称模块拆分带来运行加速。",
+    "不改变资源 finalization、ordinary cleanup、archive/close 的事实、写入顺序、错误分类或恢复语义。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d86401a89253ea81c0175fb164de80ad4f52f3b22669240f13d1a80732575982",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A valid finalization plan and receipt use the extracted module while preserving public root exports, receipt identity, and write order.",
+      "required": true,
+      "scenario": "resource_finalization_success_preserves_public_boundary",
+      "status": "unverified",
+      "verificationPlan": "Run the focused resource-finalization regression and the repository crate test suites after extraction; compare receipt and state assertions with the pre-change contract."
+    },
+    {
+      "evidence": [],
+      "expected": "Duplicate, replayed, stale, or foreign finalization inputs remain rejected without weakening identity or error semantics.",
+      "required": true,
+      "scenario": "resource_finalization_invalid_duplicate_or_foreign_fails_closed",
+      "status": "unverified",
+      "verificationPlan": "Run focused regressions covering duplicate/replay and invalid-binding paths, then run the complete cockpit-repository tests."
+    },
+    {
+      "evidence": [],
+      "expected": "Ordinary cleanup acts only on exact eligible resources and records an identity-bound cleanup receipt through the extracted module.",
+      "required": true,
+      "scenario": "ordinary_cleanup_exact_identity_and_receipt_binding",
+      "status": "unverified",
+      "verificationPlan": "Run focused ordinary-cleanup regressions for exact resource identity, receipt binding, and successful cleanup; inspect generated verification evidence."
+    },
+    {
+      "evidence": [],
+      "expected": "Missing, dirty, foreign, or otherwise unresolved resources fail closed and do not produce false completion evidence.",
+      "required": true,
+      "scenario": "ordinary_cleanup_missing_or_dirty_resources_remain_non_green",
+      "status": "unverified",
+      "verificationPlan": "Run focused negative cleanup regressions and the complete repository test suites, including archive/close integration paths."
+    },
+    {
+      "evidence": [],
+      "expected": "Archive, close-before-resource validation, and historical/recovery reads retain behavior through stable root exports and explicit module imports.",
+      "required": true,
+      "scenario": "archive_close_and_history_recovery_regressions",
+      "status": "unverified",
+      "verificationPlan": "Run cockpit-repository library and integration tests plus the declared CLI MCP/outcome regression suite; inspect the final diff for unchanged public signatures."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/tests/resource_finalization.rs",
+    "crates/cockpit-repository/tests/ordinary_cleanup.rs",
+    "docs/reference/architecture-responsibility-map-2026-09.md",
+    "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
+    "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+    "docs/work-items/WI-985-repository-resource-lifecycle.md",
+    "docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md",
+    "docs/work-items/WI-985-repository-resource-lifecycle.ja.md",
+    ".ai/**",
+    "docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/lifecycle.rs",
+    "crates/cockpit-repository/src/historical_compatibility.rs",
+    "docs/reference/architecture-responsibility-map-2026-09.md",
+    "docs/reference/architecture-responsibility-map-2026-09.zh-CN.md",
+    "docs/reference/architecture-responsibility-map-2026-09.ja.md",
+    "docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked -p cockpit-repository --lib",
+    "cargo test --locked -p cockpit-repository --tests",
+    "cargo test --locked -p cockpit-cli --test mcp --test outcome_handoff"
+  ],
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}
