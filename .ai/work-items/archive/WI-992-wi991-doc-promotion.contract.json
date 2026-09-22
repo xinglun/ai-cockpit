@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "WI-990 的六份终态投影与 archive、verification、close 证据一致。",
+    "WI-991 的失败尝试、recovery 和 retirement 事实被保留，且不声称验证通过。",
+    "WI-992 的三语页面和 parity 行保留本 Work Item 的自投影。",
+    "单项 WI-990 投影、全仓 --check-all、parity 和状态一致性检查通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "8f1bd0631c4ed7144d0b7e87512218a513ea54db",
+  "createdAt": "2026-09-22T04:36:43Z",
+  "goal": "让 WI-990 的三语终态页面与三语 reference parity 投影通过全部文档治理门禁，并为 WI-992 保留可验证的自投影。",
+  "intent": "完成 WI-990 关闭后文档投影的终态化，承接并保留 WI-991 的失败验证证据。",
+  "mode": "implementation",
+  "outOfScope": [
+    "源代码、测试行为、CI、发布以及既有生命周期事实"
+  ],
+  "predecessorContractDigest": "sha256:4d486a7a83312d1d21d74727cf377ee9b4903acabcab731ca450675ee3f07178",
+  "predecessorWorkItemId": "WI-991-wi990-doc-promotion",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-991-wi990-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a5d65d91dd9cf6352f9841c60f8af19e1174ff80645536af66e6e583abdc4e6",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-990-wi988-doc-promotion.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.ja.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.ja.md",
+    "docs/work-items/WI-992-wi991-doc-promotion.md",
+    "docs/work-items/WI-992-wi991-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-992-wi991-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/**"
+  ],
+  "sources": [
+    "WI-991-wi990-doc-promotion verification failed because its immutable Contract included the misspelled WI-990 command; continue with corrected WI-992 successor."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-990-wi988-doc-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/parity_status_check.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo ."
+  ],
+  "workItemId": "WI-992-wi991-doc-promotion"
+}

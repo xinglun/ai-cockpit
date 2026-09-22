@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-991——WI-990 终态文档投影"
 description: "完成 WI-990 关闭后要求的终态文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-991-wi990-doc-promotion
 lastVerifiedBy: WI-991-wi990-doc-promotion
@@ -13,8 +13,11 @@ lastVerifiedBy: WI-991-wi990-doc-promotion
 
 # WI-991——WI-990 终态文档投影
 
-WI-991 是 WI-990 关闭后检查发现六份终态投影仍需生成的有边界后继项。它只记录
-已经验证的 WI-990 结果，不改变源码行为或不可变生命周期证据。
+WI-991 保留为 WI-990 关闭后检查发现六份终态投影仍需生成的不可变失败前置项。
+其验证尝试的 Contract 永久保留了错误的命令拼写；recovery
+`.ai/decisions/WI-991-wi990-doc-promotion.recovery.json` 和 retirement
+`.ai/decisions/WI-991-wi990-doc-promotion.retirement.json` 明确绑定 WI-992 为修正后的
+successor。WI-991 不声称验证或关闭。
 
 ## 边界
 

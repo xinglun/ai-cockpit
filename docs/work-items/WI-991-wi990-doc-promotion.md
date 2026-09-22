@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-991 — WI-990 terminal documentation projection"
 description: "Promote the terminal documentation projection required after WI-990 close."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-991-wi990-doc-promotion
 lastVerifiedBy: WI-991-wi990-doc-promotion
@@ -13,9 +13,12 @@ lastVerifiedBy: WI-991-wi990-doc-promotion
 
 # WI-991 — WI-990 terminal documentation projection
 
-WI-991 is a narrowly scoped successor for the six terminal projection files
-reported by the post-close check for WI-990. It records the already verified
-WI-990 result without changing source behavior or immutable lifecycle evidence.
+WI-991 is preserved as an immutable failed predecessor for the six terminal
+projection files reported by the post-close check for WI-990. Its verification
+attempt retained an incorrectly spelled command in the immutable Contract;
+recovery `.ai/decisions/WI-991-wi990-doc-promotion.recovery.json` and retirement
+`.ai/decisions/WI-991-wi990-doc-promotion.retirement.json` bind WI-992 as the
+corrected successor. WI-991 makes no verification or close claim.
 
 ## Boundary
 

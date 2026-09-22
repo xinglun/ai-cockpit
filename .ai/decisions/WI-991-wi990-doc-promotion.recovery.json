@@ -1,0 +1,24 @@
+{
+  "actor": "human:user",
+  "authoritySource": "User authorization in the current acceptance review",
+  "decidedAt": "2026-09-22T04:35:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-991-wi990-doc-promotion.verification-attempt.130d0a675a8cd0cb841b1a14c2df577f4b9517c5849744760311153b70cad271.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:4d486a7a83312d1d21d74727cf377ee9b4903acabcab731ca450675ee3f07178",
+  "predecessorSummaryDigest": "sha256:15b47ea95a93babed185c1ac629fbab0789ba3c0b9cf25deb59e50df0e8f78ef",
+  "predecessorWorkItemId": "WI-991-wi990-doc-promotion",
+  "reason": "WI-991 cannot pass verification because its first Contract permanently includes an incorrectly spelled WI-990 verification command. Preserve the failed attempt and continue the same bounded terminal documentation projection in WI-992 with a corrected command set and the same exact documentation scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-992 with the corrected exact command set, verify the WI-990 terminal projection, then complete the normal archive, close, and cleanup route.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-992-wi991-doc-promotion",
+  "workItemId": "WI-991-wi990-doc-promotion"
+}

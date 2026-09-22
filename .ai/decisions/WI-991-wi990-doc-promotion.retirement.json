@@ -1,0 +1,34 @@
+{
+  "actor": "human:user",
+  "archiveManifestDigest": "sha256:197d659313ba58512e7f1f6f5ecf54ccb0ece52d56955ec19dd4295e8a5bd739",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:57a3f370b6fb1b4e0b0d473e2daae745915071f75988233eab1b78609b7ce6e2",
+      "path": ".ai/work-items/archive/WI-991-wi990-doc-promotion.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:cafe0e1a3f45d369e25f1ef007f551a27550ff4be0fbc5dd971f5859f041a5bb",
+      "path": ".ai/work-items/archive/WI-991-wi990-doc-promotion.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:f54de1744db0fb81b540361b2219e9f9cccc87eb53770defde8ab6a1a306c165",
+      "path": ".ai/work-items/archive/WI-991-wi990-doc-promotion.summary.json"
+    }
+  },
+  "authoritySource": "User authorization in the current acceptance review",
+  "contractDigest": "sha256:4d486a7a83312d1d21d74727cf377ee9b4903acabcab731ca450675ee3f07178",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-991 is replaced before verification because its immutable Contract retained an incorrectly spelled WI-990 verification command. Preserve its failed verification evidence and recovery binding; WI-992 continues the same bounded documentation projection with the corrected command set.",
+  "recordedAt": "2026-09-22T04:37:31Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:5a5d65d91dd9cf6352f9841c60f8af19e1174ff80645536af66e6e583abdc4e6",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-992-wi991-doc-promotion",
+  "summaryDigest": "sha256:15b47ea95a93babed185c1ac629fbab0789ba3c0b9cf25deb59e50df0e8f78ef",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-991-wi990-doc-promotion"
+}

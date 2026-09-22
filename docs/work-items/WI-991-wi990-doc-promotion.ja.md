@@ -3,7 +3,7 @@ author: AI Cockpit maintainers
 title: "WI-991 — WI-990 terminal documentation projection"
 description: "WI-990 close 後に必要となった terminal documentation projection を完了する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: recovered
 authority: authorized
 workItemId: WI-991-wi990-doc-promotion
 lastVerifiedBy: WI-991-wi990-doc-promotion
@@ -14,8 +14,10 @@ lastVerifiedBy: WI-991-wi990-doc-promotion
 # WI-991 — WI-990 terminal documentation projection
 
 WI-991 は、WI-990 の close 後チェックで必要と判定された六つの terminal projection
-を生成する、範囲を限定した successor である。source behavior や immutable lifecycle
-evidence は変更しない。
+に関する immutable な failed predecessor として保持される。immutable Contract には
+誤った command 名が残ったため、recovery `.ai/decisions/WI-991-wi990-doc-promotion.recovery.json`
+と retirement `.ai/decisions/WI-991-wi990-doc-promotion.retirement.json` が WI-992 を
+修正済み successor として bind する。WI-991 は verification や close を主張しない。
 
 ## Boundary
 
