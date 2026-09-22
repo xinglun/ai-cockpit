@@ -51,7 +51,7 @@ fn status_warm_startup_is_measured_and_bounded() {
     }
     samples.sort_unstable();
     let median = samples[samples.len() / 2];
-    let p95_index = ((samples.len() * 95 + 99) / 100).saturating_sub(1);
+    let p95_index = (samples.len() * 95).div_ceil(100).saturating_sub(1);
     let p95 = samples[p95_index];
     eprintln!(
         "{{\"benchmark\":\"status-startup\",\"samples\":{},\"medianMs\":{},\"p95Ms\":{}}}",
