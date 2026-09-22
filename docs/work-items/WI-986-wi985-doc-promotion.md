@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-986 — WI-985 documentation promotion"
 description: "Promote the closed WI-985 documentation projection without rewriting immutable lifecycle evidence."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-986-wi985-doc-promotion
 lastVerifiedBy: WI-986-wi985-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-986-wi985-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-986-wi985-doc-promotion.close.json
 ---
 
 [简体中文](WI-986-wi985-doc-promotion.zh-CN.md) · [日本語](WI-986-wi985-doc-promotion.ja.md)

@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-22T03:44:04Z",
+  "files": {
+    "contractDigest": "sha256:518b7e7e27a8a7741d36e35cd1eb7d63c2f391682b3d2e0dbe91f1f34fbdfe7f",
+    "contractPath": ".ai/work-items/archive/WI-987-wi986-doc-promotion.contract.json",
+    "outcomeDigest": "sha256:53c7fd09bd9b612e72235f1a0e1866d8f9efe45cd919eac76722a660c7a782e3",
+    "outcomePath": ".ai/work-items/archive/WI-987-wi986-doc-promotion.outcome.json",
+    "summaryDigest": "sha256:8ea3477ff76903ba1ed5137b48cb69f60cf8bc4ffd118e62bf2dcacf457bfc2a",
+    "summaryPath": ".ai/work-items/archive/WI-987-wi986-doc-promotion.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-987-wi986-doc-promotion.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-988-wi986-doc-promotion",
+  "workItemId": "WI-987-wi986-doc-promotion"
+}

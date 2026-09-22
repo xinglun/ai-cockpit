@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "三语 WI-986 页面状态与终态生命周期事实一致。",
+    "三语 reference-parity 行将 WI-986 标记为已实现，并引用已存在的 archive、verification 和 close 证据。",
+    "promotion helper 对 WI-986 通过，随后全仓 --check-all 通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0ac0f29ff137d2bedbddbfb0020dcfa0064880e7",
+  "createdAt": "2026-09-22T03:30:05Z",
+  "goal": "完成 WI-986 的英/简中/日文档终态晋级，并让单项 promotion helper 与全仓 --check-all 均通过。",
+  "intent": "在不改写已关闭 WI-986 的不可变 archive、verification、close 或 cleanup 证据的前提下，晋级 WI-986 的三语 Work Item 页面与三条 reference-parity 行，使关闭 Work Item promotion helper 与全仓 check-all 的终态投影一致。",
+  "mode": "implementation",
+  "outOfScope": [
+    "源码、测试实现、发布逻辑、WI-986 不可变 archive/verification/close/cleanup bytes，以及其他 Work Item 文档和 parity 行"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:e8c704a3046e3350c062c4a9a941affa2a807fae87dd492217e1e39b0715b6c3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "docs/work-items/WI-986-wi985-doc-promotion.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.ja.md",
+    ".ai/**"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json",
+    ".ai/evidence/WI-986-wi985-doc-promotion.verification.json",
+    ".ai/decisions/WI-986-wi985-doc-promotion.close.json",
+    ".ai/decisions/WI-986-wi985-doc-promotion.cleanup.000001.397c6a5eb8e0b5fa70a4cf59985ef20f4135de9194fe933dd1c412feb18a0012.json",
+    "tests/docs/promote_closed_work_item.py"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-986-wi986-doc-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-987-wi986-doc-promotion"
+}

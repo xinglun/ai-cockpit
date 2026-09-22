@@ -1,0 +1,88 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-987-wi986-doc-promotion.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-987-wi986-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-987-wi986-doc-promotion.summary.json",
+    ".ai/work-items/active/WI-988-wi986-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-988-wi986-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-987-wi986-doc-promotion.archive.json",
+    ".ai/work-items/archive/WI-987-wi986-doc-promotion.contract.json",
+    ".ai/work-items/archive/WI-987-wi986-doc-promotion.outcome.json",
+    ".ai/work-items/archive/WI-987-wi986-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.ja.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-988-wi986-doc-promotion.ja.md",
+    "docs/work-items/WI-988-wi986-doc-promotion.md",
+    "docs/work-items/WI-988-wi986-doc-promotion.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-22T03:39:49Z",
+  "checkpointContractDigest": "sha256:e04c60aa4222504ab003f9eb9fe3956e4938faac875f9a7f3efb7074e2f91d03",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d70ab0178ce5c4efb5243ac96f8f576b8e7eaf45da2b2c2130f2f983e3cd4837",
+      "recorded": true,
+      "recordedAt": "2026-09-22T03:39:49Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7eeaedbbd06dc55916e0c7fe7eeb041f91d5c31e4a04dcf0ab1d3ef1263a67d6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-988-wi986-doc-promotion"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e04c60aa4222504ab003f9eb9fe3956e4938faac875f9a7f3efb7074e2f91d03",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d70ab0178ce5c4efb5243ac96f8f576b8e7eaf45da2b2c2130f2f983e3cd4837",
+      "previousContractHash": "sha256:d70ab0178ce5c4efb5243ac96f8f576b8e7eaf45da2b2c2130f2f983e3cd4837",
+      "reason": "Include the predecessor recovery projection in the successor boundary so historical status remains explicit and consistent.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T03:41:40Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7eeaedbbd06dc55916e0c7fe7eeb041f91d5c31e4a04dcf0ab1d3ef1263a67d6",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-988-wi986-doc-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ef9566d445f3cd84c77dad6a53e77e423225be3da5f299ea81156cce5c2e781c",
+  "createdAt": "2026-09-22T03:38:44Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:70c1c3f37d6dca14dc5ceb56e16be56b249b5bf729329f8dde5886e18a94ee7c",
+  "predecessorWorkItemId": "WI-987-wi986-doc-promotion",
+  "preflightAt": "2026-09-22T03:46:49Z",
+  "preflightContractDigest": "sha256:e04c60aa4222504ab003f9eb9fe3956e4938faac875f9a7f3efb7074e2f91d03",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ef9566d445f3cd84c77dad6a53e77e423225be3da5f299ea81156cce5c2e781c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-987-wi986-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T03:47:07Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-988-wi986-doc-promotion"
+}

@@ -1,0 +1,24 @@
+{
+  "actor": "human:user",
+  "authoritySource": "User authorization in the current acceptance review",
+  "decidedAt": "2026-09-22T03:38:13Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-987-wi986-doc-promotion.verification-attempt.47cf4f9c393b8b2a2ec989084cd6c7d7b70bed0407b7b354d240118d8c4bdf8d.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md"
+  ],
+  "predecessorContractDigest": "sha256:70c1c3f37d6dca14dc5ceb56e16be56b249b5bf729329f8dde5886e18a94ee7c",
+  "predecessorSummaryDigest": "sha256:e3cbf318850cc5c5616ae0356b8a84610354ceb5398d72a9dac313d47ad66a4b",
+  "predecessorWorkItemId": "WI-987-wi986-doc-promotion",
+  "reason": "The predecessor Contract contains an incorrect immutable verification target; continue the bounded documentation promotion on an explicitly linked successor rather than altering generated Contract history.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the linked successor with the corrected closed Work Item verification target, then complete its independent verification and documentation projection.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-988-wi986-doc-promotion",
+  "workItemId": "WI-987-wi986-doc-promotion"
+}

@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-986 — WI-985 documentation promotion"
 description: "不変の lifecycle evidence を書き換えず、終了済み WI-985 の documentation projection を昇格する。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-986-wi985-doc-promotion
 lastVerifiedBy: WI-986-wi985-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-986-wi985-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-986-wi985-doc-promotion.close.json
 ---
 
 [English](WI-986-wi985-doc-promotion.md) · [简体中文](WI-986-wi985-doc-promotion.zh-CN.md)

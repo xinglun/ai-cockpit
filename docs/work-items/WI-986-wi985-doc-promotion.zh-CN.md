@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-986——WI-985 文档晋级"
 description: "在不改写不可变生命周期证据的前提下，晋级已关闭 WI-985 的文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-986-wi985-doc-promotion
 lastVerifiedBy: WI-986-wi985-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-986-wi985-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-986-wi985-doc-promotion.close.json
 ---
 
 [English](WI-986-wi985-doc-promotion.md) · [日本語](WI-986-wi985-doc-promotion.ja.md)
