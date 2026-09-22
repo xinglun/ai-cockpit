@@ -1,0 +1,200 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+    ],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:22564a2bd4a64fd2f2024685931fd40c30c557fff257aa27e8ae0d11e23df5cf",
+    "workItemId": "WI-982-outcome-cleanup-summary"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.3213609505a828e455db677f8edde68e728b610aa9b4c4acf2951c20121dd19f.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.b418882b55e9df9b3b01de257cba05c1fa37da3a6be6891b492526ae6f76d54c.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/observer-snapshot.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/WI-982-outcome-cleanup-summary.verification-attempt.831d69e38752046e76d645e640c2333ff3a3a7fdf9b3a821d5003e77b88791e6.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-protocol/tests/resource_finalization.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: crates/cockpit-repository/src/outcome_render.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-982-outcome-cleanup-summary.ja.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-982-outcome-cleanup-summary.md"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: docs/work-items/WI-982-outcome-cleanup-summary.zh-CN.md"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json"
+        ],
+        "inference": false,
+        "text": "Render evidence-bound cleanup counts, exact resource identities, retention reasons, and executable next actions through the shared Outcome renderer."
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/active/WI-982-outcome-cleanup-summary.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "WI-982-outcome-cleanup-summary"
+}
