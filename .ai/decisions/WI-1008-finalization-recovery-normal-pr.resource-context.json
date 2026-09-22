@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:ffa39aa7fab3b87ccc0b865a7c32cd318992ffbcb4a8753bd02b892794e61b5a",
+  "contractDigest": "sha256:6bbcd7e077190c1c6f6c63db559fae048424fdf5b73c4fc391b8e3b5cd9996fd",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-22T20:53:08Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1008-finalization-recovery-normal-pr",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/969",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1008-finalization-recovery-normal-pr/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:c3c55444eb482b0c18de474e70cd8124e4c35ebbc569e72133983ded063b1c6b",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}
