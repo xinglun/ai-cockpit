@@ -21,10 +21,10 @@ keywords: [ai-cockpit, installation, release, homebrew, mcp]
 完整审计交接仍可使用 `--view full`（MCP 使用 `view: "full"`）。这是仅展示层的变化：机器 JSON、验证、授权、退出码和持久化证据均不变。
 本发布说明不声称已经完成用户研究，也不声称带来风险拦截收益。
 
-当前候选发布产物命名为 `ai-cockpit-v0.2.105-<target>.tar.gz`（Windows 使用对应的
+当前候选发布产物命名为 `ai-cockpit-v0.2.106-<target>.tar.gz`（Windows 使用对应的
 archive）。只有公开 Release 和发布后验收完成后，它才成为安装基线。
 
-当前安装基线目标是 `v0.2.105` 候选；只有公开 Release 和发布后验收完成后才会成为公开基线。在此之前，公开且绑定身份的 `v0.2.104` Release 仍是已安装基线。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
+当前安装基线目标是 `v0.2.106` 候选；只有公开 Release 和发布后验收完成后才会成为公开基线。在此之前，公开且绑定身份的 `v0.2.105` Release 仍是已安装基线。`v0.2.77` tag 作为没有 provider Release 的不可变发布失败历史保留，不能作为安装基线。预留的 `v0.2.51` tag 是不可变的发布失败尝试
 （workflow run `33417057474`）：它是 lightweight tag，没有 provider Release，永远不能复用或作为安装基线。
 失败的 `v0.2.88` tag 也作为不可变发布失败历史保留（WI-764，workflow run `34371183927`）；它没有 provider Release，不能复用或作为公开安装基线。
 `v0.2.56` tag 也只是不可变的发布失败历史：source-quality workflow 在创建 provider Release

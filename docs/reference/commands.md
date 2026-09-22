@@ -96,7 +96,7 @@ the documentation gate uses the side-effect-free `--check` mode.
 ### Interface facts: `work-item-outcome`
 
 - Schema: `v1`
-- Runtime: `0.2.105`
+- Runtime: `0.2.106`
 - Names, types, requiredness, defaults, and enum values are structured facts; this description grants no authority.
 
 #### `cli` · Transport: `argv`

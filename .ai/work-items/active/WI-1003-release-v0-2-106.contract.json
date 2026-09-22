@@ -1,0 +1,83 @@
+{
+  "acceptanceCriteria": [
+    "源代码版本、三语版本事实和 v0.2.106 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 strict 源质量、候选构建、manifest、checksums、SBOM、provenance 和候选验收全部通过。",
+    "GitHub public Release v0.2.106 存在并与 tag、源提交和发布资产身份一致。",
+    "下载后的 public artifact 安装验收与 v0.2.105 到 v0.2.106 的 N-1 升级验收通过，且临时运行根清理成功。",
+    "Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7329279fb65398069c008efa071e1875ffcc9f04",
+  "createdAt": "2026-09-22T08:37:08Z",
+  "goal": "发布并验收 v0.2.106，保留不可变 tag、GitHub Release、manifest/checksums/SBOM/provenance、公开安装与 N-1 升级证据，并完成 Work Item 关闭与精确资源清理。",
+  "intent": "按用户明确要求，将已验收并同步到 origin/main 的 ai-cockpit 主线发布为下一未保留的补丁版本 v0.2.106；完成公开发布及下载、安装、升级和资源清理验收。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改功能或生命周期行为；不修改 Sentinel 或其他对象仓库；不删除历史 tag、兼容逻辑或无关 Work Item；不绕过既有 release workflow、公开验收或 Runtime 生命周期。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:d0030b496b6f8987c005e07f50a2a51c6e7e31efb8427999a3711ac65dcd26dc",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.106 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed merge commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item PR merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.106 artifact passes checksum, isolated fresh install, v0.2.105-to-v0.2.106 N-1 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use the immutable public Release asset with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind the receipts to this Work Item."
+    }
+  ],
+  "scope": [
+    "仅涉及 v0.2.106 的版本事实、Cargo 版本绑定、三语发布事实、既有 release.yml 发布流程、生成的发布证据、GitHub Release 资产、公开安装/升级验收及本 Work Item 的精确分支和 worktree 清理。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/architecture/versioning.**",
+    "docs/architecture/release-distribution.**",
+    "docs/release/**",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    ".ai/decisions/**",
+    ".ai/work-items/active/WI-1003-release-v0-2-106.**",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "scripts/generate_interface_references.py"
+  ],
+  "sources": [
+    "origin/main@7329279fb65398069c008efa071e1875ffcc9f04",
+    "PR #964 merged as a7c4d8c6bf0f6a31a9c5584f93426dcf84840011",
+    "docs/release/distribution.md",
+    ".github/workflows/release.yml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/ci/release_gate_policy_test.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/version_consistency.sh --repo .",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all"
+  ],
+  "workItemId": "WI-1003-release-v0-2-106"
+}
