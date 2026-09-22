@@ -7,12 +7,12 @@ use super::{
     WorkItemEvidenceFreshness, WorkItemStatusIndex, WorkItemStatusIndexEntry,
     WorkItemStatusSnapshot, active_artifact_variants, archived_contract_digest,
     close_decision_is_valid_for_status, closed_finalization_projection_kind, contract_digest,
-    count_suffix, git_text, infer_legacy_shared_worktree_retained, is_regular_non_symlink,
-    legacy_verification_evidence, load_recovery_decision, orphaned_active_artifact_names,
-    outcome_state_name, outcome_v2_internal_with_snapshot, read_contract, read_json,
-    read_resource_finalization_transition, repository_id, repository_relative_path,
-    resolve_resource_finalization_head_with_index, resource_cleanup_completion_state,
-    resource_finalization_decision_path,
+    count_suffix, effective_resource_context, git_text, infer_legacy_shared_worktree_retained,
+    is_regular_non_symlink, legacy_verification_evidence, load_recovery_decision,
+    orphaned_active_artifact_names, outcome_state_name, outcome_v2_internal_with_snapshot,
+    read_contract, read_json, read_resource_finalization_transition, repository_id,
+    repository_relative_path, resolve_resource_finalization_head_with_index,
+    resource_cleanup_completion_state, resource_finalization_decision_path,
     selected_successor_lineage_recovery_resolves_pending_close, snapshot_digest,
     validate_protocol_version, validate_work_item_id, verify_archive_manifest,
     verify_resource_finalization_internal,
@@ -1020,6 +1020,7 @@ fn work_item_status_snapshot_with_snapshot(
         message: "work item contract not found".into(),
     })?;
     let contract = read_contract(&contract_path)?;
+    let effective_resource_context = effective_resource_context(&root, work_item_id, &contract)?;
     let expected_repository_id = repository_id(&root).to_string();
     if contract.repository_id != expected_repository_id {
         return Err(ObserverError::State {
@@ -1037,6 +1038,7 @@ fn work_item_status_snapshot_with_snapshot(
     let branch = contract
         .resource_context
         .as_ref()
+        .or(effective_resource_context.as_ref())
         .map(|context| context.branch.clone());
     let (owned_snapshot, snapshot_digest_value) = if let Some((_, provided_digest)) =
         snapshot_override
@@ -1337,7 +1339,7 @@ fn work_item_status_snapshot_with_snapshot(
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
         let mut actions = Vec::new();
-        if contract.resource_context.is_some() {
+        if effective_resource_context.is_some() {
             let finalization_path = resource_finalization_decision_path(&root, work_item_id);
             let finalization_state = if fs::symlink_metadata(&finalization_path).is_err() {
                 "missing"
@@ -1448,7 +1450,7 @@ fn work_item_status_snapshot_with_snapshot(
         &snapshot_digest_value,
         runtime,
         contract.operation.as_deref(),
-        contract.resource_context.is_some(),
+        effective_resource_context.is_some(),
         &lifecycle_phase,
         &verification,
         blocking,

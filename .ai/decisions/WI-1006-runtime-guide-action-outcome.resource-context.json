@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:2effb58c0dc17b271d02aebe524d3dd6edf6402bdd154909f0c803141c9d8838",
+  "contractDigest": "sha256:2df47f113712c14289a2eabe99f3c935c1fd6dfe09d6f3a9b6c8f4c0ce9ee109",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-22T18:37:18Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1006-runtime-guide-action-outcome",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/967",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-runtime-guide-action-outcome/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:44098f0f187b00ded7833f71a29fb273fa94f60575fd7e8f4661eef828012a70",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}

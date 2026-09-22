@@ -547,6 +547,10 @@ def premerge_finalize_state(
         return False, phase
     repository_id = project.get("repositoryId")
     contract_context = contract.get("resourceContext")
+    if contract_context is None:
+        contract_context = archived_resource_context_binding(
+            repo, work_item, contract, contract_digest
+        )
     default_branch = repository_default_branch(repo, base_remote)
     declared_base_branch = (
         contract_context.get("baseBranch")
@@ -630,6 +634,47 @@ def premerge_finalize_state(
         )
     )
     return valid, phase
+
+
+def archived_resource_context_binding(
+    repo: Path, work_item: str, contract: dict[str, Any], contract_digest: str
+) -> dict[str, Any] | None:
+    """Read the Runtime's append-only post-archive resource handoff.
+
+    The archived Contract and archive manifest remain immutable.  This record
+    is accepted only when it binds both exact archive identities, so a stale or
+    hand-edited decision cannot make an archived Work Item look provider-bound.
+    """
+    path = repo / ".ai/decisions" / f"{work_item}.resource-context.json"
+    if not path.is_file() or path.is_symlink():
+        return None
+    manifest_path = repo / ".ai/work-items/archive" / f"{work_item}.archive.json"
+    try:
+        binding = load_json(path)
+        manifest_digest = "sha256:" + hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+    except (ValueError, OSError):
+        return None
+    context = binding.get("resourceContext")
+    if not (
+        binding.get("schemaVersion") == 1
+        and binding.get("operation") == "resource_context_binding"
+        and binding.get("workItemId") == work_item
+        and binding.get("repositoryId") == contract.get("repositoryId")
+        and binding.get("contractDigest") == contract_digest
+        and binding.get("archiveManifestDigest") == manifest_digest
+        and isinstance(context, dict)
+        and context.get("baseBranch") not in (None, "", "unknown", "pending")
+        and context.get("baseRemote") not in (None, "", "unknown", "pending")
+        and context.get("provider") not in (None, "", "unknown", "pending")
+        and context.get("pullRequest") not in (None, "", "unknown", "pending")
+        and isinstance(binding.get("runtimeVersion"), str)
+        and bool(binding.get("runtimeVersion"))
+        and isinstance(binding.get("runtimeDigest"), str)
+        and re.fullmatch(r"sha256:[0-9a-f]{64}", binding["runtimeDigest"])
+        is not None
+    ):
+        return None
+    return context
 
 
 def parity_rows(repo: Path) -> tuple[dict[str, dict[str, str]], list[dict[str, str]]]:
@@ -1952,7 +1997,25 @@ def main() -> int:
                         )
                     except ValueError:
                         archived_contract = {}
+                    archived_contract_digest = None
+                    archived_contract_path = (
+                        repo
+                        / ".ai/work-items/archive"
+                        / f"{work_item}.contract.json"
+                    )
+                    if archived_contract_path.is_file() and not archived_contract_path.is_symlink():
+                        archived_contract_digest = (
+                            "sha256:"
+                            + hashlib.sha256(archived_contract_path.read_bytes()).hexdigest()
+                        )
                     context = archived_contract.get("resourceContext")
+                    if context is None and archived_contract_digest is not None:
+                        context = archived_resource_context_binding(
+                            repo,
+                            work_item,
+                            archived_contract,
+                            archived_contract_digest,
+                        )
                     base_branch = (
                         context.get("baseBranch")
                         if isinstance(context, dict)

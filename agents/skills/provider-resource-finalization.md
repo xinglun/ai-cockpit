@@ -25,6 +25,14 @@ authorization; the Runtime decides whether the next action is admitted.
 4. Re-query and validate the receipt before close. Keep implementation,
    provider cleanup, projection, and host Outcome delivery as separate facts.
 
+If a Work Item was archived before its reviewed PR resource was bound, use the
+Runtime-aware `work-item finalize-plan` recovery path with the exact Contract,
+archive manifest, branch, worktree, provider, and PR identities. Runtime adds
+one digest-bound `.ai/decisions/*resource-context.json` record and leaves the
+archived Contract and manifest unchanged. Repeating the same handoff is
+idempotent; a different identity is rejected. This bounded repair is not a
+replacement Work Item and does not authorize cleanup by itself.
+
 ## Success conditions
 
 The exact provider resource has current accepted evidence, the Runtime's

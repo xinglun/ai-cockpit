@@ -43,6 +43,12 @@ Contract 声明了 provider、Pull Request、分支/worktree 资源或其他外�
 verification/终态步骤前使用显式的 `work-item finalize-plan` 绑定它。`pending` 和
 `pending:<stable-reference>` 仍是临时哨兵，不能授权 `finish` 或 `archive`。
 
+如果有效归档是在绑定该资源之前创建的，Runtime-aware 的 `finalize-plan` 入口可以在
+`.ai/decisions/` 下追加一条绑定精确 Contract 与 archive manifest digest 的资源交接记录。
+它会校验原始归档 Contract 和 manifest，并保持两者不变；相同上下文重复调用是幂等的。
+这不会替换 Contract、创建 successor 或授权 provider 清理；`finalize`、`finalize-verify`
+和 `close` 仍然是独立门禁。
+
 ## 仓库级串行边界
 
 Runtime 在写入新 Contract 前会检查所有 linked worktree。其他非 detached worktree 中的 active Contract/Summary，或不完整的记录对，都会阻止新 Work Item。Replacement 不会暗中终止 predecessor；应使用显式 recovery/supersede decision 并保留 predecessor bytes。

@@ -14,7 +14,7 @@ use cockpit_repository::{
     archive_historical_work_item_with_runtime, archive_work_item_with_runtime, attach,
     checkpoint_work_item, close_work_item_with_decision_and_runtime,
     close_work_item_with_structured_decision_and_runtime, finish_work_item_with_runtime,
-    generate_knowledge, plan_resource_finalization, preflight_work_item_with_runtime,
+    generate_knowledge, plan_resource_finalization_with_runtime, preflight_work_item_with_runtime,
     prepare_archive_outcome_delivery, record_resource_finalization,
     resolve_archived_verification_route, resolve_verification_route,
     retire_active_work_item_with_runtime, run_repository_verification, scaffold_work_item,
@@ -2492,8 +2492,9 @@ fn run() -> Result<()> {
                 let context: cockpit_protocol::ResourceFinalizationContext =
                     serde_json::from_slice(&bytes)
                         .context("parse resource finalization context")?;
-                let plan = plan_resource_finalization(&repo, &id, &context)
-                    .context("plan resource finalization")?;
+                let plan =
+                    plan_resource_finalization_with_runtime(&repo, &id, &context, &runtime_context)
+                        .context("plan resource finalization")?;
                 println!("{}", serde_json::to_string_pretty(&plan)?);
             }
             WorkItemCommand::Finalize { repo, id, input } => {

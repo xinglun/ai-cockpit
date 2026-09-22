@@ -54,6 +54,14 @@ or other external resource applies, bind it with an explicit
 and `pending:<stable-reference>` remain provisional sentinels and cannot
 authorize `finish` or `archive`.
 
+If an otherwise valid archive was created before that binding, the
+Runtime-aware `finalize-plan` entrypoint may append one digest-bound resource
+context handoff under `.ai/decisions/`. It validates the exact archived
+Contract and archive manifest, leaves both immutable, and is idempotent for the
+same context. It does not replace the Contract, create a successor, or
+authorize provider cleanup; `finalize`, `finalize-verify`, and `close` remain
+separate gates.
+
 ## Repository-wide serial boundary
 
 Before writing a new Contract, the Runtime checks every linked worktree for an
