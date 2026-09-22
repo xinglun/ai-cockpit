@@ -147,41 +147,48 @@ pub fn query(index: &KnowledgeIndex, filter: &Query) -> Vec<KnowledgeRecord> {
     query_with_metrics(index, filter).0
 }
 
+fn intersect_candidates(
+    candidates: &mut Option<std::collections::BTreeSet<String>>,
+    ids: &[String],
+) {
+    let ids = ids
+        .iter()
+        .cloned()
+        .collect::<std::collections::BTreeSet<_>>();
+    *candidates = Some(candidates.take().map_or(ids.clone(), |current| {
+        current.intersection(&ids).cloned().collect()
+    }));
+}
+
 pub fn query_with_metrics(index: &KnowledgeIndex, filter: &Query) -> (Vec<KnowledgeRecord>, usize) {
     let mut candidates: Option<std::collections::BTreeSet<String>> = None;
     let has_filter = filter.topic.is_some()
         || filter.component.is_some()
         || filter.state.is_some()
         || filter.work_item_id.is_some();
-    let indexes = [
-        filter
-            .topic
-            .as_ref()
-            .and_then(|value| index.by_topic.get(value))
-            .map(Vec::as_slice),
-        filter
-            .component
-            .as_ref()
-            .and_then(|value| index.by_component.get(value))
-            .map(Vec::as_slice),
-        filter
-            .state
-            .as_ref()
-            .and_then(|value| index.by_state.get(value))
-            .map(Vec::as_slice),
-        filter
-            .work_item_id
-            .as_ref()
-            .and_then(|value| index.by_work_item.get(value).map(std::slice::from_ref)),
-    ];
-    for ids in indexes.into_iter().flatten() {
-        let ids = ids
-            .iter()
-            .cloned()
-            .collect::<std::collections::BTreeSet<_>>();
-        candidates = Some(candidates.map_or(ids.clone(), |current| {
-            current.intersection(&ids).cloned().collect()
-        }));
+    if let Some(value) = filter.topic.as_ref() {
+        let Some(ids) = index.by_topic.get(value) else {
+            return (Vec::new(), 0);
+        };
+        intersect_candidates(&mut candidates, ids);
+    }
+    if let Some(value) = filter.component.as_ref() {
+        let Some(ids) = index.by_component.get(value) else {
+            return (Vec::new(), 0);
+        };
+        intersect_candidates(&mut candidates, ids);
+    }
+    if let Some(value) = filter.state.as_ref() {
+        let Some(ids) = index.by_state.get(value) else {
+            return (Vec::new(), 0);
+        };
+        intersect_candidates(&mut candidates, ids);
+    }
+    if let Some(value) = filter.work_item_id.as_ref() {
+        let Some(id) = index.by_work_item.get(value) else {
+            return (Vec::new(), 0);
+        };
+        intersect_candidates(&mut candidates, std::slice::from_ref(id));
     }
     let candidates = candidates.unwrap_or_else(|| {
         if has_filter {

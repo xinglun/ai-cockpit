@@ -94,6 +94,25 @@ fn indexed_candidates_are_materialized_by_position() {
 }
 
 #[test]
+fn any_missing_explicit_filter_short_circuits_before_other_candidates() {
+    let records = (0..10_000)
+        .map(|index| record(&format!("WI-{index}"), "orders", "verified"))
+        .collect();
+    let index = KnowledgeIndex::from_records(records);
+    let (results, accessed) = query_with_metrics(
+        &index,
+        &Query {
+            topic: Some("orders".into()),
+            component: Some("MissingService".into()),
+            state: None,
+            work_item_id: None,
+        },
+    );
+    assert!(results.is_empty());
+    assert_eq!(accessed, 0);
+}
+
+#[test]
 fn context_projection_derives_bounded_topic_and_component() {
     let v1 = project_record(
         "WI-KNOWLEDGE",

@@ -1,0 +1,97 @@
+{
+  "acceptanceCriteria": [
+    "Every explicitly supplied filter value absent from its index returns an empty result immediately and reports zero candidate record access, even when another filter has many candidates.",
+    "Existing conjunctive exact-filter behavior and stable ordering remain unchanged.",
+    "A real CLI knowledge query measurement records cold and warm latency on a fixed fixture, with raw samples and honest p50/p95 availability.",
+    "The measurement separates cache validation cost from candidate access cost and records read-byte and resident-memory metrics when the host exposes them; unavailable metrics carry an explicit reason.",
+    "Cache integrity and source-digest validation remain unchanged; no release or public version claim is made.",
+    "The CLI query output exposes additive projection and query timing/candidate-access metrics used by the real benchmark without changing the existing result contract."
+  ],
+  "authority": "authorized",
+  "baseRevision": "9c0eae7952884cf715b08abb2617e16b67b0e13d",
+  "createdAt": "2026-09-21T22:36:19Z",
+  "goal": "Short-circuit impossible indexed filters and produce evidence-separated cold/warm CLI query measurements.",
+  "intent": "Close the remaining knowledge query performance gap without weakening cache trust.",
+  "mode": "implementation",
+  "outOfScope": [
+    "crates/cockpit-repository/src/knowledge_projection.rs",
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-mcp/src/lib.rs",
+    "release-publication",
+    "Outcome-HCI-wording"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:644b2421ece967b02d6fec12b708969a2604e74efadaf3f43fd992e70b71982f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "A missing explicit filter index value returns an empty result with zero candidate record access even when another filter has candidates.",
+      "required": true,
+      "scenario": "missing_index_value_short_circuits",
+      "status": "unverified",
+      "verificationPlan": "Add a focused query regression with one absent filter value and one broad matching filter, then run the cockpit-knowledge query test target."
+    },
+    {
+      "evidence": [],
+      "expected": "Existing conjunctive exact-filter results and stable ordering remain unchanged.",
+      "required": true,
+      "scenario": "conjunctive_filter_ordering_preserved",
+      "status": "unverified",
+      "verificationPlan": "Run the existing query regression suite and compare the indexed candidate materialization assertions."
+    },
+    {
+      "evidence": [],
+      "expected": "The real CLI fixture reports raw cold and warm query samples with honest percentile availability.",
+      "required": true,
+      "scenario": "cold_warm_cli_measurement",
+      "status": "unverified",
+      "verificationPlan": "Run the fixed-fixture knowledge benchmark script and inspect its raw sample and percentile output."
+    },
+    {
+      "evidence": [],
+      "expected": "The benchmark separates cache validation from candidate access and explicitly reports read-byte and RSS availability.",
+      "required": true,
+      "scenario": "validation_and_candidate_costs_separated",
+      "status": "unverified",
+      "verificationPlan": "Run the benchmark on the host and verify the emitted phase metrics and unavailable reasons."
+    },
+    {
+      "evidence": [],
+      "expected": "The query optimization does not weaken cache integrity or source-digest validation.",
+      "required": true,
+      "scenario": "cache_integrity_contract_unchanged",
+      "status": "unverified",
+      "verificationPlan": "Run the repository knowledge cache regressions and review the diff for unchanged integrity checks."
+    }
+  ],
+  "scope": [
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-knowledge/tests/query.rs",
+    "tests/performance/knowledge_query_benchmark.sh",
+    "tests/performance/knowledge_query_benchmark.py",
+    "tests/performance/knowledge_query_benchmark_test.py",
+    "docs/performance/knowledge-query.md",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "sources": [
+    "docs/work-items/WI-876-performance-current-proof.md",
+    "docs/work-items/WI-876-performance-current-proof.zh-CN.md",
+    "crates/cockpit-knowledge/src/lib.rs",
+    "crates/cockpit-knowledge/tests/query.rs",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked -p cockpit-knowledge --test query",
+    "cargo test --locked -p cockpit-repository --test knowledge_cache",
+    "cargo fmt --all -- --check"
+  ],
+  "workItemId": "WI-981-knowledge-query-performance"
+}

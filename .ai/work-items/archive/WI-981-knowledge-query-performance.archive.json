@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-21T23:33:41Z",
+  "files": {
+    "contractDigest": "sha256:dbe6a69b1d679e5b9d5e2482bad5bbfa83f45bbca8cedfb000a86f008c0389b2",
+    "contractPath": ".ai/work-items/archive/WI-981-knowledge-query-performance.contract.json",
+    "outcomeDigest": "sha256:327f0df4e78bc07db95b21a65c0f117fd43a8513d64a59ef1129a42f8eed4cf6",
+    "outcomePath": ".ai/work-items/archive/WI-981-knowledge-query-performance.outcome.json",
+    "summaryDigest": "sha256:498c56ebbf6fb168a6f8b1262f0de65c154c429536c5a49df91714cdbac9506a",
+    "summaryPath": ".ai/work-items/archive/WI-981-knowledge-query-performance.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-981-knowledge-query-performance.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-983-knowledge-query-performance",
+  "workItemId": "WI-981-knowledge-query-performance"
+}
