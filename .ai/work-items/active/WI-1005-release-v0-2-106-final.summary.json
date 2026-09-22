@@ -1,0 +1,187 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-1005-release-v0-2-106-final.contract.json",
+    ".ai/work-items/active/WI-1005-release-v0-2-106-final.summary.json"
+  ],
+  "checkpointAt": "2026-09-22T10:02:36Z",
+  "checkpointContractDigest": "sha256:dd3a407b462153ac128211c227921e441552e1ef742c117de19b089ce4b56832",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9bb92e7a41e467becf325a19bee08f7c9b588beba4767c0b2a9c46e5690fba03",
+  "createdAt": "2026-09-22T10:00:50Z",
+  "intentAlignment": {
+    "evidence": [
+      "Cargo.toml",
+      "docs/release/distribution.md",
+      "docs/architecture/versioning.md",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "The version facts and existing release workflow directly bind the requested v0.2.106 publication scope; feature behavior and unrelated historical cleanup remain out of scope.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:da9ac6d65a09350f798c0583951aa929ae5b04e8e56dee2cea78569da9502674",
+  "predecessorWorkItemId": "WI-1004-release-v0-2-106-recovery",
+  "preflightAt": "2026-09-22T10:09:33Z",
+  "preflightContractDigest": "sha256:dd3a407b462153ac128211c227921e441552e1ef742c117de19b089ce4b56832",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9bb92e7a41e467becf325a19bee08f7c9b588beba4767c0b2a9c46e5690fba03",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1004-release-v0-2-106-recovery.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.106 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed merge commit.",
+      "reason": "A reviewed PR and public v0.2.106 Release do not exist until the post-merge publication stage; this scenario will be verified there.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "not_applicable",
+      "verificationPlan": "After the reviewed release Work Item PR merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.106 artifact passes checksum, isolated fresh install, v0.2.105-to-v0.2.106 N-1 upgrade, and exact temporary-root cleanup without object-repository writes.",
+      "reason": "An immutable public v0.2.106 asset does not exist until the post-merge publication stage; this scenario will be verified from that asset.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "not_applicable",
+      "verificationPlan": "Use the immutable public Release asset with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind the receipts to this Work Item."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T10:09:44Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1005-release-v0-2-106-final"
+}

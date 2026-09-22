@@ -1,0 +1,30 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-22T10:05:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/966",
+    "https://github.com/xinglun/ai-cockpit/pull/965",
+    ".ai/work-items/archive/WI-1004-release-v0-2-106-recovery.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:da9ac6d65a09350f798c0583951aa929ae5b04e8e56dee2cea78569da9502674",
+  "predecessorEventsDigest": "sha256:8db572156e67548e0728c866316244439d13f02677929f1bbb437f5d9d1a78bd",
+  "predecessorOutcomeDigest": "sha256:8b6ced31ed50d62b29b7652ddf60e6d49debda9a8bc2b3040ff16052554093d3",
+  "predecessorSummaryDigest": "sha256:aacd5177284484290ccca29acfc6c823ee7996d79548f366375e667b046ce6bc",
+  "predecessorWorkItemId": "WI-1004-release-v0-2-106-recovery",
+  "reason": "The prior successor WI-1004 was archived with PR #965, which was closed after the provider selector correctly rejected the duplicate archived PR identity shared with WI-1003. Preserve WI-1004 unchanged and continue the same v0.2.106 release through a new successor bound to PR #966 and the renamed release branch.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate the clean successor on codex/release-v0-2-106-recovery, bind PR #966 with finalize-plan before verification, complete hosted review, and use this successor for tag, public release, acceptance, and finalization evidence.",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1005-release-v0-2-106-final",
+  "workItemId": "WI-1004-release-v0-2-106-recovery"
+}
