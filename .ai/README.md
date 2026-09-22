@@ -7,8 +7,9 @@ directory, or Agent prose.
 
 ## Read-only entry route
 
-Read [`AGENTS.md`](../AGENTS.md) and [`glossary.md`](glossary.md), then use the
-explicit repository path for the Runtime queries:
+Read [`AGENTS.md`](../AGENTS.md), then consult [`glossary.md`](glossary.md) only
+when a term or protocol meaning is unclear. Use the explicit repository path
+for Runtime queries:
 
 ```text
 ai-cockpit inspect --repo <repository>

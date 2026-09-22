@@ -34,19 +34,22 @@ The current default static read set is:
 
 This is the pre-change byte baseline. Token counts are intentionally not used. The pilot measurement records command invocations, read-only query invocations, verification process starts, phase durations, exit status, and whether each decision came from Runtime output or Agent inference. The measurement is recorded here and in the final Outcome; it is not a new permanent registry.
 
-After the A entry split and final route wording, the same four-file default
-route is 10,032 bytes, which is a 54.6% reduction (12,049 bytes) without
-relying on whitespace compression. The ordinary route still uses the existing
-lifecycle boundaries; the new action gate is a fresh in-process query, not
-another verification command. The fixed source build's warm status benchmark
-currently reports 12 samples, median 121 ms, and P95 144 ms. This is a
-current-worktree measurement, not a release or hosted-runtime claim.
+After the A entry split and final route wording, the ordinary Work Item
+default read set is 13,172 bytes: the public entry files, the task-guide index,
+and the required `ordinary-work-item` guide. This is a 40.3% reduction (8,909
+bytes) without relying on whitespace compression. The glossary is now on
+demand rather than part of the ordinary default set. The ordinary route still
+uses the existing lifecycle boundaries; the new action gate is a fresh
+in-process query, not another verification command. The fixed source build's
+warm status benchmark currently reports 12 samples, median 121 ms, and P95
+144 ms. This is a current-worktree measurement, not a release or
+hosted-runtime claim.
 
 The pilot cost record is intentionally finite and evidence-based:
 
 | Measurement | Result | Source or limitation |
 | --- | --- | --- |
-| Default static read set | 22,081 -> 10,032 bytes; 12,049 bytes / 54.6% lower | `tests/docs/governance_cost_baseline_test.py`; fixed four-file input |
+| Ordinary default static read set | 22,081 -> 13,172 bytes; 8,909 bytes / 40.3% lower | `tests/docs/governance_cost_baseline_test.py`; includes the task-guide index and required ordinary guide, with glossary on demand |
 | Current Contract verification declarations | 8 | Runtime-owned active Contract; a historical command-count baseline was not recorded, so no stronger no-increase claim is made |
 | Read-only status query | 2 successive queries; 0 verification processes; files unchanged; status digest and safe actions stable | local comparison wrapper against the fixed Runtime; query is not an execution receipt |
 | Plan-only admission check | 1 planned node; 0 verification processes | fixed Runtime plan-only result |

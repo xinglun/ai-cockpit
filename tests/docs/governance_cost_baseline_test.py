@@ -9,8 +9,9 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_READ_SET = (
     Path("AGENTS.md"),
     Path(".ai/README.md"),
-    Path(".ai/glossary.md"),
     Path(".ai/agent-interface.json"),
+    Path("agents/skills/README.md"),
+    Path("agents/skills/ordinary-work-item.md"),
 )
 BASELINE_BYTES = 22_081
 MAXIMUM_BYTES = 13_248

@@ -12,8 +12,9 @@ or Agent prose. Query the Runtime with an explicit repository path.
 
 ## Public boundary
 
-Read `.ai/README.md`, `.ai/glossary.md`, and the current machine-readable
-governance records before editing. The Contract is the human-owned source for
+Read `.ai/README.md` and the current machine-readable governance records before
+editing. Consult `.ai/glossary.md` on demand for unfamiliar terms or protocol
+semantics. The Contract is the human-owned source for
 intent, scope, acceptance, authority, and changes to those decisions. The
 Runtime is authoritative for current state, evidence validity, action
 admission, blockers, and next-action explanations. Runtime output is authoritative for action admission; a guide recommendation is not permission.
