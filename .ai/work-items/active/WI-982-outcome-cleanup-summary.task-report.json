@@ -4,7 +4,7 @@
       ".ai/evidence/WI-982-outcome-cleanup-summary.verification.json"
     ],
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:5215c14132381b46e9a7d1429ecc7e92cc4f2a31d51b6bdc22187898a3819dd4",
+    "repositorySnapshotDigest": "sha256:22564a2bd4a64fd2f2024685931fd40c30c557fff257aa27e8ae0d11e23df5cf",
     "workItemId": "WI-982-outcome-cleanup-summary"
   },
   "format": "ai-cockpit.task-outcome",
