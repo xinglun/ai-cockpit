@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-990 — WI-988 terminal documentation projection"
 description: "Promote the bounded WI-988 terminal documentation projection after the replaced WI-989 attempt."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-990-wi988-doc-promotion
 lastVerifiedBy: WI-990-wi988-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-990-wi988-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-990-wi988-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-990-wi988-doc-promotion.close.json
 ---
 
 [简体中文](WI-990-wi988-doc-promotion.zh-CN.md) · [日本語](WI-990-wi988-doc-promotion.ja.md)

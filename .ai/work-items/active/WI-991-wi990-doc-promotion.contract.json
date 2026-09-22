@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "六份指定终态投影由 promote_closed_work_item.py 生成并保持三语事实一致。",
+    "promote_closed_work_item.py --check-all 通过。",
+    "parity_status_check.sh 与 work_item_status_consistency.py 通过。",
+    "The three WI-991 language pages and three parity rows preserve this Work Item self-projection until close."
+  ],
+  "authority": "authorized",
+  "baseRevision": "8f1bd0631c4ed7144d0b7e87512218a513ea54db",
+  "createdAt": "2026-09-22T04:25:49Z",
+  "goal": "让 WI-990 的三语 Work Item 文档与三语 reference parity 投影匹配已关闭证据，并通过全部文档治理门禁。",
+  "intent": "完成 WI-990 关闭后强制检查发现的六份终态文档投影，不改变任何代码或历史事实。",
+  "mode": "implementation",
+  "outOfScope": [
+    "源代码、测试行为、CI、发布、历史 Work Item 证据以及 WI-990 生命周期记录"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:fe8c532c0d882c30908c6fd79f14bbe602e0d8a998667a1f7811e11c50dffa33",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "low",
+  "scope": [
+    "docs/work-items/WI-990-wi990-doc-promotion.md",
+    "docs/work-items/WI-990-wi990-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-990-wi990-doc-promotion.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-991-wi990-doc-promotion.ja.md",
+    ".ai/**",
+    "docs/work-items/WI-990-wi988-doc-promotion.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-990-wi988-doc-promotion.ja.md"
+  ],
+  "sources": [
+    "WI-990-wi990-doc-promotion close post-check: --check-all reported promotion required for six terminal projections"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-990-wi990-doc-promotion",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --check-all",
+    "bash tests/docs/parity_status_check.sh .",
+    "python3 tests/docs/work_item_status_consistency.py --repo .",
+    "python3 tests/docs/promote_closed_work_item.py --repo . --work-item WI-990-wi988-doc-promotion"
+  ],
+  "workItemId": "WI-991-wi990-doc-promotion"
+}
