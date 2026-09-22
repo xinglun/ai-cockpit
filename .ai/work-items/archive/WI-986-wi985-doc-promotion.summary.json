@@ -1,7 +1,7 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json",
+    ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
     "docs/reference/reference-parity.zh-CN.md"

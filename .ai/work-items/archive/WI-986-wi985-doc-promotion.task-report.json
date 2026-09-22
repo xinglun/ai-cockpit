@@ -15,98 +15,98 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-986-wi985-doc-promotion.verification-attempt.0c9a74a448b918726e63d56b6f724453ff230dac29613aef9cc740b76b2274f4.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/WI-986-wi985-doc-promotion.verification-attempt.b122809d8cdec1ac71a887dfb65fd4814406e5cd528c4f3583393ce73e4d2214.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-986-wi985-doc-promotion.contract.json"
+        "text": "Changed path: .ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+        "text": "Changed path: .ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.ja.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.ja.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-986-wi985-doc-promotion.ja.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-986-wi985-doc-promotion.md"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: docs/work-items/WI-986-wi985-doc-promotion.zh-CN.md"
@@ -165,7 +165,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "完成 WI-985 的英/简中/日文档终态晋级，并让 closed Work Item promotion helper 与全仓 check-all 均通过。"
@@ -174,7 +174,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/WI-986-wi985-doc-promotion.contract.json"
+          ".ai/work-items/archive/WI-986-wi985-doc-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."
