@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "Archived recovery reads verification declarations from the archive Contract when no active Contract exists.",
+    "Workspace verification planning retains its coverage manifest and starts zero processes in plan-only mode.",
+    "A current Runtime recovery receipt can be recorded without replacing predecessor evidence.",
+    "Normal active Work Item verification continues to read the active Contract."
+  ],
+  "authority": "authorized",
+  "baseRevision": "dae013d56a98f387414abc6dda0e6aad721a76f1",
+  "createdAt": "2026-09-22T19:30:54Z",
+  "goal": "Make the existing archived recovery entrypoint load declared verification commands from the immutable archive Contract, preserve coverage planning, and produce current recovery evidence without rewriting predecessor records.",
+  "intent": "Repair archived verification recovery command discovery.",
+  "mode": "implementation",
+  "outOfScope": [
+    "new task progress APIs",
+    "predecessor archive or verification evidence rewrite",
+    "release publication and hosted resource mutation"
+  ],
+  "predecessorContractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "predecessorWorkItemId": "WI-1006-runtime-guide-action-outcome",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1006-runtime-guide-action-outcome.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:08c7ee0ed0ce5c3fff784aee2856f0bcd470a44d060ae7409d6887994f30bf82",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scope": [
+    "crates/cockpit-cli/src/main.rs",
+    "crates/cockpit-cli/tests/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-cli --locked",
+    "cargo test -p cockpit-repository --locked"
+  ],
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}

@@ -1,0 +1,38 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1006-runtime-guide-action-outcome.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.contract.json",
+    ".ai/work-items/archive/WI-1007-archived-recovery-cli-route.summary.json",
+    "crates/cockpit-cli/src/main.rs"
+  ],
+  "checkpointAt": "2026-09-22T19:42:06Z",
+  "checkpointContractDigest": "sha256:11e111267c9ff9c36d3b6c054e40c17316ab34d54bc04861cd8f3c1cce295fc9",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:2683a7d7997bc868a280c5cfaebc139fd83b8f5de2b123d79b758c397bf65aa0",
+  "createdAt": "2026-09-22T19:30:54Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "predecessorWorkItemId": "WI-1006-runtime-guide-action-outcome",
+  "preflightAt": "2026-09-22T19:45:11Z",
+  "preflightContractDigest": "sha256:11e111267c9ff9c36d3b6c054e40c17316ab34d54bc04861cd8f3c1cce295fc9",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:2683a7d7997bc868a280c5cfaebc139fd83b8f5de2b123d79b758c397bf65aa0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1006-runtime-guide-action-outcome.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T19:45:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}

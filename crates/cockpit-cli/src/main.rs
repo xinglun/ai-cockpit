@@ -1597,7 +1597,8 @@ fn run() -> Result<()> {
                     })
                     .collect::<Vec<_>>()
             } else if let Some(work_item_id) = work_item.as_deref() {
-                let declared = declared_verification_commands(&root, work_item_id)?;
+                let declared =
+                    declared_verification_commands(&root, work_item_id, archived_recovery)?;
                 if declared.is_empty() {
                     detected_verification_commands(&root)?
                         .into_iter()
@@ -3201,6 +3202,7 @@ fn valid_cli_git_object_id(value: &str) -> bool {
             .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
+#[derive(Debug)]
 struct DeclaredVerificationCommand {
     node_id: Option<String>,
     program: String,
@@ -3210,21 +3212,30 @@ struct DeclaredVerificationCommand {
 fn declared_verification_commands(
     root: &Path,
     work_item_id: &str,
+    archived_recovery: bool,
 ) -> Result<Vec<DeclaredVerificationCommand>> {
+    let contract_directory = if archived_recovery {
+        "archive"
+    } else {
+        "active"
+    };
     let contract_path = root
-        .join(".ai/work-items/active")
+        .join(".ai/work-items")
+        .join(contract_directory)
         .join(format!("{work_item_id}.contract.json"));
     let contract: cockpit_protocol::Contract = serde_json::from_slice(
         &fs::read(&contract_path)
             .with_context(|| format!("read Work Item Contract {}", contract_path.display()))?,
     )
     .with_context(|| format!("parse Work Item Contract {}", contract_path.display()))?;
-    declared_verification_commands_from_declarations(contract.verification)
+    declared_verification_commands_from_declarations(contract.verification, root)
 }
 
 fn declared_verification_commands_from_declarations(
     declarations: Vec<VerificationDeclaration>,
+    root: &Path,
 ) -> Result<Vec<DeclaredVerificationCommand>> {
+    let repository = root.to_string_lossy().into_owned();
     declarations
         .into_iter()
         .map(|declaration| {
@@ -3233,10 +3244,17 @@ fn declared_verification_commands_from_declarations(
                 VerificationDeclaration::Check(check) => (Some(check.check.clone()), check.check),
             };
             let (program, args) = parse_declared_verification_command(&command)?;
+            let replace_repository = |value: String| {
+                if value == "<repo>" {
+                    repository.clone()
+                } else {
+                    value
+                }
+            };
             Ok(DeclaredVerificationCommand {
                 node_id,
-                program,
-                args,
+                program: replace_repository(program),
+                args: args.into_iter().map(replace_repository).collect(),
             })
         })
         .collect()
@@ -3258,12 +3276,13 @@ fn detected_verification_commands(root: &Path) -> Result<Vec<(String, Vec<String
 }
 
 fn parse_declared_verification_command(declaration: &str) -> Result<(String, Vec<String>)> {
+    let tokens = declaration.split_ascii_whitespace().collect::<Vec<_>>();
     if declaration.trim().is_empty()
         || declaration.chars().any(|character| {
             matches!(
                 character,
-                '\'' | '"' | '\\' | '|' | '&' | ';' | '<' | '>' | '`' | '$' | '(' | ')'
-            )
+                '\'' | '"' | '\\' | '|' | '&' | ';' | '`' | '$' | '(' | ')'
+            ) || matches!(character, '<' | '>') && !tokens.contains(&"<repo>")
         })
     {
         anyhow::bail!(
@@ -3567,7 +3586,8 @@ fn contains_runtime_code(path: &std::path::Path) -> bool {
 mod tests {
     use super::{
         CapabilityCommand, Cli, CommandKind, WorkItemCommand, concurrent_phase_elapsed,
-        parse_declared_verification_command, record_ordinary_cleanup_command,
+        declared_verification_commands, parse_declared_verification_command,
+        record_ordinary_cleanup_command,
     };
     use clap::{CommandFactory, Parser};
     use cockpit_core::Digest;
@@ -3578,7 +3598,7 @@ mod tests {
         WORK_ITEM_OUTCOME_CLI_JSON, WORK_ITEM_OUTCOME_CLI_LANGUAGE, WORK_ITEM_OUTCOME_CLI_VIEW,
         WORK_ITEM_OUTCOME_CLI_WORK_ITEM_ID, work_item_outcome_interface_description,
     };
-    use std::process::Command;
+    use std::{path::Path, process::Command};
 
     #[test]
     fn concurrent_phase_telemetry_uses_wall_time_instead_of_summed_worker_time() {
@@ -3611,6 +3631,45 @@ mod tests {
         let error = parse_declared_verification_command("cargo test | tee result.log")
             .expect_err("shell pipeline must be rejected before spawn");
         assert!(error.to_string().contains("not a supported argv command"));
+    }
+
+    #[test]
+    fn archived_recovery_reads_declared_commands_from_the_archive_contract() {
+        let repository = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let archived = declared_verification_commands(
+            &repository,
+            "WI-1006-runtime-guide-action-outcome",
+            true,
+        )
+        .expect("archived Contract verification declarations");
+        assert!(
+            archived.iter().any(|command| {
+                command.program == "cargo"
+                    && command
+                        .args
+                        .iter()
+                        .any(|argument| argument == "--workspace")
+            }),
+            "archived recovery must retain the workspace verification declaration: {archived:?}"
+        );
+        assert!(
+            archived.iter().any(|command| {
+                command.program == "python3"
+                    && command
+                        .args
+                        .iter()
+                        .any(|argument| argument == &repository.to_string_lossy())
+            }),
+            "the repository placeholder must be resolved against the explicit repo root: {archived:?}"
+        );
+
+        let active_error = declared_verification_commands(
+            &repository,
+            "WI-1006-runtime-guide-action-outcome",
+            false,
+        )
+        .expect_err("the predecessor must not regain an active Contract");
+        assert!(active_error.to_string().contains("active"));
     }
 
     #[test]

@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-repair",
+  "decidedAt": "2026-09-22T19:35:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1006-runtime-guide-action-outcome.verification.json",
+    ".ai/decisions/WI-1006-runtime-guide-action-outcome.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:20180f6c1ab5f91093975f35f0f1d537e45920d427df6d2c74ac3b7001d9d689",
+  "predecessorEventsDigest": "sha256:dcaf131de4a8d5ff23a65f2bfb90756244d669181267878db08a1a392421b785",
+  "predecessorOutcomeDigest": "sha256:5bf8694350f4c63a94476db494cd9195c62923ff0e2c03d174f8086104339aa3",
+  "predecessorSummaryDigest": "sha256:d91c3e5ba4a945e09f69960b1e968fcfd28bcd070a662b03342744e3de21db72",
+  "predecessorWorkItemId": "WI-1006-runtime-guide-action-outcome",
+  "reason": "The merged Runtime cannot execute the existing archived-recovery route: it reads verification declarations from an active Contract that correctly no longer exists, while explicit commands bypass the workspace coverage manifest required by the recovery receipt. Preserve WI-1006 history and repair only this Runtime route in a linked successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-1007 with the exact archived verification route fix, verify it with the existing workspace command, then complete its reviewed PR and close the linked WI-1006 recovery boundary without rewriting predecessor evidence.",
+  "runtimeDigest": "sha256:228136483f4da9bfe95444240ef1b8530e41e45a0ff2f848193e08d81571dc72",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1007-archived-recovery-cli-route",
+  "workItemId": "WI-1006-runtime-guide-action-outcome"
+}
