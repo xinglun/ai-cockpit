@@ -1,0 +1,31 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-987-wi986-doc-promotion.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-987-wi986-doc-promotion.verification-attempt.47cf4f9c393b8b2a2ec989084cd6c7d7b70bed0407b7b354d240118d8c4bdf8d.json",
+    ".ai/wi987-recovery-input.json",
+    ".ai/work-items/active/WI-987-wi986-doc-promotion.contract.json",
+    ".ai/work-items/active/WI-987-wi986-doc-promotion.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.ja.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.md",
+    "docs/work-items/WI-986-wi985-doc-promotion.zh-CN.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.ja.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.md",
+    "docs/work-items/WI-987-wi986-doc-promotion.zh-CN.md"
+  ],
+  "checkpointCount": 0,
+  "createdAt": "2026-09-22T03:38:44Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:70c1c3f37d6dca14dc5ceb56e16be56b249b5bf729329f8dde5886e18a94ee7c",
+  "predecessorWorkItemId": "WI-987-wi986-doc-promotion",
+  "preflightState": "not_run",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-987-wi986-doc-promotion.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "not_ready",
+  "updatedAt": "2026-09-22T03:38:44Z",
+  "workItemId": "WI-988-wi986-doc-promotion"
+}
