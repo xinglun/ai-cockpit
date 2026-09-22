@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-984 — WI-982 documentation promotion"
 description: "不変の lifecycle evidence を書き換えず、終了済み WI-982 の documentation projection を昇格する。"
 audience: [maintainer, reviewer]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 workItemId: WI-984-doc-promotion
 lastVerifiedBy: WI-984-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-984-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-984-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-984-doc-promotion.close.json
 ---
 
 [English](WI-984-doc-promotion.md) · [简体中文](WI-984-doc-promotion.zh-CN.md)
