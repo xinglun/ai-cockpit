@@ -1,0 +1,209 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.9f778491667bcdd4158d1d1677bacac95f57d19eecfdd4b37bf1aba34c292de0.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.a32bff9d5ca80e0bcd8ca5c1249a67c56ca3bea93b32500ea7f3ee64e6dfbd58.json",
+    ".ai/decisions/WI-985-repository-resource-lifecycle.preflight-review.ec2e5c39b09764d1cdecf9a56bd5c8c6a983778034400946dd614a8ee8cbe0f9.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-985-repository-resource-lifecycle.verification-attempt.d49e6d7235e8e128eefb68a3aabcaa5d6d4c501ae5b2befab066080b3f781ea7.json",
+    ".ai/evidence/WI-985-repository-resource-lifecycle.verification.json",
+    ".ai/work-items/active/WI-985-repository-resource-lifecycle.summary.json"
+  ],
+  "checkpointAt": "2026-09-22T01:40:11Z",
+  "checkpointContractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:94047eb2b499117aaadff3e7acf9b602837ad922eb2510f80bf096851aba9e2d",
+      "recorded": true,
+      "recordedAt": "2026-09-22T01:40:11Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:d86401a89253ea81c0175fb164de80ad4f52f3b22669240f13d1a80732575982",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bb624253bc7d3b854c009b272f7fa27496f2e45986fc2b81837f0af883544590",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:94047eb2b499117aaadff3e7acf9b602837ad922eb2510f80bf096851aba9e2d",
+      "previousContractHash": "sha256:94047eb2b499117aaadff3e7acf9b602837ad922eb2510f80bf096851aba9e2d",
+      "reason": "Add the reviewed design specification to the Work Item boundary and authoritative source set before planning implementation.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T01:42:14Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:2ba5c3b01e55bfc66ec1303ffa30f85b0befe9ee5b101443303de8fa131e6b20",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6d970abccf4567dce2c0038d7d3723dcf6f958f9c69940e4e869f07f3b174080",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:94047eb2b499117aaadff3e7acf9b602837ad922eb2510f80bf096851aba9e2d",
+      "previousContractHash": "sha256:bb624253bc7d3b854c009b272f7fa27496f2e45986fc2b81837f0af883544590",
+      "reason": "Include the required trilingual Work Item parity projections in the bounded documentation scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T01:44:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:108ff34fd63e278f30f088f7123efbae7c5cecfc6a76dd7caaf6d1c077036c55",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:94047eb2b499117aaadff3e7acf9b602837ad922eb2510f80bf096851aba9e2d",
+      "previousContractHash": "sha256:6d970abccf4567dce2c0038d7d3723dcf6f958f9c69940e4e869f07f3b174080",
+      "reason": "Record the self-reviewed implementation plan as part of the approved bounded Work Item design.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T01:49:29Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:9b50e79143be9ed608459bc36c47ca874febba6ed8899c291a26e9627a40e8d9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
+  "createdAt": "2026-09-22T01:32:13Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "The user explicitly authorized reopening the corresponding bounded Work Item and continuing. This fresh receipt confirms review of the current Contract and snapshot after restoring the pre-merge active lifecycle boundary; it permits re-verification and PR review only, and does not authorize merge, release, or completion.",
+    "recordedAt": "2026-09-22T03:00:00Z",
+    "recordedBy": "human:user",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
+    "schemaVersion": 1,
+    "workItemId": "WI-985-repository-resource-lifecycle"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "docs/work-items/WI-985-repository-resource-lifecycle.md",
+      "docs/superpowers/specs/2026-09-22-repository-resource-lifecycle-boundary-design.md",
+      "docs/superpowers/plans/2026-09-22-repository-resource-lifecycle-boundary.md",
+      "crates/cockpit-repository/src/resource_lifecycle.rs",
+      "crates/cockpit-repository/src/lib.rs"
+    ],
+    "reason": "The implementation remains within the authorized repository modularization and resource-lifecycle boundary; no new code scope or release authority is introduced.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-22T02:45:28Z",
+  "preflightContractDigest": "sha256:9be85771ffd56a7316bf4b5db5b4f569241c7423395ec1db2391ed5efb008c24",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:09ed0bf59ff4d15fb35adae00579cd33e99afe7adcc45790625c7fda273f7c41",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs"
+      ],
+      "reason": "The extracted module owns the resource finalization path while explicit root re-exports preserve the public boundary; the focused regression and full repository tests passed.",
+      "required": true,
+      "scenario": "resource_finalization_success_preserves_public_boundary",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "reason": "The extracted implementation keeps existing receipt and rejection paths, and the repository and focused CLI/MCP suites passed without public signature changes.",
+      "required": true,
+      "scenario": "resource_finalization_invalid_duplicate_or_foreign_fails_closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/tests/resource_finalization.rs",
+        "crates/cockpit-repository/tests/ordinary_cleanup.rs",
+        "crates/cockpit-repository/tests/resource_finalization_transition.rs",
+        "crates/cockpit-repository/tests/recovery_revalidation.rs"
+      ],
+      "reason": "The ordinary cleanup receipt and identity-bound observation remain in the extracted module; focused cleanup and full repository tests passed.",
+      "required": true,
+      "scenario": "ordinary_cleanup_exact_identity_and_receipt_binding",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/tests/ordinary_cleanup.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs"
+      ],
+      "reason": "Existing missing or dirty resource handling remains fail closed through the extracted path, covered by the repository integration suite and unchanged governance semantics.",
+      "required": true,
+      "scenario": "ordinary_cleanup_missing_or_dirty_resources_remain_non_green",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-repository/src/lib.rs",
+        "crates/cockpit-repository/tests/archive_integrity.rs",
+        "crates/cockpit-repository/tests/recovery_decision.rs",
+        "crates/cockpit-repository/tests/recovery_revalidation.rs",
+        "crates/cockpit-repository/tests/recovery_events.rs"
+      ],
+      "reason": "Archive, close, and recovery behavior remains covered by the existing repository regressions; the extraction preserves root exports and explicit imports.",
+      "required": true,
+      "scenario": "archive_close_and_history_recovery_regressions",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-22T02:45:05.483582+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-985-repository-resource-lifecycle"
+}

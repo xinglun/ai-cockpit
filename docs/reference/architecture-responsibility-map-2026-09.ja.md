@@ -43,7 +43,7 @@ CLI / MCP
 
 `RuntimeContext` と `RepositoryContext` は `crates/cockpit-protocol/src/lib.rs:120-131`。
 repository crate は `crates/cockpit-repository/src/lib.rs:48-92` で
-execution_context、evidence_store、lifecycle、outcome_render、project_governance、
+execution_context、evidence_store、lifecycle、resource_lifecycle、outcome_render、project_governance、
 status_projection を公開している。これは crate 内の module 境界であり、全責任が純化済み
 という意味ではない。
 
@@ -56,12 +56,12 @@ status_projection を公開している。これは crate 内の module 境界�
 | Runtime/repository identity | `RuntimeContext`、`RepositoryContext`、`.ai/cockpit.toml`、`.ai/project.json` | status projection と attach の repository read | protocol type と identity check。human authorization は推論しない |
 | Contract、policy、project declaration | `Contract`、`GovernancePolicyDocument`、`ProjectGovernanceProjection`：`protocol/lib.rs:2603-2645,609-627,322-335` | `project_governance.rs:53-127,241-317` が declaration を読む。policy 解決は `repository/lib.rs:2742-2990` | strict parse、identity/snapshot binding、unknown は project_governance |
 | Governance validation/decision | Contract/Summary evidence、policy、snapshot、Runtime identity：`repository/lib.rs:3359-3555,4395-4450` | decision helper が repository record を読む。`governance_controls.rs:1038-1184` が projection を検証 | `required_verification_checks` 等は pure (`governance_controls.rs:33-72`)。preflight/decision entry が receipt を記録 |
-| Lifecycle coordination | Contract、Summary、checkpoint/verification/finalization/close record | `lifecycle.rs:324-467,469-560,883-905,1087-1165`；archive/close は `repository/lib.rs:4504-4752,7353-7817` | 順序と gate は lifecycle/repository。storage は authorization を与えない |
+| Lifecycle coordination | Contract、Summary、checkpoint/verification/finalization/close record | `lifecycle.rs:324-467,469-560,883-905,1087-1165`；resource-bound finalization と ordinary cleanup は `resource_lifecycle.rs`、archive/close は `repository/lib.rs` が調整 | 順序と gate は lifecycle/repository。`resource_lifecycle` が resource identity と cleanup facts を検証し、storage は authorization を与えない |
 | Evidence storage/history | reusable receipt、repository/profile/node binding、delegated evidence/validity | nofollow read/write：`evidence_store.rs:36-39,225-280`；protocol type：`protocol/lib.rs:927-960` | receipt validation は evidence/protocol。receipt は governance decision ではない |
 | Physical execution/scheduling | verification graph/plan、`PhysicalExecution`、`ExecutionResult`、Work Item receipt | process、worker、resource budget、single-flight：`cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` | execution は成功/失敗だけを返し、repository が適用性と authorization を別検証 |
 | Status/Outcome projection | `OutcomeState`、`TaskOutcomeReport`、`WorkItemStatusSnapshot`、history/freshness：`protocol/lib.rs:3236-3505` | config/profile、1つの Git snapshot、record：`status_projection.rs:3-90` | status_projection が machine status、outcome_v2 が Outcome を組み立てる。projection は権限を与えない |
 | Human Outcome rendering | 検証済み `OutcomeRenderInput` と language | `outcome_render.rs:70-76` の renderer は repository path を受けず input だけを format | `render_human_outcome` が表示境界。production caller は Runtime-bound assembly を使い、`outcome_render_input_from_outcome` は捕捉済み fixture に限定 |
-| Persistence/recovery | atomic JSON、lifecycle lock、archive manifest、finalization/close record | `repository/lib.rs:12033-12081`；finalization `5246-7140`；recovery `status_projection.rs:464-585` | authoritative record と recovery check を明示し、projection は再構成可能な view とする |
+| Persistence/recovery | atomic JSON、lifecycle lock、archive manifest、finalization/close record | `repository/lib.rs` の atomic write/lock；`resource_lifecycle.rs` の finalization/ordinary-cleanup receipt；recovery `status_projection.rs:464-585` | authoritative record と recovery check を明示し、projection は再構成可能な view とする |
 
 ## 現在の混在・重複・依存方向
 
@@ -82,8 +82,9 @@ status_projection を公開している。これは crate 内の module 境界�
    捕捉・検証する。互換 helper `outcome_render_input_from_outcome` は補足 facts を読むため、
    test または pre-captured Outcome を明示的に保持する caller に限定し、lifecycle shortcut
    には使わない。
-5. repository submodule は `super::*` で root の `ObserverError`、`repository_id`、
-   `snapshot_digest` を使う。現在は crate 内の一方向依存であり、この P0 から新 crate や
+5. 新しい `resource_lifecycle` module は explicit import と狭い `pub(crate)` root seam を
+   使い、resource identity、finalization、ordinary-cleanup facts を担当する。治理校验を
+   複製しない。他の repository module は root primitive に依存し得るが、新 crate や
    circular Cargo dependency を導入する理由はない。先に共有 helper の依存を狭めるべきである。
 
 status path は status projection 全体で Git snapshot を一度だけ取得し、readiness の
@@ -130,7 +131,8 @@ file/config/repository identity 変更に対する stop/retry/unknown を含む�
 
 ### P2-A — lifecycle、evidence、execution、projection の所有権
 
-module は存在するが、scaffold/preflight/archive/close が read、governance check、write を
+WI-985 は resource-bound finalization、ordinary cleanup、close 時の resource 検証を
+`resource_lifecycle.rs` に移し、root の公開 export を維持する。残る module は存在するが、scaffold/preflight/archive/close が read、governance check、write を
 完全な use case の中でまだ混ぜている。Observation は facts、Governance は decision、
 Lifecycle は順序、Evidence は保存、Execution は command、Projection は表示を担当する
 よう、一つの use case ごとに移行する。Port は実際の substitution/fault injection 境界に

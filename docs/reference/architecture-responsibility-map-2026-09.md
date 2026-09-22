@@ -48,7 +48,8 @@ CLI / MCP
 `RuntimeContext` and `RepositoryContext` are typed identity inputs in
 `crates/cockpit-protocol/src/lib.rs:120-131`. The repository crate re-exports
 the already-separated `execution_context`, `evidence_store`, `lifecycle`,
-`outcome_render`, `project_governance`, and `status_projection` modules at
+`resource_lifecycle`, `outcome_render`, `project_governance`, and
+`status_projection` modules at
 `crates/cockpit-repository/src/lib.rs:48-92`. This is a module boundary inside
 one crate, not a claim that all responsibilities are already pure.
 
@@ -61,12 +62,12 @@ one crate, not a claim that all responsibilities are already pure.
 | Runtime and repository identity | `RuntimeContext`, `RepositoryContext`, `.ai/cockpit.toml`, `.ai/project.json` | Repository-bound reads in `status_projection.rs:13-39`, `attach` and identity helpers | Protocol types plus repository identity checks; no human authorization is inferred |
 | Contract, policy, and project declarations | Typed `Contract`, `GovernancePolicyDocument`, and `ProjectGovernanceProjection` in `protocol/lib.rs:2603-2645,609-627,322-335` | `project_governance.rs:53-127,241-317` reads declaration files; policy resolution is in `repository/lib.rs:2742-2990` | Strict parsing, identity/snapshot binding, and unknowns are returned by `project_governance`; governance helpers consume them |
 | Governance validation and decision | Contract/Summary evidence, policy, snapshot, and Runtime identity; `repository/lib.rs:3359-3555,4395-4450` | Decision helpers read repository records; `governance_controls.rs:1038-1184` validates projections | `required_verification_checks` and checkpoint binding validation are pure (`governance_controls.rs:33-72`); preflight/governance entry points record receipts |
-| Lifecycle coordination | Work Item Contract, Summary, checkpoint evidence, verification evidence, and finalization records | `lifecycle.rs:324-467,469-560,883-905,1087-1165`; archive/close paths in `repository/lib.rs:4504-4752,7353-7817` read and write `.ai/` records | Lifecycle ordering and gates belong to `lifecycle`/repository operations; storage helpers must not grant authorization |
+| Lifecycle coordination | Work Item Contract, Summary, checkpoint evidence, verification evidence, and finalization records | `lifecycle.rs:324-467,469-560,883-905,1087-1165`; resource-bound finalization and ordinary cleanup in `resource_lifecycle.rs`; archive/close coordination in `repository/lib.rs` reads and writes `.ai/` records | Lifecycle ordering and gates belong to `lifecycle`/repository operations; `resource_lifecycle` validates resource identity and cleanup facts; storage helpers must not grant authorization |
 | Evidence storage and history | Reusable receipts, repository/profile/node binding, delegated evidence and validity | Capability-scoped nofollow read/write in `evidence_store.rs:36-39,225-280`; protocol evidence types at `protocol/lib.rs:927-960` | Receipt validation belongs to evidence/protocol; a receipt is evidence, not a governance decision |
 | Physical execution and scheduling | Verification graph/plan, `PhysicalExecution`, `ExecutionResult`, and Work Item evidence receipt | Process execution, bounded workers, resource budget, and in-process single flight in `cockpit-verification/lib.rs:1206-1441,1468-1525,1595-1833` | Execution reports success/failure; repository governance separately binds applicability and authorization |
 | Status and Outcome projection | `OutcomeState`, `TaskOutcomeReport`, `WorkItemStatusSnapshot`, historical/freshness fields at `protocol/lib.rs:3236-3505` | Status projection reads config/profile, one Git snapshot, and records (`status_projection.rs:3-90`) | `status_projection` assembles machine status; `outcome_v2` assembles Outcome facts; no projection grants authority |
 | Human Outcome rendering | Validated `OutcomeRenderInput` and language | `render_human_outcome` at `outcome_render.rs:70-76` has no repository parameter and formats only its input | `render_human_outcome` is the display boundary; production callers use the Runtime-bound assembly path, while `outcome_render_input_from_outcome` is limited to already-captured fixtures |
-| Persistence and recovery | Atomic JSON records, lifecycle lock, archive manifest, finalization and close decision | `atomic_write` and lifecycle lock at `repository/lib.rs:12033-12064,12071-12081`; finalization operations at `5246-7140`; recovery/readiness at `status_projection.rs:464-585` | The authoritative record and recovery validators must be explicit; projections are rebuildable views only |
+| Persistence and recovery | Atomic JSON records, lifecycle lock, archive manifest, finalization and close decision | `atomic_write` and lifecycle lock at `repository/lib.rs`; resource finalization and ordinary-cleanup receipts in `resource_lifecycle.rs`; recovery/readiness at `status_projection.rs:464-585` | The authoritative record and recovery validators must be explicit; projections are rebuildable views only |
 
 ## Current mixed responsibilities, duplication, and dependency direction
 
@@ -94,12 +95,12 @@ interfaces:
    `outcome_render_input_from_outcome` still reads supplemental facts, so it is
    reserved for tests and callers that explicitly hold a pre-captured Outcome;
    it is not a lifecycle shortcut.
-5. The repository submodules use `super::*` and call shared root helpers such
-   as `repository_id`, `snapshot_digest`, and `ObserverError`. The current
-   dependency is one-way within the crate (root exports modules and modules
-   reuse root primitives); no new crate or circular Cargo dependency is
-   justified by this map. Further extraction should first narrow these shared
-   helper dependencies.
+5. The extracted `resource_lifecycle` module uses explicit imports and narrow
+   `pub(crate)` root seams for shared helpers; it owns resource identity,
+   finalization, and ordinary-cleanup facts without duplicating governance
+   validation. Other repository modules may still depend on root primitives,
+   but no new crate or circular Cargo dependency is justified by this map.
+   Further extraction should first narrow shared helper dependencies.
 
 The status path already captures one Git snapshot for the complete status
 projection, explicitly avoiding a second snapshot in readiness calculation
@@ -168,8 +169,9 @@ silently reusing stale facts.
 
 ### P2-A — Lifecycle, evidence, execution, and projection ownership
 
-**Problem.** Modules now exist for lifecycle, evidence storage, execution
-context, status, and Outcome rendering, but root operations still combine
+**Current boundary.** WI-985 now owns resource-bound finalization, ordinary
+cleanup, and close-time resource validation in `resource_lifecycle.rs` while
+preserving root public exports. Other root operations still combine
 repository reads, governance checks, and writes in complete use cases such as
 scaffold/preflight/archive/close.
 
