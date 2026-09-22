@@ -3,7 +3,7 @@
     ".ai/decisions/WI-982-outcome-cleanup-summary.preflight-review.bd13bbe82b943afd88babeb3e228ee4408167291cab4a1a7a0fbd62545943145.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-982-outcome-cleanup-summary.verification-attempt.ac3366c87f204da54e5dee668db48996d205c2edf8db9e5417a95301d87a2f3e.json",
-    ".ai/work-items/active/WI-982-outcome-cleanup-summary.summary.json"
+    ".ai/work-items/archive/WI-982-outcome-cleanup-summary.summary.json"
   ],
   "checkpointAt": "2026-09-21T22:43:54Z",
   "checkpointContractDigest": "sha256:fa086275a3ad17b65598a3bec58fbf58930a03073f580fe414478dc42417b78b",
