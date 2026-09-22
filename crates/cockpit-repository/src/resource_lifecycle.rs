@@ -13,8 +13,8 @@ use cockpit_core::Digest;
 use cockpit_protocol::{
     Contract, FinalizationErrorCode, HistoricalFinalizationKind,
     HistoricalFinalizationRecoveryReceipt, ResourceFinalizationContext,
-    ResourceFinalizationDisposition, ResourceFinalizationReceipt,
-    ResourceFinalizationTransitionReceipt, RuntimeContext,
+    ResourceFinalizationDisposition, ResourceFinalizationPullRequestState,
+    ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
     validate_historical_finalization_recovery, validate_resource_finalization_context,
     validate_resource_finalization_receipt_for, validate_resource_finalization_replay,
     validate_resource_finalization_transition,
@@ -1310,6 +1310,7 @@ pub(crate) fn validate_historical_finalization(
                 });
             }
         }
+        HistoricalFinalizationKind::LegacyRuntime => {}
     }
     Ok(())
 }
@@ -1467,6 +1468,7 @@ fn validate_historical_finalization_recovery_binding(
                 message: "direct-merge history must be recorded as a complete historical finalization receipt, not a reclassification of a PR receipt".into(),
             });
         }
+        HistoricalFinalizationKind::LegacyRuntime => {}
     }
     Ok(())
 }
@@ -1646,6 +1648,7 @@ pub fn historical_finalization_recovery_plan(
             .map(|historical| match historical.kind {
                 HistoricalFinalizationKind::SharedWorktreeRetained => "shared_worktree_retained",
                 HistoricalFinalizationKind::DirectMergeNoPr => "direct_merge_no_pr",
+                HistoricalFinalizationKind::LegacyRuntime => "legacy_runtime",
             })
             .or_else(|| {
                 contract.as_ref().and_then(|(contract, _)| {
@@ -1653,6 +1656,19 @@ pub fn historical_finalization_recovery_plan(
                         .then_some("shared_worktree_retained")
                 })
             });
+        let kind = kind.or_else(|| {
+            (receipt.pull_request.number > 0
+                && receipt.pull_request.merge_commit.is_some()
+                && matches!(
+                    receipt.before.pull_request,
+                    ResourceFinalizationPullRequestState::Merged
+                )
+                && matches!(
+                    receipt.after.pull_request,
+                    ResourceFinalizationPullRequestState::Merged
+                ))
+            .then_some("legacy_runtime")
+        });
         let stale = receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest;
         let closed = stale

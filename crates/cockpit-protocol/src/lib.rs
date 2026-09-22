@@ -1159,6 +1159,10 @@ pub struct ResourceFinalizationResult {
 pub enum HistoricalFinalizationKind {
     SharedWorktreeRetained,
     DirectMergeNoPr,
+    /// A normal provider-backed finalization receipt emitted by an older
+    /// Runtime.  The receipt keeps its original provider facts; this marker
+    /// is only used by the append-only recovery classification.
+    LegacyRuntime,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -1719,6 +1723,7 @@ fn validate_resource_finalization_identity(
                     ));
                 }
             }
+            HistoricalFinalizationKind::LegacyRuntime => {}
         }
     }
     Ok(())

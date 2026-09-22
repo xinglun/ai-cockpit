@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-repair",
+  "decidedAt": "2026-09-22T20:22:59Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1007-archived-recovery-cli-route.verification.json",
+    ".ai/decisions/WI-1007-archived-recovery-cli-route.finalize.json",
+    ".ai/decisions/WI-1007-archived-recovery-cli-route.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:11e111267c9ff9c36d3b6c054e40c17316ab34d54bc04861cd8f3c1cce295fc9",
+  "predecessorEventsDigest": "sha256:1c9185bd5e7393ecdca081e11942ee4e54aadddad7e0718a648942226601a8fc",
+  "predecessorOutcomeDigest": "sha256:906a0e15ff2802682327de8c49e706631683917403f9f27def5101403f79c2d5",
+  "predecessorSummaryDigest": "sha256:def90a9f25c838214e3ecd1eb194b90ae493da916a204754dd514bcedefd4bb1",
+  "predecessorWorkItemId": "WI-1007-archived-recovery-cli-route",
+  "reason": "The current Runtime can project a legacy normal PR finalization only after close, but cannot record the supported pre-close historical recovery needed when a valid merged-PR receipt was produced by an older Runtime identity. Preserve WI-1007 history and add only the missing recovery classification and validation path.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement and test normal merged-PR legacy finalization recovery, verify the successor through its reviewed PR, then finalize and close the linked WI lineage without rewriting predecessor records.",
+  "runtimeDigest": "sha256:24506ef45618707aa685a034e41957d7e04f4a94529215c3d64bc3b0ac48b0d4",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1008-finalization-recovery-normal-pr",
+  "workItemId": "WI-1007-archived-recovery-cli-route"
+}

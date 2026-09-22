@@ -579,6 +579,65 @@ fn closed_legacy_finalization_projects_as_historical_instead_of_runtime_failure(
     assert_eq!(recovery_plan["writesRepositoryState"], false);
 }
 
+#[test]
+fn historical_runtime_recovery_accepts_normal_merged_pr_before_close() {
+    let (directory, context, contract) = repository();
+    let repository_id = cockpit_repository::repository_id(directory.path()).to_string();
+    let legacy_runtime = RuntimeContext {
+        runtime_version: "0.2.33".into(),
+        protocol_version: 1,
+        runtime_digest: Digest::sha256_bytes(b"legacy-runtime-0.2.33"),
+    };
+    let mut receipt = blocked(&repository_id, &context, &contract);
+    receipt["runtimeVersion"] = legacy_runtime.runtime_version.clone().into();
+    receipt["runtimeDigest"] = legacy_runtime.runtime_digest.to_string().into();
+    receipt["pullRequest"]["mergeCommit"] = "merge-191".into();
+    receipt["before"]["pullRequest"] = "merged".into();
+    receipt["after"] = json!({
+        "pullRequest": "merged",
+        "branch": "deleted",
+        "worktree": "removed"
+    });
+    receipt["result"] = json!({
+        "disposition": "deleted",
+        "failureCodes": [],
+        "unknownCodes": []
+    });
+    let input = write_input(&directory, "legacy-normal-pr.json", &receipt);
+    record_resource_finalization(directory.path(), ID, &input, &legacy_runtime).unwrap();
+    let canonical = directory
+        .path()
+        .join(format!(".ai/decisions/{ID}.finalize.json"));
+    let predecessor = fs::read(&canonical).unwrap();
+
+    let current = runtime();
+    let plan = historical_finalization_recovery_plan(directory.path(), ID, &current, None)
+        .expect("normal merged PR recovery plan");
+    assert_eq!(plan["state"], "needs_human_review");
+    assert_eq!(plan["historicalKind"], "legacy_runtime");
+    let mut recovery = plan["suggestedRecovery"].clone();
+    recovery["schemaVersion"] = 1.into();
+    recovery["recoveryId"] = "historical-normal-pr-recovery".into();
+    recovery["kind"] = "historical_finalization_recovery".into();
+    recovery["actor"] = "human:test".into();
+    recovery["authoritySource"] = "historical-recovery-test".into();
+    recovery["reason"] = "classify a valid normal PR receipt from an older Runtime".into();
+    recovery["evidenceRefs"] = json!([format!(".ai/decisions/{ID}.finalize.json")]);
+    recovery["decidedAt"] = "2026-08-23T00:22:00Z".into();
+    let recovery_input = write_input(&directory, "legacy-normal-pr-recovery.json", &recovery);
+    let recorded =
+        record_historical_finalization_recovery(directory.path(), ID, &recovery_input, &current)
+            .expect("normal merged PR historical recovery should be recorded");
+    assert_eq!(recorded["state"], "recorded");
+
+    let verified = verify_resource_finalization(directory.path(), ID, &current)
+        .expect("normal merged PR historical recovery should verify");
+    assert_eq!(verified["state"], "verified");
+    assert_eq!(verified["historical"], true);
+    assert_eq!(verified["historicalKind"], "legacy_runtime");
+    assert_eq!(fs::read(&canonical).unwrap(), predecessor);
+}
+
 fn transition_path(decisions: &std::path::Path, value: &Value) -> std::path::PathBuf {
     let digest = cockpit_protocol::digest_json(value).unwrap().to_string();
     decisions.join(format!(

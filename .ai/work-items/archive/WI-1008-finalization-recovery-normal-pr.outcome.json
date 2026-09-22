@@ -1,0 +1,178 @@
+{
+  "acceptanceResults": [
+    "A stale ordinary merged-PR finalization plan declares legacy_runtime and its recovery is accepted append-only.",
+    "Current Runtime finalize-verify accepts the recovered receipt and exact cleanup remains required before close.",
+    "Shared-worktree and direct-merge recovery behavior remains unchanged.",
+    "Foreign, malformed, and contradictory recovery remain fail-closed."
+  ],
+  "createdAt": "2026-09-22T20:50:56Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:3e46bd1c684839e2cba70bdf21da50ef6e53932a5c64694eb24272a00d50aba6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+      "workItemId": "WI-1008-finalization-recovery-normal-pr"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1007-archived-recovery-cli-route.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/resource_finalization_transition.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow supported append-only recovery, finalize-verify, and close without rewriting the valid predecessor receipt."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1008-finalization-recovery-normal-pr"
+  },
+  "taskReportDigest": "sha256:7542224902c73457d2279de5efeddac8ff6f5d5b53f0538af2f653ba0f58519a",
+  "taskReportMarkdownDigest": "sha256:4faa1ffc82083d7a359c34a1e8a83c2420a2634f611faf48928d30ff9bc2d254",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}
