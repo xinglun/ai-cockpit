@@ -4622,6 +4622,26 @@ pub fn require_verification_preconditions(
     runtime: &RuntimeContext,
     snapshot: &RepositorySnapshot,
 ) -> Result<(), ObserverError> {
+    check_verification_preconditions(root, work_item_id, runtime, snapshot)?;
+    action_admission::require_current_action_admission(
+        root,
+        work_item_id,
+        "run_verification",
+        runtime,
+    )?;
+    Ok(())
+}
+
+/// Read-only verification gates shared by the status projection and the
+/// execution entrypoint. The status projection calls this while constructing
+/// its action list; the execution wrapper applies fresh action admission
+/// after these gates pass.
+pub(crate) fn check_verification_preconditions(
+    root: &Path,
+    work_item_id: &str,
+    runtime: &RuntimeContext,
+    snapshot: &RepositorySnapshot,
+) -> Result<(), ObserverError> {
     let root = fs::canonicalize(root).map_err(|source| ObserverError::Read {
         path: root.into(),
         source,
@@ -4629,6 +4649,7 @@ pub fn require_verification_preconditions(
     if fs::canonicalize(&snapshot.root).ok().as_ref() != Some(&root) {
         return Err(ObserverError::SnapshotRootMismatch);
     }
+    require_policy_for_verification(&root, work_item_id)?;
     let contract_path = root
         .join(".ai/work-items/active")
         .join(format!("{work_item_id}.contract.json"));
@@ -4793,12 +4814,6 @@ pub fn require_verification_preconditions(
             ),
         });
     }
-    action_admission::require_current_action_admission(
-        &root,
-        work_item_id,
-        "run_verification",
-        runtime,
-    )?;
     Ok(())
 }
 

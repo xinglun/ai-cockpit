@@ -49,6 +49,9 @@ mechanical command facts. Human guidance and design rationale live in
 `docs/reference/`; see the [task guide index](../agents/skills/README.md) for
 the small task-specific entry points.
 
+For a resource-bound Work Item, the public boundary order is: archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close. The Provider guide explains the applicable actions; this boundary does not grant provider authorization.
+
 ## Outcome boundary
 
 Use the repository-bound `work-item outcome` command or the MCP Outcome

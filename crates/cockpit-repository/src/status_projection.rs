@@ -890,6 +890,7 @@ fn work_item_action_explanation(
     missing_inputs: &[String],
     evidence_freshness: &WorkItemEvidenceFreshness,
     safe_actions: &[String],
+    recommended_action: Option<String>,
     malformed_evidence: bool,
 ) -> Result<WorkItemActionExplanation, ObserverError> {
     let operation_lower = operation.unwrap_or_default().to_ascii_lowercase();
@@ -903,20 +904,15 @@ fn work_item_action_explanation(
                 || normalized.contains("lifecycle_gate_failed")
         })
         || malformed_evidence;
-    let guide_id = if operation_lower.contains("release") || operation_lower.contains("upgrade") {
+    let guide_id = if failed_verification {
+        "verification-failure-recovery"
+    } else if operation_lower.contains("release") || operation_lower.contains("upgrade") {
         "release-upgrade-acceptance"
     } else if resource_bound {
         "provider-resource-finalization"
-    } else if failed_verification {
-        "verification-failure-recovery"
     } else {
         "ordinary-work-item"
     };
-    let recommended_action = safe_actions
-        .iter()
-        .find(|action| action.as_str() != "refresh_status")
-        .cloned()
-        .or_else(|| safe_actions.first().cloned());
     let admission_state = if human_decision_required {
         WorkItemAdmissionState::NeedsHumanDecision
     } else if blocking {
@@ -1042,10 +1038,10 @@ fn work_item_status_snapshot_with_snapshot(
         .resource_context
         .as_ref()
         .map(|context| context.branch.clone());
-    let mut _owned_snapshot = None;
-    let snapshot_digest_value;
-    if let Some((_, provided_digest)) = snapshot_override {
-        snapshot_digest_value = provided_digest.clone();
+    let (owned_snapshot, snapshot_digest_value) = if let Some((_, provided_digest)) =
+        snapshot_override
+    {
+        (None, provided_digest.clone())
     } else {
         let git =
             cockpit_git::GitRepository::discover(&root).map_err(|error| ObserverError::State {
@@ -1056,9 +1052,12 @@ fn work_item_status_snapshot_with_snapshot(
             path: root.clone(),
             message: error.to_string(),
         })?;
-        snapshot_digest_value = snapshot_digest(&captured_snapshot)?;
-        _owned_snapshot = Some(captured_snapshot);
-    }
+        let captured_digest = snapshot_digest(&captured_snapshot)?;
+        (Some(captured_snapshot), captured_digest)
+    };
+    let snapshot_ref = snapshot_override
+        .map(|(provided_snapshot, _)| provided_snapshot)
+        .or_else(|| owned_snapshot.as_ref());
     let outcome =
         outcome_v2_internal_with_snapshot(&root, work_item_id, Some(runtime), snapshot_override)?;
     let summary_path = contract_path
@@ -1405,6 +1404,33 @@ fn work_item_status_snapshot_with_snapshot(
             _ => vec!["read_outcome".into()],
         }
     };
+    let verification_precondition_error = if safe_actions
+        .iter()
+        .any(|action| action == "run_verification")
+        && !archived
+    {
+        snapshot_ref.and_then(|snapshot| {
+            super::check_verification_preconditions(root.as_path(), work_item_id, runtime, snapshot)
+                .err()
+                .map(|error| error.to_string())
+        })
+    } else {
+        None
+    };
+    if verification_precondition_error.is_some() {
+        safe_actions.retain(|action| action != "run_verification");
+    }
+    if let Some(error) = &verification_precondition_error {
+        unknowns.push("verification_action_preconditions_blocked".into());
+        diagnostics.push(error.clone());
+    }
+    unknowns.sort();
+    unknowns.dedup();
+    let recommended_action = safe_actions
+        .iter()
+        .find(|action| action.as_str() != "refresh_status")
+        .cloned()
+        .or_else(|| safe_actions.first().cloned());
     safe_actions.push("refresh_status".into());
     safe_actions.sort();
     safe_actions.dedup();
@@ -1432,6 +1458,7 @@ fn work_item_status_snapshot_with_snapshot(
         &missing_evidence,
         &evidence_freshness,
         &safe_actions,
+        recommended_action,
         malformed_evidence,
     )?;
     let status_digest = cockpit_protocol::digest_json(&serde_json::json!({

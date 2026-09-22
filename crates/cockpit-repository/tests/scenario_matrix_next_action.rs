@@ -9,12 +9,13 @@
 //! operation; no final Outcome projection is fabricated here.
 
 use cockpit_core::Digest;
+use cockpit_git::GitRepository;
 use cockpit_protocol::{ResourceFinalizationContext, RuntimeContext};
 use cockpit_repository::{
     WorkItemStartOptions, attach, checkpoint_work_item, finish_work_item,
     plan_resource_finalization, preflight_work_item, record_verification,
-    require_current_action_admission, scaffold_work_item, start_work_item_with_options,
-    work_item_status_snapshot_with_runtime,
+    require_current_action_admission, require_verification_preconditions, scaffold_work_item,
+    start_work_item_with_options, work_item_status_snapshot_with_runtime,
 };
 use serde_json::Value;
 use std::{fs, process::Command};
@@ -378,6 +379,100 @@ fn stale_query_is_not_an_execution_authorization() {
             .as_ref()
             .expect("fresh explanation")
             .admission_digest
+    );
+}
+
+#[test]
+fn verification_query_and_execution_share_snapshot_and_evidence_admission() {
+    let directory = repository();
+    let id = "WI-ACTION-VERIFICATION-SHARED-GATES";
+    start_work_item_with_options(
+        directory.path(),
+        id,
+        "share verification admission gates",
+        "do not recommend verification after snapshot drift or missing evidence",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    let contract_path = contract(directory.path(), id);
+    preflight_work_item(directory.path(), &contract_path).expect("preflight");
+    checkpoint_work_item(directory.path(), id).expect("checkpoint");
+    let before = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("pre-drift status");
+    assert!(before.safe_actions.contains(&"run_verification".into()));
+
+    fs::create_dir_all(directory.path().join("src")).expect("source directory");
+    fs::write(directory.path().join("src/lib.rs"), "// snapshot drift\n").expect("source mutation");
+    let changed_snapshot = GitRepository::discover(directory.path())
+        .expect("git repository")
+        .snapshot()
+        .expect("changed snapshot");
+    let after = work_item_status_snapshot_with_runtime(directory.path(), id, &runtime())
+        .expect("post-drift status");
+    assert!(
+        !after.safe_actions.contains(&"run_verification".into()),
+        "query must not admit verification when its execution preconditions are stale: {after:?}"
+    );
+    let query_error =
+        require_current_action_admission(directory.path(), id, "run_verification", &runtime())
+            .expect_err("the execution admission must agree with the query");
+    assert!(query_error.to_string().contains("run_verification"));
+    let execution_error =
+        require_verification_preconditions(directory.path(), id, &runtime(), &changed_snapshot)
+            .expect_err("stale verification must stop before process start");
+    assert!(
+        execution_error
+            .to_string()
+            .contains("current repository snapshot")
+    );
+
+    let evidence_directory = repository();
+    let evidence_id = "WI-ACTION-EVIDENCE-SHARED-GATES";
+    start_work_item_with_options(
+        evidence_directory.path(),
+        evidence_id,
+        "share evidence admission gates",
+        "do not recommend verification without the required evidence class",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            acceptance_criteria: Vec::new(),
+            required_evidence_classes: vec!["custom:measurement".into()],
+            ..Default::default()
+        },
+    )
+    .expect("start evidence work item");
+    let evidence_contract = contract(evidence_directory.path(), evidence_id);
+    preflight_work_item(evidence_directory.path(), &evidence_contract).expect("preflight evidence");
+    checkpoint_work_item(evidence_directory.path(), evidence_id).expect("checkpoint evidence");
+    let evidence_status =
+        work_item_status_snapshot_with_runtime(evidence_directory.path(), evidence_id, &runtime())
+            .expect("evidence status");
+    assert!(
+        !evidence_status
+            .safe_actions
+            .contains(&"run_verification".into()),
+        "query must not admit verification when an evidence class is stale or missing"
+    );
+    let evidence_error = require_verification_preconditions(
+        evidence_directory.path(),
+        evidence_id,
+        &runtime(),
+        &GitRepository::discover(evidence_directory.path())
+            .expect("evidence git repository")
+            .snapshot()
+            .expect("evidence snapshot"),
+    )
+    .expect_err("missing evidence must stop before process start");
+    assert!(
+        evidence_error
+            .to_string()
+            .contains("evidence_classes_missing")
     );
 }
 

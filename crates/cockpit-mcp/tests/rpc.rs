@@ -1837,6 +1837,29 @@ fn repository_bound_verify_rejects_missing_custom_evidence_before_spawning() {
     cockpit_repository::checkpoint_work_item(&directory, "WI-MCP-CUSTOM-EVIDENCE")
         .expect("checkpoint");
 
+    let status_response = cockpit_mcp::handle_request_for_repo(
+        &serde_json::json!({
+            "jsonrpc":"2.0",
+            "id":9,
+            "method":"tools/call",
+            "params":{
+                "name":"work_item_status",
+                "arguments":{"workItemId":"WI-MCP-CUSTOM-EVIDENCE"}
+            }
+        }),
+        &directory,
+        &test_runtime_context(),
+    );
+    assert_eq!(status_response["result"]["isError"], false);
+    let safe_actions = status_response["result"]["structuredContent"]["safeActions"]
+        .as_array()
+        .expect("status safe actions");
+    assert!(
+        !safe_actions
+            .iter()
+            .any(|action| action == "run_verification")
+    );
+
     let response = cockpit_mcp::handle_request_for_repo(
         &serde_json::json!({
             "jsonrpc":"2.0",

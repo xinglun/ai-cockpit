@@ -62,6 +62,9 @@ the [guide index](agents/skills/README.md) for the routing inputs and deeper
 References. Runtime `safeActions`, blockers, evidence freshness, and action
 explanation determine what may happen now.
 
+For a resource-bound Work Item, the public boundary order is: archive → synchronize default branch → perform exact provider cleanup under the accepted plan
+→ record finalize receipt → finalize-verify → close. The Provider guide explains the applicable actions; this boundary does not grant provider authorization.
+
 ## Outcome delivery
 
 When work reaches a handoff boundary, deliver a separate visible human
