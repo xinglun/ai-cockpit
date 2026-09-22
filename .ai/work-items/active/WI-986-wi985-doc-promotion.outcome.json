@@ -6,7 +6,7 @@
   ],
   "createdAt": "2026-09-22T03:08:01Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:9cb6c50203f71db9e55c624c7a3f163b5d05ece9e908a783865720a5f3141b2e",
+  "evidenceDigest": "sha256:a2a5373a338c9136552cbcd7a247f7f729995f339d8395e4f448e819367b6e8a",
   "evidenceRefs": [
     ".ai/evidence/WI-986-wi985-doc-promotion.verification.json"
   ],
@@ -32,7 +32,7 @@
         ".ai/evidence/WI-986-wi985-doc-promotion.verification.json"
       ],
       "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-      "repositorySnapshotDigest": "sha256:71965fb6b45a4a1fdf83175b4808a43fc6ee7be726ab980c8727e66f01c6be05",
+      "repositorySnapshotDigest": "sha256:e8c704a3046e3350c062c4a9a941affa2a807fae87dd492217e1e39b0715b6c3",
       "workItemId": "WI-986-wi985-doc-promotion"
     },
     "format": "ai-cockpit.task-outcome",
@@ -212,7 +212,7 @@
     "status": "verified",
     "workItemId": "WI-986-wi985-doc-promotion"
   },
-  "taskReportDigest": "sha256:99e25d0b5e8230e0149af09d7e231286a28c86586e3a00100c3308366178628d",
+  "taskReportDigest": "sha256:82d871ad8227242a58ca21755efbfcda107e8296ff1ba1987c679f5492733da3",
   "taskReportMarkdownDigest": "sha256:f8a448af89c33a33ca8e204e4407e2cd480ec3c2ea54f11384be25ea35571160",
   "unknowns": [
     "user_visible_benefit_not_declared"

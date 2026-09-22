@@ -1,19 +1,10 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-986-wi985-doc-promotion.verification-attempt.0c9a74a448b918726e63d56b6f724453ff230dac29613aef9cc740b76b2274f4.json",
-    ".ai/evidence/WI-986-wi985-doc-promotion.verification-attempt.b122809d8cdec1ac71a887dfb65fd4814406e5cd528c4f3583393ce73e4d2214.json",
-    ".ai/work-items/active/WI-986-wi985-doc-promotion.contract.json",
     ".ai/work-items/active/WI-986-wi985-doc-promotion.summary.json",
     "docs/reference/reference-parity.ja.md",
     "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.ja.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.md",
-    "docs/work-items/WI-985-repository-resource-lifecycle.zh-CN.md",
-    "docs/work-items/WI-986-wi985-doc-promotion.ja.md",
-    "docs/work-items/WI-986-wi985-doc-promotion.md",
-    "docs/work-items/WI-986-wi985-doc-promotion.zh-CN.md"
+    "docs/reference/reference-parity.zh-CN.md"
   ],
   "checkpointAt": "2026-09-22T03:03:05Z",
   "checkpointContractDigest": "sha256:3a2a63a774357399c027070f13c5ee27458c9ea0053ffdca2a6aebc02f64a063",
@@ -54,13 +45,13 @@
       "workItemId": "WI-986-wi985-doc-promotion"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:71965fb6b45a4a1fdf83175b4808a43fc6ee7be726ab980c8727e66f01c6be05",
+  "checkpointRepositorySnapshotDigest": "sha256:e8c704a3046e3350c062c4a9a941affa2a807fae87dd492217e1e39b0715b6c3",
   "createdAt": "2026-09-22T03:03:04Z",
   "mode": "implementation",
-  "preflightAt": "2026-09-22T03:07:54Z",
+  "preflightAt": "2026-09-22T03:16:27Z",
   "preflightContractDigest": "sha256:3a2a63a774357399c027070f13c5ee27458c9ea0053ffdca2a6aebc02f64a063",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:71965fb6b45a4a1fdf83175b4808a43fc6ee7be726ab980c8727e66f01c6be05",
+  "preflightRepositorySnapshotDigest": "sha256:e8c704a3046e3350c062c4a9a941affa2a807fae87dd492217e1e39b0715b6c3",
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
