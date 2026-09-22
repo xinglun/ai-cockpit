@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-988——WI-986 文档晋级 successor"
 description: "在 WI-987 不可变的验证目标失败后，完成有边界的 WI-986 文档投影。"
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-988-wi986-doc-promotion
 lastVerifiedBy: WI-988-wi986-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-988-wi986-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-988-wi986-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-988-wi986-doc-promotion.close.json
 ---
 
 [English](WI-988-wi986-doc-promotion.md) · [日本語](WI-988-wi986-doc-promotion.ja.md)

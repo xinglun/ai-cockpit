@@ -3,10 +3,13 @@ author: AI Cockpit maintainers
 title: "WI-988 — WI-986 documentation promotion successor"
 description: "Complete the bounded WI-986 documentation projection after the immutable WI-987 verification-target failure."
 audience: [maintainer, reviewer, contributor]
-status: in_progress
+status: implemented
 authority: authorized
 workItemId: WI-988-wi986-doc-promotion
 lastVerifiedBy: WI-988-wi986-doc-promotion
+terminalArchive: .ai/work-items/archive/WI-988-wi986-doc-promotion.contract.json
+terminalVerification: .ai/evidence/WI-988-wi986-doc-promotion.verification.json
+terminalDecision: .ai/decisions/WI-988-wi986-doc-promotion.close.json
 ---
 
 [简体中文](WI-988-wi986-doc-promotion.zh-CN.md) · [日本語](WI-988-wi986-doc-promotion.ja.md)

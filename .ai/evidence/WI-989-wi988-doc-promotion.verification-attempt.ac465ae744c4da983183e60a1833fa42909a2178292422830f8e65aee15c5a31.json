@@ -1,0 +1,99 @@
+{
+  "attemptId": "sha256:ac465ae744c4da983183e60a1833fa42909a2178292422830f8e65aee15c5a31",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--work-item",
+        "WI-988-wi986-doc-promotion"
+      ],
+      "baseCommit": "aca0b7ad043832dd886ef7879f35c6eece99e8b9",
+      "commandDigest": "sha256:2926dde00f619797e207500cd3ecd81acaa217069aa1db6c41e4c6cf97ea4ab3",
+      "nodeId": "project-command-0",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item.py",
+        "--repo",
+        ".",
+        "--check-all"
+      ],
+      "baseCommit": "aca0b7ad043832dd886ef7879f35c6eece99e8b9",
+      "commandDigest": "sha256:c01a865fc8755877f0423cf80cdfb023ace21a01912d60add8ff6d3327746fe6",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/parity_status_check.sh",
+        "."
+      ],
+      "baseCommit": "aca0b7ad043832dd886ef7879f35c6eece99e8b9",
+      "commandDigest": "sha256:cbd53f7fafc022d82a757fe7c83dc237077a814a9d7606be287f1f518758dc17",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/work_item_status_consistency.py",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "aca0b7ad043832dd886ef7879f35c6eece99e8b9",
+      "commandDigest": "sha256:9edabafdc6c5a3900c4da6c1ef7c6d03a3f87a84739d3d9daa9b12ee34bcc0e8",
+      "nodeId": "project-command-3",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:c3ab3cfb1dfa40c63a7dee8b4e2308cebdd395c256bda80b9f4f8695dc6d506d",
+  "contractExecutionScopeDigest": "sha256:722d6b2bdb31684d2e1aeb2d3642d8754578d8f76b0f474633eaf28f6793df01",
+  "createdAt": "2026-09-22T04:06:53Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-988-doc-promotion/ai-cockpit/.ai/work-items/active/WI-989-wi988-doc-promotion.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:9e0055cd87ef7bd486fde8c7789481388acd984d28d77864c4a0aa4ba080972f",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-989-wi988-doc-promotion"
+}
