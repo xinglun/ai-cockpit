@@ -24,11 +24,12 @@ use cockpit_protocol::{
     ResourceFinalizationReceipt, ResourceFinalizationTransitionReceipt, RuntimeContext,
     SchemaMigrationStep, SelectedSuccessorLineageRecoveryReceipt, TaskOutcomeEvent,
     TaskOutcomeReport, TruthState, VerificationDeclaration, VerificationStage, VerificationTier,
-    WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence, WorkItemStatusIndex,
-    WorkItemStatusIndexEntry, WorkItemStatusSnapshot, default_repository_schema_version,
-    merge_policy_layers, repository_schema_migration_chain, validate_evidence_retention,
-    validate_protocol_version, validate_resource_finalization_receipt_for,
-    validate_selected_successor_lineage_recovery,
+    WorkItemActionExplanation, WorkItemActionIssue, WorkItemActionIssueKind,
+    WorkItemAdmissionState, WorkItemCompatibility, WorkItemEvidenceFreshness, WorkItemIntelligence,
+    WorkItemStatusIndex, WorkItemStatusIndexEntry, WorkItemStatusSnapshot,
+    default_repository_schema_version, merge_policy_layers, repository_schema_migration_chain,
+    validate_evidence_retention, validate_protocol_version,
+    validate_resource_finalization_receipt_for, validate_selected_successor_lineage_recovery,
 };
 use serde::de::{DeserializeSeed, MapAccess, SeqAccess, Visitor};
 use serde::{Deserialize, Deserializer as _, Serialize};
@@ -46,6 +47,7 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 
+mod action_admission;
 mod evidence_store;
 mod execution_context;
 mod governance_controls;
@@ -58,6 +60,7 @@ mod project_governance;
 mod resource_lifecycle;
 mod status_projection;
 
+pub use action_admission::require_current_action_admission;
 pub use evidence_store::{
     ReceiptStoreBinding, ReceiptStoreLoad, ReceiptStoreWrite, load_reusable_receipt,
     persist_reusable_receipt,
@@ -4790,6 +4793,12 @@ pub fn require_verification_preconditions(
             ),
         });
     }
+    action_admission::require_current_action_admission(
+        &root,
+        work_item_id,
+        "run_verification",
+        runtime,
+    )?;
     Ok(())
 }
 
@@ -7409,6 +7418,14 @@ fn archive_work_item_internal(
     } else {
         require_green_governance(&root, &contract_path, &contract, &snapshot, "archive")?;
     }
+    if let Some(runtime) = current_runtime {
+        action_admission::require_current_action_admission(
+            &root,
+            work_item_id,
+            "archive_when_reviewed",
+            runtime,
+        )?;
+    }
     let outcome_path = active.join(format!("{work_item_id}.outcome.json"));
     let outcome = read_json(&outcome_path)?;
     if outcome["verification"]["status"] != "verified" {
@@ -8141,6 +8158,24 @@ fn close_work_item_with_structured_decision_internal(
             "close",
             current_runtime,
         )?;
+        if let Some(runtime) = current_runtime {
+            let requested_action = if contract.resource_context.is_some() {
+                let status = work_item_status_snapshot_with_runtime(&root, work_item_id, runtime)?;
+                if status.safe_actions.iter().any(|action| action == "close") {
+                    "close"
+                } else {
+                    "close_after_cleanup"
+                }
+            } else {
+                "close_after_review"
+            };
+            action_admission::require_current_action_admission(
+                &root,
+                work_item_id,
+                requested_action,
+                runtime,
+            )?;
+        }
         if contract.resource_context.is_some() {
             finalization_binding = Some(require_resource_finalization_for_close(
                 &root,

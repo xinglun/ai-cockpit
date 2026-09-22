@@ -326,4 +326,6 @@ python3 tests/docs/reference_comparison_metadata_test.py
 
 bash tests/docs/getting_started_semantic.sh
 
+python3 tests/docs/reference_example_command_test.py
+
 echo 'documentation acceptance passed'

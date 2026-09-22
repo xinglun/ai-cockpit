@@ -4121,6 +4121,53 @@ pub struct OutcomeFinalizationCleanupProjection {
     pub evidence_refs: Vec<String>,
 }
 
+/// A typed reason why the current Work Item projection is not fully ready.
+/// These categories are intentionally separate so a missing record is not
+/// reported as a contradiction or a compatibility problem.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum WorkItemActionIssueKind {
+    Missing,
+    Unknown,
+    Malformed,
+    Unsupported,
+    Contradictory,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum WorkItemAdmissionState {
+    Allowed,
+    Blocked,
+    NeedsHumanDecision,
+    Unknown,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemActionIssue {
+    pub kind: WorkItemActionIssueKind,
+    pub code: String,
+    pub message: String,
+}
+
+/// Structured, read-only guidance for the next admitted Work Item action.
+/// This is an explanation of the status projection, not an authorization
+/// record. Execution paths must recompute admission from a fresh snapshot.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct WorkItemActionExplanation {
+    pub guide_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub recommended_action: Option<String>,
+    pub recommendation_reason: String,
+    pub admission_state: WorkItemAdmissionState,
+    pub issues: Vec<WorkItemActionIssue>,
+    pub human_decision_required: bool,
+    pub missing_inputs: Vec<String>,
+    pub admission_digest: Digest,
+}
+
 /// A read-only, evidence-bound Work Item status projection.  Counts are
 /// deliberately facts; the Runtime never turns them into a percentage or a
 /// completion promise.
@@ -4157,6 +4204,10 @@ pub struct WorkItemStatusSnapshot {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub updated_at: Option<String>,
     pub safe_actions: Vec<String>,
+    /// Optional additive action explanation. Older status JSON remains
+    /// readable when this field is absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub action_explanation: Option<WorkItemActionExplanation>,
     pub status_digest: Digest,
     pub historical: bool,
 }

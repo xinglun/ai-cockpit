@@ -51,15 +51,19 @@ fn status_warm_startup_is_measured_and_bounded() {
     }
     samples.sort_unstable();
     let median = samples[samples.len() / 2];
+    let p95_index = ((samples.len() * 95 + 99) / 100).saturating_sub(1);
+    let p95 = samples[p95_index];
     eprintln!(
-        "{{\"benchmark\":\"status-startup\",\"samples\":{},\"medianMs\":{}}}",
+        "{{\"benchmark\":\"status-startup\",\"samples\":{},\"medianMs\":{},\"p95Ms\":{}}}",
         samples.len(),
-        median.as_millis()
+        median.as_millis(),
+        p95.as_millis()
     );
     assert!(
         median < Duration::from_secs(1),
         "status median was {median:?}"
     );
+    assert!(p95 < Duration::from_secs(2), "status p95 was {p95:?}");
     fs::remove_dir_all(repo).expect("cleanup");
 }
 

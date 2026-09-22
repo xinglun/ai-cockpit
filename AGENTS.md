@@ -71,6 +71,10 @@ stopping reason, completed work, evidence, unknowns or risks, resolved issues,
 the human decision required or recorded, verification, impact (mark an
 unproven benefit as an inference), and next action.
 
+Missing, folded-only, stale, yellow, red, contradictory, or malformed Outcome
+evidence fails closed; direct human-visible delivery is required for a green
+terminal.
+
 Report implementation, external-resource cleanup, documentation projection,
 and host delivery separately. Distinguish generated, returned, host-accepted,
 and host-displayed Outcome states; when the host provides no display
@@ -83,6 +87,8 @@ Never claim green, passed, verified, completed, released, or user-visible
 from this file. Use current Runtime evidence. Preserve failed, stale,
 unsupported, malformed, unknown, or contradictory evidence and keep the
 blocking Outcome visible. If an in-scope defect is found, amend and revalidate
-the current Contract before expanding work; create a successor only for a
-different scope, authority, base, unsafe repair, immutable failed delivery, or
+the current Contract before expanding work. Repair an in-scope defect in the
+current Work Item before opening another Work Item or Issue when its scope,
+authority, and base permit. Create a successor only for a genuinely different
+scope, authority, or base, an unsafe repair, immutable failed delivery, or
 explicit human direction.

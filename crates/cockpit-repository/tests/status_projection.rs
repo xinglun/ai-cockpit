@@ -1081,6 +1081,71 @@ fn status_projection_is_read_only_and_contains_fact_counts() {
             .governance_permissions
             .contains(&"read_status".into())
     );
+    let explanation = status
+        .action_explanation
+        .as_ref()
+        .expect("structured action explanation");
+    assert_eq!(explanation.guide_id, "ordinary-work-item");
+    assert_eq!(
+        explanation.recommended_action.as_deref(),
+        Some("run_preflight")
+    );
+    assert_eq!(
+        explanation.admission_state,
+        cockpit_protocol::WorkItemAdmissionState::Allowed
+    );
+    assert!(
+        explanation
+            .issues
+            .iter()
+            .any(|issue| issue.kind == cockpit_protocol::WorkItemActionIssueKind::Missing)
+    );
+    assert!(
+        explanation
+            .missing_inputs
+            .iter()
+            .any(|input| input.contains("verification"))
+    );
+    assert!(explanation.admission_digest.as_str().starts_with("sha256:"));
+}
+
+#[test]
+fn status_projection_selects_recovery_guide_for_invalid_verification_evidence() {
+    let directory = repository();
+    let work_item_id = "WI-STATUS-INVALID-EVIDENCE";
+    start_work_item_with_options(
+        directory.path(),
+        work_item_id,
+        "invalid evidence projection",
+        "keep invalid evidence explicit",
+        &["src/**".into()],
+        &WorkItemStartOptions {
+            authority: "authorized".into(),
+            ..Default::default()
+        },
+    )
+    .expect("start");
+    fs::write(
+        directory
+            .path()
+            .join(format!(".ai/evidence/{work_item_id}.verification.json")),
+        b"{malformed",
+    )
+    .expect("write malformed evidence");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), work_item_id, &runtime())
+        .expect("status");
+    let explanation = status
+        .action_explanation
+        .as_ref()
+        .expect("structured action explanation");
+    assert_eq!(explanation.guide_id, "verification-failure-recovery");
+    assert!(
+        explanation
+            .issues
+            .iter()
+            .any(|issue| { issue.kind == cockpit_protocol::WorkItemActionIssueKind::Malformed })
+    );
 }
 
 #[test]

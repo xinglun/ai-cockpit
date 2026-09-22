@@ -1382,6 +1382,18 @@ fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
         response["result"]["structuredContent"]["governanceState"],
         "yellow"
     );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["guideId"],
+        "ordinary-work-item"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["recommendedAction"],
+        "run_preflight"
+    );
+    assert_eq!(
+        response["result"]["structuredContent"]["actionExplanation"]["admissionState"],
+        "allowed"
+    );
     let all = handle_request_for_repo(
         &serde_json::json!({"jsonrpc":"2.0","id":13,"method":"tools/call","params":{"name":"work_item_status","arguments":{"all":true}}}),
         &directory,
@@ -1392,6 +1404,10 @@ fn repository_bound_work_item_status_is_read_only_and_repository_scoped() {
     assert_eq!(
         all["result"]["structuredContent"]["items"][0]["workItemId"],
         "WI-MCP-STATUS"
+    );
+    assert_eq!(
+        all["result"]["structuredContent"]["items"][0]["status"]["actionExplanation"]["guideId"],
+        "ordinary-work-item"
     );
     fs::remove_dir_all(directory).expect("cleanup");
 }
