@@ -2,156 +2,87 @@
 
 This repository is attached to AI Cockpit.
 
-Canonical interface: .ai/agent-interface.json
+Canonical interface: `.ai/agent-interface.json`.
 
-Use AI Cockpit as the repository-governance interface.
-Prefer MCP when available; CLI remains the fallback.
-
-Do not infer AI Cockpit state from this file.
-Query the Runtime for current governance state.
+Use the repository-bound AI Cockpit Runtime as the governance interface. Do
+not infer current state from this file, process state, the working directory,
+or Agent prose. Query the Runtime with an explicit repository path.
 
 <!-- AI_COCKPIT_ADAPTER_END -->
 
-## AI Cockpit repository workflow
+## Public boundary
 
-Read `.ai/README.md` before changing this repository. Use the installed shared
-Runtime with an explicit `--repo /path/to/ai-cockpit` on every repository-bound
-command. Query `inspect`, `status`, and `doctor` before acting; use the Work Item
-lifecycle `start → preflight → checkpoint → verify → finish → archive → close`
-for authorized changes. Do not infer state from this file, edit global Agent or
-MCP configuration, or claim governance outcomes without current Runtime evidence.
+Read `.ai/README.md`, `.ai/glossary.md`, and the current machine-readable
+governance records before editing. The Contract is the human-owned source for
+intent, scope, acceptance, authority, and changes to those decisions. The
+Runtime is authoritative for current state, evidence validity, action
+admission, blockers, and next-action explanations. Runtime output is authoritative for action admission; a guide recommendation is not permission.
 
-If `preflight` returns `not_ready` or `needs_human_confirmation`, stop and show
-the Preflight Review to the human; an advisory zero exit status is not permission
-to implement. Treat `.ai/README.md`, `.ai/glossary.md`, this file, and the
-repository's current machine-readable governance records as the default
-instruction read set. Historical `docs/archive/**` and reference material do
-not grant current authority unless explicitly included by the human or Contract.
+Keep one active Work Item, branch, worktree, and repository context for a
+change. Work only inside the active Contract. Preserve existing tests,
+evidence, history, and generated records; do not hand-edit Runtime-generated
+Contract, Summary, receipt, archive, decision, or status files. Do not edit
+global Agent or MCP configuration, publish, push, merge, mutate tags, or
+change provider resources unless the current Contract and the human request
+explicitly authorize that work.
 
-## Outcome and release acceptance boundaries
+The installed Runtime is shared. Use its current help and capability surface
+before guessing arguments, and pass `--repo <repository>` to every
+repository-bound command. The normal read-only discovery is:
 
-When an Agent needs a result for a person, use the human Outcome handoff
-(`work-item outcome` or the repository-bound MCP `work_item_outcome` tool).
-`work_item_get` is a machine-oriented record lookup and is not a substitute for
-the visible handoff. Preserve Contract acceptance criteria in their original
-language; presentation localization must not alter governance facts or create
-human decisions.
+```text
+ai-cockpit inspect --repo <repository>
+ai-cockpit status --repo <repository>
+ai-cockpit doctor --repo <repository>
+ai-cockpit agent doctor --repo <repository> --json
+```
 
-Release adopter acceptance must retain its isolation receipt and manifests.
-HOME and XDG_CONFIG_HOME are forbidden-write roots; TMPDIR and CARGO_HOME are
-explicitly isolated, classified runtime-write roots. A passing receipt must bind
-the source repository, repository identity, root manifests, metadata, and
-digests, and must prove the temporary run root was cleaned up.
+If discovery or preflight reports missing authority, unknowns, contradictory
+evidence, or a required human decision, stop and show that reason. Re-query
+before an action after the Contract or repository snapshot changes. Query
+paths are read-only and do not start verification or repair processes.
 
-## Work Item change discipline
+## Task guide routing
 
-Use one active Work Item per branch, worktree, and repository context, with one
-dedicated branch and one pull request for that Work Item. Compatible,
-independent Work Items may run in parallel when their scopes and repository
-contexts are isolated and the Runtime declares them compatible. Start each
-branch from the latest remote default branch and keep the Contract scope,
-out-of-scope boundary, evidence, and verification commands current. If an
-in-scope defect is discovered, amend and verify the current Contract before
-opening another Work Item; do not hide it in a later task.
+Load only the guide selected by the current Runtime facts and task:
 
-The delivery order is conditional on the Contract. A Work Item with no
-external resource uses latest remote default base → dedicated branch/worktree
-→ implement → preflight → checkpoint → verify → finish → archive → close →
-synchronize default branch → remove its exact branch/worktree. A resource-bound
-Work Item uses latest remote default base → dedicated branch/worktree →
-implement → finalize-plan → preflight → checkpoint → verify → finish → reviewed
-PR → merge → declared hosted, candidate, release, or public-artifact evidence
-→ archive → synchronize default branch → perform exact provider cleanup under the accepted plan
-→ record finalize receipt → finalize-verify → close
-→ clean the closure/control context. For resource-bound work, `finalize`
-records the already-performed provider cleanup in an identity-bound receipt;
-the Runtime does not delete branches or worktrees. `finalize-verify` validates
-that receipt before `close`; `close` records the terminal decision and does not
-delete those resources. Cleanup after `close` refers only to the
-closure/control context, never to the already finalized Work Item
-branch/worktree. Never merge a feature branch into local
-`main` before PR review, delete its branch before merge, or let a provider
-auto-delete it to bypass finalization. If a remote step fails, preserve the
-retry checkout and identity until recovery is complete. A repository is
-`ready_on_base` only after the reviewed merge when applicable, synchronized
-default branch, and exact cleanup have been verified; a detached or otherwise
-unbound worktree is not ready for the next Work Item. Historical resource-bound
-PRs are read-only archive routes: they require an exact archived Contract and
-valid archive manifest, and must not be reclassified as ordinary no-Contract
-work.
+- Ordinary implementation, verification, archive, and local cleanup: [ordinary-work-item](agents/skills/ordinary-work-item.md). This is the default route.
+- An actual failed, timed-out, stale, or invalid verification result: [verification-failure-recovery](agents/skills/verification-failure-recovery.md).
+- A Work Item with an explicitly bound external Provider resource: [provider-resource-finalization](agents/skills/provider-resource-finalization.md) only.
+- An explicitly authorized release or upgrade acceptance: [release-upgrade-acceptance](agents/skills/release-upgrade-acceptance.md) only.
 
-Merge only the reviewed PR after its hosted checks pass. Do not use local-main
-as a substitute for pre-merge review. After merge, follow the Contract's route
-above: resource-bound cleanup and `finalize-verify` precede `close`; for a
-no-resource Work Item, `close` precedes default-branch synchronization and
-removal of its exact branch/worktree. Do not describe either route as
-requiring the same Work Item branch/worktree to be removed both before and
-after `close`.
-For a no-resource Work Item, after removing its exact branch/worktree, record
-the cleanup result with
-`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
-before declaring `ready_on_base`.
+Load `provider-resource-finalization` only for a bound Provider resource and
+load `release-upgrade-acceptance` only for an explicitly authorized release or
+upgrade acceptance.
 
-## Agent operating boundaries
+The default route does not require loading the Provider or release guides, and
+the guides do not maintain a second action allow-list or state machine. Read
+the [guide index](agents/skills/README.md) for the routing inputs and deeper
+References. Runtime `safeActions`, blockers, evidence freshness, and action
+explanation determine what may happen now.
 
-Before editing code, tests, documentation, CI, build files, or governance
-files, read `.ai/README.md` and `.ai/glossary.md`, then query `inspect`,
-`status`, and `doctor` with the explicit repository path. Establish or identify
-one active Contract with a human-owned intent, scope, out-of-scope boundary,
-authority, acceptance criteria, required evidence, base revision, and declared
-verification commands. Do not edit outside that scope, remove tests or
-evidence records without recording the reason, or hand-edit generated status,
-receipt, or archive files.
+## Outcome delivery
 
-Each Work Item starts from the latest commit on the repository's discovered
-remote default branch. Record the remote, default branch, and base revision in
-the Contract. Installation and upgrade acceptance use an immutable published
-Release tag and downloaded artifact; a moving branch, source checkout, or
-workspace binary is not an acceptable release substitute.
+When work reaches a handoff boundary, deliver a separate visible human
+Outcome beginning with `Outcome: 🟢`, `Outcome: 🟡`, or `Outcome: 🔴`. Use the
+repository-bound `work-item outcome` or MCP Outcome handoff rather than a
+machine record lookup alone. Include current status, issue count, blockers or
+stopping reason, completed work, evidence, unknowns or risks, resolved issues,
+the human decision required or recorded, verification, impact (mark an
+unproven benefit as an inference), and next action.
 
-An Outcome is a terminal handoff boundary, not an internal log line. Deliver a
-separate visible human Outcome beginning with `Outcome: 🟢`, `Outcome: 🟡`, or
-`Outcome: 🔴` and include status, unknowns, evidence, human decision, and next
-action. For this Runtime, progression requires the equivalent of
-`state=Verified`, `decisionState=green`, current Contract/Summary/evidence
-bindings, and direct human-visible delivery. Missing, folded-only, stale,
-yellow, red, contradictory, or malformed Outcome evidence fails closed.
-The green Rust terminal is the reference equivalent of `status=completed` plus
-`humanStatusColor=green`. The handoff must also state the issue count,
-blockers or stopping reason, resolved issues, risks, verification, impact, and
-next action; every factual statement needs evidence and an unproven benefit is
-an inference.
+Report implementation, external-resource cleanup, documentation projection,
+and host delivery separately. Distinguish generated, returned, host-accepted,
+and host-displayed Outcome states; when the host provides no display
+confirmation, say that visibility is unknown. A log line, file link, or “done”
+alone is not a complete Outcome.
 
-When a defect is discovered during implementation, verification, finish, or
-handoff, fix it in the current Work Item when its scope, authority, and base
-permit the change. Amend and revalidate the Contract before adding paths or
-authority, preserve retry evidence, and keep a blocked Outcome visible. Create
-a successor only for a genuinely different scope, authority, or base, an
-independent compatible change, an unsafe in-scope fix, immutable failed
-delivery, or explicit human direction; record that reason and linkage.
+## Stop and preservation rules
 
-After a reviewed PR passes hosted checks, follow the Contract's route above:
-for resource-bound work, remove the exact provider-bound branch/worktree and
-pass `finalize-verify` before close; for a no-resource Work Item, close before
-synchronizing the default branch and removing its exact branch/worktree.
-Immediately after close, run
-`python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
-If it reports stale projections, use the same helper in a narrowly scoped
-documentation-promotion Work Item, rerun `--check-all`, and only then declare
-the repository ready for the next release. Any failed step is fail closed;
-never merge a feature branch into local `main` as a substitute for PR review.
-
-Keep rules language-neutral and project-neutral, never include secrets or local
-credentials, and never modify user-global Agent or MCP configuration. The
-reference template's `make ai-*` commands, `contractVersion: 2`, and V1
-runtime assumptions are not commands or protocol requirements in this Rust
-repository; use the installed Runtime lifecycle and the checks declared by the
-current Contract instead.
-
-Never revert user changes unless explicitly asked. Generated status, receipt,
-and archive files are produced by the Runtime; do not hand-edit them.
-
-The reference template's hosted-verification snapshot exception has no
-equivalent command in this Rust repository. Do not push an unpublished local
-snapshot as a substitute for the reviewed branch/PR workflow; use the current
-Contract's declared checks and the published-artifact acceptance harness.
+Never claim green, passed, verified, completed, released, or user-visible
+from this file. Use current Runtime evidence. Preserve failed, stale,
+unsupported, malformed, unknown, or contradictory evidence and keep the
+blocking Outcome visible. If an in-scope defect is found, amend and revalidate
+the current Contract before expanding work; create a successor only for a
+different scope, authority, base, unsafe repair, immutable failed delivery, or
+explicit human direction.

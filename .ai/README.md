@@ -1,135 +1,57 @@
 # AI Cockpit repository usage
 
-This repository uses one externally installed `ai-cockpit` Runtime. The binary
-is shared; this `.ai/` directory is private to this repository. Never infer a
-current repository or Work Item from process state, the working directory, or
-Agent prose.
+This repository uses one externally installed `ai-cockpit` Runtime. The
+binary is shared; this `.ai/` directory is private to the repository. Never
+infer a current repository or Work Item from process state, the working
+directory, or Agent prose.
 
-## Agent route
+## Read-only entry route
 
-1. Read-only start: `ai-cockpit inspect --repo <repository>` and
-   `ai-cockpit status --repo <repository>`.
-2. Confirm readiness: `ai-cockpit doctor --repo <repository>` and
-   `ai-cockpit agent doctor --repo <repository> --json`.
-3. For a new repository, use `ai-cockpit attach --repo <repository>`; this
-   creates only AI Cockpit-owned protocol state.
-4. Agent discovery is explicit: use `ai-cockpit agent list/install/repair/detach
-   --repo <repository> --provider <provider>`. Do not edit global Agent or MCP
-   configuration and do not treat a managed prompt as governance authority.
-5. Create a skeleton with `ai-cockpit work-item new --repo <repository> --id
-   <id> --mode code`. Human-owned intent, scope, acceptance, and authority must
-   remain empty or unknown until a person supplies them.
-6. For an authorized Work Item, use `start → preflight → checkpoint → verify →
-   finish → archive → close`. Every command carries `--repo`.
-7. Discover the callable surface before guessing arguments: use
-   `ai-cockpit --help` and `ai-cockpit <group> --help` for CLI commands,
-   `ai-cockpit capability show --repo <repository>` for the current
-   repository-bound capability registry, and `tools/list` after starting
-   `ai-cockpit mcp --repo <repository>` for the typed MCP tool schemas. MCP
-   calls with missing, malformed, or unknown arguments fail closed.
+Read [`AGENTS.md`](../AGENTS.md) and [`glossary.md`](glossary.md), then use the
+explicit repository path for the Runtime queries:
 
-The Runtime has no global active Work Item, current repository, or project
-profile. Repository Protocol, Contract, evidence, knowledge, and adapter
-ownership records remain isolated under this repository's `.ai/`.
+```text
+ai-cockpit inspect --repo <repository>
+ai-cockpit status --repo <repository>
+ai-cockpit doctor --repo <repository>
+ai-cockpit agent doctor --repo <repository> --json
+```
 
-## Explicit project declarations
+For ordinary work, load [`ordinary-work-item`](../agents/skills/ordinary-work-item.md).
+Load the recovery, Provider, or release guide only when the Runtime facts and
+Contract match that guide's applicability. Runtime `safeActions`, blockers,
+evidence freshness, and action explanation are authoritative; guides explain
+how to perform an admitted action and never grant one.
 
-Optional repository-owned declarations under `.ai/project/` are read-only
-inputs to the Runtime projection:
+## Repository-owned records
 
-- `capabilities.json` binds capabilities, non-capabilities, critical domains,
-  and explicit Contract operation mappings;
-- `success_criteria.json` exposes project criteria as non-authoritative
-  visibility only; Contract acceptance remains the source of authority;
-- `profile-policy.json` records approved boundaries, critical paths, review
-  requirements, and explicit unknowns beside `.ai/project.json` identity and
-  observed-quality facts.
+- `.ai/agent-interface.json` is the canonical adapter interface.
+- `.ai/project/` contains optional repository declarations consumed as
+  read-only Runtime inputs.
+- `.ai/work-items/` contains Contract, Summary, lifecycle, and archive
+  records. Runtime commands generate these records.
+- `.ai/evidence/` contains identity-bound verification and delegated evidence.
+- `.ai/decisions/` contains Runtime-generated observation and decision records.
 
-They are strict, regular-file-only, repository- and snapshot-bound JSON. A
-missing, malformed, foreign, stale, conflicting, or insufficient declaration
-keeps an explicit operation in human review; intent prose and detected files
-cannot satisfy a mapping. Contracts without an explicit operation retain
-legacy behavior. `attach` does not invent these governance declarations.
+Do not hand-edit generated Contract, Summary, receipt, archive, decision, or
+status records; do not edit global Agent or MCP configuration. Keep historical
+records unchanged. If a query reports missing authority, unknowns,
+contradiction, stale evidence, or a required human decision, preserve the
+reason and stop until the Contract or human decision resolves it.
 
-The delivery order is conditional on the Contract. A Work Item with no
-external resource uses latest remote default base → dedicated branch/worktree
-→ implement → preflight → checkpoint → verify → finish → archive → close →
-synchronize default branch → remove its exact branch/worktree. A
-resource-bound Work Item uses latest remote default base → dedicated
-branch/worktree → implement → finalize-plan → preflight → checkpoint → verify
-→ finish → reviewed PR → merge → declared hosted, candidate, release, or
-public-artifact evidence → archive → synchronize default branch → perform
-exact provider cleanup under the accepted plan → record finalize receipt →
-finalize-verify → close → clean the closure/control context. In the
-resource-bound route, perform the exact planned provider cleanup after merge
-and required acceptance, then use `finalize` to record its identity-bound
-receipt; the Runtime does not delete branches or worktrees. `finalize-verify`
-validates the receipt before `close`; `close` records the terminal decision
-and does not delete those resources. Cleanup after `close` refers only to the
-closure/control context, never to the already finalized Work Item
-branch/worktree. Do not pre-merge a feature branch into local `main`, delete
-its branch before merge, or let a provider auto-delete it to bypass
-finalization. If a remote step fails, preserve the retry checkout and
-identity. A repository is `ready_on_base` only after the reviewed merge when
-applicable, default-branch synchronization, and exact cleanup are verified; a
-detached worktree is not a ready base. A historical resource-bound PR is
-handled only by its exact archived Contract and valid archive manifest
-through the read-only Rust gate; it is not an ordinary no-Contract route.
-For a no-resource Work Item, after removing its exact branch/worktree, record
-the cleanup result with
-`ai-cockpit work-item ordinary-cleanup --repo <repository> --id <work-item>`
-before declaring `ready_on_base`.
+## Runtime surface discovery
 
-## Evidence discipline
+Use `ai-cockpit --help`, the relevant group help, and
+`ai-cockpit capability show --repo <repository>` before guessing arguments.
+The current CLI, protocol schema, and capability metadata are the sources for
+mechanical command facts. Human guidance and design rationale live in
+`docs/reference/`; see the [task guide index](../agents/skills/README.md) for
+the small task-specific entry points.
 
-Do not claim `green`, `passed`, `approved`, `verified`, or `completed` from this
-file. Query the Runtime and read the current repository evidence. Missing,
-stale, contradictory, or unknown evidence requires a rerun, human decision, or
-stop condition.
+## Outcome boundary
 
-## Operating boundary inherited by future Work Items
-
-Before editing, an Agent reads this route and `.ai/glossary.md`, queries the
-Runtime with the explicit repository path, and works only inside the active
-Contract's scope. The Contract records the discovered remote default branch and
-base revision, human authority, acceptance criteria, required evidence, and
-verification commands. Generated status, receipt, and archive files are
-written by Runtime commands; tests and evidence are not removed silently.
-
-The visible human Outcome is a terminal handoff. It must retain its
-`Outcome: 🟢`, `Outcome: 🟡`, or `Outcome: 🔴` marker, unknowns, evidence,
-decision, and next action. A missing, folded-only, stale, contradictory, or
-malformed Outcome does not authorize finish, archive, merge, close, or release.
-The green Rust terminal corresponds to the reference's `status=completed` plus
-`humanStatusColor=green`: it requires `state=Verified`, `decisionState=green`,
-current Contract/Summary/evidence bindings, and direct human-visible delivery.
-The handoff includes issue count, blockers or stopping reason, resolved issues,
-risks, verification, impact, and next action; unsupported benefits are marked
-as inference. Repair an in-scope defect in the current Work Item before opening
-another Work Item or Issue; a successor needs a genuinely different scope,
-authority, or base, an independent change, an unsafe repair, immutable failed
-delivery, or explicit human direction.
-When a defect remains within the current Contract's scope, authority, and base,
-amend and revalidate that Contract before creating a successor. Independent
-Work Items may run concurrently only with isolated scopes, worktrees, evidence
-ownership, and compatible serialized projections.
-
-Installation and upgrade acceptance binds to an immutable published Release
-tag and downloaded binary. After a reviewed PR is merged, complete and verify
-resource-bound cleanup before close; the no-resource route closes first and
-cleans its exact branch and worktree afterward. Immediately after close, run
-`python3 tests/docs/promote_closed_work_item.py --repo <repository> --check-all`.
-If stale documentation projections are reported, complete a narrowly scoped
-documentation-promotion Work Item with that helper, rerun `--check-all`, and
-do not declare `ready_on_base` until it is current. Any failed step remains
-open for recovery.
-
-The repository documentation policy may declare an
-`effectiveFromContractCreatedAt` timestamp. Automatic `--check-all` applies
-that policy only to Contracts created at or after the timestamp; older
-records remain historical and are not retroactively revalidated. An explicit
-`--work-item <id> --check` still validates the requested record. For in-scope
-Contracts, projection requirements follow the configured modes, operations,
-scope, acceptance criteria, and existing registrations; `mode=release` alone
-does not imply publication, while an explicit `release.publish` operation
-does.
+Use the repository-bound `work-item outcome` command or the MCP Outcome
+handoff for the visible human result. The Outcome must preserve current
+status, evidence, unknowns, decision, and next action; a machine lookup,
+log, or file link is not a substitute. Distinguish generated, returned,
+host-accepted, and host-displayed states when display confirmation is absent.
