@@ -1,17 +1,16 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.768442060b84a3bd080a9f22aa1f15ce36eb4f864d268b40d5e5e6bcc07a16f1.json",
+    ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-1015-retirement-input.json",
-    ".ai/evidence/WI-1016-v0-2-111-successor-input.json",
-    ".ai/evidence/WI-1017-release-controls-input.json",
-    ".ai/evidence/WI-1017-release-v0-2-111-finalization.verification-attempt.15b431d8501ff9d0984d4b515679560d7207fa817bd7487bf9a23e0af8700748.json",
-    ".ai/evidence/WI-1017-release-v0-2-111-scenarios-input.json",
+    ".ai/evidence/WI-1017-finalization-plan-input.json",
+    ".ai/evidence/WI-1017-resource-context-retry-input.json",
+    ".ai/evidence/WI-1017-source-amendment.json",
     ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.contract.json",
     ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.summary.json"
   ],
   "checkpointAt": "2026-09-23T11:10:34Z",
-  "checkpointContractDigest": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+  "checkpointContractDigest": "sha256:03dea0f1453763f7daed1fbe88e637178c312766744b027aefaab4b9c3a4982a",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -47,9 +46,29 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1017-release-v0-2-111-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:012b59db46b7ed54ee4e3bfca148cb2b09629ffa7bb2521ebbf7975a62bde93f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "previousContractHash": "sha256:f2fe0e4391fe0ac411646768ca0ab0e366dd5a1f8b70911123ebe200c8a6699e",
+      "reason": "Bind the actual PR #982 as a Contract source before the required finalization revalidation; this records an existing identity, not a new acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T11:27:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "checkpointRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
   "createdAt": "2026-09-23T11:07:03Z",
   "intentAlignment": {
     "evidence": [
@@ -62,11 +81,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
   "predecessorWorkItemId": "WI-1016-release-v0-2-110-finalization",
-  "preflightAt": "2026-09-23T11:16:17Z",
-  "preflightContractDigest": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+  "preflightAt": "2026-09-23T11:36:28Z",
+  "preflightContractDigest": "sha256:03dea0f1453763f7daed1fbe88e637178c312766744b027aefaab4b9c3a4982a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
-  "preflightState": "not_run",
+  "preflightRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.768442060b84a3bd080a9f22aa1f15ce36eb4f864d268b40d5e5e6bcc07a16f1.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -220,11 +239,6 @@
       "result": "passed"
     }
   ],
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:f2fe0e4391fe0ac411646768ca0ab0e366dd5a1f8b70911123ebe200c8a6699e",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-23T11:22:27Z"
-  },
-  "verificationRecoveryReconciled": "sha256:b6a0bee04803d3bad27034f21f847c16a0661e47b63977ea0300157d7a1370c5",
+  "verificationRecoveryReconciled": "sha256:1003d1a23eae4e51a6b302e4c58f2483f824847f5130c0559a71d8c8f12d9338",
   "workItemId": "WI-1017-release-v0-2-111-finalization"
 }

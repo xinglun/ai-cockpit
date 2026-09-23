@@ -33,6 +33,14 @@
     "delegated_evidence",
     "external_evidence"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-111",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/982",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-synchronized"
+  },
   "risk": "high",
   "scenarioCoverage": [
     {
@@ -81,7 +89,8 @@
     "WI-1016-release-v0-2-110-finalization successor recovery decision; v0.2.110 failed candidate and run preserved as immutable history",
     "https://github.com/xinglun/ai-cockpit/actions/runs/35851384187",
     "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.110 (preserved failed pre-publication candidate)",
-    "AGENTS.md and docs/release/distribution.md"
+    "AGENTS.md and docs/release/distribution.md",
+    "https://github.com/xinglun/ai-cockpit/pull/982"
   ],
   "state": "implementation_active",
   "verification": [
