@@ -1,0 +1,216 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/adapters/codex.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1006-runtime-guide-action-outcome.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1007-archived-recovery-cli-route.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json",
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-successor-repair at 2026-09-23T01:24:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "Provide a supported, ownership-safe adapter recovery path for a repository-owned managed section whose content changed in an approved repository documentation migration, add a CI regression for digest drift, and preserve all unrelated repository bytes and historical evidence."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+  },
+  "finalReportDigest": "sha256:443a9a3cec70137a1b7b085413b018da0073eb81c76fdfb19e6735f783e2e876",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:c1ce9b15f2ec2d666b4d426f865b137f7bbc5116333908cb72c35c7a38a01b34",
+    "branch": "codex/wi-1009-agent-adapter-recovery-boundary",
+    "branchRef": "refs/heads/codex/wi-1009-agent-adapter-recovery-boundary",
+    "capturedAt": "2026-09-23T01:22:27Z",
+    "contractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+    "headRevision": "ec8431f86c0150ad2b929b28ae74907e9c0910c0",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+    "runtimeVersion": "0.2.106",
+    "schemaVersion": 1,
+    "workItemId": "WI-1009-agent-adapter-recovery-boundary",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit",
+    "worktreeId": "sha256:b34cb95aa9f6045b4ba1911dfba36e81ad3b41407babb95b70fdcf7ce75f3f29",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1009-adapter-recovery-boundary/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:cbf44ab83f3b311ba28bb250279ddda9ecb06bafa5ab36dc1af3609d03ac4824",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-successor-repair",
+    "decidedAt": "2026-09-23T01:24:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json",
+      ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Adapter recovery, governance regression evidence, and current verification are complete; close the ordinary Work Item while preserving the archived records.",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-23T01:22:27Z",
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+}
