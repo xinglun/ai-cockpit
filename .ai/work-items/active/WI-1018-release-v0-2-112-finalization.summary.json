@@ -114,7 +114,7 @@
     "contractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
     "reason": "Confirm the amended Contract for the already approved v0.2.112 release boundary. The amendment admits only the current release projections, the current tri-language Work Item pages and controlled parity rows, and the already declared executable release scenarios; it adds no acceptance requirement. Preserve v0.2.111 history, do not add task-progress APIs, and continue through fresh verification and normal publication gates.",
     "recordedAt": "2026-09-23T00:00:00Z",
     "recordedBy": "human:repository-owner",
@@ -134,7 +134,7 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
   "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
-  "preflightAt": "2026-09-23T13:43:53Z",
+  "preflightAt": "2026-09-23T13:50:18Z",
   "preflightContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
@@ -161,7 +161,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-23T13:39:27.398012+00:00",
+  "updatedAt": "2026-09-23T13:50:41.648197+00:00",
   "verification": [
     {
       "check": "project-command-0",
