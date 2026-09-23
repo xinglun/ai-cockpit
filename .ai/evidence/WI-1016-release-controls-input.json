@@ -1,0 +1,27 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "unverified",
+      "expected": "The v0.2.110 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets.",
+      "evidence": []
+    },
+    {
+      "scenario": "downloaded-adopter-install-upgrade",
+      "required": true,
+      "status": "unverified",
+      "expected": "The downloaded public v0.2.110 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.110 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item.",
+      "evidence": []
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "The approved release scope does not declare a separate user-benefit measurement; publication and adopter acceptance remain separate evidence questions.",
+    "evidence": [
+      ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+    ]
+  }
+}

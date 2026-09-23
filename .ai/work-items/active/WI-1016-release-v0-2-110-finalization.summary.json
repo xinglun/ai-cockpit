@@ -1,22 +1,72 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1016-release-controls-input.json",
+    ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.7cd98dddecb092a82fb876b571907a759cf639d1d16560bc8409c33698c0eb1b.json",
     ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
   ],
   "checkpointAt": "2026-09-23T10:16:24Z",
-  "checkpointContractDigest": "sha256:a96ee6b8b3a0e943f7a3a7cfabf8009673322fcae88f17fbb4f9a645ba265dd5",
+  "checkpointContractDigest": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:c180448c1542f12dfb6b6b82425a3fc11f3ea6b13f610a880458fa1ebaed0c76",
+  "checkpointRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
   "createdAt": "2026-09-23T10:12:14Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+    ],
+    "reason": "The approved release scope does not declare a separate user-benefit measurement; publication and adopter acceptance remain separate evidence questions.",
+    "state": "unknown"
+  },
   "mode": "implementation",
-  "preflightAt": "2026-09-23T10:17:50Z",
+  "preflightAt": "2026-09-23T10:19:43Z",
   "preflightContractDigest": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.110 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.110 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.110 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-23T10:16:24Z",
+  "updatedAt": "2026-09-23T10:19:00.869573+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fd8feaea2158c888cf5a61b08ee84000e2a0081505b43326cbed14cb90f0d395",
   "workItemId": "WI-1016-release-v0-2-110-finalization"
 }
