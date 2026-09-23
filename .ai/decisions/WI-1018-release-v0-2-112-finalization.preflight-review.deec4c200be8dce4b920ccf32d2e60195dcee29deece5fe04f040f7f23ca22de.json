@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "Confirm the already approved v0.2.112 release boundary after binding the provider release, release-close, fresh install, and N-1 upgrade evidence. This records no new acceptance requirement; preserve v0.2.111 history, do not add task-progress APIs, and continue through Runtime finalization and exact cleanup.",
+  "recordedAt": "2026-09-23T14:45:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "schemaVersion": 1,
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}
