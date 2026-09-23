@@ -52,6 +52,18 @@ require 'export AI_COCKPIT_ISOLATION_BIN="$GITHUB_WORKSPACE/target/release/ai-co
 require 'release-source/target/repository-gates.json' 'source gate reports must be uploaded from their repository-local path'
 require "hashFiles('release-source/target/rust-contract-quality-gate.json')" 'Contract gate receipts must remain uploadable after a later source gate failure'
 require 'release_input_preflight:' 'cheap release input preflight must run before Runtime compilation'
+require 'name: Validate cheap release input and resource identity' 'cheap release input and resource checks must be explicit'
+require 'release dispatch requires from_tag and to_tag' 'manual release dispatch must reject missing required tags before compilation'
+cheap_preflight_line="$(awk 'index($0, "name: Validate cheap release input and resource identity") { print NR; exit }' "$workflow")"
+build_line="$(awk 'index($0, "name: Build the shared Rust ReleasePlan resolver") { print NR; exit }' "$workflow")"
+typed_plan_line="$(awk 'index($0, "name: Resolve release identity with the typed ReleasePlan") { print NR; exit }' "$workflow")"
+cheap_preflight_line=${cheap_preflight_line:-0}
+build_line=${build_line:-0}
+typed_plan_line=${typed_plan_line:-0}
+if (( cheap_preflight_line == 0 || build_line == 0 || typed_plan_line == 0 || cheap_preflight_line >= build_line || build_line >= typed_plan_line )); then
+  printf 'release gate policy failure: cheap input/resource checks must precede compilation, and typed ReleasePlan resolution must follow it\n' >&2
+  exit 1
+fi
 require 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
 require 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'
 require 'source_contract_path:' 'recovery must expose a separate source-verification Contract path'
@@ -167,7 +179,8 @@ require 'needs: [publish, release_input_preflight]' 'version consistency must ru
 require 'needs: [publish_handoff, release_tools, post_release_helper, release_input_preflight]' 'install must use the mode-specific helper dependency'
 require 'needs: [publish, publish_handoff, release_tools, post_release_helper, release_input_preflight]' 'upgrade must use the mode-specific helper dependency'
 require 'needs.post_release_helper.result' 'public acceptance must wait for helper restoration'
-require 'if [[ "$EVENT_NAME" == workflow_dispatch && ( "$PUBLISH_EXISTING_TAG" == true || "$PUBLISH_CANDIDATE" == true ) ]]; then' 'publication must use the explicit dispatch identity guard'
+require 'if [[ "$EVENT_NAME" == workflow_dispatch ]]; then' 'release input validation must be limited to explicit dispatches'
+require 'if [[ "$PUBLISH_EXISTING_TAG" == true || "$PUBLISH_CANDIDATE" == true ]]; then' 'publication must use the explicit tag identity guard'
 require 'publish_candidate' 'normal publication must have a distinct typed dispatch input'
 require 'publication tag must match the remote immutable peeled commit' 'publication must bind the local tag to the remote immutable tag identity before compilation'
 require 'test "$manifest_commit" = "$tag_commit"' 'publication must bind the manifest to the remote tag commit'

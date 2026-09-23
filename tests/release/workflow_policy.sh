@@ -82,6 +82,18 @@ require_match '\-\-publish-handoff' 'public acceptance must bind the publication
 require_match 'release-manifest\.json' 'canonical manifest must be emitted'
 require_match 'SHA256SUMS' 'canonical checksum set must be emitted'
 require_match '^  release_input_preflight:' 'cheap identity preflight must run before Runtime compilation'
+require_match 'name: Validate cheap release input and resource identity' 'cheap release input and resource checks must be explicit'
+require_match 'release dispatch requires from_tag and to_tag' 'manual release dispatch must reject missing required tags before compilation'
+cheap_preflight_line="$(awk 'index($0, "name: Validate cheap release input and resource identity") { print NR; exit }' "$workflow")"
+build_line="$(awk 'index($0, "name: Build the shared Rust ReleasePlan resolver") { print NR; exit }' "$workflow")"
+typed_plan_line="$(awk 'index($0, "name: Resolve release identity with the typed ReleasePlan") { print NR; exit }' "$workflow")"
+cheap_preflight_line=${cheap_preflight_line:-0}
+build_line=${build_line:-0}
+typed_plan_line=${typed_plan_line:-0}
+if (( cheap_preflight_line == 0 || build_line == 0 || typed_plan_line == 0 || cheap_preflight_line >= build_line || build_line >= typed_plan_line )); then
+  printf 'policy failure: cheap input/resource checks must precede compilation, and typed ReleasePlan resolution must follow it\n' >&2
+  exit 1
+fi
 require_match 'work_item_id:' 'recovery must expose an explicit Work Item identity input'
 require_match 'contract_path:' 'recovery must accept an explicit Contract path'
 require_match 'source_work_item_id:' 'recovery must expose a separate source-verification Work Item identity input'

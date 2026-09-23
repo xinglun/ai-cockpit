@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:afbacb20e93e1fb56468579a4a0bbd99f61c207be805d1b311f4c976bb8f5ff7",
+  "commands": [
+    {
+      "args": [
+        "diff",
+        "--check"
+      ],
+      "baseCommit": "0cc5ad372f3c98bfa68f497053e2790d7b887edf",
+      "commandDigest": "sha256:24fb351f9b0f5a953fd0a1876751ef61c94787c8e541c9f0b3272e5344fc71ed",
+      "nodeId": "project-command-0",
+      "program": "git",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:7cb854f6a85a27facee3732f316a430d39dce34d35d4232ff1ffacc20d2db9a8",
+  "contractExecutionScopeDigest": "sha256:bf9d740f95223628f0a479709dbefc9a0f2e10a4c7ec7929bcde7162e180371e",
+  "createdAt": "2026-09-23T23:18:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/wi-1024-release-input-preflight-order/ai-cockpit/.ai/work-items/active/WI-1024-release-input-preflight-order.contract.json: verification requires a recorded non-red preflight result"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1024-release-input-preflight-order"
+}

@@ -1,0 +1,77 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.19814c791ebb78963272a93187f40021d2ceb31437292eaf2e0e4624cea233b5.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.3031fe49e613b47193a5eaa7d25250d02021442cdf20318d776059e9389baacf.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.32ab67381fe791104edb714aedb60a7fed8bdec4909e3fb73ae63d1457346504.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.4be4a56e7c24509ec6409c8c17e779304769212c047f98313fb35e3c4aaf6242.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.6205cf8ff3275fb7505091f6613e397c2d49de8e161834385812c63619d63b39.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.a975bc6bda0af4a84259dbccd520cb6a7e6aff727952022074be2b9e6eb8ecd0.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.afbacb20e93e1fb56468579a4a0bbd99f61c207be805d1b311f4c976bb8f5ff7.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification-attempt.c195fd32d72eee3ceeca0964baf745ac4576c330bf2c8b5780ded15c3103a397.json",
+    ".ai/evidence/WI-1024-release-input-preflight-order.verification.json",
+    ".ai/work-items/archive/WI-1024-release-input-preflight-order.contract.json",
+    ".ai/work-items/archive/WI-1024-release-input-preflight-order.summary.json",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/workflow_policy.sh"
+  ],
+  "checkpointAt": "2026-09-23T23:13:13Z",
+  "checkpointContractDigest": "sha256:9f6200d01a5af47878e09e442f08fe5412a17c7b9d41236a58de0b30bf9a2c3a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7cb854f6a85a27facee3732f316a430d39dce34d35d4232ff1ffacc20d2db9a8",
+      "recorded": true,
+      "recordedAt": "2026-09-23T23:13:13Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:853a762f680f4f710f3032d78f2e5cf194ba2626b062754c681f7f31abca21b8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1024-release-input-preflight-order"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9f6200d01a5af47878e09e442f08fe5412a17c7b9d41236a58de0b30bf9a2c3a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7cb854f6a85a27facee3732f316a430d39dce34d35d4232ff1ffacc20d2db9a8",
+      "previousContractHash": "sha256:7cb854f6a85a27facee3732f316a430d39dce34d35d4232ff1ffacc20d2db9a8",
+      "reason": "将已在原始 scope 中描述但需由 Runtime 明确匹配的三个仓库文件补充为精确路径；不改变发布预检顺序改造的功能范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T23:19:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1024-release-input-preflight-order"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+  "createdAt": "2026-09-23T23:12:25Z",
+  "mode": "ordinary",
+  "preflightAt": "2026-09-23T23:20:23Z",
+  "preflightContractDigest": "sha256:9f6200d01a5af47878e09e442f08fe5412a17c7b9d41236a58de0b30bf9a2c3a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:be2dd67b4e4e60c9c29cd0f635ccc5b989aba4ae81eb2cf951f510b47fe6a15a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T23:20:44Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1024-release-input-preflight-order"
+}
