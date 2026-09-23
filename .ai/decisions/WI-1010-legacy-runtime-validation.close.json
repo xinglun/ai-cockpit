@@ -1,0 +1,179 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:af0ab8d3d24668df47f27d10773b58c53484af60e1b216e02152352e0ada89fc",
+      "workItemId": "WI-1010-legacy-runtime-validation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/resource_finalization_transition.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-successor-repair at 2026-09-23T00:17:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent invalid historical classifications while preserving formal WI-1006/WI-1007/WI-1008 recovery evidence"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1010-legacy-runtime-validation"
+  },
+  "finalReportDigest": "sha256:eb7eb62f8d11b10aedcd6ead0196791fa1c44aa88bd3c3ad08725a8c80b7e0c7",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:6222795009904cc2dda3dfb49a0ac354acce039a693ed20996b65bb5e7f083e8",
+    "branch": "codex/wi-1010-legacy-runtime-validation",
+    "branchRef": "refs/heads/codex/wi-1010-legacy-runtime-validation",
+    "capturedAt": "2026-09-23T00:17:24Z",
+    "contractDigest": "sha256:1fc66191511a18a65b66703dbed8eb47f29e0220fda81eeacee9576161dab5bb",
+    "headRevision": "7dc76ab37de3d84b3b97a1a7679f6ae17015d0ad",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "runtimeDigest": "sha256:ce59f8aba167b23dbcd0bc9a63b7210a6052b983d3b9880dd1b6a3a5b7cfc8c5",
+    "runtimeVersion": "0.2.106",
+    "schemaVersion": 1,
+    "workItemId": "WI-1010-legacy-runtime-validation",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/ai-cockpit/.git/worktrees/ai-cockpit1",
+    "worktreeId": "sha256:8d2b6a1a34c99248f6da9476c0d294bab280a16c5b2454039eeafbb685ba4c92",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/wi-1010-legacy-runtime-validation/ai-cockpit"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:4c567c356987cce16f6dde2a9654d319851c8a5fd3502f82f5a4d717712a6596",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-successor-repair",
+    "decidedAt": "2026-09-23T00:17:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Successor scope verified: shared legacy_runtime predicate, append-only valid recovery, and rejection without recovery writes for incomplete or mismatched PR history.",
+    "resumeCondition": "If later evidence contradicts this close, reopen only through supported Runtime recovery without rewriting archived evidence."
+  },
+  "timestamp": "2026-09-23T00:17:24Z",
+  "workItemId": "WI-1010-legacy-runtime-validation"
+}
