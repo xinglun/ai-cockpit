@@ -243,12 +243,35 @@ jobs:
           echo "source_contract_path=$(jq -r '.plan.request.sourceContractPath // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "source_contract_digest=$(jq -r '.plan.request.sourceContractDigest // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
           echo "source_base_revision=$(jq -r '.plan.request.baseRevision // empty' target/release-input-preflight.json)" >> "$GITHUB_OUTPUT"
+      - name: Create the identity-bound release lifecycle handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          runtime_digest="sha256:$(sha256sum target/release/ai-cockpit | awk '{print $1}')"
+          runtime_version="$(target/release/ai-cockpit --version | awk 'NR == 1 {print $2}')"
+          [[ "$runtime_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+            echo 'candidate Runtime version is not semantic' >&2
+            exit 1
+          }
+          jq -n \
+            --arg planDigest "$(jq -er '.planDigest' target/release-input-preflight.json)" \
+            --arg workflowRevision "$(jq -er '.plan.request.headRevision' target/release-input-preflight.json)" \
+            --arg runId "$GITHUB_RUN_ID" \
+            --arg runAttempt "$GITHUB_RUN_ATTEMPT" \
+            --arg runtimeVersion "$runtime_version" \
+            --arg runtimeDigest "$runtime_digest" \
+            --slurpfile plan target/release-input-preflight.json \
+            '{schemaVersion:1,kind:"release_lifecycle_handoff",state:"ready",planDigest:$planDigest,workflow:{revision:$workflowRevision,runId:($runId|tonumber),attempt:($runAttempt|tonumber)},runtimeIdentity:{version:$runtimeVersion,digest:$runtimeDigest,artifact:"target/release/ai-cockpit"},governance:{workItemId:$plan[0].plan.request.workItemId,contractPath:$plan[0].plan.request.contractPath,contractDigest:$plan[0].plan.request.contractDigest,baseRevision:$plan[0].plan.request.baseRevision},sourceVerification:{workItemId:$plan[0].plan.request.sourceWorkItemId,contractPath:$plan[0].plan.request.sourceContractPath,contractDigest:$plan[0].plan.request.sourceContractDigest,baseRevision:$plan[0].plan.request.baseRevision,releaseSourceRevision:$plan[0].plan.request.sourceRevision}}' \
+            > target/release-lifecycle-handoff.json
       - name: Upload release input preflight evidence
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: release-input-preflight
-          path: target/release-input-preflight.json
+          path: |
+            target/release-input-preflight.json
+            target/release-lifecycle-handoff.json
+            target/release/ai-cockpit
           if-no-files-found: warn
           retention-days: 7
 
@@ -594,6 +617,7 @@ jobs:
           path: |
             target/governance-integrity-report.json
             target/release-governance-binding.json
+            target/release-lifecycle-handoff.json
             target/release-input-preflight.json
             target/release-quality-route.json
             target/release-preflight-failure.json
@@ -1973,6 +1997,13 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Restore release lifecycle handoff
+        if: always()
+        continue-on-error: true
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: release-input-preflight
+          path: close-inputs/preflight
       - name: Restore close inputs from a completed acceptance run
         if: needs.release_input_preflight.outputs.plan_mode == 'close_only'
         shell: bash
@@ -2093,8 +2124,11 @@ jobs:
           VERSION_CONSISTENCY: ${{ needs.post_release_version_consistency.result }}
           INSTALL: ${{ needs.adopter_acceptance.result }}
           UPGRADE: ${{ needs.adopter_upgrade_acceptance.result }}
+          INPUT_PREFLIGHT: ${{ needs.release_input_preflight.result }}
           PLAN_MODE: ${{ needs.release_input_preflight.outputs.plan_mode }}
           PLAN_DIGEST: ${{ needs.release_input_preflight.outputs.plan_digest }}
+          GOVERNANCE_WORK_ITEM_ID: ${{ needs.release_input_preflight.outputs.governance_work_item_id }}
+          GOVERNANCE_CONTRACT_DIGEST: ${{ needs.release_input_preflight.outputs.governance_contract_digest }}
           SOURCE_RUN_ID: ${{ needs.release_input_preflight.outputs.reuse_acceptance_run_id || '' }}
         run: |
           set -euo pipefail
@@ -2112,6 +2146,7 @@ jobs:
           state=passed
           reasons=()
           handoff_file=close-inputs/handoff/homebrew-handoff.json
+          lifecycle_file=close-inputs/preflight/release-lifecycle-handoff.json
           version_file=close-inputs/version/version-consistency.json
           install_file=close-inputs/install/acceptance.json
           install_phases=close-inputs/install/phase-receipts.json
@@ -2126,6 +2161,16 @@ jobs:
             fi
           }
           require_receipt "$handoff_file" "$HANDOFF" handoff
+          if [[ "$INPUT_PREFLIGHT" != success || ! -f "$lifecycle_file" ]]; then
+            state=failed; reasons+=(governance_binding_failed)
+          elif ! jq -e \
+            --arg plan "$PLAN_DIGEST" \
+            --arg workItem "$GOVERNANCE_WORK_ITEM_ID" \
+            --arg contractDigest "$GOVERNANCE_CONTRACT_DIGEST" \
+            '.kind == "release_lifecycle_handoff" and .state == "ready" and .planDigest == $plan and .governance.workItemId == $workItem and .governance.contractDigest == $contractDigest and (.runtimeIdentity.digest | startswith("sha256:"))' \
+            "$lifecycle_file" >/dev/null; then
+            state=failed; reasons+=(governance_binding_failed)
+          fi
           require_receipt "$version_file" "$VERSION_CONSISTENCY" version_consistency
           require_receipt "$install_file" "$INSTALL" install
           require_receipt "$install_phases" "$INSTALL" install_phases
@@ -2187,7 +2232,8 @@ jobs:
           if ((${#reasons[@]} > 0)); then
             reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
           fi
-          handoff_digest=null; version_digest=null; install_digest=null; install_phase_digest=null; upgrade_digest=null; upgrade_phase_digest=null
+          lifecycle_digest=null; handoff_digest=null; version_digest=null; install_digest=null; install_phase_digest=null; upgrade_digest=null; upgrade_phase_digest=null
+          [[ -f "$lifecycle_file" ]] && lifecycle_digest="$(sha256sum "$lifecycle_file" | awk '{print "\"sha256:" $1 "\""}')"
           [[ -f "$handoff_file" ]] && handoff_digest="$(sha256sum "$handoff_file" | awk '{print "\"sha256:" $1 "\""}')"
           [[ -f "$version_file" ]] && version_digest="$(sha256sum "$version_file" | awk '{print "\"sha256:" $1 "\""}')"
           [[ -f "$install_file" ]] && install_digest="$(sha256sum "$install_file" | awk '{print "\"sha256:" $1 "\""}')"
@@ -2203,17 +2249,19 @@ jobs:
             --arg versionState "$VERSION_CONSISTENCY" \
             --arg installState "$INSTALL" \
             --arg upgradeState "$UPGRADE" \
+            --arg preflightState "$INPUT_PREFLIGHT" \
             --arg closeOnly "$PLAN_MODE" \
             --arg planDigest "$PLAN_DIGEST" \
             --arg sourceRunId "$SOURCE_RUN_ID" \
             --argjson reasons "$reason_json" \
+            --argjson lifecycleDigest "$lifecycle_digest" \
             --argjson handoffDigest "$handoff_digest" \
             --argjson versionDigest "$version_digest" \
             --argjson installDigest "$install_digest" \
             --argjson installPhaseDigest "$install_phase_digest" \
             --argjson upgradeDigest "$upgrade_digest" \
             --argjson upgradePhaseDigest "$upgrade_phase_digest" \
-            '{schemaVersion:2,phase:"close",releasePlanDigest:$planDigest,releasePlanMode:$closeOnly,tag:$tag,commit:$commit,state:$state,reusedAcceptanceRunId:(if $sourceRunId == "" then null else ($sourceRunId|tonumber) end),closeOnly:($closeOnly == "close_only"),providerReleaseId:(if $providerReleaseId == "" then null else ($providerReleaseId|tonumber) end),requiredReceipts:{publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
+            '{schemaVersion:2,phase:"close",releasePlanDigest:$planDigest,releasePlanMode:$closeOnly,tag:$tag,commit:$commit,state:$state,reusedAcceptanceRunId:(if $sourceRunId == "" then null else ($sourceRunId|tonumber) end),closeOnly:($closeOnly == "close_only"),requiredReceipts:{governanceBinding:{jobState:$preflightState,digest:$lifecycleDigest},publishHandoff:{jobState:$handoffState,digest:$handoffDigest},versionConsistency:{jobState:$versionState,digest:$versionDigest},publicInstall:{jobState:$installState,digest:$installDigest,phaseDigest:$installPhaseDigest},publicUpgrade:{jobState:$upgradeState,digest:$upgradeDigest,phaseDigest:$upgradePhaseDigest}},failureRoots:$reasons}' \
             > "$output/release-close.json"
           sha256sum "$output/release-close.json" | awk '{print $1 "  release-close.json"}' > "$output/SHA256SUMS"
           if [[ "$state" != passed ]]; then

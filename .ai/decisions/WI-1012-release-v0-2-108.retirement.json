@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:0d1221a378d274a138e5226e2115359bc206f81f40d29b9b086e2d7d342a37af",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:89d1cf1add04c2f0fbb811737203d937361812d3d4653b5dcbe270ce0cffe80c",
+      "path": ".ai/work-items/archive/WI-1012-release-v0-2-108.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:f99349d2439d1ff01e48d612a2bdf3edd9c481b40fefd32a555c92c073e9ce77",
+      "path": ".ai/work-items/archive/WI-1012-release-v0-2-108.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:d9dd3275d9327e0c78336a6c0a508e204234eeb640a1f0027d2d6822dc3248cf",
+      "path": ".ai/work-items/archive/WI-1012-release-v0-2-108.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The v0.2.108 candidate was superseded by the explicitly linked v0.2.109 release Work Item; preserve its failed tag, receipt, recovery, and Contract history without reopening or claiming verification.",
+  "recordedAt": "2026-09-23T08:23:11Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:39ee035fdc5e59e2ba2f9d4e30b2e003151a06ae24f18b8513276f01d553482f",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1013-release-v0-2-109",
+  "summaryDigest": "sha256:0a76b3fe981b0579fe550dca812fdd56e226141eaa71892c69ac99ba962b5fc7",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1012-release-v0-2-108"
+}

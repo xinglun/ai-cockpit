@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "successorWorkItemId": "WI-1013-release-v0-2-109",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "The v0.2.108 candidate was superseded by the explicitly linked v0.2.109 release Work Item; preserve its failed tag, receipt, recovery, and Contract history without reopening or claiming verification.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "summaryDigest": "sha256:0a76b3fe981b0579fe550dca812fdd56e226141eaa71892c69ac99ba962b5fc7",
+  "repositorySnapshotDigest": "sha256:39ee035fdc5e59e2ba2f9d4e30b2e003151a06ae24f18b8513276f01d553482f"
+}

@@ -438,6 +438,36 @@ contract_id=$validated_contract_id
 base_revision=$validated_contract_base
 contract_digest=$validated_contract_digest
 
+require_release_resource_context() {
+  local selected_path=$1
+  if [[ "$event" != workflow_dispatch || ( "$publish_existing_tag" != true && "$publish_candidate" != true && "$post_release_acceptance" != true && "$close_only" != true ) ]]; then
+    return 0
+  fi
+  local context_kind
+  context_kind=$(jq -r '
+    if (.resourceContext == null) then "missing"
+    elif ((.resourceContext | type) != "object") then "invalid"
+    elif (.resourceContext.pullRequest == "pending" or ((.resourceContext.pullRequest // "") | startswith("pending:"))) then "provisional"
+    else "bound"
+    end
+  ' "$selected_path" 2>/dev/null) || fail contract_invalid 'selected Contract is not valid JSON'
+  case "$context_kind" in
+    missing) fail release_resource_context_missing 'publication requires a bound resourceContext before build or public acceptance' ;;
+    invalid) fail release_resource_context_invalid 'publication requires resourceContext to be an object' ;;
+    provisional) fail release_resource_context_provisional 'publication cannot use a provisional resourceContext' ;;
+    bound) ;;
+    *) fail release_resource_context_invalid 'publication resourceContext classification is unknown' ;;
+  esac
+  local field value
+  for field in baseBranch baseRemote branch pullRequest provider worktree; do
+    value=$(jq -r --arg field "$field" '.resourceContext[$field] // empty' "$selected_path" 2>/dev/null) || \
+      fail contract_invalid 'selected Contract is not valid JSON'
+    [[ -n "$value" ]] || fail release_resource_context_incomplete "publication resourceContext is missing $field"
+  done
+}
+
+require_release_resource_context "$contract_path"
+
 source_contract_path="$contract_path"
 source_contract_id="$contract_id"
 source_base_revision="$base_revision"
