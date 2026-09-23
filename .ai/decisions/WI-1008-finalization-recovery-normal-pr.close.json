@@ -1,0 +1,174 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+      "workItemId": "WI-1008-finalization-recovery-normal-pr"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1007-archived-recovery-cli-route.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-protocol/src/lib.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/resource_finalization_transition.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json",
+            ".ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorized-successor-repair at 2026-09-23T01:00:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+          ],
+          "inference": false,
+          "text": "Allow supported append-only recovery, finalize-verify, and close without rewriting the valid predecessor receipt."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1008-finalization-recovery-normal-pr"
+  },
+  "finalReportDigest": "sha256:29f6645e1a29ec3725f7624fd9e83325cf46bf726e9e78c71ba11ef2737ac18b",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:f7ac21af9f4ddfe18b3b9b822257c593eeeab09f82eeaa84ac4796d36fedc31d",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorized-successor-repair",
+    "decidedAt": "2026-09-23T01:00:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json",
+      ".ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "Formal finalization receipt revalidated by Runtime; WI-1010 successor preserves and completes the archived recovery boundary without rewriting predecessor evidence.",
+    "resumeCondition": "If later evidence contradicts this historical close, use supported Runtime recovery and preserve all archived bytes."
+  },
+  "timestamp": "2026-09-23T00:56:30Z",
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}

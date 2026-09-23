@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c6135a049abf211e803e2a1fce1b6a501e585630",
+    "name": "codex/wi-1007-archived-recovery-cli-route",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:932d10f347852fc78333bd18cba4c47ea03a615cfcc27023e77de5824c852772",
+  "operationId": "github-pr-968-merge-cleanup-20260923",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "dae013d56a98f387414abc6dda0e6aad721a76f1",
+    "headRevision": "c6135a049abf211e803e2a1fce1b6a501e585630",
+    "mergeCommit": "ee74e142808829cf3e8e449ae651b24f20a23af6",
+    "number": 968,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/968"
+  },
+  "reason": "PR #968 was merged as ee74e142808829cf3e8e449ae651b24f20a23af6; the exact Work Item branch and dedicated worktree are recorded as removed after synchronized-main delivery.",
+  "receiptId": "github-pr-968-finalization-20260923",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1007-archived-recovery-cli-route",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/968",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1007-archived-recovery-cli-route/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-23T00:00:01Z",
+  "workItemId": "WI-1007-archived-recovery-cli-route",
+  "worktree": {
+    "branch": "codex/wi-1007-archived-recovery-cli-route",
+    "headRevision": "c6135a049abf211e803e2a1fce1b6a501e585630",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-1007-archived-recovery-cli-route/ai-cockpit",
+    "worktreeId": "WI-1007-archived-recovery-cli-route"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "101a459ccfc5082fd58213afac25659acab939c0",
+    "name": "codex/wi-1008-finalization-recovery-normal-pr",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:6bbcd7e077190c1c6f6c63db559fae048424fdf5b73c4fc391b8e3b5cd9996fd",
+  "operationId": "github-pr-969-merge-cleanup-20260923",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "ee74e142808829cf3e8e449ae651b24f20a23af6",
+    "headRevision": "101a459ccfc5082fd58213afac25659acab939c0",
+    "mergeCommit": "2358bc47cb79af3de66c665601729f53020cac66",
+    "number": 969,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/969"
+  },
+  "reason": "PR #969 was merged as 2358bc47cb79af3de66c665601729f53020cac66; the exact Work Item branch and dedicated worktree are recorded as removed after synchronized-main delivery.",
+  "receiptId": "github-pr-969-finalization-20260923",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1008-finalization-recovery-normal-pr",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/969",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1008-finalization-recovery-normal-pr/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-23T00:00:02Z",
+  "workItemId": "WI-1008-finalization-recovery-normal-pr",
+  "worktree": {
+    "branch": "codex/wi-1008-finalization-recovery-normal-pr",
+    "headRevision": "101a459ccfc5082fd58213afac25659acab939c0",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-1008-finalization-recovery-normal-pr/ai-cockpit",
+    "worktreeId": "WI-1008-finalization-recovery-normal-pr"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "acceptanceCriteria": [
+    "A supported recovery operation accepts the approved current managed section only under explicit repository/provider/target identity checks and writes the matching adapter record without hand-editing installedDigest.",
+    "Recovery preserves AGENTS.md bytes outside the managed section and preserves existing historical records.",
+    "agent doctor returns the protocol-defined normal state after recovery, with Runtime identity recorded in bootstrap evidence.",
+    "A repository governance/CI check fails on managed-section versus installedDigest mismatch and reports target, expected digest, and actual digest.",
+    "No legacy_runtime or release behavior is changed by this Work Item."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2358bc47cb79af3de66c665601729f53020cac66",
+  "createdAt": "2026-09-22T23:09:36Z",
+  "goal": "Provide a supported, ownership-safe adapter recovery path for a repository-owned managed section whose content changed in an approved repository documentation migration, add a CI regression for digest drift, and preserve all unrelated repository bytes and historical evidence.",
+  "intent": "Restore repository-owned Codex adapter recovery after a managed AGENTS.md section migration",
+  "mode": "implementation",
+  "outOfScope": [
+    "legacy_runtime finalization classification",
+    " task-progress APIs",
+    " release/publication",
+    " global Agent or MCP configuration",
+    " manual digest edits",
+    " historical evidence rewrites",
+    " unrelated documentation changes"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "adapter_bootstrap"
+  ],
+  "risk": "normal",
+  "scope": [
+    "Modify only the repository-bound adapter recovery implementation",
+    " its focused tests",
+    " the existing governance/CI check needed to detect managed-section digest drift",
+    " and generated WI-1009 lifecycle evidence.",
+    "the repository-owned adapter ownership record updated by the supported agent repair flow",
+    ".ai/adapters/codex.json",
+    "crates/cockpit-agent/**",
+    "tests/ci/governance_integrity_gate.py",
+    "tests/ci/governance_integrity_gate_test.sh"
+  ],
+  "sources": [
+    "Independent review: AGENTS.md managed-section digest drift after PR #967",
+    "Current Runtime agent doctor conflict and agent repair refusal",
+    "crates/cockpit-agent/src/lib.rs and existing adapter ownership tests",
+    "candidate Runtime agent repair receipt and post-repair agent doctor output"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test -p cockpit-agent",
+    "cargo test --workspace",
+    "target/release/ai-cockpit agent doctor --repo <repository> --json",
+    "Run candidate Runtime agent doctor before and after repair, then run the adapter and governance regression checks"
+  ],
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "evidenceType": "repository-owned-adapter-bootstrap",
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+  "runtime": {
+    "version": "0.2.106",
+    "digest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+    "candidateBinaryDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908"
+  },
+  "repair": {
+    "operation": "agent repair",
+    "target": ".ai/adapters/codex.json",
+    "provider": "codex",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "managedSectionDigest": "sha256:67e8d91d495636a358dd3a0815509c0de02a7eaddc5aea74eabf26016c55b313",
+    "previousInstalledDigest": "sha256:cdecd8419f36fc1aaa50b82aa10ee5a4900d13efea76762777507e9c29ce48a8",
+    "installedAdapterFileDigest": "sha256:bc21cce1f38bd3782e820481376650bb7ff71b5d723913b9f01893931fe5c709"
+  },
+  "doctor": {
+    "state": "VERIFIED",
+    "problems": []
+  },
+  "preservation": {
+    "managedFile": "AGENTS.md",
+    "outsideManagedSectionPreserved": true,
+    "historicalRecordsPreserved": true,
+    "globalAgentAndMcpConfigurationModified": false
+  },
+  "verification": "passed"
+}

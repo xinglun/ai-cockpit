@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorized-cleanup",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "64f94b6ce8c4d1a9b5093602b28c9ef788013a23",
+    "name": "codex/wi-1006-runtime-guide-action-outcome",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:2df47f113712c14289a2eabe99f3c935c1fd6dfe09d6f3a9b6c8f4c0ce9ee109",
+  "operationId": "github-pr-967-merge-cleanup-20260923",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "74ce5abed00385c92b026d62aa8893d92f78b570",
+    "headRevision": "64f94b6ce8c4d1a9b5093602b28c9ef788013a23",
+    "mergeCommit": "dae013d56a98f387414abc6dda0e6aad721a76f1",
+    "number": 967,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/967"
+  },
+  "reason": "PR #967 was merged as dae013d56a98f387414abc6dda0e6aad721a76f1; the exact Work Item branch and dedicated worktree are recorded as removed after synchronized-main delivery.",
+  "receiptId": "github-pr-967-finalization-20260923",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1006-runtime-guide-action-outcome",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/967",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-runtime-guide-action-outcome/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-23T00:00:00Z",
+  "workItemId": "WI-1006-runtime-guide-action-outcome",
+  "worktree": {
+    "branch": "codex/wi-1006-runtime-guide-action-outcome",
+    "headRevision": "64f94b6ce8c4d1a9b5093602b28c9ef788013a23",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-runtime-guide-action-outcome/ai-cockpit",
+    "worktreeId": "WI-1006-runtime-guide-action-outcome"
+  }
+}

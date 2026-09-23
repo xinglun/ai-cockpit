@@ -1,0 +1,131 @@
+{
+  "changedPaths": [
+    ".ai/adapters/codex.json",
+    ".ai/decisions/WI-1006-runtime-guide-action-outcome.finalize.json",
+    ".ai/decisions/WI-1007-archived-recovery-cli-route.finalize.json",
+    ".ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json",
+    ".ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json",
+    ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json",
+    ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json",
+    ".ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json",
+    ".ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json"
+  ],
+  "checkpointAt": "2026-09-22T23:09:36Z",
+  "checkpointContractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:aaf0e830f6431d8f593da25e5035704694d3e5dcd8e5c8e2072452a36350ae70",
+      "recorded": true,
+      "recordedAt": "2026-09-22T23:09:36Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:ea5b1bb4742a6edd2f696ba486f767e9b8b2136291824cb623adb9671a1eca24",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:191aa543dc042c0512821aa1f15341376028a17e5d9207eec94b755feb2b1c1b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:aaf0e830f6431d8f593da25e5035704694d3e5dcd8e5c8e2072452a36350ae70",
+      "previousContractHash": "sha256:aaf0e830f6431d8f593da25e5035704694d3e5dcd8e5c8e2072452a36350ae70",
+      "reason": "Bind the repository-owned adapter record and candidate Runtime bootstrap evidence required by the authorized recovery flow.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T23:31:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d79b056fe12481f362724ea95b9349fca62611c34f7384d6995e61e4057e9ada",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:aaf0e830f6431d8f593da25e5035704694d3e5dcd8e5c8e2072452a36350ae70",
+      "previousContractHash": "sha256:191aa543dc042c0512821aa1f15341376028a17e5d9207eec94b755feb2b1c1b",
+      "reason": "Make the exact repository-owned adapter record path explicit after the supported repair wrote it.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T23:32:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:aaf0e830f6431d8f593da25e5035704694d3e5dcd8e5c8e2072452a36350ae70",
+      "previousContractHash": "sha256:d79b056fe12481f362724ea95b9349fca62611c34f7384d6995e61e4057e9ada",
+      "reason": "Bind the implementation and governance regression paths explicitly to the adapter recovery Contract scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-22T23:32:44Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+  "createdAt": "2026-09-22T23:09:36Z",
+  "evidenceClasses": {
+    "contractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+    "items": [
+      {
+        "class": "adapter_bootstrap",
+        "evidence": [
+          {
+            "digest": "sha256:11b12bbaf256f76b6561b18f21db07491a512a51a26c159361a888a6b4fc5b71",
+            "locator": "runtime, repair, doctor, preservation",
+            "path": ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json",
+            "type": "bootstrap",
+            "verification": "passed"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 1
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-09-23T01:11:43Z",
+  "preflightContractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:4f150d1c20da484108bea3c7d53ef5c2c1873ca744c26e26ea975d18d9b269c3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T01:11:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+}
