@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1018-release-v0-2-112-finalization",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+    "preflightDecisionDigest": "sha256:394d9b1ec624a0df85a5e97fcff68b4b3860ded5b1b191208b3f2dcc9537e2a8",
+    "repositorySnapshotDigest": "sha256:7a31a24dce638f61ab33d305cccfbd05c194b91a267a8fe9e8cad70ee402a0f8",
+    "recordedAt": "2026-09-23T00:00:00Z",
+    "recordedBy": "human:repository-owner",
+    "reason": "Authorize the already approved v0.2.112 release boundary from corrected main. Preserve the immutable canceled v0.2.111 candidate, keep the four-target public matrix, and continue through normal verification, public acceptance, Runtime finalization, close, documentation projection, and exact cleanup. This review does not authorize task-progress APIs, history rewriting, or deletion of unrelated evidence."
+  }
+}

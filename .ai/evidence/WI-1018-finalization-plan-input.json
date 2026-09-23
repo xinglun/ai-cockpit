@@ -1,0 +1,8 @@
+{
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/984",
+  "branch": "codex/release-v0-2-112",
+  "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit",
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "provider": "github"
+}

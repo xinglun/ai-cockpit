@@ -1,0 +1,22 @@
+{
+  "scopeAppend": [
+    "Cargo.toml",
+    "Cargo.lock",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json"
+  ]
+}

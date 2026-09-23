@@ -1,0 +1,41 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The v0.2.112 annotated tag, public GitHub Release, source identity, four-target manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated v0.2.112 tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "scenario": "downloaded-adopter-install-upgrade",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "verificationPlan": "Use immutable public v0.2.112 Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "The Contract declares the v0.2.112 release and adopter acceptance boundary; user-visible completion-speed or risk-reduction benefit is not measured and is not inferred from publication or green verification.",
+    "evidence": [
+      ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
+      ".github/workflows/release.yml"
+    ]
+  },
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "WI-1018-release-v0-2-112-finalization",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "contractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+    "recordedAt": "2026-09-23T00:00:00Z",
+    "recordedBy": "human:repository-owner",
+    "reason": "Confirm the amended Contract for the already approved v0.2.112 release boundary. The amendment admits only the current release projections, the current tri-language Work Item pages and controlled parity rows, and the already declared executable release scenarios; it adds no acceptance requirement. Preserve v0.2.111 history, do not add task-progress APIs, and continue through fresh verification and normal publication gates."
+  }
+}

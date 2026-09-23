@@ -1,0 +1,173 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.8941f8ed90df13c6016091033237cafae1f4790ae24832465f1723998f444e6b.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1018-finalization-plan-input.json",
+    ".ai/evidence/WI-1018-governance-controls-input.json",
+    ".ai/evidence/WI-1018-resource-context-retry-input.json",
+    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
+    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-09-23T12:50:56Z",
+  "checkpointContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "recorded": true,
+      "recordedAt": "2026-09-23T12:50:56Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a31a24dce638f61ab33d305cccfbd05c194b91a267a8fe9e8cad70ee402a0f8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:1b7b31faecca7c8dbb6baf9cd5c8f7603e2a007029ed3cca9f7312c23bb25654",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "previousContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "reason": "The corrected successor release must update the current-version distribution, versioning, command-runtime, and reference metadata projections for 0.2.112. Add only these already intended release documentation paths; do not change historical WI-1017 records or acceptance requirements.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T12:56:53Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b8764569caa4e2a36126b0568bb0609dcd5e3a362fa0a187cda5d95d1b21147f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:8453eeb9e31960caeca14bcaba3300ee2a82339d3415103993f2ec45dc09752a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "previousContractHash": "sha256:1b7b31faecca7c8dbb6baf9cd5c8f7603e2a007029ed3cca9f7312c23bb25654",
+      "reason": "Complete the release Contract scope with the explicit Cargo files and Runtime-owned evidence projections changed by this lifecycle. This only makes the already declared v0.2.112 release edits admissible and does not add acceptance criteria.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T12:57:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b8764569caa4e2a36126b0568bb0609dcd5e3a362fa0a187cda5d95d1b21147f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:18bbaecf69ec7d0eed7d211bcc162a953e839bd1f21e652a65e356bcb3483783",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "previousContractHash": "sha256:8453eeb9e31960caeca14bcaba3300ee2a82339d3415103993f2ec45dc09752a",
+      "reason": "Declare the two already approved executable release scenarios on the high-risk v0.2.112 Contract: artifact identity/integrity and downloaded install/upgrade acceptance. No new acceptance requirement is introduced.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T13:02:23Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b8764569caa4e2a36126b0568bb0609dcd5e3a362fa0a187cda5d95d1b21147f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "previousContractHash": "sha256:18bbaecf69ec7d0eed7d211bcc162a953e839bd1f21e652a65e356bcb3483783",
+      "reason": "Bind the current tri-language Work Item pages and controlled parity rows required by the post-close documentation projection without changing historical records.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T13:21:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b8764569caa4e2a36126b0568bb0609dcd5e3a362fa0a187cda5d95d1b21147f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "createdAt": "2026-09-23T12:48:55Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "Confirm the amended Contract for the already approved v0.2.112 release boundary. The amendment admits only the current release projections, the current tri-language Work Item pages and controlled parity rows, and the already declared executable release scenarios; it adds no acceptance requirement. Preserve v0.2.111 history, do not add task-progress APIs, and continue through fresh verification and normal publication gates.",
+    "recordedAt": "2026-09-23T00:00:00Z",
+    "recordedBy": "human:repository-owner",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+    "schemaVersion": 1,
+    "workItemId": "WI-1018-release-v0-2-112-finalization"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "The Contract declares the v0.2.112 release and adopter acceptance boundary; user-visible completion-speed or risk-reduction benefit is not measured and is not inferred from publication or green verification.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+  "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "preflightAt": "2026-09-23T13:50:18Z",
+  "preflightContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.353441d1aa3a8eddebb5d1a48151eda44262703adef376185ea22814cf54cc50.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.112 annotated tag, public GitHub Release, source identity, four-target manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated v0.2.112 tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public v0.2.112 Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T13:50:41.648197+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:904954f5eba5112fd16096dc70451ed3462ea558197a44be22b55a1aedf7f9ff",
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}

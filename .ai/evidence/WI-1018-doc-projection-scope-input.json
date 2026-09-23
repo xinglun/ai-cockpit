@@ -1,0 +1,13 @@
+{
+  "scopeAppend": [
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.md",
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.zh-CN.md",
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sourcesAppend": [
+    "The current release Work Item documentation and controlled tri-language parity rows are required for the later Runtime post-close documentation projection; historical WI-1017 documentation remains immutable."
+  ]
+}

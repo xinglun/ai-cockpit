@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "reason": "Confirm the amended Contract for the already approved v0.2.112 release boundary. The amendment admits only the current release projections, the current tri-language Work Item pages and controlled parity rows, and the already declared executable release scenarios; it adds no acceptance requirement. Preserve v0.2.111 history, do not add task-progress APIs, and continue through fresh verification and normal publication gates.",
+  "recordedAt": "2026-09-23T00:00:00Z",
+  "recordedBy": "human:repository-owner",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:adabf57fb629ec5648d098215d9ee13e584a2f88d776a25f0ad776d61aa6ab32",
+  "schemaVersion": 1,
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}

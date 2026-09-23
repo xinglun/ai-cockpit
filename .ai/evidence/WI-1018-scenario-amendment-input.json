@@ -1,0 +1,20 @@
+{
+  "scenarioCoverageAppend": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The v0.2.112 annotated tag, public GitHub Release, source identity, four-target manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated v0.2.112 tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "scenario": "downloaded-adopter-install-upgrade",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "verificationPlan": "Use immutable public v0.2.112 Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ]
+}

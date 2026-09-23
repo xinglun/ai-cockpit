@@ -1,0 +1,116 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata、三语 interface/reference 版本事实和 v0.2.112 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 source quality、candidate build、manifest、checksums、SBOM、provenance 和 candidate acceptance 全部通过，且正式发布矩阵只有四个支持目标。",
+    "GitHub public Release v0.2.112 存在并与 tag、source commit 和公开资产身份一致。",
+    "下载后的 public v0.2.112 artifact 通过 fresh install 和 0.2.109-to-0.2.112 N-1 upgrade acceptance，且临时运行根清理成功。",
+    "WI-1018 归档、关闭、文档 projection、分支和 worktree 精确清理均有 Runtime/Provider evidence。",
+    "v0.2.112 的 manifest、checksums、SBOM、provenance、verify 和 adopter acceptance 使用同一四目标集合，并且不生成 Intel macOS 资产。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "fece59ffc2030eaaf8c2ec4f3145de7c564e3903",
+  "createdAt": "2026-09-23T12:48:55Z",
+  "goal": "从已合并且 CI 通过的 corrected main 发布 v0.2.112，仅生成四个受支持目标，完成公开制品、安装与 N-1 升级验收，以及归档、finalization、close、文档投影和精确清理。",
+  "intent": "完成 AI Cockpit v0.2.112 的修复后公开发布，承接 v0.2.111 未发布取消候选的同一发布目标，并保留全部旧候选历史。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改或重建 v0.2.111 tag、旧候选源码、取消的 release run 或其历史证据。",
+    "不生成 x86_64-apple-darwin 或 macos-15-intel 公开资产。",
+    "不新增任务进度 API、手工账本、全局 Agent/MCP 配置或无关治理平台。",
+    "不删除未合并、承载证据或无法证明无关的分支和 worktree。"
+  ],
+  "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+  "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.353441d1aa3a8eddebb5d1a48151eda44262703adef376185ea22814cf54cc50.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:7a31a24dce638f61ab33d305cccfbd05c194b91a267a8fe9e8cad70ee402a0f8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-112",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/984",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.112 annotated tag, public GitHub Release, source identity, four-target manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated v0.2.112 tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public v0.2.112 Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "scope": [
+    "Cargo/Cargo.lock 与当前版本事实更新为 0.2.112。",
+    "release workflow、manifest、provider、checksums、SBOM、provenance、verify 和 adopter acceptance 保持四目标一致。",
+    "创建 v0.2.112 immutable annotated tag，运行既有 release workflow，并收集公开 Release、下载验收和生命周期证据。",
+    "完成 WI-1018 的 Runtime 归档、finalization、close、文档 projection、分支和 worktree 精确清理。",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.**",
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.md",
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.zh-CN.md",
+    "docs/work-items/WI-1018-release-v0-2-112-finalization.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "origin/main at fece59ffc2030eaaf8c2ec4f3145de7c564e3903",
+    "PR #983 merged with main CI run 35861215619",
+    "canceled v0.2.111 candidate run 35857139735 and immutable tag v0.2.111",
+    "PR #983: https://github.com/xinglun/ai-cockpit/pull/983",
+    ".github/workflows/release.yml",
+    "docs/reference/release-distribution.md",
+    "The current release Work Item documentation and controlled tri-language parity rows are required for the later Runtime post-close documentation projection; historical WI-1017 documentation remains immutable."
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/version_consistency.sh --repo .",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh",
+    "cargo test -p cockpit-release",
+    "检查 release workflow、manifest/verify 和 adopter acceptance 的目标集合一致，且不再包含 x86_64-apple-darwin 或 macos-15-intel",
+    "发布后下载验收、N-1 升级验收和 Runtime 生命周期收尾证据"
+  ],
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}

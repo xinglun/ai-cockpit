@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-23T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35857139735",
+    "https://github.com/xinglun/ai-cockpit/pull/983",
+    ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.contract.json",
+    ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    "docs/reference/release-distribution.md"
+  ],
+  "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+  "predecessorSummaryDigest": "sha256:9cc2edb7c7cdb80020b3cea4b10d562906c150725742196704674eaf34aaf389",
+  "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "reason": "The immutable v0.2.111 tag points to the stale five-target source and its release workflow was canceled before publication. Preserve that candidate and its canceled run as immutable history, then continue the same approved release objective from corrected main in a successor v0.2.112 Work Item. Do not mutate v0.2.111, rewrite its evidence, or add task-progress APIs.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Activate WI-1018 from corrected synchronized main, release v0.2.112 with only the four supported targets, complete public artifact and adopter acceptance, then perform Runtime archive, finalization, close, documentation projection, and exact cleanup while preserving WI-1017 and v0.2.111 history.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "workItemId": "WI-1017-release-v0-2-111-finalization"
+}
