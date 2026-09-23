@@ -5,7 +5,7 @@
   "rustBaselineCommit": "47a47a1d4025d92afcefdfb669f7922d0e70974b",
   "runtimeVersion": "0.2.103",
   "runtimeBinaryDigest": "sha256:56e5050da40be8542b20e3f876433f7d1e3803c0da4be4b3dc650628e3d8c7b8",
-  "workspaceCandidateVersion": "0.2.107",
+  "workspaceCandidateVersion": "0.2.108",
   "currentPathCount": 5175,
   "classifiedPathCount": 5175,
   "semanticDecisionCount": 913,
