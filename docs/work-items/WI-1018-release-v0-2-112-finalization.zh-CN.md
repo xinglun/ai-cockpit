@@ -4,9 +4,12 @@ workItemId: WI-1018-release-v0-2-112-finalization
 title: v0.2.112 修正版发布收尾
 description: 在不可变的 v0.2.111 取消候选版本基础上，继续完成修正版四目标发布、公开验收和精确生命周期清理。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1018-release-v0-2-112-finalization
+terminalArchive: .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.contract.json
+terminalVerification: .ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json
+terminalDecision: .ai/decisions/WI-1018-release-v0-2-112-finalization.close.json
 ---
 
 [English](WI-1018-release-v0-2-112-finalization.md) · [日本語](WI-1018-release-v0-2-112-finalization.ja.md)

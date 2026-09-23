@@ -1,0 +1,227 @@
+{
+  "acceptanceResults": [
+    "WI-1018 的 finalization identity mismatch 及两次未写入/一次成功 recovery evidence 被保留，历史 archive bytes 不变。",
+    "PR #985 的 head 930902e4902438b3dae999f770053ce53d61e09b、merge commit 2d15355be49a4802111dbf21c078b2d6f9a1465d、分支和 worktree 状态通过 Runtime finalization 与 finalize-verify 绑定。",
+    "WI-1019 的验证、Outcome、archive、close 和文档 projection 通过现有 Runtime 路径完成；不把建议动作当授权。",
+    "PR #984 的原始 head e180c2ff3457f373c6e25bf7939b7678048d2f28 与 PR #985 的 930902e4 身份差异在 Outcome 中作为限制明确表达。"
+  ],
+  "createdAt": "2026-09-23T15:26:17Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8c85e27513918039c996c66ab54a193c0efd567d1758e47ab25e06882e0b54b6",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eebae1cf6352e066bde12d8948696f37af017fa0fec1ba86e8669d415feb73fa",
+      "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-finalization-receipt-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-finalization-successor-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1019-finalization-plan-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1019-scope-amendment-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/reference/reference-parity.zh-CN.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.ja.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.zh-CN.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写 WI-1018 历史记录、不重新发布且不增加任务进度接口的前提下，为已合并的归档证据 PR #985 记录真实资源 finalization、完成 finalize-verify、close 和文档投影，明确保留 PR #984 head 身份漂移限制。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:c9d8d9145c397ce71d641de42f2e8d1e7d9ab32b9acb7b01f61a51a98023fd0e",
+  "taskReportMarkdownDigest": "sha256:4602529b436099a79d2209eb7a3280f46f800e9dd271401cb72d74d3de0b4902",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+}

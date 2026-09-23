@@ -1,0 +1,59 @@
+{
+  "actor": "codex:repository-owner-authorized-release-cleanup",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "930902e4902438b3dae999f770053ce53d61e09b",
+    "name": "codex/release-v0-2-112",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+  "contractDigest": "sha256:546e1f83e55f2c3c43f3de74e4dad94fd1749f4acf5f5236efcad41dcab3bd16",
+  "operationId": "delete-codex-release-v0-2-112-after-pr-985-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0bca1e89dac5b1b95ebfb4fbaac04fe0df0bfcac",
+    "headRevision": "930902e4902438b3dae999f770053ce53d61e09b",
+    "mergeCommit": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+    "number": 985,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/985"
+  },
+  "reason": "PR #985 merged the preserved finalization evidence to main. The exact PR #985 release branch and clean release worktree were then removed; no unrelated refs or worktrees were changed. The original PR #984 head identity limitation remains preserved in WI-1018 evidence.",
+  "receiptId": "github-pr-985-wi-1019-release-v0-2-112-finalization-recovery",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-112",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/985",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-23T15:29:37Z",
+  "workItemId": "WI-1019-release-v0-2-112-finalization-recovery",
+  "worktree": {
+    "branch": "codex/release-v0-2-112",
+    "headRevision": "930902e4902438b3dae999f770053ce53d61e09b",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit",
+    "worktreeId": "release-v0-2-112"
+  }
+}

@@ -4,9 +4,12 @@ workItemId: WI-1018-release-v0-2-112-finalization
 title: v0.2.112 corrected release finalization
 description: Continue the corrected four-target release after the immutable v0.2.111 canceled candidate, with public acceptance and exact lifecycle cleanup.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1018-release-v0-2-112-finalization
+terminalArchive: .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.contract.json
+terminalVerification: .ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json
+terminalDecision: .ai/decisions/WI-1018-release-v0-2-112-finalization.close.json
 ---
 
 [简体中文](WI-1018-release-v0-2-112-finalization.zh-CN.md) · [日本語](WI-1018-release-v0-2-112-finalization.ja.md)
