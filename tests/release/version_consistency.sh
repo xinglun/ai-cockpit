@@ -90,7 +90,7 @@ if [[ "$post_release" == true ]]; then
   jq -e --arg tag "$tag" '.tagName == $tag and .isDraft == false and .isPrerelease == false' "$release_json" >/dev/null || die 'public Release is not stable'
   gh release download "$tag" --repo "$repository" --pattern release-manifest.json --dir "$download_dir" >/dev/null || die 'public release manifest is unavailable'
   manifest="$download_dir/release-manifest.json"
-  jq -e --arg version "$version" --arg tag "$tag" '.version == $version and .tag == $tag and (.artifacts | length) == 5' "$manifest" >/dev/null || die 'public manifest version or target matrix drifted'
+  jq -e --arg version "$version" --arg tag "$tag" '.version == $version and .tag == $tag and (.artifacts | length) == 4' "$manifest" >/dev/null || die 'public manifest version or target matrix drifted'
   jq -e --arg version "$version" 'all(.artifacts[]; (.archive.filename | startswith("ai-cockpit-v" + $version + "-")) and (.sbom.filename | startswith("ai-cockpit-v" + $version + "-")))' "$manifest" >/dev/null || die 'public asset names are not bound to workspace version'
   printf 'post-release public asset check passed: %s (%s)\n' "$tag" "$repository"
 else

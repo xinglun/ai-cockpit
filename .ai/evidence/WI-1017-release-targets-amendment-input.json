@@ -1,0 +1,20 @@
+{
+  "scopeAppend": [
+    "将 v0.2.111 正式发布目标收敛为 aarch64-apple-darwin、aarch64-unknown-linux-gnu、x86_64-unknown-linux-gnu 和 x86_64-pc-windows-msvc；从 release workflow、manifest/verify 和发布策略回归中移除已不再支持的 x86_64-apple-darwin / macos-15-intel 资产 lane。"
+  ],
+  "sourcesAppend": [
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh"
+  ],
+  "acceptanceAppend": [
+    "v0.2.111 的正式发布矩阵只生成四个受支持目标：aarch64-apple-darwin、aarch64-unknown-linux-gnu、x86_64-unknown-linux-gnu 和 x86_64-pc-windows-msvc；不生成 x86_64-apple-darwin / macos-15-intel 资产，且 manifest、checksums、SBOM、provenance、verify 和 adopter acceptance 使用同一目标集合。"
+  ],
+  "verificationAppend": [
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh",
+    "检查 release workflow、manifest/verify 和 adopter acceptance 的目标集合一致，且不再包含 x86_64-apple-darwin 或 macos-15-intel"
+  ]
+}

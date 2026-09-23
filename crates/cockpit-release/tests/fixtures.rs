@@ -13,7 +13,7 @@ fn valid_release_fixture_matches_the_wire_contract() {
     let value = fs::read_to_string(fixture("manifest-valid.json")).unwrap();
     let manifest = ReleaseManifest::parse_str(&value).unwrap();
     assert_eq!(manifest.version, "0.1.0");
-    assert_eq!(manifest.artifacts().len(), 5);
+    assert_eq!(manifest.artifacts().len(), 4);
 }
 
 #[test]

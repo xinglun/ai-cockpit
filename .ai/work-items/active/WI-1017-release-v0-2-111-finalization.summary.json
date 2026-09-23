@@ -66,6 +66,46 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1017-release-v0-2-111-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4d1ac4bbdc053a5724d10b22b34bc856402300e42d8713f64b7745d9c5738387",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "previousContractHash": "sha256:012b59db46b7ed54ee4e3bfca148cb2b09629ffa7bb2521ebbf7975a62bde93f",
+      "reason": "依据已确认的发布目标，修正 release workflow 残留的 Intel macOS 资产 lane；保持本次 WI 的版本发布与公开资产验收范围，不扩展任务进度或历史证据范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T12:15:58Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "previousContractHash": "sha256:4d1ac4bbdc053a5724d10b22b34bc856402300e42d8713f64b7745d9c5738387",
+      "reason": "将本次目标矩阵修正的定向实现验证追加到已批准 Contract；不新增验收标准。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T12:24:03Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:7a31a24dce638f61ab33d305cccfbd05c194b91a267a8fe9e8cad70ee402a0f8",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
@@ -85,7 +125,7 @@
   "preflightContractDigest": "sha256:03dea0f1453763f7daed1fbe88e637178c312766744b027aefaab4b9c3a4982a",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
-  "preflightState": "green",
+  "preflightState": "not_run",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.768442060b84a3bd080a9f22aa1f15ce36eb4f864d268b40d5e5e6bcc07a16f1.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -239,6 +279,11 @@
       "result": "passed"
     }
   ],
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-23T12:24:03Z"
+  },
   "verificationRecoveryReconciled": "sha256:1003d1a23eae4e51a6b302e4c58f2483f824847f5130c0559a71d8c8f12d9338",
   "workItemId": "WI-1017-release-v0-2-111-finalization"
 }

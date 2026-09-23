@@ -308,7 +308,7 @@ if [[ "$run_public" == 1 ]]; then
   if [[ -z "$target" ]]; then
     case "$(uname -s):$(uname -m)" in
       Darwin:arm64) target=aarch64-apple-darwin ;;
-      Darwin:x86_64) target=x86_64-apple-darwin ;;
+      Darwin:x86_64) printf 'set AI_COCKPIT_ACCEPTANCE_TARGET to a supported target for Intel macOS\n' >&2; exit 1 ;;
       Linux:x86_64) target=x86_64-unknown-linux-gnu ;;
       *) printf 'set AI_COCKPIT_ACCEPTANCE_TARGET for this host\n' >&2; exit 1 ;;
     esac

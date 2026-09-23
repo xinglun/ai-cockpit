@@ -10,7 +10,6 @@ fn artifact(target: &str, os: &str, architecture: &str, archive: &str, sbom: &st
     let runner = match target {
         "aarch64-apple-darwin" => "macos-15",
         "aarch64-unknown-linux-gnu" => "ubuntu-24.04-arm",
-        "x86_64-apple-darwin" => "macos-15-intel",
         "x86_64-pc-windows-msvc" => "windows-2025",
         "x86_64-unknown-linux-gnu" => "ubuntu-24.04",
         _ => unreachable!(),
@@ -37,13 +36,6 @@ fn valid_json() -> String {
             "ai-cockpit-v0.1.0-aarch64-unknown-linux-gnu.spdx.json",
         ),
         artifact(
-            "x86_64-apple-darwin",
-            "macos",
-            "x86_64",
-            "ai-cockpit-v0.1.0-x86_64-apple-darwin.tar.gz",
-            "ai-cockpit-v0.1.0-x86_64-apple-darwin.spdx.json",
-        ),
-        artifact(
             "x86_64-pc-windows-msvc",
             "windows",
             "x86_64",
@@ -65,10 +57,10 @@ fn valid_json() -> String {
 }
 
 #[test]
-fn valid_manifest_has_five_sorted_targets_and_stable_bytes() {
+fn valid_manifest_has_four_sorted_targets_and_stable_bytes() {
     let json = valid_json();
     let manifest = ReleaseManifest::parse_str(&json).expect("valid manifest");
-    assert_eq!(manifest.artifacts().len(), 5);
+    assert_eq!(manifest.artifacts().len(), 4);
     assert_eq!(
         manifest.canonical_bytes().unwrap(),
         manifest.canonical_bytes().unwrap()
@@ -143,13 +135,6 @@ fn staged_manifest(dist: &Path) -> String {
             "ai-cockpit-v0.1.0-aarch64-unknown-linux-gnu.spdx.json",
         ),
         (
-            "x86_64-apple-darwin",
-            "macos",
-            "x86_64",
-            "ai-cockpit-v0.1.0-x86_64-apple-darwin.tar.gz",
-            "ai-cockpit-v0.1.0-x86_64-apple-darwin.spdx.json",
-        ),
-        (
             "x86_64-pc-windows-msvc",
             "windows",
             "x86_64",
@@ -178,7 +163,6 @@ fn staged_manifest(dist: &Path) -> String {
             "runnerImage": match target {
                 "aarch64-apple-darwin" => "macos-15",
                 "aarch64-unknown-linux-gnu" => "ubuntu-24.04-arm",
-                "x86_64-apple-darwin" => "macos-15-intel",
                 "x86_64-pc-windows-msvc" => "windows-2025",
                 "x86_64-unknown-linux-gnu" => "ubuntu-24.04",
                 _ => unreachable!(),
@@ -224,11 +208,11 @@ fn staged_files_and_checksums_are_verified() {
     let dist = tempfile::tempdir().unwrap();
     let manifest = ReleaseManifest::parse_str(&staged_manifest(dist.path())).unwrap();
     let validated = manifest.validate_staged(dist.path()).unwrap();
-    assert_eq!(validated.files.len(), 12);
+    assert_eq!(validated.files.len(), 10);
 }
 
 #[test]
-fn manifest_can_be_built_from_the_five_staged_targets() {
+fn manifest_can_be_built_from_the_four_staged_targets() {
     let dist = tempfile::tempdir().unwrap();
     let manifest =
         ReleaseManifest::from_staged_dist("0.1.0", "v0.1.0", COMMIT, LOCK_DIGEST, dist.path());
@@ -240,7 +224,6 @@ fn manifest_can_be_built_from_the_five_staged_targets() {
         artifact.runner_image = match artifact.target.as_str() {
             "aarch64-apple-darwin" => "macos-15",
             "aarch64-unknown-linux-gnu" => "ubuntu-24.04-arm",
-            "x86_64-apple-darwin" => "macos-15-intel",
             "x86_64-pc-windows-msvc" => "windows-2025",
             "x86_64-unknown-linux-gnu" => "ubuntu-24.04",
             _ => unreachable!(),
@@ -314,7 +297,7 @@ fn checksum_writer_covers_every_non_self_public_asset_once_in_stable_order() {
         .lines()
         .map(|line| line.split_whitespace().nth(1).unwrap())
         .collect::<Vec<_>>();
-    assert_eq!(filenames.len(), 12);
+    assert_eq!(filenames.len(), 10);
     assert!(filenames.windows(2).all(|pair| pair[0] < pair[1]));
     assert_eq!(
         filenames

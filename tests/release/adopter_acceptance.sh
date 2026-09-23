@@ -109,7 +109,7 @@ done
 
 [[ "$repository" =~ ^[^/]+/[^/]+$ ]] || die 'repository must be OWNER/REPOSITORY'
 [[ "$tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || die 'tag must be a canonical vX.Y.Z tag'
-[[ "$target" =~ ^(aarch64-apple-darwin|aarch64-unknown-linux-gnu|x86_64-apple-darwin|x86_64-pc-windows-msvc|x86_64-unknown-linux-gnu)$ ]] || die "unsupported target: $target"
+[[ "$target" =~ ^(aarch64-apple-darwin|aarch64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-unknown-linux-gnu)$ ]] || die "unsupported target: $target"
 [[ -n "$output" ]] || die '--output is required'
 
 for command_name in bash curl jq git cargo tar; do

@@ -277,7 +277,7 @@ done
 [[ "$from_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || die 'from-tag must be vX.Y.Z'
 [[ "$to_tag" =~ ^v[0-9]+[.][0-9]+[.][0-9]+$ ]] || die 'to-tag must be vX.Y.Z'
 [[ "$from_tag" != "$to_tag" ]] || die 'from-tag and to-tag must be distinct immutable Releases'
-[[ "$target" =~ ^(aarch64-apple-darwin|aarch64-unknown-linux-gnu|x86_64-apple-darwin|x86_64-pc-windows-msvc|x86_64-unknown-linux-gnu)$ ]] || die "unsupported target: $target"
+[[ "$target" =~ ^(aarch64-apple-darwin|aarch64-unknown-linux-gnu|x86_64-pc-windows-msvc|x86_64-unknown-linux-gnu)$ ]] || die "unsupported target: $target"
 [[ -n "$output" ]] || die '--output is required'
 for command_name in bash curl jq git cargo tar; do need "$command_name"; done
 if [[ "$target" == x86_64-pc-windows-msvc ]]; then need unzip; archive_ext=zip; else
