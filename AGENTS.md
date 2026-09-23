@@ -38,10 +38,13 @@ ai-cockpit doctor --repo <repository>
 ai-cockpit agent doctor --repo <repository> --json
 ```
 
-If discovery or preflight reports missing authority, unknowns, contradictory
-evidence, or a required human decision, stop and show that reason. Re-query
-before an action after the Contract or repository snapshot changes. Query
-paths are read-only and do not start verification or repair processes.
+If discovery or preflight reports missing authority, contradictory evidence, or
+a required human decision, stop and show that reason. When it reports
+unknowns, preserve and report them; unknowns alone do not override a current
+Runtime action admission. Continue only when the Runtime admits the requested
+action and its required inputs are present. Re-query before an action after
+the Contract or repository snapshot changes. Query paths are read-only and do
+not start verification or repair processes.
 
 ## Task guide routing
 

@@ -2124,6 +2124,7 @@ jobs:
           SOURCE_RUN_ID: ${{ needs.release_input_preflight.outputs.reuse_acceptance_run_id || '' }}
         run: |
           set -euo pipefail
+          source tests/release/release_close_state.sh
           if [[ "$PLAN_MODE" == close_only ]]; then
             HANDOFF=success
             VERSION_CONSISTENCY=success
@@ -2147,29 +2148,29 @@ jobs:
           require_receipt() {
             local path="$1" status="$2" label="$3"
             if [[ "$status" != success ]]; then
-              state=failed; reasons+=("${label}_job_failed")
+              record_release_close_failure "${label}_job_failed"
             elif [[ ! -f "$path" ]]; then
-              state=failed; reasons+=("missing_${label}_receipt")
+              record_release_close_failure "missing_${label}_receipt"
             fi
           }
           require_receipt "$handoff_file" "$HANDOFF" handoff
           if [[ "$INPUT_PREFLIGHT" != success || ! -f "$lifecycle_file" ]]; then
-            state=failed; reasons+=(governance_binding_failed)
+            record_release_close_failure governance_binding_failed
           elif ! jq -e \
             --arg plan "$PLAN_DIGEST" \
             --arg workItem "$GOVERNANCE_WORK_ITEM_ID" \
             --arg contractDigest "$GOVERNANCE_CONTRACT_DIGEST" \
             '.kind == "release_lifecycle_handoff" and .state == "ready" and .planDigest == $plan and .governance.workItemId == $workItem and .governance.contractDigest == $contractDigest and (.runtimeIdentity.digest | startswith("sha256:"))' \
             "$lifecycle_file" >/dev/null; then
-            state=failed; reasons+=(governance_binding_failed)
+            record_release_close_failure governance_binding_failed
           fi
           require_receipt "$version_file" "$VERSION_CONSISTENCY" version_consistency
           require_receipt "$install_file" "$INSTALL" install
           require_receipt "$install_phases" "$INSTALL" install_phases
           if [[ "$UPGRADE" != success ]]; then
-            state=failed; reasons+=(upgrade_job_failed_or_skipped)
+            record_release_close_failure upgrade_job_failed_or_skipped
           elif [[ ! -f "$upgrade_file" ]]; then
-            state=failed; reasons+=(missing_upgrade_receipt)
+            record_release_close_failure missing_upgrade_receipt
           fi
           provider_release_id=''
           release_json="$RUNNER_TEMP/close-release.json"
@@ -2180,17 +2181,17 @@ jobs:
           if [[ "$release_lookup" -eq 0 ]]; then
             provider_release_id="$(jq -er '.id' "$release_json" 2>/dev/null || true)"
           else
-            state=failed; reasons+=(provider_release_lookup_failed)
+            record_release_close_failure provider_release_lookup_failed
           fi
           if [[ -f "$handoff_file" ]]; then
             jq -e --arg tag "$TAG" --arg commit "$COMMIT" --argjson providerId "${provider_release_id:-0}" \
               '.release.tag == $tag and .release.commit == $commit and .release.providerReleaseId == $providerId' \
-              "$handoff_file" >/dev/null || { state=failed; reasons+=(handoff_binding_invalid); }
+              "$handoff_file" >/dev/null || record_release_close_failure handoff_binding_invalid
           fi
           if [[ -f "$version_file" ]]; then
             jq -e --arg tag "$TAG" --arg commit "$COMMIT" \
               '.tag == $tag and .commit == $commit and .state == "passed"' "$version_file" >/dev/null || {
-              state=failed; reasons+=(version_consistency_failed)
+              record_release_close_failure version_consistency_failed
             }
           fi
           validate_acceptance() {
@@ -2202,26 +2203,27 @@ jobs:
                 --phases "$phases" \
                 --tag "$TAG" \
                 --kind "$label" >/dev/null 2>&1; then
-                state=failed; reasons+=("${label}_not_applicable_receipt_invalid")
+                record_release_close_failure "${label}_not_applicable_receipt_invalid"
               fi
               return 0
             fi
-            [[ -f "$phases" ]] || { state=failed; reasons+=("${label}_phase_receipt_missing"); return; }
+            [[ -f "$phases" ]] || { record_release_close_failure "${label}_phase_receipt_missing"; return; }
             if ! tests/release/validate_adopter_acceptance_receipt.sh \
               --receipt "$path" \
               --phases "$phases" \
               --tag "$TAG" \
               --kind "$label" >/dev/null 2>&1; then
-              state=failed; reasons+=("${label}_receipt_invalid")
+              record_release_close_failure "${label}_receipt_invalid"
             fi
           }
           validate_acceptance "$install_file" "$install_phases" install
           validate_acceptance "$upgrade_file" "$upgrade_phases" upgrade
           reason_json='[]'
           if [[ -f close-inputs/reuse-validation.failure ]]; then
-            reasons+=(reused_acceptance_run_invalid)
+            record_release_close_failure reused_acceptance_run_invalid
           fi
           if ((${#reasons[@]} > 0)); then
+            finalize_release_close_state
             reason_json="$(printf '%s\n' "${reasons[@]}" | jq -R . | jq -s .)"
           fi
           lifecycle_digest=null; handoff_digest=null; version_digest=null; install_digest=null; install_phase_digest=null; upgrade_digest=null; upgrade_phase_digest=null
