@@ -4,7 +4,8 @@
     "release workflow 的 strict source quality、candidate build、manifest、checksums、SBOM、provenance 和 candidate acceptance 全部通过。",
     "GitHub public Release v0.2.111 存在并与 tag、source commit 和公开资产身份一致。",
     "下载后的 public v0.2.111 artifact 通过 fresh install 和 0.2.109-to-0.2.111 N-1 upgrade acceptance，且临时运行根清理成功。",
-    "Work Item 归档、关闭、文档 projection、分支和 worktree 精确清理均有 Runtime/Provider evidence。"
+    "Work Item 归档、关闭、文档 projection、分支和 worktree 精确清理均有 Runtime/Provider evidence。",
+    "v0.2.111 的正式发布矩阵只生成四个受支持目标：aarch64-apple-darwin、aarch64-unknown-linux-gnu、x86_64-unknown-linux-gnu 和 x86_64-pc-windows-msvc；不生成 x86_64-apple-darwin / macos-15-intel 资产，且 manifest、checksums、SBOM、provenance、verify 和 adopter acceptance 使用同一目标集合。"
   ],
   "authority": "authorized",
   "baseRevision": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
@@ -82,7 +83,8 @@
     "docs/reference/reference-parity.ja.md",
     "docs/work-items/WI-1017-release-v0-2-111-finalization.md",
     "docs/work-items/WI-1017-release-v0-2-111-finalization.zh-CN.md",
-    "docs/work-items/WI-1017-release-v0-2-111-finalization.ja.md"
+    "docs/work-items/WI-1017-release-v0-2-111-finalization.ja.md",
+    "将 v0.2.111 正式发布目标收敛为 aarch64-apple-darwin、aarch64-unknown-linux-gnu、x86_64-unknown-linux-gnu 和 x86_64-pc-windows-msvc；从 release workflow、manifest/verify 和发布策略回归中移除已不再支持的 x86_64-apple-darwin / macos-15-intel 资产 lane。"
   ],
   "sources": [
     "origin/main at 19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
@@ -90,7 +92,12 @@
     "https://github.com/xinglun/ai-cockpit/actions/runs/35851384187",
     "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.110 (preserved failed pre-publication candidate)",
     "AGENTS.md and docs/release/distribution.md",
-    "https://github.com/xinglun/ai-cockpit/pull/982"
+    "https://github.com/xinglun/ai-cockpit/pull/982",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh",
+    "tests/release/adopter_acceptance.sh",
+    "tests/release/adopter_upgrade_acceptance.sh"
   ],
   "state": "implementation_active",
   "verification": [
@@ -101,7 +108,10 @@
     "python3 scripts/generate_interface_references.py --repo . --check",
     "bash tests/docs/documentation_acceptance.sh",
     "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
-    "bash tests/ci/release_gate_policy_test.sh"
+    "bash tests/ci/release_gate_policy_test.sh",
+    "检查 release workflow、manifest/verify 和 adopter acceptance 的目标集合一致，且不再包含 x86_64-apple-darwin 或 macos-15-intel",
+    "cargo test -p cockpit-release",
+    "AI_COCKPIT_ISOLATION_BIN=target/debug/ai-cockpit bash tests/release/isolation_manifest_test.sh"
   ],
   "workItemId": "WI-1017-release-v0-2-111-finalization"
 }

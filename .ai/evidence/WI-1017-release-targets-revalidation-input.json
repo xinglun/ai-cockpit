@@ -1,0 +1,7 @@
+{
+  "verificationAppend": [
+    "cargo fmt --all -- --check",
+    "cargo test -p cockpit-release",
+    "AI_COCKPIT_ISOLATION_BIN=target/debug/ai-cockpit bash tests/release/isolation_manifest_test.sh"
+  ]
+}

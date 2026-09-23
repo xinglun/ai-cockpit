@@ -152,7 +152,6 @@ mod tests {
         let targets = [
             ("aarch64-apple-darwin", "tar.gz"),
             ("aarch64-unknown-linux-gnu", "tar.gz"),
-            ("x86_64-apple-darwin", "tar.gz"),
             ("x86_64-pc-windows-msvc", "zip"),
             ("x86_64-unknown-linux-gnu", "tar.gz"),
         ];
@@ -230,7 +229,7 @@ mod tests {
         assert_eq!(receipt.state, "reused");
         assert_eq!(receipt.provider_release_id, 91);
         assert_eq!(receipt.tag, manifest.tag);
-        assert_eq!(receipt.asset_count, 13);
+        assert_eq!(receipt.asset_count, 11);
     }
 
     #[test]

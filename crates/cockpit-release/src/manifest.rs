@@ -10,10 +10,9 @@ use sha2::{Digest, Sha256};
 
 use crate::error::ReleaseError;
 
-const EXPECTED_TARGETS: [&str; 5] = [
+const EXPECTED_TARGETS: [&str; 4] = [
     "aarch64-apple-darwin",
     "aarch64-unknown-linux-gnu",
-    "x86_64-apple-darwin",
     "x86_64-pc-windows-msvc",
     "x86_64-unknown-linux-gnu",
 ];
@@ -73,7 +72,6 @@ impl ReleaseManifest {
             let (os, architecture, runner_image, extension) = match target {
                 "aarch64-apple-darwin" => ("macos", "arm64", "macos-15", "tar.gz"),
                 "aarch64-unknown-linux-gnu" => ("linux", "arm64", "ubuntu-24.04-arm", "tar.gz"),
-                "x86_64-apple-darwin" => ("macos", "x86_64", "macos-15-intel", "tar.gz"),
                 "x86_64-pc-windows-msvc" => ("windows", "x86_64", "windows-2025", "zip"),
                 "x86_64-unknown-linux-gnu" => ("linux", "x86_64", "ubuntu-24.04", "tar.gz"),
                 _ => unreachable!(),
@@ -252,9 +250,8 @@ impl ReleaseManifest {
             {
                 0 => ("macos", "arm64", "macos-15", "tar.gz"),
                 1 => ("linux", "arm64", "ubuntu-24.04-arm", "tar.gz"),
-                2 => ("macos", "x86_64", "macos-15-intel", "tar.gz"),
-                3 => ("windows", "x86_64", "windows-2025", "zip"),
-                4 => ("linux", "x86_64", "ubuntu-24.04", "tar.gz"),
+                2 => ("windows", "x86_64", "windows-2025", "zip"),
+                3 => ("linux", "x86_64", "ubuntu-24.04", "tar.gz"),
                 _ => unreachable!(),
             };
             if artifact.os != expected_os

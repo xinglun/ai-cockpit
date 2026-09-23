@@ -474,9 +474,6 @@ jobs:
           - os: ubuntu-24.04-arm
             artifact: ubuntu-arm64
             binary: cockpit-release
-          - os: macos-15-intel
-            artifact: macos-x86_64
-            binary: cockpit-release
           - os: macos-15
             artifact: macos-arm64
             binary: cockpit-release
@@ -641,11 +638,6 @@ jobs:
             target: aarch64-unknown-linux-gnu
             archive: tar.gz
             helper_artifact: ubuntu-arm64
-            helper_binary: cockpit-release
-          - os: macos-15-intel
-            target: x86_64-apple-darwin
-            archive: tar.gz
-            helper_artifact: macos-x86_64
             helper_binary: cockpit-release
           - os: macos-15
             target: aarch64-apple-darwin
@@ -1056,7 +1048,7 @@ jobs:
             --manifest dist/release-manifest.json --dist dist
           version="$(jq -er '.version' dist/release-manifest.json)"
           test -n "$version"
-          for target in aarch64-apple-darwin aarch64-unknown-linux-gnu x86_64-apple-darwin x86_64-pc-windows-msvc x86_64-unknown-linux-gnu; do
+          for target in aarch64-apple-darwin aarch64-unknown-linux-gnu x86_64-pc-windows-msvc x86_64-unknown-linux-gnu; do
             if [[ "$target" == x86_64-pc-windows-msvc ]]; then extension=zip; else extension=tar.gz; fi
             "$COCKPIT_RELEASE_BIN" inspect \
               --archive "dist/ai-cockpit-v${version}-${target}.${extension}" --target "$target"

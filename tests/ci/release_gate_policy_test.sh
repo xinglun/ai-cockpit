@@ -24,6 +24,17 @@ require 'name: Run source quality gates' 'source quality step is required'
 require 'tests/ci/run_repository_gates.py' 'release must run the canonical repository gate manifest'
 require 'tests/ci/repository_gate_manifest.json' 'release must bind the canonical repository gate manifest'
 require 'target/release/ai-cockpit gate-plan' 'release must derive a typed route in the shared Rust application'
+if grep -Eq 'macos-15-intel|macos-x86_64|x86_64-apple-darwin' "$workflow"; then
+  printf 'release gate policy failure: Intel macOS must not be part of the official release matrix\n' >&2
+  exit 1
+fi
+for official_target in \
+  'target: aarch64-apple-darwin' \
+  'target: aarch64-unknown-linux-gnu' \
+  'target: x86_64-pc-windows-msvc' \
+  'target: x86_64-unknown-linux-gnu'; do
+  require "$official_target" "official release matrix must include $official_target"
+done
 if grep -Fq -- 'python3 tests/ci/quality_route.py' "$workflow"; then
   printf 'release gate policy failure: compatibility Python route must not be a production release path\n' >&2
   exit 1

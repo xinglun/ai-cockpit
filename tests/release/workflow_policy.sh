@@ -40,6 +40,7 @@ require_match() {
 fail_if_match 'ubuntu-latest|windows-latest' 'moving runner aliases are not allowed'
 fail_if_match 'macos-13' 'retired macOS 13 runners are not allowed'
 fail_if_match 'macos-14' 'macOS 14 runner is in the deprecation window'
+fail_if_match 'macos-15-intel|macos-x86_64|x86_64-apple-darwin' 'Intel macOS must not be part of the official release matrix'
 fail_if_match '^\s*uses:\s*[^#]+@(v[0-9]|stable|main|master)(?:\s|$)' 'actions must be pinned to full commit SHAs'
 fail_if_match '^permissions:\s*$' 'workflow-wide permissions are not allowed'
 fail_if_match 'curl\s+[^|]+\|\s*(sh|bash)' 'shell bootstrap installers are not part of release'
@@ -162,6 +163,13 @@ require_match '^  staged_adopter_acceptance:' 'pre-publication staged adopter ac
 require_match '^  staged_adopter_upgrade_acceptance:' 'pre-publication staged N-1 acceptance job must be present'
 require_match 'tests/ci/run_repository_gates\.py' 'source quality must run the canonical repository gate manifest'
 require_match 'target/release/ai-cockpit gate-plan' 'release preflight must derive the typed repository route in Rust'
+for official_target in \
+  'target: aarch64-apple-darwin' \
+  'target: aarch64-unknown-linux-gnu' \
+  'target: x86_64-pc-windows-msvc' \
+  'target: x86_64-unknown-linux-gnu'; do
+  require_match "$official_target" "official release matrix must include $official_target"
+done
 
 # The manifest-backed source-quality job is the single execution owner for
 # repository gates. Keep release_preflight limited to route/tool preparation;
