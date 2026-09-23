@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-23T04:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1011-release-v0-2-107.verification.json",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/release-upgrade-acceptance.md"
+  ],
+  "predecessorContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "predecessorEventsDigest": "sha256:c900b89e2c3fdfaf2da58855cc67d5cad2e3b5b4c593756c6dbb90ccbf31e67a",
+  "predecessorOutcomeDigest": "sha256:b5cddc8d154219986043b7045f48dca8db05ddff64b1247adafca86bd3970045",
+  "predecessorSummaryDigest": "sha256:2b946aaf064588d18cc757ddede09f5d2eab5b23c8d0764a0850cb4461a2c45f",
+  "predecessorWorkItemId": "WI-1011-release-v0-2-107",
+  "reason": "The supported retry flow is being re-bound to the merged Runtime repair so fresh verification can replace the preserved blocked projection without rewriting prior evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and release verification against the current synchronized main snapshot, then continue the authorized v0.2.107 release lifecycle.",
+  "runtimeDigest": "sha256:dc4b7a20707d7e1ae156953be3cbce96f8dd5be6727cbeb7462d38c957367969",
+  "runtimeVersion": "0.2.107",
+  "schemaVersion": 1,
+  "workItemId": "WI-1011-release-v0-2-107"
+}

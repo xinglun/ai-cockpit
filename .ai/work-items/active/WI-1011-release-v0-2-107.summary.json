@@ -1,27 +1,9 @@
 {
   "changedPaths": [
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1011-release-v0-2-107.approach.json",
-    ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
-    ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json",
-    "Cargo.lock",
-    "Cargo.toml",
-    "docs/architecture/release-distribution.ja.md",
-    "docs/architecture/release-distribution.md",
-    "docs/architecture/release-distribution.zh-CN.md",
-    "docs/architecture/versioning.ja.md",
-    "docs/architecture/versioning.md",
-    "docs/architecture/versioning.zh-CN.md",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/reference/reference-comparison-metadata.json",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md"
+    ".ai/evidence/WI-1011-release-v0-2-107.verification-attempt.a296f8c6040eb0cefe00d2efde351a82148a12082c4a26f5b084c380ab9bce0d.json"
   ],
   "checkpointAt": "2026-09-23T03:18:25Z",
-  "checkpointContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "checkpointContractDigest": "sha256:480d914b18e126910fe75693e600be738a795dec9b746621d27c0f7cd8565fc0",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -117,11 +99,30 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:480d914b18e126910fe75693e600be738a795dec9b746621d27c0f7cd8565fc0",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "previousContractHash": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+      "reason": "The existing workspace verification commands require these repository-owned adversarial and release fixture inputs in the Runtime isolated execution scope; include them without changing tests or acceptance.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T04:38:07Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:b0e4655bf959a1c193b8f59cea06f396843e6be9d2bf9ea3485dc53684179187",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1011-release-v0-2-107"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
+  "checkpointRepositorySnapshotDigest": "sha256:b0e4655bf959a1c193b8f59cea06f396843e6be9d2bf9ea3485dc53684179187",
   "createdAt": "2026-09-23T03:15:23Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
@@ -131,14 +132,12 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-23T03:36:21Z",
-  "preflightContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "preflightAt": "2026-09-23T04:48:15Z",
+  "preflightContractDigest": "sha256:480d914b18e126910fe75693e600be738a795dec9b746621d27c0f7cd8565fc0",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
+  "preflightRepositorySnapshotDigest": "sha256:b0e4655bf959a1c193b8f59cea06f396843e6be9d2bf9ea3485dc53684179187",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -290,6 +289,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:ba9de334c2fa0d4963a0ca49d0fc85c9c58390a0a2ad44e17f42657be25c581c",
+  "verificationRecoveryReconciled": "sha256:687ceb9050629b153ce051d93db60e840f9bdf3704482ff1a4b60f26fb611fbb",
   "workItemId": "WI-1011-release-v0-2-107"
 }

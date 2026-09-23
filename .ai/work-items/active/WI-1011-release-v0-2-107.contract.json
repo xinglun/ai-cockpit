@@ -65,7 +65,9 @@
     "docs/architecture/release-distribution.ja.md",
     "docs/architecture/versioning.md",
     "docs/architecture/versioning.zh-CN.md",
-    "docs/architecture/versioning.ja.md"
+    "docs/architecture/versioning.ja.md",
+    "tests/adversarial/**",
+    "tests/release/fixtures/**"
   ],
   "sources": [
     "origin/main at 1fd63ac0730f8dfc8db10e8772d6e7ab1598d7e4",
