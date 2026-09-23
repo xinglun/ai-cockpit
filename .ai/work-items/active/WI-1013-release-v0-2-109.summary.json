@@ -1,12 +1,13 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1012-release-v0-2-108.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1012-release-v0-2-108.summary.json",
-    ".ai/work-items/active/WI-1013-release-v0-2-109.contract.json",
+    ".ai/evidence/WI-1013-release-v0-2-109.verification-attempt.96c4cce72c831671ebbbdca7e1d0517367c9a14f6cf6d317c7d75db3373ec358.json",
     ".ai/work-items/active/WI-1013-release-v0-2-109.summary.json"
   ],
-  "checkpointCount": 0,
+  "checkpointAt": "2026-09-23T06:39:46Z",
+  "checkpointContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
   "createdAt": "2026-09-23T06:32:50Z",
   "intentAlignment": {
     "evidence": [
@@ -19,11 +20,11 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
   "predecessorWorkItemId": "WI-1012-release-v0-2-108",
-  "preflightAt": "2026-09-23T06:34:29Z",
+  "preflightAt": "2026-09-23T06:45:42Z",
   "preflightContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:50c11ab7767f12e3a9f9913d5e1161b779c67ddc48afd8cd65192c01f21a3162",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1012-release-v0-2-108.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
@@ -45,7 +46,138 @@
       "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
     }
   ],
-  "state": "implementation_active",
-  "updatedAt": "2026-09-23T06:34:55.996901+00:00",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T06:39:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:da67a883b1777789986301e32b503c8abe6a79c26b7ebfcb8c5c324655599031",
   "workItemId": "WI-1013-release-v0-2-109"
 }
