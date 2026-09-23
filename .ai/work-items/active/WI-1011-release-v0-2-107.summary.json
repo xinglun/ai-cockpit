@@ -1,0 +1,295 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.approach.json",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json",
+    "Cargo.lock",
+    "Cargo.toml",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/versioning.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/release/distribution.ja.md",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-23T03:18:25Z",
+  "checkpointContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "recorded": true,
+      "recordedAt": "2026-09-23T03:18:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:18c2b02f84c8af90412e3b6376e797a98914565dd3323c60a699437413def393",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5285f4dbbb91076bae319d6cf3a1872b045bab9b20f2464f38090d795e2ce19f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "previousContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "reason": "将生成的三语 interface/reference 版本事实明确纳入已批准的 v0.2.107 发布范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T03:20:19Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:15e9a83a090df3b6e0e42d821bf46022b7dcbe586cc1099bb07ee6edfb7ee1ee",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:da29a05a7ba13ed678eedd0e6d594982f489604a0b61dc4b533475be8abe0595",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "previousContractHash": "sha256:5285f4dbbb91076bae319d6cf3a1872b045bab9b20f2464f38090d795e2ce19f",
+      "reason": "将发布生命周期产生的精确仓库路径模式加入已批准范围，使 Runtime scope 门禁能区分发布证据与无关改动。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T03:21:32Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:64a9c96f84ce4ca7602e8a4021cc5bce39d5b90fb2143915a5ef8c4d0dfda0ac",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:caccf3ee518a8e71a51226f46ffeedbc7eb42f174d86f11d8ba63e009d2477f7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "previousContractHash": "sha256:da29a05a7ba13ed678eedd0e6d594982f489604a0b61dc4b533475be8abe0595",
+      "reason": "将当前版本事实所在的发布指南与候选版本元数据纳入 v0.2.107 发布范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-23T03:23:09Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:37cb7d2db69af6b308c7104baeea1a43b319b8dc1eca486fc064a85fd9627cea",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7095132b9702d26e83a3746f42133fc0be571aa326d1c2121e0c4750c48019df",
+      "previousContractHash": "sha256:caccf3ee518a8e71a51226f46ffeedbc7eb42f174d86f11d8ba63e009d2477f7",
+      "reason": "Release documentation and versioning projection must be in the active Contract scope for v0.2.107 consistency checks",
+      "recorded": true,
+      "recordedAt": "2026-09-23T03:28:54Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:78826a520664282bd947d2dba254e98fc8e1090477026aef1b4854969b9d51e4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1011-release-v0-2-107"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
+  "createdAt": "2026-09-23T03:15:23Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "The declared scope is limited to the v0.2.107 version change, the existing release workflow, public asset and N-1 acceptance, and Work Item cleanup; no unrelated implementation change is included.",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-23T03:36:21Z",
+  "preflightContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.107 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the release Work Item change is merged, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.107 artifact passes checksum, isolated fresh install, v0.2.106-to-v0.2.107 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T03:36:42Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:ba9de334c2fa0d4963a0ca49d0fc85c9c58390a0a2ad44e17f42657be25c581c",
+  "workItemId": "WI-1011-release-v0-2-107"
+}
