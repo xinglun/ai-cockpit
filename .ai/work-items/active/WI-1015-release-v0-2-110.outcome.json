@@ -1,0 +1,149 @@
+{
+  "acceptanceResults": [
+    "Cargo metadata、三语 interface/reference 版本事实和 v0.2.110 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 strict source quality、candidate build、manifest、checksums、SBOM、provenance 和 candidate acceptance 全部通过。",
+    "GitHub public Release v0.2.110 存在并与 tag、source commit 和公开资产身份一致。",
+    "下载后的 public v0.2.110 artifact 通过 fresh install 和 v0.2.109-to-v0.2.110 N-1 upgrade acceptance，且临时运行根清理成功。",
+    "Work Item 归档、关闭、文档 projection、分支和 worktree 精确清理均有 Runtime/Provider evidence。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:5e7478eece81eb36f482451fab423cff167265b5e0a4d4e78449b03a3803d0b3",
+      "workItemId": "WI-1015-release-v0-2-110"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1015-release-v0-2-110.verification-attempt.5ec90350b9ad4c6f223b6112e57f73a424ae423be23c30b995d348c46430d211.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json"
+          ],
+          "inference": false,
+          "text": "从同步 main adaba47302af4e4419e5a8990d49f8039cc69d84 发布 v0.2.110，证明公开资产与源提交身份一致，完成安装与 N-1 升级验收，并完成本 Work Item 的归档、finalize、close、文档投影和资源清理。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-1015-release-v0-2-110"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1015-release-v0-2-110.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-1015-release-v0-2-110"
+}

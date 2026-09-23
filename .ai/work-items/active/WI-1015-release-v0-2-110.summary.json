@@ -1,10 +1,11 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1015-release-v0-2-110.verification-attempt.5ec90350b9ad4c6f223b6112e57f73a424ae423be23c30b995d348c46430d211.json",
     ".ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
   ],
   "checkpointAt": "2026-09-23T09:37:40Z",
-  "checkpointContractDigest": "sha256:c05675dcafa629b1bedf4fca6402424e9c861f0080d22e8115cdfc07919a3975",
+  "checkpointContractDigest": "sha256:dabd66947ea8803278b418294576316b96b0863556382f8bf07362f7303e5a29",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -42,8 +43,9 @@
       "workItemId": "WI-1015-release-v0-2-110"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:bd1f6368f1807b462cd8b65aafeb5f18698fd900bf4f0470306c09c8cab8d303",
+  "checkpointRepositorySnapshotDigest": "sha256:5e7478eece81eb36f482451fab423cff167265b5e0a4d4e78449b03a3803d0b3",
   "createdAt": "2026-09-23T09:33:32Z",
+  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json",
@@ -53,12 +55,14 @@
     "state": "unknown"
   },
   "mode": "implementation",
-  "preflightAt": "2026-09-23T09:44:25Z",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-23T09:52:12Z",
   "preflightContractDigest": "sha256:dabd66947ea8803278b418294576316b96b0863556382f8bf07362f7303e5a29",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:b2e238a2807a038dab01a31761aae211754b06fca8d95175ad852a003e66863e",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:5e7478eece81eb36f482451fab423cff167265b5e0a4d4e78449b03a3803d0b3",
+  "preflightState": "green",
   "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
@@ -79,11 +83,137 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-23T09:45:49.527690+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:dabd66947ea8803278b418294576316b96b0863556382f8bf07362f7303e5a29",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-23T09:44:17Z"
-  },
+  "updatedAt": "2026-09-23T09:52:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:8543749dac7872db346720d4a8cd0654555fc6f94d3462201915518ffc9da0bd",
   "workItemId": "WI-1015-release-v0-2-110"
 }
