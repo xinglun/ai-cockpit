@@ -1,0 +1,171 @@
+{
+  "attemptId": "sha256:15b431d8501ff9d0984d4b515679560d7207fa817bd7487bf9a23e0af8700748",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:95fbbfa2cb6bd8ec271afe0767fea5661d32dca732032a122e19bb555980a880",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:1aee945d6e6a0b5a414ac9d2d36e6c7da2be024c832fda971056f82fabbb96ae",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:03fed71175005110cbc2538a157e9ad0042d8c1fa44fb4e8b9cbb53bb247d3ab",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:4260aa61c2038ec18c691d80bed1ea2c136f3b8758f7a0c7a8368ba798cbb8d6",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "scripts/generate_interface_references.py",
+        "--repo",
+        ".",
+        "--check"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:cc51b3bc289d0ec3fa68b751b04e64ee54c19897f80b0c4cdcbae2329927be80",
+      "nodeId": "project-command-4",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:5fcb256415f0d0f217ece8e88dd7d0afb9a3f5592ce8601c57133775fc8bee83",
+      "nodeId": "project-command-5",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:4a5ec191f98acaa97658fb62af3c4e53414389bb8c5417661de492682291cc54",
+      "nodeId": "project-command-6",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "19fe4a76658fffb1e773a84ca0abf7b373bf7eb9",
+      "commandDigest": "sha256:69fab04123591902afd5a4f7d9614f0a4c909edeb36fa72b8d3b92db2e9068fc",
+      "nodeId": "project-command-7",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+  "contractExecutionScopeDigest": "sha256:fe42f3395aafcce226d4f93beec27f1aa7ffd512fdce0356bf5a0560d3ccc4d1",
+  "createdAt": "2026-09-23T11:10:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-synchronized/.ai/work-items/active/WI-1017-release-v0-2-111-finalization.contract.json: verification preconditions are blocked: scenario_coverage_summary_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1017-release-v0-2-111-finalization"
+}

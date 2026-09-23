@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "successor",
+  "workItemId": "WI-1016-release-v0-2-110-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1016-release-v0-2-110-finalization",
+  "predecessorContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "predecessorSummaryDigest": "sha256:12dd5b75c422fb0e40bb286bef94ed0407525e14a50e150c58022378cce0b3ff",
+  "predecessorOutcomeDigest": "sha256:e1cbd058873adeef54c3809c196a20c910780a79eb79c5f46db75966e5e52161",
+  "predecessorEventsDigest": "sha256:e25d7128044a61c02eaf7ac9e24006ad97a08a32ac6ba3de7f35e36f8b64b883",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "The immutable v0.2.110 tag and failed release workflow are preserved as failed pre-publication history. The release source contains a lifecycle_transition_stale marker from an incomplete finish transition, so v0.2.110 cannot be reused or repaired in place. Continue the approved release objective on v0.2.111 with a fresh Contract, repository snapshot, verification binding, and release tag; preserve all predecessor records and do not broaden the architecture or add task-progress APIs.",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35851384187",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.110",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.outcome.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/release-upgrade-acceptance.md",
+    "docs/reference/ci-release-evidence.md"
+  ],
+  "decidedAt": "2026-09-23T11:06:32Z",
+  "successorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "resumeCondition": "Prepare and publish v0.2.111 from synchronized main with a fresh successor Contract and verification receipt committed before the immutable tag; complete public asset, install/upgrade, archive, finalization, close, documentation projection, and cleanup evidence."
+}
