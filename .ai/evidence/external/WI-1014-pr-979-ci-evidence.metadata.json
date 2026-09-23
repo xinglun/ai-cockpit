@@ -1,0 +1,10 @@
+{
+  "provider": "github",
+  "subject": "pull-request:979/merged-ci:35840877061",
+  "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35840877061",
+  "assurance": "provider_verified",
+  "collectedAt": "2026-09-23T09:20:40Z",
+  "digest": "sha256:8ee7e55925c7571642eff2ab8f7df7fc3c26fa83b1599dcf58d2f6541d846f2b",
+  "validity": "valid",
+  "rawEvidenceRef": ".ai/evidence/external/WI-1014-pr-979-ci-evidence.json"
+}

@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-23T09:22:28Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-23T09:20:40Z",
+    "digest": "sha256:8ee7e55925c7571642eff2ab8f7df7fc3c26fa83b1599dcf58d2f6541d846f2b",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35840877061",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-1014-pr-979-ci-evidence.json",
+    "subject": "pull-request:979/merged-ci:35840877061",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1014-release-lifecycle-convergence"
+}

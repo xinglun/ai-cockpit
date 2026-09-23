@@ -1,0 +1,31 @@
+{
+  "pullRequest": {
+    "number": 979,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/979",
+    "state": "MERGED",
+    "mergedAt": "2026-09-23T09:13:22Z",
+    "headSha": "8e242ce319dc1713f266633a1a2d7f663e037c6b",
+    "mergeSha": "bd6725ac2842433ce009c7e2d6ed231b321fdc0a",
+    "baseBranch": "main"
+  },
+  "workflow": {
+    "databaseId": 35840877061,
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/35840877061",
+    "workflowName": "ai-cockpit quality",
+    "event": "pull_request",
+    "headSha": "8e242ce319dc1713f266633a1a2d7f663e037c6b",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {"name": "route", "conclusion": "success", "jobId": 107115352190},
+      {"name": "quality", "conclusion": "success", "jobId": 107116206346},
+      {"name": "v1-behavioral-oracle", "conclusion": "success", "jobId": 107116206373},
+      {"name": "windows-runtime", "conclusion": "success", "jobId": 107116206439}
+    ]
+  },
+  "observation": {
+    "collectedAt": "2026-09-23T09:20:40Z",
+    "source": "GitHub CLI query against the repository provider",
+    "purpose": "Bind the merged PR and all four successful hosted checks to WI-1014 close evidence."
+  }
+}
