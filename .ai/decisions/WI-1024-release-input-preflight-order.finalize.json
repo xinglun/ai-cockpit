@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "44df82bd6e665c59533271605e9f6f096dbd9d56",
+    "name": "codex/wi-1024-release-input-preflight-order",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d465ded99fd553cb198c985601b3642bd585452c6a7c342cb95eb4371ec7e6ab",
+  "operationId": "github-pr-989-finalization-20260924",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0cc5ad372f3c98bfa68f497053e2790d7b887edf",
+    "headRevision": "44df82bd6e665c59533271605e9f6f096dbd9d56",
+    "mergeCommit": "5db86355bb4e1f3d713035c6e4323b1f19d5c2fe",
+    "number": 989,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/989"
+  },
+  "reason": "PR #989 passed all hosted checks and merged as 5db86355; main was synchronized and the exact Work Item branch and worktree were removed.",
+  "receiptId": "github-pr-989-finalization-20260924",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1024-release-input-preflight-order",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/989",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1024-release-input-preflight-order/ai-cockpit"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-24T08:36:11+09:00",
+  "workItemId": "WI-1024-release-input-preflight-order",
+  "worktree": {
+    "branch": "codex/wi-1024-release-input-preflight-order",
+    "headRevision": "44df82bd6e665c59533271605e9f6f096dbd9d56",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-1024-release-input-preflight-order/ai-cockpit",
+    "worktreeId": "WI-1024-release-input-preflight-order"
+  }
+}
