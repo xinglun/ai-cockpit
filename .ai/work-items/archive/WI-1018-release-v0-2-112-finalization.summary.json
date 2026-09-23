@@ -1,13 +1,125 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "workspace package version 0.2.112",
+          "path": "Cargo.toml",
+          "type": "source",
+          "verification": "passed by release workflow 35872362547"
+        },
+        {
+          "locator": "tag=v0.2.112 commit=0bca1e89dac5b1b95ebfb4fbaac04fe0df0bfcac",
+          "path": ".ai/evidence/external/WI-1018-release-close.json",
+          "type": "release",
+          "verification": "provider-verified release_close artifact"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "official release matrix",
+          "path": ".github/workflows/release.yml",
+          "type": "workflow",
+          "verification": "four supported targets; no Intel macOS build lane"
+        },
+        {
+          "locator": "requiredReceipts governanceBinding/publishHandoff/versionConsistency/publicInstall/publicUpgrade",
+          "path": ".ai/evidence/external/WI-1018-release-close.json",
+          "type": "release",
+          "verification": "all required receipt states success"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "release:v0.2.112",
+          "path": ".ai/evidence/external/WI-1018-provider-release-state.json",
+          "type": "provider",
+          "verification": "public release URL and tag target commit verified"
+        },
+        {
+          "locator": "public GitHub Release v0.2.112",
+          "path": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.112",
+          "type": "provider",
+          "verification": "published immutable release with four archives, four SBOMs, formula, manifest, and checksums"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "adopterAcceptance=passed cleanupState=passed",
+          "path": ".ai/evidence/external/WI-1018-v0.2.112-adopter-acceptance.json",
+          "type": "test",
+          "verification": "provider-verified fresh public install acceptance"
+        },
+        {
+          "locator": "adopterAcceptance=passed cleanupState=passed",
+          "path": ".ai/evidence/external/WI-1018-v0.2.112-adopter-upgrade.json",
+          "type": "test",
+          "verification": "provider-verified 0.2.106-to-0.2.112 N-1 upgrade acceptance"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "resourceContext and lifecycle acceptance boundary",
+          "path": ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
+          "type": "lifecycle",
+          "verification": "pending Runtime archive, finalize, close, docs projection, and exact cleanup"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A6",
+      "evidence": [
+        {
+          "locator": "release_close required receipts and v0.2.112 commit",
+          "path": ".ai/evidence/external/WI-1018-release-close.json",
+          "type": "release",
+          "verification": "provider-verified four-target supply-chain and adopter receipts"
+        },
+        {
+          "locator": "public asset list",
+          "path": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.112",
+          "type": "provider",
+          "verification": "no Intel macOS asset present"
+        }
+      ]
+    }
+  ],
   "changedPaths": [
-    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.8941f8ed90df13c6016091033237cafae1f4790ae24832465f1723998f444e6b.json",
-    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.256808f9e18be0dcf2d49a0d32371c1adab7827b5f3c1a30dd72b3e6541ec0e5.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.deec4c200be8dce4b920ccf32d2e60195dcee29deece5fe04f040f7f23ca22de.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.2fa5f031a2703e82590699dd8614dd72a9df339254b906eef13328def150f259.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-1018-finalization-plan-input.json",
-    ".ai/evidence/WI-1018-governance-controls-input.json",
+    ".ai/evidence/WI-1018-adopter-acceptance.metadata.json",
+    ".ai/evidence/WI-1018-adopter-upgrade.metadata.json",
+    ".ai/evidence/WI-1018-controls-projection-input.json",
+    ".ai/evidence/WI-1018-provider-release-state.metadata.json",
+    ".ai/evidence/WI-1018-release-close.metadata.json",
+    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification-attempt.734301f303c6b815c23e2ebe35cc02eed7c9eff1f9a6aa4d6d9d3d9d0a88f62b.json",
     ".ai/evidence/WI-1018-resource-context-retry-input.json",
-    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
-    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.summary.json"
+    ".ai/evidence/external/WI-1018-release-v0-2-112-finalization.63c1a7965bce82e6a61d0ddd7579d84d95d64e632c78ff2f22e340aa0f7571ae.delegated.json",
+    ".ai/evidence/external/WI-1018-release-v0-2-112-finalization.689736a6c8aef1b688fb431d1a568531d942816a544d120c4233b23ad87946d5.delegated.json",
+    ".ai/evidence/external/WI-1018-release-v0-2-112-finalization.7d01f547ec5d82c88ecac871001f541e5518101ed842563c03c31e7aeeeee342.delegated.json",
+    ".ai/evidence/external/WI-1018-release-v0-2-112-finalization.cacdc8630b348fb2235fef523f611732a143e759b9f70037e53eab038247ed58.delegated.json",
+    ".ai/evidence/external/WI-1018-v0.2.112-adopter-acceptance.json",
+    ".ai/evidence/external/WI-1018-v0.2.112-adopter-upgrade.json",
+    ".ai/evidence/external/WI-1018-v0.2.112-provider-release-state.json",
+    ".ai/evidence/external/WI-1018-v0.2.112-release-close.json",
+    ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.events.jsonl",
+    ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.outcome.json",
+    ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
   ],
   "checkpointAt": "2026-09-23T12:50:56Z",
   "checkpointContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
@@ -106,6 +218,26 @@
       "unknownCount": 0,
       "verificationStarted": true,
       "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ce88b7184ddc7179dfe8b11181fb3959013d63b1a7ec4ed5b0f298a77fa9b759",
+      "previousContractHash": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+      "reason": "Revalidate the already approved v0.2.112 release Contract after the merged release source and before finalization; preserve all predecessor receipts and add no acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T14:34:01Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
@@ -115,8 +247,8 @@
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-    "reason": "Confirm the amended Contract for the already approved v0.2.112 release boundary. The amendment admits only the current release projections, the current tri-language Work Item pages and controlled parity rows, and the already declared executable release scenarios; it adds no acceptance requirement. Preserve v0.2.111 history, do not add task-progress APIs, and continue through fresh verification and normal publication gates.",
-    "recordedAt": "2026-09-23T00:00:00Z",
+    "reason": "Confirm the already approved v0.2.112 release boundary after binding the provider release, release-close, fresh install, and N-1 upgrade evidence. This records no new acceptance requirement; preserve v0.2.111 history, do not add task-progress APIs, and continue through Runtime finalization and exact cleanup.",
+    "recordedAt": "2026-09-23T14:45:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
     "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
@@ -134,40 +266,48 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
   "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
-  "preflightAt": "2026-09-23T13:50:18Z",
+  "preflightAt": "2026-09-23T14:53:05Z",
   "preflightContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.353441d1aa3a8eddebb5d1a48151eda44262703adef376185ea22814cf54cc50.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/external/WI-1018-release-close.json",
+        ".ai/evidence/external/WI-1018-provider-release-state.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.112",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35872362547"
+      ],
       "expected": "The v0.2.112 annotated tag, public GitHub Release, source identity, four-target manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
       "required": true,
       "scenario": "release-artifact-integrity",
-      "status": "unverified",
-      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated v0.2.112 tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+      "status": "verified",
+      "verificationPlan": "Release workflow 35872362547 passed source quality, four-target builds, manifest/checksums/SBOM/provenance, publication, public version consistency, attestation, and release close."
     },
     {
-      "evidence": [],
-      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "evidence": [
+        ".ai/evidence/external/WI-1018-v0.2.112-adopter-acceptance.json",
+        ".ai/evidence/external/WI-1018-v0.2.112-adopter-upgrade.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35872362547"
+      ],
+      "expected": "The downloaded public v0.2.112 artifact passes checksum, isolated fresh install, 0.2.106-to-0.2.112 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
       "required": true,
       "scenario": "downloaded-adopter-install-upgrade",
-      "status": "unverified",
-      "verificationPlan": "Use immutable public v0.2.112 Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+      "status": "verified",
+      "verificationPlan": "The hosted public adopter acceptance and N-1 upgrade acceptance passed with checksum, isolated roots, source identity, and cleanup evidence."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-23T13:50:41.648197+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T14:55:15Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:904954f5eba5112fd16096dc70451ed3462ea558197a44be22b55a1aedf7f9ff",
   "workItemId": "WI-1018-release-v0-2-112-finalization"
 }

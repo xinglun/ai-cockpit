@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-09-23T14:30:19Z",
+  "finishedAt": "2026-09-23T14:30:28Z",
+  "releasePublished": true,
+  "stagedCandidate": false,
+  "adopterAcceptance": "passed",
+  "repository": "xinglun/ai-cockpit",
+  "tag": "v0.2.112",
+  "target": "x86_64-unknown-linux-gnu",
+  "rustToolchain": "1.98.1-x86_64-unknown-linux-gnu",
+  "runtimeVersion": "0.2.112",
+  "runtimeDigest": "sha256:4e54731ce049359a6de3987e5e24201a52bd3ae07cdfbf60a738e51b5c5c7185",
+  "repositoryId": "sha256:a541b423cf5e34e773bb873b55f5d42ec9150b27874f429d4c9fc40257008240",
+  "sourceRepositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "closeDecision": {
+    "validated": true,
+    "workItemId": "release-adopter-lifecycle",
+    "repositoryId": "sha256:a541b423cf5e34e773bb873b55f5d42ec9150b27874f429d4c9fc40257008240",
+    "artifactPath": "work-items/release-adopter-lifecycle.close.json",
+    "digest": "sha256:d10365dab69e982f3155c1ba15a2de10ace79d7c9e0bb97ab1443c00d93e7714"
+  },
+  "cleanupState": "passed",
+  "cleanupError": null,
+  "steps": [
+    {
+      "name": "release-fetch",
+      "state": "passed"
+    },
+    {
+      "name": "publish-handoff",
+      "state": "passed"
+    },
+    {
+      "name": "release-download",
+      "state": "passed"
+    },
+    {
+      "name": "runtime-pin",
+      "state": "passed"
+    },
+    {
+      "name": "adopter-scaffold",
+      "state": "passed"
+    },
+    {
+      "name": "attach.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect.json",
+      "state": "passed"
+    },
+    {
+      "name": "inspect-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "profile-confirm.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-list.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-install.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor.json",
+      "state": "passed"
+    },
+    {
+      "name": "agent-doctor-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke.json",
+      "state": "passed"
+    },
+    {
+      "name": "first-adopter-smoke-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "verify-first.json",
+      "state": "passed"
+    },
+    {
+      "name": "verify-reuse.json",
+      "state": "passed"
+    },
+    {
+      "name": "reuse-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-start.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize-plan.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-preflight.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-checkpoint.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-runtime-identity",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finish.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-archive.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-finalize-verify.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-close.json",
+      "state": "passed"
+    },
+    {
+      "name": "lifecycle-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "isolation-assertion",
+      "state": "passed"
+    },
+    {
+      "name": "repository-identity",
+      "state": "passed"
+    }
+  ],
+  "failureReason": null
+}
