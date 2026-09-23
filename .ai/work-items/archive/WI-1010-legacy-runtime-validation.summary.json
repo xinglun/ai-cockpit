@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json",
+    ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json",
+    "crates/cockpit-repository/src/resource_lifecycle.rs",
+    "crates/cockpit-repository/tests/resource_finalization_transition.rs"
+  ],
+  "checkpointAt": "2026-09-22T23:56:50Z",
+  "checkpointContractDigest": "sha256:1fc66191511a18a65b66703dbed8eb47f29e0220fda81eeacee9576161dab5bb",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:af0ab8d3d24668df47f27d10773b58c53484af60e1b216e02152352e0ada89fc",
+  "createdAt": "2026-09-22T23:56:18Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:19b1f13e1e0adc16f84f8f37558ca5d96ba52d213b972e6fa1555ff815eb22f4",
+  "predecessorWorkItemId": "WI-1008-finalization-recovery-normal-pr",
+  "preflightAt": "2026-09-23T00:07:31Z",
+  "preflightContractDigest": "sha256:1fc66191511a18a65b66703dbed8eb47f29e0220fda81eeacee9576161dab5bb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:af0ab8d3d24668df47f27d10773b58c53484af60e1b216e02152352e0ada89fc",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T00:16:34Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1010-legacy-runtime-validation"
+}

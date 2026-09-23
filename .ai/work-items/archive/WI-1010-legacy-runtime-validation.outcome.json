@@ -1,0 +1,172 @@
+{
+  "acceptanceResults": [
+    "The legacy_runtime eligibility predicate requires a real PR number, merge commit, and merged state before and after the PR.",
+    "Plan generation and recovery writing use the same eligibility predicate.",
+    "Unmerged, missing-merge-commit, and classification-mismatch inputs are rejected without writing a recovery record.",
+    "A valid normal merged-PR historical receipt remains accepted append-only.",
+    "WI-1006, WI-1007, and WI-1008 predecessor evidence remains unchanged."
+  ],
+  "createdAt": "2026-09-23T00:16:34Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bdb88d4f5cf11b5cebd3dd032e8069378c5c72c2cfb27dc5a646b2b763b461d5",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:af0ab8d3d24668df47f27d10773b58c53484af60e1b216e02152352e0ada89fc",
+      "workItemId": "WI-1010-legacy-runtime-validation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/src/resource_lifecycle.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: crates/cockpit-repository/tests/resource_finalization_transition.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "Prevent invalid historical classifications while preserving formal WI-1006/WI-1007/WI-1008 recovery evidence"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1010-legacy-runtime-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1010-legacy-runtime-validation"
+  },
+  "taskReportDigest": "sha256:bb12eee80dd134f5a9fbcece2f2240629831c55bd77227f16846d8719b4b5a6b",
+  "taskReportMarkdownDigest": "sha256:c7fe817f72ef30344f144ef2fdae083a9bf6267ba691684077c5f066eb03ddd2",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1010-legacy-runtime-validation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1010-legacy-runtime-validation"
+}
