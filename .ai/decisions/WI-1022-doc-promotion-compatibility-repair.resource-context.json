@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:3899ea7ec03475cd079bcbde03a42721d8f62b8aac57cc20fae3e296f8a0cc60",
+  "contractDigest": "sha256:1b57a51d8be5b1406968fe41db14540057dd223d664387351712bc2966c3da80",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-23T18:34:51Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1022-doc-promotion-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/987",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112-promotion-fix"
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}
