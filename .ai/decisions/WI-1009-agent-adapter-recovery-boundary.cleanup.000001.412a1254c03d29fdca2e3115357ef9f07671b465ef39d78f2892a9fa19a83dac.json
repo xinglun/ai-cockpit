@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:cbf44ab83f3b311ba28bb250279ddda9ecb06bafa5ab36dc1af3609d03ac4824",
+  "branchRef": "refs/heads/codex/wi-1009-agent-adapter-recovery-boundary",
+  "contractDigest": "sha256:234f2466dadb9ffc0a00c8669d84410202439f8bc743409821d75b79431a6bc8",
+  "headRevision": "ec8431f86c0150ad2b929b28ae74907e9c0910c0",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-23T01:41:16Z",
+  "operationId": "sha256:8716e08d79cfc031040e99ddcb665ee507b764d7399fc6aea34b43fc820b3e25",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:42b9aac1245bdb696d0f23008a199bdb8897233b54f04e9e001052714d417a03",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1009-agent-adapter-recovery-boundary",
+  "worktreeId": "sha256:b34cb95aa9f6045b4ba1911dfba36e81ad3b41407babb95b70fdcf7ce75f3f29"
+}
