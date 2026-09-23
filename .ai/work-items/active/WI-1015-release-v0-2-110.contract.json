@@ -1,0 +1,101 @@
+{
+  "acceptanceCriteria": [
+    "Cargo metadata、三语 interface/reference 版本事实和 v0.2.110 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 strict source quality、candidate build、manifest、checksums、SBOM、provenance 和 candidate acceptance 全部通过。",
+    "GitHub public Release v0.2.110 存在并与 tag、source commit 和公开资产身份一致。",
+    "下载后的 public v0.2.110 artifact 通过 fresh install 和 v0.2.109-to-v0.2.110 N-1 upgrade acceptance，且临时运行根清理成功。",
+    "Work Item 归档、关闭、文档 projection、分支和 worktree 精确清理均有 Runtime/Provider evidence。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "adaba47302af4e4419e5a8990d49f8039cc69d84",
+  "createdAt": "2026-09-23T09:33:32Z",
+  "goal": "从同步 main adaba47302af4e4419e5a8990d49f8039cc69d84 发布 v0.2.110，证明公开资产与源提交身份一致，完成安装与 N-1 升级验收，并完成本 Work Item 的归档、finalize、close、文档投影和资源清理。",
+  "intent": "发布 AI Cockpit v0.2.110，沿用既有 release workflow 生成并验收公开资产，验证已合入的 release lifecycle convergence 改造在真实发布路径可用。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改已合并 WI-1014 的实现。",
+    "不修改 v0.2.109 的历史、tag、release 或证据。",
+    "不修改全局 Agent/MCP 配置、其他仓库或无关旧分支和 worktree。",
+    "不绕过 release workflow、公开验收、Runtime 门禁或 provider 权限。",
+    "不新增任务进度 API 或手工账本。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bd1f6368f1807b462cd8b65aafeb5f18698fd900bf4f0470306c09c8cab8d303",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.110 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.110 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.110 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "scope": [
+    "将 workspace 版本从 0.2.109 提升到 0.2.110；通过既有 release workflow 构建、校验、发布并收集公开验收证据；完成本 Work Item 生命周期收尾。",
+    "同步由协议权威定义生成的三语 interface/reference 版本事实，使 v0.2.110 source/version 一致性可验证。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "docs/work-items/WI-1015-release-v0-2-110.md",
+    "docs/work-items/WI-1015-release-v0-2-110.zh-CN.md",
+    "docs/work-items/WI-1015-release-v0-2-110.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.**",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.**",
+    "tests/release/**",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md"
+  ],
+  "sources": [
+    "origin/main at adaba47302af4e4419e5a8990d49f8039cc69d84",
+    "WI-1014 merged PR #979 and all-four-checks CI evidence",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35842713615",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109",
+    "AGENTS.md and docs/release/distribution.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/version_consistency.sh --repo .",
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "workItemId": "WI-1015-release-v0-2-110"
+}

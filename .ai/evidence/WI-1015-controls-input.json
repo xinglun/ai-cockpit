@@ -1,0 +1,10 @@
+{
+  "intentAlignment": {
+    "state": "unknown",
+    "reason": "This release Contract declares the release and adopter acceptance boundary; user-visible benefit remains unmeasured and is not being inferred from publication or green verification.",
+    "evidence": [
+      ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json",
+      ".github/workflows/release.yml"
+    ]
+  }
+}
