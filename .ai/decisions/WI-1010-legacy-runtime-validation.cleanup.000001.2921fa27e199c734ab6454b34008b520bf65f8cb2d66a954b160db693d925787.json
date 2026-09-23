@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:4c567c356987cce16f6dde2a9654d319851c8a5fd3502f82f5a4d717712a6596",
+  "branchRef": "refs/heads/codex/wi-1010-legacy-runtime-validation",
+  "contractDigest": "sha256:1fc66191511a18a65b66703dbed8eb47f29e0220fda81eeacee9576161dab5bb",
+  "headRevision": "7dc76ab37de3d84b3b97a1a7679f6ae17015d0ad",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-23T01:41:16Z",
+  "operationId": "sha256:e7416427130d4dada9b1e14f7cc807766614420334a0975da805e6e5d7610451",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:42b9aac1245bdb696d0f23008a199bdb8897233b54f04e9e001052714d417a03",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "WI-1010-legacy-runtime-validation",
+  "worktreeId": "sha256:8d2b6a1a34c99248f6da9476c0d294bab280a16c5b2454039eeafbb685ba4c92"
+}
