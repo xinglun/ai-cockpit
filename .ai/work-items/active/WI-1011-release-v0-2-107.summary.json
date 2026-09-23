@@ -121,7 +121,6 @@
   ],
   "checkpointRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
   "createdAt": "2026-09-23T03:15:23Z",
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
@@ -131,14 +130,16 @@
     "state": "resolved"
   },
   "mode": "implementation",
-  "outcomeState": "blocked",
-  "preflightAt": "2026-09-23T03:36:21Z",
+  "preflightAt": "2026-09-23T04:25:31Z",
   "preflightContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
-  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:757dd87f530f7cb92781fdf2cd1a7a30c62c9be1a230a98b8937d52272490168",
-  "preflightState": "green",
+  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightRepositorySnapshotDigest": "sha256:b0e4655bf959a1c193b8f59cea06f396843e6be9d2bf9ea3485dc53684179187",
+  "preflightState": "yellow",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "recoveryRetryContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "recoveryRetryDecisionDigest": "sha256:e53638d0aa0f8c9dcd54fb39ecd88c87797b4dfd5bf991c8c92f687b3f28c1ca",
+  "recoveryRetryDecisionPath": ".ai/decisions/WI-1011-release-v0-2-107.recovery.e53638d0aa0f8c9dcd54fb39ecd88c87797b4dfd5bf991c8c92f687b3f28c1ca.json",
+  "recoveryRetryPending": true,
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {

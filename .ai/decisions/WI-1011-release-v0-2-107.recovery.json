@@ -1,0 +1,29 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-23T03:59:39Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1011-release-v0-2-107.verification.json",
+    ".ai/evidence/WI-1011-release-v0-2-107.verification-attempt.6d402607cbcb8a3cdab75519249b859c092a7c1142d98b6979659a1315624e5c.json",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/release-upgrade-acceptance.md"
+  ],
+  "predecessorContractDigest": "sha256:423e90a6964a3d9096ff862e6e57a066969c5ba1fcc4bfeed5f6eef752c1d31c",
+  "predecessorEventsDigest": "sha256:c900b89e2c3fdfaf2da58855cc67d5cad2e3b5b4c593756c6dbb90ccbf31e67a",
+  "predecessorOutcomeDigest": "sha256:b5cddc8d154219986043b7045f48dca8db05ddff64b1247adafca86bd3970045",
+  "predecessorSummaryDigest": "sha256:b4f44c46c14aff1422026b89bb7023f804ea852ce1ebc09df5749b5fa0af92be",
+  "predecessorWorkItemId": "WI-1011-release-v0-2-107",
+  "reason": "The first finish attempt correctly preserved the release Work Item open because its two public-release scenarios were still unverified, but it projected a blocked lifecycle outcome and made the earlier verification receipt stale. Preserve that failed projection and retry the same Work Item against the current synchronized main snapshot; do not create a successor or rewrite the prior receipt.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Run fresh preflight and release verification against the current main snapshot, then continue the authorized v0.2.107 release lifecycle without treating the failed finish projection as current success.",
+  "runtimeDigest": "sha256:42b9aac1245bdb696d0f23008a199bdb8897233b54f04e9e001052714d417a03",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "workItemId": "WI-1011-release-v0-2-107"
+}
