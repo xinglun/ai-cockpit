@@ -23,6 +23,14 @@
     "verification",
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1023-release-close-admission",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/988",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1023-release-close-admission"
+  },
   "risk": "normal",
   "scope": [
     ".github/workflows/release.yml",

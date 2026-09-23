@@ -1,0 +1,28 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-23T22:27:14Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/988",
+    ".ai/evidence/WI-1023-release-close-admission.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:ff47fb1b4a27248dc2b5b33372906104a153a7ddbb26dae436a795058f38dae2",
+  "predecessorEventsDigest": "sha256:a1b363a10602899c746f92788dbf33bf0f56603b43f2bfe15c9edd3ef9e352da",
+  "predecessorOutcomeDigest": "sha256:f1769cd311ceada3e12541276305b5982007638873fe8f2a74197d0e225ad0ee",
+  "predecessorSummaryDigest": "sha256:e89b9658cbf7ee9be1b6213f4fbeabe6df869e5f103063e42d1b5bd903045985",
+  "predecessorWorkItemId": "WI-1023-release-close-admission",
+  "reason": "The PR resource context was created after finish-ready was recorded. Preserve the completed verification evidence and retry the same Work Item through the required finalize-plan-before-verification boundary; do not rewrite evidence or broaden scope.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #988 with finalize-plan, rerun current preflight and focused verification, then finish and continue hosted review; preserve the earlier finish evidence as historical retry evidence.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1023-release-close-admission"
+}

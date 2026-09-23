@@ -1,9 +1,30 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:e5037fd32ecd85bbf8dc238b9edfc93961ba3f59c6e9c5e47afea02a4fa11db3",
+  "commands": [
+    {
+      "args": [
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "c86940a453ff2b35d0a404372e85f7f5d399faf8",
+      "commandDigest": "sha256:d8f67b2fe894450b205f02e059f6f2108fab5d233ea2f14ae0636a21df50be90",
+      "nodeId": "project-command-0",
+      "program": "tests/release/workflow_policy.sh",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:4c299a5a4be3f6132eeb2f9f81735d3a78ff657d37590f47ca7763ce036dcd81",
-  "createdAt": "2026-09-23T22:28:32Z",
-  "evidenceSchemaVersion": 2,
+  "contractExecutionScopeDigest": "sha256:e4e015961c0e7c3f3d03d2ff77c426d04223d27906f4c505cc2dae913da5562d",
+  "createdAt": "2026-09-23T22:28:30Z",
+  "executionRecords": [],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 0,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -29,8 +50,8 @@
     },
     "elapsedMs": 0,
     "executionElapsedMs": 0,
-    "filesHashed": 19,
-    "filesRead": 19,
+    "filesHashed": 21,
+    "filesRead": 21,
     "gitCalls": 6,
     "maxConcurrentProcesses": 0,
     "nodesExecuted": 0,
@@ -79,7 +100,7 @@
       {
         "action": "reuse",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ac6be598d80409bfa7c79469d6482dd77715eb0257f17e87e4d62c0763aa074f",
+        "outputDigest": "sha256:12f927067a99d65b122720aa78216efcc041d7cf4221c7c3795504ea5d6f5255",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -96,10 +117,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-1023-release-close-admission"
   },
-  "receiptDigest": "sha256:24e1a1b7587d8256185a4c156006723877092f81c25416f8f151886bfa5de7ad",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:daf18473494f1a978d360ef806ff01361305504a93b4bf9bfa2a50f1c18fcb20",
   "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
   "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-1023-release-close-admission"
 }

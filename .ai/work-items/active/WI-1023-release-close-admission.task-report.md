@@ -14,24 +14,18 @@
 
 ## Delivered changes
 
+- Changed path: .ai/decisions/WI-1023-release-close-admission.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.12e9a267de90da80e54cd8177e54709b7c124583cf9f5a5949eb33be81e0e368.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.4c89ca20bb48db868371ea2dc12a7c54162cab58b4577f185bfbd0104efb0d43.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.99149c629ecbec52f0c9b2f1444a55d52dfbfff40f59e22b5f8c57232714f4f8.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.9ab972a7ed17be5795f574b87befa312c2f8064e582b86758c90c37335b03136.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.a3c293a01a6b2de65a4b89329f5d0a3d8dc166192ac6fbb7e4b5953faaf3dd61.json
-- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.bee2f793db57d78cea2111108ee1b902ad0d0921e11ae9225778ddf6e64dc303.json
+- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.7bf5ba3eed305c987a1567d40f6478cc3f3bd5856a944da1d07d5ab5a354fdba.json
+- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.8c1b825e2e171343d802cf90bc9f2f91781d8607002dd57b1a602281fc7cf0ac.json
+- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.e5037fd32ecd85bbf8dc238b9edfc93961ba3f59c6e9c5e47afea02a4fa11db3.json
+- Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.ea9bc9dd9f152db6bed4508b8c87a0c35aa9450b13e370a782ffae99ed3f4cf4.json
 - Changed path: .ai/evidence/WI-1023-release-close-admission.verification.json
-- Changed path: .ai/work-items/active/WI-1023-release-close-admission.approach.json
 - Changed path: .ai/work-items/active/WI-1023-release-close-admission.contract.json
+- Changed path: .ai/work-items/active/WI-1023-release-close-admission.outcome.json
 - Changed path: .ai/work-items/active/WI-1023-release-close-admission.summary.json
-- Changed path: .github/workflows/release.yml
-- Changed path: AGENTS.md
-- Changed path: agents/skills/ordinary-work-item.md
-- Changed path: tests/ci/release_gate_policy_test.sh
-- Changed path: tests/docs/task_guide_route_test.py
-- Changed path: tests/release/release_close_state.sh
-- Changed path: tests/release/release_close_state_test.sh
+- Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.json
+- Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.md
 
 ## Findings
 
