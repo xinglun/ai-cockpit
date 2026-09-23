@@ -14,7 +14,10 @@
 
 ## Delivered changes
 
-- Changed path: .ai/evidence/WI-1011-release-v0-2-107.verification-attempt.a296f8c6040eb0cefe00d2efde351a82148a12082c4a26f5b084c380ab9bce0d.json
+- Changed path: .ai/decisions/observer-snapshot.json
+- Changed path: .ai/evidence/WI-1011-release-v0-2-107.verification-attempt.4848032cca2f8f44d259b31312fca7a0097fa64fc998792d91af4b1340922dab.json
+- Changed path: .ai/work-items/active/WI-1011-release-v0-2-107.contract.json
+- Changed path: .ai/work-items/active/WI-1011-release-v0-2-107.summary.json
 
 ## Findings
 
