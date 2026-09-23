@@ -1,0 +1,65 @@
+{
+  "predecessorReceiptDigest": "sha256:cbca3c42c6e3ba92a5e0f9417113c9a09d359407553e6ef54a6052c6a338f43c",
+  "receipt": {
+    "actor": "human:repository-owner",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "explicit-user-authorization-current-conversation",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "8e242ce319dc1713f266633a1a2d7f663e037c6b",
+      "name": "codex/release-lifecycle-convergence",
+      "remote": "origin"
+    },
+    "contractBaseRevision": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+    "contractDigest": "sha256:d06be6f0cf4e1aac9c0194d88adf3a20d8a975925dc42cb834c41f9785bfa66a",
+    "operationId": "operation-WI-1014-release-lifecycle-convergence-cleanup",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "headRevision": "8e242ce319dc1713f266633a1a2d7f663e037c6b",
+      "mergeCommit": "bd6725ac2842433ce009c7e2d6ed231b321fdc0a",
+      "number": 979,
+      "url": "https://github.com/xinglun/ai-cockpit/pull/979"
+    },
+    "reason": "After PR #979 was merged and all four hosted checks passed, delete the clean feature branch and remove its clean worktree; preserve the merge receipt and exact finalization transition.",
+    "receiptId": "ai-cockpit-WI-1014-release-lifecycle-convergence-cleanup",
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/release-lifecycle-convergence",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/979",
+      "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-control.zEsHyW"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+    "runtimeVersion": "0.2.109",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-23T09:19:03Z",
+    "workItemId": "WI-1014-release-lifecycle-convergence",
+    "worktree": {
+      "branch": "codex/release-lifecycle-convergence",
+      "headRevision": "8e242ce319dc1713f266633a1a2d7f663e037c6b",
+      "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-control.zEsHyW",
+      "worktreeId": "release-v0-2-109-main-control"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 1,
+  "transitionId": "ai-cockpit-WI-1014-release-lifecycle-convergence-cleanup-transition"
+}
