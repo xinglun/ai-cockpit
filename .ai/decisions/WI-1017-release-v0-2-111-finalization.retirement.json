@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:4551b9f074aec46397ca80e8669e6fcf0a0a5723b28a264d9644f5c84a9bc7d1",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:297a7e14924edb9b868db002707a6f0752ce0ebc2a0e8f9f15cc2c6cde98b621",
+      "path": ".ai/work-items/archive/WI-1017-release-v0-2-111-finalization.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:f98a6f4b4942a69a76bcc3cf0f7412e48c72f488e99f936ac2b6ea47d209c0b8",
+      "path": ".ai/work-items/archive/WI-1017-release-v0-2-111-finalization.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:2b241b33725c693bb50714b6e5d1528668860296aa2293fdaab6f8c5d4204c54",
+      "path": ".ai/work-items/archive/WI-1017-release-v0-2-111-finalization.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The v0.2.111 candidate and canceled pre-publication release workflow are immutable history. The approved release objective continued on successor WI-1018 for v0.2.112, which was published and completed on main; preserve the predecessor recovery and verification evidence.",
+  "recordedAt": "2026-09-23T19:19:19Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:34a9a9e36e6dbea4b515a1dcd6f9a7845c7c40223a9dbb80b299b4d68b1f89f8",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "summaryDigest": "sha256:9cc2edb7c7cdb80020b3cea4b10d562906c150725742196704674eaf34aaf389",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1017-release-v0-2-111-finalization"
+}

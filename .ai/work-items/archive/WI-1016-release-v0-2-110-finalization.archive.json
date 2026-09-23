@@ -1,0 +1,25 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-23T19:19:19Z",
+  "files": {
+    "contractDigest": "sha256:35f80d308d9220fe08abd06a83de9f8972c5058547f351e16ff4f5cb81a14cd8",
+    "contractPath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.contract.json",
+    "eventsDigest": "sha256:e25d7128044a61c02eaf7ac9e24006ad97a08a32ac6ba3de7f35e36f8b64b883",
+    "eventsPath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.events.jsonl",
+    "outcomeDigest": "sha256:0407ecf6473f8ef30d3bd56b92764dbcb449a02eb55b0ff12fcd8b4ed22a02c5",
+    "outcomePath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.outcome.json",
+    "summaryDigest": "sha256:85e47da3fe6b27179918a7de484b84c898090dd9ee0423ab343559a69b547881",
+    "summaryPath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.summary.json",
+    "taskReportDigest": "sha256:dccf8016f6a4751c6d1ced9c46abe1c47e0b796c120317badc1efd7ef86683e8",
+    "taskReportMarkdownDigest": "sha256:bb0128ffd1c4ded556fd0401fc6b6e587dcb7b214c2ad7b21240c07477b94f69",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.task-report.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "replaced",
+  "retirementReceiptPath": ".ai/decisions/WI-1016-release-v0-2-110-finalization.retirement.json",
+  "state": "replaced",
+  "successorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}

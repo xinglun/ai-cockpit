@@ -1,0 +1,46 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:59b9ed5ed2a60698a9d1e475b9762e82707a570de0e4df328907ad96964b62a1",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:35f80d308d9220fe08abd06a83de9f8972c5058547f351e16ff4f5cb81a14cd8",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.contract.json"
+    },
+    "events": {
+      "digest": "sha256:e25d7128044a61c02eaf7ac9e24006ad97a08a32ac6ba3de7f35e36f8b64b883",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:0407ecf6473f8ef30d3bd56b92764dbcb449a02eb55b0ff12fcd8b4ed22a02c5",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:85e47da3fe6b27179918a7de484b84c898090dd9ee0423ab343559a69b547881",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:dccf8016f6a4751c6d1ced9c46abe1c47e0b796c120317badc1efd7ef86683e8",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:bb0128ffd1c4ded556fd0401fc6b6e587dcb7b214c2ad7b21240c07477b94f69",
+      "path": ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The v0.2.110 release attempt is immutable failed pre-publication history. Its stale lifecycle transition and failed release evidence are preserved; the approved release objective continued on WI-1017 with a fresh Contract and successor lineage.",
+  "recordedAt": "2026-09-23T19:19:19Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:34a9a9e36e6dbea4b515a1dcd6f9a7845c7c40223a9dbb80b299b4d68b1f89f8",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "summaryDigest": "sha256:12dd5b75c422fb0e40bb286bef94ed0407525e14a50e150c58022378cce0b3ff",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}
