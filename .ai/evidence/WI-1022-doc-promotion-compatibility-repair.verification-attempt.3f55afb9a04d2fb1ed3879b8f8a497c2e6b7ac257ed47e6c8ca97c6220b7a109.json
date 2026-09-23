@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:3f55afb9a04d2fb1ed3879b8f8a497c2e6b7ac257ed47e6c8ca97c6220b7a109",
+  "commands": [
+    {
+      "args": [
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "baseCommit": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+      "commandDigest": "sha256:c0d5708eec9ff569bbd444672a745b32a2f9720465e189eda6c1deecb8088ec4",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:309b50fb930bb7602d155de904328a2c2dcab6b5ae568cff838c8759557a1e32",
+  "contractExecutionScopeDigest": "sha256:20b8b17e845a8be19a69b2941db5f71b3a55ba88bbd3acf9054e4779f884e138",
+  "createdAt": "2026-09-23T18:23:24Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-112-promotion-fix/.ai/work-items/active/WI-1022-doc-promotion-compatibility-repair.contract.json: verification preconditions are blocked: acceptance_evidence_missing, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}

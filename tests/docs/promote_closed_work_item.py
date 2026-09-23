@@ -93,8 +93,8 @@ def require(condition: bool, message: str) -> None:
         raise PromotionError(message)
 
 
-def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
-    """Return whether a recovery receipt supersedes an immutable predecessor close.
+def valid_recovery_decision_path(repository: Path, work_item_id: str) -> str | None:
+    """Return the selected valid recovery receipt for an immutable predecessor.
 
     A recovered predecessor is intentionally not a normal ``closed`` item: its
     historical close bytes may be non-canonical and must remain untouched.
@@ -107,7 +107,7 @@ def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
     try:
         project = read_json(repository / ".ai/project.json")
     except PromotionError:
-        return False
+        return None
     for recovery_path in recovery_paths:
         if not recovery_path.exists() and not recovery_path.is_symlink():
             continue
@@ -135,8 +135,12 @@ def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
             expected = canonical_digest(recovery).removeprefix("sha256:")
             if recovery_path.name != f"{work_item_id}.recovery.{expected}.json":
                 continue
-        return True
-    return False
+        return recovery_path.relative_to(repository).as_posix()
+    return None
+
+
+def valid_recovery_decision(repository: Path, work_item_id: str) -> bool:
+    return valid_recovery_decision_path(repository, work_item_id) is not None
 
 
 @dataclass(frozen=True)
@@ -163,10 +167,22 @@ def receipt_identity(
     require(receipt.get("contractDigest") == contract_digest, "finalization Contract digest mismatch")
     pull_request = receipt.get("pullRequest")
     require(isinstance(pull_request, dict), "finalization pull request is missing")
-    require(
-        pull_request.get("baseRevision") == base_revision,
-        "finalization pull-request base does not match archived Contract",
-    )
+    contract_base_revision = receipt.get("contractBaseRevision")
+    if contract_base_revision is not None:
+        require(
+            contract_base_revision == base_revision,
+            "finalization Contract base does not match archived Contract",
+        )
+        require(
+            isinstance(pull_request.get("baseRevision"), str)
+            and bool(pull_request["baseRevision"]),
+            "finalization pull-request base is missing",
+        )
+    else:
+        require(
+            pull_request.get("baseRevision") == base_revision,
+            "finalization pull-request base does not match archived Contract",
+        )
 
 
 def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalEvidence:
@@ -223,10 +239,40 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
 
     no_resource_context = contract.get("resourceContext") is None
     root_path = repository / f".ai/decisions/{work_item_id}.finalize.json"
+    recovery_path = valid_recovery_decision_path(repository, work_item_id)
+    structured_close = close.get("structuredDecision")
+    superseded_close = close.get("humanDecision") == "superseded" or (
+        isinstance(structured_close, dict)
+        and structured_close.get("decision") == "superseded"
+    )
+    if superseded_close:
+        require(
+            close.get("humanDecision") == "superseded"
+            and isinstance(structured_close, dict)
+            and structured_close.get("decision") == "superseded",
+            "superseded close decision is inconsistent",
+        )
+        require(
+            recovery_path is not None,
+            "superseded close requires a valid recovery decision",
+        )
+        require(
+            not root_path.exists() and not root_path.is_symlink(),
+            "superseded close must not contain a terminal finalization receipt",
+        )
+        require(
+            not any(
+                path.exists() or path.is_symlink()
+                for path in (repository / ".ai/decisions").glob(
+                    f"{work_item_id}.finalize.*.json"
+                )
+            ),
+            "superseded close must not contain finalization transitions",
+        )
     root_receipt: dict[str, Any] = {}
-    if not no_resource_context:
+    if not no_resource_context and not superseded_close:
         root_receipt = read_json(root_path)
-    if not no_resource_context:
+    if not no_resource_context and not superseded_close:
         receipt_identity(
             root_receipt,
             work_item_id=work_item_id,
@@ -235,7 +281,7 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             base_revision=base_revision,
         )
     transitions: dict[int, tuple[Path, dict[str, Any], dict[str, Any]]] = {}
-    if not no_resource_context:
+    if not no_resource_context and not superseded_close:
         for path in sorted((repository / ".ai/decisions").glob(f"{work_item_id}.finalize.*.json")):
             envelope = read_json(path)
             sequence = envelope.get("sequence")
@@ -261,7 +307,10 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
             transitions[sequence] = (path, envelope, receipt)
 
     reconciled_after_close = False
-    if no_resource_context:
+    if superseded_close:
+        finalization_path = None
+        reconciled_after_close = False
+    elif no_resource_context:
         finalization_path = None
     elif not transitions:
         # A provider may observe the merge and exact resource cleanup in one
@@ -433,7 +482,17 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
     close_finalization_sequence = close.get("resourceFinalizationSequence")
     close_finalization_path = close.get("resourceFinalizationHeadPath")
     close_finalization_digest = close.get("resourceFinalizationHeadDigest")
-    if no_resource_context:
+    if superseded_close:
+        for field in (
+            "resourceFinalizationSequence",
+            "resourceFinalizationHeadPath",
+            "resourceFinalizationHeadDigest",
+        ):
+            require(
+                close.get(field) is None,
+                f"superseded close contains {field}",
+            )
+    elif no_resource_context:
         for field in (
             "resourceFinalizationSequence",
             "resourceFinalizationHeadPath",
@@ -482,13 +541,16 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 "actual": close.get("decisionState"),
             },
         )
-    if close.get("humanDecision") not in {"approved", "confirmed"}:
+    allowed_human_decisions = {"approved", "confirmed"}
+    if superseded_close:
+        allowed_human_decisions.add("superseded")
+    if close.get("humanDecision") not in allowed_human_decisions:
         raise PromotionError(
             "close is not a confirmed approved/confirmed decision",
             diagnostic={
                 "file": close_path,
                 "field": "humanDecision",
-                "expected": ["approved", "confirmed"],
+                "expected": sorted(allowed_human_decisions),
                 "actual": close.get("humanDecision"),
             },
         )
@@ -503,13 +565,16 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
                 "actual": structured,
             },
         )
-    if structured.get("decision") not in {"approved", "confirmed"}:
+    allowed_structured_decisions = {"approved", "confirmed"}
+    if superseded_close:
+        allowed_structured_decisions.add("superseded")
+    if structured.get("decision") not in allowed_structured_decisions:
         raise PromotionError(
             "structured close decision is not approved/confirmed",
             diagnostic={
                 "file": close_path,
                 "field": "structuredDecision.decision",
-                "expected": ["approved", "confirmed"],
+                "expected": sorted(allowed_structured_decisions),
                 "actual": structured.get("decision"),
             },
         )
@@ -530,25 +595,33 @@ def validate_terminal_evidence(repository: Path, work_item_id: str) -> TerminalE
         "close final report bindings are incomplete",
     )
 
-    recovery_path = f".ai/decisions/{work_item_id}.recovery.json"
-    recovery_file = repository / recovery_path
-    if recovery_file.exists() or recovery_file.is_symlink():
-        recovery = read_json(recovery_file)
+    if recovery_path is None:
+        canonical_recovery_file = repository / f".ai/decisions/{work_item_id}.recovery.json"
+        if canonical_recovery_file.exists() or canonical_recovery_file.is_symlink():
+            recovery_path = canonical_recovery_file.relative_to(repository).as_posix()
+    if recovery_path is not None:
+        recovery = read_json(repository / recovery_path)
         require(
             recovery.get("workItemId") == work_item_id
             and recovery.get("predecessorWorkItemId") == work_item_id
             and recovery.get("repositoryId") == repository_id,
             "recovery identity mismatch",
         )
-        # Retry receipts describe an earlier failed attempt and do not
-        # supersede a confirmed terminal close. They remain governed history,
-        # but must not be projected as a successor recovery reference.
-        if recovery.get("decision") in {"successor", "supersede"}:
-            pass
+        if superseded_close:
+            require(
+                recovery.get("decision") == "supersede",
+                "superseded close requires a supersede recovery decision",
+            )
         elif recovery.get("decision") == "retry":
+            # Retry receipts describe an earlier failed attempt and do not
+            # supersede a confirmed terminal close. They remain governed
+            # history, but must not be projected as a successor recovery
+            # reference.
             recovery_path = None
-        else:
+        elif recovery.get("decision") not in {"successor", "supersede"}:
             raise PromotionError("recovery identity mismatch")
+    elif superseded_close:
+        raise PromotionError("superseded close requires a valid recovery decision")
     else:
         recovery_path = None
 

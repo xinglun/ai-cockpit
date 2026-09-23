@@ -1,0 +1,63 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1020-release-v0-2-112-doc-promotion-compatibility.contract.json",
+    ".ai/work-items/active/WI-1020-release-v0-2-112-doc-promotion-compatibility.summary.json"
+  ],
+  "checkpointAt": "2026-09-23T17:56:26Z",
+  "checkpointContractDigest": "sha256:558b476b75fc4b3e7f353a6f04d908bd53890248c53fba14257584d5f754a087",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:558b476b75fc4b3e7f353a6f04d908bd53890248c53fba14257584d5f754a087",
+      "recorded": true,
+      "recordedAt": "2026-09-23T17:56:26Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:558b476b75fc4b3e7f353a6f04d908bd53890248c53fba14257584d5f754a087",
+      "previousContractHash": "sha256:558b476b75fc4b3e7f353a6f04d908bd53890248c53fba14257584d5f754a087",
+      "reason": "Runtime verification preconditions require the three parity ledgers to register this documentation Work Item; add only those required projection paths, without adding acceptance requirements or changing the historical WI-1018 scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T18:03:17Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:e70f1c8d56f09f98daffad3cbdc85ef10bf41176a34d806d439c38f8eb2c7de3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "createdAt": "2026-09-23T15:47:12Z",
+  "mode": "code",
+  "preflightAt": "2026-09-23T18:07:31Z",
+  "preflightContractDigest": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+  "preflightDecisionDigest": "sha256:b1f3c20dcb6b9156a80730a54250526276ec432e40701ee4ce4430e0ffa63a0e",
+  "preflightRepositorySnapshotDigest": "sha256:3370f6f711dd49c232e49916dc371e9efddd2913a4ffe018ca9b9aca8104b371",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T17:56:26Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-23T18:03:17Z"
+  },
+  "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+}

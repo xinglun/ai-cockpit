@@ -1,0 +1,22 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.contract.json",
+    ".ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-23T18:18:15Z",
+  "checkpointContractDigest": "sha256:fbcea3691f2b02c252b0fd64e3b63b38328b27d616483cee3f2486dbade92c1c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "createdAt": "2026-09-23T18:18:03Z",
+  "mode": "implementation",
+  "preflightAt": "2026-09-23T18:18:15Z",
+  "preflightContractDigest": "sha256:fbcea3691f2b02c252b0fd64e3b63b38328b27d616483cee3f2486dbade92c1c",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T18:18:15Z",
+  "workItemId": "WI-1021-doc-promotion-compatibility-repair"
+}
