@@ -1,0 +1,58 @@
+{
+  "actor": "human:xinglun",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4526489de2033d0def390137adf863e015be9d69",
+    "name": "codex/wi-1023-release-close-admission",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:fe33c6d7aec8b5e31a20f6c63ae7e6e75cda4ecc812c14134352d98319cf2b31",
+  "operationId": "github-pr-988-finalization-20260924",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "c86940a453ff2b35d0a404372e85f7f5d399faf8",
+    "headRevision": "4526489de2033d0def390137adf863e015be9d69",
+    "mergeCommit": "f2d78440ac6efd701537c137b8d72880429e044a",
+    "number": 988,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/988"
+  },
+  "reason": "PR #988 passed all hosted checks and merged as f2d78440; main was synchronized and the exact Work Item branch and worktree were removed.",
+  "receiptId": "github-pr-988-finalization-20260924",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1023-release-close-admission",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/988",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1023-release-close-admission"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-24T07:55:00+09:00",
+  "workItemId": "WI-1023-release-close-admission",
+  "worktree": {
+    "branch": "codex/wi-1023-release-close-admission",
+    "headRevision": "4526489de2033d0def390137adf863e015be9d69",
+    "path": "/Users/sei-rinn/.codex/worktrees/wi-1023-release-close-admission",
+    "worktreeId": "WI-1023-release-close-admission"
+  }
+}
