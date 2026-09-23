@@ -1,0 +1,37 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:c6d248cbf8e4bbc56cef0324456a0d8911e456db35004bd19577e46dc1f1d907",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:e91a44ddb4d72d176c601f94f018b7331c57b004b5d951ff4c06c334bce0be61",
+      "path": ".ai/work-items/archive/WI-1015-release-v0-2-110.contract.json"
+    },
+    "events": {
+      "digest": "sha256:af0638a04e660f923d53314f4cdb5f5bb8f4344dc4f491dbb12fff2b586f3034",
+      "path": ".ai/work-items/archive/WI-1015-release-v0-2-110.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:3f299207e64a67ab8e637fbf93e784772043f5af695135ca464194f1e32f221a",
+      "path": ".ai/work-items/archive/WI-1015-release-v0-2-110.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:c5b3bebac149e12778266a0dbbc6c16a2fa59b4930705053513e5d9bb92f89f9",
+      "path": ".ai/work-items/archive/WI-1015-release-v0-2-110.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:dabd66947ea8803278b418294576316b96b0863556382f8bf07362f7303e5a29",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "The implementation prepared by WI-1015 is integrated in merged PR #980. Its verified release-preparation evidence remains immutable; the remaining v0.2.110 publication and lifecycle handoff is owned by successor WI-1016.",
+  "recordedAt": "2026-09-23T10:27:32Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:6a3e07f6581ab3d754c1be82c8072b4710c1eea781125d286208cb0285bf0b5b",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1015-release-v0-2-110"
+}

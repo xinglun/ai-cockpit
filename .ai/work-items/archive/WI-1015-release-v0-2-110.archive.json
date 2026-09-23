@@ -1,0 +1,21 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-23T10:27:32Z",
+  "files": {
+    "contractDigest": "sha256:e91a44ddb4d72d176c601f94f018b7331c57b004b5d951ff4c06c334bce0be61",
+    "contractPath": ".ai/work-items/archive/WI-1015-release-v0-2-110.contract.json",
+    "eventsDigest": "sha256:af0638a04e660f923d53314f4cdb5f5bb8f4344dc4f491dbb12fff2b586f3034",
+    "eventsPath": ".ai/work-items/archive/WI-1015-release-v0-2-110.events.jsonl",
+    "outcomeDigest": "sha256:3f299207e64a67ab8e637fbf93e784772043f5af695135ca464194f1e32f221a",
+    "outcomePath": ".ai/work-items/archive/WI-1015-release-v0-2-110.outcome.json",
+    "summaryDigest": "sha256:c5b3bebac149e12778266a0dbbc6c16a2fa59b4930705053513e5d9bb92f89f9",
+    "summaryPath": ".ai/work-items/archive/WI-1015-release-v0-2-110.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-1015-release-v0-2-110.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-1015-release-v0-2-110"
+}

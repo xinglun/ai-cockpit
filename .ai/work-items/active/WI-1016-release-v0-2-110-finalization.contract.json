@@ -71,7 +71,9 @@
     "PR #980 CI run 35846214877: route, quality, v1-behavioral-oracle, windows-runtime passed",
     "origin/main at da682935c93155618eace8b62da95c",
     "https://github.com/xinglun/ai-cockpit/pull/980",
-    "https://github.com/xinglun/ai-cockpit/actions/runs/35846214877"
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35846214877",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json",
+    ".ai/evidence/WI-1015-release-v0-2-110.verification.json"
   ],
   "state": "implementation_active",
   "verification": [

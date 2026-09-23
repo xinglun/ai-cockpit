@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "workItemId": "WI-1016-release-v0-2-110-finalization",
+  "predecessorWorkItemId": "WI-1016-release-v0-2-110-finalization",
+  "decision": "retry",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "predecessorContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "predecessorSummaryDigest": "sha256:aa354f42be2bfd272ce2ce89e4dda456a49d89f42d64c4511db02063ca092e57",
+  "predecessorOutcomeDigest": "sha256:f8f11567ad5f4a2ed4b309d3ef12dbf8d2d0f1fb2f31e910d3e828a4967b588d",
+  "predecessorEventsDigest": "sha256:e25d7128044a61c02eaf7ac9e24006ad97a08a32ac6ba3de7f35e36f8b64b883",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "decidedAt": "2026-09-23T10:32:00Z",
+  "reason": "The first finish attempt was blocked by missing acceptance-evidence projection and the later source-link amendment invalidated the old verification snapshot. Re-run the current Contract's preflight and verification after the supported governance projection is complete.",
+  "resumeCondition": "Run fresh preflight and verification, then finish with the current acceptanceEvidence and intentAlignment projections.",
+  "evidenceRefs": [
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.outcome.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/task-outcome-events.md"
+  ]
+}

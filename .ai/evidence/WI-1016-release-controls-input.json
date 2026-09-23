@@ -1,4 +1,61 @@
 {
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "merged source and PR CI identity",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/980",
+          "type": "provider",
+          "verification": "PR #980 and merge commit da682935c93155618eace8b62da95c2cf813956c are the declared source boundary; release acceptance remains pending."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "resource context bound before current verification",
+          "path": ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+          "type": "runtime",
+          "verification": "Runtime finalize-plan recorded the PR #980 resource context before the current verification cycle; archive and close remain pending."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "release artifact integrity scenario plan",
+          "path": ".ai/evidence/WI-1016-release-controls-input.json",
+          "type": "plan",
+          "verification": "Publication, tag, manifest, checksum, SBOM, provenance, and public Release evidence is intentionally pending until the governed release workflow runs."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "downloaded adopter scenario plan",
+          "path": ".ai/evidence/WI-1016-release-controls-input.json",
+          "type": "plan",
+          "verification": "Fresh install, N-1 upgrade, and isolated cleanup evidence is intentionally pending until public v0.2.110 assets exist."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "finalization and cleanup scope",
+          "path": ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+          "type": "plan",
+          "verification": "Archive, finalize, close, documentation projection, and exact cleanup are declared but not yet terminal evidence."
+        }
+      ]
+    }
+  ],
   "scenarioCoverage": [
     {
       "scenario": "release-artifact-integrity",

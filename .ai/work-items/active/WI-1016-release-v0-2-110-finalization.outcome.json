@@ -1,0 +1,282 @@
+{
+  "acceptanceResults": [
+    "da682935c93155618eace8b62da95c2cf813956c 已成为 origin/main，且 PR #980 的四项 CI 检查和 main CI 均有真实 GitHub 证据。",
+    "PR #980 的资源上下文在 WI-1016 验证前通过 Runtime finalize-plan 正式绑定，归档与 close 使用同一 Contract/PR 身份。",
+    "v0.2.110 的 annotated immutable tag、release workflow、manifest、checksums、SBOM、provenance、public Release 和源提交身份一致。",
+    "下载的 public v0.2.110 artifact 通过 fresh install、0.2.109-to-v0.2.110 N-1 upgrade 和临时运行根清理。",
+    "WI-1016 归档、finalize、finalize-verify、close、文档 projection、分支和 worktree 清理均有 Runtime/Provider evidence。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+      "workItemId": "WI-1016-release-v0-2-110-finalization"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1015-release-v0-2-110.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1015-integrated-retirement-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1016-finish-retry-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1016-release-controls-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.5bfef8bf51b079847190f7cd940459faaec967b677a66cb2a19923f4dce2482e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.66d4727cfa5646cf8060ed82210e06bd78322d3d3332aa71270e0b5ab5d16e94.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.83dffc0d8c9e378787c134e46e0d85f3905412fa18d8340cb325db5f7c508bd7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1015-release-v0-2-110.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1015-release-v0-2-110.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1015-release-v0-2-110.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1015-release-v0-2-110.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1016-release-v0-2-110-finalization.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1016-release-v0-2-110-finalization.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1015-release-v0-2-110.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1015-release-v0-2-110.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1015-release-v0-2-110.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1015-release-v0-2-110.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1015-release-v0-2-110.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "从已合并且主线同步的 da682935c93155618eace8b62da95c2cf813956c 发布并验收 v0.2.110，绑定 PR #980 的真实资源上下文，完成归档、finalize、close、文档投影和资源清理。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "WI-1016-release-v0-2-110-finalization"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}
