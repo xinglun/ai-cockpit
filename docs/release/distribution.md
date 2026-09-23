@@ -137,6 +137,14 @@ plan. There is no version-specific or temporary release exception. If a
 workflow needs a new recovery route, add a reviewed mode or schema migration
 to the typed plan first; do not bypass the plan with an ad-hoc input.
 
+Publication and post-release recovery also require a complete `resourceContext`
+on the selected Work Item before build or public acceptance starts. The cheap
+preflight emits one `release-lifecycle-handoff.json` containing the
+`planDigest`, Work Item/Contract binding, and the exact candidate Runtime
+version and digest. The close barrier consumes that artifact and fails with
+`governance_binding_failed` when it is missing or does not match the plan;
+failed or historical evidence is not rewritten.
+
 Publication is started by an explicit workflow dispatch after the reviewed
 Work Item is merged and the default branch is synchronized. Create the
 annotated tag, push it as an immutable input, then dispatch the workflow with

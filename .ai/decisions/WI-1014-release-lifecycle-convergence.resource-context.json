@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:417ae174a695241aba1a776a5f9aa3ba6bf8bb62e24ff7aac4fad457eb58b8dc",
+  "contractDigest": "sha256:d06be6f0cf4e1aac9c0194d88adf3a20d8a975925dc42cb834c41f9785bfa66a",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-23T09:04:52Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-lifecycle-convergence",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/979",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-control.zEsHyW"
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1014-release-lifecycle-convergence"
+}

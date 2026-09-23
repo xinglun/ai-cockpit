@@ -1,0 +1,50 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:b375f847208592bb63f0441424d3e53fe4297cc322bd65bbe458ce3ae78d516a",
+  "artifacts": {
+    "approach": {
+      "digest": "sha256:16cf9e6a15f92d0c5872f0b29b148cad51a2a47d205fde0af748b1cfa51019b0",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.approach.json"
+    },
+    "contract": {
+      "digest": "sha256:186491a7d576f4c4f8b33591a63ee49a812fc29027df98a86ec6bc5ee231ec3b",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.contract.json"
+    },
+    "events": {
+      "digest": "sha256:c900b89e2c3fdfaf2da58855cc67d5cad2e3b5b4c593756c6dbb90ccbf31e67a",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.events.jsonl"
+    },
+    "outcome": {
+      "digest": "sha256:481fe2fcabfb786f291915dd36da6b14beda783f5eceed89160378b95fd68f7f",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:480dde3ff98a233c31543f2ed9877bf0682788a9cec854e37ee52cfc140ee0f3",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.summary.json"
+    },
+    "taskReport": {
+      "digest": "sha256:6abc44cf2d31323af50486f7ac5ec0111cb50bebd11add964b53da02e1b8c236",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.task-report.json"
+    },
+    "taskReportMarkdown": {
+      "digest": "sha256:6cb02c32b60ad9af1053a9de9fa8fb033a6c3282f6fde4ce2318c450c0189450",
+      "path": ".ai/work-items/archive/WI-1011-release-v0-2-107.task-report.md"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:68b9e9c3bfabd3e0cc2cf70497af0550ad23d84ff687f6db76a3fe47be71cf75",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "The v0.2.107 candidate was superseded by the explicitly linked v0.2.108 release Work Item; preserve its failed candidate, receipt, recovery, and Contract history without reopening or claiming verification.",
+  "recordedAt": "2026-09-23T08:22:58Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:39ee035fdc5e59e2ba2f9d4e30b2e003151a06ae24f18b8513276f01d553482f",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1012-release-v0-2-108",
+  "summaryDigest": "sha256:5a315fa01b2e791bf51a69d9fdf864d4337f08be2420da71e647e36c7c589486",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1011-release-v0-2-107"
+}

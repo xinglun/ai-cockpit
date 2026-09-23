@@ -5,6 +5,7 @@ workflow=${1:?usage: workflow_policy.sh <workflow>}
 repo_root="$(cd "$(dirname "$workflow")/../.." && pwd -P)"
 gate_manifest="$repo_root/tests/ci/repository_gate_manifest.json"
 release_plan_adapter="$repo_root/tests/ci/resolve_release_plan.sh"
+work_item_resolver="$repo_root/tests/ci/resolve_work_item.sh"
 
 if command -v rg >/dev/null 2>&1; then
   search() { rg -n --pcre2 -- "$1" "$2"; }
@@ -111,6 +112,14 @@ grep -Fq 'source_contract_repository_mismatch' "$release_plan_adapter" || {
   printf 'policy failure: source identity must remain repository-bound\n' >&2
   exit 1
 }
+grep -Fq 'release_resource_context_missing' "$work_item_resolver" || {
+  printf 'policy failure: publication must reject an unbound resource Work Item before expensive jobs\n' >&2
+  exit 1
+}
+require_match 'release-lifecycle-handoff' 'release must persist an identity-bound lifecycle handoff'
+require_match 'runtimeDigest' 'lifecycle handoff must bind the exact candidate Runtime digest'
+require_match 'close-inputs/preflight' 'release close must consume the preflight lifecycle handoff'
+require_match 'governance_binding_failed' 'release close must fail closed on a missing or mismatched governance binding'
 require_match 'upload-artifact:[[:space:]]*false' 'SBOM action must not upload an orphan default artifact'
 require_match 'upload-release-assets:[[:space:]]*false' 'SBOM action must not publish an orphan default SBOM'
 require_match '(cockpit-release -- bind-sbom|tools/\$\{\{ matrix\.helper_binary \}\} bind-sbom)' 'each target SBOM must be bound to its packaged archive and executable'

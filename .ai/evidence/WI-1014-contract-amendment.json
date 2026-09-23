@@ -1,0 +1,51 @@
+{
+  "scenarioCoverageAppend": [
+    {
+      "required": true,
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-verification/src/",
+        "tests/"
+      ],
+      "scenario": "resource-bound release handoff admission",
+      "expected": "A stale or absent resource context is rejected before verification starts, while an ordinary no-resource Work Item remains admissible.",
+      "status": "unverified",
+      "verificationPlan": "Add focused Runtime admission tests and compare the release-bound and ordinary paths, including the zero-process failure assertion."
+    },
+    {
+      "required": true,
+      "evidence": [
+        "crates/cockpit-cli/src/runtime_identity.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-verification/src/"
+      ],
+      "scenario": "candidate identity survives checkout relocation",
+      "expected": "Revalidation consumes a persisted or path-independent candidate identity; relocating the checkout alone does not stale the evidence, while source identity changes do.",
+      "status": "unverified",
+      "verificationPlan": "Add focused identity tests using equivalent source inputs at different paths and a changed-source negative case."
+    },
+    {
+      "required": true,
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/",
+        "tests/ci/"
+      ],
+      "scenario": "release workflow lifecycle handoff evidence",
+      "expected": "The workflow emits identity-bound handoff/finalization evidence for successful and failed stages, and close consumes it without manual reconstruction.",
+      "status": "unverified",
+      "verificationPlan": "Add workflow policy and fixture tests for the emitted artifact, its identity fields, failure preservation, and close consumer."
+    },
+    {
+      "required": true,
+      "evidence": [
+        "tests/docs/",
+        "tests/ci/"
+      ],
+      "scenario": "bounded release-process regression",
+      "expected": "No task-progress ledger or global configuration is introduced; existing command, documentation, and governance gates remain valid.",
+      "status": "unverified",
+      "verificationPlan": "Run the existing documentation, governance, format, workspace test, clippy, and release policy checks."
+    }
+  ]
+}

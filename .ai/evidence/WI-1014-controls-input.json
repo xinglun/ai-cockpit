@@ -1,0 +1,60 @@
+{
+  "intentAlignment": {
+    "state": "resolved",
+    "evidence": [
+      ".github/workflows/release.yml",
+      "tests/ci/resolve_work_item.sh",
+      "tests/release/workflow_policy.sh"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "resource-bound release handoff admission",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/resolve_work_item_test.sh",
+        ".ai/evidence/WI-1014-release-lifecycle-convergence.verification.json"
+      ],
+      "expected": "A stale or absent resource context is rejected before verification starts, while an ordinary no-resource Work Item remains admissible.",
+      "verificationPlan": "Add focused Runtime admission tests and compare the release-bound and ordinary paths, including the zero-process failure assertion."
+    },
+    {
+      "scenario": "candidate identity survives checkout relocation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/adopter_acceptance.sh",
+        ".ai/evidence/WI-1014-release-lifecycle-convergence.verification.json"
+      ],
+      "expected": "Revalidation consumes a persisted or path-independent candidate identity; relocating the checkout alone does not stale the evidence, while source identity changes do.",
+      "verificationPlan": "Add focused identity tests using equivalent source inputs at different paths and a changed-source negative case."
+    },
+    {
+      "scenario": "release workflow lifecycle handoff evidence",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/ci/release_gate_policy_test.sh",
+        ".ai/evidence/WI-1014-release-lifecycle-convergence.verification.json"
+      ],
+      "expected": "The workflow emits identity-bound handoff/finalization evidence for successful and failed stages, and close consumes it without manual reconstruction.",
+      "verificationPlan": "Add workflow policy and fixture tests for the emitted artifact, its identity fields, failure preservation, and close consumer."
+    },
+    {
+      "scenario": "bounded release-process regression",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/docs/documentation_acceptance.sh",
+        "tests/ci/governance_integrity_gate.py",
+        ".ai/evidence/WI-1014-release-lifecycle-convergence.verification.json"
+      ],
+      "expected": "No task-progress ledger or global configuration is introduced; existing command, documentation, and governance gates remain valid.",
+      "verificationPlan": "Run the existing documentation, governance, format, workspace test, clippy, and release policy checks."
+    }
+  ]
+}

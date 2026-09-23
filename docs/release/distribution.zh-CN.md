@@ -92,6 +92,11 @@ WI-224 的非 `crates/**` scope，明确 deferred。
 中绑定既有 workflow run 身份。不存在按版本编写的临时发布例外。若以后需要新恢复路径，
 先为类型化 plan 增加经审查的模式或 schema migration，不能用临时输入绕过 plan。
 
+发布和发布后恢复还要求选定 Work Item 在构建或公共验收开始前具有完整的
+`resourceContext`。廉价 preflight 会生成一份 `release-lifecycle-handoff.json`，其中绑定
+`planDigest`、Work Item/Contract，以及候选 Runtime 的确切版本和 digest。close barrier
+会消费这份记录；记录缺失或与 plan 不一致时以 `governance_binding_failed` 失败，且不会改写失败或历史证据。
+
 审查合并 Work Item 且同步默认分支后，通过显式 workflow dispatch 启动发布。先创建并推送
 annotated Git tag 作为不可变输入，再在 dispatch 中携带治理 Work Item identity。不要使用
 `gh release create`，因为它可能在 workflow 验证候选版本之前创建 provider Release 和 lightweight tag：

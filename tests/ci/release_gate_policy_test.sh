@@ -5,6 +5,7 @@ repo_root="$(cd "$(dirname "$0")/../.." && pwd -P)"
 workflow="$repo_root/.github/workflows/release.yml"
 manifest="$repo_root/tests/ci/repository_gate_manifest.json"
 resolver="$repo_root/tests/ci/resolve_release_plan.sh"
+work_item_resolver="$repo_root/tests/ci/resolve_work_item.sh"
 receipt_validator="$repo_root/tests/release/validate_adopter_acceptance_receipt.sh"
 
 [[ -f "$workflow" ]] || { printf 'release workflow is missing\n' >&2; exit 1; }
@@ -83,9 +84,21 @@ grep -Fq 'source_contract_not_regular' "$resolver" || {
   printf 'release gate policy failure: publication and post-release acceptance must bind a regular source Contract\n' >&2
   exit 1
 }
+grep -Fq 'release_resource_context_missing' "$work_item_resolver" || {
+  printf 'release gate policy failure: publication must reject a Work Item without a bound resource context before build\n' >&2
+  exit 1
+}
+grep -Fq 'release_resource_context_provisional' "$work_item_resolver" || {
+  printf 'release gate policy failure: provisional resource bindings must not enter publication\n' >&2
+  exit 1
+}
 require 'sourceBaseRevision' 'release route must bind the source-verification baseline'
 require 'sourceContractPath' 'release route must bind the source-verification Contract path'
 require 'release-governance-binding.json' 'release must retain the governance identity binding'
+require 'release-lifecycle-handoff' 'release must persist one identity-bound lifecycle handoff'
+require 'runtimeDigest' 'lifecycle handoff must persist the exact candidate Runtime digest'
+require 'close-inputs/preflight' 'release close must consume the preflight lifecycle handoff'
+require 'governance_binding_failed' 'release close must fail when lifecycle binding is absent or mismatched'
 require 'Checkout immutable release source' 'release must checkout the immutable source before route planning'
 require 'source_quality' 'release must have a source-quality phase'
 require 'needs.release_preflight.outputs.source_revision' 'source-quality must consume the immutable source identity from preflight'

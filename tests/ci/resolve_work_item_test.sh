@@ -49,8 +49,12 @@ cat > "$fixture/repo/.ai/work-items/active/WI-TEST.contract.json" <<JSON
   "repositoryId": "fixture-repository",
   "baseRevision": "$base",
   "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
     "branch": "codex/test-route",
-    "pullRequest": "https://github.com/example/repo/pull/7"
+    "pullRequest": "https://github.com/example/repo/pull/7",
+    "provider": "github",
+    "worktree": "$fixture/repo"
   },
   "predecessorWorkItemId": "WI-PREVIOUS",
   "predecessorContractDigest": "sha256:previous",
@@ -470,6 +474,14 @@ cat > "$fixture/repo/.ai/work-items/active/WI-STANDALONE.contract.json" <<JSON
   "state": "implementation_active",
   "repositoryId": "fixture-repository",
   "baseRevision": "$base",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-standalone",
+    "pullRequest": "https://github.com/example/repo/pull/15",
+    "provider": "github",
+    "worktree": "$fixture/repo"
+  },
   "scope": ["README.md"]
 }
 JSON
@@ -489,12 +501,46 @@ jq -e \
   '.mode == "release_recovery" and .workItemId == "WI-STANDALONE" and .recoveryLineage == "standalone_retry"' \
   "$standalone_output" >/dev/null
 
+cat > "$fixture/repo/.ai/work-items/active/WI-RELEASE-NO-RESOURCE.contract.json" <<JSON
+{
+  "workItemId": "WI-RELEASE-NO-RESOURCE",
+  "state": "implementation_active",
+  "repositoryId": "fixture-repository",
+  "baseRevision": "$base",
+  "scope": ["README.md"]
+}
+JSON
+if "$resolver" \
+  --repo "$fixture/repo" \
+  --event workflow_dispatch \
+  --head "$head" \
+  --from-tag v0.2.90 \
+  --to-tag v0.2.91 \
+  --publish-candidate true \
+  --work-item-id WI-RELEASE-NO-RESOURCE \
+  --source-work-item-id WI-SOURCE \
+  --release-source-revision "$base" \
+  --output "$fixture/release-without-resource.json" >/dev/null 2>&1; then
+  echo 'expected release without a bound resource context to fail before build' >&2
+  exit 1
+fi
+jq -e '.failureCode == "release_resource_context_missing" and .state == "failed"' \
+  "$fixture/release-without-resource.json" >/dev/null
+
 cat > "$fixture/repo/.ai/work-items/active/WI-PARTIAL.contract.json" <<JSON
 {
   "workItemId": "WI-PARTIAL",
   "state": "implementation_active",
   "repositoryId": "fixture-repository",
   "baseRevision": "$base",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-partial",
+    "pullRequest": "https://github.com/example/repo/pull/16",
+    "provider": "github",
+    "worktree": "$fixture/repo"
+  },
   "predecessorWorkItemId": "WI-PREVIOUS",
   "scope": ["README.md"]
 }

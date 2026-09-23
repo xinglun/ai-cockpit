@@ -1,0 +1,5185 @@
+{
+  "currentCycleStart": "2026-09-23T06:32:50Z",
+  "currentRelease": "0.2.109",
+  "findings": [],
+  "inventory": [
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-100-agent-usage-handoff"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1001-knowledge-cache-validation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1002-knowledge-outcome-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1003-release-v0-2-106"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1004-release-v0-2-106-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1005-release-v0-2-106-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1006-runtime-guide-action-outcome"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1007-archived-recovery-cli-route"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1008-finalization-recovery-normal-pr"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1009-agent-adapter-recovery-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-101-outcome-language-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1010-legacy-runtime-validation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1011-release-v0-2-107"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-1012-release-v0-2-108"
+    },
+    {
+      "classification": "current_release_cycle",
+      "decisionPath": ".ai/decisions/WI-1013-release-v0-2-109.close.json",
+      "lifecycleState": "closed",
+      "location": "archive",
+      "workItemId": "WI-1013-release-v0-2-109"
+    },
+    {
+      "classification": "current_active",
+      "lifecycleState": "active_non_parity",
+      "location": "active",
+      "workItemId": "WI-1014-release-lifecycle-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-102-release-v0-2-5"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-103-outcome-summary-localization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-104-release-v0-2-6"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-105-release-adopter-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-106-outcome-human-decision-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-107-docs-parity-truth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-107a-release-identity-wording"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-108-release-v0-2-7"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-109-lifecycle-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-110-evidence-assurance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-111-mcp-handoff-isolation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-112-agent-operating-rules-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-113-release-v0-2-8"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-114-release-adopter-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-115-release-v0-2-9"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-116-archived-close-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-118-release-toolchain-corrective"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-119-contract-preflight-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-120-release-v0-2-10"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-121-contract-v2"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-122-scenarios-acceptance-final-dimensions"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-123-parallel-contract-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-124-reference-parity-doc-truth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-125-contract-schema"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-126-status-outcome"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-127-docs-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-128-release-acceptance-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-129-parity-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-130-status-closed-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-131-evidence-timestamp"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-132-agent-adapter-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-133-docs-truth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-134-docs-close-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-135-repository-bound-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-136-task-outcome-report"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-137-release-v0-2-11"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-138-post-release-adoption-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139A-preflight-review"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139B-recovery-events"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139C-successor-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139D-runtime-v0-2-12-bootstrap"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139E-release-acceptance-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139F-runtime-v0-2-13"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139G-stale-predecessor-supersession"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139H-runtime-v0-2-14"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139I-historical-outcome-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-139J-runtime-v0-2-15"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-140-verification-semantics"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-141-policy-planner"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-142-affected-verification"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-143-intent-scenario-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-144-cross-work-item-dedup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-145-ci-runtime-shadow"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-146-verification-cost-observation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-147-verification-route-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-148-outcome-archive-path"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-149-release-decision-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-150-release-v0-2-16"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-151-post-release-v0-2-16-self-governance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-152-documentation-parity-after-v0-2-16"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-153-historical-evidence-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-154-policy-bound-runtime-route"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-155-ci-release-gate-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-156-physical-execution-receipt"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-157-release-v0-2-17-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-158-resource-finalization-protocol"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-159-resource-finalization-runtime"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-160-resource-finalization-baseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-161-historical-runtime-close"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-162-historical-snapshot-compat"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-163-historical-outcome-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-164-historical-outcome-render"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-166-release-acceptance-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-167-release-v0-2-19"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-167-release-v0-2-19-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-168-n-minus-one-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-169-release-v0-2-20"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-170-post-release-parity-branch-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-171-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-172-parity-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-173-release-v0-2-21"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-174-post-release-parity-v0-2-21"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-175-release-v0-2-22"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-176-release-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-177-post-release-adopter-v0-2-22"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-178-post-release-adopter-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-179-post-release-parity-v0-2-22"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-180-parity-status-closure-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-181-parity-evidence-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-182-parallel-lease-atomic-install"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-183-release-v0-2-23"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-184-release-v0-2-23-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-185-release-v0-2-23-parity-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-186-release-v0-2-23-post-release-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-187-finalization-before-archive"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-188-governance-integrity-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-190-finalization-plan-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-191-finalization-transition-chain"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-191H-finalization-head-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-192-governance-integrity-finalization-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-193-release-acceptance-isolation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-194-release-acceptance-isolation-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-195-governance-recovery-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-196-governance-recovery-gate-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-197-governance-gate-pr-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-198-governance-gate-default-branch-discovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-199-governance-gate-actual-pr-context"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-200-governance-gate-github-head-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-201-governance-gate-post-merge-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-202-release-v0-2-24"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-203-release-v0-2-25"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-204-release-v0-2-25"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-205-release-v0-2-25"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-206-release-tag-pending-close"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-207-release-tag-pending-close-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-208-release-tag-pending-close-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-209-release-tag-pending-close-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-210-release-v0-2-26"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-211-hermetic-governance-fixture"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-212-release-fixture-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-213-release-v0-2-27"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-214-reference-file-comparison"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-215-reference-file-comparison-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-216-release-v0-2-28"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-217-release-v0-2-28-post-release-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-218-release-v0-2-28-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-219-release-v0-2-28-finalization-reconciliation-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-220-release-v0-2-28-finalization-reconciliation-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-221-release-v0-2-28-finalization-reconciliation-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-222-capability-manifest-status"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-223-getting-started-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-224-ci-reference-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-225-getting-started-parity-registration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-226-getting-started-parity-registration-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-227-getting-started-capability-parity-integration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-228-governance-append-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-229-governance-append-parity-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-230-release-v0-2-29"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-231-release-adopter-v0-2-29"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-232-release-adopter-v0-2-29-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-233-release-adopter-v0-2-29-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-234-post-merge-governance-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-235-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-236-release-v0-2-30"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-237-release-route-recovery-v0-2-31"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-238-release-v0-2-31-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-239-release-v0-2-31-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-241-release-sbom-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-243-finalization-reason-policy"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-244-pending-parity-registry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-246-pending-parity-merge-ref-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-247-parity-close-registration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-249-parity-finalization-registration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-250-outcome-handoff"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-251-outcome-handoff-base-binding-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-252-manifest-gate-order-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-253-docs-terminalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-254-closed-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-255-recovery-read-side"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-258-governance-fixture-regression"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-259-close-decision-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-260-recovery-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-263-wi260-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-265-finalization-parity-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-266-finalization-head-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-267-finalization-parity-regression-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-268-finalization-receipt-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-269-finalization-head-order-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-270-reference-contract-batch"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-271-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-272-reference-agent-rule-batch"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-273-reference-inventory-rebaseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-274-reference-inventory-rebaseline-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-275-reference-inventory-rebaseline-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-276-capability-profile-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-277-capability-profile-parity-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-278-preclose-docs-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-279-reference-contract-semantics"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-280-reference-contract-semantics-successor"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-281-recovery-integrity-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-282-reference-contract-semantics-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-283-reference-contract-semantics-current-main"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-284-reference-contract-semantics-terminal"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-285-reference-contract-semantics-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-286-agent-risk-checkpoint-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-287-reference-checkpoint-conformance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-288-provider-finalization-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-289-checkpoint-conformance-terminal"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-290-checkpoint-conformance-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-293-ci-contract-aware-gates-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-294-lifecycle-recovery-state-machine"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-296-governance-closure-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-297-release-v0-2-32"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-298-release-v0-2-32-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-299-release-adopter-finalize-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-300-release-v0-2-33"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-301-release-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-302-reference-file-comparison-batch-01"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-303-reference-file-comparison-parity-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-304-reference-file-comparison-batch-02"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-305-reference-file-comparison-batch-03"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-307-recovery-retry-gate-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-308-reference-file-comparison-batch-04-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-312-reference-inventory-doc-consistency-parity-recovery-successor"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-313-post-close-finalization-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-314-finalization-reconciliation-redelivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-315-post-close-reconciliation-promotion-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-316-post-close-reconciliation-promotion-base-fix"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-317-post-close-reconciliation-quality-gate-fix"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-320-checkpoint-evidence-snapshot-lifecycle"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-321-explicit-failed-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-322-lifecycle-entry-safety"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-323-reference-documentation-foundation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-324-reference-parity-registration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-325-reference-file-comparison-batch-05"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-326-reference-file-comparison-batch-06"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-327-reference-file-comparison-batch-07"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-329-reference-file-comparison-batch-08-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-330-capability-truth-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-331-checks-release-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-332-comprehension-review"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-333-comprehension-validation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-334-evidence-binding-reuse"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-335-provider-finalization-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-336-reference-docs-foundation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-337-reference-docs-foundation-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-338-reference-docs-foundation-clean"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-339-reference-docs-foundation-clean-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-340-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-341-runtime-shadow-archived-state"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-342-reference-documentation-batch-13"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-343-reference-inventory-foundation-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-344-reference-documentation-batch-14"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-345-reference-governance-cost-batch-15"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-346-reference-governance-profiles-status"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-347-reference-knowledge-trust-lifecycle-assessment"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-348-reference-verification-operation-policy"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-351-runtime-recovery-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-352-lifecycle-cleanup-guard"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-353-runtime-recovery-delivery-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-354-release-v0-2-34"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-355-runtime-archive-recovery-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-356-release-adopter-script-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-357-release-adopter-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-358-release-v0-2-35"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-359-release-v0-2-36"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-360-release-adopter-close-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-361-release-adopter-close-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-362-release-adopter-close-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-363-release-v0-2-37"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-364-primary-worktree-release"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-365-release-upgrade-git-identity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-366-release-v0-2-38"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-367-release-adopter-v0-2-38"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-368-reference-file-comparison-batch-16"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-369-post-merge-ci-transition-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-370-verification-performance-budget"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-371-wi369-doc-status"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-372-wi370-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-373-wi371-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-374-release-v0-2-39"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-375-wi374-doc-status"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-376-release-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-377-release-adopter-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-378-reference-documentation-batch-17"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-379-reference-documentation-batch-18"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-380-reference-documentation-batch-18-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-381-reference-parity-decision-link-fix"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-382-reference-inventory-count-truth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-383-reference-inventory-count-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-384-reference-inventory-archive-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-385-reference-inventory-terminal-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-386-reference-documentation-batch-19"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-387-reference-documentation-batch-20"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-388-reference-documentation-batch-21"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-389-reference-documentation-batch-22"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-390-reference-style-guide"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-391-reference-csharp-adaptation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-392-reference-android-fixture"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-393-reference-flutter-fixture"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-394-reference-ios-swift-fixture"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-395-runtime-performance-extreme"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-396-status-fast-path-budget"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-397-release-v0-2-40"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-398-release-v0-2-40-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-399-release-v0-2-40-doc-promotion-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-400-release-v0-2-40-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-401-release-v0-2-40-publication"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-402-rust-performance-extreme"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-404-release-docs-terminal-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-405-active-artifact-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-406-close-promotion-alignment"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-407-knowledge-materialization-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-408-inspect-readonly-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-409-release-v0-2-41"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-410-post-release-adopter-v0-2-41"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-411-reference-java-fixture-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-412-release-v0-2-42"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-413-release-v0-2-42-windows-ci-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-414-reference-python-fixture-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-415-release-v0-2-43"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-416-release-v0-2-43-adopter-baseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-417-cargo-verification-lock-strategy"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-418-release-v0-2-44"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-419-release-v0-2-44-adopter-baseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-421-reference-mixed-monorepo"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-422-release-v0-2-45"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-423-ci-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-424-ci-convergence-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-425-ci-convergence-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-426-recovery-successor-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-427-parity-governance-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-428-recovery-chain-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-429-recovery-history-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-430-release-v0-2-46"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-431-release-v0-2-47-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-432-reference-typescript-fixture-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-433-local-reference-source-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-434-local-reference-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-435-reference-inventory-rebaseline-local"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-436-reference-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-437-reference-rebaseline-governance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-438-reference-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-439-reference-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-440-reference-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-441-reference-entrypoint-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-442-wi441-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-443-historical-finalization-compat"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-444-release-v0-2-48"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-446-historical-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-447-release-v0-2-49"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-448-release-v0-2-50"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-449-historical-finalization-adopter-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-450-closed-work-item-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-451-wi450-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-452-release-v0-2-51"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-453-release-v0-2-51-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-454-historical-recovery-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-455-release-v0-2-52-annotated-tag"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-456-wi455-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-457-task-outcome-event-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-458-wi457-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-459-release-v0-2-53"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-460-release-v0-2-53-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-461-reference-onboarding-rebaseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-463-reference-parity-promotion-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-464-reference-file-comparison-batch-24"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-464-reference-file-comparison-batch-24-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-465-closed-work-item-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-466-release-v0-2-54"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-467-reference-ledger-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-468-reference-ledger-parity-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-469-reference-ledger-parity-order-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-470-terminal-doc-promotion-and-artifact-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-471-parity-recovery-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-472-finalization-context-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-473-wi472-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-474-release-v0-2-55"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-475-reference-file-comparison-batch-25"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-476-wi475-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-477-release-v0-2-56"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-478-release-v0-2-57"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-479-wi478-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-480-finalization-context-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-481-wi480-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-482-reference-file-comparison-batch-26"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-483-wi482-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-484-wi483-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-485-wi484-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-486-wi485-parity-registration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-487-wi486-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-488-wi487-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-489-doc-promotion-terminal-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-490-wi489-terminal-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-491-release-v0-2-58"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-492-wi491-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-493-wi492-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-494-reference-file-comparison-batch-27"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-495-wi494-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-496-reference-file-comparison-batch-28"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-497-reference-file-comparison-batch-28-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-498-reference-file-comparison-batch-28-doc-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-499-reference-file-comparison-batch-28-parity-order-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-500-historical-archive-recovery-integrity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-501-doc-promotion-receipts"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-502-doc-promotion-terminal"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-503-release-v0-2-59"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-504-reference-file-comparison-batch-29"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-505-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-506-release-v0-2-60"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-507-reference-file-comparison-batch-30"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-508-reference-file-comparison-batch-31"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-509-release-v0-2-61"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-510-reference-file-comparison-batch-32"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-511-release-v0-2-62"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-512-reference-docs-batch-33"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-513-wi512-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-514-historical-close-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-515-release-v0-2-63"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-516-reference-file-comparison-batch-34"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-517-wi516-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-518-historical-finalization-apply"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-519-wi518-parity-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-520-release-v0-2-64"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-521-reference-file-comparison-batch-35"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-522-wi521-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-523-wi521-doc-promotion-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-524-recovery-successor-readiness"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-525-wi524-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-526-release-v0-2-65"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-527-direct-merge-context"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-528-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-529-wi528-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-531-historical-direct-merge-apply"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-532-wi531-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-533-release-v0-2-66"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-534-wi533-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-535-mcp-fixture-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-536-wi535-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-537-capability-surface"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-538-wi537-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-539-reference-file-comparison-batch-36"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-540-wi539-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-541-release-v0-2-67"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-542-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-543-reference-ledger-check-safety"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-544-wi543-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-545-release-v0-2-68"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-546-wi545-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-547-release-v0-2-69"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-548-reference-file-comparison-batch-38"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-549-release-v0-2-70"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-55-migration-hardening"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-550-reference-file-comparison-batch-39"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-551-wi550-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-552-reference-file-comparison-batch-40-install-upgrade"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-553-wi552-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-554-release-v0-2-71"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-555-wi554-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-556-doc-projection-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-557-reference-file-comparison-batch-41"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-558-doc-promotion-wi557"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-559-reference-file-comparison-batch-42"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-560-doc-promotion-wi559"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-561-release-v0-2-72"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-562-doc-promotion-release"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-563-reference-file-comparison-batch-43"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-564-doc-promotion-wi563"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-565-release-v0-2-73"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-566-documentation-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-567-wi566-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-568-reference-file-comparison-batch-44"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-569-wi568-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-570-release-v0-2-74"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-571-wi570-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-572-reference-installer-quality-batch-45"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-573-wi572-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-574-release-v0-2-75"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-576-wi575-doc-promotion-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-577-reference-metadata-sync"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-578-wi577-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-58-enterprise-governance-contracts"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-580-reference-template-parity-batch-46-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-581-doc-promotion-wi580"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-582-doc-promotion-wi581"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-583-archived-contract-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-584-release-v0-2-76"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-585-wi584-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-586-wi585-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-587-reference-file-comparison-batch-47"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-588-wi587-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-589-predecessor-close-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-59-structured-human-decision"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-590-wi589-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-591-release-v0-2-77"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-592-wi591-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-593-wi591-doc-parity-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-594-recovery-successor-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-595-release-registry-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-596-release-v0-2-78"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-597-doc-promotion-wi596"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-598-reference-test-parity-batch-48"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-599-wi598-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-600-release-v0-2-79"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-601-reference-test-parity-batch-49"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-602-doc-promotion-wi601"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-603-release-v0-2-80"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-604-doc-promotion-wi603"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-605-release-api-auth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-606-release-api-auth-doc-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-607-release-v0-2-81"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-608-adopter-removal-race"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-609-doc-promotion-wi608"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-610-release-v0-2-82"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-612-reference-file-comparison-batch-50-ci-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-613-wi612-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-614-direct-merge-no-pr-apply"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-615-wi614-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-616-release-v0-2-83"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-617-reference-outcome-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-618-doc-promotion-wi617"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-619-reference-script-semantic-batch"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-620-reference-release-governance-batch"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-621-reference-installer-lifecycle-batch"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-622-direct-merge-cli-contract"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-624-wi622-doc-promotion-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-625-release-v0-2-84"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-626-release-v0-2-85"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-627-reference-rebaseline"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-628-doc-promotion-wi627"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-629-reference-rebaseline-batch-51"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-630-doc-promotion-wi629"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-631-reference-rebaseline-batch-52"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-632-doc-promotion-wi631"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-633-reference-rebaseline-batch-53"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-634-reference-rebaseline-batch-53-doc-gate-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-635-batch-53-final-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-636-batch-53-documentation-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-637-wi636-documentation-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-638-reference-rebaseline-batch-54"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-639-wi638-documentation-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-64-security-enterprise-documentation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-640-reference-rebaseline-batch-55"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-641-wi640-documentation-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-642-reference-rebaseline-batch-56"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-643-wi642-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-644-release-v0-2-86"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-645-reference-doc-runtime-version-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-646-release-v0-2-87"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-65-adversarial-corpus-v2"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-658-wi656-outcome-trust-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-659-wi658-hosted-quality-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-66-organization-policy-enforcement"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-660-wi659-parity-registration-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-661-wi660-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-662-p0-benchmark-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-663-wi659-outcome-trust-replacement"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-664-state-transition-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-665-wi663-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-669-p0b-outcome-summary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-67-delegated-evidence-operations"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-670-wi653-outcome-render-successor"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-672-wi662-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-674-p1-repository-split"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-675-wi670-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-676-wi675-doc-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-677-wi657-lifecycle-concurrency-successor"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-679-p0-collaboration-language-contract"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-68-sensitive-evidence-retention"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-680-p1-collaboration-scenario-matrix"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-681-wi674-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-682-p1-cli-mcp-parity-test"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-683-p2c-lifecycle-concurrency-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-685-p1-status-fact-reuse"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-688-wi683-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-689-wi685-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-69-audit-export"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-691-p0-responsibility-map"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-692-p0-concurrent-verification-measurement"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-693-wi691-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-694-p2a-checkpoint-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-695-wi692-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-696-p0-scenario-measurement"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-697-wi694-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-699-wi696-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-70-adversarial-assurance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-702-p2-incremental-merkle-trust-audit"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-703-wi669-current-base-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-71-reader-docs-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-710-p1-human-decision-request-completeness"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-712-wi702-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-713-wi703-current-base-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-714-wi712-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-714-wi713-current-base-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-715-wi713-p0b-redelivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-716-wi715-governance-scope-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-717-wi716-closed-projection-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-718-wi717-doc-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-72-release-hardening"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-73-release-v0-2-2"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-74-n1-release-upgrade-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-740-p1-invariant-coverage-mapping"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-741-p1-invariant-7-next-action-coverage"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-743-wi715-p1-current-base-redelivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-745-wi743-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-746-wi745-terminal-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-749-wi745-parity-receipt"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-75-implementation-knowledge-v2"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-750-p1-cognitive-benefit-current-base"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-751-p2-first-use-current-base"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-753-p1-runtime-consistency"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-754-runtime-recovery-digest"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-754-runtime-recovery-digest-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-755-p1-observation-context-successor"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-756-p1-handoff-reconstruction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-756-p1-handoff-reconstruction-revalidation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-758-wi755-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-759-wi754-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-76-outcome-human-benefit"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-760-wi759-doc-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-761-wi760-parity-order-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-762-wi761-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-763-wi752-fact-reuse-redelivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-764-release-v0-2-88"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-765-wi764-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-766-wi765-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-767-wi766-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-768-release-v0-2-89"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-769-performance-terminal-docs"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-77-capability-truth"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-770-performance-terminal-docs-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-771-wi770-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-772-wi771-doc-promotion-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-773-p1-status-canonical-fact-reuse"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-774-wi773-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-775-wi774-parity-order-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-776-wi775-archive-evidence-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-778-wi776-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-779-abandoned-finalization-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-78-governance-cost-diagnosis"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-781-trust-diagnostics"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-782-finalization-head-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-783-parity-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-784-wi783-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-785-wi784-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-786-parity-registration-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-787-parity-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-79-work-item-intelligence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-79-work-item-intelligence-cli"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-791-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-793-release-v0-2-90-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-794-release-v0-2-90-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-795-wi794-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-796-wi795-doc-promotion-retry"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-797-residual-resource-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-798-collaboration-observability-performance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-799-wi798-root-cause-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-80-requested-operation-v2"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-800-wi799-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-801-release-v0-2-91"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-802-release-v0-2-91-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-803-release-v0-2-91-aggregate-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-804-release-route-ordering"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-805-release-tag-input"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-806-release-preflight-base"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-807-release-preflight-clean-failure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-808-release-handoff-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-809-release-v0-2-91-final-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-81-schema-migration-chain"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-810-release-recovery-mode"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-811-release-recovery-finalize-order"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-812-release-source-governance-split"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-814-archived-pr-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-815-post-release-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-816-outcome-action-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-818-evidence-contract-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-819-docs-gate-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-82-v1-final-replacement-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-820-verification-execution-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-821-no-resource-document-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-822-resource-finalization-base-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-823-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-824-verification-preconditions"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-825-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-826-historical-lifecycle-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-827-wi826-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-828-release-v0-2-92"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-829-release-trigger-repair"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-83-performance-slo"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-830-release-dispatch-syntax"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-831-release-identity-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-832-release-adopter-reuse"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-833-release-script-provenance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-834-wi833-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-835-lifecycle-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-836-wi835-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-839-runtime-doc-projection-preflight"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-84-repository-context"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-842-custom-evidence-precondition"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-844-lifecycle-resource-reconciliation"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-845-historical-close-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-846-wi845-postmerge-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-847-governance-boundaries"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-85-incremental-content-identity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-851-runtime-verification-plan"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-852-active-work-item-retirement"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-854-verification-command-timeout"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-855-selected-successor-lineage-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-856-lifecycle-start-advisory"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-857-remote-branch-start-advisory"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-858-ai-cockpit-explorer-reference"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-859-governance-retirement-compat"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-86-resource-aware-scheduler"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-860-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-861-ordinary-close-guard"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-862-ordinary-cleanup-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-863-cli-json-flags"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-864-release-v0-2-93"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-865-four-direction-convergence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-866-ci-generated-governance-route"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-867-closed-work-item-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-868-archive-outcome-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-869-archive-outcome-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-87-single-flight-execution"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-870-release-v0-2-94"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-871-release-v0-2-94-current-main"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-872-outcome-host-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-873-performance-current-proof"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-874-performance-current-proof"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-875-performance-current-proof"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-876-performance-current-proof"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-877-hci-outcome-dialog-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-879-verification-target-policy"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-88-runtime-session"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-880-recovery-untrusted-scope"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-881-interface-discovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-883-release-v0-2-94-current-main"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-884-verification-isolation-v0-2-95"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-885-verification-isolation-v0-2-95"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-886-verification-isolation-v0-2-95"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-887-closed-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-888-object-performance-current"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-889-object-performance-current"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-89-knowledge-index-cache"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-890-release-v0-2-95"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-891-release-v0-2-96-isolation-fix"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-892-release-v0-2-97"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-893-release-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-894-release-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-895-release-docs-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-898-hci-terminology"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-899-release-v0-2-98"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-90-outcome-dialog-visibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-90-performance-regression-gate"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-900-release-v0-2-98-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-901-wi899-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-902-verification-receipt-snapshot-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-902-wi899-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-903-precheckpoint-contract-scope"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-903-wi899-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-904-interface-description-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-905-performance-v098-evidence"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-906-interface-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-909-capability-schema-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-90a-outcome-presentation-polish"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-91-documentation-reader-route"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-910-outcome-conversation-language"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-911-release-v0-2-99"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-912-wi911-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-913-interface-ssot-execution"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-914-interface-description-execution-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-916-benchmark-history-scenario"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-917-interface-language-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-918-release-v0-2-100"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-92-release-v0-2-3"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-920-interface-ssot-runtime-schema"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-921-interface-ssot-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-922-interface-discovery-ssot-generator"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-923-interface-facts-binding"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-924-interface-definition-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-925-current-performance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-926-first-typed-verification"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-927-first-typed-verification"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-928-outcome-hci-public-handoff"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-929-outcome-hci-public-handoff"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-93-release-version-consistency"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-930-wi929-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-933-interface-description-ssot-correction"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-936-interface-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-937-outcome-archive-delivery-facts"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-94-release-v0-2-4"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-941-runtime-performance-hotpath"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-942-outcome-host-delivery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-943-interface-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-944-release-v0-2-101"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-947-interface-ssot-completion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-948-snapshot-freshness"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-95-outcome-evidence-fail-closed"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-950-direct-merge-context"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-951-release-v0-2-102"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-952-release-finalization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-953-post-release-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-954-start-verification-declaration"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-955-start-recovery-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-956-ci-gate-archive-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-957-start-authority-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-958-v0-2-103-release"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-959-v0-2-103-release-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-96-actions-node24"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-960-v0-2-103-archive-closure"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-961-v0-2-103-parity-projection"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-962-release-closure-bootstrap"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-963-release-closure-entrypoint"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-964-archive-boundary-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-965-release-plan-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-966-release-plan-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-967-release-plan-ssot"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-968-release-v0-2-105"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-969-resource-hygiene"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-97-scope-overlap"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-970-knowledge-integrity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-971-outcome-delivery-service"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-972-repository-modularization"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-973-status-projection-module"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-974-interface-contract"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-975-release-version-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-976-historical-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-977-recovery-compatibility"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-978-gate-report-rust"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-979-inspect-projection-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-980-knowledge-cache-clean-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-981-knowledge-query-performance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-982-outcome-cleanup-summary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-983-knowledge-query-performance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-984-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-985-repository-resource-lifecycle"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-986-wi985-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-987-wi986-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-988-wi986-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-989-wi988-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-99-reader-docs-cleanup"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-990-wi988-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-991-wi990-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-992-wi991-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "WI-993-wi867-doc-promotion"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "homebrew-arm-only-distribution"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-0-public-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-0-public-install-self-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-1-docs-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-1-public-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-1-runtime-identity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-103-final"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "release-v0-2-103-release"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "runtime-historical-finalization-recovery"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "self-governance-cutover"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "verification-receipt-truncated-output-boundary"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-40-release-adopter-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-41-reference-parity"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-42-documentation-governance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-43-migration-protocol"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-44-n-minus-one-upgrade-acceptance"
+    },
+    {
+      "classification": "historical",
+      "exemption": "before_current_release_cycle",
+      "location": "archive",
+      "workItemId": "wi-98-scaffold-race"
+    }
+  ],
+  "legacyWarnings": [
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "historical",
+      "workItemId": "WI-79-work-item-intelligence"
+    },
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "historical",
+      "workItemId": "WI-79-work-item-intelligence-cli"
+    },
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "historical",
+      "workItemId": "WI-90-outcome-dialog-visibility"
+    },
+    {
+      "code": "ambiguous_short_id",
+      "path": "docs/reference",
+      "severity": "historical",
+      "workItemId": "WI-90-performance-regression-gate"
+    }
+  ],
+  "problems": [],
+  "schemaVersion": 1,
+  "state": "passed"
+}

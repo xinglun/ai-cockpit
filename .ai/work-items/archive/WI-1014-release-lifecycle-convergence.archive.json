@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-23T08:57:02Z",
+  "files": {
+    "contractDigest": "sha256:d06be6f0cf4e1aac9c0194d88adf3a20d8a975925dc42cb834c41f9785bfa66a",
+    "contractPath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.contract.json",
+    "eventsDigest": "sha256:3e58407ea554a5042de60e972307ce11df57aad47a01acfdcd250d76565c51f5",
+    "eventsPath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.events.jsonl",
+    "outcomeDigest": "sha256:2fd7b42dd2618f737fb97987d387615af2c1081fd1a1fa7e2d08411bff7ae1af",
+    "outcomePath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.outcome.json",
+    "summaryDigest": "sha256:ae0b30501789f1a16bf0d84e937fa858d5c46200133953125cb05ca57230f45f",
+    "summaryPath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.summary.json",
+    "taskReportDigest": "sha256:710d80ca0393f5e55fcf1447214c9d11e4f67142bdddf27f394a633d2c34dcd8",
+    "taskReportMarkdownDigest": "sha256:2ae42fac3e263edeca0650bcadbfd454e003fe168edac77fc5317a6ffb35751d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1014-release-lifecycle-convergence.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1014-release-lifecycle-convergence"
+}

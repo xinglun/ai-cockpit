@@ -1,0 +1,8 @@
+{
+  "baseBranch": "main",
+  "baseRemote": "origin",
+  "branch": "codex/release-lifecycle-convergence",
+  "provider": "github",
+  "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/979",
+  "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-control.zEsHyW"
+}

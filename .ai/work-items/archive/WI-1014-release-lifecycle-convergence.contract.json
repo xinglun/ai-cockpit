@@ -1,0 +1,115 @@
+{
+  "acceptanceCriteria": [
+    "Provider-bound/release Work Item 在资源上下文或 finalize-plan 不当前时，不能进入昂贵验证或公共验收；普通无资源 Work Item 不受影响，并有正反例测试。",
+    "快照、资源上下文或 Runtime identity 变化会在验证启动前被拒绝并保留具体原因；查询与执行继续复用同一准入判定。",
+    "同一源码与协议身份在不同 checkout 路径下可复现或可消费已持久化的候选 identity；工作树移除不会仅因路径变化使证据失效，源码变化仍会失效。",
+    "release workflow 产出带 identity 绑定的生命周期交接/终态证据，后续 close 可消费；失败阶段保留证据，不依赖手工 shell 重建。",
+    "不新增独立任务进度接口或全局配置；Outcome 仍是面向人的唯一交接；文档与命令事实检查保持一致。",
+    "现有 workspace、release workflow policy、docs governance 和针对性回归检查通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+  "createdAt": "2026-09-23T08:23:19Z",
+  "goal": "在不改变现有授权、验证、Outcome 和历史证据边界的前提下，让 provider-bound/release Work Item 的 PR handoff、verification、archive、finalize、close 路径可重复且失败原因清楚。",
+  "intent": "减少发布交接、Runtime 身份复核和收尾证据重建的手工步骤，使下一次 release 能在 PR 交接前完成资源绑定、使用稳定的 Runtime identity，并由 release workflow 产出可导入的终态证据。",
+  "mode": "code",
+  "outOfScope": [
+    "独立任务进度 API、事件账本或手工 task-start/task-done 记录",
+    "修改 v0.2.109、历史 Contract、receipt、archive、tag 或已关闭 Work Item",
+    "全局 Agent/MCP 配置、Provider 权限绕过或新文档治理平台",
+    "Python 到 Rust 的全面迁移及未经测量的用户耗时实验"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:39ee035fdc5e59e2ba2f9d4e30b2e003151a06ae24f18b8513276f01d553482f",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "crates/cockpit-repository/src/resource_lifecycle.rs",
+        "crates/cockpit-verification/src/",
+        "tests/"
+      ],
+      "expected": "A stale or absent resource context is rejected before verification starts, while an ordinary no-resource Work Item remains admissible.",
+      "required": true,
+      "scenario": "resource-bound release handoff admission",
+      "status": "unverified",
+      "verificationPlan": "Add focused Runtime admission tests and compare the release-bound and ordinary paths, including the zero-process failure assertion."
+    },
+    {
+      "evidence": [
+        "crates/cockpit-cli/src/runtime_identity.rs",
+        "crates/cockpit-protocol/src/lib.rs",
+        "crates/cockpit-verification/src/"
+      ],
+      "expected": "Revalidation consumes a persisted or path-independent candidate identity; relocating the checkout alone does not stale the evidence, while source identity changes do.",
+      "required": true,
+      "scenario": "candidate identity survives checkout relocation",
+      "status": "unverified",
+      "verificationPlan": "Add focused identity tests using equivalent source inputs at different paths and a changed-source negative case."
+    },
+    {
+      "evidence": [
+        ".github/workflows/release.yml",
+        "tests/release/",
+        "tests/ci/"
+      ],
+      "expected": "The workflow emits identity-bound handoff/finalization evidence for successful and failed stages, and close consumes it without manual reconstruction.",
+      "required": true,
+      "scenario": "release workflow lifecycle handoff evidence",
+      "status": "unverified",
+      "verificationPlan": "Add workflow policy and fixture tests for the emitted artifact, its identity fields, failure preservation, and close consumer."
+    },
+    {
+      "evidence": [
+        "tests/docs/",
+        "tests/ci/"
+      ],
+      "expected": "No task-progress ledger or global configuration is introduced; existing command, documentation, and governance gates remain valid.",
+      "required": true,
+      "scenario": "bounded release-process regression",
+      "status": "unverified",
+      "verificationPlan": "Run the existing documentation, governance, format, workspace test, clippy, and release policy checks."
+    }
+  ],
+  "scope": [
+    "Runtime release/provider handoff admission and identity evidence",
+    "Release workflow lifecycle handoff and finalization evidence",
+    "Focused regression tests and documentation for the supported path",
+    ".github/workflows/release.yml",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "tests/ci/**",
+    "tests/release/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [
+    "Current v0.2.109 release, merge, close, and cleanup evidence",
+    "AGENTS.md and .ai/README.md",
+    ".github/workflows/release.yml and release workflow policy tests",
+    "crates/cockpit-cli/src/runtime_identity.rs",
+    "crates/cockpit-repository/src/lifecycle.rs and resource_lifecycle.rs",
+    "Existing release receipts and recovery records"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/docs/documentation_acceptance.sh",
+    "python3 tests/ci/governance_integrity_gate.py --repo . --report .ai/evidence/WI-1014-governance-report.json"
+  ],
+  "workItemId": "WI-1014-release-lifecycle-convergence"
+}

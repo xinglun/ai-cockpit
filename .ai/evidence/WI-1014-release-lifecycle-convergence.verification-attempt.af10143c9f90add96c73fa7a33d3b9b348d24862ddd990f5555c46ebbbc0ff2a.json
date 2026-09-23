@@ -1,0 +1,138 @@
+{
+  "attemptId": "sha256:af10143c9f90add96c73fa7a33d3b9b348d24862ddd990f5555c46ebbbc0ff2a",
+  "commands": [
+    {
+      "args": [
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:15c1feca514603406c3a34104a7fa78a75c035959ef9db9947b004f003225738",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:cdfa5bb73ae6581d6a48d8e9041b4548bed5df4184abcb113bf61dbf5d0969f6",
+      "nodeId": "project-command-1",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets",
+        "--all-features",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:455c2fc008077ce3a44f745dfa41db80fdd93dc46f2927ee42ffebfed5a38d5c",
+      "nodeId": "project-command-2",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:045563ce35ab362b55cd97530bd3c9bb25f4353906542a347a3b3087f2e41d2e",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:8c73650ddb6cf0081b54a48f0d19f2f6414ce2f80cf44cf5f886f1b1bbe1a88a",
+      "nodeId": "project-command-4",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/governance_integrity_gate.py",
+        "--repo",
+        ".",
+        "--report",
+        ".ai/evidence/WI-1014-governance-report.json"
+      ],
+      "baseCommit": "635a14f5ab6492f7b78c22feebfb68871f6e2e98",
+      "commandDigest": "sha256:a09f3aaffc11b38c8d5c853f832998aa9d9efa24fd95bf63ca7a43c58f74471b",
+      "nodeId": "project-command-5",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:8b081347329a2e7c45e707d0cdbb51885e22f8784fcdde4c3b38e71c8c543c02",
+  "contractExecutionScopeDigest": "sha256:fb7e1f15c3b36d29fed3447741db456884f2c8458ac217982a182321d10967f6",
+  "createdAt": "2026-09-23T08:48:42Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-109-main-control.zEsHyW/.ai/work-items/active/WI-1014-release-lifecycle-convergence.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:bd1f6368f1807b462cd8b65aafeb5f18698fd900bf4f0470306c09c8cab8d303",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1014-release-lifecycle-convergence"
+}

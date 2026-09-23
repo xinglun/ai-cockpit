@@ -1,0 +1,13 @@
+{
+  "scopeAppend": [
+    ".github/workflows/release.yml",
+    "docs/release/distribution.md",
+    "docs/release/distribution.zh-CN.md",
+    "docs/release/distribution.ja.md",
+    "tests/ci/**",
+    "tests/release/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ]
+}

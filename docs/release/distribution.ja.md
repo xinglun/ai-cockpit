@@ -93,6 +93,13 @@ post-release acceptance と close-only recovery は同じ plan に prior workflo
 が必要になった場合は、先に型付き plan に reviewed mode または schema migration を追加し、
 ad-hoc input で plan を bypass しないでください。
 
+公開と post-release recovery では、build または public acceptance の開始前に、選択された
+Work Item に完全な `resourceContext` が必要です。安価な preflight は `planDigest`、Work Item/
+Contract、候補 Runtime の正確な version と digest を束縛した
+`release-lifecycle-handoff.json` を一つ生成します。close barrier はこの artifact を消費し、
+欠落または plan との不一致を `governance_binding_failed` として失敗させます。失敗した証拠や
+historical evidence は書き換えません。
+
 レビュー済み Work Item を merge し default branch を同期した後、明示的な workflow dispatch で公開を開始します。
 annotated Git tag を不変の入力として先に push し、dispatch に governance Work Item identity を指定します。
 workflow の検証前に provider Release と lightweight tag を作成する可能性があるため、`gh release create` は使わず、次のように実行します。
