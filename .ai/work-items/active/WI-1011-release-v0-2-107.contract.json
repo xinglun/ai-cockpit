@@ -1,0 +1,87 @@
+{
+  "acceptanceCriteria": [
+    "源代码版本、三语版本事实和 v0.2.107 tag 一致，且 tag 为 annotated immutable tag。",
+    "release workflow 的 strict 源质量、候选构建、manifest、checksums、SBOM、provenance 和候选验收全部通过。",
+    "GitHub public Release v0.2.107 存在并与 tag、源提交和发布资产身份一致。",
+    "下载后的 public v0.2.107 artifact 安装验收与 v0.2.106 到 v0.2.107 的 N-1 升级验收通过，且临时运行根清理成功。",
+    "Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "1fd63ac0730f8dfc8db10e8772d6e7ab1598d7e4",
+  "createdAt": "2026-09-23T03:15:23Z",
+  "goal": "在不改写历史证据的前提下，发布 v0.2.107，证明公开资产与源提交身份一致，完成下载安装、v0.2.106 到 v0.2.107 的 N-1 升级验收，以及正式归档、关闭和资源清理。",
+  "intent": "按用户明确授权，将当前 main 的 AI Cockpit 改造发布为 v0.2.107，并完成公开资产、安装升级验收和 Work Item 终结。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改本次已合并的功能或 Runtime 行动解释；不修改 Sentinel 或其他仓库；不删除历史 tag、历史证据或兼容逻辑；不绕过既有 release workflow、公开验收或 Runtime 门禁。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:18c2b02f84c8af90412e3b6376e797a98914565dd3323c60a699437413def393",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.107 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the release Work Item change is merged, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.107 artifact passes checksum, isolated fresh install, v0.2.106-to-v0.2.107 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "scope": [
+    "将 workspace 版本从 0.2.106 提升到 0.2.107；通过既有 release workflow 构建、校验、发布并收集公开验收证据；完成本 Work Item 生命周期收尾。",
+    "同步由协议权威定义生成的三语 interface/reference 版本事实，使 v0.2.107 source/version 一致性可验证。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/reference/commands.md",
+    "docs/reference/commands.zh-CN.md",
+    "docs/reference/commands.ja.md",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.**",
+    ".ai/work-items/archive/WI-1011-release-v0-2-107.**",
+    ".github/workflows/release.yml",
+    "docs/release/**",
+    "docs/reference/reference-comparison-metadata.json",
+    "docs/architecture/release-distribution.md",
+    "docs/architecture/release-distribution.zh-CN.md",
+    "docs/architecture/release-distribution.ja.md",
+    "docs/architecture/versioning.md",
+    "docs/architecture/versioning.zh-CN.md",
+    "docs/architecture/versioning.ja.md"
+  ],
+  "sources": [
+    "origin/main at 1fd63ac0730f8dfc8db10e8772d6e7ab1598d7e4",
+    ".ai/work-items/archive/WI-1005-release-v0-2-106-final.contract.json",
+    ".github/workflows/release.yml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo fmt --all -- --check",
+    "cargo test --locked --workspace",
+    "cargo clippy --locked --workspace --all-targets --all-features -- -D warnings",
+    "bash tests/release/version_consistency.sh --repo .",
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "workItemId": "WI-1011-release-v0-2-107"
+}
