@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:70a45321353f0f0af6927b9a52012dca07bde320f4a442da3673af0c1b030b8a",
+  "contractDigest": "sha256:d465ded99fd553cb198c985601b3642bd585452c6a7c342cb95eb4371ec7e6ab",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-23T23:27:56Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1024-release-input-preflight-order",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/989",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1024-release-input-preflight-order/ai-cockpit"
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1024-release-input-preflight-order"
+}

@@ -1,0 +1,46 @@
+{
+  "acceptanceCriteria": [
+    "工作流中不依赖 Runtime 的格式、必填项和 annotated tag 身份检查在 cargo build 之前执行；无效输入在编译前失败。",
+    "ReleasePlan 仍是模式、Contract、资源和恢复语义的唯一权威；前移检查不形成第二套治理状态机。",
+    "现有有效输入路径仍只构建并消费同一 ReleasePlan，结构化 preflight/handoff 输出保持不变。",
+    "新增回归检查能检测 build 先于 cheap checks 的顺序回退，并覆盖无效 semver、轻量 tag 或远端 tag 身份不匹配。",
+    "不引入新的发布、任务进度或资源治理接口；性能收益以拒绝路径顺序改进为目标，不虚构完整发布耗时收益。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0cc5ad372f3c98bfa68f497053e2790d7b887edf",
+  "createdAt": "2026-09-23T23:12:25Z",
+  "goal": "将不依赖 Runtime 的发布输入格式、必填项和 tag 身份检查前移到完整 CLI 构建之前，同时保持 ReleasePlan 作为唯一语义准入来源。",
+  "intent": "在发布前缩短 release_input_preflight 的拒绝路径",
+  "mode": "ordinary",
+  "outOfScope": [
+    "不修改 Rust ReleasePlan 规则，不复制 Runtime 语义校验，不执行真实发布，不重跑完整发布恢复，不处理已关闭 WI-1023 的历史记录。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:853a762f680f4f710f3032d78f2e5cf194ba2626b062754c681f7f31abca21b8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "修改 .github/workflows/release.yml 及其现有发布 workflow policy 回归，增加必要的顺序与失败路径验证，不改变 ReleasePlan 语义、发布资源、版本号或发布动作。",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "sources": [
+    ".ai/work-items/archive/WI-1023-release-close-admission.contract.json",
+    ".github/workflows/release.yml",
+    "tests/release/workflow_policy.sh",
+    "tests/ci/release_gate_policy_test.sh"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh",
+    "git diff --check"
+  ],
+  "workItemId": "WI-1024-release-input-preflight-order"
+}
