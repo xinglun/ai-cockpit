@@ -67,7 +67,10 @@
     "docs/architecture/versioning.zh-CN.md",
     "docs/architecture/versioning.ja.md",
     "tests/adversarial/**",
-    "tests/release/fixtures/**"
+    "tests/release/fixtures/**",
+    "crates/cockpit-repository/src/lib.rs",
+    "crates/cockpit-repository/src/status_projection.rs",
+    "crates/cockpit-repository/tests/recovery_decision.rs"
   ],
   "sources": [
     "origin/main at 1fd63ac0730f8dfc8db10e8772d6e7ab1598d7e4",

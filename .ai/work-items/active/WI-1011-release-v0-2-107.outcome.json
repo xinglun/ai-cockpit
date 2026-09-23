@@ -7,7 +7,7 @@
     "Work Item 归档、关闭、文档投影、分支和 worktree 精确清理均有 Runtime/Provider 证据。"
   ],
   "decisionState": "green",
-  "evidenceDigest": "sha256:687ceb9050629b153ce051d93db60e840f9bdf3704482ff1a4b60f26fb611fbb",
+  "evidenceDigest": "sha256:841ad665df1aef7375daa7ed62515cf4d21859430ee5db60be166e6acf1e1717",
   "evidenceRefs": [
     ".ai/evidence/WI-1011-release-v0-2-107.verification.json"
   ],
@@ -47,7 +47,28 @@
             ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/WI-1011-release-v0-2-107.verification-attempt.a296f8c6040eb0cefe00d2efde351a82148a12082c4a26f5b084c380ab9bce0d.json"
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1011-release-v0-2-107.verification-attempt.4848032cca2f8f44d259b31312fca7a0097fa64fc998792d91af4b1340922dab.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1011-release-v0-2-107.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1011-release-v0-2-107.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1011-release-v0-2-107.summary.json"
         }
       ],
       "evidence": [
@@ -122,8 +143,8 @@
     "status": "verified",
     "workItemId": "WI-1011-release-v0-2-107"
   },
-  "taskReportDigest": "sha256:790f00c01c11f02c82517240fd6b00ccc3f4fb82d43edf965539ff1bfba948df",
-  "taskReportMarkdownDigest": "sha256:0cf245a7cfd7e690fee846bef589d76b2609f3d44f6bac5ee2be589ca06f6fac",
+  "taskReportDigest": "sha256:6abc44cf2d31323af50486f7ac5ec0111cb50bebd11add964b53da02e1b8c236",
+  "taskReportMarkdownDigest": "sha256:6cb02c32b60ad9af1053a9de9fa8fb033a6c3282f6fde4ce2318c450c0189450",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
