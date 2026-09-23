@@ -1,0 +1,31 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-23T06:35:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35826036759",
+    ".ai/work-items/active/WI-1012-release-v0-2-108.contract.json",
+    ".ai/evidence/WI-1012-release-v0-2-108.verification.json",
+    ".ai/evidence/WI-1012-release-v0-2-108.verification-attempt.5292b093dea9ba817c06cb98717babda00fa3ec4f9ab82559ba0a97a678611f6.json",
+    "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.108"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/release-upgrade-acceptance.md",
+    "docs/reference/ci-release-evidence.md"
+  ],
+  "predecessorContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "predecessorSummaryDigest": "sha256:0a76b3fe981b0579fe550dca812fdd56e226141eaa71892c69ac99ba962b5fc7",
+  "predecessorWorkItemId": "WI-1012-release-v0-2-108",
+  "reason": "The immutable v0.2.108 candidate stopped before public Release at source_quality because its tag contains a verification receipt bound to the predecessor snapshot. Preserve the immutable tag and failed run; continue the same release goal on v0.2.109 with the refreshed evidence committed before tagging.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Prepare and publish v0.2.109 from synchronized main with a successor Contract and fresh receipt committed before the immutable tag; complete public asset, install/upgrade, archive, finalization, close, projection, and cleanup evidence.",
+  "runtimeDigest": "sha256:191a28f2e597b9bb8022888a7d4d87600f82fa33ebbcfdf1aa15e61c87884cf0",
+  "runtimeVersion": "0.2.108",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1013-release-v0-2-109",
+  "workItemId": "WI-1012-release-v0-2-108"
+}

@@ -24,7 +24,7 @@ codegen-units = 1
 strip = "symbols"
 
 [workspace.package]
-version = "0.2.108"
+version = "0.2.109"
 edition = "2024"
 license = "MIT"
 rust-version = "1.98"
