@@ -1468,7 +1468,42 @@ fn validate_historical_finalization_recovery_binding(
                 message: "direct-merge history must be recorded as a complete historical finalization receipt, not a reclassification of a PR receipt".into(),
             });
         }
-        HistoricalFinalizationKind::LegacyRuntime => {}
+        HistoricalFinalizationKind::LegacyRuntime => {
+            if let Err(reason) = validate_legacy_runtime_candidate(receipt) {
+                return Err(ObserverError::State {
+                    path: recovery_path.into(),
+                    message: format!("legacy-runtime recovery is not applicable: {reason}"),
+                });
+            }
+        }
+    }
+    Ok(())
+}
+
+fn validate_legacy_runtime_candidate(
+    receipt: &ResourceFinalizationReceipt,
+) -> Result<(), &'static str> {
+    if let Some(historical) = receipt.historical.as_ref()
+        && !matches!(historical.kind, HistoricalFinalizationKind::LegacyRuntime)
+    {
+        return Err("the predecessor historical classification does not match legacy_runtime");
+    }
+    if receipt.pull_request.number == 0 {
+        return Err("a real merged pull request number is required");
+    }
+    if receipt.pull_request.merge_commit.is_none() {
+        return Err("a merge commit is required");
+    }
+    if !matches!(
+        receipt.before.pull_request,
+        ResourceFinalizationPullRequestState::Merged
+    ) || !matches!(
+        receipt.after.pull_request,
+        ResourceFinalizationPullRequestState::Merged
+    ) {
+        return Err(
+            "the predecessor must prove merged pull-request state before and after finalization",
+        );
     }
     Ok(())
 }
@@ -1642,6 +1677,20 @@ pub fn historical_finalization_recovery_plan(
         resolve_resource_finalization_head(&root, work_item_id)
     {
         let contract = archived_contract_digest(&root, work_item_id).ok();
+        if matches!(
+            receipt
+                .historical
+                .as_ref()
+                .map(|historical| &historical.kind),
+            Some(HistoricalFinalizationKind::LegacyRuntime)
+        ) {
+            if let Err(reason) = validate_legacy_runtime_candidate(&receipt) {
+                return Err(ObserverError::State {
+                    path: path.clone(),
+                    message: format!("legacy-runtime recovery is not applicable: {reason}"),
+                });
+            }
+        }
         let kind = receipt
             .historical
             .as_ref()
@@ -1657,17 +1706,9 @@ pub fn historical_finalization_recovery_plan(
                 })
             });
         let kind = kind.or_else(|| {
-            (receipt.pull_request.number > 0
-                && receipt.pull_request.merge_commit.is_some()
-                && matches!(
-                    receipt.before.pull_request,
-                    ResourceFinalizationPullRequestState::Merged
-                )
-                && matches!(
-                    receipt.after.pull_request,
-                    ResourceFinalizationPullRequestState::Merged
-                ))
-            .then_some("legacy_runtime")
+            validate_legacy_runtime_candidate(&receipt)
+                .is_ok()
+                .then_some("legacy_runtime")
         });
         let stale = receipt.runtime_version != runtime.runtime_version
             || receipt.runtime_digest != runtime.runtime_digest;
@@ -1700,7 +1741,7 @@ pub fn historical_finalization_recovery_plan(
         } else if !stale {
             result["state"] = "current_runtime_no_recovery_required".into();
             result["humanInputRequired"] = serde_json::json!([]);
-        } else {
+        } else if let Some(kind) = kind {
             result["suggestedRecovery"] = serde_json::json!({
                 "kind": "historical_finalization_recovery",
                 "historicalKind": kind,

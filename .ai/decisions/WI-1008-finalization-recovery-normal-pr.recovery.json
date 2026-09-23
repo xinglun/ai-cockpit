@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorized-successor-repair",
+  "decidedAt": "2026-09-23T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/WI-1008-finalization-recovery-normal-pr.contract.json",
+    ".ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json",
+    ".ai/evidence/WI-1008-finalization-recovery-normal-pr.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:19b1f13e1e0adc16f84f8f37558ca5d96ba52d213b972e6fa1555ff815eb22f4",
+  "predecessorEventsDigest": "sha256:b3de48cd84b2097edcc9839fd4754619e98c4356757b092735da8b2cc5e6149c",
+  "predecessorOutcomeDigest": "sha256:86e33586bdf84f9c7a620e093dbb3a26348d994e88c247eba98fee2c734dcc1e",
+  "predecessorSummaryDigest": "sha256:0171870a5755ed35a6792b3ce8ead307c761c674e1fca75d2ccacc146bffdc0a",
+  "predecessorWorkItemId": "WI-1008-finalization-recovery-normal-pr",
+  "reason": "Create a bounded successor for the declared legacy_runtime plan/write validation and the formal WI-1006/WI-1007/WI-1008 close-evidence boundary; preserve every predecessor record.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Implement the shared legacy_runtime eligibility check and negative tests, verify the successor through its reviewed PR, then finalize and close the linked historical Work Item lineage without rewriting predecessor evidence.",
+  "runtimeDigest": "sha256:b145d3353fcd6f029b6c76bd0e9147f6f23e9dc5e96b4692d8b9e3fb1b887908",
+  "runtimeVersion": "0.2.106",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1010-legacy-runtime-validation",
+  "workItemId": "WI-1008-finalization-recovery-normal-pr"
+}
