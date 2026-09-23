@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "A1: finalization receipts with a separate Contract base binding are accepted only when that binding matches the archived Contract, while provider PR identity remains checked.",
+    "A2: a valid superseded predecessor is promoted from archive, verification, recovery, and close evidence without requiring a terminal finalization receipt.",
+    "A3: ordinary closed-resource and bounded self-projection fixtures continue to pass.",
+    "A4: malformed, stale, or mismatched receipts remain rejected with the existing invalid-promotion diagnostic.",
+    "A5: repeated promotion is deterministic and produces no new diff."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+  "createdAt": "2026-09-23T15:47:12Z",
+  "goal": "Restore deterministic closed-document promotion for WI-1018 and WI-1019, preserve strict malformed-evidence rejection, and enable the existing PR #986 cleanup path to converge.",
+  "intent": "Make closed Work Item documentation promotion accept the supported finalization Contract-base binding and superseded-predecessor lifecycle without rewriting history or creating recursive cleanup.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime lifecycle protocol changes",
+    "v0.2.112 asset or release republishing",
+    "task-progress APIs or manual ledgers",
+    "rewriting immutable WI-1018 or WI-1019 history"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh",
+    "docs/work-items/WI-1020-release-v0-2-112-doc-promotion-compatibility.md",
+    "docs/work-items/WI-1020-release-v0-2-112-doc-promotion-compatibility.zh-CN.md",
+    "docs/work-items/WI-1020-release-v0-2-112-doc-promotion-compatibility.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [
+    "PR #986 quality diagnostics: docs_closed_work_item_promotion and docs_governance_integrity",
+    "WI-1018 and WI-1019 archived Contract, verification, recovery, finalization, and close records"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "python3 tests/docs/promote_closed_work_item_test.sh",
+    "python3 -m py_compile tests/docs/promote_closed_work_item.py"
+  ],
+  "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+}

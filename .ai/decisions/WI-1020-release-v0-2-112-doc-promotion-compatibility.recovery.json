@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-24T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "tests/docs/promote_closed_work_item.py",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35883223879"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+  "predecessorSummaryDigest": "sha256:ac09334a03c2502f1c830fc571e7356f0ea90f76f090d59b1cca5fd327db8841",
+  "predecessorWorkItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility",
+  "reason": "The current WI-1020 Contract scope overlaps archived release documentation. Continue the bounded helper and regression repair through an explicitly linked successor while preserving the attempted records and historical release evidence.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Use the linked successor for the helper and regression repair, verify it, and deliver the existing PR cleanup path without rewriting predecessor evidence.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1022-doc-promotion-compatibility-repair",
+  "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+}

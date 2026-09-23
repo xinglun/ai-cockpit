@@ -1,0 +1,110 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "separate-contract-base fixture",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused promotion regression passes"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "superseded-predecessor fixture",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused promotion regression passes"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "ordinary and bounded self-projection fixtures",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused promotion regression passes"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "malformed and stale receipt rejection fixtures",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused promotion regression passes"
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "repeated check produces no changed paths",
+          "path": "tests/docs/promote_closed_work_item_test.sh",
+          "type": "test",
+          "verification": "focused promotion regression passes"
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.recovery.json",
+    ".ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.retirement.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification-attempt.3f55afb9a04d2fb1ed3879b8f8a497c2e6b7ac257ed47e6c8ca97c6220b7a109.json",
+    ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification-attempt.a12c694d2c82b7954fe73254d8b24a560370d675cd4bad9cba80dced8aedfb62.json",
+    ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json",
+    ".ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.contract.json",
+    ".ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.summary.json",
+    ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.contract.json",
+    ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json",
+    ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.archive.json",
+    ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.contract.json",
+    ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.outcome.json",
+    ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.summary.json",
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "checkpointAt": "2026-09-23T18:22:07Z",
+  "checkpointContractDigest": "sha256:309b50fb930bb7602d155de904328a2c2dcab6b5ae568cff838c8759557a1e32",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+  "createdAt": "2026-09-23T18:21:36Z",
+  "intentAlignment": {
+    "evidence": [
+      "tests/docs/promote_closed_work_item.py",
+      "tests/docs/promote_closed_work_item_test.sh"
+    ],
+    "reason": "The implementation is limited to the existing closed-document promotion helper and its regression coverage; it does not add task-progress APIs, alter Runtime lifecycle protocol, or rewrite historical evidence.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+  "predecessorWorkItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility",
+  "preflightAt": "2026-09-23T18:24:19Z",
+  "preflightContractDigest": "sha256:309b50fb930bb7602d155de904328a2c2dcab6b5ae568cff838c8759557a1e32",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T18:24:32Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}

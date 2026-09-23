@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-23T18:24:40Z",
+  "files": {
+    "contractDigest": "sha256:1b57a51d8be5b1406968fe41db14540057dd223d664387351712bc2966c3da80",
+    "contractPath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.contract.json",
+    "eventsDigest": "sha256:693665a5a0db84d1205c773cfc07c73af15a05d9da63c7d2cdfbaaabf236ffa9",
+    "eventsPath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.events.jsonl",
+    "outcomeDigest": "sha256:83bb3522f1ef47f086588b2ffac9900060b24cda57c28c62d5f1140989b806c7",
+    "outcomePath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.outcome.json",
+    "summaryDigest": "sha256:cf77c2af4de307ddd0e943a6941ef8de06ffa94a103b3bf8d2841941c3705c33",
+    "summaryPath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json",
+    "taskReportDigest": "sha256:fd8687099409fd7774074035bdda2c76e87de2e2fc022cc32a0b15264af1885e",
+    "taskReportMarkdownDigest": "sha256:4dd74ed200cefaf13e1c40980cc4dc2c6f3e70744c829c4a64427459209edb45",
+    "taskReportMarkdownPath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}
