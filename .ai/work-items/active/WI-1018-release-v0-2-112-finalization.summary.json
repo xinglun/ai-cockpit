@@ -1,47 +1,16 @@
 {
   "changedPaths": [
-    ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.353441d1aa3a8eddebb5d1a48151eda44262703adef376185ea22814cf54cc50.json",
-    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.116d5a6d2022f1d4f1cf9fcf8616f6b7b2f6a24d9c8ee3e8bc1aa33e90034e6d.json",
-    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.fe246d0b1a16181c6696e99caf15778aa8fccb0730bad2a3e1c180085fdc9854.json",
-    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.8941f8ed90df13c6016091033237cafae1f4790ae24832465f1723998f444e6b.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.json",
     ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-1017-v0-2-112-successor-input.json",
-    ".ai/evidence/WI-1018-controls-projection-input.json",
-    ".ai/evidence/WI-1018-doc-projection-scope-input.json",
+    ".ai/evidence/WI-1018-finalization-plan-input.json",
     ".ai/evidence/WI-1018-governance-controls-input.json",
-    ".ai/evidence/WI-1018-preflight-review-input.json",
-    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification-attempt.29853840c76587456e27cf4b3d2339c4690b1c701cb250cee525b3d9203ca09d.json",
-    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification-attempt.393e102aa86f496aa8e4ffb746558925a3ea8532f9f8431f503d7ed2e127fa88.json",
-    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification-attempt.fd0bbc75745ee8ba2b1c092310210042bf7d911d501ee8314f63eb9d3a041497.json",
-    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json",
-    ".ai/evidence/WI-1018-scenario-amendment-input.json",
-    ".ai/evidence/WI-1018-scope-amendment-input.json",
+    ".ai/evidence/WI-1018-resource-context-retry-input.json",
     ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.contract.json",
-    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.summary.json",
-    "Cargo.lock",
-    "Cargo.toml",
-    "docs/architecture/release-distribution.ja.md",
-    "docs/architecture/release-distribution.md",
-    "docs/architecture/release-distribution.zh-CN.md",
-    "docs/architecture/versioning.ja.md",
-    "docs/architecture/versioning.md",
-    "docs/architecture/versioning.zh-CN.md",
-    "docs/reference/commands.ja.md",
-    "docs/reference/commands.md",
-    "docs/reference/commands.zh-CN.md",
-    "docs/reference/reference-comparison-metadata.json",
-    "docs/reference/reference-parity.ja.md",
-    "docs/reference/reference-parity.md",
-    "docs/reference/reference-parity.zh-CN.md",
-    "docs/release/distribution.ja.md",
-    "docs/release/distribution.md",
-    "docs/release/distribution.zh-CN.md",
-    "docs/work-items/WI-1018-release-v0-2-112-finalization.ja.md",
-    "docs/work-items/WI-1018-release-v0-2-112-finalization.md",
-    "docs/work-items/WI-1018-release-v0-2-112-finalization.zh-CN.md"
+    ".ai/work-items/active/WI-1018-release-v0-2-112-finalization.summary.json"
   ],
   "checkpointAt": "2026-09-23T12:50:56Z",
-  "checkpointContractDigest": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+  "checkpointContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -139,10 +108,10 @@
       "workItemId": "WI-1018-release-v0-2-112-finalization"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:adabf57fb629ec5648d098215d9ee13e584a2f88d776a25f0ad776d61aa6ab32",
+  "checkpointRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
   "createdAt": "2026-09-23T12:48:55Z",
   "decisionEvidence": {
-    "contractDigest": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+    "contractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
@@ -150,7 +119,7 @@
     "recordedAt": "2026-09-23T00:00:00Z",
     "recordedBy": "human:repository-owner",
     "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
-    "repositorySnapshotDigest": "sha256:adabf57fb629ec5648d098215d9ee13e584a2f88d776a25f0ad776d61aa6ab32",
+    "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
     "schemaVersion": 1,
     "workItemId": "WI-1018-release-v0-2-112-finalization"
   },
@@ -165,10 +134,10 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:4ad59f9938ad953e76fa6b822c9df19d650f160de863e6577a53372cec04ebd8",
   "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
-  "preflightAt": "2026-09-23T13:28:21Z",
-  "preflightContractDigest": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+  "preflightAt": "2026-09-23T13:43:53Z",
+  "preflightContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:adabf57fb629ec5648d098215d9ee13e584a2f88d776a25f0ad776d61aa6ab32",
+  "preflightRepositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
   "preflightState": "yellow",
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.353441d1aa3a8eddebb5d1a48151eda44262703adef376185ea22814cf54cc50.json",
@@ -192,13 +161,13 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-23T13:23:51.112632+00:00",
+  "updatedAt": "2026-09-23T13:39:27.398012+00:00",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:01bca9d70cb152a8d72e017f87205d28202d7e2aaffcc82fde8c6eb0f0b152e0",
+  "verificationRecoveryReconciled": "sha256:904954f5eba5112fd16096dc70451ed3462ea558197a44be22b55a1aedf7f9ff",
   "workItemId": "WI-1018-release-v0-2-112-finalization"
 }

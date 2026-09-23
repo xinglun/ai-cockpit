@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-1018-release-v0-2-112-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "predecessorContractDigest": "sha256:6c394a3542a301081b916b725a47a1e36a32e28f2fcad1e6eaeb1673d31601d2",
+  "predecessorSummaryDigest": "sha256:28c5f92e36bd0ac1be03fd7e54c99d4d27d1f4bb55b723acf0561d1f65f61cf4",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "PR #984 is now the actual delivery resource for WI-1018. The initial local verification was recorded before that resource context was available. Preserve all prior verification attempts, retry the same Work Item through the Runtime recovery path, bind PR #984, and revalidate the current Contract before archive or release actions.",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json",
+    ".ai/evidence/WI-1018-finalization-plan-input.json",
+    "https://github.com/xinglun/ai-cockpit/pull/984"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "decidedAt": "2026-09-23T12:00:00Z",
+  "resumeCondition": "Bind PR #984 with finalize-plan, rerun current preflight and verification, then continue only with the resulting fresh evidence."
+}
