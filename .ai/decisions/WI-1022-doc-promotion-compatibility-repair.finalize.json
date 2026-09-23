@@ -1,0 +1,59 @@
+{
+  "actor": "codex:repository-owner-authorized-release-cleanup",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a73d7aa69e53b7b29e82edc52542bee18b5e6260",
+    "name": "codex/wi-1022-doc-promotion-repair",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+  "contractDigest": "sha256:1b57a51d8be5b1406968fe41db14540057dd223d664387351712bc2966c3da80",
+  "operationId": "delete-codex-wi-1022-doc-promotion-repair-after-pr-987-merge",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+    "headRevision": "a73d7aa69e53b7b29e82edc52542bee18b5e6260",
+    "mergeCommit": "78a83b0998e18d68931da99321abed9aa8fccaf3",
+    "number": 987,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/987"
+  },
+  "reason": "PR #987 merged the compatibility repair to main. The exact reviewed branch and clean worktree were removed after merge; no unrelated refs or worktrees were changed.",
+  "receiptId": "github-pr-987-wi-1022-doc-promotion-compatibility-repair",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1022-doc-promotion-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/987",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112-promotion-fix"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-24T00:00:00Z",
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair",
+  "worktree": {
+    "branch": "codex/wi-1022-doc-promotion-repair",
+    "headRevision": "a73d7aa69e53b7b29e82edc52542bee18b5e6260",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112-promotion-fix",
+    "worktreeId": "release-v0-2-112-promotion-fix"
+  }
+}

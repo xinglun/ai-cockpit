@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-23T19:05:54Z",
+  "files": {
+    "contractDigest": "sha256:0057fe1a9de69d57850d9be79553cdc1596ef86e21be33a15f3f3527f04c4aab",
+    "contractPath": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.contract.json",
+    "outcomeDigest": "sha256:9ab4d1fa6d784cd6a28800ce0235422b005f42711aca8e3c8bd16662bd1bd9c2",
+    "outcomePath": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.outcome.json",
+    "summaryDigest": "sha256:6c147c57975f14d7299a8b586f633db9bad5523adb9c4914b305a1f99dccbc10",
+    "summaryPath": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/WI-1021-doc-promotion-compatibility-repair.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "WI-1021-doc-promotion-compatibility-repair"
+}

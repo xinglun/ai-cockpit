@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:8604bdbbedefce85425a5395970868b803e140dd141a3a3feb0cc17c3707f9c5",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:0057fe1a9de69d57850d9be79553cdc1596ef86e21be33a15f3f3527f04c4aab",
+      "path": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:9ab4d1fa6d784cd6a28800ce0235422b005f42711aca8e3c8bd16662bd1bd9c2",
+      "path": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:6c147c57975f14d7299a8b586f633db9bad5523adb9c4914b305a1f99dccbc10",
+      "path": ".ai/work-items/archive/WI-1021-doc-promotion-compatibility-repair.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:fbcea3691f2b02c252b0fd64e3b63b38328b27d616483cee3f2486dbade92c1c",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "WI-1021 was an intermediate active scaffold created before the corrected Runtime successor WI-1022 was linked. Its intended two-file repair is integrated on main by merged PR #987; preserve the original active bytes and make no verification claim for WI-1021.",
+  "recordedAt": "2026-09-23T19:05:54Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:34a9a9e36e6dbea4b515a1dcd6f9a7845c7c40223a9dbb80b299b4d68b1f89f8",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:5b839d90509aadd46c87b267c3c4a859ae39379dd3dd4a6938ff3fdb9a0f235c",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1021-doc-promotion-compatibility-repair"
+}
