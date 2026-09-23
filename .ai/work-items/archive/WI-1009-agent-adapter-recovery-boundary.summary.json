@@ -7,8 +7,8 @@
     ".ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json",
-    ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json",
-    ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json",
+    ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json",
+    ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json",
     ".ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json",
     ".ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json"
   ],

@@ -21,8 +21,8 @@
 - Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json
-- Changed path: .ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json
-- Changed path: .ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json
+- Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json
+- Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json
 - Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json
 - Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json
 

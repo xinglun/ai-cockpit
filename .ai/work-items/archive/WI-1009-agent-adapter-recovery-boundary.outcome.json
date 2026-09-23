@@ -45,77 +45,77 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/adapters/codex.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1006-runtime-guide-action-outcome.finalize.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1007-archived-recovery-cli-route.finalize.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.finalize.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/WI-1008-finalization-recovery-normal-pr.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/WI-1009-agent-adapter-recovery-boundary.adapter-bootstrap.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+          "text": "Changed path: .ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.summary.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/work-items/active/WI-1010-legacy-runtime-validation.summary.json"
@@ -174,7 +174,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
           ],
           "inference": false,
           "text": "Provide a supported, ownership-safe adapter recovery path for a repository-owned managed section whose content changed in an approved repository documentation migration, add a CI regression for digest drift, and preserve all unrelated repository bytes and historical evidence."
@@ -183,7 +183,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/WI-1009-agent-adapter-recovery-boundary.contract.json"
+            ".ai/work-items/archive/WI-1009-agent-adapter-recovery-boundary.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -193,8 +193,8 @@
     "status": "verified",
     "workItemId": "WI-1009-agent-adapter-recovery-boundary"
   },
-  "taskReportDigest": "sha256:ba55b060724dcff719db2fc48423830689856b1d29f60b6aece503d139887fb5",
-  "taskReportMarkdownDigest": "sha256:738cb21f204aff2b06c75d5cf585bff78dc5d8fbb10899224385bcc5727a992b",
+  "taskReportDigest": "sha256:aa13363b2bb62690f2eadbb2df3188a6ad27d7a841b11e6beb3c8121d574c84f",
+  "taskReportMarkdownDigest": "sha256:bf548824608007be9c5a519b3d8aba3fed52825a63b91a4cff18af802cca2553",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
