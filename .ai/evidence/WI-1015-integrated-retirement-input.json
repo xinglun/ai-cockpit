@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "The implementation prepared by WI-1015 is integrated in merged PR #980. Its verified release-preparation evidence remains immutable; the remaining v0.2.110 publication and lifecycle handoff is owned by successor WI-1016.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "contractDigest": "sha256:dabd66947ea8803278b418294576316b96b0863556382f8bf07362f7303e5a29",
+  "summaryDigest": "sha256:6a3e07f6581ab3d754c1be82c8072b4710c1eea781125d286208cb0285bf0b5b",
+  "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04"
+}

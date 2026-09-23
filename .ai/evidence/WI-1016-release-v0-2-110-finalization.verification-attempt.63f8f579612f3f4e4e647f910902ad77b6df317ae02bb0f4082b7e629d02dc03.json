@@ -1,0 +1,111 @@
+{
+  "attemptId": "sha256:63f8f579612f3f4e4e647f910902ad77b6df317ae02bb0f4082b7e629d02dc03",
+  "commands": [
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:7dd2a014a320c8348f79f8c91cdd22b5116a21b6d7396ba9d90718ef497cc18d",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "scripts/generate_interface_references.py",
+        "--repo",
+        ".",
+        "--check"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:625e06ba5416fcb2929155da3fef4bacbcfd2fc98f4a00bd34f1e2bd192fb48b",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:b96615a793396d694abc02f40a0d7a25f20e652f69eb3f15bcc9e6b88357309d",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:41ef6b22e63823dc01da086994473b56def68c4bce3618fe644cda2dea119714",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:c3b11401ce206f5e0f162463606476d20624e316e8d49b9bcf526dcf56715abf",
+      "nodeId": "project-command-4",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
+  "contractExecutionScopeDigest": "sha256:c80ab435e2703272e309f1a8a78941f361c53098494ddb54c3ca59a79b8cf628",
+  "createdAt": "2026-09-23T10:16:51Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-110-finalization/.ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json: verification preconditions are blocked: documentation_projection_missing:docs/work-items/WI-1016-release-v0-2-110-finalization.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1016-release-v0-2-110-finalization.zh-CN.md:must be a regular non-symlink file, documentation_projection_missing:docs/work-items/WI-1016-release-v0-2-110-finalization.ja.md:must be a regular non-symlink file, documentation_projection_invalid:docs/reference/reference-parity.md:expected exactly one parity row for WI-1016-release-v0-2-110-finalization but found 0, documentation_projection_invalid:docs/reference/reference-parity.zh-CN.md:expected exactly one parity row for WI-1016-release-v0-2-110-finalization but found 0, documentation_projection_invalid:docs/reference/reference-parity.ja.md:expected exactly one parity row for WI-1016-release-v0-2-110-finalization but found 0"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c180448c1542f12dfb6b6b82425a3fc11f3ea6b13f610a880458fa1ebaed0c76",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}

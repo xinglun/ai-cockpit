@@ -1,0 +1,186 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptanceId": "A1",
+      "evidence": [
+        {
+          "locator": "merged source and PR CI identity",
+          "path": "https://github.com/xinglun/ai-cockpit/pull/980",
+          "type": "provider",
+          "verification": "PR #980 and merge commit da682935c93155618eace8b62da95c2cf813956c are the declared source boundary; release acceptance remains pending."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A2",
+      "evidence": [
+        {
+          "locator": "resource context bound before current verification",
+          "path": ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+          "type": "runtime",
+          "verification": "Runtime finalize-plan recorded the PR #980 resource context before the current verification cycle; archive and close remain pending."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A3",
+      "evidence": [
+        {
+          "locator": "release artifact integrity scenario plan",
+          "path": ".ai/evidence/WI-1016-release-controls-input.json",
+          "type": "plan",
+          "verification": "Publication, tag, manifest, checksum, SBOM, provenance, and public Release evidence is intentionally pending until the governed release workflow runs."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A4",
+      "evidence": [
+        {
+          "locator": "downloaded adopter scenario plan",
+          "path": ".ai/evidence/WI-1016-release-controls-input.json",
+          "type": "plan",
+          "verification": "Fresh install, N-1 upgrade, and isolated cleanup evidence is intentionally pending until public v0.2.110 assets exist."
+        }
+      ]
+    },
+    {
+      "acceptanceId": "A5",
+      "evidence": [
+        {
+          "locator": "finalization and cleanup scope",
+          "path": ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+          "type": "plan",
+          "verification": "Archive, finalize, close, documentation projection, and exact cleanup are declared but not yet terminal evidence."
+        }
+      ]
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/WI-1015-release-v0-2-110.retirement.json",
+    ".ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1015-integrated-retirement-input.json",
+    ".ai/evidence/WI-1016-finish-retry-input.json",
+    ".ai/evidence/WI-1016-release-controls-input.json",
+    ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.5bfef8bf51b079847190f7cd940459faaec967b677a66cb2a19923f4dce2482e.json",
+    ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.66d4727cfa5646cf8060ed82210e06bd78322d3d3332aa71270e0b5ab5d16e94.json",
+    ".ai/evidence/WI-1016-release-v0-2-110-finalization.verification-attempt.83dffc0d8c9e378787c134e46e0d85f3905412fa18d8340cb325db5f7c508bd7.json",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.contract.json",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.events.jsonl",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.outcome.json",
+    ".ai/work-items/active/WI-1015-release-v0-2-110.summary.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.events.jsonl",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.outcome.json",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.archive.json",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.contract.json",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.events.jsonl",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.outcome.json",
+    ".ai/work-items/archive/WI-1015-release-v0-2-110.summary.json"
+  ],
+  "checkpointAt": "2026-09-23T10:16:24Z",
+  "checkpointContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
+      "recorded": true,
+      "recordedAt": "2026-09-23T10:16:24Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1016-release-v0-2-110-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
+      "previousContractHash": "sha256:4804ddb373645b2f26bf7223aa9da20feb8c66c701370a7c97912b35da867365",
+      "reason": "Record an explicit source link to the immutable WI-1015 attempted-delivery evidence before retiring the predecessor.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T10:26:10Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1016-release-v0-2-110-finalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "createdAt": "2026-09-23T10:12:14Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.contract.json"
+    ],
+    "reason": "The approved release scope does not declare a separate user-benefit measurement; publication and adopter acceptance remain separate evidence questions.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-23T10:33:14Z",
+  "preflightContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.110 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.110 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.110 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T10:33:45Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:6731697c9e2ff2df7671008c57545eb2d48462887148eaabad0f9462d9aa3874",
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}

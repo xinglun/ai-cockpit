@@ -1,0 +1,111 @@
+{
+  "attemptId": "sha256:83dffc0d8c9e378787c134e46e0d85f3905412fa18d8340cb325db5f7c508bd7",
+  "commands": [
+    {
+      "args": [
+        "tests/release/version_consistency.sh",
+        "--repo",
+        "."
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:7dd2a014a320c8348f79f8c91cdd22b5116a21b6d7396ba9d90718ef497cc18d",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "scripts/generate_interface_references.py",
+        "--repo",
+        ".",
+        "--check"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:625e06ba5416fcb2929155da3fef4bacbcfd2fc98f4a00bd34f1e2bd192fb48b",
+      "nodeId": "project-command-1",
+      "program": "python3",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/docs/documentation_acceptance.sh"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:b96615a793396d694abc02f40a0d7a25f20e652f69eb3f15bcc9e6b88357309d",
+      "nodeId": "project-command-2",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/release/workflow_policy.sh",
+        ".github/workflows/release.yml"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:41ef6b22e63823dc01da086994473b56def68c4bce3618fe644cda2dea119714",
+      "nodeId": "project-command-3",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    },
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "da682935c93155618eace8b62da95c2cf813956c",
+      "commandDigest": "sha256:c3b11401ce206f5e0f162463606476d20624e316e8d49b9bcf526dcf56715abf",
+      "nodeId": "project-command-4",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "contractExecutionScopeDigest": "sha256:c80ab435e2703272e309f1a8a78941f361c53098494ddb54c3ca59a79b8cf628",
+  "createdAt": "2026-09-23T10:28:20Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-110-finalization/.ai/work-items/active/WI-1016-release-v0-2-110-finalization.summary.json: current action admission rejected requested action \"run_verification\": admission=NeedsHumanDecision, safeActions=[\"refresh_status\", \"resolve_blockers\", \"stop\"], admissionDigest=sha256:363a434a65291947fdc54a95f1f6f284d052ceb673a3d711f79492e6bfb08921, issues=[\"lifecycle_gate_failed\", \"user_visible_benefit_not_declared\"]"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}
