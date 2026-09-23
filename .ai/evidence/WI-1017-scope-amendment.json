@@ -1,0 +1,10 @@
+{
+  "scopeAppend": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md",
+    "docs/work-items/WI-1017-release-v0-2-111-finalization.md",
+    "docs/work-items/WI-1017-release-v0-2-111-finalization.zh-CN.md",
+    "docs/work-items/WI-1017-release-v0-2-111-finalization.ja.md"
+  ]
+}

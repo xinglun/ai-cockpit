@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-23T11:28:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1017-release-v0-2-111-finalization.verification.json",
+    ".ai/evidence/WI-1017-finalization-plan-input.json",
+    "https://github.com/xinglun/ai-cockpit/pull/982"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/provider-resource-finalization.md"
+  ],
+  "predecessorContractDigest": "sha256:012b59db46b7ed54ee4e3bfca148cb2b09629ffa7bb2521ebbf7975a62bde93f",
+  "predecessorSummaryDigest": "sha256:a9d05ebdb2d615cf2996ff4a72990068c1ddcbf50dbc0d5f4e69c8ea52b3987b",
+  "predecessorWorkItemId": "WI-1017-release-v0-2-111-finalization",
+  "reason": "The initial local verification receipt was produced before the real PR #982 resource context was available. Preserve that receipt and its failed binding attempt, retry the same Work Item through the Runtime recovery path, bind PR #982, and rerun the current Contract verification before any archive or release action.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Bind PR #982 with finalize-plan, rerun current preflight and verification, then continue only with the resulting fresh evidence.",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1017-release-v0-2-111-finalization"
+}

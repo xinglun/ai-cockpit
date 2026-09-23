@@ -1,0 +1,244 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1017-release-v0-2-111-finalization.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1015-retirement-input.json",
+    ".ai/evidence/WI-1017-finalization-plan-input.json",
+    ".ai/evidence/WI-1017-resource-context-retry-input.json",
+    ".ai/evidence/WI-1017-source-amendment.json",
+    ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.contract.json",
+    ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-09-23T11:10:34Z",
+  "checkpointContractDigest": "sha256:03dea0f1453763f7daed1fbe88e637178c312766744b027aefaab4b9c3a4982a",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "recorded": true,
+      "recordedAt": "2026-09-23T11:10:34Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:de9be684d05fa948616d0f31bc8b81767d7a9b784fe7b1781637d9faa2be1b04",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f2fe0e4391fe0ac411646768ca0ab0e366dd5a1f8b70911123ebe200c8a6699e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "previousContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "reason": "Declare the three-language Work Item and parity projections required for the v0.2.111 release documentation; no new acceptance requirement is introduced.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T11:22:27Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:f50de6ad39d94021888e6a49d77dda1f7230689a6f46ad98b561ad00af979a7d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:012b59db46b7ed54ee4e3bfca148cb2b09629ffa7bb2521ebbf7975a62bde93f",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ac6d441a6514c56cccb4d59f225feacb11f6f6d87812742e0f91477a9aa398f8",
+      "previousContractHash": "sha256:f2fe0e4391fe0ac411646768ca0ab0e366dd5a1f8b70911123ebe200c8a6699e",
+      "reason": "Bind the actual PR #982 as a Contract source before the required finalization revalidation; this records an existing identity, not a new acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T11:27:00Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1017-release-v0-2-111-finalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+  "createdAt": "2026-09-23T11:07:03Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/WI-1017-release-v0-2-111-finalization.contract.json",
+      ".github/workflows/release.yml"
+    ],
+    "reason": "This release Contract declares the release and adopter acceptance boundary; user-visible benefit remains unmeasured and is not being inferred from publication or green verification.",
+    "state": "unknown"
+  },
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:39f1a24412bf687c10bc6ba812cb89866a50458ead4944435e6e4b053474e97b",
+  "predecessorWorkItemId": "WI-1016-release-v0-2-110-finalization",
+  "preflightAt": "2026-09-23T11:36:28Z",
+  "preflightContractDigest": "sha256:03dea0f1453763f7daed1fbe88e637178c312766744b027aefaab4b9c3a4982a",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:935bf7fb4d91614e74d1a130f873cd249b4ab75ef72478569d12dc7074c8dc4f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1016-release-v0-2-110-finalization.recovery.768442060b84a3bd080a9f22aa1f15ce36eb4f864d268b40d5e5e6bcc07a16f1.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.111 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.111 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.111 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-23T11:11:11.400764+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-1-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-agent",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-cli",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-core",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-evidence",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-git",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-interface",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-isolation",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-knowledge",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-mcp",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-protocol",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-release",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-repository",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-2-package-cockpit-verification",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-3",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-4",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-5",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-6",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-7",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:1003d1a23eae4e51a6b302e4c58f2483f824847f5130c0559a71d8c8f12d9338",
+  "workItemId": "WI-1017-release-v0-2-111-finalization"
+}
