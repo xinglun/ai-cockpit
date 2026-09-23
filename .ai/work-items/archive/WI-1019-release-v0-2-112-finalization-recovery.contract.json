@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "WI-1018 的 finalization identity mismatch 及两次未写入/一次成功 recovery evidence 被保留，历史 archive bytes 不变。",
+    "PR #985 的 head 930902e4902438b3dae999f770053ce53d61e09b、merge commit 2d15355be49a4802111dbf21c078b2d6f9a1465d、分支和 worktree 状态通过 Runtime finalization 与 finalize-verify 绑定。",
+    "WI-1019 的验证、Outcome、archive、close 和文档 projection 通过现有 Runtime 路径完成；不把建议动作当授权。",
+    "PR #984 的原始 head e180c2ff3457f373c6e25bf7939b7678048d2f28 与 PR #985 的 930902e4 身份差异在 Outcome 中作为限制明确表达。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+  "createdAt": "2026-09-23T15:20:49Z",
+  "goal": "在不改写 WI-1018 历史记录、不重新发布且不增加任务进度接口的前提下，为已合并的归档证据 PR #985 记录真实资源 finalization、完成 finalize-verify、close 和文档投影，明确保留 PR #984 head 身份漂移限制。",
+  "intent": "恢复 v0.2.112 发布任务在 provider finalization identity drift 后的可验证收尾",
+  "mode": "implementation",
+  "outOfScope": [
+    "重新构建或重新发布 v0.2.112",
+    "修改或伪造 WI-1018、PR #984 的历史身份与 receipt",
+    "新增 task-start/task-done API、手工账本或用户全局配置",
+    "外部审查结论、合并后 main 之外的生产代码改造"
+  ],
+  "predecessorContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "predecessorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-112",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/985",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit"
+  },
+  "risk": "governance",
+  "scope": [
+    ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.**",
+    ".ai/evidence/WI-1018-finalization-receipt-input.json",
+    ".ai/work-items/active/WI-1019-release-v0-2-112-finalization-recovery.**",
+    ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.**",
+    ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.**",
+    "docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.**",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 -m json.tool .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.archive.json"
+  ],
+  "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+}

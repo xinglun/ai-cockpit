@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "supersede",
+  "workItemId": "WI-1018-release-v0-2-112-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "predecessorContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "predecessorSummaryDigest": "sha256:f374d3d23c9d0978da8ead40d3a283d1dfe412f2dd8e63b490f7277fbb566607",
+  "predecessorOutcomeDigest": "sha256:63eff7a19f7fe258547683f02dafb928c71f732f819c5848c240068065d4d73b",
+  "predecessorEventsDigest": "sha256:b12658745fcdd230f2838721a0f7dfc514000ad50171c0694c090f4b19d39f8d",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "WI-1018's original PR #984 finalization receipt remains an immutable rejected observation because its PR head e180c2ff and post-merge evidence branch/worktree head 930902e4 differed. WI-1019 completed the bounded recovery through PR #985, Runtime finalization, finalize-verify, external evidence binding, and confirmed close. Supersede the historical predecessor without rewriting its archive, receipt input, or recovery evidence; the release objective is carried by the closed successor.",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/984",
+    "https://github.com/xinglun/ai-cockpit/pull/985",
+    ".ai/evidence/WI-1018-finalization-receipt-input.json",
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+    ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json",
+    ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/work-items/WI-160-resource-finalization-baseline.md"
+  ],
+  "decidedAt": "2026-09-23T15:36:07Z",
+  "successorWorkItemId": "WI-1019-release-v0-2-112-finalization-recovery",
+  "resumeCondition": "Continue only on the already selected WI-1019 recovery lineage; do not rewrite WI-1018 or recreate PR #984 resources."
+}

@@ -1,0 +1,287 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+      "workItemId": "WI-1018-release-v0-2-112-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.256808f9e18be0dcf2d49a0d32371c1adab7827b5f3c1a30dd72b3e6541ec0e5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1018-release-v0-2-112-finalization.preflight-review.deec4c200be8dce4b920ccf32d2e60195dcee29deece5fe04f040f7f23ca22de.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.2fa5f031a2703e82590699dd8614dd72a9df339254b906eef13328def150f259.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-adopter-acceptance.metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-adopter-upgrade.metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-controls-projection-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-provider-release-state.metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-release-close.metadata.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-release-v0-2-112-finalization.verification-attempt.734301f303c6b815c23e2ebe35cc02eed7c9eff1f9a6aa4d6d9d3d9d0a88f62b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1018-resource-context-retry-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-release-v0-2-112-finalization.63c1a7965bce82e6a61d0ddd7579d84d95d64e632c78ff2f22e340aa0f7571ae.delegated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-release-v0-2-112-finalization.689736a6c8aef1b688fb431d1a568531d942816a544d120c4233b23ad87946d5.delegated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-release-v0-2-112-finalization.7d01f547ec5d82c88ecac871001f541e5518101ed842563c03c31e7aeeeee342.delegated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-release-v0-2-112-finalization.cacdc8630b348fb2235fef523f611732a143e759b9f70037e53eab038247ed58.delegated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-v0.2.112-adopter-acceptance.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-v0.2.112-adopter-upgrade.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-v0.2.112-provider-release-state.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/WI-1018-v0.2.112-release-close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1018-release-v0-2-112-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1018-finalization-receipt-input.json",
+            ".ai/evidence/WI-1018-supersede-recovery-input.json",
+            ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+            ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.json",
+            ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json",
+            "https://github.com/xinglun/ai-cockpit/pull/984",
+            "https://github.com/xinglun/ai-cockpit/pull/985"
+          ],
+          "inference": false,
+          "text": "Human decision 'superseded' by human:repository-owner via explicit-user-authorization-current-conversation at 2026-09-23T15:36:07Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1018-release-v0-2-112-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "从已合并且 CI 通过的 corrected main 发布 v0.2.112，仅生成四个受支持目标，完成公开制品、安装与 N-1 升级验收，以及归档、finalization、close、文档投影和精确清理。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1018-release-v0-2-112-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1018-release-v0-2-112-finalization"
+  },
+  "finalReportDigest": "sha256:fbee99b32581580a4a715cc728d39b5a9a2145ad0763b735ef69420d45a29a6a",
+  "humanDecision": "superseded",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-current-conversation",
+    "decidedAt": "2026-09-23T15:36:07Z",
+    "decision": "superseded",
+    "evidenceRefs": [
+      ".ai/evidence/WI-1018-finalization-receipt-input.json",
+      ".ai/evidence/WI-1018-supersede-recovery-input.json",
+      ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+      ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.json",
+      ".ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json",
+      "https://github.com/xinglun/ai-cockpit/pull/984",
+      "https://github.com/xinglun/ai-cockpit/pull/985"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      "docs/work-items/WI-160-resource-finalization-baseline.md"
+    ],
+    "reason": "Close WI-1018 as immutable historical predecessor after its exact PR #984 finalization identity mismatch was preserved and the selected WI-1019 successor completed release finalization, external evidence binding, confirmed close, and exact PR #985 resource cleanup. Do not claim PR #984 itself had a valid finalization receipt; the release objective is carried by WI-1019.",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-23T15:36:46Z",
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}

@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-23T15:34:05Z",
+  "evidence": {
+    "assurance": "provider_verified",
+    "collectedAt": "2026-09-23T14:31:00Z",
+    "digest": "sha256:63c1a7965bce82e6a61d0ddd7579d84d95d64e632c78ff2f22e340aa0f7571ae",
+    "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35872362547",
+    "provider": "github",
+    "rawEvidenceRef": ".ai/evidence/external/WI-1018-v0.2.112-release-close.json",
+    "subject": "workflow:35872362547/release_close",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+}

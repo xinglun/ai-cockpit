@@ -1,0 +1,7 @@
+{
+  "scopeAppend": [
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/reference/reference-parity.ja.md"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "changedPaths": [
+    ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/WI-1018-finalization-receipt-input.json",
+    ".ai/evidence/WI-1018-finalization-successor-input.json",
+    ".ai/evidence/WI-1019-finalization-plan-input.json",
+    ".ai/evidence/WI-1019-scope-amendment-input.json",
+    ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json",
+    ".ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.summary.json",
+    "docs/reference/reference-parity.ja.md",
+    "docs/reference/reference-parity.md",
+    "docs/reference/reference-parity.zh-CN.md",
+    "docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.ja.md",
+    "docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.md",
+    "docs/work-items/WI-1019-release-v0-2-112-finalization-recovery.zh-CN.md"
+  ],
+  "checkpointAt": "2026-09-23T15:22:02Z",
+  "checkpointContractDigest": "sha256:8fec5aefdf9de6904711414ad52e752e30e432aeff63daf4760e0fda76f36a66",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:09badb88a4dbc5b092bd68a1292a12a3ee7b4e43511d2a90996b4eb96aa5e85f",
+      "recorded": true,
+      "recordedAt": "2026-09-23T15:22:02Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:8fec5aefdf9de6904711414ad52e752e30e432aeff63daf4760e0fda76f36a66",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:09badb88a4dbc5b092bd68a1292a12a3ee7b4e43511d2a90996b4eb96aa5e85f",
+      "previousContractHash": "sha256:09badb88a4dbc5b092bd68a1292a12a3ee7b4e43511d2a90996b4eb96aa5e85f",
+      "reason": "Declare the three parity projection files required by the repository preflight for the already approved WI-1019 documentation projection; add no new behavior or acceptance requirement.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T15:25:35Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:eebae1cf6352e066bde12d8948696f37af017fa0fec1ba86e8669d415feb73fa",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:eebae1cf6352e066bde12d8948696f37af017fa0fec1ba86e8669d415feb73fa",
+  "createdAt": "2026-09-23T15:20:49Z",
+  "mode": "implementation",
+  "predecessorContractDigest": "sha256:266bad9fce16bd48398a23cac2e91573e2e198394145b29e7b1cd498ffa79f06",
+  "predecessorWorkItemId": "WI-1018-release-v0-2-112-finalization",
+  "preflightAt": "2026-09-23T15:26:02Z",
+  "preflightContractDigest": "sha256:8fec5aefdf9de6904711414ad52e752e30e432aeff63daf4760e0fda76f36a66",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eebae1cf6352e066bde12d8948696f37af017fa0fec1ba86e8669d415feb73fa",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1018-release-v0-2-112-finalization.recovery.746472ae3c5accbcb42126decbdd661699ca2358135a85eba1dd63c1fc85f48d.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T15:26:17Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "WI-1019-release-v0-2-112-finalization-recovery"
+}
