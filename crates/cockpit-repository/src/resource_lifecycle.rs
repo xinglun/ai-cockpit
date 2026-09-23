@@ -1683,13 +1683,12 @@ pub fn historical_finalization_recovery_plan(
                 .as_ref()
                 .map(|historical| &historical.kind),
             Some(HistoricalFinalizationKind::LegacyRuntime)
-        ) {
-            if let Err(reason) = validate_legacy_runtime_candidate(&receipt) {
-                return Err(ObserverError::State {
-                    path: path.clone(),
-                    message: format!("legacy-runtime recovery is not applicable: {reason}"),
-                });
-            }
+        ) && let Err(reason) = validate_legacy_runtime_candidate(&receipt)
+        {
+            return Err(ObserverError::State {
+                path: path.clone(),
+                message: format!("legacy-runtime recovery is not applicable: {reason}"),
+            });
         }
         let kind = receipt
             .historical
