@@ -1,0 +1,85 @@
+{
+  "acceptanceCriteria": [
+    "da682935c93155618eace8b62da95c2cf813956c 已成为 origin/main，且 PR #980 的四项 CI 检查和 main CI 均有真实 GitHub 证据。",
+    "PR #980 的资源上下文在 WI-1016 验证前通过 Runtime finalize-plan 正式绑定，归档与 close 使用同一 Contract/PR 身份。",
+    "v0.2.110 的 annotated immutable tag、release workflow、manifest、checksums、SBOM、provenance、public Release 和源提交身份一致。",
+    "下载的 public v0.2.110 artifact 通过 fresh install、0.2.109-to-v0.2.110 N-1 upgrade 和临时运行根清理。",
+    "WI-1016 归档、finalize、finalize-verify、close、文档 projection、分支和 worktree 清理均有 Runtime/Provider evidence。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "da682935c93155618eace8b62da95c2cf813956c",
+  "createdAt": "2026-09-23T10:12:14Z",
+  "goal": "从已合并且主线同步的 da682935c93155618eace8b62da95c2cf813956c 发布并验收 v0.2.110，绑定 PR #980 的真实资源上下文，完成归档、finalize、close、文档投影和资源清理。",
+  "intent": "完成 AI Cockpit v0.2.110 的发布、公开验收与生命周期收尾；该 successor 承接已合并 PR #980 的同一发布范围，仅修复前置 resourceContext 未绑定导致的收尾交接缺口。",
+  "mode": "implementation",
+  "outOfScope": [
+    "不修改已合并 PR #980 的实现、v0.2.109 及更早发布历史或现有失败证据。",
+    "不修改全局 Agent/MCP 配置、其他仓库、无关历史分支或 worktree。",
+    "不新增任务进度 API、独立账本或绕过 release workflow、Runtime 门禁和公开验收。"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:c180448c1542f12dfb6b6b82425a3fc11f3ea6b13f610a880458fa1ebaed0c76",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt",
+    "delegated:github",
+    "delegated_evidence",
+    "external_evidence"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/release-v0-2-110",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/980",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-110-release"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "The v0.2.110 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "required": true,
+      "scenario": "release-artifact-integrity",
+      "status": "unverified",
+      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+    },
+    {
+      "evidence": [],
+      "expected": "The downloaded public v0.2.110 artifact passes checksum, isolated fresh install, 0.2.109-to-0.2.110 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "required": true,
+      "scenario": "downloaded-adopter-install-upgrade",
+      "status": "unverified",
+      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+    }
+  ],
+  "scope": [
+    "使用 main 合并提交 da682935c93155618eace8b62da95c2cf813956c 及 PR #980 的既有实现和 CI 证据，执行 v0.2.110 的 annotated tag、release workflow、public Release、fresh install 和 0.2.109-to-0.2.110 N-1 验收。",
+    "补齐并验证 WI-1016 自身的 resourceContext、发布证据、Outcome、归档、finalization、close、文档 projection 和精确资源清理。",
+    "Cargo.toml",
+    "Cargo.lock",
+    "docs/**",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/active/WI-1016-release-v0-2-110-finalization.**",
+    ".ai/work-items/archive/WI-1016-release-v0-2-110-finalization.**"
+  ],
+  "sources": [
+    "PR #980 merged as da682935c93155618eace8b62da95c2cf813956c",
+    "PR #980 CI run 35846214877: route, quality, v1-behavioral-oracle, windows-runtime passed",
+    "origin/main at da682935c93155618eace8b62da95c",
+    "https://github.com/xinglun/ai-cockpit/pull/980",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35846214877"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/release/version_consistency.sh --repo .",
+    "python3 scripts/generate_interface_references.py --repo . --check",
+    "bash tests/docs/documentation_acceptance.sh",
+    "bash tests/release/workflow_policy.sh .github/workflows/release.yml",
+    "bash tests/ci/release_gate_policy_test.sh"
+  ],
+  "workItemId": "WI-1016-release-v0-2-110-finalization"
+}
