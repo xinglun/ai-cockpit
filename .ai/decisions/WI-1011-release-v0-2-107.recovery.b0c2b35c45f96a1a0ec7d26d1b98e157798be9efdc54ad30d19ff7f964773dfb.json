@@ -1,0 +1,31 @@
+{
+  "actor": "human:xinglun",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-23T05:45:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35821197960",
+    ".ai/work-items/active/WI-1011-release-v0-2-107.contract.json",
+    ".ai/evidence/WI-1011-release-v0-2-107.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "agents/skills/release-upgrade-acceptance.md",
+    "docs/reference/ci-release-evidence.md"
+  ],
+  "predecessorContractDigest": "sha256:68b9e9c3bfabd3e0cc2cf70497af0550ad23d84ff687f6db76a3fe47be71cf75",
+  "predecessorEventsDigest": "sha256:c900b89e2c3fdfaf2da58855cc67d5cad2e3b5b4c593756c6dbb90ccbf31e67a",
+  "predecessorOutcomeDigest": "sha256:7d9e5b2089f04e71dc53ced4cd2f84e9b3832fe2f47f045abffe52ec2e5c816c",
+  "predecessorSummaryDigest": "sha256:5a315fa01b2e791bf51a69d9fdf864d4337f08be2420da71e647e36c7c589486",
+  "predecessorWorkItemId": "WI-1011-release-v0-2-107",
+  "reason": "The v0.2.107 immutable candidate stopped before public Release at the source-quality gate because its Contract snapshot omitted already-merged Runtime paths. The failed immutable tag must remain preserved and cannot be reused; continue the same release goal on the next version through an explicit successor.",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resumeCondition": "Prepare and publish v0.2.108 from synchronized main with a successor Contract whose source baseline starts after the merged Runtime repair; complete public asset, install/upgrade, archive, finalization, close, projection, and cleanup evidence.",
+  "runtimeDigest": "sha256:dc4b7a20707d7e1ae156953be3cbce96f8dd5be6727cbeb7462d38c957367969",
+  "runtimeVersion": "0.2.107",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1012-release-v0-2-108",
+  "workItemId": "WI-1011-release-v0-2-107"
+}
