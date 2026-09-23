@@ -6084,7 +6084,7 @@ fn contract_amendment_invalidates_verification(
 /// intentionally stricter than the Summary marker alone; otherwise a stale
 /// or hand-written marker could downgrade a tampered identity mismatch to a
 /// recoverable state.
-fn retry_recovery_pending_is_valid(
+pub(crate) fn retry_recovery_pending_is_valid(
     root: &Path,
     contract: &cockpit_protocol::Contract,
     current_runtime: Option<&RuntimeContext>,

@@ -13,8 +13,8 @@ use super::{
     read_contract, read_json, read_resource_finalization_transition, repository_id,
     repository_relative_path, resolve_resource_finalization_head_with_index,
     resource_cleanup_completion_state, resource_finalization_decision_path,
-    selected_successor_lineage_recovery_resolves_pending_close, snapshot_digest,
-    validate_protocol_version, validate_work_item_id, verify_archive_manifest,
+    retry_recovery_pending_is_valid, selected_successor_lineage_recovery_resolves_pending_close,
+    snapshot_digest, validate_protocol_version, validate_work_item_id, verify_archive_manifest,
     verify_resource_finalization_internal,
 };
 use std::collections::BTreeMap;
@@ -1338,6 +1338,8 @@ fn work_item_status_snapshot_with_snapshot(
             "lifecycle_cleanup_required".into()
         });
     }
+    let retry_recovery_pending =
+        !archived && retry_recovery_pending_is_valid(&root, &contract, Some(runtime));
     let mut safe_actions = if historical_recovery_resolved {
         vec!["read_outcome".into()]
     } else if archived && !close_decision_valid {
@@ -1391,6 +1393,12 @@ fn work_item_status_snapshot_with_snapshot(
             actions.push("close_after_review".into());
         }
         actions
+    } else if retry_recovery_pending {
+        // An explicit, identity-bound retry decision authorizes one fresh
+        // verification cycle to replace the blocked projection. Keep the
+        // aggregate governance state red and the lifecycle failure visible;
+        // this only admits the bounded recovery action.
+        vec!["run_verification".into()]
     } else if blocking {
         vec!["resolve_blockers".into(), "stop".into()]
     } else {

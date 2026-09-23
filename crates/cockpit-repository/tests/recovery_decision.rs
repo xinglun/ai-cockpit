@@ -8,9 +8,9 @@ use cockpit_repository::{
     finish_work_item_with_runtime, outcome_render_input, outcome_render_input_with_runtime,
     outcome_v2, outcome_v2_with_runtime, plan_resource_finalization, preflight_work_item,
     preflight_work_item_with_runtime, record_recovery_decision, record_verification_with_runtime,
-    render_human_outcome, repository_id, revalidate_contract_amendment,
-    run_repository_verification, scaffold_work_item, snapshot_digest, start_work_item_with_options,
-    status,
+    render_human_outcome, repository_id, require_current_action_admission,
+    revalidate_contract_amendment, run_repository_verification, scaffold_work_item,
+    snapshot_digest, start_work_item_with_options, status, work_item_status_snapshot_with_runtime,
 };
 use serde_json::{Value, json};
 use std::fs;
@@ -1232,6 +1232,54 @@ fn retry_recovery_clears_failed_finish_marker_when_state_is_already_checkpointed
     assert_eq!(recovered["recoveryRetryPending"], true);
     assert!(recovered.get("failedGate").is_none());
     assert!(recovered.get("recoveryCondition").is_none());
+}
+
+#[test]
+fn retry_recovery_admits_verification_after_a_blocked_finish_projection() {
+    let directory = repository();
+    let runtime = current_runtime();
+    let outcome_path = directory
+        .path()
+        .join(".ai/work-items/active/WI-BLOCKED.outcome.json");
+    fs::write(
+        &outcome_path,
+        serde_json::to_vec_pretty(&json!({
+            "state": "blocked",
+            "workItemId": "WI-BLOCKED",
+            "repositoryId": repository_id(directory.path()),
+            "failedGate": "finish.governance",
+            "recoveryCondition": "retry after restoring the lifecycle state"
+        }))
+        .expect("blocked outcome JSON"),
+    )
+    .expect("blocked outcome");
+
+    let mut retry = receipt(
+        &directory,
+        "retry a blocked finish through the public action path",
+    );
+    retry["decision"] = json!("retry");
+    retry
+        .as_object_mut()
+        .expect("retry receipt object")
+        .remove("successorWorkItemId");
+    retry["runtimeVersion"] = json!(runtime.runtime_version);
+    retry["runtimeDigest"] = json!(runtime.runtime_digest.to_string());
+    retry["decidedAt"] = json!("2026-08-23T00:07:00Z");
+    record_recovery_decision(directory.path(), "WI-BLOCKED", &retry, &runtime)
+        .expect("retry recovery should be recorded");
+
+    let status = work_item_status_snapshot_with_runtime(directory.path(), "WI-BLOCKED", &runtime)
+        .expect("status after retry recovery");
+    assert!(
+        status
+            .safe_actions
+            .iter()
+            .any(|action| action == "run_verification"),
+        "an explicit retry must admit fresh verification even while the old blocked projection is visible: {status:#?}"
+    );
+    require_current_action_admission(directory.path(), "WI-BLOCKED", "run_verification", &runtime)
+        .expect("the execution admission must consume the same retry authorization");
 }
 
 #[test]
