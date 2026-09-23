@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "close-only 恢复失败时 release-close.json 的 state 为 failed，failureRoots 非空，release_close job 以非零退出；其他收据有效不能掩盖恢复失败。",
+    "回归测试覆盖恢复失败与其他收据有效的组合，并保留失败收据。",
+    "AGENTS.md 与 ordinary-work-item 指南保留并报告 unknown，但不因 unknown 非空单独停止；继续/停止由当前 Runtime safeActions、必需输入、阻塞和 human decision requirement 决定。",
+    "既有发布和文档治理检查保持通过；不新增任务进度接口。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c86940a453ff2b35d0a404372e85f7f5d399faf8",
+  "createdAt": "2026-09-23T22:12:21Z",
+  "goal": "在不改变发布资源或任务进度架构的前提下，保证恢复失败不能生成 passed close receipt，并统一文档为保留 unknown、由 Runtime safeActions 与必需人类决策决定是否继续。",
+  "intent": "修复 close-only 发布恢复失败时的终态映射，并让 Agent 停止规则服从 Runtime 动作准入。",
+  "mode": "implementation",
+  "outOfScope": [
+    "release_input_preflight 的编译顺序优化（独立性能问题）",
+    "发布、标签、资源、任务进度 API 和历史证据改写"
+  ],
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:34a9a9e36e6dbea4b515a1dcd6f9a7845c7c40223a9dbb80b299b4d68b1f89f8",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/wi-1023-release-close-admission",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/988",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/wi-1023-release-close-admission"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "AGENTS.md",
+    "agents/skills/ordinary-work-item.md",
+    ".ai/decisions/observer-snapshot.json",
+    "tests/docs/task_guide_route_test.py",
+    "tests/release/release_close_state.sh",
+    "tests/release/release_close_state_test.sh",
+    "tests/ci/repository_gate_manifest.json"
+  ],
+  "sources": [
+    "independent-review:close-only-recovery-state@c86940a",
+    ".github/workflows/release.yml",
+    "tests/ci/release_gate_policy_test.sh",
+    "AGENTS.md",
+    "agents/skills/ordinary-work-item.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "bash tests/ci/release_gate_policy_test.sh",
+    "bash tests/release/workflow_policy.sh",
+    "bash tests/ci/resolve_work_item_test.sh"
+  ],
+  "workItemId": "WI-1023-release-close-admission"
+}

@@ -1,0 +1,227 @@
+{
+  "acceptanceResults": [
+    "close-only 恢复失败时 release-close.json 的 state 为 failed，failureRoots 非空，release_close job 以非零退出；其他收据有效不能掩盖恢复失败。",
+    "回归测试覆盖恢复失败与其他收据有效的组合，并保留失败收据。",
+    "AGENTS.md 与 ordinary-work-item 指南保留并报告 unknown，但不因 unknown 非空单独停止；继续/停止由当前 Runtime safeActions、必需输入、阻塞和 human decision requirement 决定。",
+    "既有发布和文档治理检查保持通过；不新增任务进度接口。"
+  ],
+  "createdAt": "2026-09-23T22:40:42Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:5b6ad8c8691c99d7991578822a139f9a9db8ab01e548b024f3b60c9bc8ef896b",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1023-release-close-admission.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1023-release-close-admission.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1023-release-close-admission.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:853a762f680f4f710f3032d78f2e5cf194ba2626b062754c681f7f31abca21b8",
+      "workItemId": "WI-1023-release-close-admission"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.105f1d565c27f55ba758b5c9936b7dd0f2674f1b851e4aed6950553c60948e0c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.78451c735772e945748bf5da867d490aad797016d3cd3b4ae7d9c325324f7803.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.81a4560dbacdd6f36dd6509a0f7210cff696cce78477fa7e5be9835314c76ab3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.a45183dfd82e79d1777db04eefaa77933bd4e51b4d34b0ca3d465420c0e9be28.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.c2220ed454b2b266480a1213608be8304e81cd3203614a14cd82270b2b99bf25.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification-attempt.e52541b6038333fcc20a0fb63ade648c060b8ff05da6cbaa9a77c42fff505e6a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1023-release-close-admission.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1023-release-close-admission.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/ci/repository_gate_manifest.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1023-release-close-admission.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1023-release-close-admission.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1023-release-close-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1023-release-close-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1023-release-close-admission.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变发布资源或任务进度架构的前提下，保证恢复失败不能生成 passed close receipt，并统一文档为保留 unknown、由 Runtime safeActions 与必需人类决策决定是否继续。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/WI-1023-release-close-admission.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1023-release-close-admission"
+  },
+  "taskReportDigest": "sha256:f6310763a8dfe45d2cef2c77a6c5f4ec58b5da429fc340d178903eea5eafe88d",
+  "taskReportMarkdownDigest": "sha256:0647f0b0de95373167df977fa2e3e14465824c48225951288c4acdb479504626",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1023-release-close-admission.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1023-release-close-admission"
+}

@@ -49,10 +49,11 @@ verification or evidence failure, switch to
 ## Continue or stop
 
 Continue only after a fresh Runtime query admits the operation and all
-required inputs are present. Stop for missing authority, unknown or
-contradictory evidence, stale admission, an out-of-scope defect, or a human
-decision. Ask for a real decision when the Runtime says one is required; do
-not turn a recommendation into approval.
+required inputs are present. Preserve and report unknowns; unknowns alone do
+not stop an operation admitted by the current Runtime. Stop for missing
+authority, contradictory evidence, stale admission, an out-of-scope defect,
+or a human decision required by Runtime. Ask for a real decision when Runtime
+says one is required; do not turn a recommendation into approval.
 
 ## Reference
 

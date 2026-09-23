@@ -33,6 +33,7 @@ def main() -> None:
     for relative_path in GUIDES.values():
         assert relative_path in agents, f"AGENTS.md does not link {relative_path}"
     assert "Runtime output is authoritative for action admission" in agents
+    assert "unknowns alone do not override a current" in agents
     assert "resource-bound Work Item uses latest remote default base" not in agents
     assert "for a no-resource Work Item, after removing its exact branch/worktree" not in agents
     assert "ordinary-work-item" in agents
@@ -48,6 +49,12 @@ def main() -> None:
     assert "ordinary-work-item" in route
     assert "release-upgrade-acceptance" in route
     assert "provider-resource-finalization" in route
+
+    ordinary = (ROOT / GUIDES["ordinary-work-item"]).read_text(encoding="utf-8")
+    ordinary_flat = " ".join(ordinary.split())
+    assert "unknowns alone do not stop an operation admitted by the current Runtime" in ordinary_flat
+    assert "Stop for missing authority, contradictory evidence" in ordinary_flat
+    assert "Stop for missing authority, unknown or" not in ordinary_flat
 
 
 if __name__ == "__main__":
