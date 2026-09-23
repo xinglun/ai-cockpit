@@ -28,7 +28,7 @@ Runtime version、Repository Protocol version、repository schema version は独
 
 ```text
 ai-cockpit --version
-0.2.111
+0.2.112
 
 repository:
 protocol_version = 1
@@ -37,7 +37,7 @@ repository_schema_version = 2
 
 直前の公開 patch release `v0.2.93` は historical evidence として保持します。`v0.2.65`、`v0.2.63`、`v0.2.61`、`v0.2.55`、`v0.2.53`、`v0.2.52` もさらに前の歴史として保持します。予約済みの `v0.2.51` tag は
 workflow run `33417057474` の immutable な lightweight-tag 公開失敗で、provider Release はなく再利用しません。未公開で失敗した
-`v0.2.49` tag は再利用せず、`v0.2.77` は失敗した未公開履歴として保持し、`v0.2.93` は直前の公開 patch history、失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な未公開履歴です。`v0.2.94` は前回の候補/公開 identity、`v0.2.95` は前回の runtime identity、`v0.2.96` は immutable な失敗候補履歴、前回の package identity は `v0.2.98` と `v0.2.99`、現在の公開 package identity は `v0.2.106`、`v0.2.101` は未公開の immutable candidate tag、`v0.2.107` は保留する immutable な失敗候補履歴、`v0.2.108` は保持する immutable な公開失敗候補履歴で、現在の未公開候補 package identity は `v0.2.111` です。
+`v0.2.49` tag は再利用せず、`v0.2.77` は失敗した未公開履歴として保持し、`v0.2.93` は直前の公開 patch history、失敗した `v0.2.88` tag は WI-764 の source-quality 失敗（workflow run `34371183927`）による immutable な未公開履歴です。`v0.2.94` は前回の候補/公開 identity、`v0.2.95` は前回の runtime identity、`v0.2.96` は immutable な失敗候補履歴、前回の package identity は `v0.2.98` と `v0.2.99`、現在の公開 package identity は `v0.2.106`、`v0.2.101` は未公開の immutable candidate tag、`v0.2.107` は保留する immutable な失敗候補履歴、`v0.2.108` は保持する immutable な公開失敗候補履歴、`v0.2.111` は五つの target を含む workflow を公開前にキャンセルした不可変の未公開候補履歴で、現在の未公開候補 package identity は `v0.2.112` です。
 失敗した `v0.2.56` tag は source-quality failure による immutable な未公開履歴であり、installation identity として再利用しません。
 失敗した `v0.2.68` tag も immutable な公開失敗履歴として保持し（workflow run `33795945667`）、provider Release がないため installation identity には使用しません。
 

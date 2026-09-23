@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:393e102aa86f496aa8e4ffb746558925a3ea8532f9f8431f503d7ed2e127fa88",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "baseCommit": "fece59ffc2030eaaf8c2ec4f3145de7c564e3903",
+      "commandDigest": "sha256:2848f1ca7566606f9692e1d317fb837769105961918313dd29cd01ad000e9833",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 900
+    }
+  ],
+  "contractDigest": "sha256:18bbaecf69ec7d0eed7d211bcc162a953e839bd1f21e652a65e356bcb3483783",
+  "contractExecutionScopeDigest": "sha256:853d65ae5254862be15f64bf88b3e653e4d70448faaa413af34fba8eaa86a120",
+  "createdAt": "2026-09-23T13:05:49Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/release-v0-2-112/ai-cockpit/.ai/policy.json: explicit verification timeout override 900s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:b8764569caa4e2a36126b0568bb0609dcd5e3a362fa0a187cda5d95d1b21147f",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "WI-1018-release-v0-2-112-finalization"
+}
