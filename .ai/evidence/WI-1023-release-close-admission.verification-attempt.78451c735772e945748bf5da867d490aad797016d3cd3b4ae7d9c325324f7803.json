@@ -1,16 +1,53 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:78451c735772e945748bf5da867d490aad797016d3cd3b4ae7d9c325324f7803",
+  "commands": [
+    {
+      "args": [
+        "tests/ci/release_gate_policy_test.sh"
+      ],
+      "baseCommit": "c86940a453ff2b35d0a404372e85f7f5d399faf8",
+      "commandDigest": "sha256:c14d03f45838d6c03afa46fa27c934cdde1c6ff6fc33b4b2a30886d1a858c7f0",
+      "nodeId": "project-command-0",
+      "program": "bash",
+      "runner": "local",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:8b4f40ecc65b52e256b7e40ca77ebf15e06e7ad26fa5ccef23ad6a08a8a2cafd",
-  "createdAt": "2026-09-23T22:40:28Z",
-  "evidenceSchemaVersion": 2,
+  "contractExecutionScopeDigest": "sha256:74fe1373be9c6716d745caa9642187ea43bbd1383dfa02ff46ea9e9fdaaa45ab",
+  "createdAt": "2026-09-23T22:40:15Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:c14d03f45838d6c03afa46fa27c934cdde1c6ff6fc33b4b2a30886d1a858c7f0",
+      "deadlineMs": 1790203515093,
+      "elapsedMs": 371,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "72656c65617365206761746520706f6c696379207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 4320,
-      "executionElapsedMs": 4147,
+      "elapsedMs": 552,
+      "executionElapsedMs": 371,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,20 +62,20 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 4320,
-    "executionElapsedMs": 4147,
+    "elapsedMs": 552,
+    "executionElapsedMs": 371,
     "executionRecords": [
       {
-        "commandDigest": "sha256:ebe0417152154ba8becc31018543b1b7d30df5372da45df8bf29b3376f2c4d6c",
-        "deadlineMs": 1790203523818,
-        "elapsedMs": 4147,
+        "commandDigest": "sha256:c14d03f45838d6c03afa46fa27c934cdde1c6ff6fc33b4b2a30886d1a858c7f0",
+        "deadlineMs": 1790203515093,
+        "elapsedMs": 371,
         "exitCode": 0,
         "nodeId": "project-command-0",
         "passed": true,
         "spawned": true,
         "stderr": "",
         "stderrTruncated": false,
-        "stdout": "776f726b206974656d207265736f6c7574696f6e2072656772657373696f6e207061737365640a",
+        "stdout": "72656c65617365206761746520706f6c696379207061737365640a",
         "stdoutTruncated": false,
         "timedOut": false,
         "timeoutSeconds": 300
@@ -63,7 +100,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 4147,
+      "executionElapsedMs": 371,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -96,7 +133,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:ac6be598d80409bfa7c79469d6482dd77715eb0257f17e87e4d62c0763aa074f",
+        "outputDigest": "sha256:2ca5b17fad5bc76f67a2f557dc2dfc9d4e8c4286f9a21c72e60b156c33f170f5",
         "outputTruncated": false,
         "passed": true,
         "protected": false,
@@ -113,10 +150,11 @@
     "timeoutSeconds": 300,
     "workItemId": "WI-1023-release-close-admission"
   },
-  "receiptDigest": "sha256:354790e6d63862885af73d7216e8b4faa1d027d52f67b5282c28ebf796244932",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "repositorySnapshotDigest": "sha256:853a762f680f4f710f3032d78f2e5cf194ba2626b062754c681f7f31abca21b8",
   "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
   "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "WI-1023-release-close-admission"
 }

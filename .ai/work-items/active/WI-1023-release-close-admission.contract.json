@@ -40,7 +40,8 @@
     ".ai/decisions/observer-snapshot.json",
     "tests/docs/task_guide_route_test.py",
     "tests/release/release_close_state.sh",
-    "tests/release/release_close_state_test.sh"
+    "tests/release/release_close_state_test.sh",
+    "tests/ci/repository_gate_manifest.json"
   ],
   "sources": [
     "independent-review:close-only-recovery-state@c86940a",
