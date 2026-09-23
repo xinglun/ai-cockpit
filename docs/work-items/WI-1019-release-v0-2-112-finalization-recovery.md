@@ -4,9 +4,13 @@ workItemId: WI-1019-release-v0-2-112-finalization-recovery
 title: v0.2.112 release finalization recovery
 description: Recover the bounded provider-finalization handoff after post-merge evidence advanced the original release branch identity.
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1019-release-v0-2-112-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json
 ---
 
 [简体中文](WI-1019-release-v0-2-112-finalization-recovery.zh-CN.md) · [日本語](WI-1019-release-v0-2-112-finalization-recovery.ja.md)

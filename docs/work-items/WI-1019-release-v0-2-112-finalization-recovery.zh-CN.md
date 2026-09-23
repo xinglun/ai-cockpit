@@ -4,9 +4,13 @@ workItemId: WI-1019-release-v0-2-112-finalization-recovery
 title: v0.2.112 发布 finalization 恢复
 description: 在原发布分支被发布后证据推进导致身份漂移后，恢复有界的 Provider 收尾交接。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1019-release-v0-2-112-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json
 ---
 
 [English](WI-1019-release-v0-2-112-finalization-recovery.md) · [日本語](WI-1019-release-v0-2-112-finalization-recovery.ja.md)

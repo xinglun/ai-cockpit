@@ -4,9 +4,13 @@ workItemId: WI-1019-release-v0-2-112-finalization-recovery
 title: v0.2.112 release finalization recovery
 description: merge 後の証拠追加で元の release branch identity が分岐した後の bounded な provider finalization handoff を回復する。
 audience: [maintainer, reviewer, adopter]
-status: in_progress
+status: implemented
 authority: explicit-user-authorization
 lastVerifiedBy: WI-1019-release-v0-2-112-finalization-recovery
+terminalArchive: .ai/work-items/archive/WI-1019-release-v0-2-112-finalization-recovery.contract.json
+terminalVerification: .ai/evidence/WI-1019-release-v0-2-112-finalization-recovery.verification.json
+terminalFinalization: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.finalize.json
+terminalDecision: .ai/decisions/WI-1019-release-v0-2-112-finalization-recovery.close.json
 ---
 
 [English](WI-1019-release-v0-2-112-finalization-recovery.md) · [简体中文](WI-1019-release-v0-2-112-finalization-recovery.zh-CN.md)
