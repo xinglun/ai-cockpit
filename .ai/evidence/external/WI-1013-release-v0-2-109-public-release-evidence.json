@@ -1,0 +1,20 @@
+{
+  "release": {
+    "isDraft": false,
+    "isPrerelease": false,
+    "publishedAt": "2026-09-23T07:22:24Z",
+    "tagName": "v0.2.109",
+    "targetCommitish": "main",
+    "url": "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109"
+  },
+  "workflow": {
+    "conclusion": "success",
+    "createdAt": "2026-09-23T07:02:16Z",
+    "databaseId": 35829630901,
+    "headSha": "82f2d838d98cd1e312598832101e89556594f1e6",
+    "status": "completed",
+    "updatedAt": "2026-09-23T07:23:57Z",
+    "url": "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901",
+    "workflowName": "ai-cockpit release evidence"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "release-artifact-integrity",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-1013-release-v0-2-109-public-release-evidence.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901"
+      ],
+      "expected": "The v0.2.109 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "verificationPlan": "The successful release workflow and public Release were inspected against the immutable v0.2.109 tag and main merge commit."
+    },
+    {
+      "scenario": "downloaded-adopter-install-upgrade",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/evidence/external/WI-1013-release-v0-2-109-public-release-evidence.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901"
+      ],
+      "expected": "The downloaded public v0.2.109 artifact passes checksum, isolated fresh install, 0.2.106-to-0.2.109 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "verificationPlan": "The successful public Release adopter acceptance and N-1 upgrade jobs were inspected; both completed with cleanup assertions."
+    }
+  ]
+}

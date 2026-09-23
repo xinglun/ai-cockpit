@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "retry",
+  "workItemId": "WI-1013-release-v0-2-109",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "predecessorWorkItemId": "WI-1013-release-v0-2-109",
+  "predecessorContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+  "predecessorSummaryDigest": "sha256:d566b37bee7608b1be9c8e754e045dfbf2cca04717ebeb285255f0853a4f667e",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:4a43b88a62d94952b3d406204123d12ec1e39f0d38aeb0344db85890ac3aeae5",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "decidedAt": "2026-09-23T07:25:00Z",
+  "reason": "The release was completed successfully, but the reviewed PR resource context was not bound before the Runtime verification cycle. Preserve the immutable release and verification evidence, bind PR #978 through the supported finalization path, and revalidate the same Work Item before terminal cleanup.",
+  "resumeCondition": "Bind the exact PR #978 branch and worktree with finalize-plan, revalidate the Contract, run fresh preflight and required verification, then archive, delete the exact merged resources, finalize-verify, close, and project the Outcome.",
+  "evidenceRefs": [
+    "https://github.com/xinglun/ai-cockpit/pull/978",
+    "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901",
+    ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ]
+}

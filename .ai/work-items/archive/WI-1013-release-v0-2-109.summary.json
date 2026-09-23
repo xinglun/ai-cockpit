@@ -1,12 +1,49 @@
 {
   "changedPaths": [
-    ".ai/decisions/observer-snapshot.json",
-    ".ai/evidence/WI-1013-release-v0-2-109.verification-attempt.96c4cce72c831671ebbbdca7e1d0517367c9a14f6cf6d317c7d75db3373ec358.json",
-    ".ai/work-items/active/WI-1013-release-v0-2-109.summary.json"
+    ".ai/decisions/WI-1013-release-v0-2-109.recovery.json",
+    ".ai/work-items/archive/WI-1013-release-v0-2-109.contract.json",
+    ".ai/work-items/archive/WI-1013-release-v0-2-109.recovery-input.main.json",
+    ".ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
   ],
   "checkpointAt": "2026-09-23T06:39:46Z",
-  "checkpointContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+  "checkpointContractDigest": "sha256:79a84dce477b808c6129737136d074945b3eceb16b34651d20291a74cd6fa662",
   "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+      "recorded": true,
+      "recordedAt": "2026-09-23T06:39:46Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "WI-1013-release-v0-2-109"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:79a84dce477b808c6129737136d074945b3eceb16b34651d20291a74cd6fa662",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+      "previousContractHash": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+      "reason": "Revalidate the accepted PR #978 resource binding on synchronized main before archive and exact cleanup.",
+      "recorded": true,
+      "recordedAt": "2026-09-23T07:44:25Z",
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "WI-1013-release-v0-2-109"
+    }
+  ],
   "checkpointRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
   "createdAt": "2026-09-23T06:32:50Z",
   "intentAlignment": {
@@ -20,8 +57,8 @@
   "mode": "implementation",
   "predecessorContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
   "predecessorWorkItemId": "WI-1012-release-v0-2-108",
-  "preflightAt": "2026-09-23T06:45:42Z",
-  "preflightContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
+  "preflightAt": "2026-09-23T07:49:11Z",
+  "preflightContractDigest": "sha256:79a84dce477b808c6129737136d074945b3eceb16b34651d20291a74cd6fa662",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
   "preflightState": "green",
@@ -30,24 +67,31 @@
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/external/WI-1013-release-v0-2-109-public-release-evidence.json",
+        "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901"
+      ],
       "expected": "The v0.2.109 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
       "required": true,
       "scenario": "release-artifact-integrity",
-      "status": "unverified",
-      "verificationPlan": "After the reviewed release Work Item change merges, create the immutable annotated tag from synchronized main, dispatch the existing release workflow, and inspect the tag, public Release, source identity, and generated supply-chain assets."
+      "status": "verified",
+      "verificationPlan": "The successful release workflow and public Release were inspected against the immutable v0.2.109 tag and main merge commit."
     },
     {
-      "evidence": [],
+      "evidence": [
+        ".ai/evidence/external/WI-1013-release-v0-2-109-public-release-evidence.json",
+        "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901"
+      ],
       "expected": "The downloaded public v0.2.109 artifact passes checksum, isolated fresh install, 0.2.106-to-0.2.109 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
       "required": true,
       "scenario": "downloaded-adopter-install-upgrade",
-      "status": "unverified",
-      "verificationPlan": "Use immutable public Release assets with isolated temporary runtime roots; collect checksum, fresh-install, N-1 upgrade, and cleanup receipts, then bind those receipts to this Work Item."
+      "status": "verified",
+      "verificationPlan": "The successful public Release adopter acceptance and N-1 upgrade jobs were inspected; both completed with cleanup assertions."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-23T06:39:46Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-23T07:50:51Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -178,6 +222,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:da67a883b1777789986301e32b503c8abe6a79c26b7ebfcb8c5c324655599031",
   "workItemId": "WI-1013-release-v0-2-109"
 }

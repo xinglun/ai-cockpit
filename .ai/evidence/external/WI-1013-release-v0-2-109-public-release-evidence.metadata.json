@@ -1,0 +1,10 @@
+{
+  "provider": "github",
+  "subject": "workflow:35829630901/v0.2.109-public-release",
+  "origin": "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901",
+  "assurance": "provider_verified",
+  "collectedAt": "2026-09-23T07:31:00Z",
+  "digest": "sha256:58a4b1545f88d04a6d5e84451507275128247f4e67b052d316b7f584623f2875",
+  "validity": "valid",
+  "rawEvidenceRef": ".ai/evidence/external/WI-1013-release-v0-2-109-public-release-evidence.json"
+}

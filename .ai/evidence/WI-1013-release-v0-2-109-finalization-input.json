@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "WI-1013-release-v0-2-109-finalization",
+  "operationId": "WI-1013-release-v0-2-109-finalization",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "workItemId": "WI-1013-release-v0-2-109",
+  "runtimeVersion": "0.2.109",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "provider": "github",
+  "pullRequest": {
+    "number": 978,
+    "url": "https://github.com/xinglun/ai-cockpit/pull/978",
+    "headRevision": "145c26fc7f7d42cc0e875b1963a313b69bca5dd3",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "1e9407df927b7cad0b2386b8bdf4a021ea57c93c",
+    "mergeCommit": "82f2d838d98cd1e312598832101e89556594f1e6"
+  },
+  "branch": {
+    "name": "codex/release-v0-2-109",
+    "remote": "origin",
+    "headRevision": "145c26fc7f7d42cc0e875b1963a313b69bca5dd3"
+  },
+  "worktree": {
+    "worktreeId": "release-v0-2-108",
+    "path": "/Users/sei-rinn/.codex/worktrees/release-v0-2-108/ai-cockpit",
+    "branch": "codex/release-v0-2-109",
+    "headRevision": "145c26fc7f7d42cc0e875b1963a313b69bca5dd3"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "reason": "Reviewed PR #978 merged as 82f2d838d98cd1e312598832101e89556594f1e6; v0.2.109 public release, artifact, install, upgrade, and release workflow evidence passed in workflow run 35829630901. The exact merged PR branch codex/release-v0-2-109 and linked worktree were preserved, then deleted after archive; generated Runtime records remain on synchronized main and the temporary duplicate records are preserved in the repository stash.",
+  "timestamp": "2026-09-23T08:00:00Z",
+  "contractDigest": "sha256:5753900adcc74c76f75f6e949a86dd1bade4008fcaba9711ede7c90718ea3b58",
+  "contractBaseRevision": "1e9407df927b7cad0b2386b8bdf4a021ea57c93c",
+  "resourceContext": {
+    "branch": "codex/release-v0-2-109",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/release-v0-2-108/ai-cockpit",
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/ai-cockpit/pull/978"
+  }
+}

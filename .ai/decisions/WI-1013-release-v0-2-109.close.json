@@ -1,0 +1,159 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
+      "workItemId": "WI-1013-release-v0-2-109"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1013-release-v0-2-109.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1013-release-v0-2-109.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1013-release-v0-2-109.recovery-input.main.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1013-release-v0-2-109.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/ai-cockpit/pull/978",
+            "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109",
+            "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901",
+            ".ai/evidence/WI-1013-release-v0-2-109.verification.json",
+            ".ai/decisions/WI-1013-release-v0-2-109.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization-current-conversation at 2026-09-23T08:04:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1013-release-v0-2-109.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.contract.json"
+          ],
+          "inference": false,
+          "text": "从当前同步 main 发布 v0.2.109，证明公开资产与源提交身份一致，完成下载安装、0.2.106 到 0.2.109 的 N-1 升级验收，以及正式归档、关闭、文档投影和资源清理。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1013-release-v0-2-109.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1013-release-v0-2-109"
+  },
+  "finalReportDigest": "sha256:3bbc0c0ebc12b8c7965b478558fa4c364ea3d42944c430eb916c5818157a28a8",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "resourceFinalizationHeadDigest": "sha256:3d9d5ac77cae5c662bd82347f544b012c57b299634a04c373f3480c645ec0f65",
+  "resourceFinalizationHeadPath": ".ai/decisions/WI-1013-release-v0-2-109.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization-current-conversation",
+    "decidedAt": "2026-09-23T08:04:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "https://github.com/xinglun/ai-cockpit/pull/978",
+      "https://github.com/xinglun/ai-cockpit/releases/tag/v0.2.109",
+      "https://github.com/xinglun/ai-cockpit/actions/runs/35829630901",
+      ".ai/evidence/WI-1013-release-v0-2-109.verification.json",
+      ".ai/decisions/WI-1013-release-v0-2-109.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      "docs/reference/work-item-lifecycle-closure.md"
+    ],
+    "reason": "The reviewed PR, main CI, public v0.2.109 Release, downloaded install and N-1 upgrade acceptance, exact branch/worktree cleanup, and Runtime finalization verification are complete. Close the released Work Item while preserving the explicit unknown that no separate user-visible benefit measurement was declared.",
+    "resumeCondition": "If post-release evidence or documentation projection is found inconsistent, preserve the closed record and use the supported append-only recovery path; do not rewrite historical evidence."
+  },
+  "timestamp": "2026-09-23T08:00:18Z",
+  "workItemId": "WI-1013-release-v0-2-109"
+}
