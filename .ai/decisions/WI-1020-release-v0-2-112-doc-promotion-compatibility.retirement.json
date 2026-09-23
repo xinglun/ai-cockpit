@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:bb9c39fafe9a987f850f25a86cb8e5a85ba827febe3b9ef9377d38c71f05aeec",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:550d18c44ef031ed525caa6c186849c9406dc0c8def7eecce70df71a00c85cb1",
+      "path": ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:4ebee5c71b1f71aa529d3f11e43477036e75df328b961014279aaab10786c0b8",
+      "path": ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:01b9222d2767a5e7b5cc6b0d463678158adee74372300f2a9c0add608bdba7d2",
+      "path": ".ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.summary.json"
+    }
+  },
+  "authoritySource": "explicit-user-authorization-current-conversation",
+  "contractDigest": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+  "decisionId": "work-item-retirement",
+  "disposition": "replaced",
+  "originalBytesPreserved": true,
+  "reason": "WI-1020 was prepared with a documentation projection scope that overlaps the archived WI-1018 release scope. Preserve its attempted implementation and evidence, and continue the same bounded code/test repair on a corrected path-scoped successor without rewriting historical release records.",
+  "recordedAt": "2026-09-23T18:23:12Z",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "schemaVersion": 1,
+  "successorWorkItemId": "WI-1022-doc-promotion-compatibility-repair",
+  "summaryDigest": "sha256:ac09334a03c2502f1c830fc571e7356f0ea90f76f090d59b1cca5fd327db8841",
+  "verificationClaim": "not_verified",
+  "workItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility"
+}

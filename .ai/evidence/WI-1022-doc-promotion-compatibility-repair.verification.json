@@ -1,0 +1,123 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:309b50fb930bb7602d155de904328a2c2dcab6b5ae568cff838c8759557a1e32",
+  "createdAt": "2026-09-23T18:24:18Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 267,
+      "executionElapsedMs": 63,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+      "runtimeVersion": "0.2.109",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 267,
+    "executionElapsedMs": 63,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:2996d576262ce32a85ec3affd18bc4d968ff5a0f6182d9b68ce36d2797b5edbb",
+        "deadlineMs": 1790188158162,
+        "elapsedMs": 63,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 9,
+    "filesRead": 9,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "tests/docs/promote_closed_work_item.py",
+        "tests/docs/promote_closed_work_item_test.sh"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 63,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:5e67b6e911e0401aa3185a027a5d72f1f66028de416e287f5936d72f165e5a36",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+    "runtimeVersion": "0.2.109",
+    "timeoutSeconds": 300,
+    "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+  },
+  "receiptDigest": "sha256:5eaf4727068d840e561c609ee631668b1015ebfec20a7c592dae0bb156c61948",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+  "runtimeDigest": "sha256:806bb7ca34dee065f96d83ccee8350ffdae3ce33f7e60e9b815f43a9966369ae",
+  "runtimeVersion": "0.2.109",
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}

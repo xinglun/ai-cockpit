@@ -1,0 +1,242 @@
+{
+  "acceptanceResults": [
+    "A1: Separate Contract and provider PR base identities are checked independently.",
+    "A2: Valid superseded predecessors promote without terminal finalization.",
+    "A3: Ordinary and self-projection regression fixtures continue to pass.",
+    "A4: Malformed or stale promotion evidence remains rejected.",
+    "A5: Repeated promotion is deterministic and produces no diff."
+  ],
+  "createdAt": "2026-09-23T18:24:32Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:2fc0870a8ede121e96e13a499c4224a24af2b686c4baf00ff2c34c2065625b04",
+  "evidenceRefs": [
+    ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+      ],
+      "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+      "repositorySnapshotDigest": "sha256:8f84f6c51e01d4f75c55bad275a590f5b8342abaec261b8c78303ffd5cffea0c",
+      "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification-attempt.3f55afb9a04d2fb1ed3879b8f8a497c2e6b7ac257ed47e6c8ca97c6220b7a109.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification-attempt.a12c694d2c82b7954fe73254d8b24a560370d675cd4bad9cba80dced8aedfb62.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/WI-1021-doc-promotion-compatibility-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/WI-1020-release-v0-2-112-doc-promotion-compatibility.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item.py"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/docs/promote_closed_work_item_test.sh"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "Make the existing WI-1018 and WI-1019 promotion path deterministic without rewriting historical records or creating recursive cleanup."
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/WI-1022-doc-promotion-compatibility-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+  },
+  "taskReportDigest": "sha256:fd8687099409fd7774074035bdda2c76e87de2e2fc022cc32a0b15264af1885e",
+  "taskReportMarkdownDigest": "sha256:4dd74ed200cefaf13e1c40980cc4dc2c6f3e70744c829c4a64427459209edb45",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/WI-1022-doc-promotion-compatibility-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}

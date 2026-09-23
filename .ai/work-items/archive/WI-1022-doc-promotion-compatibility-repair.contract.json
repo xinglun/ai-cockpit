@@ -1,0 +1,43 @@
+{
+  "acceptanceCriteria": [
+    "A1: Separate Contract and provider PR base identities are checked independently.",
+    "A2: Valid superseded predecessors promote without terminal finalization.",
+    "A3: Ordinary and self-projection regression fixtures continue to pass.",
+    "A4: Malformed or stale promotion evidence remains rejected.",
+    "A5: Repeated promotion is deterministic and produces no diff."
+  ],
+  "authority": "authorized",
+  "baseRevision": "2d15355be49a4802111dbf21c078b2d6f9a1465d",
+  "createdAt": "2026-09-23T18:21:36Z",
+  "goal": "Make the existing WI-1018 and WI-1019 promotion path deterministic without rewriting historical records or creating recursive cleanup.",
+  "intent": "Repair closed Work Item documentation promotion for supported finalization Contract-base bindings and superseded predecessor evidence.",
+  "mode": "code",
+  "outOfScope": [
+    "Runtime lifecycle protocol changes",
+    "release assets or publication",
+    "task-progress APIs or manual ledgers",
+    "rewriting immutable WI-1018 or WI-1019 history"
+  ],
+  "predecessorContractDigest": "sha256:487da6b5778ee466e1723a448252eeebc87f4c47e30e00323ae4d22324fbc3a2",
+  "predecessorWorkItemId": "WI-1020-release-v0-2-112-doc-promotion-compatibility",
+  "projectProfileDigest": "sha256:708779bdda925a5c366312eb9558f515947e9208f70c1d343187471573d1a7aa",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/WI-1020-release-v0-2-112-doc-promotion-compatibility.recovery.json",
+  "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
+  "repositorySnapshotDigest": "sha256:05738e28a9a2ca18e3810d22ded0277761184861985ab10a5300583222d44d32",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "tests/docs/promote_closed_work_item.py",
+    "tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "python3 -m py_compile tests/docs/promote_closed_work_item.py",
+    "bash tests/docs/promote_closed_work_item_test.sh"
+  ],
+  "workItemId": "WI-1022-doc-promotion-compatibility-repair"
+}

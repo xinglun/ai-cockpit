@@ -183,6 +183,134 @@ PY
 
 cp -R "$fixture" "$tmp/unpromoted"
 
+# A finalization receipt binds the archived Contract base separately from the
+# provider PR base when the PR was created from an earlier reviewed main.  The
+# Contract binding must be checked without pretending those two identities are
+# the same.
+cp -R "$tmp/unpromoted" "$tmp/separate-contract-base"
+python3 - "$tmp/separate-contract-base" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+decision_dir = root / ".ai/decisions"
+
+def canonical(value: object) -> str:
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+
+def write(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+contract_path = root / ".ai/work-items/archive" / f"{work_item}.contract.json"
+contract = json.loads(contract_path.read_text(encoding="utf-8"))
+contract["baseRevision"] = "b" * 40
+write(contract_path, contract)
+contract_digest = "sha256:" + hashlib.sha256(contract_path.read_bytes()).hexdigest()
+archive_path = root / ".ai/work-items/archive" / f"{work_item}.archive.json"
+archive = json.loads(archive_path.read_text(encoding="utf-8"))
+archive["files"]["contractDigest"] = contract_digest
+write(archive_path, archive)
+
+root_path = decision_dir / f"{work_item}.finalize.json"
+root_receipt = json.loads(root_path.read_text(encoding="utf-8"))
+root_receipt["contractDigest"] = contract_digest
+root_receipt["contractBaseRevision"] = "b" * 40
+write(root_path, root_receipt)
+previous_digest = canonical(root_receipt)
+renamed = []
+transition_items = []
+for path in decision_dir.glob(f"{work_item}.finalize.*.json"):
+    envelope = json.loads(path.read_text(encoding="utf-8"))
+    transition_items.append((envelope["sequence"], path, envelope))
+for _, path, envelope in sorted(transition_items):
+    envelope["predecessorReceiptDigest"] = previous_digest
+    envelope["receipt"]["contractDigest"] = contract_digest
+    envelope["receipt"]["contractBaseRevision"] = "b" * 40
+    new_path = decision_dir / f"{work_item}.finalize.{canonical(envelope).removeprefix('sha256:')}.json"
+    path.unlink()
+    write(new_path, envelope)
+    renamed.append((envelope["sequence"], new_path, envelope))
+    previous_digest = canonical(envelope["receipt"])
+
+head_sequence, head_path, head_envelope = renamed[-1]
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+close["resourceFinalizationHeadPath"] = f".ai/decisions/{head_path.name}"
+close["resourceFinalizationHeadDigest"] = canonical(head_envelope["receipt"])
+write(close_path, close)
+PY
+python3 "$helper" --repo "$tmp/separate-contract-base" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/separate-contract-base" --work-item WI-999-closed-docs-fixture --check
+
+# A superseded predecessor has immutable archive/verification/close evidence,
+# a valid append-only supersede decision, and no provider finalization receipt.
+# It must be promotable without being mistaken for an approved normal close.
+cp -R "$tmp/unpromoted" "$tmp/superseded-predecessor"
+python3 - "$tmp/superseded-predecessor" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1])
+work_item = "WI-999-closed-docs-fixture"
+repository_id = json.loads((root / ".ai/project.json").read_text(encoding="utf-8"))["repositoryId"]
+decision_dir = root / ".ai/decisions"
+
+def canonical(value: object) -> str:
+    return "sha256:" + hashlib.sha256(
+        json.dumps(value, ensure_ascii=False, separators=(",", ":"), sort_keys=True).encode()
+    ).hexdigest()
+
+def write(path: Path, value: object) -> None:
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+for path in decision_dir.glob(f"{work_item}.finalize*.json"):
+    path.unlink()
+
+supersede = {
+    "schemaVersion": 1,
+    "workItemId": work_item,
+    "predecessorWorkItemId": work_item,
+    "successorWorkItemId": "WI-1000-successor",
+    "decision": "supersede",
+    "repositoryId": repository_id,
+    "reason": "The predecessor close remains immutable history while the successor owns continuation.",
+    "evidenceRefs": [f".ai/evidence/{work_item}.verification.json"],
+}
+recovery_path = decision_dir / f"{work_item}.recovery.{canonical(supersede).removeprefix('sha256:')}.json"
+write(recovery_path, supersede)
+
+close_path = decision_dir / f"{work_item}.close.json"
+close = json.loads(close_path.read_text(encoding="utf-8"))
+close["humanDecision"] = "superseded"
+close["structuredDecision"]["decision"] = "superseded"
+close["structuredDecision"]["evidenceRefs"] = [
+    f".ai/evidence/{work_item}.verification.json",
+    f".ai/decisions/{recovery_path.name}",
+]
+for field in (
+    "resourceFinalizationSequence",
+    "resourceFinalizationHeadPath",
+    "resourceFinalizationHeadDigest",
+):
+    close.pop(field, None)
+write(close_path, close)
+PY
+python3 "$helper" --repo "$tmp/superseded-predecessor" --work-item WI-999-closed-docs-fixture
+python3 "$helper" --repo "$tmp/superseded-predecessor" --work-item WI-999-closed-docs-fixture --check
+for document in "$tmp/superseded-predecessor"/docs/work-items/WI-999-closed-docs-fixture*.md; do
+  if grep -Fq 'terminalFinalization:' "$document"; then
+    echo 'superseded predecessor fabricated terminal finalization' >&2
+    exit 1
+  fi
+done
+
 # A documentation-promotion Work Item registers its own tri-language pages and
 # parity ledgers before close.  Its conditional self projection is a bounded
 # terminal state: check-all must validate the immutable evidence without
