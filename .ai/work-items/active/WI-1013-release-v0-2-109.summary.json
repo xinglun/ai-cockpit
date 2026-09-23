@@ -1,36 +1,37 @@
 {
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
-    ".ai/work-items/active/WI-1012-release-v0-2-108.summary.json"
+    ".ai/evidence/WI-1013-release-v0-2-109.verification-attempt.96c4cce72c831671ebbbdca7e1d0517367c9a14f6cf6d317c7d75db3373ec358.json",
+    ".ai/work-items/active/WI-1013-release-v0-2-109.summary.json"
   ],
-  "checkpointAt": "2026-09-23T05:49:32Z",
-  "checkpointContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "checkpointAt": "2026-09-23T06:39:46Z",
+  "checkpointContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:50c11ab7767f12e3a9f9913d5e1161b779c67ddc48afd8cd65192c01f21a3162",
-  "createdAt": "2026-09-23T05:41:49Z",
+  "checkpointRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
+  "createdAt": "2026-09-23T06:32:50Z",
   "intentAlignment": {
     "evidence": [
-      ".ai/work-items/active/WI-1012-release-v0-2-108.contract.json",
+      ".ai/work-items/active/WI-1013-release-v0-2-109.contract.json",
       ".github/workflows/release.yml"
     ],
-    "reason": "The declared scope is limited to the v0.2.108 version change, the existing release workflow, public asset and N-1 acceptance, and Work Item cleanup; no unrelated implementation change is included.",
+    "reason": "The declared scope is limited to the v0.2.109 version change, the existing release workflow, public asset and N-1 acceptance, and Work Item cleanup; no unrelated implementation change is included.",
     "state": "resolved"
   },
   "mode": "implementation",
-  "predecessorContractDigest": "sha256:68b9e9c3bfabd3e0cc2cf70497af0550ad23d84ff687f6db76a3fe47be71cf75",
-  "predecessorWorkItemId": "WI-1011-release-v0-2-107",
-  "preflightAt": "2026-09-23T06:31:49Z",
-  "preflightContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "predecessorContractDigest": "sha256:553d15f9bd755587e619d438562826e8f2a7be6d3b8f49242f0158be9a47045d",
+  "predecessorWorkItemId": "WI-1012-release-v0-2-108",
+  "preflightAt": "2026-09-23T06:45:42Z",
+  "preflightContractDigest": "sha256:b87762dc5d552c6088811d269f69a9a5967030ff443f2d29dcdd753bb3ad2e97",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
-  "preflightRepositorySnapshotDigest": "sha256:50c11ab7767f12e3a9f9913d5e1161b779c67ddc48afd8cd65192c01f21a3162",
+  "preflightRepositorySnapshotDigest": "sha256:c42b7bc29de29e647961694df4eb4424afaf0d6cfa76b0f11c9a3cd1bed409c0",
   "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryDecisionPath": ".ai/decisions/WI-1011-release-v0-2-107.recovery.b0c2b35c45f96a1a0ec7d26d1b98e157798be9efdc54ad30d19ff7f964773dfb.json",
+  "recoveryDecisionPath": ".ai/decisions/WI-1012-release-v0-2-108.recovery.json",
   "repositoryId": "sha256:ee02a04ca242d830086432bd4d3f81602505371269852721ee83e117e35da22b",
   "scenarioCoverage": [
     {
       "evidence": [],
-      "expected": "The v0.2.108 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
+      "expected": "The v0.2.109 annotated tag, public GitHub Release, source identity, manifest, checksums, SBOM, provenance, archives, and attestation bind to the reviewed main commit.",
       "required": true,
       "scenario": "release-artifact-integrity",
       "status": "unverified",
@@ -38,7 +39,7 @@
     },
     {
       "evidence": [],
-      "expected": "The downloaded public v0.2.108 artifact passes checksum, isolated fresh install, 0.2.106-to-0.2.108 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
+      "expected": "The downloaded public v0.2.109 artifact passes checksum, isolated fresh install, 0.2.106-to-0.2.109 N-1 upgrade, and exact temporary-run-root cleanup without object-repository writes.",
       "required": true,
       "scenario": "downloaded-adopter-install-upgrade",
       "status": "unverified",
@@ -46,7 +47,7 @@
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-23T05:54:21.642410+00:00",
+  "updatedAt": "2026-09-23T06:39:46Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -177,6 +178,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:3d549df09195d710b4261b36a536ef7b5dabb0b7f4c95ebdebae4c77936b3b20",
-  "workItemId": "WI-1012-release-v0-2-108"
+  "verificationRecoveryReconciled": "sha256:da67a883b1777789986301e32b503c8abe6a79c26b7ebfcb8c5c324655599031",
+  "workItemId": "WI-1013-release-v0-2-109"
 }
